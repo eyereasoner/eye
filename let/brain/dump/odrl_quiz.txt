@@ -1,87 +1,162 @@
 
-=== quiz-1.ttl ===
+=== quiz-00-01.ttl ===
 [01] CONFLICT: Permission vs Prohibition
-  ex:quiz1a permission: _:n599378e78f0e40e5a11fc3580de8f515b1
-    _:n599378e78f0e40e5a11fc3580de8f515b1 odrl:assignee ex:alice ;
-    _:n599378e78f0e40e5a11fc3580de8f515b1 odrl:action  odrl:use ;
-    _:n599378e78f0e40e5a11fc3580de8f515b1 odrl:target  <http://uni.edu/allowed/use/file.txt> .
-  ex:quiz1b prohibition: _:n599378e78f0e40e5a11fc3580de8f515b2
-    _:n599378e78f0e40e5a11fc3580de8f515b2 odrl:assignee ex:alice ;
-    _:n599378e78f0e40e5a11fc3580de8f515b2 odrl:action  odrl:use ;
-    _:n599378e78f0e40e5a11fc3580de8f515b2 odrl:target  <http://uni.edu/allowed/use/file.txt> .
-  Overlap: same action (http://www.w3.org/ns/odrl/2/use)
+  ex:quiz-00-01a permission: _:n8ad4dff4b85c4f1d82b1fe4eec7507f1b1
+    _:n8ad4dff4b85c4f1d82b1fe4eec7507f1b1 odrl:assignee ex:alice ;
+    _:n8ad4dff4b85c4f1d82b1fe4eec7507f1b1 odrl:action  odrl:use ;
+    _:n8ad4dff4b85c4f1d82b1fe4eec7507f1b1 odrl:target  <http://uni.edu/allowed/use/file.txt> .
+  ex:quiz00-01b prohibition: _:n8ad4dff4b85c4f1d82b1fe4eec7507f1b2
+    _:n8ad4dff4b85c4f1d82b1fe4eec7507f1b2 odrl:assignee ex:alice ;
+    _:n8ad4dff4b85c4f1d82b1fe4eec7507f1b2 odrl:action  odrl:use ;
+    _:n8ad4dff4b85c4f1d82b1fe4eec7507f1b2 odrl:target  <http://uni.edu/allowed/use/file.txt> .
+  Action overlap: same action (http://www.w3.org/ns/odrl/2/use)
+  Constraint overlap: no purpose constraints
   Same assignee/target: ex:alice / <http://uni.edu/allowed/use/file.txt>
   Therefore: conflict.
 
 
-=== quiz-2.ttl ===
+=== quiz-00-02.ttl ===
 No conflicts detected.
 
-=== quiz-3.ttl ===
+=== quiz-00-03.ttl ===
 [01] CONFLICT: Permission vs Prohibition
-  ex:quiz3c permission: _:n149378dab91f4bf28a94a7b17fa51792b3
-    _:n149378dab91f4bf28a94a7b17fa51792b3 odrl:assignee ex:alice ;
-    _:n149378dab91f4bf28a94a7b17fa51792b3 odrl:action  odrl:read ;
-    _:n149378dab91f4bf28a94a7b17fa51792b3 odrl:target  <http://uni.edu/allowed/use/file.txt> .
-  ex:quiz3b prohibition: _:n149378dab91f4bf28a94a7b17fa51792b2
-    _:n149378dab91f4bf28a94a7b17fa51792b2 odrl:assignee ex:alice ;
-    _:n149378dab91f4bf28a94a7b17fa51792b2 odrl:action  odrl:read ;
-    _:n149378dab91f4bf28a94a7b17fa51792b2 odrl:target  <http://uni.edu/allowed/use/file.txt> .
-  Overlap: same action (http://www.w3.org/ns/odrl/2/read)
+  ex:quiz-00-03c permission: _:n534a830be5e14eff84be4174ffe19f85b3
+    _:n534a830be5e14eff84be4174ffe19f85b3 odrl:assignee ex:alice ;
+    _:n534a830be5e14eff84be4174ffe19f85b3 odrl:action  odrl:read ;
+    _:n534a830be5e14eff84be4174ffe19f85b3 odrl:target  <http://uni.edu/allowed/use/file.txt> .
+  ex:quiz-00-03b prohibition: _:n534a830be5e14eff84be4174ffe19f85b2
+    _:n534a830be5e14eff84be4174ffe19f85b2 odrl:assignee ex:alice ;
+    _:n534a830be5e14eff84be4174ffe19f85b2 odrl:action  odrl:read ;
+    _:n534a830be5e14eff84be4174ffe19f85b2 odrl:target  <http://uni.edu/allowed/use/file.txt> .
+  Action overlap: same action (http://www.w3.org/ns/odrl/2/read)
+  Constraint overlap: no purpose constraints
   Same assignee/target: ex:alice / <http://uni.edu/allowed/use/file.txt>
   Therefore: conflict.
 
 
-=== quiz-4.ttl ===
+=== quiz-00-04.ttl ===
 [01] CONFLICT: Permission vs Prohibition
-  ex:quiz4a permission: _:n9fe65d926176418c852a51376e1454b7b1
-    _:n9fe65d926176418c852a51376e1454b7b1 odrl:assignee ex:bob ;
-    _:n9fe65d926176418c852a51376e1454b7b1 odrl:action  odrl:read ;
-    _:n9fe65d926176418c852a51376e1454b7b1 odrl:target  <http://uni.edu/allowed/use/file.txt> .
-  ex:quiz4c prohibition: _:n9fe65d926176418c852a51376e1454b7b3
-    _:n9fe65d926176418c852a51376e1454b7b3 odrl:assignee ex:bob ;
-    _:n9fe65d926176418c852a51376e1454b7b3 odrl:action  odrl:use ;
-    _:n9fe65d926176418c852a51376e1454b7b3 odrl:target  <http://uni.edu/allowed/use/file.txt> .
-  Overlap: http://www.w3.org/ns/odrl/2/read ⊑ http://www.w3.org/ns/odrl/2/use via includedIn/subClassOf*
+  ex:quiz-00-04a permission: _:nae8ed8e1421e40c9ac5e003d80ebfde9b1
+    _:nae8ed8e1421e40c9ac5e003d80ebfde9b1 odrl:assignee ex:bob ;
+    _:nae8ed8e1421e40c9ac5e003d80ebfde9b1 odrl:action  odrl:read ;
+    _:nae8ed8e1421e40c9ac5e003d80ebfde9b1 odrl:target  <http://uni.edu/allowed/use/file.txt> .
+  ex:quiz-00-04c prohibition: _:nae8ed8e1421e40c9ac5e003d80ebfde9b3
+    _:nae8ed8e1421e40c9ac5e003d80ebfde9b3 odrl:assignee ex:bob ;
+    _:nae8ed8e1421e40c9ac5e003d80ebfde9b3 odrl:action  odrl:use ;
+    _:nae8ed8e1421e40c9ac5e003d80ebfde9b3 odrl:target  <http://uni.edu/allowed/use/file.txt> .
+  Action overlap: odrl:read ⊑ odrl:use via includedIn/subClassOf*
+  Constraint overlap: no purpose constraints
   Same assignee/target: ex:bob / <http://uni.edu/allowed/use/file.txt>
   Therefore: conflict.
 
 
-=== quiz-5.ttl ===
+=== quiz-00-05.ttl ===
 No conflicts detected.
 
-=== quiz-6.ttl ===
+=== quiz-00-06.ttl ===
 [01] CONFLICT: Permission vs Prohibition
-  ex:quiz6a permission: _:n42cbd0fd05cf42fbbe7bb2674374af26b1
-    _:n42cbd0fd05cf42fbbe7bb2674374af26b1 odrl:assignee ex:bob ;
-    _:n42cbd0fd05cf42fbbe7bb2674374af26b1 odrl:action  ex:notUse ;
-    _:n42cbd0fd05cf42fbbe7bb2674374af26b1 odrl:target  <http://uni.edu/allowed/use/file.txt> .
-  ex:quiz6c prohibition: _:n42cbd0fd05cf42fbbe7bb2674374af26b3
-    _:n42cbd0fd05cf42fbbe7bb2674374af26b3 odrl:assignee ex:bob ;
-    _:n42cbd0fd05cf42fbbe7bb2674374af26b3 odrl:action  odrl:use ;
-    _:n42cbd0fd05cf42fbbe7bb2674374af26b3 odrl:target  <http://uni.edu/allowed/use/file.txt> .
-  Overlap: http://example.org/notUse ⊑ http://www.w3.org/ns/odrl/2/use via includedIn/subClassOf*
+  ex:quiz-00-06a permission: _:n76980d89ad3c4394b82311f8bb79019db1
+    _:n76980d89ad3c4394b82311f8bb79019db1 odrl:assignee ex:bob ;
+    _:n76980d89ad3c4394b82311f8bb79019db1 odrl:action  ex:notUse ;
+    _:n76980d89ad3c4394b82311f8bb79019db1 odrl:target  <http://uni.edu/allowed/use/file.txt> .
+  ex:quiz-00-06c prohibition: _:n76980d89ad3c4394b82311f8bb79019db3
+    _:n76980d89ad3c4394b82311f8bb79019db3 odrl:assignee ex:bob ;
+    _:n76980d89ad3c4394b82311f8bb79019db3 odrl:action  odrl:use ;
+    _:n76980d89ad3c4394b82311f8bb79019db3 odrl:target  <http://uni.edu/allowed/use/file.txt> .
+  Action overlap: <http://example.org/notUse> ⊑ odrl:use via includedIn/subClassOf*
+  Constraint overlap: no purpose constraints
   Same assignee/target: ex:bob / <http://uni.edu/allowed/use/file.txt>
   Therefore: conflict.
 
 
-=== quiz-7.ttl ===
+=== quiz-00-07.ttl ===
 No conflicts detected.
 
-=== quiz-8.ttl ===
+=== quiz-00-08.ttl ===
 [01] CONFLICT: Obligation blocked by Prohibition
-  ex:quiz8b obligation: _:nf32820d2845d491282d882eb41f1ded1b2
-    _:nf32820d2845d491282d882eb41f1ded1b2 odrl:assignee ex:alice ;
-    _:nf32820d2845d491282d882eb41f1ded1b2 odrl:action  odrl:index ;
-    _:nf32820d2845d491282d882eb41f1ded1b2 odrl:target  ex:resourceX .
-  ex:quiz8c prohibition: _:nf32820d2845d491282d882eb41f1ded1b3
-    _:nf32820d2845d491282d882eb41f1ded1b3 odrl:assignee ex:alice ;
-    _:nf32820d2845d491282d882eb41f1ded1b3 odrl:action  odrl:use ;
-    _:nf32820d2845d491282d882eb41f1ded1b3 odrl:target  ex:resourceX .
-  Overlap: http://www.w3.org/ns/odrl/2/index ⊑ http://www.w3.org/ns/odrl/2/use via includedIn/subClassOf*
+  ex:quiz-00-08b obligation: _:n437b4ee12a974bc7be8745e1fa97e962b2
+    _:n437b4ee12a974bc7be8745e1fa97e962b2 odrl:assignee ex:alice ;
+    _:n437b4ee12a974bc7be8745e1fa97e962b2 odrl:action  odrl:index ;
+    _:n437b4ee12a974bc7be8745e1fa97e962b2 odrl:target  ex:resourceX .
+  ex:quiz-00-08c prohibition: _:n437b4ee12a974bc7be8745e1fa97e962b3
+    _:n437b4ee12a974bc7be8745e1fa97e962b3 odrl:assignee ex:alice ;
+    _:n437b4ee12a974bc7be8745e1fa97e962b3 odrl:action  odrl:use ;
+    _:n437b4ee12a974bc7be8745e1fa97e962b3 odrl:target  ex:resourceX .
+  Action overlap: odrl:index ⊑ odrl:use via includedIn/subClassOf*
+  Constraint overlap: no purpose constraints
   Same assignee/target: ex:alice / ex:resourceX
   Therefore: conflict.
 
 
-=== quiz-9.ttl ===
+=== quiz-00-09.ttl ===
+No conflicts detected.
+
+=== quiz-00-10.ttl ===
+[01] CONFLICT: Obligation blocked by Prohibition
+  ex:quiz-00-10b obligation: _:n7b8bf5278caa453f960a06c0f91255d6b2
+    _:n7b8bf5278caa453f960a06c0f91255d6b2 odrl:assignee ex:alice ;
+    _:n7b8bf5278caa453f960a06c0f91255d6b2 odrl:action  ex:demo ;
+    _:n7b8bf5278caa453f960a06c0f91255d6b2 odrl:target  ex:resourceX .
+  ex:quiz-00-10a prohibition: _:n7b8bf5278caa453f960a06c0f91255d6b1
+    _:n7b8bf5278caa453f960a06c0f91255d6b1 odrl:assignee ex:alice ;
+    _:n7b8bf5278caa453f960a06c0f91255d6b1 odrl:action  odrl:transfer ;
+    _:n7b8bf5278caa453f960a06c0f91255d6b1 odrl:target  ex:resourceX .
+  Action overlap: <http://example.org/demo> ⊑ odrl:transfer via includedIn/subClassOf*
+  Constraint overlap: no purpose constraints
+  Same assignee/target: ex:alice / ex:resourceX
+  Therefore: conflict.
+
+
+=== quiz-01-01.ttl ===
+[01] CONFLICT: Permission vs Prohibition
+  ex:quiz-01-01a permission: _:n37ed75b89bbd4496a782b8247405bc8bb1
+    _:n37ed75b89bbd4496a782b8247405bc8bb1 odrl:assignee ex:alice ;
+    _:n37ed75b89bbd4496a782b8247405bc8bb1 odrl:action  odrl:use ;
+    _:n37ed75b89bbd4496a782b8247405bc8bb1 odrl:target  ex:resourceX .
+    _:n37ed75b89bbd4496a782b8247405bc8bb1 odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:operator odrl:eq ; odrl:rightOperand ex:EducationalPurpose ] .
+  ex:quiz-01-01b prohibition: _:n37ed75b89bbd4496a782b8247405bc8bb3
+    _:n37ed75b89bbd4496a782b8247405bc8bb3 odrl:assignee ex:alice ;
+    _:n37ed75b89bbd4496a782b8247405bc8bb3 odrl:action  odrl:use ;
+    _:n37ed75b89bbd4496a782b8247405bc8bb3 odrl:target  ex:resourceX .
+    _:n37ed75b89bbd4496a782b8247405bc8bb3 odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:operator odrl:eq ; odrl:rightOperand ex:EducationalPurpose ] .
+  Action overlap: same action (http://www.w3.org/ns/odrl/2/use)
+  Constraint overlap: purpose overlap: eq(ex:EducationalPurpose) ∧ eq(ex:EducationalPurpose) ⇒ ex:EducationalPurpose=ex:EducationalPurpose
+  Same assignee/target: ex:alice / ex:resourceX
+  Therefore: conflict.
+
+
+=== quiz-01-02.ttl ===
+No conflicts detected.
+
+=== quiz-01-03.ttl ===
+[01] CONFLICT: Obligation blocked by Prohibition
+  ex:quiz-01-03a obligation: _:n4f9d8e4b1dd94c3e869e5119174339dbb1
+    _:n4f9d8e4b1dd94c3e869e5119174339dbb1 odrl:assignee ex:alice ;
+    _:n4f9d8e4b1dd94c3e869e5119174339dbb1 odrl:action  odrl:use ;
+    _:n4f9d8e4b1dd94c3e869e5119174339dbb1 odrl:target  ex:resourceX .
+    _:n4f9d8e4b1dd94c3e869e5119174339dbb1 odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:operator odrl:eq ; odrl:rightOperand ex:MyPurpose ] .
+  ex:quiz-01-03b prohibition: _:n4f9d8e4b1dd94c3e869e5119174339dbb3
+    _:n4f9d8e4b1dd94c3e869e5119174339dbb3 odrl:assignee ex:alice ;
+    _:n4f9d8e4b1dd94c3e869e5119174339dbb3 odrl:action  odrl:use ;
+    _:n4f9d8e4b1dd94c3e869e5119174339dbb3 odrl:target  ex:resourceX .
+    _:n4f9d8e4b1dd94c3e869e5119174339dbb3 odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:operator odrl:isA ; odrl:rightOperand ex:CommercialPurpose ] .
+  Action overlap: same action (http://www.w3.org/ns/odrl/2/use)
+  Constraint overlap: purpose overlap: eq(ex:MyPurpose) ∧ isA(ex:CommercialPurpose) via rdf:type/subClassOf*
+  Same assignee/target: ex:alice / ex:resourceX
+  Therefore: conflict.
+
+
+=== quiz-01-04.ttl ===
+No conflicts detected.
+
+=== quiz-01-05.ttl ===
+No conflicts detected.
+
+=== quiz-01-06.ttl ===
+No conflicts detected.
+
+=== quiz-01-07.ttl ===
+No conflicts detected.
+
+=== quiz-01-08.ttl ===
 No conflicts detected.
