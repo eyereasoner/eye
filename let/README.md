@@ -36,7 +36,7 @@ This research presents a novel approach to computational reasoning by using **La
 2. Install the required Python packages:
 
    ```bash
-   pip install numpy sympy
+   pip install numpy sympy rdflib
    ````
 
 ---
