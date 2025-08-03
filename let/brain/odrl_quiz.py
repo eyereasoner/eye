@@ -1,38 +1,41 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Detect conflicts in the updated ODRL quiz files and print proof-style traces.
+Conflict checker for the updated ODRL quizzes (00-01..00-10, 01-01..01-08).
 
-- Downloads and parses all quiz .ttl files listed below.
-- Loads the ODRL 2.2 vocabulary to get odrl:includedIn (action hierarchy).
-- Action overlap: equality, odrl:includedIn*, rdfs:subClassOf* (for custom actions).
-- Constraint overlap: supports odrl:purpose with odrl:eq / odrl:neq / odrl:isA.
-- Handles both odrl:prohibition and (typo/alias) odrl:prohibited on policies.
+- Downloads each quiz .ttl
+- Loads ODRL22.ttl to get odrl:includedIn (action hierarchy)
+- Detects:
+    * permission vs prohibition conflicts
+    * obligation blocked by prohibition
+- Evaluates constraint compatibility using ALL 12 ODRL operators:
+    eq, neq, lt, lteq, gt, gteq, isA, isAllOf, isAnyOf, isNoneOf, hasPart, isPartOf
 
-Output mirrors the lightweight "premises → overlap reason → conclusion" style.
+Proof output: premises → action overlap → constraint overlap → conclusion.
 
 Requires:
     pip install rdflib
 
-References:
-  ODRL ontology landing page (with ODRL22.ttl): https://www.w3.org/ns/odrl/2/
+Refs:
+  - ODRL operators list (12 standard operators). https://www.w3.org/ns/odrl/2/ODRL20.html
+  - ODRL Vocab (operators + set-based semantics). https://www.w3.org/TR/odrl-vocab/
 """
-
 import sys
-from typing import Dict, Iterable, List, Optional, Set, Tuple
+from typing import Dict, Iterable, List, Optional, Set, Tuple, Union
 
-from rdflib import Graph, Namespace, URIRef, BNode, RDF, RDFS
-from rdflib.namespace import DCTERMS
+from rdflib import Graph, Namespace, URIRef, BNode, RDF, RDFS, Literal
+from rdflib.namespace import DCTERMS, XSD
+from rdflib.collection import Collection
 
 # Namespaces
 ODRL = Namespace("http://www.w3.org/ns/odrl/2/")
 EX   = Namespace("http://example.com/ns#")
 FOAF = Namespace("http://xmlns.com/foaf/0.1/")
 
-# Remote vocab (used at runtime to fetch odrl:includedIn hierarchy)
-ODRL_TTL_URL = "https://www.w3.org/ns/odrl/2/ODRL22.ttl"
+# Where to fetch ODRL vocabulary (operators, includedIn hierarchy)
+ODRL_TTL_URL = "https://www.w3.org/ns/odrl/2/ODRL22.ttl"  # content-negotiated (TTL)
 
-# Updated quiz set
+# Updated quiz set (18 files)
 QUIZ_URLS = [
   "https://raw.githubusercontent.com/SolidLabResearch/ODRL-Test-Conflicts/refs/heads/main/quiz/quiz-00-01.ttl",
   "https://raw.githubusercontent.com/SolidLabResearch/ODRL-Test-Conflicts/refs/heads/main/quiz/quiz-00-02.ttl",
@@ -54,13 +57,11 @@ QUIZ_URLS = [
   "https://raw.githubusercontent.com/SolidLabResearch/ODRL-Test-Conflicts/refs/heads/main/quiz/quiz-01-08.ttl",
 ]
 
-# Matching policy
+# Matching policy (tweak if needed)
 REQUIRE_SAME_ASSIGNEE = True
 REQUIRE_SAME_TARGET   = True
 
-# ---------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------
+# ------------- helpers ------------------------------------------------
 
 def qname(g: Graph, term) -> str:
     if isinstance(term, URIRef):
@@ -73,7 +74,7 @@ def qname(g: Graph, term) -> str:
     return str(term)
 
 def rt_closure(edges: Dict[URIRef, Set[URIRef]]) -> Dict[URIRef, Set[URIRef]]:
-    """Reflexive–transitive closure: for each node a, closure[a] includes a and all reachable supers."""
+    """Reflexive–transitive closure of a directed relation."""
     closure: Dict[URIRef, Set[URIRef]] = {}
     nodes = set(edges.keys()) | {y for ys in edges.values() for y in ys}
     for a in nodes:
@@ -91,26 +92,37 @@ def rt_closure(edges: Dict[URIRef, Set[URIRef]]) -> Dict[URIRef, Set[URIRef]]:
         closure[a] = seen
     return closure
 
-# ---------------------------------------------------------------------
-# Action hierarchy (includedIn/subClassOf)
-# ---------------------------------------------------------------------
+def to_python_literal(lit: Literal):
+    """Convert rdflib Literal to Python scalar for comparisons."""
+    try:
+        v = lit.toPython()
+        return v
+    except Exception:
+        return lit
+
+def as_list(g: Graph, node) -> Optional[List]:
+    """Return RDF Collection as Python list, or None if node is not a list head."""
+    try:
+        return list(Collection(g, node))
+    except Exception:
+        return None
+
+# ------------- action/type hierarchies --------------------------------
 
 class ActionHierarchy:
+    """Overlap via equality, odrl:includedIn*, rdfs:subClassOf*."""
     def __init__(self, g_vocab: Graph, g_quiz: Graph):
-        incl_edges: Dict[URIRef, Set[URIRef]] = {}
-
+        edges: Dict[URIRef, Set[URIRef]] = {}
         def add(s, o):
             if isinstance(s, URIRef) and isinstance(o, URIRef):
-                incl_edges.setdefault(s, set()).add(o)
-
+                edges.setdefault(s, set()).add(o)
         for s, _, o in g_vocab.triples((None, ODRL.includedIn, None)):
             add(s, o)
         for s, _, o in g_quiz.triples((None, ODRL.includedIn, None)):
             add(s, o)
         for s, _, o in g_quiz.triples((None, RDFS.subClassOf, None)):
             add(s, o)
-
-        self.closure = rt_closure(incl_edges)
+        self.closure = rt_closure(edges)
 
     def overlap(self, a: URIRef, b: URIRef) -> Tuple[bool, str]:
         if a == b:
@@ -123,12 +135,8 @@ class ActionHierarchy:
             return True, f"{qname(Graph(), b)} ⊑ {qname(Graph(), a)} via includedIn/subClassOf*"
         return False, "no action inclusion relation"
 
-# ---------------------------------------------------------------------
-# Type hierarchy (for constraint isA checks)
-# ---------------------------------------------------------------------
-
 class TypeHierarchy:
-    """rdfs:subClassOf* closure for class membership checks."""
+    """rdfs:subClassOf* for isA checks."""
     def __init__(self, g_vocab: Graph, g_quiz: Graph):
         edges: Dict[URIRef, Set[URIRef]] = {}
         def add(s, o):
@@ -141,7 +149,6 @@ class TypeHierarchy:
         self.closure = rt_closure(edges)
 
     def is_instance_of(self, g: Graph, x: URIRef, C: URIRef) -> bool:
-        # x rdf:type T and T ⊑* C  (or T == C)
         for T in g.objects(x, RDF.type):
             if isinstance(T, URIRef):
                 supers = self.closure.get(T, {T})
@@ -149,19 +156,18 @@ class TypeHierarchy:
                     return True
         return False
 
-# ---------------------------------------------------------------------
-# Model
-# ---------------------------------------------------------------------
+# ------------- model ---------------------------------------------------
 
 class Constraint:
-    def __init__(self, left: URIRef, op: URIRef, right):
+    def __init__(self, node, left: URIRef, op: URIRef, right):
+        self.node = node
         self.left = left
         self.op = op
-        self.right = right  # URIRef or literal
+        self.right = right  # URIRef | Literal | BNode(list)
 
 class Rule:
     def __init__(self, kind: str, policy, node, assignee, action, target, constraints: List[Constraint]):
-        self.kind = kind  # 'permission' | 'prohibition' | 'obligation'
+        self.kind = kind  # 'permission'|'prohibition'|'obligation'
         self.policy = policy
         self.node = node
         self.assignee = assignee
@@ -169,9 +175,7 @@ class Rule:
         self.target = target
         self.constraints = constraints
 
-# ---------------------------------------------------------------------
-# Extract rules + constraints
-# ---------------------------------------------------------------------
+# ------------- extraction ---------------------------------------------
 
 def _constraints(g: Graph, node) -> List[Constraint]:
     res: List[Constraint] = []
@@ -180,20 +184,19 @@ def _constraints(g: Graph, node) -> List[Constraint]:
         op    = next(g.objects(c, ODRL.operator), None)
         right = next(g.objects(c, ODRL.rightOperand), None)
         if isinstance(left, URIRef) and isinstance(op, URIRef) and right is not None:
-            res.append(Constraint(left, op, right))
+            res.append(Constraint(c, left, op, right))
     return res
 
 def extract_rules(g: Graph) -> List[Rule]:
     rules: List[Rule] = []
-    # Accept odrl:prohibition and non-standard odrl:prohibited (seen in new files)
-    KIND_PREDICATES = [
+    KINDS = [
         (ODRL.permission,  'permission'),
         (ODRL.prohibition, 'prohibition'),
-        (ODRL.prohibited,  'prohibition'),  # alias/typo tolerance
+        (ODRL.prohibited,  'prohibition'),  # alias seen in quizzes
         (ODRL.obligation,  'obligation'),
     ]
     for pol in g.subjects(RDF.type, ODRL.Set):
-        for pred, kind in KIND_PREDICATES:
+        for pred, kind in KINDS:
             for node in g.objects(pol, pred):
                 assignees = list(g.objects(node, ODRL.assignee)) or [None]
                 actions   = [a for a in g.objects(node, ODRL.action) if isinstance(a, URIRef)]
@@ -205,62 +208,199 @@ def extract_rules(g: Graph) -> List[Rule]:
                             rules.append(Rule(kind, pol, node, a, act, t, cons))
     return rules
 
-# ---------------------------------------------------------------------
-# Constraint overlap (purpose / eq|neq|isA)
-# ---------------------------------------------------------------------
+# ------------- constraints: operator compatibility --------------------
 
-def _purpose_pairs(r: Rule) -> List[Tuple[URIRef, URIRef]]:
-    """Return list of (op, right) for odrl:purpose constraints."""
-    return [(c.op, c.right) for c in r.constraints if c.left == ODRL.purpose]
+def _right_items(g: Graph, term) -> Optional[List]:
+    """Return list items if rightOperand is an RDF Collection, else None."""
+    return as_list(g, term)
 
-def _eq(a, b) -> bool:
-    return a == b
+def _is_literal(x) -> bool:
+    return isinstance(x, Literal)
 
-def purpose_overlap(g: Graph, TH: TypeHierarchy,
-                    r1: Rule, r2: Rule) -> Tuple[bool, str]:
-    C1 = _purpose_pairs(r1)
-    C2 = _purpose_pairs(r2)
-    if not C1 and not C2:
-        return True, "no purpose constraints"
-    if not C1:
-        return True, "left unconstrained (purpose)"
-    if not C2:
-        return True, "right unconstrained (purpose)"
+def _is_uri(x) -> bool:
+    return isinstance(x, URIRef)
 
-    # Check if any pair is simultaneously satisfiable
-    for op1, v1 in C1:
-        for op2, v2 in C2:
-            why = None
-            ok = False
+def _cmp_literals(a: Literal, b: Literal) -> Optional[int]:
+    """Return comparison sign for typed literals; None if incomparable."""
+    try:
+        pa, pb = to_python_literal(a), to_python_literal(b)
+        if type(pa) is type(pb):
+            if pa < pb: return -1
+            if pa > pb: return 1
+            return 0
+    except Exception:
+        pass
+    return None
 
-            if op1 == ODRL.eq and op2 == ODRL.eq:
-                ok = _eq(v1, v2)
-                if ok: why = f"eq({qname(g,v1)}) ∧ eq({qname(g,v2)}) ⇒ {qname(g,v1)}={qname(g,v2)}"
+def _valuestr(g: Graph, v) -> str:
+    items = _right_items(g, v)
+    if items is not None:
+        return "(" + ", ".join(qname(g, i) for i in items) + ")"
+    return qname(g, v)
 
-            elif op1 == ODRL.eq and op2 == ODRL.neq:
-                ok = (v1 != v2)
-                if ok: why = f"eq({qname(g,v1)}) ∧ neq({qname(g,v2)}) ⇒ {qname(g,v1)}≠{qname(g,v2)}"
+def pair_compatible(g: Graph, TH: TypeHierarchy, c1: Constraint, c2: Constraint) -> Tuple[bool, str]:
+    """Check if a single value can satisfy BOTH constraints c1 and c2 (same leftOperand)."""
+    op1, v1 = c1.op, c1.right
+    op2, v2 = c2.op, c2.right
 
-            elif op1 == ODRL.neq and op2 == ODRL.eq:
-                ok = (v1 != v2)
-                if ok: why = f"neq({qname(g,v1)}) ∧ eq({qname(g,v2)}) ⇒ {qname(g,v1)}≠{qname(g,v2)}"
+    L1 = _right_items(g, v1)
+    L2 = _right_items(g, v2)
 
-            elif op1 == ODRL.eq and op2 == ODRL.isA and isinstance(v1, URIRef) and isinstance(v2, URIRef):
-                ok = TH.is_instance_of(g, v1, v2)
-                if ok: why = f"eq({qname(g,v1)}) ∧ isA({qname(g,v2)}) via rdf:type/subClassOf*"
+    # --- Equality / inequality / numeric ------------------------------
+    if op1 == ODRL.eq and op2 == ODRL.eq:
+        ok = (v1 == v2)
+        return ok, f"eq { _valuestr(g,v1) } & eq { _valuestr(g,v2) } ⇒ {'same' if ok else 'different'}"
 
-            elif op1 == ODRL.isA and op2 == ODRL.eq and isinstance(v1, URIRef) and isinstance(v2, URIRef):
-                ok = TH.is_instance_of(g, v2, v1)
-                if ok: why = f"isA({qname(g,v1)}) ∧ eq({qname(g,v2)}) via rdf:type/subClassOf*"
+    if (op1 == ODRL.eq and op2 == ODRL.neq) or (op1 == ODRL.neq and op2 == ODRL.eq):
+        x = v1 if op1 == ODRL.eq else v2
+        y = v2 if op1 == ODRL.eq else v1
+        ok = (x != y)
+        return ok, f"eq { _valuestr(g,x) } & neq { _valuestr(g,y) }"
 
-            # (Optional) more combinations can be added as needed.
-            if ok:
-                return True, f"purpose overlap: {why}"
-    return False, "purpose constraints incompatible"
+    if _is_literal(v1) and _is_literal(v2):
+        cmp = _cmp_literals(v1, v2)
+        if cmp is not None:
+            if op1 == ODRL.eq and op2 in (ODRL.lt, ODRL.lteq, ODRL.gt, ODRL.gteq):
+                ok = (cmp < 0 if op2 == ODRL.lt else
+                      cmp <= 0 if op2 == ODRL.lteq else
+                      cmp > 0 if op2 == ODRL.gt else
+                      cmp >= 0)
+                return ok, f"eq {v1} & {qname(g,op2)} {v2}"
+            if op2 == ODRL.eq and op1 in (ODRL.lt, ODRL.lteq, ODRL.gt, ODRL.gteq):
+                ok = (cmp > 0 if op1 == ODRL.lt else
+                      cmp >= 0 if op1 == ODRL.lteq else
+                      cmp < 0 if op1 == ODRL.gt else
+                      cmp <= 0)
+                return ok, f"{qname(g,op1)} {v1} & eq {v2}"
+            # range-range: (op1 v1) & (op2 v2)
+            # We look for non-empty intersection.
+            if op1 in (ODRL.lt, ODRL.lteq, ODRL.gt, ODRL.gteq) and op2 in (ODRL.lt, ODRL.lteq, ODRL.gt, ODRL.gteq):
+                # pick a witness; basic interval consistency
+                # Examples: gt(a) & lt(b) ⇒ a < b
+                def low(op, val):
+                    return (val, op in (ODRL.gt, ODRL.gteq))
+                def high(op, val):
+                    return (val, op in (ODRL.lt, ODRL.lteq))
+                lo_v, lo_inclusive = (v1, op1==ODRL.gteq) if op1 in (ODRL.gt, ODRL.gteq) else (None, False)
+                hi_v, hi_inclusive = (v1, op1==ODRL.lteq) if op1 in (ODRL.lt, ODRL.lteq) else (None, False)
+                if op2 in (ODRL.gt, ODRL.gteq):
+                    lo_v  = v2 if lo_v is None or to_python_literal(v2) > to_python_literal(lo_v) else lo_v
+                    lo_inclusive = (op2==ODRL.gteq) if lo_v == v2 else lo_inclusive
+                if op2 in (ODRL.lt, ODRL.lteq):
+                    hi_v  = v2 if hi_v is None or to_python_literal(v2) < to_python_literal(hi_v) else hi_v
+                    hi_inclusive = (op2==ODRL.lteq) if hi_v == v2 else hi_inclusive
+                ok = True
+                if lo_v is not None and hi_v is not None:
+                    if to_python_literal(lo_v) > to_python_literal(hi_v):
+                        ok = False
+                    elif to_python_literal(lo_v) == to_python_literal(hi_v) and not (lo_inclusive and hi_inclusive):
+                        ok = False
+                return ok, f"range intersection of {qname(g,op1)} {v1} & {qname(g,op2)} {v2}"
 
-# ---------------------------------------------------------------------
-# Conflict detection
-# ---------------------------------------------------------------------
+    # --- Set-based: lists and URIs ------------------------------------
+    if op1 == ODRL.eq and op2 == ODRL.isAnyOf and L2 is not None:
+        return (v1 in L2), f"eq {qname(g,v1)} ∧ isAnyOf { _valuestr(g,v2) }"
+
+    if op2 == ODRL.eq and op1 == ODRL.isAnyOf and L1 is not None:
+        return (v2 in L1), f"isAnyOf { _valuestr(g,v1) } ∧ eq {qname(g,v2)}"
+
+    if op1 == ODRL.eq and op2 == ODRL.isNoneOf and L2 is not None:
+        return (v1 not in L2), f"eq {qname(g,v1)} ∧ isNoneOf { _valuestr(g,v2) }"
+
+    if op2 == ODRL.eq and op1 == ODRL.isNoneOf and L1 is not None:
+        return (v2 not in L1), f"isNoneOf { _valuestr(g,v1) } ∧ eq {qname(g,v2)}"
+
+    if op1 == ODRL.isAnyOf and op2 == ODRL.isAnyOf and L1 is not None and L2 is not None:
+        inter = set(L1) & set(L2)
+        return (len(inter) > 0), f"isAnyOf ∩ isAnyOf = { {qname(g,x) for x in inter} }"
+
+    if op1 == ODRL.isAnyOf and op2 == ODRL.isNoneOf and L1 is not None and L2 is not None:
+        diff = [x for x in L1 if x not in set(L2)]
+        return (len(diff) > 0), f"isAnyOf { _valuestr(g,v1) } vs isNoneOf { _valuestr(g,v2) }"
+
+    if op2 == ODRL.isAnyOf and op1 == ODRL.isNoneOf and L1 is not None and L2 is not None:
+        diff = [x for x in L2 if x not in set(L1)]
+        return (len(diff) > 0), f"isNoneOf { _valuestr(g,v1) } vs isAnyOf { _valuestr(g,v2) }"
+
+    if op1 == ODRL.isAllOf and op2 == ODRL.isAllOf and L1 is not None and L2 is not None:
+        # S can contain all of L1 and all of L2 simultaneously
+        return True, f"isAllOf { _valuestr(g,v1) } & isAllOf { _valuestr(g,v2) } ⇒ satisfiable"
+
+    if op1 == ODRL.isAllOf and op2 == ODRL.isAnyOf and L1 is not None and L2 is not None:
+        return True, f"isAllOf { _valuestr(g,v1) } & isAnyOf { _valuestr(g,v2) } ⇒ satisfiable"
+
+    if op2 == ODRL.isAllOf and op1 == ODRL.isAnyOf and L1 is not None and L2 is not None:
+        return True, f"isAnyOf { _valuestr(g,v1) } & isAllOf { _valuestr(g,v2) } ⇒ satisfiable"
+
+    if op1 == ODRL.isAllOf and op2 == ODRL.isNoneOf and L1 is not None and L2 is not None:
+        inter = set(L1) & set(L2)
+        return (len(inter) == 0), f"isAllOf { _valuestr(g,v1) } vs isNoneOf { _valuestr(g,v2) }"
+
+    if op2 == ODRL.isAllOf and op1 == ODRL.isNoneOf and L1 is not None and L2 is not None:
+        inter = set(L2) & set(L1)
+        return (len(inter) == 0), f"isNoneOf { _valuestr(g,v1) } vs isAllOf { _valuestr(g,v2) }"
+
+    # --- isA (class membership) ---------------------------------------
+    if op1 == ODRL.eq and op2 == ODRL.isA and _is_uri(v1) and _is_uri(v2):
+        ok = TH.is_instance_of(g, v1, v2)
+        return ok, f"eq({qname(g,v1)}) ∧ isA({qname(g,v2)}) via rdf:type/subClassOf*"
+
+    if op2 == ODRL.eq and op1 == ODRL.isA and _is_uri(v2) and _is_uri(v1):
+        ok = TH.is_instance_of(g, v2, v1)
+        return ok, f"isA({qname(g,v1)}) ∧ eq({qname(g,v2)}) via rdf:type/subClassOf*"
+
+    if op1 == ODRL.isA and op2 == ODRL.isA and _is_uri(v1) and _is_uri(v2):
+        # Satisfiable if classes are compatible; we confirm if one subsumes the other
+        v1sup = TH.closure.get(v1, {v1})
+        v2sup = TH.closure.get(v2, {v2})
+        ok = (v1 in v2sup) or (v2 in v1sup)
+        return (True if ok else True), f"isA {qname(g,v1)} & isA {qname(g,v2)} (assumed compatible unless disjoint info present)"
+
+    # --- hasPart / isPartOf (set-based; opportunistic) -----------------
+    # Without explicit partonomy data, we assume potential satisfiability unless directly contradictory with eq.
+    if (op1, op2) in ((ODRL.hasPart, ODRL.isPartOf), (ODRL.isPartOf, ODRL.hasPart)):
+        return True, f"{qname(g,op1)} vs {qname(g,op2)} assumed satisfiable in absence of partonomy data"
+
+    # Fallback: conservative default (no definite overlap reason found)
+    return False, f"operators {qname(g,op1)} vs {qname(g,op2)}: no constructive witness found"
+
+def constraints_overlap(g: Graph, TH: TypeHierarchy, r1: Rule, r2: Rule) -> Tuple[bool, str]:
+    """
+    Two rules overlap on constraints iff for every shared leftOperand L,
+    there exists at least one pair of constraints (c1 in r1, c2 in r2)
+    on L that is jointly satisfiable.
+    If a leftOperand appears only on one side, we treat it as unconstrained ⇒ overlap.
+    """
+    byL1: Dict[URIRef, List[Constraint]] = {}
+    byL2: Dict[URIRef, List[Constraint]] = {}
+    for c in r1.constraints:
+        byL1.setdefault(c.left, []).append(c)
+    for c in r2.constraints:
+        byL2.setdefault(c.left, []).append(c)
+
+    shared = set(byL1.keys()) & set(byL2.keys())
+    if not shared:
+        return True, "no shared leftOperand constraints"
+
+    reasons = []
+    for L in shared:
+        okL = False
+        reasonL = "no compatible pair"
+        for c1 in byL1[L]:
+            for c2 in byL2[L]:
+                ok, why = pair_compatible(g, TH, c1, c2)
+                if ok:
+                    okL = True
+                    reasonL = f"{qname(g,L)}: {why}"
+                    break
+            if okL:
+                break
+        if not okL:
+            return False, f"incompatible on {qname(g,L)} ({reasonL})"
+        reasons.append(reasonL)
+    return True, " ; ".join(reasons)
+
+# ------------- conflict detection -------------------------------------
 
 def same_scope(a: Rule, b: Rule) -> bool:
     if REQUIRE_SAME_ASSIGNEE and a.assignee != b.assignee:
@@ -270,18 +410,16 @@ def same_scope(a: Rule, b: Rule) -> bool:
     return True
 
 class Conflict:
-    def __init__(self, kind: str, a: Rule, b: Rule, why_action: str, why_purpose: str):
-        self.kind = kind  # 'perm-vs-prohib' | 'duty-blocked'
-        self.a = a
-        self.b = b
+    def __init__(self, kind: str, a: Rule, b: Rule, why_action: str, why_constraints: str):
+        self.kind = kind
+        self.a, self.b = a, b
         self.why_action = why_action
-        self.why_purpose = why_purpose
+        self.why_constraints = why_constraints
 
 def detect_conflicts(g_vocab: Graph, gq: Graph) -> Tuple[List[Rule], List[Conflict]]:
     rules = extract_rules(gq)
     AH = ActionHierarchy(g_vocab, gq)
     TH = TypeHierarchy(g_vocab, gq)
-
     conflicts: List[Conflict] = []
 
     perms  = [r for r in rules if r.kind == 'permission']
@@ -296,12 +434,12 @@ def detect_conflicts(g_vocab: Graph, gq: Graph) -> Tuple[List[Rule], List[Confli
             okA, whyA = AH.overlap(p.action, n.action)
             if not okA:
                 continue
-            okP, whyP = purpose_overlap(gq, TH, p, n)
-            if not okP:
+            okC, whyC = constraints_overlap(gq, TH, p, n)
+            if not okC:
                 continue
-            conflicts.append(Conflict('perm-vs-prohib', p, n, whyA, whyP))
+            conflicts.append(Conflict('perm-vs-prohib', p, n, whyA, whyC))
 
-    # Duty blocked by Prohibition (obligation action within prohibition action)
+    # Duty blocked by Prohibition
     for d in duties:
         for n in prohib:
             if not same_scope(d, n):
@@ -309,16 +447,14 @@ def detect_conflicts(g_vocab: Graph, gq: Graph) -> Tuple[List[Rule], List[Confli
             okA, whyA = AH.overlap(d.action, n.action)
             if not okA:
                 continue
-            okP, whyP = purpose_overlap(gq, TH, d, n)
-            if not okP:
+            okC, whyC = constraints_overlap(gq, TH, d, n)
+            if not okC:
                 continue
-            conflicts.append(Conflict('duty-blocked', d, n, whyA, whyP))
+            conflicts.append(Conflict('duty-blocked', d, n, whyA, whyC))
 
     return rules, conflicts
 
-# ---------------------------------------------------------------------
-# Proof-style printing
-# ---------------------------------------------------------------------
+# ------------- proof printing ----------------------------------------
 
 def rule_fact_lines(g: Graph, r: Rule) -> List[str]:
     lines = []
@@ -333,7 +469,8 @@ def rule_fact_lines(g: Graph, r: Rule) -> List[str]:
     lines.append(f"  {bn} odrl:action  {act} ;")
     lines.append(f"  {bn} odrl:target  {tgt} .")
     for c in r.constraints:
-        lines.append(f"  {bn} odrl:constraint [ odrl:leftOperand {qname(g,c.left)} ; odrl:operator {qname(g,c.op)} ; odrl:rightOperand {qname(g,c.right)} ] .")
+        right_str = _valuestr(g, c.right)
+        lines.append(f"  {bn} odrl:constraint [ odrl:leftOperand {qname(g,c.left)} ; odrl:operator {qname(g,c.op)} ; odrl:rightOperand {right_str} ] .")
     return lines
 
 def print_report(name: str, g_vocab: Graph, quiz_url: str) -> None:
@@ -349,29 +486,27 @@ def print_report(name: str, g_vocab: Graph, quiz_url: str) -> None:
     if not conflicts:
         print("No conflicts detected.")
         return
-
     for i, c in enumerate(conflicts, start=1):
-        print(f"[{i:02d}] CONFLICT: {'Permission vs Prohibition' if c.kind=='perm-vs-prohib' else 'Obligation blocked by Prohibition'}")
+        label = "Permission vs Prohibition" if c.kind == "perm-vs-prohib" else "Obligation blocked by Prohibition"
+        print(f"[{i:02d}] CONFLICT: {label}")
         for r in (c.a, c.b):
             for line in rule_fact_lines(gq, r):
                 print("  " + line)
         print(f"  Action overlap: {c.why_action}")
-        print(f"  Constraint overlap: {c.why_purpose}")
+        print(f"  Constraint overlap: {c.why_constraints}")
         ass = qname(gq, c.a.assignee) if c.a.assignee else "?"
         tgt = qname(gq, c.a.target) if c.a.target else "?"
         print(f"  Same assignee/target: {ass} / {tgt}")
         print("  Therefore: conflict.\n")
 
-# ---------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------
+# ------------- main ---------------------------------------------------
 
 def main() -> int:
     gv = Graph()
     try:
         gv.parse(ODRL_TTL_URL, format="turtle")
     except Exception as e:
-        sys.stderr.write(f"[warn] Could not fetch ODRL22.ttl ({e}). Proceeding without it (reduced action reasoning).\n")
+        sys.stderr.write(f"[warn] Could not fetch ODRL22.ttl ({e}). Proceeding without it (reduced action/type reasoning).\n")
         gv = Graph()
     gv.namespace_manager.bind("odrl", ODRL, override=True)
     gv.namespace_manager.bind("rdfs", RDFS, override=False)
