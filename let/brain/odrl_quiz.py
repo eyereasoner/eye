@@ -9,6 +9,7 @@ ODRL quiz solver with:
   • EYE-style proof printout
   • Robust parsing (constraints via odrl:constraint OR logical props attached directly)
   • Fallback action hierarchy if ODRL22.ttl is unavailable
+  • Deterministic output (stable rule labels and sorted prints)
 
 This program is designed to evaluate the SolidLabResearch ODRL test quizzes:
   - 00-01 … 00-10
@@ -64,6 +65,16 @@ DESIGN CHOICES (kept explicit and test-friendly)
 • Ambiguous witnesses: for discrete values we try eq and list items; for
   numeric/date boundaries we try values just inside P’s range or just outside
   N’s range (using small ε steps).
+
+---------------------------------------------------------------------------
+NOTE Determinism
+---------------------------------------------------------------------------
+RDF blank-node ids are not stable across runs. This program:
+  1) Extracts all rules in a quiz file.
+  2) Sorts them by a structural key: (policy, kind, assignee, action, target,
+     normalized constraint signature).
+  3) Assigns stable, human-friendly ids:  _:r01, _:r02, ...
+  4) Uses those ids consistently in the proof.
 """
 
 from __future__ import annotations
@@ -266,7 +277,7 @@ class Or(Expr):
     def __init__(self, kids: List[Expr]): self.kids = kids
 class And(Expr):
     def __init__(self, kids: List[Expr]): self.kids = kids
-class Xone(Expr):
+class Xone(Expr): 
     def __init__(self, kids: List[Expr]): self.kids = kids
 class AndSeq(Expr):
     def __init__(self, kids: List[Expr]): self.kids = kids
@@ -279,11 +290,13 @@ class Rule:
       • node:   blank node of the rule
       • assignee, action, target
       • exprs:  list[Expr] — top-level constraints (implicitly ANDed)
+      • print_id: stable label like 'r01' (assigned after sorting)
     """
     def __init__(self, kind: str, policy, node, assignee, action, target, exprs: List[Expr]):
         self.kind, self.policy, self.node = kind, policy, node
         self.assignee, self.action, self.target = assignee, action, target
         self.exprs = exprs
+        self.print_id: Optional[str] = None  # filled in later
 
 
 def _parse_expr(g: Graph, cnode) -> Optional[Expr]:
@@ -384,6 +397,52 @@ def extract_rules(g: Graph) -> List[Rule]:
                     for act in actions:
                         for t in targets:
                             out.append(Rule(kind, pol, rnode, a, act, t, exprs))
+    return out
+
+
+# ======================================================================
+# DETERMINISTIC ORDERING & STABLE RULE IDS
+# ======================================================================
+
+def _expr_signature(g: Graph, e: Expr) -> str:
+    """Deterministic, BNODE-FREE signature of an expression (for sorting)."""
+    if isinstance(e, Atom):
+        # rightOperand can be URI, Literal, or RDF list
+        lst = as_list(g, e.right)
+        if lst is not None:
+            items = ",".join(qname(g, x) for x in lst)
+            rv = f"[{items}]"
+        else:
+            rv = qname(g, e.right)
+        return f"ATOM({qname(g,e.left)}|{qname(g,e.op)}|{rv})"
+    if isinstance(e, Or):
+        return "OR(" + "|".join(_expr_signature(g, k) for k in e.kids) + ")"
+    if isinstance(e, Xone):
+        return "XONE(" + "|".join(_expr_signature(g, k) for k in e.kids) + ")"
+    if isinstance(e, And):
+        return "AND(" + "|".join(_expr_signature(g, k) for k in e.kids) + ")"
+    if isinstance(e, AndSeq):
+        return "ANDSEQ(" + "|".join(_expr_signature(g, k) for k in e.kids) + ")"
+    return "?"
+
+def _rule_sort_key(g: Graph, r: Rule) -> Tuple:
+    sig = "|".join(_expr_signature(g, e) for e in r.exprs)
+    return (
+        qname(g, r.policy),
+        r.kind,
+        qname(g, r.assignee) if r.assignee else "",
+        qname(g, r.action),
+        qname(g, r.target) if r.target else "",
+        sig,
+    )
+
+def sort_and_label_rules(g: Graph, rules: List[Rule]) -> List[Rule]:
+    """
+    Sort rules deterministically and assign stable print ids: _:r01, _:r02, ...
+    """
+    out = sorted(rules, key=lambda r: _rule_sort_key(g, r))
+    for i, r in enumerate(out, start=1):
+        r.print_id = f"r{i:02d}"
     return out
 
 
@@ -544,7 +603,6 @@ def _satisfiable_on_operand(g: Graph, TH: TypeHierarchy, atoms: List[Atom]) -> b
                 keep = {x for x in cand if isinstance(x, URIRef) and TH.is_instance_of(g, x, a.right)}
                 cand = keep
                 if not cand: return False
-            # else: unknown instance universe → assume satisfiable
 
     return True
 
@@ -707,9 +765,11 @@ def _clauses_overlap(g: Graph, TH: TypeHierarchy, pc: Clause, nc: Clause) -> Tup
     for L in shared:
         okPonly, v = _p_only_on_operand(g, TH, pc.get(L, []), nc.get(L, []))
         if okPonly:
-            return True, f"overlap on {', '.join(qname(g, L) for L in shared)}", True, f"{qname(g, L)} = {qname(g, v)}"
+            shared_names = ", ".join(sorted(qname(g, s) for s in shared))
+            return True, f"overlap on {shared_names}", True, f"{qname(g, L)} = {qname(g, v)}"
 
-    return True, f"overlap on {', '.join(qname(g, L) for L in shared)}", False, None
+    shared_names = ", ".join(sorted(qname(g, s) for s in shared))
+    return True, f"overlap on {shared_names}", False, None
 
 class PairResult:
     def __init__(self, kind: str, status: str, a: Rule, b: Rule, why_action: str, details: str):
@@ -724,14 +784,19 @@ def analyze_pairs(g_vocab: Graph, gq: Graph) -> List[PairResult]:
       • Permission vs Prohibition
       • Obligation vs Prohibition
     under the *same scope* (assignee/target).
+
+    Determinism: we sort and label rules before pairing so that the
+    iteration order (and the exemplar chosen for the file summary) is fixed.
     """
     AH = ActionHierarchy(g_vocab, gq)
     TH = TypeHierarchy(g_vocab, gq)
 
-    rules = extract_rules(gq)
-    perms  = [r for r in rules if r.kind == 'permission']
-    prohib = [r for r in rules if r.kind == 'prohibition']
-    duties = [r for r in rules if r.kind == 'obligation']
+    rules_all = extract_rules(gq)
+    rules_all = sort_and_label_rules(gq, rules_all)  # assign stable print_id here
+
+    perms  = [r for r in rules_all if r.kind == 'permission']
+    prohib = [r for r in rules_all if r.kind == 'prohibition']
+    duties = [r for r in rules_all if r.kind == 'obligation']
 
     results: List[PairResult] = []
 
@@ -760,18 +825,14 @@ def analyze_pairs(g_vocab: Graph, gq: Graph) -> List[PairResult]:
                 else:
                     reasons.append(f"branch non-overlap: {why}")
 
-        if any_overlap:
-            status = "Ambiguous" if any_ambig else "Conflict"
-        else:
-            status = "No conflict"
-
+        status = "Ambiguous" if any_overlap and any_ambig else ("Conflict" if any_overlap else "No conflict")
         results.append(PairResult(kind, status, X, N, whyA, "; ".join(reasons)))
 
+    # Deterministic pairing thanks to sorted perms/prohib/duties
     for p in perms:
         for n in prohib:
             if same_scope(p, n):
                 eval('perm-vs-prohib', p, n)
-
     for d in duties:
         for n in prohib:
             if same_scope(d, n):
@@ -789,10 +850,14 @@ def rule_fact_lines(g: Graph, r: Rule) -> List[str]:
     EYE-style facts (concise). We print rule header + subject/verb/object lines.
     For logical constraints, the explanatory "Details" shows which branches
     overlapped or were incompatible.
+
+    Determinism: we print the stable id _:rNN rather than rdflib’s _:nXYZ.
     """
-    pol = qname(g, r.policy); bn = qname(g, r.node)
+    pol = qname(g, r.policy)
+    bn  = f"_:{r.print_id}" if r.print_id else qname(g, r.node)
     ass = qname(g, r.assignee) if r.assignee else "?"
-    act = qname(g, r.action);  tgt = qname(g, r.target) if r.target else "?"
+    act = qname(g, r.action)
+    tgt = qname(g, r.target) if r.target else "?"
 
     return [
         f"{pol} {r.kind}: {bn}",
@@ -805,6 +870,9 @@ def summarize_pairs(pairs: List[PairResult]) -> Tuple[str, Optional[PairResult],
     """
     File-level summary: Ambiguous > Conflict > No conflict.
     Return (overall_status, exemplar_pair, total_pairs, num_elided).
+
+    Determinism: 'pairs' list was built from sorted rules, so picking index 0
+    in the desired bucket is stable.
     """
     if not pairs:
         return "No conflict", None, 0, 0
