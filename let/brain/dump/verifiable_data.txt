@@ -1,0 +1,57 @@
+
+=== Goal A: valid time, correct issuer, require meta-proof ===
+✔︎ Person(Bob) is asserted by https://university.example/issuers/14 at 2024-06-01T12:00:00+00:00
+  ✔︎ Find proof about 'person' — Using proof id=signature1
+  ✔︎ Proof uses supported type/suite/purpose
+    ✔︎ type == DataIntegrityProof
+    ✔︎ suite == ecdsa-rdfc-2019
+    ✔︎ purpose == assertionMethod
+    ✔︎ proofValue is present (crypto verification not performed)
+  ✔︎ Issuer matches expected — found 'https://university.example/issuers/14', expected 'https://university.example/issuers/14'
+  ✔︎ Within validity window — window [2024-04-03 00:00:00+00:00, 2025-04-03 00:00:00+00:00] contains 2024-06-01 12:00:00+00:00
+  ✔︎ Proof 'created' is not in the future — created=2021-11-13 18:19:39+00:00, at=2024-06-01 12:00:00+00:00
+  ✔︎ Meta-proof exists covering proof signature1 — Using meta-proof id=signature2
+    ✔︎ Proof uses supported type/suite/purpose
+      ✔︎ type == DataIntegrityProof
+      ✔︎ suite == ecdsa-rdfc-2019
+      ✔︎ purpose == assertionMethod
+      ✔︎ proofValue is present (crypto verification not performed)
+    ✔︎ Proof 'created' is not in the future — created=2021-11-13 18:19:39+00:00, at=2024-06-01 12:00:00+00:00
+
+=== Goal B: time outside validity (should fail validity) ===
+✘ Person(Bob) is asserted by https://university.example/issuers/14 at 2025-05-01T12:00:00+00:00
+  ✔︎ Find proof about 'person' — Using proof id=signature1
+  ✔︎ Proof uses supported type/suite/purpose
+    ✔︎ type == DataIntegrityProof
+    ✔︎ suite == ecdsa-rdfc-2019
+    ✔︎ purpose == assertionMethod
+    ✔︎ proofValue is present (crypto verification not performed)
+  ✔︎ Issuer matches expected — found 'https://university.example/issuers/14', expected 'https://university.example/issuers/14'
+  ✘ Within validity window — window [2024-04-03 00:00:00+00:00, 2025-04-03 00:00:00+00:00] contains 2025-05-01 12:00:00+00:00
+  ✔︎ Proof 'created' is not in the future — created=2021-11-13 18:19:39+00:00, at=2025-05-01 12:00:00+00:00
+  ✔︎ Meta-proof exists covering proof signature1 — Using meta-proof id=signature2
+    ✔︎ Proof uses supported type/suite/purpose
+      ✔︎ type == DataIntegrityProof
+      ✔︎ suite == ecdsa-rdfc-2019
+      ✔︎ purpose == assertionMethod
+      ✔︎ proofValue is present (crypto verification not performed)
+    ✔︎ Proof 'created' is not in the future — created=2021-11-13 18:19:39+00:00, at=2025-05-01 12:00:00+00:00
+
+=== Goal C: wrong issuer (should fail issuer check) ===
+✘ Person(Bob) is asserted by https://evil.example/issuer at 2024-06-01T12:00:00+00:00
+  ✔︎ Find proof about 'person' — Using proof id=signature1
+  ✔︎ Proof uses supported type/suite/purpose
+    ✔︎ type == DataIntegrityProof
+    ✔︎ suite == ecdsa-rdfc-2019
+    ✔︎ purpose == assertionMethod
+    ✔︎ proofValue is present (crypto verification not performed)
+  ✘ Issuer matches expected — found 'https://university.example/issuers/14', expected 'https://evil.example/issuer'
+  ✔︎ Within validity window — window [2024-04-03 00:00:00+00:00, 2025-04-03 00:00:00+00:00] contains 2024-06-01 12:00:00+00:00
+  ✔︎ Proof 'created' is not in the future — created=2021-11-13 18:19:39+00:00, at=2024-06-01 12:00:00+00:00
+  ✔︎ Meta-proof exists covering proof signature1 — Using meta-proof id=signature2
+    ✔︎ Proof uses supported type/suite/purpose
+      ✔︎ type == DataIntegrityProof
+      ✔︎ suite == ecdsa-rdfc-2019
+      ✔︎ purpose == assertionMethod
+      ✔︎ proofValue is present (crypto verification not performed)
+    ✔︎ Proof 'created' is not in the future — created=2021-11-13 18:19:39+00:00, at=2024-06-01 12:00:00+00:00
