@@ -4,35 +4,34 @@
 tabled_horn_engine.py
 =====================
 
-A tiny, generic **tabled Horn-clause engine** (Datalog style) with
-**goal-oriented proof reconstruction**.
+Generic, tabled Horn-clause (Datalog-style) engine with:
+  • Declarative KB: facts, named rules, and a query rule (zero-arity head).
+  • Variables (?X, ?Y, …), standardizing apart, unification (with occurs-check).
+  • Bottom-up tabling (least fixpoint) for all intensional predicates.
+  • Provenance capture for each derived fact to reconstruct compact proofs.
+  • Clean proof traces:
+      - show each goal,
+      - show bindings ONLY on rule applications (restricted to query vars),
+      - facts and built-ins shown as ✓ lines,
+      - no failure lines.
 
-Features
---------
-• Declarative KB: 
-    - base_facts:   ground atoms like ("oneway","paris","orleans")
-    - rules:        Clause(label, head, body) with variables ?X, ?Y, …
-    - queries:      Clause("Q", ("query",), [ ... ])   # zero-arity head
-• Variables & unification with occurs-check; standardizing apart per use
-• Tabling (least fixpoint) for **all intensional predicates** (IDB)
-• Provenance: for each derived fact, which rule and which ground body atoms
-• Clean proofs:
-    - print each goal,
-    - on **rule applications** show bindings (restricted to query vars),
-    - on **facts** show ✓ (no bindings),
-    - **no** failure lines
-• Works with **left recursion** (e.g., transitive closure with path→path)
+NEW: Built-in predicate ("neq","?X","?Y")
+----------------------------------------
+- Succeeds iff both arguments are ground and not equal.
+- Evaluated during body joins (no facts for built-ins).
+- In proofs, shown as ✓ builtin neq(...).
 
-Limitations (by design, to keep it small)
------------------------------------------
-• Positive Horn clauses only (no negation, no arithmetic)
-• Finite constants domain (no function symbols)
-• Built-ins like inequality are easy to add but omitted for brevity
+Notes / Constraints
+-------------------
+- Positive Horn clauses only (no negation/aggregation).
+- Finite constants domain (no function symbols).
+- For built-ins like `neq`, write rule bodies so the arguments are ground
+  by the time the built-in is evaluated (place it after binding subgoals).
 
 Usage
 -----
-- Pick EXAMPLE = "graph" or "family" at the bottom.
-- Run:  python3 tabled_horn_engine.py
+Set EXAMPLE = "graph" or "family" at the bottom and run:
+    $ python3 tabled_horn_engine.py
 """
 
 from collections import defaultdict, deque
@@ -109,11 +108,13 @@ def unify_var(v, t, θ):
 # ────────────────────────────────────────────────────────────────────────
 # Tabled bottom-up evaluator with provenance
 # ────────────────────────────────────────────────────────────────────────
+BUILTINS = {"neq"}  # set of predicate names treated as built-ins
+
 class TabledKB:
     """
-    EDB: extensional tables (facts)      pred -> set[tuple(args)]
-    IDB: intensional tables (derived)    pred -> set[tuple(args)]
-    PROV: provenance                      pred -> { args_tuple: (label, [ground_body_atoms]) }
+    EDB: extensional facts               pred -> set[tuple(args)]
+    IDB: intensional derived facts       pred -> set[tuple(args)]
+    PROV: provenance                     pred -> { args_tuple: (label, [ground_body_atoms]) }
     """
     def __init__(self, base_facts, rules):
         self.EDB = defaultdict(set)
@@ -125,13 +126,33 @@ class TabledKB:
         self.PROV = defaultdict(dict)
 
     def all_facts(self, pred):
-        """Union of EDB and IDB for pred."""
+        """Union of EDB and IDB for pred (non-builtins only)."""
+        if pred in BUILTINS:
+            return set()
         return self.EDB[pred] | self.IDB[pred]
+
+    def eval_builtin(self, atom, θ):
+        """
+        Evaluate a built-in atom under current θ.
+        Returns an iterator of (θ2, ground_atom) — typically 0 or 1 results.
+        For 'neq': succeed iff both args ground and unequal.
+        """
+        pred, *args = atom
+        if pred == "neq":
+            a1, a2 = (subst_term(a, θ) for a in args)
+            # only succeed when both are ground and different
+            if not is_var(a1) and not is_var(a2) and a1 != a2:
+                yield dict(θ), (pred, a1, a2)
+            # else: no result
+            return
+        # Unknown built-in: fail safely
+        return
 
     def eval_body(self, body):
         """
         Generate groundings (θ, ground_atoms) for the body using current tables.
         ground_atoms is the instantiated list of body atoms (pred,*consts).
+        Built-ins are evaluated directly (no table lookup).
         """
         def backtrack(i, θ, chosen):
             if i == len(body):
@@ -139,14 +160,20 @@ class TabledKB:
                 return
             atom = body[i]
             pred, *args = atom
-            # Collect candidate tuples for this predicate from tables
+
+            if pred in BUILTINS:
+                for θ2, ground in self.eval_builtin(atom, θ):
+                    yield from backtrack(i+1, θ2, chosen + [ground])
+                return
+
+            # Non-builtins: join against known facts
             for tpl in self.all_facts(pred):
-                # Try unify (pred,*args) with (pred,*tpl)
                 θ2 = unify(atom, (pred, *tpl), dict(θ))
-                if θ2 is None: 
+                if θ2 is None:
                     continue
                 ground = subst_atom(atom, θ2)
                 yield from backtrack(i+1, θ2, chosen + [ground])
+
         yield from backtrack(0, {}, [])
 
     def saturate(self):
@@ -160,6 +187,11 @@ class TabledKB:
             for raw in self.rules:
                 r = standardize_apart(raw)
                 pred_h, *args_h = r.head
+
+                # Skip rules that derive built-ins (nonsensical)
+                if pred_h in BUILTINS:
+                    continue
+
                 for θ, ground_body in self.eval_body(r.body):
                     head_inst = subst_atom(r.head, θ)
                     _, *hargs = head_inst
@@ -169,13 +201,13 @@ class TabledKB:
                     hargs = tuple(hargs)
                     if hargs not in self.IDB[pred_h] and hargs not in self.EDB[pred_h]:
                         self.IDB[pred_h].add(hargs)
-                        # keep first provenance only (deterministic enough)
+                        # keep first provenance (deterministic enough)
                         if hargs not in self.PROV[pred_h]:
                             self.PROV[pred_h][hargs] = (raw.label, ground_body)
                         changed = True
 
 # ────────────────────────────────────────────────────────────────────────
-# Proof reconstruction (top-down, but from provenance tables)
+# Proof reconstruction (top-down, from provenance tables)
 # ────────────────────────────────────────────────────────────────────────
 def bindings_for_query_vars(solution_binding, stems):
     """Map only the requested query-variable stems (?X, ?Y, …) to their ground values."""
@@ -193,14 +225,20 @@ def print_rule_application(indent, label, head_tpl, body_list, bindings):
 def prove_from_prov(atom, kb: TabledKB, step_counter, stems, solution_binding, depth=0):
     """
     Print a compact proof for a ground `atom` using provenance:
-      - facts (EDB) → ✓
-      - IDB fact    → show rule + recursively prove each body atom
+      - EDB fact      → ✓ fact(...)
+      - Built-in      → ✓ builtin pred(...)
+      - IDB fact      → show rule + recursively prove each (ground) body atom
     """
     indent = "  " * depth
     pred, *args = atom
     print(f"{indent}Step {next(step_counter):02}: prove {atom}")
 
-    # Fact?
+    # Built-ins are checked directly
+    if pred in BUILTINS:
+        print(f"{indent}  ✓ builtin {atom}")
+        return
+
+    # EDB fact?
     if tuple(args) in kb.EDB[pred]:
         print(f"{indent}  ✓ fact {atom}")
         return
@@ -213,20 +251,18 @@ def prove_from_prov(atom, kb: TabledKB, step_counter, stems, solution_binding, d
     label, ground_body = prov
 
     # Pretty standardized head/body (for display only)
-    head_vars = []
-    for _ in args: head_vars.append(f"?V_{next(VAR_COUNTER)}")
+    head_vars = [f"?V_{next(VAR_COUNTER)}" for _ in args]
     head_tpl = (pred, *head_vars)
     body_tpl = []
     for (p, *bargs) in ground_body:
-        # show a schematic variable for each arg, just for shape
         vars_for_b = [f"?V_{next(VAR_COUNTER)}" for _ in bargs]
         body_tpl.append((p, *vars_for_b))
 
-    # Only show query-variable bindings (e.g., ?X / ?X_*)
+    # Only show query-variable bindings (e.g., ?X / ?X_*, ?Y / ?Y_*)
     bmap = bindings_for_query_vars(solution_binding, stems)
     print_rule_application(indent, label, head_tpl, body_tpl, bmap)
 
-    # Subgoals (use the actual *ground* body atoms for recursion)
+    # Subgoals (use actual ground body atoms)
     for i, g in enumerate(ground_body, 1):
         print(f"{indent}    subgoal {i}/{len(ground_body)}: {g}")
         prove_from_prov(g, kb, step_counter, stems, solution_binding, depth+1)
@@ -238,10 +274,10 @@ def solve_query(query: Clause, kb: TabledKB):
     """
     Evaluate a query rule with head ("query",) and some body atoms.
     Returns a list of solution substitutions (variable->constant).
+    Built-ins in the query body are supported (must be ground by position).
     """
     sols = []
     for θ, _ground in kb.eval_body(query.body):
-        # Keep only variable->ground-constant bindings
         θg = {k: subst_term(v, θ) for k,v in θ.items() if not is_var(subst_term(v, θ))}
         sols.append(θg)
     return sols
@@ -265,9 +301,9 @@ def kb_graph():
     ]
     rules = [
         Clause("C1", ("path","?U","?V"), [("oneway","?U","?V")]),
-        # works fine even with left recursion thanks to tabling:
+        # Left-recursive transitive closure (tabled, so fine):
         Clause("C2", ("path","?U","?V"), [("path","?U","?Z"), ("path","?Z","?V")]),
-        # non-left-recursive alternative (also fine):
+        # Non-left-recursive alternative:
         # Clause("C2", ("path","?U","?V"), [("oneway","?U","?Z"), ("path","?Z","?V")]),
     ]
     queries = [Clause("Q", ("query",), [("path","?X","nantes")])]
@@ -289,7 +325,7 @@ def kb_family():
         ("parent","Jo","Veerle"), ("parent","Maaike","Veerle"),
         ("parent","Paul","Ann"), ("parent","Rita","Ann"),
         ("parent","Paul","Bart"), ("parent","Rita","Bart"),
-        # spouse (one direction; symmetry via rule)
+        # spouse (one way; symmetry via rule)
         ("spouse","Frans","Maria"), ("spouse","Jo","Maaike"),
         ("spouse","Paul","Rita"), ("spouse","Pieter-Jan","Goedele"),
         ("spouse","Tim","Veerle"), ("spouse","Bert","Ann"),
@@ -298,31 +334,39 @@ def kb_family():
     rules = [
         # symmetry of spouse
         Clause("sym-spouse", ("spouse","?Y","?X"), [("spouse","?X","?Y")]),
-        # siblings
+
+        # siblings (X and Y share a parent, and X ≠ Y)
         Clause("sibling", ("sibling","?X","?Y"),
-               [("parent","?P","?X"), ("parent","?P","?Y")]),
+               [("parent","?P","?X"),
+                ("parent","?P","?Y"),
+                ("neq","?X","?Y")]),  # built-in
+
         Clause("sym-sib", ("sibling","?Y","?X"), [("sibling","?X","?Y")]),
+
         # gender-specialized siblings
         Clause("brother", ("brother","?X","?Y"), [("sibling","?X","?Y"), ("a","?X","MALE")]),
         Clause("sister",  ("sister", "?X","?Y"), [("sibling","?X","?Y"), ("a","?X","FEMALE")]),
+
         # grand relations
         Clause("grandparent", ("grandparent","?X","?Z"), [("parent","?X","?Y"), ("parent","?Y","?Z")]),
         Clause("grandfather", ("grandfather","?X","?Z"), [("grandparent","?X","?Z"), ("a","?X","MALE")]),
         Clause("grandmother", ("grandmother","?X","?Z"), [("grandparent","?X","?Z"), ("a","?X","FEMALE")]),
+
         # immediate parents
         Clause("father", ("father","?X","?Y"), [("parent","?X","?Y"), ("a","?X","MALE")]),
         Clause("mother", ("mother","?X","?Y"), [("parent","?X","?Y"), ("a","?X","FEMALE")]),
+
         # uncles & aunts (blood + by marriage)
         Clause("uncle-blood", ("uncle","?X","?Y"), [("brother","?X","?P"), ("parent","?P","?Y")]),
         Clause("aunt-blood",  ("aunt","?X","?Y"),   [("sister", "?X","?P"), ("parent","?P","?Y")]),
         Clause("uncle-mar",   ("uncle","?X","?Y"), [("spouse","?X","?S"), ("aunt","?S","?Y")]),
         Clause("aunt-mar",    ("aunt","?X","?Y"),  [("spouse","?X","?S"), ("uncle","?S","?Y")]),
     ]
-    # Query examples (pick one by uncommenting)
+    # Example queries (uncomment the one you want)
     # queries = [Clause("Q", ("query",), [("uncle","?X","Bart")])]
     # stems   = ("?X",)
-    queries = [Clause("Q", ("query",), [("grandmother","?X","Ann")])]
-    stems   = ("?X",)
+    queries = [Clause("Q", ("query",), [("grandmother","?X","?Y")])]
+    stems   = ("?X", "?Y",)
     return base_facts, rules, queries, stems
 
 # ────────────────────────────────────────────────────────────────────────
@@ -330,7 +374,7 @@ def kb_family():
 # ────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     # Pick your demo KB
-    EXAMPLE = "graph"   # "graph" or "family"
+    EXAMPLE = "family"   # "graph" or "family"
     if EXAMPLE == "graph":
         base_facts, rules, queries, stems = kb_graph()
     else:
@@ -345,33 +389,27 @@ if __name__ == "__main__":
     solutions = solve_query(queries[0], kb)
 
     # Extract distinct answer tuples for the requested stems (e.g., (?X,))
-    # Keep ordering deterministic by sorting
     def pick(binding, stems):
         return tuple(binding.get(s) or next((binding[k] for k in binding if k.startswith(s+"_")), None)
                      for s in stems)
-
     answers = sorted({ pick(sol, stems) for sol in solutions })
 
-    # Print a compact proof for each answer (first target atom in query body)
-    target_atom = queries[0].body[0]   # prove this one per answer
-    print(f"\n=== Proofs for  {queries[0].body}  (tabling) ===")
+    # Print a compact proof for each answer (prove the first atom in query body)
+    target_atom = queries[0].body[0]
+    print(f"\n=== Proofs for  {queries[0].body}  (tabling + built-ins) ===")
     for ans in answers:
         print(f"\n--- Proof for {dict(zip(stems, ans))} ---")
-        # Ground the target atom using the solution binding (just the stems we expose)
-        # We reconstruct a complete binding by merging stems onto the atom via unification
-        θ0 = {}
-        for s, val in zip(stems, ans):
-            if val is not None:
-                θ0[s] = val
-        θg = unify(target_atom, (target_atom[0], *target_atom[1:]), dict(θ0))  # same atom, θ0 just seeds vars
+        # Seed solution binding with exposed stems for pretty printing
+        θ0 = {s:v for s,v in zip(stems, ans) if v is not None}
+        # Ground the target atom with θ0
+        θg = unify(target_atom, (target_atom[0], *target_atom[1:]), dict(θ0))
         ground_goal = subst_atom(target_atom, θg)
         steps = count(1)
         prove_from_prov(ground_goal, kb, steps, stems, θ0)
         print("✔ PROVED")
 
-    # Optional: a tiny witness section (only meaningful for the graph demo)
+    # Tiny witness section for the graph demo
     if EXAMPLE == "graph":
-        # Recreate reverse BFS to GOAL for a compact path witness
         preds = defaultdict(set)
         for (u,v) in kb.EDB["oneway"]:
             preds[v].add(u)
