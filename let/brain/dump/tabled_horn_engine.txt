@@ -1,0 +1,94 @@
+
+=== Proofs for  [('path', '?X', 'nantes')]  (tabling) ===
+
+--- Proof for {'?X': 'angers'} ---
+Step 01: prove ('path', 'angers', 'nantes')
+  → apply C1: ('path', '?V_15', '?V_16') :- [('oneway', '?V_17', '?V_18')]  with {'?X': 'angers'}
+    subgoal 1/1: ('oneway', 'angers', 'nantes')
+  Step 02: prove ('oneway', 'angers', 'nantes')
+    ✓ fact ('oneway', 'angers', 'nantes')
+✔ PROVED
+
+--- Proof for {'?X': 'chartres'} ---
+Step 01: prove ('path', 'chartres', 'nantes')
+  → apply C2: ('path', '?V_19', '?V_20') :- [('path', '?V_21', '?V_22'), ('path', '?V_23', '?V_24')]  with {'?X': 'chartres'}
+    subgoal 1/2: ('path', 'chartres', 'lemans')
+  Step 02: prove ('path', 'chartres', 'lemans')
+    → apply C1: ('path', '?V_25', '?V_26') :- [('oneway', '?V_27', '?V_28')]  with {'?X': 'chartres'}
+      subgoal 1/1: ('oneway', 'chartres', 'lemans')
+    Step 03: prove ('oneway', 'chartres', 'lemans')
+      ✓ fact ('oneway', 'chartres', 'lemans')
+    subgoal 2/2: ('path', 'lemans', 'nantes')
+  Step 04: prove ('path', 'lemans', 'nantes')
+    → apply C2: ('path', '?V_29', '?V_30') :- [('path', '?V_31', '?V_32'), ('path', '?V_33', '?V_34')]  with {'?X': 'chartres'}
+      subgoal 1/2: ('path', 'lemans', 'angers')
+    Step 05: prove ('path', 'lemans', 'angers')
+      → apply C1: ('path', '?V_35', '?V_36') :- [('oneway', '?V_37', '?V_38')]  with {'?X': 'chartres'}
+        subgoal 1/1: ('oneway', 'lemans', 'angers')
+      Step 06: prove ('oneway', 'lemans', 'angers')
+        ✓ fact ('oneway', 'lemans', 'angers')
+      subgoal 2/2: ('path', 'angers', 'nantes')
+    Step 07: prove ('path', 'angers', 'nantes')
+      → apply C1: ('path', '?V_39', '?V_40') :- [('oneway', '?V_41', '?V_42')]  with {'?X': 'chartres'}
+        subgoal 1/1: ('oneway', 'angers', 'nantes')
+      Step 08: prove ('oneway', 'angers', 'nantes')
+        ✓ fact ('oneway', 'angers', 'nantes')
+✔ PROVED
+
+--- Proof for {'?X': 'lemans'} ---
+Step 01: prove ('path', 'lemans', 'nantes')
+  → apply C2: ('path', '?V_43', '?V_44') :- [('path', '?V_45', '?V_46'), ('path', '?V_47', '?V_48')]  with {'?X': 'lemans'}
+    subgoal 1/2: ('path', 'lemans', 'angers')
+  Step 02: prove ('path', 'lemans', 'angers')
+    → apply C1: ('path', '?V_49', '?V_50') :- [('oneway', '?V_51', '?V_52')]  with {'?X': 'lemans'}
+      subgoal 1/1: ('oneway', 'lemans', 'angers')
+    Step 03: prove ('oneway', 'lemans', 'angers')
+      ✓ fact ('oneway', 'lemans', 'angers')
+    subgoal 2/2: ('path', 'angers', 'nantes')
+  Step 04: prove ('path', 'angers', 'nantes')
+    → apply C1: ('path', '?V_53', '?V_54') :- [('oneway', '?V_55', '?V_56')]  with {'?X': 'lemans'}
+      subgoal 1/1: ('oneway', 'angers', 'nantes')
+    Step 05: prove ('oneway', 'angers', 'nantes')
+      ✓ fact ('oneway', 'angers', 'nantes')
+✔ PROVED
+
+--- Proof for {'?X': 'paris'} ---
+Step 01: prove ('path', 'paris', 'nantes')
+  → apply C2: ('path', '?V_57', '?V_58') :- [('path', '?V_59', '?V_60'), ('path', '?V_61', '?V_62')]  with {'?X': 'paris'}
+    subgoal 1/2: ('path', 'paris', 'lemans')
+  Step 02: prove ('path', 'paris', 'lemans')
+    → apply C2: ('path', '?V_63', '?V_64') :- [('path', '?V_65', '?V_66'), ('path', '?V_67', '?V_68')]  with {'?X': 'paris'}
+      subgoal 1/2: ('path', 'paris', 'chartres')
+    Step 03: prove ('path', 'paris', 'chartres')
+      → apply C1: ('path', '?V_69', '?V_70') :- [('oneway', '?V_71', '?V_72')]  with {'?X': 'paris'}
+        subgoal 1/1: ('oneway', 'paris', 'chartres')
+      Step 04: prove ('oneway', 'paris', 'chartres')
+        ✓ fact ('oneway', 'paris', 'chartres')
+      subgoal 2/2: ('path', 'chartres', 'lemans')
+    Step 05: prove ('path', 'chartres', 'lemans')
+      → apply C1: ('path', '?V_73', '?V_74') :- [('oneway', '?V_75', '?V_76')]  with {'?X': 'paris'}
+        subgoal 1/1: ('oneway', 'chartres', 'lemans')
+      Step 06: prove ('oneway', 'chartres', 'lemans')
+        ✓ fact ('oneway', 'chartres', 'lemans')
+    subgoal 2/2: ('path', 'lemans', 'nantes')
+  Step 07: prove ('path', 'lemans', 'nantes')
+    → apply C2: ('path', '?V_77', '?V_78') :- [('path', '?V_79', '?V_80'), ('path', '?V_81', '?V_82')]  with {'?X': 'paris'}
+      subgoal 1/2: ('path', 'lemans', 'angers')
+    Step 08: prove ('path', 'lemans', 'angers')
+      → apply C1: ('path', '?V_83', '?V_84') :- [('oneway', '?V_85', '?V_86')]  with {'?X': 'paris'}
+        subgoal 1/1: ('oneway', 'lemans', 'angers')
+      Step 09: prove ('oneway', 'lemans', 'angers')
+        ✓ fact ('oneway', 'lemans', 'angers')
+      subgoal 2/2: ('path', 'angers', 'nantes')
+    Step 10: prove ('path', 'angers', 'nantes')
+      → apply C1: ('path', '?V_87', '?V_88') :- [('oneway', '?V_89', '?V_90')]  with {'?X': 'paris'}
+        subgoal 1/1: ('oneway', 'angers', 'nantes')
+      Step 11: prove ('oneway', 'angers', 'nantes')
+        ✓ fact ('oneway', 'angers', 'nantes')
+✔ PROVED
+
+=== Solutions & Shortest Witnesses (graph) ===
+X = angers     path: angers → nantes
+X = chartres   path: chartres → lemans → angers → nantes
+X = lemans     path: lemans → angers → nantes
+X = paris      path: paris → chartres → lemans → angers → nantes
