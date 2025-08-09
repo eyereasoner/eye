@@ -1,15 +1,37 @@
+============================================
+Nixon Diamond with Priorities — explain and check
+============================================
 
-# Derived type assertions (?x a ?y)
-ex:RichardNixon a ex:NonPacifist
-ex:RichardNixon a ex:Quaker
-ex:RichardNixon a ex:Republican
+Hard facts:
+  Q := Quaker(n),  R := Republican(n)
+Defaults:
+  δ1: Q : D      (normally, Quakers are Doves)
+  δ2: R : H      (normally, Republicans are Hawks)
+Constraint:
+  not (D and H)
 
-=== Pretty Proof ===
+Priority idea:
+  When two applicable defaults would conflict, prefer the higher-priority one and
+  block the lower-priority conclusion if it would violate the constraint.
 
-[1] Facts: ex:RichardNixon a ex:Quaker, ex:Republican
-[2] Goal: { ?x a ?y }
-[3] Premise-Rule: { ?x a ex:Republican } => { ?x a ex:NonPacifist } . // Higher priority
-[4] Apply-Rule2 [3]: ex:RichardNixon a ex:NonPacifist // Since ex:RichardNixon a ex:Republican
-[5] Premise-Rule: { ?x a ex:Quaker . notIncludes { ?x a ex:NonPacifist } } => { ?x a ex:Pacifist } . // Lower priority (default with SNAF guard)
-[6] Apply-Rule1 [5]: no new facts for ex:RichardNixon (blocked: NonPacifist present) // SNAF guard check
-[7] Answer [2]: ex:RichardNixon a ex:NonPacifist ; ex:RichardNixon a ex:Quaker ; ex:RichardNixon a ex:Republican // All entailed type assertions
+Case A — Prioritize δ1 over δ2 (Quaker-default outranks Republican-default):
+  Facts give Q and R, so both defaults are applicable in principle.
+  Apply δ1 first ⇒ conclude D. Now δ2 would add H, but (D ∧ H) is forbidden,
+  so δ2 is blocked. Unique prioritized extension: {Q, R, D}.
+
+Case B — Prioritize δ2 over δ1 (Republican-default outranks Quaker-default):
+  Apply δ2 first ⇒ conclude H. Now δ1 would add D, but (D ∧ H) is forbidden,
+  so δ1 is blocked. Unique prioritized extension: {Q, R, H}.
+
+Conclusion:
+  Priorities collapse the two competing default conclusions into a single outcome.
+  With δ1>δ2 we get Dove; with δ2>δ1 we get Hawk. □
+
+Computed prioritized extensions:
+  With δ1>δ2: ['D', 'Q', 'R']
+  With δ2>δ1: ['H', 'Q', 'R']
+
+Harness:
+  • Priorities δ1>δ2 ⇒ {Q,R,D} (Dove).
+  • Priorities δ2>δ1 ⇒ {Q,R,H} (Hawk).
+  • Both extensions consistent; facts preserved. ✓

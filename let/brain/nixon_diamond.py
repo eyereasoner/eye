@@ -1,208 +1,128 @@
-#!/usr/bin/env python3
-"""
-Nixon Diamond (EYE-style N3) — forward-chaining with a SNAF-guarded default
----------------------------------------------------------------------------
+# ============================================
+# EXPLAIN-AND-CHECK (Logic): Nixon Diamond with Priorities
+# ============================================
+# Atoms about Nixon (one individual n):
+#   Q := Quaker(n)
+#   R := Republican(n)
+#   D := Dove(n)
+#   H := Hawk(n)
+#
+# Hard facts:
+FACTS = {"Q", "R"}
 
-Mirrors:
-- Facts: ex:RichardNixon a ex:Quaker, ex:Republican .
-- Rule 1 (lower priority):  Quakers are Pacifist  (only if NOT already NonPacifist)
-    { ?x a ex:Quaker . ?SCOPE log:notIncludes { ?x a ex:NonPacifist } } => { ?x a ex:Pacifist } .
-- Rule 2 (higher priority): Republicans are NonPacifist
-    { ?x a ex:Republican } => { ?x a ex:NonPacifist } .
-- Query: { ?x a ?y } log:impliesAnswer { ?x a ?y }.
-
-This script:
-  1) Loads the facts.
-  2) Applies Rule 2 first (higher priority), then Rule 1 with a SNAF guard.
-  3) Prints all derived type assertions (?x a ?y).
-  4) Prints a goal-oriented, pretty proof trace.
-"""
-
-from __future__ import annotations
-from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
-
-# ---------------------------------------------------------------------------
-# Data model
-# ---------------------------------------------------------------------------
-
-Triple = Tuple[str, str, str]  # (subject, predicate, object) using 'a' as predicate
-
-EX = "ex:"
-RICHARD = EX + "RichardNixon"
-QUAKER = EX + "Quaker"
-REPUBLICAN = EX + "Republican"
-PACIFIST = EX + "Pacifist"
-NONPACIFIST = EX + "NonPacifist"
-
-# Initial fact base (from the N3 file)
-FACTS: Set[Triple] = {
-    (RICHARD, "a", QUAKER),
-    (RICHARD, "a", REPUBLICAN),
+# Defaults (defeasible rules; read “normally”):
+#   δ1: from Q infer D     (Quakers are normally doves)
+#   δ2: from R infer H     (Republicans are normally hawks)
+DEFAULTS = {
+    "δ1": ("Q", "D"),
+    "δ2": ("R", "H"),
 }
 
-# ---------------------------------------------------------------------------
-# Pretty-proof kernel (in the spirit of odrl_tc1.py dumps)
-# ---------------------------------------------------------------------------
+# Incompatibility (background constraint): cannot be both a dove and a hawk
+INCOMPAT = {("D", "H"), ("H", "D")}
 
-@dataclass(frozen=True)
-class Atom:
-    pred: str
-    args: Tuple[Any, ...]
-    def pretty(self) -> str:
-        def fmt(x: Any) -> str:
-            return x if isinstance(x, str) else str(x)
-        return f"{self.pred}(" + ", ".join(fmt(a) for a in self.args) + ")"
+# -------------------------------------------------------
+# The “reason why” with priorities (narrative)
+# -------------------------------------------------------
+print("============================================")
+print("Nixon Diamond with Priorities — explain and check")
+print("============================================\n")
 
-@dataclass
-class Conclusion:
-    kind: str
-    payload: Any
-    def pretty(self) -> str:
-        if self.kind in ("formula", "goal", "text", "rule"):
-            return self.payload if isinstance(self.payload, str) else str(self.payload)
-        if hasattr(self.payload, "pretty"):
-            return self.payload.pretty()
-        return str(self.payload)
+print("Hard facts:")
+print("  Q := Quaker(n),  R := Republican(n)")
+print("Defaults:")
+print("  δ1: Q : D      (normally, Quakers are Doves)")
+print("  δ2: R : H      (normally, Republicans are Hawks)")
+print("Constraint:")
+print("  not (D and H)\n")
 
-@dataclass
-class Step:
-    id: int
-    rule: str
-    premises: List[int]
-    conclusion: Conclusion
-    notes: Optional[str] = None
+print("Priority idea:")
+print("  When two applicable defaults would conflict, prefer the higher-priority one and")
+print("  block the lower-priority conclusion if it would violate the constraint.\n")
 
-@dataclass
-class Proof:
-    steps: List[Step] = field(default_factory=list)
-    def add(self, rule: str, premises: List[int], conclusion: Conclusion, notes: Optional[str] = None) -> int:
-        sid = len(self.steps) + 1
-        self.steps.append(Step(sid, rule, premises, conclusion, notes))
-        return sid
-    def pretty(self) -> str:
-        out = []
-        for s in self.steps:
-            prem = f" [{', '.join(map(str, s.premises))}]" if s.premises else ""
-            note = f" // {s.notes}" if s.notes else ""
-            out.append(f"[{s.id}] {s.rule}{prem}: {s.conclusion.pretty()}{note}")
-        return "\n".join(out)
+print("Case A — Prioritize δ1 over δ2 (Quaker-default outranks Republican-default):")
+print("  Facts give Q and R, so both defaults are applicable in principle.")
+print("  Apply δ1 first ⇒ conclude D. Now δ2 would add H, but (D ∧ H) is forbidden,")
+print("  so δ2 is blocked. Unique prioritized extension: {Q, R, D}.\n")
 
-# ---------------------------------------------------------------------------
-# Rule application
-# ---------------------------------------------------------------------------
+print("Case B — Prioritize δ2 over δ1 (Republican-default outranks Quaker-default):")
+print("  Apply δ2 first ⇒ conclude H. Now δ1 would add D, but (D ∧ H) is forbidden,")
+print("  so δ1 is blocked. Unique prioritized extension: {Q, R, H}.\n")
 
-def known_type(facts: Set[Triple], x: str, t: str) -> bool:
-    return (x, "a", t) in facts
+print("Conclusion:")
+print("  Priorities collapse the two competing default conclusions into a single outcome.")
+print("  With δ1>δ2 we get Dove; with δ2>δ1 we get Hawk. □\n")
 
-def apply_rule2_higher_priority(facts: Set[Triple], proof: Proof) -> None:
+# -------------------------------------------------------
+# Minimal prioritized engine (no imports)
+# -------------------------------------------------------
+
+def consistent(atoms):
+    """True iff 'atoms' contains no incompatible pair."""
+    return not (("D" in atoms) and ("H" in atoms))
+
+def applicable(current, default):
+    """A default is applicable if its precondition holds and adding its conclusion stays consistent."""
+    pre, cons = default
+    if pre not in current:
+        return False
+    if cons in current:
+        return False
+    return consistent(current | {cons})
+
+def prioritized_extension(facts, defaults, priority):
     """
-    Rule 2 (higher priority): { ?x a ex:Republican } => { ?x a ex:NonPacifist } .
-    Apply to saturation (here it's just one individual).
+    Greedy prioritized construction:
+      Repeat scanning defaults in given priority order; whenever a default is
+      applicable and consistent, add its conclusion. Stop when no new info is added.
+    This yields a single prioritized extension (deterministic for a fixed priority).
     """
-    s_intro = proof.add(
-        "Premise-Rule",
-        [],
-        Conclusion("rule", "{ ?x a ex:Republican } => { ?x a ex:NonPacifist } ."),
-        notes="Higher priority"
-    )
-    fired = False
-    # Find all Republicans
-    xs = {s for (s, p, o) in facts if p == "a" and o == REPUBLICAN}
-    for x in xs:
-        if not known_type(facts, x, NONPACIFIST):
-            facts.add((x, "a", NONPACIFIST))
-            fired = True
-            proof.add(
-                "Apply-Rule2",
-                [s_intro],
-                Conclusion("formula", f"{x} a {NONPACIFIST}"),
-                notes=f"Since {x} a {REPUBLICAN}"
-            )
-    if not fired:
-        proof.add(
-            "Apply-Rule2",
-            [s_intro],
-            Conclusion("text", "no new facts"),
-            notes="Already saturated"
-        )
+    current = set(facts)
+    changed = True
+    while changed:
+        changed = False
+        for name in priority:
+            pre, cons = defaults[name]
+            if applicable(current, (pre, cons)):
+                # Accept higher-priority conclusion
+                current.add(cons)
+                changed = True
+                # Once added, any conflicting lower-priority conclusion becomes inapplicable
+    return current
 
-def apply_rule1_lower_priority_with_snaf(facts: Set[Triple], proof: Proof) -> None:
-    """
-    Rule 1 (lower priority): { ?x a ex:Quaker . ?SCOPE log:notIncludes { ?x a ex:NonPacifist } } => { ?x a ex:Pacifist } .
-    We implement the SNAF guard by checking the *current* knowledge base for the absence of NonPacifist.
-    """
-    s_intro = proof.add(
-        "Premise-Rule",
-        [],
-        Conclusion("rule", "{ ?x a ex:Quaker . notIncludes { ?x a ex:NonPacifist } } => { ?x a ex:Pacifist } ."),
-        notes="Lower priority (default with SNAF guard)"
-    )
+# Compute both priority orders
+PRIO_A = ["δ1", "δ2"]  # Quaker-default outranks Republican-default
+PRIO_B = ["δ2", "δ1"]  # Republican-default outranks Quaker-default
 
-    # Consider all Quakers
-    xs = {s for (s, p, o) in facts if p == "a" and o == QUAKER}
-    for x in xs:
-        guard_holds = not known_type(facts, x, NONPACIFIST)
-        if guard_holds and not known_type(facts, x, PACIFIST):
-            facts.add((x, "a", PACIFIST))
-            proof.add(
-                "Apply-Rule1",
-                [s_intro],
-                Conclusion("formula", f"{x} a {PACIFIST}"),
-                notes=f"SNAF guard passed (no {x} a {NONPACIFIST} in KB)"
-            )
-        else:
-            why = "blocked: NonPacifist present" if not guard_holds else "already derived"
-            proof.add(
-                "Apply-Rule1",
-                [s_intro],
-                Conclusion("text", f"no new facts for {x} ({why})"),
-                notes="SNAF guard check"
-            )
+ext_A = prioritized_extension(FACTS, DEFAULTS, PRIO_A)
+ext_B = prioritized_extension(FACTS, DEFAULTS, PRIO_B)
 
-# ---------------------------------------------------------------------------
-# Query and driver
-# ---------------------------------------------------------------------------
+print("Computed prioritized extensions:")
+print(f"  With δ1>δ2: {sorted(ext_A)}")
+print(f"  With δ2>δ1: {sorted(ext_B)}\n")
 
-def main():
-    # Prepare proof and initial facts
-    proof = Proof()
+# -------------------------------------------------------
+# Harness: sanity checks for both priority orders
+# -------------------------------------------------------
 
-    # [1] Show facts
-    s_facts = proof.add(
-        "Facts",
-        [],
-        Conclusion("text", f"{RICHARD} a {QUAKER}, {REPUBLICAN}")
-    )
+# Expected unique extensions under each priority
+expected_A = {"Q", "R", "D"}
+expected_B = {"Q", "R", "H"}
 
-    # [2] Goal
-    s_goal = proof.add("Goal", [], Conclusion("goal", "{ ?x a ?y }"))
+# 1) Exact matches
+assert ext_A == expected_A, f"With δ1>δ2 expected {expected_A}, got {ext_A}"
+assert ext_B == expected_B, f"With δ2>δ1 expected {expected_B}, got {ext_B}"
 
-    # [3] Apply higher-priority rule first
-    apply_rule2_higher_priority(FACTS, proof)
+# 2) Consistency
+assert consistent(ext_A), "Extension under δ1>δ2 is inconsistent."
+assert consistent(ext_B), "Extension under δ2>δ1 is inconsistent."
 
-    # [4] Then attempt lower-priority default (with SNAF guard)
-    apply_rule1_lower_priority_with_snaf(FACTS, proof)
+# 3) Monotonicity w.r.t. facts: both include Q and R
+assert "Q" in ext_A and "R" in ext_A
+assert "Q" in ext_B and "R" in ext_B
 
-    # Answers to the query (?x a ?y): enumerate all type triples
-    answers = sorted({f"{s} a {o}" for (s, p, o) in FACTS if p == "a"})
-
-    # [5] Answer presentation
-    proof.add(
-        "Answer",
-        [s_goal],
-        Conclusion("text", " ; ".join(answers)),
-        notes="All entailed type assertions"
-    )
-
-    # Print results
-    print("\n# Derived type assertions (?x a ?y)")
-    for line in answers:
-        print(line)
-
-    print("\n=== Pretty Proof ===\n")
-    print(proof.pretty())
-
-if __name__ == "__main__":
-    main()
+print("Harness:")
+print("  • Priorities δ1>δ2 ⇒ {Q,R,D} (Dove).")
+print("  • Priorities δ2>δ1 ⇒ {Q,R,H} (Hawk).")
+print("  • Both extensions consistent; facts preserved. ✓")
 

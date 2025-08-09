@@ -1,24 +1,51 @@
-Proof search for ?- path(Gent, Oostende) under all constraints
+============================================
+GPS case — explain and check for ?- path(Gent, Oostende)
+============================================
 
-Step 01: at Gent (dur=0, cost=0.000, bel=1.000, comf=1.000)
-→ drive_gent_brugge
+Constraints (must all hold on the whole path):
+  duration ≤ 5000,  cost ≤ 5.0,  belief ≥ 0.2,  comfort ≥ 0.4,  stagecount ≤ 1
+
+Aggregation along a path:
+  • duration, cost: add each edge’s values
+  • belief, comfort: multiply each edge’s factors
+  • stagecount: count consecutive distinct map_ids (must remain 1 here)
+
+Reason why paths exist under constraints (two admissible routes):
+  Case 1: Gent → Brugge → Oostende
+    totals: dur=1500+900=2400 ≤ 5000,  cost=0.006+0.004=0.010 ≤ 5.0,
+            bel=0.96×0.98=0.941 ≥ 0.2,  comf=0.99×1.00=0.990 ≥ 0.4,  stagecount=1.
+
+  Case 2: Gent → Kortrijk → Brugge → Oostende
+    totals: dur=1600+1600+900=4100 ≤ 5000,  cost=0.007+0.007+0.004=0.018 ≤ 5.0,
+            bel=0.96×0.96×0.98≈0.903 ≥ 0.2,  comf=0.99×0.99×1.00≈0.980 ≥ 0.4,  stagecount=1.
+
+Therefore, both routes satisfy all constraints; each is a valid proof of path(Gent,Oostende).
+We now show independent proof traces for each route:
+
+Trace for route: drive_gent_brugge → drive_brugge_oostende
+  Step 01: at Gent (dur=0, cost=0.000, bel=1.000, comf=1.000)
+  → drive_gent_brugge
   Step 02: at Brugge (dur=1500, cost=0.006, bel=0.960, comf=0.990)
   → drive_brugge_oostende
-    Step 03: at Oostende (dur=2400, cost=0.010, bel=0.941, comf=0.990)
-    ✓ goal & constraints OK
-→ drive_gent_kortrijk
-  Step 04: at Kortrijk (dur=1600, cost=0.007, bel=0.960, comf=0.990)
+  Step 03: at Oostende (dur=2400, cost=0.010, bel=0.941, comf=0.990)
+  ✓ goal & constraints OK
+
+Trace for route: drive_gent_kortrijk → drive_kortrijk_brugge → drive_brugge_oostende
+  Step 01: at Gent (dur=0, cost=0.000, bel=1.000, comf=1.000)
+  → drive_gent_kortrijk
+  Step 02: at Kortrijk (dur=1600, cost=0.007, bel=0.960, comf=0.990)
   → drive_kortrijk_brugge
-    Step 05: at Brugge (dur=3200, cost=0.014, bel=0.922, comf=0.980)
-    → drive_brugge_oostende
-      Step 06: at Oostende (dur=4100, cost=0.018, bel=0.903, comf=0.980)
-      ✓ goal & constraints OK
+  Step 03: at Brugge (dur=3200, cost=0.014, bel=0.922, comf=0.980)
+  → drive_brugge_oostende
+  Step 04: at Oostende (dur=4100, cost=0.018, bel=0.903, comf=0.980)
+  ✓ goal & constraints OK
 
 Solutions (Gent → Oostende):
 
 1. drive_gent_brugge → drive_brugge_oostende
-   dur=2400, cost=0.010, bel=0.941, comf=0.990
+   dur=2400, cost=0.010, bel=0.941, comf=0.990, stages=1
 
 2. drive_gent_kortrijk → drive_kortrijk_brugge → drive_brugge_oostende
-   dur=4100, cost=0.018, bel=0.903, comf=0.980
+   dur=4100, cost=0.018, bel=0.903, comf=0.980, stages=1
 
+Harness: solutions set, constraints, and totals verified. ✓
