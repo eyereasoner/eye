@@ -1,0 +1,16 @@
+WHY THE FORMULA IS TRUE (concise geometric reasoning):
+1) In a regular n-gon inscribed in a circle, each side is a chord.
+2) Two radii to adjacent vertices + the side form an isosceles triangle with central angle θ = 2π/n.
+3) Bisect the triangle: you get a right triangle with hypotenuse r, opposite leg s/2, angle θ/2.
+   Hence sin(θ/2) = (s/2)/r  =>  s = 2 r sin(θ/2).
+
+For n = 12, r = 1.0:  θ = 2π/n = 0.523598775598 rad, so s = 2 * 1.0 * sin(θ/2) with θ/2 = 0.261799387799 rad.
+
+NUMERICAL EVALUATION (Taylor series sine, no imports):
+  s ≈ 0.517638090205
+
+CLOSED-FORM EVALUATION (angle subtraction: sin(45°-30°)):
+  sin(15°) = (√6 - √2) / 4  ⇒  s = 2 sin(15°) = (√6 - √2) / 2
+  s = (sqrt(6) - sqrt(2)) / 2 ≈ 0.517638090205
+
+Both approaches agree (within tiny numerical error).
