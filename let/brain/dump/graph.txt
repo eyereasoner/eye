@@ -1,51 +1,34 @@
+============================================
+Reason why: path(paris, nantes)
+============================================
 
-=== All proofs for  ?- path(X, nantes) ===
+Rules:
+  (P1) ∀u∀v ( oneway(u,v) → path(u,v) )     # base case
+  (P2) ∀u∀v∀z ( (oneway(u,z) ∧ path(z,v)) → path(u,v) )  # recursive step
 
+Facts (some edges we will use):
+  oneway(angers, nantes)
+  oneway(lemans, angers)
+  oneway(chartres, lemans)
+  oneway(paris, chartres)
 
---- Proof for X = angers ---
-Step 01: prove path(angers, nantes)
-  ✓ oneway fact
-✔ PROVED
-Shortest chain: angers → nantes
+Derivation (natural-deduction style):
+  1) oneway(angers, nantes)                                 (fact)
+  2) path(angers, nantes)                                   (from 1 by P1, UI + →-Elim)
+  3) oneway(lemans, angers)                                  (fact)
+  4) path(lemans, nantes)                                    (from 3 & 2 by P2, UI + ∧-Intro + →-Elim)
+  5) oneway(chartres, lemans)                                 (fact)
+  6) path(chartres, nantes)                                   (from 5 & 4 by P2)
+  7) oneway(paris, chartres)                                  (fact)
+  8) path(paris, nantes)                                      (from 7 & 6 by P2)
 
+Conclusion:
+  Therefore, path(paris, nantes).  (Chains facts via P1/P2)
 
---- Proof for X = chartres ---
-Step 01: prove path(chartres, nantes)
-  → via oneway(chartres, lemans)
-  Step 02: prove path(lemans, nantes)
-    → via oneway(lemans, angers)
-    Step 03: prove path(angers, nantes)
-      ✓ oneway fact
-✔ PROVED
-Shortest chain: chartres → lemans → angers → nantes
+Extra note:
+  The *same* pattern shows path(lemans, nantes), path(chartres, nantes), and path(angers, nantes).
+  Other outgoing routes (e.g., via orleans→blois→tours) do not reach nantes in this graph.
 
-
---- Proof for X = lemans ---
-Step 01: prove path(lemans, nantes)
-  → via oneway(lemans, angers)
-  Step 02: prove path(angers, nantes)
-    ✓ oneway fact
-✔ PROVED
-Shortest chain: lemans → angers → nantes
-
-
---- Proof for X = paris ---
-Step 01: prove path(paris, nantes)
-  → via oneway(paris, amiens)
-  Step 02: prove path(amiens, nantes)
-  → via oneway(paris, chartres)
-  Step 03: prove path(chartres, nantes)
-    → via oneway(chartres, lemans)
-    Step 04: prove path(lemans, nantes)
-      → via oneway(lemans, angers)
-      Step 05: prove path(angers, nantes)
-        ✓ oneway fact
-✔ PROVED
-Shortest chain: paris → chartres → lemans → angers → nantes
-
-
-=== Summary ===
-X = angers    path: angers → nantes
-X = chartres  path: chartres → lemans → angers → nantes
-X = lemans    path: lemans → angers → nantes
-X = paris     path: paris → chartres → lemans → angers → nantes
+Harness:
+  Sources that reach nantes: ['angers', 'chartres', 'lemans', 'paris']
+  All checks passed. ✓

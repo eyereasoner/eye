@@ -1,142 +1,118 @@
-#!/usr/bin/env python3
-"""
-graph.py  –  Prolog-style proofs for  ?- path(X, nantes)
-
-Rules
------
-C1  path(U,V) :- oneway(U,V).
-C2  path(U,V) :- oneway(U,Z), path(Z,V).
-
-Data
-----
-Directed oneway/2 edges (French cities, very small graph).
-
-For every solution X the program:
-    1. resets the proof step counter,
-    2. prints a backward-chaining trace showing how  path(X,nantes)
-       is established,
-    3. prints ONE shortest path X → … → nantes as compact evidence.
-
-No external libraries needed.
-"""
-
-from collections import defaultdict, deque
-from itertools import count
-
-# ── 0. Ground oneway facts ──────────────────────────────────────────────
+# ============================================
+# EXPLAIN-AND-CHECK (LOGIC): paths in a tiny graph
+# Claim (concrete): path(paris, nantes)  — and more generally which cities reach nantes
+# ============================================
+# Vocabulary:
+#   oneway(u,v): there is a directed edge u → v  (a fact)
+#   path(u,v):   there is a (nonempty) directed path u → … → v
+#
+# Inference rules (natural deduction reading):
+#   (P1) ∀u∀v ( oneway(u,v) → path(u,v) )              # base case
+#   (P2) ∀u∀v∀z ( (oneway(u,z) ∧ path(z,v)) → path(u,v) )   # recursive step
+#
+# Facts (edges):
 EDGES = [
-    ("paris",   "orleans"),
-    ("paris",   "chartres"),
-    ("paris",   "amiens"),
-    ("orleans", "blois"),
-    ("orleans", "bourges"),
-    ("blois",   "tours"),
-    ("chartres","lemans"),
-    ("lemans",  "angers"),
-    ("lemans",  "tours"),
-    ("angers",  "nantes"),
+    ("paris",     "orleans"),
+    ("paris",     "chartres"),
+    ("paris",     "amiens"),
+    ("orleans",   "blois"),
+    ("orleans",   "bourges"),
+    ("blois",     "tours"),
+    ("chartres",  "lemans"),
+    ("lemans",    "angers"),
+    ("lemans",    "tours"),
+    ("angers",    "nantes"),
 ]
-
 GOAL = "nantes"
 
-# Convert edge list to fast lookup structures
-oneway = set(EDGES)                         # fact base
-succs  = defaultdict(set)                   # u -> set of v (successors)
-preds  = defaultdict(set)                   # v -> set of u (predecessors)
-for u, v in oneway:
-    succs[u].add(v)
-    preds[v].add(u)
+# -----------------------------
+# Program output: the “reason why”
+# -----------------------------
 
-# ── 1. Pre-compute shortest-path parents (reverse BFS) ───────────────────
-def bfs_parents(goal: str) -> dict[str, str]:
-    """
-    For every node that reaches `goal`, store the next step toward the goal
-    (for reconstructing shortest paths in reverse).
-    """
-    parent = {}
-    dq = deque([goal])
-    while dq:
-        v = dq.popleft()
-        for u in preds[v]:
-            if u not in parent:
-                parent[u] = v
-                dq.append(u)
-    return parent
+print("============================================")
+print("Reason why: path(paris, nantes)")
+print("============================================\n")
 
-PARENT = bfs_parents(GOAL)
+print("Rules:")
+print("  (P1) ∀u∀v ( oneway(u,v) → path(u,v) )     # base case")
+print("  (P2) ∀u∀v∀z ( (oneway(u,z) ∧ path(z,v)) → path(u,v) )  # recursive step\n")
 
-def shortest_path(src: str, goal: str) -> list[str]:
-    """
-    Given a source and goal, use the PARENT map to construct the shortest path.
-    Assumes such a path exists.
-    """
-    path = [src]
-    while path[-1] != goal:
-        path.append(PARENT[path[-1]])
-    return path
+print("Facts (some edges we will use):")
+print("  oneway(angers, nantes)")
+print("  oneway(lemans, angers)")
+print("  oneway(chartres, lemans)")
+print("  oneway(paris, chartres)\n")
 
-# ── 2. Unification helpers (trivial, as only ground/fact vs. patterns) ──
-def unify_head(head: tuple[str, str], goal: tuple[str, str]):
-    """
-    Unify path(U,V) head with ground goal path(A,B).
-    For illustration only; this is trivial in our usage.
-    """
-    (u, v) = goal
-    (H1, H2) = head
-    θ = {}
-    if H2 != v:                       # second arg must match
-        return None
-    # H1 may be variable or constant
-    if H1.startswith("?"):
-        θ[H1] = u
-    elif H1 != u:
-        return None
-    return θ
+print("Derivation (natural-deduction style):")
+print("  1) oneway(angers, nantes)                                 (fact)")
+print("  2) path(angers, nantes)                                   (from 1 by P1, UI + →-Elim)")
+print("  3) oneway(lemans, angers)                                  (fact)")
+print("  4) path(lemans, nantes)                                    (from 3 & 2 by P2, UI + ∧-Intro + →-Elim)")
+print("  5) oneway(chartres, lemans)                                 (fact)")
+print("  6) path(chartres, nantes)                                   (from 5 & 4 by P2)")
+print("  7) oneway(paris, chartres)                                  (fact)")
+print("  8) path(paris, nantes)                                      (from 7 & 6 by P2)\n")
 
-# ── 3. Backward-chaining path/2 prover ───────────────────────────────────
-def bc_path(goal: tuple[str,str],
-            depth: int,
-            seen: set[tuple[str,str]],
-            step_counter) -> bool:
-    """
-    Backward-chaining proof for path(U,V). Returns True on first proof found.
-    Prints a trace of the proof steps.
-    """
-    u, v = goal
-    indent = "  " * depth
-    print(f"{indent}Step {next(step_counter):02}: prove path({u}, {v})")
+print("Conclusion:")
+print("  Therefore, path(paris, nantes).  (Chains facts via P1/P2)\n")
 
-    # base case  C1: path(U,V) :- oneway(U,V).
-    if (u, v) in oneway:
-        print(f"{indent}  ✓ oneway fact")
-        return True
+print("Extra note:")
+print("  The *same* pattern shows path(lemans, nantes), path(chartres, nantes), and path(angers, nantes).")
+print("  Other outgoing routes (e.g., via orleans→blois→tours) do not reach nantes in this graph.\n")
 
-    # recursive rule  C2: path(U,V) :- oneway(U,Z), path(Z,V).
-    for z in sorted(succs[u]):                 # deterministic order
-        if (u, z) in seen:                     # avoid cycles on this edge
-            continue
-        print(f"{indent}  → via oneway({u}, {z})")
-        if bc_path((z, v), depth + 1, seen | {(u, z)}, step_counter):
-            return True
-    return False
+# -----------------------------
+# Silent CHECK: forward-chaining closure under P1/P2
+# -----------------------------
+# We compute the least set PATH such that:
+#   • if oneway(u,v) then (u,v) ∈ PATH           (P1)
+#   • if oneway(u,z) and (z,v) ∈ PATH then (u,v) ∈ PATH   (P2)
+# Then we read off all sources u with (u, nantes) ∈ PATH.
 
-# ── 4. Enumerate all X such that path(X, nantes) holds ───────────────────
-solutions = sorted(PARENT.keys())             # all nodes that reach GOAL
+# Build quick adjacency and node set (no imports)
+NODES = set()
+SUCCS = {}
+for u,v in EDGES:
+    NODES.add(u); NODES.add(v)
+    s = SUCCS.get(u)
+    if s is None:
+        s = set(); SUCCS[u] = s
+    s.add(v)
 
-# ── 5. Proof for each solution ───────────────────────────────────────────
-print(f"\n=== All proofs for  ?- path(X, {GOAL}) ===\n")
+# Forward-chaining fixpoint
+PATH = set()
+# Seed with P1
+for u,v in EDGES:
+    PATH.add((u,v))
+# Apply P2 to closure
+changed = True
+while changed:
+    changed = False
+    for u in SUCCS:
+        for z in SUCCS[u]:
+            # for every existing path z→v, add u→v
+            for (p,q) in list(PATH):
+                if p == z:
+                    pair = (u,q)
+                    if pair not in PATH:
+                        PATH.add(pair)
+                        changed = True
 
-for src in solutions:
-    print(f"\n--- Proof for X = {src} ---")
-    steps = count(1)                          # reset numbering per proof
-    proved = bc_path((src, GOAL), 0, frozenset(), steps)
-    print("✔ PROVED" if proved else "✗ NOT PROVED")
-    chain = " → ".join(shortest_path(src, GOAL))
-    print(f"Shortest chain: {chain}\n")
+# Expected sources that reach nantes (by inspection/reasoning above)
+EXPECTED = {"angers", "lemans", "chartres", "paris"}
 
-# ── 6. Compact summary table ─────────────────────────────────────────────
-print("\n=== Summary ===")
-for src in solutions:
-    chain = " → ".join(shortest_path(src, GOAL))
-    print(f"X = {src:<8}  path: {chain}")
+# Extract actual sources from closure
+actual_sources = set(u for (u,v) in PATH if v == GOAL)
+
+# Checks
+assert ("paris", GOAL) in PATH, "Expected path(paris, nantes) not found in closure."
+assert actual_sources == EXPECTED, f"Sources reaching {GOAL} mismatch: {actual_sources} vs {EXPECTED}"
+
+# Optional: confirm non-solutions truly don’t reach nantes
+non_sources = (NODES - EXPECTED - {GOAL})
+for u in non_sources:
+    assert (u, GOAL) not in PATH, f"Unexpected path({u}, {GOAL}) found."
+
+print("Harness:")
+print(f"  Sources that reach {GOAL}: {sorted(actual_sources)}")
+print("  All checks passed. ✓")
 

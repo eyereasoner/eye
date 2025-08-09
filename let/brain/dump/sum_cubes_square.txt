@@ -1,0 +1,29 @@
+============================================
+Induction Example — Sum of cubes equals a square
+============================================
+
+Claim:
+  For every n ≥ 1,  1^3 + 2^3 + ··· + n^3 = ( n(n+1)/2 )^2.
+
+Proof (by induction on n):
+  Base case (n=1):
+    LHS = 1^3 = 1,   RHS = (1·2/2)^2 = 1.  True.
+
+  Inductive step:
+    Assume for some n ≥ 1 that  S(n) := 1^3 + 2^3 + ··· + n^3 = [ n(n+1)/2 ]^2.
+    We must show  S(n+1) = S(n) + (n+1)^3 = [ (n+1)(n+2)/2 ]^2.
+
+    Start from the hypothesis and add (n+1)^3:
+      S(n+1) = [ n(n+1)/2 ]^2 + (n+1)^3
+              = (n+1)^2 · ( n^2/4 + (n+1) )
+              = (n+1)^2 · ( (n^2 + 4n + 4) / 4 )
+              = (n+1)^2 · ( (n+2)^2 / 4 )
+              = [ (n+1)(n+2) / 2 ]^2.
+    Thus S(n) ⇒ S(n+1). By induction, the identity holds for all n ≥ 1.  □
+
+Intuition (why it feels right):
+  The triangular number T_n = 1 + 2 + ··· + n equals n(n+1)/2.
+  The claim says the sum of the first n cubes equals T_n^2 — the square of a triangle of dots.
+  Visual proofs arrange n^3 blocks into growing square patterns; each step adds a 'thickened L'.
+
+Proof harness: verified for n = 1..200000. All checks passed. ✓
