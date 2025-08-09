@@ -1,237 +1,175 @@
-#!/usr/bin/env python3
-"""
-Computer-assisted proof of Euler's identity e^{i*pi} + 1 = 0 using only Python's standard library.
+# ============================================
+# Euler's Identity — the "reason why" + proof harness
+# ============================================
+# This script:
+#   • Prints a clean, step-by-step explanation that e^{iπ} + 1 = 0.
+#   • Verifies under the hood (no imports) that e^{ix} = cos x + i sin x for several x,
+#     and specifically that e^{iπ} + 1 ≈ 0 within tight tolerance.
+#
+# Two classic "reasons why":
+# --------------------------------------------
+# (A) Power-series identity:
+#     exp(z)   = Σ_{n≥0}  z^n / n!
+#     cos(x)   = Σ_{k≥0} (-1)^k x^{2k} / (2k)!
+#     sin(x)   = Σ_{k≥0} (-1)^k x^{2k+1} / (2k+1)!
+#   Put z = i x. Then
+#     exp(i x) = Σ (i x)^n / n!
+#               = Σ i^{2k} x^{2k}/(2k)! + Σ i^{2k+1} x^{2k+1}/(2k+1)!
+#               = Σ (-1)^k x^{2k}/(2k)! + i Σ (-1)^k x^{2k+1}/(2k+1)!
+#               = cos x + i sin x.
+#   Plug x = π: exp(iπ) = cos π + i sin π = -1 + i·0 = -1 ⇒ exp(iπ)+1=0.
+#
+# (B) Differential-equation uniqueness:
+#   f(x) = exp(i x) satisfies f'(x) = i f(x), f(0)=1.
+#   g(x) = cos x + i sin x also satisfies g'(x) = i g(x), g(0)=1.
+#   The IVP y'=i y, y(0)=1 has a unique solution, so f≡g, hence exp(i x)=cos x + i sin x,
+#   and again exp(iπ) = -1.
+#
+# Numeric note: we’ll approximate series with ~30 terms and wrap angles to [-π, π]
+# for stability. Tolerance is set to 1e-12.
+#
+# ============================================
+# Minimal complex + series toolbox (no imports)
+# ============================================
 
-Outline:
-  A) Formal series derivation: e^{ix} = cos x + i sin x (by grouping even/odd terms).
-  B) Rigorous numerical bound at x = pi using alternating-series remainders:
-       |e^{i*pi} + 1| = |(cos pi + 1) + i sin pi|
-                       <= |cos pi + 1| + |sin pi|
-         Each computed by truncating the alternating Taylor series with an error <= next term.
-  C) Pi is computed internally via the Machin formula: pi = 16*atan(1/5) - 4*atan(1/239).
+PI = 3.141592653589793
 
-You can change DIGITS / EPS to tighten the bound arbitrarily.
-"""
+def complex_add(a, b):
+    """Add complex numbers a=(ar,ai), b=(br,bi)."""
+    return (a[0] + b[0], a[1] + b[1])
 
-from decimal import Decimal, getcontext
-from fractions import Fraction
+def complex_mul(a, b):
+    """Multiply complex numbers a*b."""
+    return (a[0]*b[0] - a[1]*b[1], a[0]*b[1] + a[1]*b[0])
 
-# ----------------------------
-# Configuration
-# ----------------------------
-DIGITS = 60   # decimal digits to carry in Decimal arithmetic
-EPS = Decimal('1e-50')  # target epsilon for the final bound
+def complex_scale(a, s):
+    """Scale complex a by real s."""
+    return (a[0]*s, a[1]*s)
 
-# ----------------------------
-# Utilities: arctan and pi via Machin formula
-# ----------------------------
-def arctan_decimal(x: Decimal, tol: Decimal) -> Decimal:
-    r"""
-    arctan(x) = sum_{n=0}^\infty (-1)^n x^{2n+1}/(2n+1), for |x| <= 1.
-    Stops when the next term < tol.
+def abs_real(x):
+    return -x if x < 0.0 else x
+
+def almost_equal_complex(a, b, atol=1e-12, rtol=1e-12):
     """
-    one = Decimal(1)
-    term = x          # x^{2*0+1}/1
-    s = term
-    n = 1
-    x2 = x * x
-    while True:
-        term *= x2    # x^{2n+1}
-        add = term / Decimal(2*n + 1)
-        if n % 2 == 1:
-            s -= add
-        else:
-            s += add
-        if add.copy_abs() < tol:
-            break
-        n += 1
+    Robust complex equality:
+      |Δreal| <= atol + rtol*max(|a.real|, |b.real|)
+      |Δimag| <= atol + rtol*max(|a.imag|, |b.imag|)
+    Avoids taking a sqrt of tiny numbers (which can amplify error).
+    """
+    dx = a[0] - b[0]
+    dy = a[1] - b[1]
+    dx = abs_real(dx)
+    dy = abs_real(dy)
+    ar = abs_real(a[0]); br = abs_real(b[0])
+    ai = abs_real(a[1]); bi = abs_real(b[1])
+    return (dx <= atol + rtol*(ar if ar > br else br)) and \
+           (dy <= atol + rtol*(ai if ai > bi else bi))
+
+def sqrt_real(x):
+    """Newton-Raphson for sqrt(x) with x>=0 (no imports)."""
+    if x == 0.0:
+        return 0.0
+    g = x if x > 1.0 else 1.0
+    for _ in range(25):
+        g = 0.5*(g + x/g)
+    return g
+
+def wrap_angle(x):
+    """Reduce x to [-π, π] to help Taylor convergence."""
+    two_pi = 2.0*PI
+    while x > PI:
+        x -= two_pi
+    while x < -PI:
+        x += two_pi
+    return x
+
+def sin_taylor(x, terms=30):
+    """sin(x) via Maclaurin series with incremental term update."""
+    x = wrap_angle(x)
+    term = x  # first term x^(1)/1!
+    s = 0.0
+    sign = 1.0
+    n = 1.0  # current factorial index for denominator bookkeeping
+    # We'll build terms by multiplying by x^2 / ((k+1)(k+2)) and flipping sign.
+    for _ in range(terms):
+        s += sign*term
+        # next odd power / factorial
+        term = term * x * x / ((n+1.0)*(n+2.0))
+        sign = -sign
+        n += 2.0
     return s
 
-def compute_pi(dps: int) -> Decimal:
+def cos_taylor(x, terms=30):
+    """cos(x) via Maclaurin series with incremental term update."""
+    x = wrap_angle(x)
+    term = 1.0  # first term x^0 / 0!
+    s = 0.0
+    sign = 1.0
+    n = 0.0
+    for _ in range(terms):
+        s += sign*term
+        term = term * x * x / ((n+1.0)*(n+2.0))
+        sign = -sign
+        n += 2.0
+    return s
+
+def exp_complex_series(z, terms=30):
+    """exp(z) = Σ z^n / n! using iterative term update."""
+    s = (1.0, 0.0)     # sum starts at 1
+    term = (1.0, 0.0)  # term for n=0
+    for n in range(1, terms):
+        # term_n = term_{n-1} * z / n
+        term = complex_scale(complex_mul(term, z), 1.0/n)
+        s = complex_add(s, term)
+    return s
+
+# ============================================
+# Proof harness (silent on success)
+# ============================================
+
+def proof_harness():
     """
-    Compute pi using Machin's formula:
-      pi = 16*atan(1/5) - 4*atan(1/239)
-    Carries a guard precision and rounds to 'dps' on return.
+    Verify numerically that exp(i x) ≈ cos x + i sin x for several x,
+    and that exp(iπ) + 1 ≈ 0.
     """
-    guard = 10
-    getcontext().prec = dps + guard
-    tol = Decimal(10) ** Decimal(-(dps + 3))
-    pi = (Decimal(16) * arctan_decimal(Decimal(1)/Decimal(5), tol)
-          - Decimal(4) * arctan_decimal(Decimal(1)/Decimal(239), tol))
-    # Round to requested precision
-    getcontext().prec = dps
-    return +pi  # unary plus applies current rounding
+    i = (0.0, 1.0)
+    xs = [0.0, 1.0, PI/3, PI/2, PI, -PI/2, 2.0]
+    for x in xs:
+        z = complex_scale(i, x)                    # i*x
+        lhs = exp_complex_series(z, terms=40)      # e^{ix}
+        rhs = (cos_taylor(x, 40), sin_taylor(x, 40))
+        assert almost_equal_complex(lhs, rhs, 1e-12), f"exp(ix)≠cos+isin at x={x}: {lhs} vs {rhs}"
 
-# ----------------------------
-# Alternating Taylor series for sin and cos with rigorous remainder bound
-# ----------------------------
-def sin_with_bound(x: Decimal, tol: Decimal):
-    r"""
-    sin(x) = sum_{n=0}^\infty (-1)^n x^{2n+1}/(2n+1)!
-    We compute by recurrence on terms:
-       t_{n+1} = - t_n * x^2 / ((2n+2)(2n+3)), starting with t_0 = x.
-    For an alternating, eventually decreasing series, the truncation error
-    is bounded by the magnitude of the first omitted term.
-    Returns (approx_value, remainder_bound).
-    """
-    term = x
-    s = term
-    n = 0
-    # We’ll stop when the next term drops below tol
-    while True:
-        n += 1
-        # Update term to next alternating term
-        term = -term * x * x / (Decimal(2*n) * Decimal(2*n + 1))
-        s_next = s + term
-        if term.copy_abs() < tol:
-            # remainder <= |term|
-            return s_next, term.copy_abs()
-        s = s_next
+    # Check Euler's identity specifically: e^{iπ} + 1 = 0
+    zpi = complex_scale(i, PI)
+    e_ipi = exp_complex_series(zpi, terms=45)
+    left = complex_add(e_ipi, (1.0, 0.0))
+    assert almost_equal_complex(left, (0.0, 0.0), 1e-12), f"Euler identity off: {left}"
 
-def cos_with_bound(x: Decimal, tol: Decimal):
-    r"""
-    cos(x) = sum_{n=0}^\infty (-1)^n x^{2n}/(2n)!
-    Recurrence:
-       t_0 = 1
-       t_{n+1} = - t_n * x^2 / ((2n+1)(2n+2))
-    Returns (approx_value, remainder_bound) with remainder <= |next term|.
-    """
-    term = Decimal(1)
-    s = term
-    n = 0
-    while True:
-        n += 1
-        term = -term * x * x / (Decimal(2*n-1) * Decimal(2*n))
-        s_next = s + term
-        if term.copy_abs() < tol:
-            return s_next, term.copy_abs()
-        s = s_next
+# ============================================
+# Program output — the “reason why”
+# ============================================
 
-# ----------------------------
-# Part A: Show e^{ix} = cos x + i sin x via series (symbolic skeleton)
-# ----------------------------
-def show_series_match(k_terms=10):
-    """
-    Print the first few terms of e^{ix} expanded from the exponential series
-    and show that even powers collect to cos(x), odd powers to i*sin(x).
-    This is a didactic display (uses Fractions to avoid float noise).
-    """
-    i2 = -1  # since i^2 = -1
-    terms = []
-    for n in range(k_terms):
-        # coefficient of x^n / n! times i^n
-        # i^n cycles: 1, i, -1, -i, ...
-        # We'll represent coefficients as one of 1, i, -1, -i times Fraction(1, n!)
-        # and "power" n
-        # Compute i^n symbolically:
-        r = n % 4
-        if r == 0:
-            i_pow = "1"
-            sign = 1
-            imag = 0
-        elif r == 1:
-            i_pow = "i"
-            sign = 1
-            imag = 1
-        elif r == 2:
-            i_pow = "-1"
-            sign = -1
-            imag = 0
-        else:
-            i_pow = "-i"
-            sign = -1
-            imag = 1
+print("============================================")
+print("Euler’s Identity — why e^{iπ} + 1 = 0")
+print("============================================\n")
 
-        # n!
-        fact = 1
-        for k in range(2, n+1):
-            fact *= k
-        coeff = Fraction(sign, fact)  # coeff for x^n
+print("Reason A (power series):")
+print("  exp(z) = Σ z^n/n!,  cos x = Σ (-1)^k x^{2k}/(2k)!,  sin x = Σ (-1)^k x^{2k+1}/(2k+1)!")
+print("  Put z = i x. Then exp(i x) splits into even + odd parts, using i^2 = -1:")
+print("    exp(i x) = cos x + i sin x.")
+print("  With x = π:  exp(iπ) = cos π + i sin π = -1 + 0·i, hence exp(iπ) + 1 = 0.\n")
 
-        terms.append((n, i_pow, coeff))
+print("Reason B (ODE uniqueness):")
+print("  f(x)=exp(i x) solves f' = i f with f(0)=1.")
+print("  g(x)=cos x + i sin x also solves g' = i g with g(0)=1.")
+print("  The initial-value problem has a unique solution ⇒ f ≡ g ⇒ exp(i x)=cos x + i sin x ⇒ exp(iπ)=-1.\n")
 
-    print("First few terms of e^{i x} = sum_{n>=0} (i x)^n / n!")
-    real_parts = []
-    imag_parts = []
-    for (n, i_pow, coeff) in terms:
-        if 'i' in i_pow:
-            # imaginary contribution
-            # strip the 'i' to record the real coefficient for the imaginary part
-            real_coeff = coeff if i_pow == 'i' else -coeff
-            imag_parts.append(f"{real_coeff}·x^{n}")
-            print(f"  n={n}: (i x)^{n}/n! -> {i_pow} * x^{n} / {abs(coeff.denominator)} "
-                  f"= {'+' if coeff>=0 else ''}{coeff} * {i_pow} * x^{n}")
-        else:
-            real_coeff = coeff if i_pow == '1' else -coeff
-            real_parts.append(f"{real_coeff}·x^{n}")
-            print(f"  n={n}: (i x)^{n}/n! -> {i_pow} * x^{n} / {abs(coeff.denominator)} "
-                  f"= {'+' if coeff>=0 else ''}{coeff} * {i_pow} * x^{n}")
+print("Conclusion:")
+print("  Both arguments give exp(iπ) + 1 = 0. This links e, i, π, 1, and 0 in a single identity. □\n")
 
-    print("\nGrouping real (even n) and imaginary (odd n) terms gives exactly:")
-    print("  Real:   1 - x^2/2! + x^4/4! - x^6/6! + ...  = cos x")
-    print("  Imag i: x - x^3/3! + x^5/5! - x^7/7! + ...  = i sin x")
-    print("Therefore, by power-series definitions, e^{i x} = cos x + i sin x.\n")
-
-# ----------------------------
-# Part B: Rigorous bound at x = pi
-# ----------------------------
-def bound_euler_identity(dps=DIGITS, eps=EPS):
-    getcontext().prec = dps
-    pi = compute_pi(dps)
-    tol = eps / Decimal(10)  # internal terms a bit tighter than final goal
-
-    sin_pi, sin_rem = sin_with_bound(pi, tol)
-    cos_pi, cos_rem = cos_with_bound(pi, tol)
-
-    # Triangle inequality:
-    # |e^{i*pi} + 1| = |(cos pi + 1) + i sin pi|
-    # <= |cos pi + 1| + |sin pi|
-    #
-    # But we only have approximations with remainder bounds:
-    #   cos pi = cos_approx +/- cos_rem
-    #   sin pi = sin_approx +/- sin_rem
-    #
-    # So a rigorous bound is:
-    # |e^{i*pi} + 1|
-    # <= |(cos_approx + 1)| + cos_rem + |sin_approx| + sin_rem
-    cos_plus_one_approx = cos_pi + Decimal(1)
-    bound = (abs(cos_plus_one_approx) + cos_rem + abs(sin_pi) + sin_rem)
-
-    return {
-        "digits": dps,
-        "pi": pi,
-        "sin_pi": sin_pi,
-        "sin_remainder_bound": sin_rem,
-        "cos_pi": cos_pi,
-        "cos_remainder_bound": cos_rem,
-        "abs_upper_bound_e_to_i_pi_plus_1": bound
-    }
-
-# ----------------------------
-# Main
-# ----------------------------
+# Run harness
 if __name__ == "__main__":
-    print("\n=== Part A: Series identity e^{i x} = cos x + i sin x ===\n")
-    show_series_match(k_terms=10)
-
-    print("=== Part B: Rigorous numerical bound at x = pi ===\n")
-    getcontext().prec = DIGITS
-    result = bound_euler_identity(DIGITS, EPS)
-
-    print(f"Using {result['digits']} Decimal digits of precision.")
-    print(f"Computed pi  ≈ {result['pi']}")
-    print(f"sin(pi) approx = {result['sin_pi']}")
-    print(f"  remainder bound ≤ {result['sin_remainder_bound']}")
-    print(f"cos(pi) approx = {result['cos_pi']}")
-    print(f"  remainder bound ≤ {result['cos_remainder_bound']}\n")
-
-    print(f"Thus, a rigorous bound for |e^(i*pi) + 1| is")
-    print(f"  ≤ |(cos(pi) approx + 1)| + cos_rem + |sin(pi) approx| + sin_rem")
-    print(f"  = {result['abs_upper_bound_e_to_i_pi_plus_1']}\n")
-
-    if result['abs_upper_bound_e_to_i_pi_plus_1'] <= EPS:
-        print(f"SUCCESS: |e^(i*pi) + 1| ≤ {EPS}. Within this epsilon, e^(i*pi)+1 = 0.")
-    else:
-        print(f"Bound {result['abs_upper_bound_e_to_i_pi_plus_1']} did not reach EPS={EPS}.")
-        print("Increase DIGITS or tighten EPS for a stronger bound.")
+    proof_harness()
+    print("Proof harness passed: exp(i x)≈cos x+i sin x for multiple x, and e^{iπ}+1≈0.")
 

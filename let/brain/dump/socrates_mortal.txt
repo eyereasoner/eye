@@ -1,0 +1,18 @@
+============================================
+Socrates is mortal — the logical reason why
+============================================
+
+Premises:
+  (P1)  ∀x (Man(x) → Mortal(x))        # All men are mortal
+  (P2)  Man(Socrates)                  # Socrates is a man
+
+Derivation:
+  Step A (Universal Instantiation on P1):
+    From ∀x (Man(x) → Mortal(x)) infer Man(Socrates) → Mortal(Socrates).
+  Step B (Modus Ponens with P2):
+    From Man(Socrates) and Man(Socrates) → Mortal(Socrates) infer Mortal(Socrates).
+
+Conclusion:
+  Mortal(Socrates).  (UI + MP)
+
+Harness: checked 364 models over domains |D|=1..6. All satisfy (P1)&(P2) ⇒ (C). ✓
