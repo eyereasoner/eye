@@ -1,0 +1,22 @@
+============================================
+Why arcsin(2) is complex — the 'reason why'
+============================================
+
+1) For any real y, -1 ≤ sin(y) ≤ 1.
+   So sin(y) = 2 has no real solution — arcsin(2) cannot be real.
+
+2) In complex analysis, arcsin is defined as:
+     arcsin(z) = -i · ln( i z + sqrt(1 - z²) )
+
+3) For z = 2 (real), we have 1 - z² = 1 - 4 = -3 < 0.
+   So sqrt(1 - z²) = i·sqrt(3), which is purely imaginary.
+   This makes the argument of ln complex, hence arcsin(2) is complex.
+
+4) In fact, for any real x > 1:
+     arcsin(x) = π/2 - i · ln( x + sqrt(x² - 1) )
+   which has nonzero imaginary part.
+
+Conclusion:
+   arcsin(2) is complex (has a nonzero imaginary part).
+
+Proof harness passed for x = 1.1, 2.0, 3.0, 10.0: all non-real arcsin(x) confirmed.
