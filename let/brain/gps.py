@@ -1,10 +1,23 @@
+#!/usr/bin/env python3
 # ============================================
 # Explain-and-Check (GPS): ?- path(Gent, Oostende)
 # ============================================
-# What this program does:
-#   • Prints the “reason why” the goal holds under the given constraints.
-#   • Shows independent proof traces for each admissible route.
-#   • Runs a harness that verifies: solutions, constraints, and optimality note.
+# What this program prints:
+#   • Answer – the admissible routes with totals (duration, cost, belief, comfort, stages)
+#              and which one is optimal by minimal duration.
+#   • Reason why – the constraints + how edge attributes aggregate + per-route feasibility.
+#   • Check (harness) – independent proof traces per route, solution-set equality,
+#                       totals recomputation, constraint rechecks, and optimality.
+#
+# Model notes
+# -----------
+# • Graph is directed; each edge carries (duration seconds, cost euros, belief, comfort).
+# • Aggregation along a path:
+#       duration, cost: add
+#       belief, comfort: multiply
+#       stagecount: count consecutive distinct map_ids
+# • Constraints (must hold on the whole path):
+#       duration ≤ 5000,  cost ≤ 5.0,  belief ≥ 0.2,  comfort ≥ 0.4,  stagecount ≤ 1
 #
 # No imports. No user input.
 
@@ -48,8 +61,7 @@ LIMITS = dict(
 
 def stagecount(maps):
     """Count consecutive unique map_ids (stages)."""
-    if not maps:
-        return 0
+    if not maps: return 0
     cnt = 1
     for prev, curr in zip(maps, maps[1:]):
         if curr != prev:
@@ -100,10 +112,7 @@ def find_all_paths(start, goal):
 # 3) Pretty traces (independent per route)
 # -----------------------------
 def print_trace_for_actions(start, goal, actions):
-    """
-    Replay a specific action sequence, printing state + running totals,
-    and re-check constraints at the goal.
-    """
+    """Replay a specific action sequence, printing state + running totals."""
     print(f"Trace for route: {' → '.join(actions)}")
     city = start
     dur, cost, bel, comf = 0.0, 0.0, 1.0, 1.0
@@ -112,18 +121,13 @@ def print_trace_for_actions(start, goal, actions):
     print(f"  Step {step:02}: at {city} (dur=0, cost=0.000, bel=1.000, comf=1.000)")
     for act in actions:
         step += 1
-        # find the unique edge from city with action 'act'
         candidates = [e for e in OUT.get(city, []) if e.action == act]
         if not candidates:
             print("  ✗ action not found from here")
             return
         e = candidates[0]
-        dur  += e.dur
-        cost += e.cost
-        bel  *= e.belief
-        comf *= e.comfort
-        maps.append(e.map_id)
-        city = e.dst
+        dur  += e.dur; cost += e.cost; bel *= e.belief; comf *= e.comfort
+        maps.append(e.map_id); city = e.dst
         print(f"  → {act}")
         print(f"  Step {step:02}: at {city} (dur={dur:.0f}, cost={cost:.3f}, bel={bel:.3f}, comf={comf:.3f})")
     if city == goal and within_limits(dur, cost, bel, comf, maps):
@@ -132,53 +136,63 @@ def print_trace_for_actions(start, goal, actions):
         print("  ✗ constraints failed or wrong goal\n")
 
 # -----------------------------
-# 4) EXPLAIN — the “reason why”
-# -----------------------------
-print("============================================")
-print("GPS case — explain and check for ?- path(Gent, Oostende)")
-print("============================================\n")
-
-print("Constraints (must all hold on the whole path):")
-print("  duration ≤ 5000,  cost ≤ 5.0,  belief ≥ 0.2,  comfort ≥ 0.4,  stagecount ≤ 1\n")
-
-print("Aggregation along a path:")
-print("  • duration, cost: add each edge’s values")
-print("  • belief, comfort: multiply each edge’s factors")
-print("  • stagecount: count consecutive distinct map_ids (must remain 1 here)\n")
-
-print("Reason why paths exist under constraints (two admissible routes):")
-print("  Case 1: Gent → Brugge → Oostende")
-print("    totals: dur=1500+900=2400 ≤ 5000,  cost=0.006+0.004=0.010 ≤ 5.0,")
-print("            bel=0.96×0.98=0.941 ≥ 0.2,  comf=0.99×1.00=0.990 ≥ 0.4,  stagecount=1.\n")
-print("  Case 2: Gent → Kortrijk → Brugge → Oostende")
-print("    totals: dur=1600+1600+900=4100 ≤ 5000,  cost=0.007+0.007+0.004=0.018 ≤ 5.0,")
-print("            bel=0.96×0.96×0.98≈0.903 ≥ 0.2,  comf=0.99×0.99×1.00≈0.980 ≥ 0.4,  stagecount=1.\n")
-print("Therefore, both routes satisfy all constraints; each is a valid proof of path(Gent,Oostende).")
-print("We now show independent proof traces for each route:\n")
-
-# -----------------------------
-# 5) Compute solutions, print traces & summary
+# 4) Compute solutions
 # -----------------------------
 START, GOAL = "Gent", "Oostende"
 solutions = find_all_paths(START, GOAL)
 
-# Sort solutions by (len(actions), actions) for stable order
-solutions.sort(key=lambda s: (len(s[0]), s[0]))
-
-if not solutions:
-    print("No admissible paths found.\n")
-else:
-    # independent traces
-    for acts, dur, cost, bel, comf, maps in solutions:
-        print_trace_for_actions(START, GOAL, acts)
-
-    print("Solutions (Gent → Oostende):\n")
-    for idx, (acts, dur, cost, bel, comf, maps) in enumerate(solutions, 1):
-        print(f"{idx}. {' → '.join(acts)}")
-        print(f"   dur={dur:.0f}, cost={cost:.3f}, bel={bel:.3f}, comf={comf:.3f}, stages={stagecount(maps)}\n")
+# sort by optimality: duration, then hop-count, then lexicographic on actions
+solutions.sort(key=lambda s: (s[1], len(s[0]), s[0]))
 
 # -----------------------------
-# 6) CHECK — harness
+# 5) ANSWER
+# -----------------------------
+print("============================================")
+print("GPS case — Answer / Reason why / Check (harness)")
+print("============================================\n")
+
+if not solutions:
+    print("Answer")
+    print("======\nNo admissible paths.\n")
+else:
+    print("Answer")
+    print("======")
+    print(f"Admissible routes for path({START}, {GOAL}):\n")
+    for idx, (acts, dur, cost, bel, comf, maps) in enumerate(solutions, 1):
+        print(f"{idx}. {' → '.join(acts)}")
+        print(f"   dur={dur:.0f}, cost={cost:.3f}, bel={bel:.3f}, comf={comf:.3f}, stages={stagecount(maps)}")
+    # optimal by minimal duration is first due to sorting
+    best = solutions[0]
+    print(f"\nOptimal (minimal duration): {' → '.join(best[0])}  [dur={best[1]:.0f}]\n")
+
+# -----------------------------
+# 6) REASON WHY
+# -----------------------------
+print("Reason why")
+print("==========")
+print("Constraints (must all hold on the whole path):")
+print("  duration ≤ 5000,  cost ≤ 5.0,  belief ≥ 0.2,  comfort ≥ 0.4,  stagecount ≤ 1\n")
+print("Aggregation along a path:")
+print("  • duration, cost: add each edge’s values")
+print("  • belief, comfort: multiply each edge’s factors")
+print("  • stagecount: count consecutive distinct map_ids (all edges here are ‘map-BE’, so it stays 1)\n")
+
+print("Per-route feasibility:")
+print("  Route A: Gent → Brugge → Oostende")
+print("    dur = 1500 + 900  = 2400   (≤ 5000)")
+print("    cost= 0.006+0.004 = 0.010  (≤ 5.0)")
+print("    bel = 0.96×0.98   = 0.941  (≥ 0.2)")
+print("    comf= 0.99×1.00   = 0.990  (≥ 0.4)")
+print("    stages = 1\n")
+print("  Route B: Gent → Kortrijk → Brugge → Oostende")
+print("    dur = 1600 + 1600 + 900   = 4100   (≤ 5000)")
+print("    cost= 0.007+ 0.007+ 0.004 = 0.018  (≤ 5.0)")
+print("    bel = 0.96×0.96×0.98      ≈ 0.903  (≥ 0.2)")
+print("    comf= 0.99×0.99×1.00      ≈ 0.980  (≥ 0.4)")
+print("    stages = 1\n")
+
+# -----------------------------
+# 7) CHECK — harness (with independent proof traces)
 # -----------------------------
 def approx_eq(a, b, tol=1e-12):
     d = a - b
@@ -186,7 +200,7 @@ def approx_eq(a, b, tol=1e-12):
     return d <= tol
 
 def harness():
-    # Expect exactly the two routes (by action names)
+    # Expected two routes (by action names)
     expected = {
         ("drive_gent_brugge", "drive_brugge_oostende"),
         ("drive_gent_kortrijk", "drive_kortrijk_brugge", "drive_brugge_oostende"),
@@ -194,19 +208,16 @@ def harness():
     found = set(tuple(acts) for (acts, *_rest) in solutions)
     assert found == expected, f"Unexpected solution set: {found}"
 
-    # All solutions must respect constraints & have stagecount=1
+    # All solutions satisfy constraints & have stagecount=1
     for acts, dur, cost, bel, comf, maps in solutions:
         assert within_limits(dur, cost, bel, comf, maps), f"Constraints violated by {acts}"
         assert stagecount(maps) == 1, f"Stagecount not 1 for {acts}"
 
     # Recompute totals from edges & cross-check
-    index = {}
-    for e in EDGES:
-        index[(e.src, e.action)] = e
+    index = {(e.src, e.action): e for e in EDGES}
     for acts, dur, cost, bel, comf, _maps in solutions:
         city = START
-        D=C=B=K=0.0
-        Bf=Cf=1.0
+        D=C=0.0; Bf=Cf=1.0
         maps2 = []
         for act in acts:
             e = index[(city, act)]
@@ -218,13 +229,19 @@ def harness():
         assert stagecount(maps2) == 1
 
     # Minimal duration route should be the 2-step via Brugge
-    # (ties broken by length then lexicographic in our sort)
     best = solutions[0]
     assert best[0] == ["drive_gent_brugge", "drive_brugge_oostende"], "Shortest route not first as expected."
-
     return True
 
-if solutions:
+print("Check (harness)")
+print("===============")
+if not solutions:
+    print("No routes to check.\n")
+else:
+    # Independent proof traces
+    for acts, *_rest in solutions:
+        print_trace_for_actions(START, GOAL, acts)
+    # Assertions
     harness()
-    print("Harness: solutions set, constraints, and totals verified. ✓")
+    print("Harness: solutions set, constraints, totals, and optimality verified. ✓")
 

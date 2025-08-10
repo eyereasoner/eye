@@ -1,5 +1,30 @@
 → Parsed 10 transition rules from the N3 block.
 
-Patient starts in state_2, goal is state_6
+============================================
+GPS (N3 rules) — Answer / Reason why / Check (harness)
+============================================
 
-⛔  No path satisfies the limits.
+Patient     : Jane Doe  (gender=Female, age=14)
+Start state : state_2
+Goal state  : state_6
+
+Answer
+======
+No admissible path exists under the limits for this patient.
+
+Reason why
+==========
+Global limits (identical to N3 query):
+  duration ≤ 180 days, cost ≤ €500, success ≥ 0.35, comfort ≥ 0.35, stagecount ≤ 10
+
+From the start state state_2, applicable rules for this patient: 0
+  • None. Every rule with FROM=state_2 requires gender=Male (and sometimes age>18),
+    but the patient is Female, 14. Therefore the search has no outgoing move,
+    and no path can reach the goal.
+
+Check (harness)
+===============
+• No-solution case confirmed for Jane Doe (Female, 14). ✓
+• Positive sanity: John Doe has 1 solution(s). Best path ['take_pill_Medication_5'] reaches state_6 with succ=0.635, cost=€86, dur=1d, comf=0.760. ✓
+
+Harness complete: parsing, applicability, limits, and search behavior verified. ✓

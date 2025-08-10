@@ -446,11 +446,103 @@ def print_solutions(sols: List[Node]) -> None:
             print(f"    {i:2d}. {act}")
         print(f"  Final state: {n.state}\n")
 
-# ╔═══════════════════════════════════════╗
-# ║ 9.  MAIN ─ RUN EVERYTHING             ║
-# ╚═══════════════════════════════════════╝
+# ──────────────────────────────────────────────────────────────
+# 9.  ARC OUTPUT — Answer / Reason why / Check (harness)
+# ──────────────────────────────────────────────────────────────
+
+def applicable_from_state(p: Patient, state: str) -> List[TransitionRule]:
+    """List all rules that *could* fire from `state` for patient `p` (ignoring global limits)."""
+    return [r for r in RULES if r.applies(p, state)]
+
+def replay_totals(p: Patient, actions: List[str]) -> Tuple[int,float,float,float,str]:
+    """Recompute totals by replaying actions from p.state."""
+    # index transitions by (from_state, action)
+    idx = {}
+    for r in RULES:
+        idx.setdefault((r.from_state, r.action), []).append(r)
+    cur = p.state
+    dur=0; cost=0.0; succ=1.0; comf=1.0
+    for a in actions:
+        cand = [r for r in idx.get((cur, a), []) if r.applies(p, cur)]
+        if not cand:
+            raise RuntimeError(f"Action {a} not applicable from state {cur}")
+        r = cand[0]
+        cur = r.to_state
+        dur += r.duration_d; cost += r.cost; succ *= r.success_p; comf *= r.comfort_p
+    return dur, cost, succ, comf, cur
+
 if __name__ == "__main__":
-    print(f"Patient starts in {patient_1.state}, goal is {GOAL_STATE}\n")
+    # ---------------- Answer ----------------
+    print("============================================")
+    print("GPS (N3 rules) — Answer / Reason why / Check (harness)")
+    print("============================================\n")
+    print(f"Patient     : {patient_1.name}  (gender={patient_1.gender}, age={patient_1.age})")
+    print(f"Start state : {patient_1.state}")
+    print(f"Goal state  : {GOAL_STATE}\n")
+
     solutions = search_all(patient_1)
-    print_solutions(solutions)
+
+    print("Answer")
+    print("======")
+    if not solutions:
+        print("No admissible path exists under the limits for this patient.\n")
+    else:
+        # sort by spec: highest succ, lowest cost, shortest duration
+        solutions.sort(key=lambda n: (-n.succ, n.cost, n.duration))
+        print_solutions(solutions)
+        best = solutions[0]
+        print(f"Optimal by (succ↓, cost↑, dur↑): path = {best.path}, "
+              f"succ={best.succ:.3f}, cost={best.cost:.2f}, dur={best.duration}\n")
+
+    # ---------------- Reason why ----------------
+    print("Reason why")
+    print("==========")
+    print("Global limits (identical to N3 query):")
+    print(f"  duration ≤ {MAX_DURATION_D} days, cost ≤ €{MAX_COST:.0f}, "
+          f"success ≥ {MIN_SUCCESS_P}, comfort ≥ {MIN_COMFORT_P}, stagecount ≤ {MAX_STAGECOUNT}\n")
+
+    apps = applicable_from_state(patient_1, patient_1.state)
+    print(f"From the start state {patient_1.state}, applicable rules for this patient: {len(apps)}")
+    if not apps:
+        print("  • None. Every rule with FROM=state_2 requires gender=Male (and sometimes age>18),")
+        print("    but the patient is Female, 14. Therefore the search has no outgoing move,")
+        print("    and no path can reach the goal.\n")
+    else:
+        for r in apps:
+            print(f"  • {r.action}: {r.from_state} → {r.to_state}  "
+                  f"(+{r.duration_d}d, +€{r.cost:.0f}, ×succ {r.success_p:.3f}, ×comf {r.comfort_p:.3f})")
+        print()
+
+    # ---------------- Check (harness) ----------------
+    print("Check (harness)")
+    print("===============")
+
+    # 1) Negative: current patient has no solutions.
+    assert len(solutions) == 0, "Expected no solution for Female age 14 in state_2."
+    print("• No-solution case confirmed for Jane Doe (Female, 14). ✓")
+
+    # 2) Sanity-positive: a male adult from state_2 *does* have a path to state_6.
+    patient_2 = Patient(
+        uri="data:patient_2", name="John Doe",
+        gender="Male", age=25, weight=80.0,
+        diagnosis="49049000", state="state_2"
+    )
+    sols2 = search_all(patient_2)
+    assert len(sols2) >= 1, "Expected at least one path for Male 25 in state_2."
+    # sort by spec to identify the best one deterministically
+    sols2.sort(key=lambda n: (-n.succ, n.cost, n.duration))
+    best2 = sols2[0]
+    dur, cost, succ, comf, end = replay_totals(patient_2, best2.path)
+
+    assert end == GOAL_STATE, "Best path should reach the goal."
+    assert dur <= MAX_DURATION_D and cost <= MAX_COST and succ >= MIN_SUCCESS_P and comf >= MIN_COMFORT_P
+    # The direct rule state_2→state_6 exists for Male (Medication_5).
+    assert any(("take_pill_Medication_5" in n.path and n.state == GOAL_STATE) for n in sols2), \
+        "Expected a direct transition via take_pill_Medication_5 to state_6."
+
+    print(f"• Positive sanity: {patient_2.name} has {len(sols2)} solution(s). "
+          f"Best path {best2.path} reaches {end} with "
+          f"succ={succ:.3f}, cost=€{cost:.0f}, dur={dur}d, comf={comf:.3f}. ✓")
+
+    print("\nHarness complete: parsing, applicability, limits, and search behavior verified. ✓")
 
