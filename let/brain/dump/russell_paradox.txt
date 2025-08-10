@@ -1,0 +1,24 @@
+============================================
+Russell’s Paradox — outer limits of naïve comprehension
+============================================
+
+Setup:
+  R := { x | x ∉ x }   (the set of all sets that do not contain themselves)
+Question:
+  Is R ∈ R ?  (abbreviate r := 'R ∈ R')
+
+Reason why it explodes in classical logic:
+  • If r is True (R ∈ R), then by definition of R, R ∉ R — contradiction.
+  • If r is False (R ∉ R), then R meets its own membership condition, so R ∈ R — contradiction.
+  Therefore r ≡ ¬r has no classical solution.
+
+Philosophical upshot:
+  Naïve comprehension overreaches; restricting it (as in ZF/ZFC) avoids the paradox.
+  Without such restrictions, this is an 'outer limit of reason' for the system.
+
+Check (classical two-valued):
+  ✓ Unsatisfiable: no truth value r makes r ≡ ¬r hold.
+
+Conclusion:
+  Russell’s construction forces r ≡ ¬r under naïve comprehension,
+  so classical consistency fails — a precise 'outer limit of reason.' □

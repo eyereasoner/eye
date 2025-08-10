@@ -1,4 +1,60 @@
-solve(x - 2, x) = [2]
-solve(x**4 - 10*x**3 + 35*x**2 - 50*x + 24, x) = [1, 2, 3, 4]
-solve(x**4 + (-9 - 5*I)*x**3 + (14 + 33*I)*x**2 + (24 - 44*I)*x - 26, x) = [I, 1 + I, 3 + 2*I, 5 + I]
-solve_poly_system([x*y - 2*y, 2*y**2 - x**2], x, y) = [(0, 0), (2, -sqrt(2)), (2, sqrt(2))]
+Reason why P1 has the roots 1, 2, 3, 4:
+  (x-1)(x-4)=x^2-5x+4, (x-2)(x-3)=x^2-5x+6;
+  letting y=x^2-5x gives (y+4)(y+6)=y^2+10y+24 -> the given quartic.
+
+Reason why P2 has exact simple complex roots:
+  (x - i)(x - (1+i))(x - (3+2i))(x - (5+i)) expands to the given coefficients;
+  the symmetric sums match: sum=9+5i, pairs=14+33i, triples=24-44i, product=-26.
+
+========================================================================
+Polynomial [P1: x^4 - 10x^3 + 35x^2 - 50x + 24]:
+ P(x) = 1*x^4 + -10*x^3 + 35*x^2 + -50*x + 24
+
+Roots found (sorted):
+   1    (as complex: (1+0j) )
+   2    (as complex: (2.000000000000006+0j) )
+   3    (as complex: (3.0000000000000067+0j) )
+   4    (as complex: (4+0j) )
+
+Proof harness — checks:
+  Max |P(r)| residual = 2.4868995751603507e-14
+  Vieta (monic):
+    sum(r_i)              = (10.000000000000012+0j)   vs   -a3 = 10.0
+    sum_{i<j} r_i r_j   = (35.0000000000001+0j)   vs    a2 = 35.0
+    sum_{i<j<k} r_i r_j r_k = (50.00000000000021+0j)   vs   -a1 = 50.0
+    ∏ r_i                 = (24.000000000000128+0j)    vs    a0 = 24.0
+
+  Rebuild-from-roots check:
+    Original coeffs: [1, -10, 35, -50, 24]
+    Rebuilt  coeffs: [(1+0j), (-10.000000000000012+0j), (35.0000000000001+0j), (-50.00000000000021+0j), (24.000000000000128+0j)]
+    Max |Δ coeff|   : 2.1316282072803006e-13
+
+Factorization (up to ordering):
+  P(x) = (x - 1)(x - 2)(x - 3)(x - 4)
+  (Durand–Kerner iterations: 2000)
+========================================================================
+Polynomial [P2: x^4 + (-9-5i)x^3 + (14+33i)x^2 + (24-44i)x - 26]:
+ P(x) = 1*x^4 + -9-5*i*x^3 + 14+33*i*x^2 + 24-44*i*x + -26
+
+Roots found (sorted):
+   i    (as complex: (-1.0425909723196686e-16+0.9999999999999999j) )
+   1+i    (as complex: (1.0000000000000007+0.9999999999999996j) )
+   3+2*i    (as complex: (3.0000000000000004+1.9999999999999998j) )
+   5+i    (as complex: (4.999999999999999+0.9999999999999996j) )
+
+Proof harness — checks:
+  Max |P(r)| residual = 3.6241597746139513e-14
+  Vieta (monic):
+    sum(r_i)              = (9+4.999999999999998j)   vs   -a3 = (9+5j)
+    sum_{i<j} r_i r_j   = (14.00000000000001+32.99999999999999j)   vs    a2 = (14+33j)
+    sum_{i<j<k} r_i r_j r_k = (-23.99999999999997+44j)   vs   -a1 = (-24+44j)
+    ∏ r_i                 = (-26+1.509903313490213e-14j)    vs    a0 = -26.0
+
+  Rebuild-from-roots check:
+    Original coeffs: [1, (-9-5j), (14+33j), (24-44j), -26]
+    Rebuilt  coeffs: [(1+0j), (-9-4.999999999999998j), (14.000000000000007+32.99999999999999j), (23.99999999999997-44j), (-26+1.509903313490213e-14j)]
+    Max |Δ coeff|   : 2.842170943040401e-14
+
+Factorization (up to ordering):
+  P(x) = (x - i)(x - 1+i)(x - 3+2*i)(x - 5+i)
+  (Durand–Kerner iterations: 17)

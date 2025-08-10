@@ -1,0 +1,26 @@
+============================================
+The Barber Paradox — outer limits of reason
+============================================
+
+Setup:
+  Predicate S(x,y): 'x shaves y'. Let b be the barber.
+  Barber condition:  ∀y [ S(b,y) ↔ ¬S(y,y) ]
+
+Key instance (y := b):
+  S(b,b) ↔ ¬S(b,b)
+
+Reason why it contradicts classical logic:
+  • If S(b,b) is True, then ¬S(b,b) is True — impossible.
+  • If S(b,b) is False, then ¬S(b,b) is True, so S(b,b) must be True — impossible.
+  No classical assignment satisfies S(b,b) ↔ ¬S(b,b).
+
+Philosophical upshot:
+  Without changing the rules, this definition self-destructs;
+  it marks an 'outer limit of reason' for plain two-valued self-reference.
+
+Check (classical two-valued):
+  ✓ Unsatisfiable: no truth value p makes p ↔ ¬p hold.
+
+Conclusion:
+  The barber condition forces p ↔ ¬p at p = S(b,b), so there’s no classical model.
+  That’s precisely how the paradox lives at the 'outer limits of reason.' □
