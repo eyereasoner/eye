@@ -1,40 +1,77 @@
+Answer
+======
 Starting with the first 5 primes:
   [2, 3, 5, 7, 11]
 
 ── Round 1 ─────────────────────────────────────────────
-candidate = product(primes) + 1 = 2,311
+candidate = product(primes_before) + 1 = 2311
 status    = prime
-factors   = {2311: 1}
+factors   = {2311: 1}   (2311)
 new prime found: [2311]
 total distinct primes so far: 6
 
 ── Round 2 ─────────────────────────────────────────────
-candidate = product(primes) + 1 = 5,338,411
+candidate = product(primes_before) + 1 = 5338411
 status    = composite
-factors   = {13: 1, 19: 1, 21613: 1}
+factors   = {19: 1, 13: 1, 21613: 1}   (13 * 19 * 21613)
 new primes found: [13, 19, 21613]
 total distinct primes so far: 9
 
 ── Round 3 ─────────────────────────────────────────────
-candidate = product(primes) + 1 = 28,498,626,666,511
+candidate = product(primes_before) + 1 = 28498626666511
 status    = prime
-factors   = {28498626666511: 1}
+factors   = {28498626666511: 1}   (28498626666511)
 new prime found: [28498626666511]
 total distinct primes so far: 10
 
 ── Round 4 ─────────────────────────────────────────────
-candidate = product(primes) + 1 = 812,171,721,877,143,373,382,246,611
+candidate = product(primes_before) + 1 = 812171721877143373382246611
 status    = composite
-factors   = {3280663: 1, 247563288846536012197: 1}
+factors   = {3280663: 1, 247563288846536012197: 1}   (3280663 * 247563288846536012197)
 new primes found: [3280663, 247563288846536012197]
 total distinct primes so far: 12
 
 ── Round 5 ─────────────────────────────────────────────
-candidate = product(primes) + 1 = 659,622,905,816,883,928,016,590,138,460,790,632,649,686,904,238,738,711
+candidate = product(primes_before) + 1 = 659622905816883928016590138460790632649686904238738711
 status    = composite
-factors   = {109: 1, 3259: 1, 1063987: 1, 1745213437673963489491436347535410401639763: 1}
+factors   = {109: 1, 3259: 1, 1063987: 1, 1745213437673963489491436347535410401639763: 1}   (109 * 3259 * 1063987 * 1745213437673963489491436347535410401639763)
 new primes found: [109, 3259, 1063987, 1745213437673963489491436347535410401639763]
 total distinct primes so far: 16
 
 Final prime list after all rounds:
 [2, 3, 5, 7, 11, 13, 19, 109, 2311, 3259, 21613, 1063987, 3280663, 28498626666511, 247563288846536012197, 1745213437673963489491436347535410401639763]
+
+Reason why
+==========
+Let p₁, …, p_k be any finite list of primes and set N = p₁⋯p_k + 1.
+For each i we have N ≡ 1 (mod p_i), so none of the p_i divide N.
+Hence N is itself prime or has a prime factor not among {p_i}.
+Doing this repeatedly forces an endless supply of new primes.
+
+Check (harness)
+===============
+Round 1:
+  N % p == 1 for all previous p ?  True
+  gcd(N, product(previous)) == 1 ? True  (gcd=1)
+  factorization valid & prime factors prime ? True
+  novelty (contains a not-previous prime) ?   True
+Round 2:
+  N % p == 1 for all previous p ?  True
+  gcd(N, product(previous)) == 1 ? True  (gcd=1)
+  factorization valid & prime factors prime ? True
+  novelty (contains a not-previous prime) ?   True
+Round 3:
+  N % p == 1 for all previous p ?  True
+  gcd(N, product(previous)) == 1 ? True  (gcd=1)
+  factorization valid & prime factors prime ? True
+  novelty (contains a not-previous prime) ?   True
+Round 4:
+  N % p == 1 for all previous p ?  True
+  gcd(N, product(previous)) == 1 ? True  (gcd=1)
+  factorization valid & prime factors prime ? True
+  novelty (contains a not-previous prime) ?   True
+Round 5:
+  N % p == 1 for all previous p ?  True
+  gcd(N, product(previous)) == 1 ? True  (gcd=1)
+  factorization valid & prime factors prime ? True
+  novelty (contains a not-previous prime) ?   True

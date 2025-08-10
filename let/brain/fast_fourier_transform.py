@@ -6,7 +6,6 @@ What this file does
 -------------------
 • Accepts inputs written as strings like:
       "fft([0, 1, 2, 3, 4, 5, 6, 7])"
-  (matching your SymPy-call style) — no eval, no imports.
 • Implements an in-place radix-2 **Cooley–Tukey FFT** for N = 8 using only
   built-in complex numbers and a **precomputed W_8 twiddle table**
   (values are multiples of π/4, so they equal {±1, 0, ±√2/2} combinations).
@@ -19,7 +18,7 @@ What this file does
 
 Conventions
 -----------
-• DFT sign:  X[k] = Σ_{n=0}^{N-1} x[n] * exp(-2πi * k n / N).  (Same as SymPy’s `fft`.)
+• DFT sign:  X[k] = Σ_{n=0}^{N-1} x[n] * exp(-2πi * k n / N).
 • Normalization: forward **unscaled**; inverse has the 1/N factor.
 • N is fixed to 8 for this script (you can extend by adding twiddle tables for
   other power-of-two sizes, or by a small sin/cos routine if you prefer).

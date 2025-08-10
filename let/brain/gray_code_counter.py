@@ -9,7 +9,6 @@ What this file does
       list(GrayCode(2).generate_gray())
       list(GrayCode(3).generate_gray())
       list(GrayCode(4).generate_gray())
-  without using SymPy or any imports.
 
 • Prints, for each case:
   - Reason why: short derivation of the binary-reflected Gray code (BRGC) and why
