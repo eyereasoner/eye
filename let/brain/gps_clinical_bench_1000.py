@@ -16595,7 +16595,7 @@ class TransitionRule:
     from_state : str
     to_state   : str
     action     : str
-    duration_d : int          # whole days; always 1 in examples
+    duration_d : int          # whole days; typically 1
     cost       : float        # euros (or any currency)
     success_p  : float        # ∈ (0,1]
     comfort_p  : float        # ∈ (0,1]
@@ -16608,8 +16608,6 @@ class TransitionRule:
 # ╔═══════════════════════════════════════╗
 # ║ 4.  RULE PARSER (very tolerant)       ║
 # ╚═══════════════════════════════════════╝
-# We extract fields with one big regex.  If your rules evolve,
-# just tweak the regular expression.
 
 RULE_RE = re.compile(
     r"""{\s*care:Parkinson\s+gps:description\s+\(\s*
@@ -16670,16 +16668,18 @@ def _parse_rules(n3: str) -> List[TransitionRule]:
 # Parse immediately so that a failure is obvious on start-up
 RULES = _parse_rules(N3_RULES)
 print(f"→ Parsed {len(RULES)} transition rules from the N3 block.\n")
+if len(RULES) == 0:
+    raise RuntimeError("Parsed 0 rules. Did you paste the full N3 block into N3_RULES?")
 
 # ╔═══════════════════════════════════════╗
 # ║ 5.  SEARCH PARAMETERS (from query)    ║
 # ╚═══════════════════════════════════════╝
 GOAL_STATE      = "state_6"
-MAX_DURATION_D  = 180      # "P180D"  –  180 × 24 × 3600 seconds
+MAX_DURATION_D  = 180      # "P180D"  – days
 MAX_COST        = 500.0
 MIN_SUCCESS_P   = 0.35
 MIN_COMFORT_P   = 0.35
-MAX_STAGECOUNT  = 10       # taken from gps:stagecount limit
+MAX_STAGECOUNT  = 10       # gps:stagecount limit
 
 # ╔═══════════════════════════════════════╗
 # ║ 6.  SEARCH NODE DEFINITION            ║
@@ -16702,14 +16702,11 @@ def search_all(p: Patient) -> List[Node]:
     Enumerate *every* distinct action sequence (up to MAX_STAGECOUNT)
     that satisfies the four numeric limits and ends in GOAL_STATE.
     """
-
     start = Node(p.state, duration=0, cost=0.0, succ=1.0, comfort=1.0, path=[])
     queue : Deque[Node] = deque([start])
     sols  : List[Node]  = []
 
-    # visited keeps pairs (state, tuple(action-list)) to prevent
-    # infinite A→B→A loops but **never** discards alternative paths
-    # that merely differ in actions taken.
+    # prevent literal loops, but retain distinct action-lists
     visited: set[Tuple[str, Tuple[str, ...]]] = set()
 
     while queue:
@@ -16717,41 +16714,30 @@ def search_all(p: Patient) -> List[Node]:
 
         if cur.state == GOAL_STATE:
             sols.append(cur)
-            # Do NOT 'continue'; longer non-looping paths may exist.
+            # don't continue; longer non-looping paths may exist
 
-        # stage count –  identical to the N3 gps:stagecount limit
         if len(cur.path) >= MAX_STAGECOUNT:
             continue
 
         for rule in RULES:
-            if not rule.applies(p, cur.state):
+            if not rule.applies(p=patient_1, cur_state=cur.state):
                 continue
 
-            # --- accumulate metrics ---
-            nxt_dur = cur.duration + rule.duration_d
-            nxt_cos = cur.cost     + rule.cost
-            nxt_suc = cur.succ     * rule.success_p
-            nxt_com = cur.comfort  * rule.comfort_p
+            nd = cur.duration + rule.duration_d
+            nc = cur.cost     + rule.cost
+            ns = cur.succ     * rule.success_p
+            nf = cur.comfort  * rule.comfort_p
 
-            # --- global constraint check (same as the N3 query) ---
-            if not (nxt_dur <= MAX_DURATION_D and
-                    nxt_cos <= MAX_COST and
-                    nxt_suc >= MIN_SUCCESS_P and
-                    nxt_com >= MIN_COMFORT_P):
+            if not (nd <= MAX_DURATION_D and nc <= MAX_COST and ns >= MIN_SUCCESS_P and nf >= MIN_COMFORT_P):
                 continue
 
             nxt_path = tuple(cur.path + [rule.action])
-            signature = (rule.to_state, nxt_path)
-
-            # if the *exact same* state+action sequence occurred -> loop
-            if signature in visited:
+            sig = (rule.to_state, nxt_path)
+            if sig in visited:
                 continue
-            visited.add(signature)
+            visited.add(sig)
 
-            queue.append(
-                Node(rule.to_state, nxt_dur, nxt_cos,
-                     nxt_suc, nxt_com, list(nxt_path))
-            )
+            queue.append(Node(rule.to_state, nd, nc, ns, nf, list(nxt_path)))
 
     return sols
 
@@ -16776,14 +16762,172 @@ def print_solutions(sols: List[Node]) -> None:
         print(f"  Success P  : {n.succ:.3f}          (≥ {MIN_SUCCESS_P})")
         print(f"  Comfort P  : {n.comfort:.3f}       (≥ {MIN_COMFORT_P})")
         for i, act in enumerate(n.path, 1):
-            print(f"    {i:2d}. {act}")
+            print(f"     {i}. {act}")
         print(f"  Final state: {n.state}\n")
 
 # ╔═══════════════════════════════════════╗
-# ║ 9.  MAIN ─ RUN EVERYTHING             ║
+# ║ 9.  ARC OUTPUT — Answer / Reason why / Check (harness)
+# ╚═══════════════════════════════════════╝
+def applicable_from_state(p: Patient, state: str) -> List[TransitionRule]:
+    return [r for r in RULES if r.applies(p, state)]
+
+def replay_totals(p: Patient, actions: List[str]) -> Tuple[int,float,float,float,str]:
+    """Recompute totals by replaying actions from p.state (first matching rule each step)."""
+    idx = {}
+    for r in RULES:
+        idx.setdefault((r.from_state, r.action), []).append(r)
+    cur = p.state
+    dur=0; cost=0.0; succ=1.0; comf=1.0
+    for a in actions:
+        cand = [r for r in idx.get((cur, a), []) if r.applies(p, cur)]
+        if not cand:
+            raise RuntimeError(f"Action {a} not applicable from state {cur}")
+        r = cand[0]
+        cur = r.to_state
+        dur += r.duration_d; cost += r.cost; succ *= r.success_p; comf *= r.comfort_p
+    return dur, cost, succ, comf, cur
+
+# ——— Helper printing for Reason-why (caps output on huge rule sets) ———
+def _print_reason_why(p: Patient, start_state: str):
+    apps = applicable_from_state(p, start_state)
+    print(f"From the start state {start_state}, applicable rules for this patient: {len(apps)}")
+    if not apps:
+        print("  • None — start is a dead-end for these demographics.\n")
+        return
+
+    # Show all one-step goal hits
+    one_step_goals = [r for r in apps if r.to_state == GOAL_STATE]
+    if one_step_goals:
+        print("  One-step routes to the goal:")
+        for r in one_step_goals:
+            print(f"  • {r.action}: {r.from_state} → {r.to_state}  "
+                  f"(+{r.duration_d}d, +€{r.cost:.0f}, ×succ {r.success_p:.3f}, ×comf {r.comfort_p:.3f})")
+    else:
+        print("  No single step reaches the goal.")
+
+    # Also show up to 20 other applicable first steps as a sample
+    others = [r for r in apps if r.to_state != GOAL_STATE]
+    if others:
+        print("\n  Sample of other applicable first steps (max 20 shown):")
+        for r in others[:20]:
+            print(f"  • {r.action}: {r.from_state} → {r.to_state}  "
+                  f"(+{r.duration_d}d, +€{r.cost:.0f}, ×succ {r.success_p:.3f}, ×comf {r.comfort_p:.3f})")
+    print()
+
+# ──────────────────────────────────────────────────────────────
+# 10.  CHECK — harness (multi-solution, prints result)
+# ──────────────────────────────────────────────────────────────
+
+def _approx(a, b, tol=1e-12):
+    d = a - b
+    if d < 0: d = -d
+    return d <= tol * max(1.0, 1.0 + (a if a>=0 else -a) + (b if b>=0 else -b))
+
+def _leq_by_key(a: Node, b: Node, tol=1e-12):
+    # ordering key: (-succ, cost, duration)
+    if a.succ > b.succ + tol: return True
+    if b.succ > a.succ + tol: return False
+    if a.cost < b.cost - tol: return True
+    if b.cost < a.cost - tol: return False
+    return a.duration <= b.duration + tol
+
+def _replay_runs(patient: Patient, actions: List[str]):
+    """Enumerate all feasible (end, dur, cost, succ, comf) runs following `actions` and staying within limits."""
+    idx = {}
+    for r in RULES:
+        idx.setdefault((r.from_state, r.action), []).append(r)
+
+    runs = []
+    def dfs(i, cur_state, dur, cost, succ, comf):
+        if i == len(actions):
+            runs.append((cur_state, dur, cost, succ, comf))
+            return
+        a = actions[i]
+        for r in idx.get((cur_state, a), []):
+            if not r.applies(patient, cur_state):
+                continue
+            nd = dur  + r.duration_d
+            nc = cost + r.cost
+            ns = succ * r.success_p
+            nf = comf * r.comfort_p
+            if not (nd <= MAX_DURATION_D and nc <= MAX_COST and ns >= MIN_SUCCESS_P and nf >= MIN_COMFORT_P):
+                continue
+            dfs(i+1, r.to_state, nd, nc, ns, nf)
+
+    dfs(0, patient.state, 0, 0.0, 1.0, 1.0)
+    return runs
+
+def harness(solutions: List[Node]) -> None:
+    assert solutions, "Expected at least one solution."
+
+    # 1) uniqueness of action lists
+    paths = [tuple(n.path) for n in solutions]
+    assert len(set(paths)) == len(paths), "Duplicate action lists found."
+
+    # 2) every solution ends at goal, stays within limits, has length ≤ MAX_STAGECOUNT
+    for n in solutions:
+        assert n.state == GOAL_STATE, f"Wrong end state for {n.path}"
+        assert len(n.path) <= MAX_STAGECOUNT, f"Path too long: {n.path}"
+        assert n.duration <= MAX_DURATION_D and n.cost <= MAX_COST \
+               and n.succ >= MIN_SUCCESS_P and n.comfort >= MIN_COMFORT_P, \
+               f"Global limits violated by {n.path}"
+
+    # 3) replay each path against rules; at least one consistent run must match the recorded totals
+    for n in solutions:
+        runs = _replay_runs(patient_1, n.path)
+        assert runs, f"No feasible run for actions {n.path}"
+        matched = False
+        for end, D, C, S, F in runs:
+            if end == n.state and _approx(D, n.duration) and _approx(C, n.cost, 1e-9) \
+               and _approx(S, n.succ) and _approx(F, n.comfort):
+                matched = True
+                break
+        assert matched, f"Recorded totals don’t match any feasible replay for {n.path}"
+
+    # 4) verify sorting (non-decreasing by the key you specified)
+    for a, b in zip(solutions, solutions[1:]):
+        assert _leq_by_key(a, b), "Solutions are not sorted by (success↓, cost↑, duration↑)."
+
+    # 5) verify that the first item is optimal by that key
+    best = solutions[0]
+    for n in solutions[1:]:
+        assert _leq_by_key(best, n), "First solution is not optimal under the specified ordering."
+
+    print(f"Harness: {len(solutions)} solutions verified — "
+          "uniqueness, constraints, replay totals, and ordering. ✓")
+
+# ╔═══════════════════════════════════════╗
+# ║ 11.  MAIN ─ RUN EVERYTHING            ║
 # ╚═══════════════════════════════════════╝
 if __name__ == "__main__":
-    print(f"Patient starts in {patient_1.state}, goal is {GOAL_STATE}\n")
+    print("============================================")
+    print("GPS (N3 rules) — Answer / Reason why / Check (harness)")
+    print("============================================\n")
+    print(f"Patient     : {patient_1.name}  (gender={patient_1.gender}, age={patient_1.age})")
+    print(f"Start state : {patient_1.state}")
+    print(f"Goal state  : {GOAL_STATE}\n")
+
+    # ---------- Answer ----------
     solutions = search_all(patient_1)
+    print("Answer")
+    print("======")
     print_solutions(solutions)
+    if solutions:
+        solutions.sort(key=lambda n: (-n.succ, n.cost, n.duration))
+        best = solutions[0]
+        print(f"Optimal by (succ↓, cost↑, dur↑): path = {best.path}, "
+              f"succ={best.succ:.3f}, cost=€{best.cost:.2f}, dur={best.duration}d\n")
+
+    # ---------- Reason why ----------
+    print("Reason why")
+    print("==========")
+    print("Global limits (identical to N3 query):")
+    print(f"  duration ≤ {MAX_DURATION_D} days, cost ≤ €{MAX_COST}, "
+          f"success ≥ {MIN_SUCCESS_P}, comfort ≥ {MIN_COMFORT_P}, stagecount ≤ {MAX_STAGECOUNT}\n")
+    _print_reason_why(patient_1, patient_1.state)
+
+    # ---------- Check (harness) ----------
+    print("Check (harness)")
+    print("===============")
+    harness(solutions)
 

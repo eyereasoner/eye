@@ -1,7 +1,15 @@
 → Parsed 100 transition rules from the N3 block.
 
-Patient starts in state_2, goal is state_6
+============================================
+GPS (N3 rules) — Answer / Reason why / Check (harness)
+============================================
 
+Patient     : Jane Doe  (gender=Female, age=14)
+Start state : state_2
+Goal state  : state_6
+
+Answer
+======
 ✅  Found 1 solution path(s):
 
 Solution #1
@@ -13,3 +21,29 @@ Solution #1
      1. take_pill_Medication_49
   Final state: state_6
 
+Optimal by (succ↓, cost↑, dur↑): path = ['take_pill_Medication_49'], succ=0.374, cost=€44.00, dur=1d
+
+Reason why
+==========
+Global limits (identical to N3 query):
+  duration ≤ 180 days, cost ≤ €500, success ≥ 0.35, comfort ≥ 0.35, stagecount ≤ 10
+
+From the start state state_2, applicable rules for this patient: 5
+  • take_pill_Medication_16: state_2 → state_3  (+1d, +€69, ×succ 0.489, ×comf 0.632)
+  • take_pill_Medication_33: state_2 → state_8  (+1d, +€69, ×succ 0.790, ×comf 0.758)
+  • take_pill_Medication_49: state_2 → state_6  (+1d, +€44, ×succ 0.374, ×comf 0.450) (reaches goal)
+  • take_pill_Medication_58: state_2 → state_10  (+1d, +€87, ×succ 0.690, ×comf 0.550)
+  • take_pill_Medication_60: state_2 → state_5  (+1d, +€12, ×succ 0.723, ×comf 0.850)
+
+Explanation:
+  • The only applicable transition that *reaches the goal* in one step is
+    action ‘take_pill_Medication_49’: state_2 → state_6.
+  • Other applicable first steps (e.g. to state_3, state_8, state_10) do not lead
+    to state_6 under the gender/age filters and global limits in subsequent steps;
+    the solver explores them and finds no complete path.
+
+Check (harness)
+===============
+• Unique solution confirmed: ['take_pill_Medication_49']  (succ=0.374, cost=€44.00, dur=1d, comf=0.450). ✓
+
+Harness complete: parsing, applicability, limits, aggregation, and optimality verified. ✓

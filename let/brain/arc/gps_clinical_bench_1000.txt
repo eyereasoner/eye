@@ -1,7 +1,15 @@
 → Parsed 1000 transition rules from the N3 block.
 
-Patient starts in state_2, goal is state_6
+============================================
+GPS (N3 rules) — Answer / Reason why / Check (harness)
+============================================
 
+Patient     : Jane Doe  (gender=Female, age=14)
+Start state : state_2
+Goal state  : state_6
+
+Answer
+======
 ✅  Found 15 solution path(s):
 
 Solution #1
@@ -150,3 +158,43 @@ Solution #15
      2. take_pill_Medication_799
   Final state: state_6
 
+Optimal by (succ↓, cost↑, dur↑): path = ['take_pill_Medication_64'], succ=0.912, cost=€17.00, dur=1d
+
+Reason why
+==========
+Global limits (identical to N3 query):
+  duration ≤ 180 days, cost ≤ €500.0, success ≥ 0.35, comfort ≥ 0.35, stagecount ≤ 10
+
+From the start state state_2, applicable rules for this patient: 92
+  One-step routes to the goal:
+  • take_pill_Medication_64: state_2 → state_6  (+1d, +€17, ×succ 0.912, ×comf 0.544)
+  • take_pill_Medication_401: state_2 → state_6  (+1d, +€51, ×succ 0.395, ×comf 0.989)
+  • take_pill_Medication_611: state_2 → state_6  (+1d, +€5, ×succ 0.488, ×comf 0.820)
+  • take_pill_Medication_637: state_2 → state_6  (+1d, +€6, ×succ 0.705, ×comf 0.993)
+  • take_pill_Medication_997: state_2 → state_6  (+1d, +€63, ×succ 0.335, ×comf 0.921)
+
+  Sample of other applicable first steps (max 20 shown):
+  • take_pill_Medication_9: state_2 → state_8  (+1d, +€2, ×succ 0.305, ×comf 0.598)
+  • take_pill_Medication_29: state_2 → state_15  (+1d, +€73, ×succ 0.717, ×comf 0.259)
+  • take_pill_Medication_32: state_2 → state_15  (+1d, +€71, ×succ 0.732, ×comf 0.596)
+  • take_pill_Medication_42: state_2 → state_10  (+1d, +€14, ×succ 0.370, ×comf 0.263)
+  • take_pill_Medication_57: state_2 → state_5  (+1d, +€39, ×succ 0.596, ×comf 0.689)
+  • take_pill_Medication_58: state_2 → state_8  (+1d, +€43, ×succ 0.663, ×comf 0.423)
+  • take_pill_Medication_60: state_2 → state_4  (+1d, +€51, ×succ 0.381, ×comf 0.690)
+  • take_pill_Medication_95: state_2 → state_8  (+1d, +€37, ×succ 0.369, ×comf 0.440)
+  • take_pill_Medication_102: state_2 → state_4  (+1d, +€14, ×succ 0.451, ×comf 0.658)
+  • take_pill_Medication_113: state_2 → state_3  (+1d, +€59, ×succ 0.406, ×comf 0.481)
+  • take_pill_Medication_118: state_2 → state_14  (+1d, +€30, ×succ 0.510, ×comf 0.908)
+  • take_pill_Medication_132: state_2 → state_11  (+1d, +€77, ×succ 0.253, ×comf 0.754)
+  • take_pill_Medication_156: state_2 → state_16  (+1d, +€4, ×succ 0.441, ×comf 0.690)
+  • take_pill_Medication_157: state_2 → state_13  (+1d, +€99, ×succ 0.922, ×comf 0.531)
+  • take_pill_Medication_166: state_2 → state_10  (+1d, +€61, ×succ 0.701, ×comf 0.747)
+  • take_pill_Medication_197: state_2 → state_11  (+1d, +€29, ×succ 0.714, ×comf 0.980)
+  • take_pill_Medication_201: state_2 → state_8  (+1d, +€96, ×succ 0.775, ×comf 0.448)
+  • take_pill_Medication_236: state_2 → state_18  (+1d, +€7, ×succ 0.678, ×comf 0.601)
+  • take_pill_Medication_249: state_2 → state_9  (+1d, +€87, ×succ 0.716, ×comf 0.286)
+  • take_pill_Medication_254: state_2 → state_12  (+1d, +€76, ×succ 0.865, ×comf 0.560)
+
+Check (harness)
+===============
+Harness: 15 solutions verified — uniqueness, constraints, replay totals, and ordering. ✓
