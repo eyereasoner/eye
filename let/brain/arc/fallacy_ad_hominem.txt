@@ -1,37 +1,39 @@
+Answer
+======
 
 === Arg1: Don’t listen to Smith; he’s a criminal.
 Step 01: prove ('fallacy', 'ad_hominem', 'Arg1')
-→ via R-ad-hominem
-  Step 02: prove ('Arg1', 'attack', True)
-  ✓ fact ('Arg1', 'attack', True)
-  Step 03: prove ('Arg1', 'evidence', False)
-  ✓ fact ('Arg1', 'evidence', False)
+  → via R-ad-hominem
+ Step 02: prove ('Arg1', 'attack', True)
+   ✓ fact ('Arg1', 'attack', True)
+ Step 03: prove ('Arg1', 'evidence', False)
+   ✓ fact ('Arg1', 'evidence', False)
 Result: ad hominem
 
 
 === Arg2: Smith’s argument is flawed because the data show X.
 Step 04: prove ('fallacy', 'ad_hominem', 'Arg2')
-→ via R-ad-hominem
-  Step 05: prove ('Arg2', 'attack', True)
-✗ sub-goal fails: ('Arg2', 'attack', True)
+  → via R-ad-hominem
+ Step 05: prove ('Arg2', 'attack', True)
+  ✗ sub-goal fails: ('Arg2', 'attack', True)
 Result: no ad hominem
 
 
 === Arg3: You’re just too young to understand economics.
 Step 06: prove ('fallacy', 'ad_hominem', 'Arg3')
-→ via R-ad-hominem
-  Step 07: prove ('Arg3', 'attack', True)
-  ✓ fact ('Arg3', 'attack', True)
-  Step 08: prove ('Arg3', 'evidence', False)
-  ✓ fact ('Arg3', 'evidence', False)
+  → via R-ad-hominem
+ Step 07: prove ('Arg3', 'attack', True)
+   ✓ fact ('Arg3', 'attack', True)
+ Step 08: prove ('Arg3', 'evidence', False)
+   ✓ fact ('Arg3', 'evidence', False)
 Result: ad hominem
 
 
 === Arg4: Climate is changing primarily because of CO₂.
 Step 09: prove ('fallacy', 'ad_hominem', 'Arg4')
-→ via R-ad-hominem
-  Step 10: prove ('Arg4', 'attack', True)
-✗ sub-goal fails: ('Arg4', 'attack', True)
+  → via R-ad-hominem
+ Step 10: prove ('Arg4', 'attack', True)
+  ✗ sub-goal fails: ('Arg4', 'attack', True)
 Result: no ad hominem
 
 Summary:
@@ -39,3 +41,63 @@ Summary:
   Arg2: ok
   Arg3: ad hominem
   Arg4: ok
+
+Reason why
+==========
+This toy detector flags ad hominem when an argument attacks a person
+AND offers no evidence. That matches Arg1 (“criminal”) and Arg3 (“too young”),
+but not Arg2 (which cites data) or Arg4 (which presents a claim sans attack).
+We prove fallacy(ad_hominem, A) by backward-chaining against the single rule above.
+
+Check (harness)
+===============
+Step 11: prove ('fallacy', 'ad_hominem', 'Arg1')
+  → via R-ad-hominem
+ Step 12: prove ('Arg1', 'attack', True)
+   ✓ fact ('Arg1', 'attack', True)
+ Step 13: prove ('Arg1', 'evidence', False)
+   ✓ fact ('Arg1', 'evidence', False)
+Step 14: prove ('fallacy', 'ad_hominem', 'Arg2')
+  → via R-ad-hominem
+ Step 15: prove ('Arg2', 'attack', True)
+  ✗ sub-goal fails: ('Arg2', 'attack', True)
+Step 16: prove ('fallacy', 'ad_hominem', 'Arg3')
+  → via R-ad-hominem
+ Step 17: prove ('Arg3', 'attack', True)
+   ✓ fact ('Arg3', 'attack', True)
+ Step 18: prove ('Arg3', 'evidence', False)
+   ✓ fact ('Arg3', 'evidence', False)
+Step 19: prove ('fallacy', 'ad_hominem', 'Arg4')
+  → via R-ad-hominem
+ Step 20: prove ('Arg4', 'attack', True)
+  ✗ sub-goal fails: ('Arg4', 'attack', True)
+Expected classifications hold? True
+Step 21: prove ('fallacy', 'ad_hominem', 'ArgX')
+  → via R-ad-hominem
+ Step 22: prove ('ArgX', 'attack', True)
+   ✓ fact ('ArgX', 'attack', True)
+ Step 23: prove ('ArgX', 'evidence', False)
+  ✗ sub-goal fails: ('ArgX', 'evidence', False)
+Attacking + evidence is NOT flagged? True
+Step 24: prove ('fallacy', 'ad_hominem', 'ArgY')
+  → via R-ad-hominem
+ Step 25: prove ('ArgY', 'attack', True)
+   ✓ fact ('ArgY', 'attack', True)
+ Step 26: prove ('ArgY', 'evidence', False)
+   ✓ fact ('ArgY', 'evidence', False)
+Attack without evidence IS flagged? True
+Step 27: prove ('fallacy', 'ad_hominem', 'Arg1')
+  → via R-ad-hominem
+ Step 28: prove ('Arg1', 'attack', True)
+   ✓ fact ('Arg1', 'attack', True)
+ Step 29: prove ('Arg1', 'evidence', False)
+   ✓ fact ('Arg1', 'evidence', False)
+Step 30: prove ('fallacy', 'ad_hominem', 'Arg1')
+  → via R-ad-hominem
+ Step 31: prove ('Arg1', 'attack', True)
+   ✓ fact ('Arg1', 'attack', True)
+ Step 32: prove ('Arg1', 'evidence', False)
+   ✓ fact ('Arg1', 'evidence', False)
+Deterministic/back-to-back same result? True
+
+All checks passed? True

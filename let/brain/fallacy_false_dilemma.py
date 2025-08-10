@@ -1,130 +1,233 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-false_dilemma.py
-Detects the *false dilemma* fallacy with backward-chaining proof.
+Non Sequitur — ARC (Answer / Reason / Check), self-contained
 
-Rule
-    fallacy(false_dilemma,A) :-
-        either_or(A),
-        not alts(A).
+Idea (toy detector)
+  An argument A commits a non sequitur if its conclusion does NOT follow
+  from its premises, given a small background of relevance links and rules.
 
-An argument that frames “either X or Y” **and** fails to mention other
-options commits the fallacy.
+Encoding
+  premise(A, atom)      — an atomic proposition present among the premises
+  conclusion(A, atom)   — the argument’s (single) conclusion
+  support(X, Y)         — topic-level relevance link “X can support Y”
+  class_property(K, P)  — all K have property/topic P
+  is_a(X, K)            — X is a K
+  has(X, P)             — X has property/topic P   (used in conclusions)
+
+Derivation (sound but very small)
+  • Topic chaining: if premise topic T is present and support(T, …, Ctopic) via
+    zero-or-more support edges, then ('topic', Ctopic) is entailed.
+  • Class property: if is_a(X, K) and class_property(K, P) are both premises,
+    then has(X, P) is entailed.
+
+We flag NON SEQUITUR when the argument’s conclusion atom is not derivable.
 """
 
-from itertools import count
-from typing import Dict, Tuple, List
+from collections import deque, defaultdict
+from typing import Dict, List, Set, Tuple, Optional
 
-# ────────────────────────────────────────────────────────────
-# 1.  Facts (hand-labelled signals)
-# ────────────────────────────────────────────────────────────
-facts = {
-    ("FD1", "either_or", True),
-    ("FD1", "alts",      False),
+Atom = Tuple[str, ...]  # e.g., ('topic','rain'), ('is_a','whale','mammal'), ('has','whale','warm')
 
-    ("FD2", "either_or", True),
-    ("FD2", "alts",      True),     # offers “mix” alternative
-
-    ("FD3", "either_or", True),
-    ("FD3", "alts",      False),
-
-    ("FD4", "either_or", False),
-    ("FD4", "alts",      True),
+# ─────────────────────────── Example arguments ────────────────────────────
+sentences: Dict[str, str] = {
+    "Arg1": "It rained yesterday. Therefore, the stock market will rise.",
+    "Arg2": "Company profits increased; therefore its stock may rise.",
+    "Arg3": "All mammals are warm-blooded. A whale is a mammal. Therefore, a whale is warm-blooded.",
+    "Arg4": "We must reduce traffic. Therefore, we should ban books.",
 }
 
-# ────────────────────────────────────────────────────────────
-# 2.  Rule base
-# ────────────────────────────────────────────────────────────
-rules = [
-    dict(id="R-fd",
-         head=("fallacy", "false_dilemma", "?A"),
-         body=[("?A", "either_or", True),
-               ("?A", "alts",      False)]),
-]
+premises: Dict[str, List[Atom]] = {
+    "Arg1": [
+        ('topic', 'rain'),
+    ],
+    "Arg2": [
+        ('topic', 'profits_up'),
+    ],
+    "Arg3": [
+        ('class_property', 'mammal', 'warm_blooded'),
+        ('is_a', 'whale', 'mammal'),
+    ],
+    "Arg4": [
+        ('topic', 'reduce_traffic'),
+    ],
+}
 
-# ────────────────────────────────────────────────────────────
-# 3.  Unification helpers
-# ────────────────────────────────────────────────────────────
-is_var = lambda t: isinstance(t,str) and t.startswith("?")
+conclusions: Dict[str, Atom] = {
+    "Arg1": ('topic', 'stock_up'),
+    "Arg2": ('topic', 'stock_up'),
+    "Arg3": ('has', 'whale', 'warm_blooded'),
+    "Arg4": ('ban', 'books'),
+}
 
-def unify(pat, fact, θ=None):
-    θ = dict(θ or {})
-    if isinstance(pat, tuple) != isinstance(fact, tuple):
-        return None
-    if not isinstance(pat, tuple):
-        if is_var(pat):
-            if pat in θ and θ[pat] not in (pat, fact):
-                return None
-            θ[pat] = fact
-            return θ
-        return θ if pat == fact else None
-    if len(pat) != len(fact):
-        return None
-    for p_elem, f_elem in zip(pat, fact):
-        θ = unify(p_elem, f_elem, θ)
-        if θ is None:
-            return None
-    return θ
+# Background: topic-level relevance links (minuscule and hand-picked)
+support_edges: Set[Tuple[str, str]] = {
+    ('profits_up', 'stock_up'),
+    # You can add more domain links if needed; we keep it tiny on purpose.
+}
 
-subst = lambda t,θ: (tuple(subst(x,θ) for x in t)
-                     if isinstance(t,tuple) else θ.get(t,t))
+# Background: universal class property
+class_props: Set[Tuple[str, str]] = {
+    ('mammal', 'warm_blooded'),
+}
 
-# ────────────────────────────────────────────────────────────
-# 4.  Backward-chaining engine (full trace)
-# ────────────────────────────────────────────────────────────
-def bc(goal:Tuple, θ:Dict, depth:int, step=count(1)) -> List[Dict]:
-    g = subst(goal, θ)
-    indent = "  "*depth
-    print(f"{indent}Step {next(step):02}: prove {g}")
+# ─────────────────────────── Derivation engine ─────────────────────────────
 
-    # (a) ground fact check
-    for f in facts:
-        θ2 = unify(g, f, θ)
-        if θ2:
-            print(indent + f"✓ fact {f}")
-            yield θ2
-            return                        # fact satisfied
+class Derivation:
+    """Records derived atoms and textual reasons."""
+    def __init__(self):
+        self.reasons: Dict[Atom, str] = {}
 
-    # (b) rule application
-    for r in rules:
-        θh = unify(r["head"], g, θ)
-        if θh is None:
+    def add(self, atom: Atom, reason: str):
+        if atom not in self.reasons:
+            self.reasons[atom] = reason
+            return True
+        return False
+
+def derive(aid: str, trace: bool = False) -> Derivation:
+    """
+    Compute a small forward closure for the given argument:
+      - Topic chaining via support edges (BFS).
+      - Class-property instantiation to has(X,P).
+    """
+    D = Derivation()
+    Q: deque[Tuple[str, Optional[str]]] = deque()  # (topic, came_from)
+
+    # Seed with premises
+    for atom in premises.get(aid, []):
+        D.add(atom, "premise")
+        if atom and atom[0] == 'topic':
+            Q.append((atom[1], None))
+
+    # Topic chaining (BFS over support graph)
+    # We derive ('topic', t) for every t reachable from some seed topic.
+    # Also keep parent pointers for readable reasons.
+    parent: Dict[str, Optional[str]] = {}
+    seen_topics: Set[str] = set()
+    while Q:
+        t, par = Q.popleft()
+        if t in seen_topics:
             continue
-        print(indent + f"→ via {r['id']}")
+        seen_topics.add(t)
+        parent[t] = par
+        D.add(('topic', t), f"topic reachable via support (seed/par: {par})")
+        # expand
+        for (u, v) in support_edges:
+            if u == t and v not in seen_topics:
+                Q.append((v, t))
 
-        def prove_body(i, θcur):
-            if i == len(r["body"]):
-                yield θcur
-            else:
-                atom = subst(r["body"][i], θcur)
-                found=False
-                for θn in bc(atom, θcur, depth+1, step):
-                    found=True
-                    yield from prove_body(i+1, θn)
-                if not found:
-                    print(indent + f"✗ sub-goal fails: {atom}")
+    # Class-property instantiation
+    # If both ('is_a', X, K) and ('class_property', K, P) are present, add ('has', X, P).
+    ips = {(a[1], a[2]) for a in premises.get(aid, []) if a and a[0] == 'is_a'}
+    cps = {(a[1], a[2]) for a in premises.get(aid, []) if a and a[0] == 'class_property'}
+    for (X, K) in ips:
+        for (K2, P) in cps:
+            if K == K2:
+                D.add(('has', X, P), f"from is_a({X},{K}) and class_property({K},{P})")
 
-        yield from prove_body(0, θh)
+    # Make class_property itself available as background (not strictly needed;
+    # included for completeness/trace symmetry).
+    for (K, P) in class_props:
+        D.add(('class_property', K, P), "background")
 
-# ────────────────────────────────────────────────────────────
-# 5.  Demo on four arguments
-# ────────────────────────────────────────────────────────────
-examples = {
-    "FD1": "Either we raise taxes or the nation will collapse.",
-    "FD2": "Either we raise taxes or cut spending — or some mix of both.",
-    "FD3": "You are either with us or against us.",
-    "FD4": "We could raise taxes, cut spending, or issue bonds.",
-}
+    return D
 
-results={}
-for aid,text in examples.items():
-    print(f"\n=== {aid}: {text}")
-    goal=("fallacy","false_dilemma",aid)
-    proved = any(bc(goal, {}, 0))
-    results[aid]=proved
-    print("Result:", "false dilemma\n" if proved else "no fallacy\n")
+def entails(aid: str, goal: Atom, trace: bool = False) -> Tuple[bool, List[str]]:
+    D = derive(aid, trace=trace)
+    ok = goal in D.reasons
+    reasons: List[str] = []
+    if ok:
+        reasons.append(D.reasons[goal])
+    return ok, reasons
 
-print("Summary:")
-for aid in examples:
-    print(f"  {aid}: {'false dilemma' if results[aid] else 'ok'}")
+def is_non_sequitur(aid: str) -> Tuple[bool, List[str]]:
+    goal = conclusions[aid]
+    ok, reasons = entails(aid, goal)
+    return (not ok), ([] if ok else ["no derivation from premises to conclusion under background links"])
+
+# ────────────────────────────────── ARC: Answer ─────────────────────────────
+def print_answer() -> None:
+    print("Answer")
+    print("======")
+    results: Dict[str, bool] = {}
+
+    for aid, text in sentences.items():
+        print(f"\n=== {aid}: {text}")
+        print("Premises:")
+        for p in premises[aid]:
+            print("  •", p)
+        print("Conclusion:")
+        print("  →", conclusions[aid])
+
+        ok, reasons = entails(aid, conclusions[aid])
+        if ok:
+            print("Result: follows (no non sequitur)")
+            for r in reasons:
+                print("  reason:", r)
+            results[aid] = False
+        else:
+            print("Result: NON SEQUITUR")
+            results[aid] = True
+
+    print("\nSummary")
+    for aid in sorted(sentences):
+        print(f"  {aid}: {'non sequitur' if results[aid] else 'ok'}")
+
+# ───────────────────────────────── ARC: Reason why ──────────────────────────
+def print_reason() -> None:
+    print("\nReason why")
+    print("==========")
+    print("We derive conclusions using two small, transparent mechanisms:")
+    print("  • Topic chaining over a tiny relevance graph support(T,U).")
+    print("    If a premise provides topic T and T→…→C holds in that graph,")
+    print("    then ('topic', C) follows.")
+    print("  • Class property instantiation: from is_a(X,K) and class_property(K,P),")
+    print("    we infer has(X,P).")
+    print("If the argument’s conclusion is not derivable by those routes, we flag a non sequitur.")
+
+# ─────────────────────────────── ARC: Check (harness) ───────────────────────
+def print_check() -> None:
+    print("\nCheck (harness)")
+    print("===============")
+    ok_all = True
+
+    # 1) Expected classifications
+    expected = {"Arg1": True, "Arg2": False, "Arg3": False, "Arg4": True}
+    ok_cls = True
+    for aid, want in expected.items():
+        got, _ = is_non_sequitur(aid)
+        if got != want:
+            ok_cls = False
+            print(f"  MISMATCH {aid}: got {got}, want {want}")
+    print(f"Expected classifications hold? {ok_cls}")
+    ok_all &= ok_cls
+
+    # 2) Soundness: add the missing support edge to fix Arg1; it should then follow
+    support_edges.add(('rain', 'stock_up'))
+    fixed_now, _ = is_non_sequitur("Arg1")
+    print(f"Arg1 stops being a non sequitur after adding support(rain, stock_up)? {not fixed_now}")
+    ok_all &= (not fixed_now)
+    support_edges.remove(('rain', 'stock_up'))
+
+    # 3) Soundness: remove class_property from Arg3 premises; it should become non sequitur
+    saved = list(premises["Arg3"])
+    premises["Arg3"] = [p for p in premises["Arg3"] if p[0] != 'class_property']
+    became_ns, _ = is_non_sequitur("Arg3")
+    print(f"Arg3 becomes a non sequitur if class_property is removed? {became_ns}")
+    ok_all &= became_ns
+    premises["Arg3"] = saved
+
+    # 4) Determinism/idempotence
+    a = is_non_sequitur("Arg2")
+    b = is_non_sequitur("Arg2")
+    print(f"Deterministic (same inputs ⇒ same result)? {a == b}")
+    ok_all &= (a == b)
+
+    print(f"\nAll checks passed? {ok_all}")
+
+# ─────────────────────────────────── Main ───────────────────────────────────
+if __name__ == "__main__":
+    print_answer()
+    print_reason()
+    print_check()
 
