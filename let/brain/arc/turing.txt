@@ -1,4 +1,24 @@
+Answer
+======
 A1: [1, 0, 1, 0, 0, 1] -> [1, 0, 1, 0, 1, 0]
 A2: [1, 0, 1, 1, 1, 1] -> [1, 1, 0, 0, 0, 0]
 A3: [1, 1, 1, 1, 1, 1] -> [1, 0, 0, 0, 0, 0, 0]
 A4: [] -> [1]
+
+Reason why
+==========
+We interpret a one-tape TM over symbols {0,1,_}. The program has two phases:
+  • S0 scans right to the first blank to find the number’s end, then moves left.
+  • S1 performs +1 with carry: 1→0 and move left; if it sees 0, write 1 and halt;
+    if it runs off the left end (blank), write a leading 1 and halt.
+Thus, e.g., 101001 → 101010; 111111 → 1000000; [] (zero) → [1].
+
+Check (harness)
+===============
+Matches Python n→n+1 for 0..4095? True
+Output length ∈ {len, len+1} on samples? True
+Output symbols only 0/1?                    True
+Monotone w.r.t. integer value (first 200)? True
+All-ones case yields 1 followed by k zeros? True
+
+All checks passed? True
