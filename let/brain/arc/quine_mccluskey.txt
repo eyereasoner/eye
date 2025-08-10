@@ -1,49 +1,34 @@
+Answer
+======
+Minterms: [1, 3, 7, 11, 15]
+Don't-cares: [0, 2, 5]
 
-Initial groups:
-  0: ['0000']
-  1: ['0001', '0010']
-  2: ['0011', '0101']
-  3: ['0111', '1011']
-  4: ['1111']
-
-=== Iteration 0 ===
-  combine 0000 + 0001  →  000-
-  combine 0000 + 0010  →  00-0
-  combine 0001 + 0011  →  00-1
-  combine 0001 + 0101  →  0-01
-  combine 0010 + 0011  →  001-
-  combine 0011 + 0111  →  0-11
-  combine 0011 + 1011  →  -011
-  combine 0101 + 0111  →  01-1
-  combine 0111 + 1111  →  -111
-  combine 1011 + 1111  →  1-11
-
-=== Iteration 1 ===
-  combine 000- + 001-  →  00--
-  combine 00-0 + 00-1  →  00--
-  combine 00-1 + 01-1  →  0--1
-  combine 0-01 + 0-11  →  0--1
-  combine 0-11 + 1-11  →  --11
-  combine -011 + -111  →  --11
-
-=== Iteration 2 ===
-
-Prime implicants:
+Prime implicants (deterministic order):
   00--
   0--1
   --11
 
-Chart (minterm → covering primes)
-   1: ['00--', '0--1']
-   3: ['00--', '0--1', '--11']
-   7: ['0--1', '--11']
-  11: ['--11']
-  15: ['--11']
-
-Essential primes: {'--11'}
-Remaining minterms to cover: {1}
-
-Selected minimal cover: ['00--', '--11']
-
+Selected minimal cover (lexicographically first): ['00--', '--11']
 Minimal Sum-of-Products:
-  f = ¬A¬B  +  CD
+ f = ¬A¬B + CD
+
+Reason why
+==========
+We run Quine–McCluskey with don't-cares:
+  1) Group minterms+DCs by Hamming weight; combine adjacent groups across 1-bit
+     differences to build larger implicants; anything never combined becomes a prime.
+  2) Build a prime-implicant chart over *minterms only*.
+  3) Take all essentials; for the remaining minterms, choose the smallest-size cover
+     among nonessential primes. On ties, pick the lexicographically first by the
+     key 0 < 1 < - (dash as greatest).
+This yields a two-implicant cover equivalent to f.
+
+Check (harness)
+===============
+All minterms covered? True
+No zeros asserted (outside don't-cares)? True
+Minimal number of implicants? True
+Lexicographically first among minimal covers? True
+SOP terms render correctly? True
+
+All checks passed? True
