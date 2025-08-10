@@ -43,7 +43,7 @@ This research presents a novel approach to computational reasoning by using **La
 
 ## Usage
 
-1. Run the [brain](brain) module (branches of intelligence) to generate results and produce a [dump](brain/dump):
+1. Run the [brain](brain) branches of intelligence to get answer, reason why and check (harness) [arc](brain/arc):
 
    ```bash
    ./test
