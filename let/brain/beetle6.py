@@ -1,151 +1,133 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-beetle6.py
-Backward-proof (purely logical) version of beetle6.py:
-exclusive choices + evidence
+Beetle6 — ARC (Answer / Reason / Check), self-contained
 
-Worlds before evidence
-----------------------
-W1  blue
-W2  green ∧ nice      (represented by world id "nice")
-W3  green ∧ pretty    (represented by world id "pretty")
+Worlds before evidence:
+  W1: blue
+  W2: green ∧ nice
+  W3: green ∧ pretty
 
-Rules
------
-beautiful ← blue ∨ pretty
-bad       ← beautiful
+Rules:
+  beautiful(X) ← blue(X) ∨ pretty(X)
+  bad(X)       ← beautiful(X)
 
-Evidence
---------
-evidence(bad,false)  ⇒  drop any world where beautiful holds.
+Evidence:
+  evidence(bad,false)  ⇒ drop any world where beautiful holds
+  ⇒ only W2 (“green ∧ nice”) survives.
 
-Therefore only W2 (“green ∧ nice”) survives.
-
-Queries
--------
-prop(nice,beetle)
-prop(beautiful,beetle)
-prop(blue,beetle)
-
-For each query we print a proof trace over the surviving worlds and
-report whether the query is VALID / SATISFIABLE / UNSATISFIABLE.
+Queries:
+  prop(nice,beetle), prop(beautiful,beetle), prop(blue,beetle)
 """
 
-from typing import List, Dict
+from typing import Dict, List, Tuple
 
-# ─────────────────────────────────────────────────────────────
-# 1) Enumerate the three exclusive worlds
-# ─────────────────────────────────────────────────────────────
-World = str  # world id
+World = str
 
-WORLDS_BEFORE: List[World] = ["blue", "nice", "pretty"]
+# ───────────────────────── 1) Worlds & per-world semantics ─────────────────────────
+WORLDS_BEFORE: List[World] = ["blue", "nice", "pretty"]  # stable order: W1,W2,W3
 
-
-# Mapping from world_id to atom truth values (deterministic rules)
 def atoms_in(world: World) -> Dict[str, bool]:
     """
-    Truth assignment for primitive atoms and derived predicates
-    under the given world id.
+    Truth assignment for primitive atoms and rule-derived predicates,
+    under the given world identifier.
     """
-    beautiful = (world == "blue") or (world == "pretty")
+    is_blue   = (world == "blue")
+    is_nice   = (world == "nice")
+    is_pretty = (world == "pretty")
+    is_green  = is_nice or is_pretty
+
+    beautiful = is_blue or is_pretty         # beautiful ← blue ∨ pretty
+    bad       = beautiful                    # bad ← beautiful
+
     return {
-        "blue":       world == "blue",
-        "green":      world in ("nice", "pretty"),
-        "nice":       world == "nice",
-        "pretty":     world == "pretty",
-        "beautiful":  beautiful,
-        "bad":        beautiful,   # bad ← beautiful
+        "blue": is_blue,
+        "green": is_green,
+        "nice": is_nice,
+        "pretty": is_pretty,
+        "beautiful": beautiful,
+        "bad": bad,
     }
 
-
-# ─────────────────────────────────────────────────────────────
-# 2) Apply evidence: bad must be false
-#    ⇒ keep only worlds where beautiful is false.
-# ─────────────────────────────────────────────────────────────
+# ───────────────────────── 2) Apply evidence (prune worlds) ─────────────────────────
 def apply_evidence(worlds: List[World]) -> List[World]:
     print("Applying evidence: bad ← beautiful ; evidence(bad,false)")
     kept: List[World] = []
     for idx, w in enumerate(worlds, 1):
         is_beautiful = atoms_in(w)["beautiful"]
         if is_beautiful:
-            print(f"W{idx}: {w:<7}  beautiful holds ⇒ bad would be true ⇒ DROP")
+            print(f"W{idx}: {w:<7} beautiful holds ⇒ bad would be true ⇒ DROP")
         else:
-            print(f"W{idx}: {w:<7}  beautiful false ⇒ bad false ⇒ KEEP")
+            print(f"W{idx}: {w:<7} beautiful false ⇒ bad false ⇒ KEEP")
             kept.append(w)
-    if not kept:
-        print("No worlds survive the evidence.")
-    else:
+    if kept:
         print("Surviving worlds:", ", ".join(kept))
+    else:
+        print("No worlds survive the evidence.")
     return kept
-
 
 VALID_WORLDS: List[World] = apply_evidence(WORLDS_BEFORE)
 
-
-# ─────────────────────────────────────────────────────────────
-# 3) Backward-proof for a single query atom (logical only)
-# ─────────────────────────────────────────────────────────────
+# ───────────────────────── 3) Proving & classification helpers ─────────────────────
 def holds_in_world(atom: str, world: World) -> bool:
-    mapping = atoms_in(world)
-    if atom not in mapping:
+    m = atoms_in(world)
+    if atom not in m:
         raise ValueError(f"Unknown atom: {atom!r}")
-    return mapping[atom]
-
+    return m[atom]
 
 def prove(atom: str) -> List[World]:
     """
-    Print a proof trace for `atom` over the surviving worlds,
-    and return the list of worlds where it holds.
+    Print a short trace for prop(atom,beetle) over surviving worlds; return
+    the list of worlds where it holds.
     """
-    print(f"\n=== Proving prop({atom},beetle) ===")
+    print(f"\n--- Trace for prop({atom},beetle) ---")
     if not VALID_WORLDS:
-        print("No surviving worlds — query is UNSATISFIABLE by vacuity.")
+        print("No surviving worlds — UNSATISFIABLE by vacuity.")
         return []
-
-    holds_in: List[World] = []
+    worlds_true: List[World] = []
     for idx, w in enumerate(VALID_WORLDS, 1):
         truth = holds_in_world(atom, w)
-
-        # Show reasons for the derived predicates where helpful
         reason = ""
         if atom == "beautiful":
-            # After evidence, this should never hold, but explain anyway.
-            if w == "blue":
-                reason = " (because blue ⇒ beautiful)"
-            elif w == "pretty":
-                reason = " (because pretty ⇒ beautiful)"
-        elif atom == "green":
-            if w in ("nice", "pretty"):
-                reason = " (green holds under nice/pretty)"
-
-        print(f"World {idx}: {w:<7}  {'✓' if truth else '✗'} {atom}{reason}")
+            if w == "blue": reason = " (because blue ⇒ beautiful)"
+            if w == "pretty": reason = " (because pretty ⇒ beautiful)"
+        if atom == "green" and w in ("nice", "pretty"):
+            reason = " (green holds under nice/pretty)"
+        print(f"World {idx}: {w:<7} {'✓' if truth else '✗'} {atom}{reason}")
         if truth:
-            holds_in.append(w)
+            worlds_true.append(w)
 
-    n = len(VALID_WORLDS)
-    k = len(holds_in)
+    n, k = len(VALID_WORLDS), len(worlds_true)
     if k == n:
-        print(f"Result: VALID — prop({atom},beetle) is true in all {n} surviving worlds.")
+        print(f"Result: VALID — true in all {n} surviving worlds.")
     elif k == 0:
-        print(f"Result: UNSATISFIABLE — prop({atom},beetle) is false in all {n} surviving worlds.")
+        print(f"Result: UNSATISFIABLE — false in all {n} surviving worlds.")
     else:
         print(f"Result: SATISFIABLE (but not valid) — holds in {k}/{n} surviving worlds.")
+    return worlds_true
 
-    return holds_in
+def classify(atom: str) -> Tuple[str, List[World]]:
+    worlds_where = [w for w in VALID_WORLDS if holds_in_world(atom, w)]
+    n, k = len(VALID_WORLDS), len(worlds_where)
+    if n == 0:
+        return "UNSATISFIABLE (no surviving worlds)", worlds_where
+    if k == n:
+        return "VALID", worlds_where
+    if k == 0:
+        return "UNSATISFIABLE", worlds_where
+    return (f"SATISFIABLE in {k}/{n} worlds", worlds_where)
 
-
-# ─────────────────────────────────────────────────────────────
-# 4) Run the three queries & summarise (logical status only)
-# ─────────────────────────────────────────────────────────────
-if __name__ == "__main__":
+# ───────────────────────────────────── ARC: Answer ───────────────────────────
+def print_answer():
+    print("Answer")
+    print("======")
     queries = ("nice", "beautiful", "blue")
-    results: Dict[str, List[World]] = {f"prop({q},beetle)": prove(q) for q in queries}
+    results = {q: prove(q) for q in queries}
 
-    print("\n=== Summary ===")
+    print("\nSummary")
+    print("-------")
     n = len(VALID_WORLDS)
-    for q in ("prop(nice,beetle)",
-              "prop(beautiful,beetle)",
-              "prop(blue,beetle)"):
+    for q in ("nice", "beautiful", "blue"):
         worlds_where = results[q]
         k = len(worlds_where)
         if n == 0:
@@ -157,5 +139,69 @@ if __name__ == "__main__":
         else:
             status = f"SATISFIABLE in {k}/{n} worlds"
         extra = "" if k in (0, n) else " → " + ", ".join(worlds_where)
-        print(f"{q}: {status}{extra}")
+        print(f"prop({q},beetle): {status}{extra}")
+
+# ────────────────────────────────── ARC: Reason why ─────────────────────────
+def print_reason():
+    print("\nReason why")
+    print("==========")
+    print("Three exclusive worlds encode uncertainty about the beetle:")
+    print("  • W1 = blue")
+    print("  • W2 = green ∧ nice")
+    print("  • W3 = green ∧ pretty")
+    print("Rules make beautiful true exactly in worlds with blue or pretty.")
+    print("Since bad ← beautiful and the evidence requires bad=false, any")
+    print("world with beautiful must be dropped. Only W2 (green ∧ nice) remains.")
+    print("Therefore:")
+    print("  • prop(nice,beetle) is VALID (true in the only surviving world).")
+    print("  • prop(beautiful,beetle) is UNSATISFIABLE post-evidence.")
+    print("  • prop(blue,beetle) is UNSATISFIABLE post-evidence.")
+
+# ─────────────────────────────── ARC: Check (harness) ────────────────────────
+def print_check():
+    print("\nCheck (harness)")
+    print("===============")
+    ok_all = True
+
+    # 1) Evidence pruning matches the intended outcome: only 'nice' survives.
+    ok_survive = (VALID_WORLDS == ["nice"])
+    print(f"Only W2 ('nice') survives? {ok_survive}")
+    ok_all &= ok_survive
+
+    # 2) In surviving worlds, beautiful and bad are false; nice is true.
+    ok_vals = True
+    for w in VALID_WORLDS:
+        m = atoms_in(w)
+        ok_vals &= (m["beautiful"] is False and m["bad"] is False and m["nice"] is True)
+    print(f"In surviving worlds: ¬beautiful ∧ ¬bad ∧ nice ? {ok_vals}")
+    ok_all &= ok_vals
+
+    # 3) Classifications match expectations.
+    exp = {
+        "nice": ("VALID", ["nice"]),
+        "beautiful": ("UNSATISFIABLE", []),
+        "blue": ("UNSATISFIABLE", []),
+    }
+    ok_class = True
+    for atom, (status_exp, worlds_exp) in exp.items():
+        status_got, worlds_got = classify(atom)
+        ok = (status_got == status_exp and worlds_got == worlds_exp)
+        if not ok:
+            print(f"  Mismatch for {atom}: got ({status_got}, {worlds_got}), want ({status_exp}, {worlds_exp})")
+        ok_class &= ok
+    print(f"Classifications correct? {ok_class}")
+    ok_all &= ok_class
+
+    # 4) Idempotence / determinism
+    idem = (apply_evidence(WORLDS_BEFORE) == VALID_WORLDS) and all(classify(a) == classify(a) for a in ("nice","beautiful","blue"))
+    print(f"Evidence & classify() are deterministic/idempotent? {idem}")
+    ok_all &= idem
+
+    print(f"\nAll checks passed? {ok_all}")
+
+# ───────────────────────────────────── Main ──────────────────────────────────
+if __name__ == "__main__":
+    print_answer()
+    print_reason()
+    print_check()
 
