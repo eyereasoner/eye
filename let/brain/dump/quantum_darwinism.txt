@@ -1,4 +1,6 @@
-System entropy S(S) = 1.000 bits
+Answer
+======
+System entropy S(S) = 1.000 bits (expected 1.000)
 
 fragment_size  mutual_info(bits)
       1             1.000
@@ -9,3 +11,26 @@ fragment_size  mutual_info(bits)
       6             1.000
       7             1.000
       8             2.000
+
+Reason why
+==========
+• After the CNOT fan-out, the joint state is GHZ:
+    |Ψ⟩ = (|0⟩_S |0…0⟩_E + |1⟩_S |1…1⟩_E)/√2.
+• Tracing out at least one qubit kills the off-diagonal GHZ coherence,
+  leaving a classical ½/½ mixture over |0…0⟩ and |1…1⟩ on any kept subset.
+  Thus S(S)=1, S(F)=1, S(SF)=1 for 1≤f<N_ENV, giving I(S:F)=1 bit (plateau).
+• Only when F is the entire environment (f=N_ENV) do we keep the full GHZ
+  coherence and the joint state SF is pure: S(SF)=0, so I(S:E)=2 bits.
+  That 2-bit endpoint is expected because the global state is pure and
+  S(E)=S(S)=1 ⇒ I(S:E) = S(S) + S(E) − 0 = 2.
+
+Check (harness)
+===============
+‖|Ψ⟩‖² = 1.000000000000 (should be 1)
+S(S) diag ≈ [0.5, 0.5] ,  Tr(ρ_S²) = 0.500000 (expect 0.5)
+f=1:  S(F) from diag → 1.000  (expect 1),  Tr(ρ_F²)=0.500 (≈0.5),  max|offdiag(F)|=0.00e+00
+      S(SF) from diag → 1.000 (expect 1),  Tr(ρ_SF²)=0.500 (≈0.5),  max|offdiag(SF)|=0.00e+00
+f=4:  S(F) from diag → 1.000  (expect 1),  Tr(ρ_F²)=0.500 (≈0.5),  max|offdiag(F)|=0.00e+00
+      S(SF) from diag → 1.000 (expect 1),  Tr(ρ_SF²)=0.500 (≈0.5),  max|offdiag(SF)|=0.00e+00
+f=8:  S(F) from diag → 1.000  (expect 1),  Tr(ρ_F²)=0.500 (≈0.5),  max|offdiag(F)|=0.00e+00
+      S(SF) is pure → Tr(ρ_SF²)=1.000 (expect 1),  max|offdiag(SF)|=5.00e-01
