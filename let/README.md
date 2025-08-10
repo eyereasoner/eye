@@ -43,7 +43,7 @@ This research presents a novel approach to computational reasoning by using **La
 
 ## Usage
 
-1. Run the [brain](brain) branches of intelligence to get answer, reason why and check (harness) [arc](brain/arc):
+1. Run [brain](brain) branches of intelligence to get [arc](brain/arc) answer, reason why and check (harness):
 
    ```bash
    ./test
