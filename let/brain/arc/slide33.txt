@@ -1,11 +1,31 @@
+Answer
+======
 # Derived type assertions (?S a ?C)
 :xxx a :aaa
 
-=== Pretty Proof ===
+Derived specialized rule:
+{ :xxx a :aaa. :xxx :bbb ?y. } => { ?y a :ccc. }
 
-[1] Facts: :aaa owl:onProperty :bbb ; :aaa owl:allValuesFrom :ccc
-[2] Given-Rule: { :xxx :bbb ?y. } => { ?y a :ccc. }  (R_given)
-[3] Premise-Rule (meta): { ?a owl:onProperty ?b. ?a owl:allValuesFrom ?c. { ?x ?b ?y. } => { ?y a ?c. }. } => { { ?x a ?a. ?x ?b ?y. } => { ?y a ?c. }. ?x a ?a. }. // OWL allValuesFrom internalization
-[4] Derive-Rule [3]: { :xxx a :aaa. :xxx :bbb ?y. } => { ?y a :ccc. }. // from restriction (:aaa onProperty :bbb; allValuesFrom :ccc) and R_given
-[5] Classify [3]: :xxx a :aaa // OWL allValuesFrom ⇒ membership
-[6] Answer: :xxx a :aaa // All entailed type assertions
+Classification inferred: :xxx a :aaa
+
+Reason why
+==========
+From the OWL restriction:
+  :aaa owl:onProperty :bbb .
+  :aaa owl:allValuesFrom :ccc .
+and the given rule:
+  { :xxx :bbb ?y } => { ?y a :ccc } .
+we instantiate the meta-rule schema to conclude:
+  (1) { :xxx a :aaa . :xxx :bbb ?y } => { ?y a :ccc }
+  (2) :xxx a :aaa
+Intuitively: class :aaa restricts the :bbb values to :ccc;
+a local rule already sends :bbb-values into :ccc, so :xxx must be a :aaa.
+
+Check (harness)
+===============
+Classification added (?x a ?a) → ':xxx a :aaa'? True
+Meta-rule application is a fixed point? True
+Specialized/given rule yields ':john a :ccc' from ':xxx :bbb :john'? True
+No extra unintended 'a'-facts after derivation? True
+
+All checks passed? True

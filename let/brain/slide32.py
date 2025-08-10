@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Slide 32 (Pat Hayes talk) — tiny N3 to Python
----------------------------------------------
+Slide 32 (Pat Hayes talk) — ARC (Answer / Reason / Check), self-contained
 
 Facts:
   :Ghent a :City .
@@ -9,121 +9,112 @@ Facts:
 Rule:
   { ?x a :City } => { ?x a :HumanCommunity } .
 
-Query:
+Query (tautology pattern):
   { ?S a ?C } => { ?S a ?C } .
 """
 
-from __future__ import annotations
-from dataclasses import dataclass, field
-from typing import Any, List, Optional, Set, Tuple
+from typing import Set, Tuple, List
 
-# -----------------------------------------------------------------------------
-# Simple RDF-ish store
-# -----------------------------------------------------------------------------
+Triple = Tuple[str, str, str]  # (s, p, o), with 'a' as rdf:type
 
-Triple = Tuple[str, str, str]  # (s, p, o), with 'a' as the rdf:type predicate
-
+# ------------------------------- Data --------------------------------
 FACTS: Set[Triple] = {
     (":Ghent", "a", ":City"),
 }
 
-# -----------------------------------------------------------------------------
-# Pretty-proof kernel (same style as earlier examples)
-# -----------------------------------------------------------------------------
-
-@dataclass
-class Conclusion:
-    kind: str
-    payload: Any
-    def pretty(self) -> str:
-        return self.payload if isinstance(self.payload, str) else str(self.payload)
-
-@dataclass
-class Step:
-    id: int
-    rule: str
-    premises: List[int]
-    conclusion: Conclusion
-    notes: Optional[str] = None
-
-@dataclass
-class Proof:
-    steps: List[Step] = field(default_factory=list)
-    def add(self, rule: str, premises: List[int], conclusion: Conclusion, notes: Optional[str] = None) -> int:
-        sid = len(self.steps) + 1
-        self.steps.append(Step(sid, rule, premises, conclusion, notes))
-        return sid
-    def pretty(self) -> str:
-        out = []
-        for s in self.steps:
-            prem = f" [{', '.join(map(str, s.premises))}]" if s.premises else ""
-            note = f" // {s.notes}" if s.notes else ""
-            out.append(f"[{s.id}] {s.rule}{prem}: {s.conclusion.pretty()}{note}")
-        return "\n".join(out)
-
-# -----------------------------------------------------------------------------
-# Rule application
-# -----------------------------------------------------------------------------
-
-def apply_city_to_hc_rule(facts: Set[Triple], proof: Proof) -> None:
-    """
-    { ?x a :City } => { ?x a :HumanCommunity } .
-    Forward-chain once (suffices here).
-    """
-    s_intro = proof.add(
-        "Premise-Rule",
-        [],
-        Conclusion("rule", "{ ?x a :City } => { ?x a :HumanCommunity } ."),
-        notes="Universal over ?x"
-    )
-
-    new = False
-    # For every ?x such that ?x a :City, assert ?x a :HumanCommunity
-    for (s, p, o) in list(facts):
+# --------------------------- Derivation ------------------------------
+def apply_rule_once(facts: Set[Triple]) -> int:
+    """Apply  { ?x a :City } => { ?x a :HumanCommunity }  once. Return #new facts."""
+    added = 0
+    new_facts = set()
+    for (s, p, o) in facts:
         if p == "a" and o == ":City":
             concl = (s, "a", ":HumanCommunity")
             if concl not in facts:
-                facts.add(concl)
-                new = True
-                proof.add(
-                    "Apply-Rule",
-                    [s_intro],
-                    Conclusion("text", f"{s} a :HumanCommunity"),
-                    notes=f"Since {s} a :City"
-                )
-    if not new:
-        proof.add("Apply-Rule", [s_intro], Conclusion("text", "no new facts"), notes="Already saturated")
+                new_facts.add(concl)
+    for f in new_facts:
+        facts.add(f)
+        added += 1
+    return added
 
-# -----------------------------------------------------------------------------
-# Driver (query answering + proof)
-# -----------------------------------------------------------------------------
+def closure(start: Set[Triple]) -> Set[Triple]:
+    """Forward-chain to a fixed point (trivial here but future-proof)."""
+    facts = set(start)
+    while apply_rule_once(facts):
+        pass
+    return facts
 
-def main():
-    proof = Proof()
+def query_types(facts: Set[Triple]) -> List[str]:
+    """Answer the query { ?S a ?C }: list all type assertions."""
+    return sorted(f"{s} a {o}" for (s, p, o) in facts if p == "a")
 
-    # [1] Facts
-    proof.add("Facts", [], Conclusion("text", ":Ghent a :City"))
-
-    # [2] Goal
-    proof.add("Goal", [], Conclusion("text", "{ ?S a ?C }"))
-
-    # [3] Apply the rule
-    apply_city_to_hc_rule(FACTS, proof)
-
-    # Answers to the query { ?S a ?C }
-    answers = sorted([f"{s} a {o}" for (s, p, o) in FACTS if p == "a"])
-
-    # [4] Answer presentation
-    proof.add("Answer", [], Conclusion("text", " ; ".join(answers)), notes="All entailed type assertions")
-
-    # Print results
+# ------------------------------ ARC ---------------------------------
+def print_answer():
+    print("Answer")
+    print("======")
+    derived = closure(FACTS)
+    answers = query_types(derived)
     print("# Derived type assertions (?S a ?C)")
     for line in answers:
         print(line)
+    # spotlight the intended new fact
+    if (":Ghent", "a", ":HumanCommunity") in derived:
+        print("\nResult: :Ghent is inferred to be a :HumanCommunity.")
 
-    print("\n=== Pretty Proof ===\n")
-    print(proof.pretty())
+def print_reason():
+    print("\nReason why")
+    print("==========")
+    print("We use one universal rule:")
+    print("  { ?x a :City } => { ?x a :HumanCommunity }")
+    print("Instantiating with ?x = :Ghent and using the fact ':Ghent a :City' yields")
+    print("  ':Ghent a :HumanCommunity'. The query { ?S a ?C } lists all such type facts.")
 
+def print_check():
+    print("\nCheck (harness)")
+    print("===============")
+    ok_all = True
+
+    # 1) Expected two types for :Ghent after closure
+    d = closure(FACTS)
+    want = {
+        (":Ghent", "a", ":City"),
+        (":Ghent", "a", ":HumanCommunity"),
+    }
+    has_want = want.issubset(d)
+    print(f"Contains expected {{:Ghent a :City, :Ghent a :HumanCommunity}}? {has_want}")
+    ok_all &= has_want
+
+    # 2) Idempotence: closing again adds nothing
+    d2 = closure(d)
+    idem = (d2 == d)
+    print(f"Closure is a fixed point? {idem}")
+    ok_all &= idem
+
+    # 3) Generalization test: any City becomes HumanCommunity
+    test = {
+        (":A", "a", ":City"),
+        (":B", "a", ":City"),
+        (":C", "a", ":Thing"),
+    }
+    dtest = closure(test)
+    gen_ok = ((":A", "a", ":HumanCommunity") in dtest and
+              (":B", "a", ":HumanCommunity") in dtest and
+              (":C", "a", ":HumanCommunity") not in dtest)
+    print(f"Rule applies to all and only City-instances? {gen_ok}")
+    ok_all &= gen_ok
+
+    # 4) Query answers equal all 'a'-triples in the closure
+    qlines = set(query_types(d))
+    just_types = {f"{s} a {o}" for (s, p, o) in d if p == "a"}
+    query_ok = (qlines == just_types)
+    print(f"Query { '{ ?S a ?C }' } returns exactly the type facts? {query_ok}")
+    ok_all &= query_ok
+
+    print(f"\nAll checks passed? {ok_all}")
+
+# ------------------------------- Main --------------------------------
 if __name__ == "__main__":
-    main()
+    print_answer()
+    print_reason()
+    print_check()
 
