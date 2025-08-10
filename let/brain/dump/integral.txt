@@ -1,3 +1,34 @@
+========================================================================
+Case: integrate(exp(-x**2), (x, -oo, oo))
+Reason why:
+  Let I = ∫_{-∞}^{∞} e^{-x^2} dx. Then I^2 = ∬_{R^2} e^{-(x^2+y^2)} dx dy.
+  Switch to polar: r≥0, θ∈[0,2π): ∬ e^{-r^2} r dr dθ = 2π * (1/2)∫_0^∞ e^{-u} du = π.
+  Hence I = √π. (Take the positive root since integrand ≥ 0.)
+Check (numbers):
+  Simpson on [-6,6]: 1.77245385090551
+  √π : 1.77245385090552
+  |Δ|: 2.22044604925031e-15
+  Tail bound 2 * e^{-L^2}/(2L) with L=6: 3.86587138373925e-17 (negligible)
 integrate(exp(-x**2), (x, -oo, oo)) = sqrt(pi)
+========================================================================
+Case: integrate(1/(1 + x**2), (x, -oo, oo))
+Reason why:
+  Substitute x = tan θ ⇒ dx = sec^2θ dθ and 1/(1+tan^2θ) = cos^2θ.
+  Then integrand·dx = cos^2θ · sec^2θ dθ = 1 dθ.
+  As x goes from −∞ to ∞, θ runs from −π/2 to π/2, so the area is π.
+Check (numbers):
+  Simpson on [-1000,1000]: 3.13959265425641
+  π : 3.14159265358979
+  |Δ|: 0.00199999933338679   (tail ≤ 0.002 )
 integrate(1/(1 + x**2), (x, -oo, oo)) = pi
-integrate(sin(x)**3, (x, 0, 1)) = -cos(1) + cos(1)**3/3 + 2/3
+========================================================================
+Case: integrate(sin(x)**3, (x, 0, 1))
+Reason why:
+  Use sin^3 x = (3 sin x − sin 3x)/4.
+  ∫ sin^3 x dx = -3/4 cos x + (1/12) cos 3x + C.
+  Evaluate on [0,1]: 2/3 − cos(1) + (1/3)cos^3(1).
+Check (numbers):
+  Simpson on [0,1]: 0.178940562548854
+  Closed form with cos: 0.178940562548858
+  |Δ|: 4.24660306919122e-15
+integrate(sin(x)**3, (x, 0, 1)) = 2/3 - cos(1) + cos(1)**3/3

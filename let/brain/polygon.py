@@ -6,7 +6,6 @@ What this file does
 -------------------
 • Accepts inputs written as strings like:
       "Polygon((x1, y1), (x2, y2), ..., (xN, yN)).area"
-  (matching the style of sympy's Polygon literal).
 • Parses the coordinate tuples, then computes the polygon area using the
   shoelace (Gauss / Green's-theorem) formula.
 • Prints a compact derivation for each case and runs a small proof harness:

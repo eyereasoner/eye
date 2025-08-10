@@ -1,15 +1,208 @@
+========================================================================
 1: 6
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 2 is prime and M = 2^2 - 1 = 3 is prime,
+  so N = 2^1 * M = 6 is perfect.
+Check (harness):
+  Lucas–Lehmer: p=2 ⇒ M=3 is prime (base case).
+  Sigma via factorization: σ(N) = (2^2-1)*(1+M) = 12  → equals 2N? True
+  Direct divisor-sum (small N): σ(N) = 12  → equals 2N? True
+  Sizes: |M|_10 = 1 digits, |N|_10 = 1 digits.
+========================================================================
 2: 28
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 3 is prime and M = 2^3 - 1 = 7 is prime,
+  so N = 2^2 * M = 28 is perfect.
+Check (harness):
+  Lucas–Lehmer for M=2^3-1:
+    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2=1 steps, s_1 ≡ 0 (mod M).
+    M is prime? True
+  Sigma via factorization: σ(N) = (2^3-1)*(1+M) = 56  → equals 2N? True
+  Direct divisor-sum (small N): σ(N) = 56  → equals 2N? True
+  Sizes: |M|_10 = 1 digits, |N|_10 = 2 digits.
+========================================================================
 3: 496
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 5 is prime and M = 2^5 - 1 = 31 is prime,
+  so N = 2^4 * M = 496 is perfect.
+Check (harness):
+  Lucas–Lehmer for M=2^5-1:
+    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2=3 steps, s_3 ≡ 0 (mod M).
+    M is prime? True
+  Sigma via factorization: σ(N) = (2^5-1)*(1+M) = 992  → equals 2N? True
+  Direct divisor-sum (small N): σ(N) = 992  → equals 2N? True
+  Sizes: |M|_10 = 2 digits, |N|_10 = 3 digits.
+========================================================================
 4: 8128
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 7 is prime and M = 2^7 - 1 = 127 is prime,
+  so N = 2^6 * M = 8128 is perfect.
+Check (harness):
+  Lucas–Lehmer for M=2^7-1:
+    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2=5 steps, s_5 ≡ 0 (mod M).
+    M is prime? True
+  Sigma via factorization: σ(N) = (2^7-1)*(1+M) = 16256  → equals 2N? True
+  Direct divisor-sum (small N): σ(N) = 16256  → equals 2N? True
+  Sizes: |M|_10 = 3 digits, |N|_10 = 4 digits.
+========================================================================
 5: 33550336
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 13 is prime and M = 2^13 - 1 = 8191 is prime,
+  so N = 2^12 * M = 33550336 is perfect.
+Check (harness):
+  Lucas–Lehmer for M=2^13-1:
+    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2=11 steps, s_11 ≡ 0 (mod M).
+    M is prime? True
+  Sigma via factorization: σ(N) = (2^13-1)*(1+M) = 67100672  → equals 2N? True
+  Direct divisor-sum (small N): σ(N) = 67100672  → equals 2N? True
+  Sizes: |M|_10 = 4 digits, |N|_10 = 8 digits.
+========================================================================
 6: 8589869056
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 17 is prime and M = 2^17 - 1 = 131071 is prime,
+  so N = 2^16 * M = 8589869056 is perfect.
+Check (harness):
+  Lucas–Lehmer for M=2^17-1:
+    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2=15 steps, s_15 ≡ 0 (mod M).
+    M is prime? True
+  Sigma via factorization: σ(N) = (2^17-1)*(1+M) = 17179738112  → equals 2N? True
+  Direct divisor-sum (small N): σ(N) = 17179738112  → equals 2N? True
+  Sizes: |M|_10 = 6 digits, |N|_10 = 10 digits.
+========================================================================
 7: 137438691328
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 19 is prime and M = 2^19 - 1 = 524287 is prime,
+  so N = 2^18 * M = 137438691328 is perfect.
+Check (harness):
+  Lucas–Lehmer for M=2^19-1:
+    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2=17 steps, s_17 ≡ 0 (mod M).
+    M is prime? True
+  Sigma via factorization: σ(N) = (2^19-1)*(1+M) = 274877382656  → equals 2N? True
+  Direct divisor-sum: skipped (N is large; check above is exact).
+  Sizes: |M|_10 = 6 digits, |N|_10 = 12 digits.
+========================================================================
 8: 2305843008139952128
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 31 is prime and M = 2^31 - 1 = 2147483647 is prime,
+  so N = 2^30 * M = 2305843008139952128 is perfect.
+Check (harness):
+  Lucas–Lehmer for M=2^31-1:
+    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2=29 steps, s_29 ≡ 0 (mod M).
+    M is prime? True
+  Sigma via factorization: σ(N) = (2^31-1)*(1+M) = 4611686016279904256  → equals 2N? True
+  Direct divisor-sum: skipped (N is large; check above is exact).
+  Sizes: |M|_10 = 10 digits, |N|_10 = 19 digits.
+========================================================================
 9: 2658455991569831744654692615953842176
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 61 is prime and M = 2^61 - 1 = 2305843009213693951 is prime,
+  so N = 2^60 * M = 2658455991569831744654692615953842176 is perfect.
+Check (harness):
+  Lucas–Lehmer for M=2^61-1:
+    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2=59 steps, s_59 ≡ 0 (mod M).
+    M is prime? True
+  Sigma via factorization: σ(N) = (2^61-1)*(1+M) = 5316911983139663489309385231907684352  → equals 2N? True
+  Direct divisor-sum: skipped (N is large; check above is exact).
+  Sizes: |M|_10 = 19 digits, |N|_10 = 37 digits.
+========================================================================
 10: 191561942608236107294793378084303638130997321548169216
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 89 is prime and M = 2^89 - 1 = 618970019642690137449562111 is prime,
+  so N = 2^88 * M = 191561942608236107294793378084303638130997321548169216 is perfect.
+Check (harness):
+  Lucas–Lehmer for M=2^89-1:
+    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2=87 steps, s_87 ≡ 0 (mod M).
+    M is prime? True
+  Sigma via factorization: σ(N) = (2^89-1)*(1+M) = 383123885216472214589586756168607276261994643096338432  → equals 2N? True
+  Direct divisor-sum: skipped (N is large; check above is exact).
+  Sizes: |M|_10 = 27 digits, |N|_10 = 54 digits.
+========================================================================
 11: 13164036458569648337239753460458722910223472318386943117783728128
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 107 is prime and M = 2^107 - 1 = 162259276829213363391578010288127 is prime,
+  so N = 2^106 * M = 13164036458569648337239753460458722910223472318386943117783728128 is perfect.
+Check (harness):
+  Lucas–Lehmer for M=2^107-1:
+    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2=105 steps, s_105 ≡ 0 (mod M).
+    M is prime? True
+  Sigma via factorization: σ(N) = (2^107-1)*(1+M) = 26328072917139296674479506920917445820446944636773886235567456256  → equals 2N? True
+  Direct divisor-sum: skipped (N is large; check above is exact).
+  Sizes: |M|_10 = 33 digits, |N|_10 = 65 digits.
+========================================================================
 12: 14474011154664524427946373126085988481573677491474835889066354349131199152128
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 127 is prime and M = 2^127 - 1 = 170141183460469231731687303715884105727 is prime,
+  so N = 2^126 * M = 14474011154664524427946373126085988481573677491474835889066354349131199152128 is perfect.
+Check (harness):
+  Lucas–Lehmer for M=2^127-1:
+    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2=125 steps, s_125 ≡ 0 (mod M).
+    M is prime? True
+  Sigma via factorization: σ(N) = (2^127-1)*(1+M) = 28948022309329048855892746252171976963147354982949671778132708698262398304256  → equals 2N? True
+  Direct divisor-sum: skipped (N is large; check above is exact).
+  Sizes: |M|_10 = 39 digits, |N|_10 = 77 digits.
+========================================================================
 13: 23562723457267347065789548996709904988477547858392600710143027597506337283178622239730365539602600561360255566462503270175052892578043215543382498428777152427010394496918664028644534128033831439790236838624033171435922356643219703101720713163527487298747400647801939587165936401087419375649057918549492160555646976
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 521 is prime and M = 2^521 - 1 = 6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151 is prime,
+  so N = 2^520 * M = 23562723457267347065789548996709904988477547858392600710143027597506337283178622239730365539602600561360255566462503270175052892578043215543382498428777152427010394496918664028644534128033831439790236838624033171435922356643219703101720713163527487298747400647801939587165936401087419375649057918549492160555646976 is perfect.
+Check (harness):
+  Lucas–Lehmer for M=2^521-1:
+    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2=519 steps, s_519 ≡ 0 (mod M).
+    M is prime? True
+  Sigma via factorization: σ(N) = (2^521-1)*(1+M) = 47125446914534694131579097993419809976955095716785201420286055195012674566357244479460731079205201122720511132925006540350105785156086431086764996857554304854020788993837328057289068256067662879580473677248066342871844713286439406203441426327054974597494801295603879174331872802174838751298115837098984321111293952  → equals 2N? True
+  Direct divisor-sum: skipped (N is large; check above is exact).
+  Sizes: |M|_10 = 157 digits, |N|_10 = 314 digits.
+========================================================================
 14: 141053783706712069063207958086063189881486743514715667838838675999954867742652380114104193329037690251561950568709829327164087724366370087116731268159313652487450652439805877296207297446723295166658228846926807786652870188920867879451478364569313922060370695064736073572378695176473055266826253284886383715072974324463835300053138429460296575143368065570759537328128
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 607 is prime and M = 2^607 - 1 = 531137992816767098689588206552468627329593117727031923199444138200403559860852242739162502265229285668889329486246501015346579337652707239409519978766587351943831270835393219031728127 is prime,
+  so N = 2^606 * M = 141053783706712069063207958086063189881486743514715667838838675999954867742652380114104193329037690251561950568709829327164087724366370087116731268159313652487450652439805877296207297446723295166658228846926807786652870188920867879451478364569313922060370695064736073572378695176473055266826253284886383715072974324463835300053138429460296575143368065570759537328128 is perfect.
+Check (harness):
+  Lucas–Lehmer for M=2^607-1:
+    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2=605 steps, s_605 ≡ 0 (mod M).
+    M is prime? True
+  Sigma via factorization: σ(N) = (2^607-1)*(1+M) = 282107567413424138126415916172126379762973487029431335677677351999909735485304760228208386658075380503123901137419658654328175448732740174233462536318627304974901304879611754592414594893446590333316457693853615573305740377841735758902956729138627844120741390129472147144757390352946110533652506569772767430145948648927670600106276858920593150286736131141519074656256  → equals 2N? True
+  Direct divisor-sum: skipped (N is large; check above is exact).
+  Sizes: |M|_10 = 183 digits, |N|_10 = 366 digits.
+========================================================================
 15: 54162526284365847412654465374391316140856490539031695784603920818387206994158534859198999921056719921919057390080263646159280013827605439746262788903057303445505827028395139475207769044924431494861729435113126280837904930462740681717960465867348720992572190569465545299629919823431031092624244463547789635441481391719816441605586788092147886677321398756661624714551726964302217554281784254817319611951659855553573937788923405146222324506715979193757372820860878214322052227584537552897476256179395176624426314480313446935085203657584798247536021172880403783048602873621259313789994900336673941503747224966984028240806042108690077670395259231894666273615212775603535764707952250173858305171028603021234896647851363949928904973292145107505979911456221519899345764984291328
+Reason why:
+  Euclid–Euler theorem: An even integer is perfect iff it has the form
+    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.
+  Here p = 1279 is prime and M = 2^1279 - 1 = 10407932194664399081925240327364085538615262247266704805319112350403608059673360298012239441732324184842421613954281007791383566248323464908139906605677320762924129509389220345773183349661583550472959420547689811211693677147548478866962501384438260291732348885311160828538416585028255604666224831890918801847068222203140521026698435488732958028878050869736186900714720710555703168729087 is prime,
+  so N = 2^1278 * M = 54162526284365847412654465374391316140856490539031695784603920818387206994158534859198999921056719921919057390080263646159280013827605439746262788903057303445505827028395139475207769044924431494861729435113126280837904930462740681717960465867348720992572190569465545299629919823431031092624244463547789635441481391719816441605586788092147886677321398756661624714551726964302217554281784254817319611951659855553573937788923405146222324506715979193757372820860878214322052227584537552897476256179395176624426314480313446935085203657584798247536021172880403783048602873621259313789994900336673941503747224966984028240806042108690077670395259231894666273615212775603535764707952250173858305171028603021234896647851363949928904973292145107505979911456221519899345764984291328 is perfect.
+Check (harness):
+  Lucas–Lehmer for M=2^1279-1:
+    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2=1277 steps, s_1277 ≡ 0 (mod M).
+    M is prime? True
+  Sigma via factorization: σ(N) = (2^1279-1)*(1+M) = 108325052568731694825308930748782632281712981078063391569207841636774413988317069718397999842113439843838114780160527292318560027655210879492525577806114606891011654056790278950415538089848862989723458870226252561675809860925481363435920931734697441985144381138931090599259839646862062185248488927095579270882962783439632883211173576184295773354642797513323249429103453928604435108563568509634639223903319711107147875577846810292444649013431958387514745641721756428644104455169075105794952512358790353248852628960626893870170407315169596495072042345760807566097205747242518627579989800673347883007494449933968056481612084217380155340790518463789332547230425551207071529415904500347716610342057206042469793295702727899857809946584290215011959822912443039798691529968582656  → equals 2N? True
+  Direct divisor-sum: skipped (N is large; check above is exact).
+  Sizes: |M|_10 = 386 digits, |N|_10 = 770 digits.
