@@ -1,18 +1,23 @@
-=== All proofs for  ?- isa(S, C) ===
+Answer
+======
+All solutions to ?- isa(S, C):
+  S = Socrates  C = Human
+  S = Socrates  C = Mortal
 
---- Proof for S = Socrates, C = Human ---
-Step 01: prove isa(Socrates, Human)
-  ✓ fact
-✔ PROVED
-Shortest chain: Socrates → Human
+Syllogism instance:
+    ✓ rule: Socrates → Human → Mortal
 
---- Proof for S = Socrates, C = Mortal ---
-Step 01: prove isa(Socrates, Mortal)
-  → via subclass_rule
-  Step 02: prove subclass(?A, Mortal)
-    ✓ fact
-  Step 03: prove isa(Socrates, ?A)
-    ✓ fact
-✔ PROVED
-Shortest chain: Socrates → Human → Mortal
+Reason why
+==========
+We assume a single inference rule:
+  subclass(A, B) & isa(S, A)  ⇒  isa(S, B)
+With facts:
+  isa(Socrates, Human)
+  subclass(Human, Mortal)
+Instantiating A=Human, B=Mortal, S=Socrates yields isa(Socrates, Mortal).
 
+Check (harness)
+===============
+closure == solver ? True
+contains expected {Socrates→Human, Socrates→Mortal} ? True
+one-step justification for derived answers ? True

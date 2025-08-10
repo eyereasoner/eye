@@ -1,37 +1,40 @@
-============================================
-Nixon Diamond with Priorities — explain and check
-============================================
+Answer
+======
+With priorities δ1>δ2 (prefer Quaker-default):
+  Extension = ['D', 'Q', 'R']   ⇒ Nixon is a Dove.
+With priorities δ2>δ1 (prefer Republican-default):
+  Extension = ['H', 'Q', 'R']   ⇒ Nixon is a Hawk.
 
-Hard facts:
-  Q := Quaker(n),  R := Republican(n)
-Defaults:
-  δ1: Q : D      (normally, Quakers are Doves)
-  δ2: R : H      (normally, Republicans are Hawks)
-Constraint:
-  not (D and H)
+Reason why
+==========
+We have two applicable defaults whose conclusions (D vs H) conflict.
+The priority order decides which conclusion survives:
+  • δ1>δ2 — apply δ1 first (Q ⇒ D). Adding H would violate D∧H, so δ2 is blocked.
+  • δ2>δ1 — apply δ2 first (R ⇒ H). Adding D would violate D∧H, so δ1 is blocked.
 
-Priority idea:
-  When two applicable defaults would conflict, prefer the higher-priority one and
-  block the lower-priority conclusion if it would violate the constraint.
+Trace with δ1>δ2:
+  Step 01: apply δ1: Q ⇒ D
+  Step 02: block  δ2 (adding 'H' would violate constraint)
+  Step 03: block  δ1 (conclusion 'D' already present)
+  Step 04: block  δ2 (adding 'H' would violate constraint)
 
-Case A — Prioritize δ1 over δ2 (Quaker-default outranks Republican-default):
-  Facts give Q and R, so both defaults are applicable in principle.
-  Apply δ1 first ⇒ conclude D. Now δ2 would add H, but (D ∧ H) is forbidden,
-  so δ2 is blocked. Unique prioritized extension: {Q, R, D}.
+Trace with δ2>δ1:
+  Step 01: apply δ2: R ⇒ H
+  Step 02: block  δ1 (adding 'D' would violate constraint)
+  Step 03: block  δ2 (conclusion 'H' already present)
+  Step 04: block  δ1 (adding 'D' would violate constraint)
 
-Case B — Prioritize δ2 over δ1 (Republican-default outranks Quaker-default):
-  Apply δ2 first ⇒ conclude H. Now δ1 would add D, but (D ∧ H) is forbidden,
-  so δ1 is blocked. Unique prioritized extension: {Q, R, H}.
+Check (harness)
+===============
+δ1>δ2 yields {Q,R,D}? True
+δ2>δ1 yields {Q,R,H}? True
+Extension δ1>δ2 is consistent? True
+Extension δ2>δ1 is consistent? True
+Facts ⊆ extension (δ1>δ2)? True
+Facts ⊆ extension (δ2>δ1)? True
+Under δ1>δ2, H is blocked? True
+Under δ2>δ1, D is blocked? True
+Fixed point (δ1>δ2)? True
+Fixed point (δ2>δ1)? True
 
-Conclusion:
-  Priorities collapse the two competing default conclusions into a single outcome.
-  With δ1>δ2 we get Dove; with δ2>δ1 we get Hawk. □
-
-Computed prioritized extensions:
-  With δ1>δ2: ['D', 'Q', 'R']
-  With δ2>δ1: ['H', 'Q', 'R']
-
-Harness:
-  • Priorities δ1>δ2 ⇒ {Q,R,D} (Dove).
-  • Priorities δ2>δ1 ⇒ {Q,R,H} (Hawk).
-  • Both extensions consistent; facts preserved. ✓
+All checks passed? True
