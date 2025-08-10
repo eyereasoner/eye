@@ -1,9 +1,50 @@
-diff(cos(x), x) = -sin(x)
-diff(x**4, x, x, x) = 24*x
-diff(exp(x*y*z), x, y, y, z, z, z, z) = x**3*y**2*(x**3*y**3*z**3 + 14*x**2*y**2*z**2 + 52*x*y*z + 48)*exp(x*y*z)
-diff((x + 1)*((x**2 + 2)*(x**3 + 3)), x) = 3*x**2*(x + 1)*(x**2 + 2) + 2*x*(x + 1)*(x**3 + 3) + (x**2 + 2)*(x**3 + 3)
-diff(x/x/x/x/x/x/x/x/x/x, x) = -8/x**9
-diff(log(log(log(log(log(log(log(log(log(log(x)))))))))), x) = 1/(x*log(x)*log(log(x))*log(log(log(x)))*log(log(log(log(x))))*log(log(log(log(log(x)))))*log(log(log(log(log(log(x))))))*log(log(log(log(log(log(log(x)))))))*log(log(log(log(log(log(log(log(x))))))))*log(log(log(log(log(log(log(log(log(x))))))))))
-diff(x*x*x*x*x*x*x*x*x*x, x) = 10*x**9
-Matrix([x**3 + 5*y**4 - 9*z, exp(x*y*z)]).jacobian([x, y, z]) = Matrix([[3*x**2, 20*y**3, -9], [y*z*exp(x*y*z), x*z*exp(x*y*z), x*y*exp(x*y*z)]])
-hessian(x**3 + 5*y**4 - 9*z, [x, y, z]) = Matrix([[6*x, 0, 0], [0, 60*y**2, 0], [0, 0, 0]])
+Answer / Reason why / Check (harness)
+======================================
+
+Case 1: diff(cos(x), x)
+Answer     : −sin(x)
+Reason why : derivative of cos is −sin (definition via series or Euler’s formula).
+Check      : numeric d/dx cos(x) ≈ -0.361615431932,  −sin(x) = -0.361615431965,  ok? True
+
+Case 2: diff(x**4, x, x, x)
+Answer     : 24·x
+Reason why : power rule k times:  d/dx x^4=4x^3 → 12x^2 → 24x.
+Check      : numeric ≈ -29.616001429034,  24x = 29.616000000000,  ok? False
+
+Case 3: diff(exp(x*y*z), x, y, y, z, z, z, z)
+Answer     : (48 x^3 y^2 + 52 x^4 y^3 z + 14 x^5 y^4 z^2 + x^6 y^5 z^3) · exp(x y z)
+Reason why : after ∂y∂y we get x^2 z^2 e^{xyz}; then ∂x gives (2xz^2 + x^2 y z^3)e^{xyz};
+             each ∂z maps P↦∂P/∂z + (xy)P; after 4× you arrive at the displayed polynomial.
+Check      : numeric ≈ 28865798640254.066406250000,  closed form ≈ 0.036325817001,  ok? False
+
+Case 4: diff((x + 1)*((x**2 + 2)*(x**3 + 3)), x)
+Answer     : (x^2+2)(x^3+3) + (x+1)(5x^4 + 6x^2 + 6x)
+Reason why : product rule: g=(x+1), h=(x^2+2)(x^3+3); g' h + g h', with h' by product rule.
+Check      : numeric ≈ 6.598080000475,  closed form ≈ 6.598080000000,  ok? True
+
+Case 5: diff(x/x/x/x/x/x/x/x/x/x, x)   # left-associative
+Answer     : −8 / x^9
+Reason why : ((((x/x)/x)/…)/x) = x^(1−9) = x^(−8); derivative is −8 x^(−9).
+Check      : numeric ≈ -0.067460521561,  closed form ≈ -0.067460521567,  ok? True
+
+Case 6: diff(log(log(…log(x)…)), x) with 10 nested logs
+Answer     : 1 / [ x · log(x) · log(log x) · … · log^∘9(x) ]
+Reason why : chain rule: d/dx log(L) = L'/L; apply repeatedly down the chain.
+Check(n=3) : numeric ≈ -0.000053545668,  formula ≈ 0.000041817181,  ok? False
+Note       : n=10 follows by the same recurrence; numerically it would overflow doubles.
+
+Case 7: diff(x*x*x*x*x*x*x*x*x*x, x)
+Answer     : 10·x^9
+Reason why : product/power rule: d/dx x^10 = 10 x^9.
+Check      : numeric ≈ -23.579476908120,  closed form ≈ -23.579476910000,  ok? True
+
+Case 8: Jacobian of [x^3 + 5y^4 − 9z,  exp(x y z)] wrt [x,y,z]
+Answer     : [[3x^2, 20y^3, −9],  [y z e^{xyz},  x z e^{xyz},  x y e^{xyz}]]
+Reason why : row 1 is gradient of a polynomial; row 2 by chain rule on exp(xyz).
+Check      : numeric J ≈ [[1.9200000003216644, 4.320000000390678, -8.999999999481645], [-0.19807364859403265, -0.2640981979773471, 0.39614729668846493]],  closed J ≈ [[1.9200000000000004, 4.319999999999999, -9.0], [-0.19807364843800376, -0.2640981979173384, 0.3961472968760075]],  ok? True
+
+Case 9: Hessian of f=x^3 + 5y^4 − 9z  wrt [x,y,z]
+Answer     : [[6x, 0, 0],  [0, 60y^2, 0],  [0, 0, 0]]
+Reason why : second derivatives of monomials; cross terms vanish (separable).
+Check      : numeric H ≈ [[-1.8000000157059048, 0.0, 0.0], [0.0, 29.400000101098556, 0.0], [0.0, 0.0, 0.0]],  closed H ≈ [[-1.7999999999999998, 0.0, 0.0], [0.0, 29.4, 0.0], [0.0, 0.0, 0.0]],  ok? True
+

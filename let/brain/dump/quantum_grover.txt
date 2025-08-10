@@ -1,4 +1,55 @@
-qapply(OracleGate(2, lambda qubits: qubits == IntQubit(2))*IntQubit(2)) = -|2>
-qapply(OracleGate(2, lambda qubits: qubits == IntQubit(2))*IntQubit(3)) = |3>
-qapply(grover_iteration(superposition_basis(2), OracleGate(2, lambda qubits: qubits == IntQubit(2)))) = |2>
-qapply(grover_iteration(superposition_basis(4), OracleGate(4, lambda qubits: qubits == IntQubit(2)))) = |0>/4 + |1>/4 + |2>/4 + |3>/4 + |4>/4 + |5>/4 + |6>/4 + |7>/4 + |8>/4 + |9>/4 + |10>/4 + |11>/4 + |12>/4 + |13>/4 + |14>/4 + |15>/4
+Case 1
+======
+Answer:
+  Oracle on |10> → −|10>
+
+Reason why:
+  The oracle flips the phase of the marked basis state and acts as identity on others.
+
+Check (harness):
+  ‖state‖² = 1.000000000000 (should be 1)
+  amplitude[|10>] = -1.0 (should be −1)
+
+Case 2
+======
+Answer:
+  Oracle on |11> (unmarked) → |11>
+
+Reason why:
+  The oracle only flips the marked ket; all unmarked basis states are fixed.
+
+Check (harness):
+  identical? True
+
+Case 3
+======
+Answer:
+  One Grover iteration from |s> (n=2) → |10>  (i.e., |10>)
+
+Reason why:
+  For N=4, θ = arcsin(1/√N) = 30°. After one iteration the success prob is sin²(3θ)=1,
+  so the state becomes exactly the marked basis state.
+
+Check (harness):
+  ‖state‖² = 1.000000000000 (should be 1)
+  equals |10> exactly? True
+
+Case 4
+======
+Answer:
+  One Grover iteration from |s> (n=4, N=16).
+  Marked amplitude   = 0.687500  (expected 11/16 = 0.687500)
+  Unmarked amplitude = 0.187500  (expected  3/16 = 0.187500)
+  (All unmarked amplitudes are equal.)
+
+Reason why:
+  After oracle the mean amplitude is μ=(N−2)/(N√N). Diffusion reflects every amplitude
+  about μ, yielding a'_m=(3N−4)/(N√N)=11/16 and a'_(other)=(N−4)/(N√N)=3/16 for N=16.
+
+Check (harness):
+  ‖state‖² = 1.000000000000 (should be 1)
+  all unmarked equal? True
+  a_marked  ≈ theory? True  (num=0.687500000000, th=0.687500000000)
+  a_unmarked≈ theory? True  (num=0.187500000000, th=0.187500000000)
+  diffusion = reflection about mean? True
+
