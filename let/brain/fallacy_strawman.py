@@ -1,134 +1,188 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-strawman.py
-Backward-chaining proof for the *straw-man* fallacy.
+Strawman Fallacy — ARC (Answer / Reason / Check), self-contained
 
-Rule
-    fallacy(strawman,A) :-
-        misrepresents(A),
-        refutes_misrep(A),
-        not addresses_original(A).
+Intuition (toy detector)
+  An argument A commits a strawman when it attacks a *misrepresentation* of the
+  opponent’s claim rather than the claim itself. Two common misreps:
+    • OVERSTATEMENT: attacking a stronger/extreme version the opponent didn’t claim.
+    • TOPIC SHIFT: attacking something unrelated to the opponent’s claim.
+
+Encoding
+  opponent_claim(A) = C_op              – what the opponent actually proposed
+  attacked_target(A) = C_tar            – what the arg actually attacks
+  overstates(X, Y)                      – X ⇒ Y but not vice versa (X is stronger than Y)
+  unrelated(X, Y)                       – X and Y are about different topics
+  equivalent(X, Y)                      – interchangeable paraphrases (no strawman if attacked)
+
+Detection
+  strawman(A) if attacked_target(A) ≠ opponent_claim(A) AND
+                 [ overstates(attacked, opponent) OR unrelated(attacked, opponent) ]
+  but NOT if equivalent(attacked, opponent).
 """
 
-from itertools import count
-from typing import Dict, Tuple, List
+from typing import Dict, List, Set, Tuple
 
-# ────────────────────────────────────────────────────────────
-# 1.  Ground signal facts  (toy annotations)
-# ────────────────────────────────────────────────────────────
-facts = {
-    # misrepresents, refutes, addresses_original
-    ("SM1", "misrepresents",     True),
-    ("SM1", "refutes_misrep",    True),
-    ("SM1", "addresses_original",False),
-
-    ("SM2", "misrepresents",     False),
-    ("SM2", "refutes_misrep",    False),
-    ("SM2", "addresses_original",True),
-
-    ("SM3", "misrepresents",     True),
-    ("SM3", "refutes_misrep",    True),
-    ("SM3", "addresses_original",False),
-
-    ("SM4", "misrepresents",     False),
-    ("SM4", "refutes_misrep",    True),
-    ("SM4", "addresses_original",True),
+# ───────────────────────────── Example arguments ─────────────────────────────
+sentences: Dict[str, str] = {
+    "Arg1": "They say we should regulate emissions; but banning all cars is absurd!",
+    "Arg2": "My opponent wants background checks; confiscating all guns violates rights!",
+    "Arg3": "They propose trimming defense waste; abolishing the military is reckless!",
+    "Arg4": "They want to raise property tax; here’s why that harms renters.",
 }
 
-# ────────────────────────────────────────────────────────────
-# 2.  Rule base
-# ────────────────────────────────────────────────────────────
-rules = [
-    dict(id="R-strawman",
-         head=("fallacy", "strawman", "?A"),
-         body=[("?A", "misrepresents", True),
-               ("?A", "refutes_misrep", True),
-               ("?A", "addresses_original", False)]),
-]
-
-# ────────────────────────────────────────────────────────────
-# 3.  Unification helpers
-# ────────────────────────────────────────────────────────────
-is_var = lambda t: isinstance(t,str) and t.startswith("?")
-
-def unify(pat, fact, θ=None):
-    θ = dict(θ or {})
-    if isinstance(pat, tuple) != isinstance(fact, tuple):
-        return None
-    if not isinstance(pat, tuple):
-        if is_var(pat):
-            if pat in θ and θ[pat] not in (pat, fact):
-                return None
-            θ[pat] = fact
-            return θ
-        return θ if pat == fact else None
-    if len(pat) != len(fact):
-        return None
-    for p, f in zip(pat, fact):
-        θ = unify(p, f, θ)
-        if θ is None:
-            return None
-    return θ
-
-subst = lambda t,θ: (tuple(subst(x,θ) for x in t)
-                     if isinstance(t,tuple) else θ.get(t,t))
-
-# ────────────────────────────────────────────────────────────
-# 4.  Backward prover (full trace)
-# ────────────────────────────────────────────────────────────
-def bc(goal: Tuple, θ: Dict, depth: int, step=count(1)):
-    g = subst(goal, θ)
-    indent = "  " * depth
-    print(f"{indent}Step {next(step):02}: prove {g}")
-
-    # facts
-    for f in facts:
-        θ2 = unify(g, f, θ)
-        if θ2:
-            print(indent + f"✓ fact {f}")
-            yield θ2
-            return                     # fact satisfied
-
-    # rules
-    for r in rules:
-        θh = unify(r["head"], g, θ)
-        if θh is None:
-            continue
-        print(indent + f"→ via {r['id']}")
-
-        def prove_seq(idx: int, θcur: Dict):
-            if idx == len(r["body"]):
-                yield θcur
-            else:
-                atom = subst(r["body"][idx], θcur)
-                found=False
-                for θn in bc(atom, θcur, depth+1, step):
-                    found=True
-                    yield from prove_seq(idx+1, θn)
-                if not found:
-                    print(indent + f"✗ sub-goal fails: {atom}")
-
-        yield from prove_seq(0, θh)
-
-# ────────────────────────────────────────────────────────────
-# 5.  Demo corpus
-# ────────────────────────────────────────────────────────────
-examples = {
-    "SM1": "Either we ban guns or keep mass shootings (distorts).",
-    "SM2": "Your proposal includes phased tax changes (addresses).",
-    "SM3": "Opponent wants to abolish the army (distorted).",
-    "SM4": "Let me quote and rebut the original claim (addresses).",
+# What the opponent actually claimed (for each argument)
+opponent_claim: Dict[str, str] = {
+    "Arg1": "regulate_emissions",
+    "Arg2": "background_checks",
+    "Arg3": "cut_defense_waste",
+    "Arg4": "raise_property_tax",
 }
 
-results={}
-for aid, text in examples.items():
-    print(f"\n=== {aid}: {text}")
-    goal=("fallacy","strawman",aid)
-    proved = any(bc(goal, {}, 0))
-    results[aid]=proved
-    print("Result:", "straw-man\n" if proved else "no fallacy\n")
+# What the argument *actually attacks*
+attacked_target: Dict[str, str] = {
+    "Arg1": "ban_all_cars",       # stronger than regulate_emissions
+    "Arg2": "confiscate_all_guns",# stronger than background_checks
+    "Arg3": "abolish_military",   # unrelated to 'cut waste'
+    "Arg4": "raise_property_tax", # addresses the real claim (no strawman)
+}
 
-print("Summary:")
-for aid in examples:
-    print(f"  {aid}: {'straw-man' if results[aid] else 'ok'}")
+# Background relations
+overstate_pairs: Set[Tuple[str, str]] = {
+    ("ban_all_cars", "regulate_emissions"),
+    ("confiscate_all_guns", "background_checks"),
+    # Note: 'abolish_military' is not modeled as overstate of 'cut_defense_waste'; it's a topic shift.
+}
+
+unrelated_pairs: Set[Tuple[str, str]] = {
+    ("abolish_military", "cut_defense_waste"),
+    ("cut_defense_waste", "abolish_military"),
+}
+
+equivalent_pairs: Set[Tuple[str, str]] = set()
+# add paraphrase pairs later with equivalent_pairs.add(("raise_property_tax","increase_property_tax"))
+
+# ───────────────────────────── Inference helpers ─────────────────────────────
+def equivalent(x: str, y: str) -> bool:
+    return (x, y) in equivalent_pairs or (y, x) in equivalent_pairs or x == y
+
+def overstates(x: str, y: str) -> bool:
+    return (x, y) in overstate_pairs
+
+def unrelated(x: str, y: str) -> bool:
+    return (x, y) in unrelated_pairs or (y, x) in unrelated_pairs
+
+def detect_strawman(aid: str) -> Tuple[bool, List[str]]:
+    """Return (is_strawman, reasons)."""
+    op = opponent_claim[aid]
+    tar = attacked_target[aid]
+    if equivalent(tar, op):
+        return (False, ["attacks the actual (or equivalent) claim"])
+    if tar != op and (overstates(tar, op) or unrelated(tar, op)):
+        reasons = []
+        if overstates(tar, op):
+            reasons.append(f"attacks an OVERSTATEMENT of the claim: '{tar}' ⊃ '{op}'")
+        if unrelated(tar, op):
+            reasons.append(f"attacks an UNRELATED target: '{tar}' vs '{op}'")
+        return (True, reasons)
+    # Different but neither overstatement nor marked unrelated → conservative: not flagged
+    if tar != op:
+        return (False, [f"attacks a different but not-proven-misrepresentative target: '{tar}' vs '{op}'"])
+    return (False, ["attacks the actual claim"])
+
+# ────────────────────────────────── ARC: Answer ─────────────────────────────
+def print_answer() -> None:
+    print("Answer")
+    print("======")
+    results: Dict[str, bool] = {}
+
+    for aid, text in sentences.items():
+        op = opponent_claim[aid]
+        tar = attacked_target[aid]
+        is_sm, reasons = detect_strawman(aid)
+
+        print(f"\n=== {aid}")
+        print(f"Text:        {text}")
+        print(f"Opponent:    {op}")
+        print(f"Attacked:    {tar}")
+
+        print("Analysis:")
+        for r in reasons:
+            print("  - " + r)
+
+        print("Result:", "STRAW MAN" if is_sm else "no strawman detected")
+        results[aid] = is_sm
+
+    print("\nSummary")
+    for aid in sorted(sentences):
+        print(f"  {aid}: {'strawman' if results[aid] else 'ok'}")
+
+# ───────────────────────────────── ARC: Reason why ──────────────────────────
+def print_reason() -> None:
+    print("\nReason why")
+    print("==========")
+    print("We flag strawman when the attacked target differs from the opponent’s claim")
+    print("AND is either a stronger/extreme version (overstatement) or off-topic.")
+    print("Attacking an equivalent paraphrase, or the original claim itself, is not a strawman.")
+    print("Examples:")
+    print("  • Arg1/Arg2: stronger claims ('ban all cars', 'confiscate all guns') replace modest proposals.")
+    print("  • Arg3: topic shift from 'cut waste' to 'abolish the military'.")
+    print("  • Arg4: directly addresses the actual claim (no strawman).")
+
+# ─────────────────────────────── ARC: Check (harness) ───────────────────────
+def print_check() -> None:
+    print("\nCheck (harness)")
+    print("===============")
+    ok_all = True
+
+    # 1) Expected classifications
+    expected = {"Arg1": True, "Arg2": True, "Arg3": True, "Arg4": False}
+    ok_cls = True
+    for aid, want in expected.items():
+        got, _ = detect_strawman(aid)
+        if got != want:
+            ok_cls = False
+            print(f"  MISMATCH {aid}: got {got}, want {want}")
+    print(f"Expected classifications hold? {ok_cls}")
+    ok_all &= ok_cls
+
+    # 2) Soundness: if we change Arg1 to attack the actual claim, the flag should clear
+    saved_tar = attacked_target["Arg1"]
+    attacked_target["Arg1"] = opponent_claim["Arg1"]
+    cleared, _ = detect_strawman("Arg1")
+    print(f"Arg1 clears when it attacks the actual claim? {not cleared}")
+    attacked_target["Arg1"] = saved_tar
+    ok_all &= (not cleared)
+
+    # 3) Soundness: if we mark Arg2's target as equivalent paraphrase, the flag should clear
+    equivalent_pairs.add( (attacked_target["Arg2"], opponent_claim["Arg2"]) )
+    cleared2, _ = detect_strawman("Arg2")
+    print(f"Arg2 clears when target is marked equivalent? {not cleared2}")
+    equivalent_pairs.clear()
+    ok_all &= (not cleared2)
+
+    # 4) Specificity: if Arg3’s relation isn’t overstate or unrelated, we don’t flag (conservative)
+    #    Temporarily remove unrelated marker for Arg3
+    unrelated_pairs_backup = set(unrelated_pairs)
+    for p in [("abolish_military","cut_defense_waste"), ("cut_defense_waste","abolish_military")]:
+        unrelated_pairs.discard(p)
+    conservative, _ = detect_strawman("Arg3")
+    print(f"Without relation evidence, Arg3 not flagged (conservative)? {not conservative}")
+    unrelated_pairs.update(unrelated_pairs_backup)
+    ok_all &= (not conservative)
+
+    # 5) Determinism / idempotence
+    a = detect_strawman("Arg4")
+    b = detect_strawman("Arg4")
+    print(f"Deterministic (same inputs ⇒ same result)? {a == b}")
+    ok_all &= (a == b)
+
+    print(f"\nAll checks passed? {ok_all}")
+
+# ─────────────────────────────────── Main ───────────────────────────────────
+if __name__ == "__main__":
+    print_answer()
+    print_reason()
+    print_check()
 

@@ -1,45 +1,60 @@
+Answer
+======
 
-=== SM1: Either we ban guns or keep mass shootings (distorts).
-Step 01: prove ('fallacy', 'strawman', 'SM1')
-→ via R-strawman
-  Step 02: prove ('SM1', 'misrepresents', True)
-  ✓ fact ('SM1', 'misrepresents', True)
-  Step 03: prove ('SM1', 'refutes_misrep', True)
-  ✓ fact ('SM1', 'refutes_misrep', True)
-  Step 04: prove ('SM1', 'addresses_original', False)
-  ✓ fact ('SM1', 'addresses_original', False)
-Result: straw-man
+=== Arg1
+Text:        They say we should regulate emissions; but banning all cars is absurd!
+Opponent:    regulate_emissions
+Attacked:    ban_all_cars
+Analysis:
+  - attacks an OVERSTATEMENT of the claim: 'ban_all_cars' ⊃ 'regulate_emissions'
+Result: STRAW MAN
 
+=== Arg2
+Text:        My opponent wants background checks; confiscating all guns violates rights!
+Opponent:    background_checks
+Attacked:    confiscate_all_guns
+Analysis:
+  - attacks an OVERSTATEMENT of the claim: 'confiscate_all_guns' ⊃ 'background_checks'
+Result: STRAW MAN
 
-=== SM2: Your proposal includes phased tax changes (addresses).
-Step 05: prove ('fallacy', 'strawman', 'SM2')
-→ via R-strawman
-  Step 06: prove ('SM2', 'misrepresents', True)
-✗ sub-goal fails: ('SM2', 'misrepresents', True)
-Result: no fallacy
+=== Arg3
+Text:        They propose trimming defense waste; abolishing the military is reckless!
+Opponent:    cut_defense_waste
+Attacked:    abolish_military
+Analysis:
+  - attacks an UNRELATED target: 'abolish_military' vs 'cut_defense_waste'
+Result: STRAW MAN
 
+=== Arg4
+Text:        They want to raise property tax; here’s why that harms renters.
+Opponent:    raise_property_tax
+Attacked:    raise_property_tax
+Analysis:
+  - attacks the actual (or equivalent) claim
+Result: no strawman detected
 
-=== SM3: Opponent wants to abolish the army (distorted).
-Step 07: prove ('fallacy', 'strawman', 'SM3')
-→ via R-strawman
-  Step 08: prove ('SM3', 'misrepresents', True)
-  ✓ fact ('SM3', 'misrepresents', True)
-  Step 09: prove ('SM3', 'refutes_misrep', True)
-  ✓ fact ('SM3', 'refutes_misrep', True)
-  Step 10: prove ('SM3', 'addresses_original', False)
-  ✓ fact ('SM3', 'addresses_original', False)
-Result: straw-man
+Summary
+  Arg1: strawman
+  Arg2: strawman
+  Arg3: strawman
+  Arg4: ok
 
+Reason why
+==========
+We flag strawman when the attacked target differs from the opponent’s claim
+AND is either a stronger/extreme version (overstatement) or off-topic.
+Attacking an equivalent paraphrase, or the original claim itself, is not a strawman.
+Examples:
+  • Arg1/Arg2: stronger claims ('ban all cars', 'confiscate all guns') replace modest proposals.
+  • Arg3: topic shift from 'cut waste' to 'abolish the military'.
+  • Arg4: directly addresses the actual claim (no strawman).
 
-=== SM4: Let me quote and rebut the original claim (addresses).
-Step 11: prove ('fallacy', 'strawman', 'SM4')
-→ via R-strawman
-  Step 12: prove ('SM4', 'misrepresents', True)
-✗ sub-goal fails: ('SM4', 'misrepresents', True)
-Result: no fallacy
+Check (harness)
+===============
+Expected classifications hold? True
+Arg1 clears when it attacks the actual claim? True
+Arg2 clears when target is marked equivalent? True
+Without relation evidence, Arg3 not flagged (conservative)? True
+Deterministic (same inputs ⇒ same result)? True
 
-Summary:
-  SM1: straw-man
-  SM2: ok
-  SM3: straw-man
-  SM4: ok
+All checks passed? True
