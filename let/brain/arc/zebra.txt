@@ -1,33 +1,37 @@
-House  Pos  Color   Nationality  Pet    Drink   Smoke
------  ---  ------  -----------  -----  ------  ----------
-1      0    yellow  norwegian    cats   water   dunhill   
-2      1    blue    dane         horse  tea     blends    
-3      2    red     brit         birds  milk    pallmall  
-4      3    green   german       fish   coffee  prince    
-5      4    white   swede        dogs   beer    bluemasters
+Answer
+======
+Houses (left → right):
+House   Color      Nation       Drink          Cigar           Pet     
+-----------------------------------------------------------------------
+1       yellow     Norwegian    water          Kools           fox     
+2       blue       Ukrainian    tea            Chesterfields   horse   
+3       red        Englishman   milk           Old Gold        snails  
+4       ivory      Spaniard     orange juice   Lucky Strike    dog     
+5       green      Japanese     coffee         Parliaments     zebra   
 
-:german :eats :fish
+Key facts
+---------
+Water is drunk by the Norwegian (house 1).
+The zebra is owned by the Japanese (house 5).
 
-=== Pretty Proof ===
+Reason why
+==========
+We model each attribute (color, nation, drink, cigar, pet) as a permutation of 5 values,
+mapping to house positions 1..5. We then enforce the 14 clues:
+  • direct equalities (e.g., Englishman ↔ red, coffee ↔ green, etc.),
+  • position constraints (green is immediately to the right of ivory; milk is in the middle;
+    Norwegian at the first house),
+  • adjacency constraints (Chesterfields next to the fox; Kools next to the horse;
+    Norwegian next to the blue house).
+Backtracking with early pruning guarantees we explore only consistent partial assignments,
+yielding the unique classic solution (water drinker and zebra owner as shown).
 
-[1] Premise-Rule: R (N3): If the following all hold simultaneously —
-  • log:equalTo L = [(?A1 :norwegian ...), (:blue ...), (? : ? : ? :milk ...), ...]
-  • :pair((... :blends) (... :cats ...))
-  • :pair((... :horse ...) (... :dunhill))
-  • :sublist((:green ... :coffee ...) (:white ...))  (green immediately left of white)
-  • :pair((... :blends) (... :water))
-  • list:member facts: (:red :brit ...), (? :swede :dogs ...), (? :dane ... :tea ...),
-                       (? ? :birds ... :pallmall), (:yellow ... :dunhill),
-                       (? ? ? :beer :bluemasters), (? :german ... :prince),
-                       (? ? :fish ...)
-then there exists ?B such that (?B :eats :fish). // Single rule with head ?B :eats :fish
-[2] Goal: eats(?WHO, :fish) // Original query
-[3] Backchain [1, 2]: Reduce to proving R's antecedent; set ?WHO ≡ ?B // Goal-directed use of rule head
-[4] Model-Construction: Construct M: unique 5-house assignment (see table above) // Finite search over permutations under N3 constraints
-[5] Check-EqualTo [4]: blue@1  ✓ (house 2 is :blue → pos=1); milk@2  ✓ (house 3 drinks :milk → pos=2); norwegian@0 ✓ (house 1 nationality :norwegian → pos=0) // Matches the list pattern from log:equalTo
-[6] Check-Sublist [4]: green at 3 and white at 4, so green immediately left of white ✓; drink(green) = coffee = :coffee ✓ // Encodes immediate-left and coffee@green
-[7] Check-Pair [4]: |blends - cats|=1 ✓, |horse - dunhill|=1 ✓, |blends - water|=1 ✓  → True // All required neighbor relations hold
-[8] Check-Members [4]: brit↔red ✓, swede↔dogs ✓, dane↔tea ✓, birds↔pallmall ✓, yellow↔dunhill ✓, beer↔bluemasters ✓, german↔prince ✓ // All list:member constraints are satisfied in M
-[9] And-Intro [5, 6, 7, 8]: All antecedent conjuncts hold in M // Thus R is applicable with witness ?B
-[10] Head-Intro [3, 9]: Atom(pred='eats', args=(':german', ':fish')) // Instantiate head with ?WHO = nationality at the fish-keeper's house
-[11] Answer [10]: ?WHO = :german // As required by the query
+Check (harness)
+===============
+Any solution found? True
+All found solutions satisfy all 14 clues? True
+Unique solution? True (found 1)
+Derived 'water' and 'zebra' owners are valid names? True
+Deterministic solve (same #solutions on rerun)? True
+
+All checks passed? True
