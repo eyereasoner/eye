@@ -29,22 +29,464 @@ Notes:
 """
 
 from __future__ import annotations
+
+# ─────────────────────────── stdlib imports ───────────────────────────
 import sys
+import re
 import datetime
-from dataclasses import dataclass, field
+from datetime import timezone
+from dataclasses import dataclass
 from decimal import Decimal
 from enum import Enum
-from typing import Dict, Iterable, List, Optional, Sequence, Set, Tuple, Union
+from typing import Dict, Iterable, List, Optional, Sequence, Set, Tuple, Union, Generator
+from itertools import count
+from urllib.request import urlopen, Request
+from urllib.error import URLError
+from urllib.parse import urljoin
 
-from rdflib import BNode, Graph, Literal, Namespace, RDF, RDFS, URIRef
-from rdflib.collection import Collection
-from rdflib.namespace import DCTERMS, XSD
+# ─────────────────────────── Minimal RDF model ───────────────────────────
+# We model just enough to support the quiz: URIRef, BNode, Literal, Namespace,
+# and a Graph with add/triples/objects/subjects + a small namespace manager.
+
+class URIRef(str):
+    """IRI node (same semantics as string, subclass for type clarity)."""
+    pass
+
+class BNode(str):
+    """Blank node identifier (e.g., 'b1'); printed as '_:b1' when qnamed."""
+    pass
+
+# Common XSD IRIs (strings), available early so Literal can use them
+XSD_NS = "http://www.w3.org/2001/XMLSchema#"
+XSD_INTEGER   = XSD_NS + "integer"
+XSD_DECIMAL   = XSD_NS + "decimal"
+XSD_BOOLEAN   = XSD_NS + "boolean"
+XSD_DATE      = XSD_NS + "date"
+XSD_DATETIME  = XSD_NS + "dateTime"
+
+class Literal:
+    """Simple literal with optional datatype or language tag."""
+    __slots__ = ("lex", "datatype", "lang")
+
+    def __init__(self, value, datatype: Optional[URIRef]=None, lang: Optional[str]=None):
+        self.lang = lang
+        # Accept Python values or lexical strings.
+        if isinstance(value, int):
+            self.lex = str(value)
+            self.datatype = URIRef(XSD_INTEGER)
+        elif isinstance(value, Decimal):
+            self.lex = format(value, 'f')
+            self.datatype = URIRef(XSD_DECIMAL)
+        elif isinstance(value, bool):
+            self.lex = "true" if value else "false"
+            self.datatype = URIRef(XSD_BOOLEAN)
+        elif isinstance(value, datetime.datetime):
+            # Store lexical form; we'll normalize in toPython()
+            self.lex = value.isoformat()
+            self.datatype = URIRef(XSD_DATETIME)
+        elif isinstance(value, datetime.date):
+            self.lex = value.isoformat()
+            self.datatype = URIRef(XSD_DATE)
+        else:
+            self.lex = str(value)
+            self.datatype = URIRef(datatype) if datatype else None
+
+    def toPython(self):
+        """Coerce to a Python value if the datatype is recognized."""
+        dt = str(self.datatype) if self.datatype else None
+        s = self.lex
+        try:
+            if dt == XSD_INTEGER:
+                return int(s)
+            if dt == XSD_DECIMAL:
+                return Decimal(s)
+            if dt == XSD_BOOLEAN:
+                return True if s == "true" else False if s == "false" else s
+            if dt == XSD_DATETIME:
+                # Accept trailing 'Z' and offsets; normalize to naive UTC
+                s2 = s[:-1] + "+00:00" if s.endswith("Z") else s
+                v = datetime.datetime.fromisoformat(s2)
+                if v.tzinfo is not None:
+                    v = v.astimezone(timezone.utc).replace(tzinfo=None)
+                return v
+            if dt == XSD_DATE:
+                return datetime.date.fromisoformat(s)
+        except Exception:
+            pass
+        return s  # unknown datatype: return lexical form
+
+    def __str__(self):
+        if self.lang:
+            return f"\"{self.lex}\"@{self.lang}"
+        if self.datatype:
+            return f"\"{self.lex}\"^^<{self.datatype}>"
+        return f"\"{self.lex}\""
+
+    def __repr__(self):
+        return f"Literal({self.lex!r}, datatype={self.datatype!r}, lang={self.lang!r})"
+
+    def __hash__(self):
+        return hash((self.lex, str(self.datatype) if self.datatype else None, self.lang))
+
+    def __eq__(self, other):
+        if not isinstance(other, Literal):
+            return False
+        return (self.lex,
+                str(self.datatype) if self.datatype else None,
+                self.lang) == (other.lex,
+                               str(other.datatype) if other.datatype else None,
+                               other.lang)
+
+class Namespace(str):
+    """Simple namespace; attribute access or indexing yields IRIs."""
+    def __getattr__(self, name: str) -> URIRef:
+        return URIRef(self + name)
+    def __getitem__(self, name: str) -> URIRef:
+        return URIRef(self + str(name))
+
+class NamespaceManager:
+    """Prefix <-> base IRI mapping with basic QName normalization."""
+    def __init__(self):
+        self.prefixes: Dict[str, str] = {}  # prefix -> base IRI
+        self._rev: List[Tuple[str, str]] = []  # cached list for normalizeUri
+
+    def bind(self, prefix: str, ns: Namespace, override: bool=False):
+        base = str(ns)
+        if prefix in self.prefixes and not override:
+            return
+        self.prefixes[prefix] = base
+        # Sort by base length desc so longest base wins during normalization
+        self._rev = sorted(((p, b) for p, b in self.prefixes.items()),
+                           key=lambda t: len(t[1]), reverse=True)
+
+    def expand(self, pname: str) -> URIRef:
+        # Handles "pref:local" and ":local" (empty prefix).
+        pref, _, local = pname.partition(':')
+        base = self.prefixes.get(pref)
+        if base is None:
+            raise KeyError(f"Unknown prefix: {pref!r} in {pname!r}")
+        return URIRef(base + local)
+
+    def normalizeUri(self, uri: URIRef) -> str:
+        """Return a prefixed name if any prefix matches, else the full IRI."""
+        u = str(uri)
+        for pref, base in self._rev:
+            if u.startswith(base):
+                return f"{pref}:{u[len(base):]}"
+        return u
+
+class Graph:
+    """Minimal RDF graph with a small Turtle parser for the quiz subset."""
+    def __init__(self):
+        self._triples: List[Tuple[Union[URIRef, BNode], URIRef, Union[URIRef, BNode, Literal]]] = []
+        self.namespace_manager = NamespaceManager()
+        # Default commonly used prefixes; callers can override
+        self.namespace_manager.bind("rdf", RDF, override=False)
+        self.namespace_manager.bind("rdfs", RDFS, override=False)
+        self.namespace_manager.bind("xsd", XSD, override=False)
+        self.namespace_manager.bind("dct", DCTERMS, override=False)
+
+    # Storage & pattern matching
+    def add(self, s, p, o):
+        self._triples.append((s, p, o))
+
+    def triples(self, spo) -> Generator[Tuple[object, object, object], None, None]:
+        s_q, p_q, o_q = spo
+        for (s, p, o) in self._triples:
+            if s_q is not None and s_q != s: continue
+            if p_q is not None and p_q != p: continue
+            if o_q is not None and o_q != o: continue
+            yield (s, p, o)
+
+    def __contains__(self, spo) -> bool:
+        s_q, p_q, o_q = spo
+        for (s, p, o) in self._triples:
+            if s_q is not None and s_q != s: continue
+            if p_q is not None and p_q != p: continue
+            if o_q is not None and o_q != o: continue
+            return True
+        return False
+
+    def objects(self, s, p):
+        for _, _, o in self.triples((s, p, None)):
+            yield o
+
+    def subjects(self, p, o):
+        for s, _, _ in self.triples((None, p, o)):
+            yield s
+
+    # Parsing
+    def parse(self, source: str, format: str="turtle"):
+        if format != "turtle":
+            raise ValueError("Only Turtle is supported by this lightweight parser.")
+        text = None
+        # If source looks like raw Turtle, parse directly; else fetch file/URL.
+        if source.strip().startswith("@prefix") or "\n" in source or " " in source[:70]:
+            text = source
+        else:
+            if re.match(r"^[a-z]+://", source):
+                try:
+                    req = Request(source, headers={"User-Agent": "mini-rdf/0.2"})
+                    with urlopen(req, timeout=30) as fp:
+                        text = fp.read().decode("utf-8")
+                except URLError as e:
+                    raise RuntimeError(f"Failed to fetch {source}: {e}")
+            else:
+                with open(source, "r", encoding="utf-8") as fh:
+                    text = fh.read()
+        TurtleParser(self).parse(text)
+        return self
+
+# Namespace instances (now safe to construct graphs that reference them)
+RDF      = Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+RDFS     = Namespace("http://www.w3.org/2000/01/rdf-schema#")
+XSD      = Namespace(XSD_NS)
+DCTERMS  = Namespace("http://purl.org/dc/terms/")
+
+# ─────────────────────────── Tiny Turtle tokenizer ───────────────────────────
+# Single REGEX (no VERBOSE) to avoid 3.13 parsing pitfalls.
+# Supports:
+#   IRIs <...>, @prefix/@base, prefixed names (incl. ":" alone), blank nodes,
+#   numbers, strings, ^^, @lang, 'a', and punctuation.
+
+_TOKEN_RE = re.compile(
+    r"(?:\s+|#[^\n]*\n)"                                  # whitespace/comments (dropped)
+    r"|(?P<IRIREf><[^>]*>)"                               # <...>
+    r"|(?P<PREFIX>@prefix|PREFIX|@base|BASE)"             # directives
+    r"|(?P<PNAME_LN>(?:[A-Za-z_][\w\-.]*|):[^\s;,\.\)\]\(]+)"  # prefixed name with local (incl ':local')
+    r"|(?P<PNAME_NS>(?:[A-Za-z_][\w\-.]*:)|:)"            # prefix: (incl ':' alone)
+    r"|(?P<BNODE>_:[A-Za-z][A-Za-z0-9]*)"                 # _:b1
+    r"|(?P<TRUE>true|false)"                              # booleans
+    r"|(?P<DECIMAL>[+-]?(?:\d+\.\d+|\.\d+))"              # decimals
+    r"|(?P<INTEGER>[+-]?\d+)"                             # integers
+    r"|(?P<STRING>\"(?:[^\"\\]|\\.)*\"|'(?:[^'\\]|\\.)*')"# strings
+    r"|(?P<LANG>@[A-Za-z]+(?:-[A-Za-z0-9]+)*)"            # @lang or @en-US
+    r"|(?P<HAT>\^\^)"                                     # ^^
+    r"|(?P<A>\ba\b)"                                      # 'a' keyword
+    r"|(?P<PUNCT>[;,\.\[\]\(\)])"                         # punctuation
+)
+
+class _Tok:
+    __slots__ = ("typ", "val")
+    def __init__(self, typ, val): self.typ, self.val = typ, val
+    def __repr__(self): return f"{self.typ}:{self.val}"
+
+# ─────────────────────────── Tiny Turtle parser ───────────────────────────
+class TurtleParser:
+    """Very small Turtle parser for the structures used by the quiz & ODRL vocab."""
+    def __init__(self, graph: Graph):
+        self.g = graph
+        self.tokens: List[_Tok] = []
+        self.i = 0
+        self._bgen = count(1)
+        self._base: Optional[str] = None  # @base IRI
+
+    # Token helpers
+    def _eof(self): return self.i >= len(self.tokens)
+    def _peek(self) -> Optional[_Tok]: return None if self._eof() else self.tokens[self.i]
+    def _peek_typ(self) -> Optional[str]: return None if self._eof() else self.tokens[self.i].typ
+    def _next(self) -> _Tok:
+        t = self.tokens[self.i]; self.i += 1; return t
+    def _expect(self, typ: str) -> _Tok:
+        t = self._next()
+        if t.typ != typ:
+            raise SyntaxError(f"Expected {typ}, got {t.typ} ({t.val})")
+        return t
+
+    # Entry
+    def parse(self, text: str):
+        self.tokens = [ _Tok(m.lastgroup, m.group(m.lastgroup))
+                        for m in _TOKEN_RE.finditer(text)
+                        if m.lastgroup is not None ]
+        self.i = 0
+        while not self._eof():
+            if self._peek_typ() == "PREFIX":
+                self._directive()
+            elif self._peek_typ() == "PUNCT":
+                # Stray punctuation (rare in real docs) – consume to avoid infinite loop.
+                self._next()
+            else:
+                self._triples()
+        return self.g
+
+    # Parsing building blocks
+    def _directive(self):
+        kw = self._next().val.lower()
+        if kw in ("@prefix", "prefix"):
+            # @prefix p: <iri> .
+            pref_tok = self._expect("PNAME_NS")
+            pref = pref_tok.val[:-1]  # strip trailing ':'
+            iri = self._iri(self._next())
+            self.g.namespace_manager.bind(pref, Namespace(iri), override=True)
+            if self._peek_typ() == "PUNCT" and self._peek().val == '.':
+                self._next()
+        elif kw in ("@base", "base"):
+            iri = self._iri(self._next())
+            self._base = iri
+            if self._peek_typ() == "PUNCT" and self._peek().val == '.':
+                self._next()
+        else:
+            raise SyntaxError(f"Unknown directive {kw}")
+
+    def _triples(self):
+        s = self._subject()
+        self._predicateObjectList(s)
+        if self._peek_typ() == "PUNCT" and self._peek().val == '.':
+            self._next()
+
+    def _subject(self):
+        t = self._peek()
+        if t is None:
+            raise SyntaxError("Unexpected EOF in subject")
+        if t.typ in ("IRIREf", "PNAME_LN", "PNAME_NS"):
+            return self._resource(self._next())
+        if t.typ == "BNODE":
+            return BNode(self._next().val[2:])
+        if t.typ == "PUNCT" and t.val == '[':
+            return self._blankNodePropertyList()
+        if t.typ == "PUNCT" and t.val == '(':
+            return self._collection()
+        raise SyntaxError(f"Bad subject token {t.typ}:{t.val}")
+
+    def _verb(self):
+        t = self._peek()
+        if t and t.typ == "A":
+            self._next()
+            return URIRef(RDF.type)
+        return self._resource(self._next())
+
+    def _predicateObjectList(self, s):
+        """Parse p o (, o)* (; p o (, o)*)* allowing trailing ';' before ']' or '.'."""
+        first = True
+        while True:
+            if not first:
+                if self._peek_typ() == "PUNCT" and self._peek().val == ';':
+                    self._next()  # consume ';'
+                    # allow trailing ';' before ']' or end-of-statement '.'
+                    if self._peek_typ() == "PUNCT" and self._peek().val in (']', '.'):
+                        return
+                    # otherwise continue reading the next predicate
+                else:
+                    # caller handles ']' or '.'
+                    return
+            first = False
+            # If we're actually at ']' here, bubble up to caller cleanly.
+            if self._peek_typ() == "PUNCT" and self._peek().val == ']':
+                return
+            p = self._verb()
+            self._objectList(s, p)
+
+    def _objectList(self, s, p):
+        while True:
+            o = self._object()
+            self.g.add(s, p, o)
+            if self._peek_typ() == "PUNCT" and self._peek().val == ',':
+                self._next()
+            else:
+                return
+
+    def _object(self):
+        t = self._peek()
+        if t.typ in ("IRIREf", "PNAME_LN", "PNAME_NS"):
+            return self._resource(self._next())
+        if t.typ == "BNODE":
+            return BNode(self._next().val[2:])
+        if t.typ == "PUNCT" and t.val == '[':
+            return self._blankNodePropertyList()
+        if t.typ == "PUNCT" and t.val == '(':
+            return self._collection()
+        if t.typ in ("STRING","INTEGER","DECIMAL","TRUE"):
+            return self._literal()
+        raise SyntaxError(f"Bad object token {t.typ}:{t.val}")
+
+    def _blankNodePropertyList(self):
+        self._expect("PUNCT")  # '['
+        b = BNode(f"b{next(self._bgen)}")
+        # Empty [] allowed
+        if self._peek_typ() == "PUNCT" and self._peek().val == ']':
+            self._next()
+            return b
+        self._predicateObjectList(b)
+        self._expect("PUNCT")  # ']'
+        return b
+
+    def _collection(self):
+        """Parse '( o1 o2 ... )' as an rdf:first/rest chain, return head node (or rdf:nil)."""
+        self._expect("PUNCT")  # '('
+        items: List[Union[URIRef, BNode, Literal]] = []
+        while not (self._peek_typ() == "PUNCT" and self._peek().val == ')'):
+            items.append(self._object())
+        self._expect("PUNCT")  # ')'
+        if not items:
+            return URIRef(RDF.nil)
+        # Build rdf:first/rest chain
+        head = BNode(f"b{next(self._bgen)}")
+        cur = head
+        for i, elt in enumerate(items):
+            self.g.add(cur, URIRef(RDF.first), elt)
+            if i < len(items) - 1:
+                nxt = BNode(f"b{next(self._bgen)}")
+                self.g.add(cur, URIRef(RDF.rest), nxt)
+                cur = nxt
+            else:
+                self.g.add(cur, URIRef(RDF.rest), URIRef(RDF.nil))
+        return head
+
+    def _resource(self, t: _Tok) -> URIRef:
+        """Turn IRIREf / PNAME_* into a URIRef, resolving @base for relative IRIs."""
+        if t.typ == "IRIREf":
+            val = t.val[1:-1]
+            if self._base and not re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", val):
+                val = urljoin(self._base, val)
+            return URIRef(val)
+        if t.typ in ("PNAME_LN", "PNAME_NS"):
+            return self.g.namespace_manager.expand(t.val)
+        raise SyntaxError(f"Expected IRI or prefixed name, got {t.typ}:{t.val}")
+
+    def _iri(self, t: _Tok) -> str:
+        if t.typ != "IRIREf":
+            raise SyntaxError(f"Expected IRIREf, got {t.typ}:{t.val}")
+        return t.val[1:-1]
+
+    def _literal(self) -> Literal:
+        t = self._next()
+        if t.typ == "STRING":
+            s = t.val
+            un = self._unescape_string(s[1:-1]) if s[0] == s[-1] else s
+            # Language tag?
+            if self._peek_typ() == "LANG":
+                lang = self._next().val[1:]  # strip '@'
+                return Literal(un, datatype=None, lang=lang)
+            # Typed literal?
+            if self._peek_typ() == "HAT":
+                self._next()  # ^^
+                dt_tok = self._next()
+                dt = self._resource(dt_tok)
+                return Literal(un, datatype=dt)
+            return Literal(un)
+        if t.typ == "INTEGER":
+            return Literal(int(t.val))
+        if t.typ == "DECIMAL":
+            return Literal(Decimal(t.val))
+        if t.typ == "TRUE":
+            return Literal(True if t.val == "true" else False)
+        raise SyntaxError(f"Bad literal token {t}")
+
+    @staticmethod
+    def _unescape_string(s: str) -> str:
+        # Minimal unescape: quotes, slash, common escapes
+        return (s.replace(r'\"', '"')
+                 .replace(r"\'", "'")
+                 .replace(r'\n', '\n')
+                 .replace(r'\r', '\r')
+                 .replace(r'\t', '\t')
+                 .replace(r'\\', '\\'))
 
 # ─────────────────────────── Config ───────────────────────────
 ODRL = Namespace("http://www.w3.org/ns/odrl/2/")
 ODRL_TTL_URL = "https://www.w3.org/ns/odrl/2/ODRL22.ttl"
 
-# Logical constructors (use bracket notation for rdflib safety)
+# Logical constructors (use bracket notation for safety)
 ODRL_OR = ODRL["or"]
 ODRL_AND = ODRL["and"]
 ODRL_XONE = ODRL["xone"]
@@ -94,11 +536,15 @@ DEBUG = False  # set True to print operand-level satisfiability to stderr
 QNameish = Union[str, URIRef, Literal, BNode, None]
 
 def qname(g: Graph, term: QNameish) -> str:
+    """Pretty-print a node. URIRefs are shown as qnames if possible, else <IRI>."""
     if isinstance(term, URIRef):
+        u = str(term)
         try:
-            return g.namespace_manager.normalizeUri(term)
+            n = g.namespace_manager.normalizeUri(term)
         except Exception:
-            return str(term)
+            n = u
+        # If normalization didn’t shorten it (still the full IRI), wrap in <...>
+        return n if n != u else f"<{u}>"
     if isinstance(term, Literal):
         return str(term)
     if isinstance(term, BNode):
@@ -114,18 +560,32 @@ def to_python_literal(lit: Literal):
         return lit
 
 def as_list(g: Graph, node: QNameish) -> Optional[List]:
+    """Return Python list for rdf:List head, if node is a list head; else None."""
     if node is None:
         return None
-    if node == RDF.nil:
+    if node == URIRef(RDF.nil):
         return []
-    if (node, RDF.first, None) in g:
-        try:
-            return list(Collection(g, node))
-        except Exception:
-            return None
+    if (node, URIRef(RDF.first), None) in g:
+        out = []
+        cur = node
+        seen = set()
+        while cur != URIRef(RDF.nil):
+            if cur in seen:  # cycle guard
+                break
+            seen.add(cur)
+            firsts = list(g.objects(cur, URIRef(RDF.first)))
+            if not firsts:
+                break
+            out.append(firsts[0])
+            rests = list(g.objects(cur, URIRef(RDF.rest)))
+            if not rests:
+                break
+            cur = rests[0]
+        return out
     return None
 
 def rt_closure(edges: Dict[URIRef, Set[URIRef]]) -> Dict[URIRef, Set[URIRef]]:
+    """Reflexive-transitive closure for a finite graph of edges (sub/super relations)."""
     closure: Dict[URIRef, Set[URIRef]] = {}
     nodes = set(edges.keys()) | {y for ys in edges.values() for y in ys}
     for a in nodes:
@@ -166,39 +626,40 @@ class ActionHierarchy:
             add(s, o); has_included = True
         for s, _, o in g_quiz.triples((None, ODRL.includedIn, None)):
             add(s, o); has_included = True
-        for s, _, o in g_quiz.triples((None, RDFS.subClassOf, None)):
+        for s, _, o in g_quiz.triples((None, URIRef(RDFS.subClassOf), None)):
             add(s, o)
         if not has_included:
             for s, o in self.FALLBACK_EDGES:
                 add(s, o)
         self.closure = rt_closure(edges)
+        self._names = g_quiz  # use quiz namespaces in messages
 
     def overlap(self, a: URIRef, b: URIRef) -> Tuple[bool, str]:
         if a == b:
-            return True, f"same action ({qname(Graph(), a)})"
+            return True, f"same action ({qname(self._names, a)})"
         a_sup = self.closure.get(a, {a})
         b_sup = self.closure.get(b, {b})
         if b in a_sup:
-            return True, f"{qname(Graph(), a)} ⊑ {qname(Graph(), b)}"
+            return True, f"{qname(self._names, a)} ⊑ {qname(self._names, b)}"
         if a in b_sup:
-            return True, f"{qname(Graph(), b)} ⊑ {qname(Graph(), a)}"
+            return True, f"{qname(self._names, b)} ⊑ {qname(self._names, a)}"
         return False, "no action inclusion relation"
 
 class TypeHierarchy:
-    """rdfs:subClassOf* closure for odrl:isA"""
+    """rdfs:subClassOf* closure for odrl:isA tests."""
     def __init__(self, g_vocab: Graph, g_quiz: Graph):
         edges: Dict[URIRef, Set[URIRef]] = {}
         def add(s: QNameish, o: QNameish):
             if isinstance(s, URIRef) and isinstance(o, URIRef):
                 edges.setdefault(s, set()).add(o)
-        for s, _, o in g_vocab.triples((None, RDFS.subClassOf, None)):
+        for s, _, o in g_vocab.triples((None, URIRef(RDFS.subClassOf), None)):
             add(s, o)
-        for s, _, o in g_quiz.triples((None, RDFS.subClassOf, None)):
+        for s, _, o in g_quiz.triples((None, URIRef(RDFS.subClassOf), None)):
             add(s, o)
         self.closure = rt_closure(edges)
 
     def is_instance_of(self, g: Graph, x: URIRef, C: URIRef) -> bool:
-        for T in g.objects(x, RDF.type):
+        for T in g.objects(x, URIRef(RDF.type)):
             if isinstance(T, URIRef) and C in self.closure.get(T, {T}):
                 return True
         return False
@@ -215,15 +676,12 @@ class Expr: pass
 @dataclass(frozen=True)
 class Or(Expr):
     kids: Tuple[Expr, ...]
-
 @dataclass(frozen=True)
 class And(Expr):
     kids: Tuple[Expr, ...]
-
 @dataclass(frozen=True)
 class Xone(Expr):
     kids: Tuple[Expr, ...]
-
 @dataclass(frozen=True)
 class AndSeq(Expr):
     kids: Tuple[Expr, ...]
@@ -296,7 +754,7 @@ def extract_rules(g: Graph) -> List[Rule]:
         (ODRL.prohibited, "prohibition"),
         (ODRL.obligation, "obligation"),
     )
-    for pol in g.subjects(RDF.type, ODRL.Set):
+    for pol in g.subjects(URIRef(RDF.type), ODRL.Set):
         for pred, kind in KINDS:
             for rnode in g.objects(pol, pred):
                 assignees = list(g.objects(rnode, ODRL.assignee)) or [None]
@@ -332,15 +790,14 @@ def _expr_signature(g: Graph, e: Expr) -> str:
     return "?"
 
 def _rule_sort_key(g: Graph, r: Rule) -> Tuple:
+    """Sort by raw IRIs to minimize qname-induced reordering differences."""
+    def s(term):
+        if isinstance(term, URIRef): return str(term)
+        if isinstance(term, Literal): return str(term)
+        if isinstance(term, BNode): return f"_:{term}"
+        return ""
     sig = "|".join(_expr_signature(g, e) for e in r.exprs)
-    return (
-        qname(g, r.policy),
-        r.kind,
-        qname(g, r.assignee) if r.assignee else "",
-        qname(g, r.action),
-        qname(g, r.target) if r.target else "",
-        sig,
-    )
+    return ( s(r.policy), r.kind, s(r.assignee), s(r.action), s(r.target), sig )
 
 def sort_and_label_rules(g: Graph, rules: List[Rule]) -> List[Rule]:
     out = sorted(rules, key=lambda r: _rule_sort_key(g, r))
@@ -394,7 +851,7 @@ def expand_rule_to_clauses(r: Rule) -> List[Clause]:
 def _cmp_literals(a: Literal, b: Literal) -> Optional[int]:
     try:
         pa, pb = to_python_literal(a), to_python_literal(b)
-        if type(pa) is type(pb):  # strict
+        if type(pa) is type(pb):  # strict: only compare same types
             return -1 if pa < pb else (1 if pa > pb else 0)
     except Exception:
         pass
@@ -415,8 +872,8 @@ def _as_uris(g: Graph, term: Union[Literal, URIRef, BNode]) -> Optional[Set[URIR
         return {term}
     return None
 
-# Holds predicate on a concrete value v (URI or Literal or set of URIs)
 def _holds_atom(g: Graph, TH: TypeHierarchy, A: Atom, v) -> Optional[bool]:
+    """Evaluate a single atom on a concrete value v (URIRef, set[URIRef], or Literal)."""
     # URI-valued / class tests
     if isinstance(v, URIRef):
         if A.op in (ODRL.eq,):
@@ -446,8 +903,7 @@ def _holds_atom(g: Graph, TH: TypeHierarchy, A: Atom, v) -> Optional[bool]:
         if A.op == ODRL.isNoneOf:
             S = _as_uris(g, A.right);  return bool(S is not None and not (v & S))
         if A.op == ODRL.isA:
-            # set + isA isn’t meaningful; treat as unknown
-            return None
+            return None  # set + isA isn’t meaningful
         return None
 
     # numeric/temporal (Literal-like)
@@ -467,11 +923,11 @@ def _holds_atom(g: Graph, TH: TypeHierarchy, A: Atom, v) -> Optional[bool]:
 
     return None
 
-# Satisfiability check “there exists some v for this operand that makes all atoms true”
 def _satisfiable_on_operand(g: Graph, TH: TypeHierarchy, atoms: Sequence[Atom]) -> bool:
+    """There exists some value v for this operand that makes all atoms true?"""
     dom = _domain_for_operand(g, atoms)
     if dom == "uri":
-        # Try equality/list members first; else, assume there exists a URI outside all neq/noneOf
+        # Try equality/list members first; else assume there exists some fresh URI
         cands: List[URIRef] = []
         for A in atoms:
             if A.op == ODRL.eq and isinstance(A.right, URIRef):
@@ -485,11 +941,11 @@ def _satisfiable_on_operand(g: Graph, TH: TypeHierarchy, atoms: Sequence[Atom]) 
         for v in cands:
             if all(_holds_atom(g, TH, A, v) is not False for A in atoms):
                 return True
-        # try a dummy fresh URIRef (heuristic): satisfiable unless explicitly forbidden by isAllOf with non-singleton set
+        # Heuristic: satisfiable unless an isAllOf demands a non-singleton exact set
         return not any(A.op == ODRL.isAllOf and len(_as_uris(g, A.right) or set()) != 1 for A in atoms)
 
     if dom == "set":
-        # Build a minimal set V that satisfies “allOf + anyOf” while avoiding “noneOf”
+        # Build a minimal set V that satisfies allOf + anyOf while avoiding noneOf
         all_req: Set[URIRef] = set()
         any_sets: List[Set[URIRef]] = []
         none_forbid: Set[URIRef] = set()
@@ -507,7 +963,6 @@ def _satisfiable_on_operand(g: Graph, TH: TypeHierarchy, atoms: Sequence[Atom]) 
             elif A.op == ODRL.eq:
                 S = _as_uris(g, A.right) or set()
                 eq_sets.append(S)
-        # Equality constraints must agree
         if eq_sets:
             base = eq_sets[0]
             if any(S != base for S in eq_sets[1:]):
@@ -520,12 +975,11 @@ def _satisfiable_on_operand(g: Graph, TH: TypeHierarchy, atoms: Sequence[Atom]) 
                 if not picks:
                     return False
                 V.add(picks[0])
-        # Must avoid forbidden
         if V & none_forbid:
             return False
         return True
 
-    # numeric
+    # numeric/temporal intervals
     lo: Optional[Literal] = None
     lo_incl = True
     hi: Optional[Literal] = None
@@ -546,7 +1000,6 @@ def _satisfiable_on_operand(g: Graph, TH: TypeHierarchy, atoms: Sequence[Atom]) 
             else:
                 if hi is None or _cmp_literals(A.right, hi) == -1:
                     hi, hi_incl = A.right, (A.op == ODRL.lteq)
-    # equalities must agree and sit inside the interval
     if eqs:
         v = eqs[0]
         if any(_cmp_literals(v, e) != 0 for e in eqs[1:]):
@@ -562,17 +1015,17 @@ def _satisfiable_on_operand(g: Graph, TH: TypeHierarchy, atoms: Sequence[Atom]) 
         if any(_cmp_literals(v, ne) == 0 for ne in not_equals):
             return False
         return True
-    # otherwise interval must be non-empty (and not entirely excluded by != singleton)
     if lo is not None and hi is not None:
         c = _cmp_literals(lo, hi)
         if c is None or c > 0 or (c == 0 and not (lo_incl and hi_incl)):
             return False
     return True
 
-# P-only witness search on one operand
-def _p_only_on_operand(g: Graph, TH: TypeHierarchy, p_atoms: Sequence[Atom], n_atoms: Sequence[Atom]) -> Tuple[bool, Optional[object]]:
+def _p_only_on_operand(g: Graph, TH: TypeHierarchy,
+                       p_atoms: Sequence[Atom], n_atoms: Sequence[Atom]) -> Tuple[bool, Optional[object]]:
+    """Search for a 'P-only witness' value v that satisfies P but not N for a shared operand."""
     dom = _domain_for_operand(g, p_atoms or n_atoms)
-    # First: simple candidates from equality, lists and numeric boundaries
+    # 1) simple candidates: eq targets, list members
     cand: List[object] = []
     for A in list(p_atoms) + list(n_atoms):
         if A.op == ODRL.eq:
@@ -581,7 +1034,8 @@ def _p_only_on_operand(g: Graph, TH: TypeHierarchy, p_atoms: Sequence[Atom], n_a
             L = as_list(g, A.right)
             if L:
                 cand.extend(L)
-    # numeric nudges: try just inside P and just outside N
+
+    # 2) numeric 'nudges': just inside P bounds, just outside N bounds
     def _num_bounds(atoms: Sequence[Atom]):
         lo, lo_incl, hi, hi_incl = None, True, None, True
         for A in atoms:
@@ -594,27 +1048,27 @@ def _p_only_on_operand(g: Graph, TH: TypeHierarchy, p_atoms: Sequence[Atom], n_a
                         hi, hi_incl = A.right, (A.op == ODRL.lteq)
         return lo, lo_incl, hi, hi_incl
 
-    def _bump(lit: Literal, eps: Literal, up: bool) -> Literal:
-        # Works for xsd:integer/decimal/dateTime/date
+    def _bump(lit: Literal, up: bool) -> Literal:
+        # Works for integer/decimal/dateTime/date
         py = to_python_literal(lit)
         if isinstance(py, int):
-            return Literal(py + (1 if up else -1), datatype=XSD.integer)
+            return Literal(py + (1 if up else -1), datatype=URIRef(XSD_INTEGER))
         if isinstance(py, Decimal):
             return Literal(py + (Decimal("0.0001") if up else -Decimal("0.0001")))
         if isinstance(py, datetime.datetime):
             delta = datetime.timedelta(seconds=1)
-            return Literal(py + (delta if up else -delta), datatype=XSD.dateTime)
+            return Literal(py + (delta if up else -delta), datatype=URIRef(XSD_DATETIME))
         if isinstance(py, datetime.date):
             delta = datetime.timedelta(days=1)
-            return Literal(py + (delta if up else -delta), datatype=XSD.date)
-        return lit
+            return Literal(py + (delta if up else -delta), datatype=URIRef(XSD_DATE))
+        return lit  # as-is if unknown
 
     loP, loP_inc, hiP, hiP_inc = _num_bounds(p_atoms)
-    if loP: cand.append(_bump(loP, loP, True if not loP_inc else False))
-    if hiP: cand.append(_bump(hiP, hiP, False if not hiP_inc else True))
+    if loP: cand.append(_bump(loP, True if not loP_inc else False))
+    if hiP: cand.append(_bump(hiP, False if not hiP_inc else True))
     loN, loN_inc, hiN, hiN_inc = _num_bounds(n_atoms)
-    if loN: cand.append(_bump(loN, loN, False))   # just outside N
-    if hiN: cand.append(_bump(hiN, hiN, True))
+    if loN: cand.append(_bump(loN, False))   # just outside N
+    if hiN: cand.append(_bump(hiN, True))
 
     # de-dup (value + datatype)
     seen: Set[Tuple[object, Optional[URIRef]]] = set()
@@ -630,22 +1084,20 @@ def _p_only_on_operand(g: Graph, TH: TypeHierarchy, p_atoms: Sequence[Atom], n_a
         if okP and not okN:
             return True, v
 
-    # Try a tiny set-valued witness for set ops
+    # 3) tiny set witness for set ops
     def collect_set(atoms: Sequence[Atom]):
         eq_sets: List[Set[URIRef]] = []; any_sets: List[Set[URIRef]] = []
         all_req: Set[URIRef] = set(); none_forbid: Set[URIRef] = set()
-        neq_sets: List[Set[URIRef]] = []
         for a in atoms:
             S = _as_uris(g, a.right)
             if a.op == ODRL.eq and S is not None: eq_sets.append(set(S))
             elif a.op == ODRL.isAnyOf and S is not None: any_sets.append(set(S))
             elif a.op == ODRL.isAllOf and S is not None: all_req |= S
             elif a.op == ODRL.isNoneOf and S is not None: none_forbid |= S
-            elif a.op == ODRL.neq and S is not None: neq_sets.append(set(S))
-        return eq_sets, any_sets, all_req, none_forbid, neq_sets
+        return eq_sets, any_sets, all_req, none_forbid
 
-    eqP, anyP, allP, noneP, neqP = collect_set(p_atoms)
-    eqN, anyN, allN, noneN, neqN = collect_set(n_atoms)
+    eqP, anyP, allP, noneP = collect_set(p_atoms)
+    eqN, anyN, allN, noneN = collect_set(n_atoms)
 
     # exact-equality set from P
     if eqP:
