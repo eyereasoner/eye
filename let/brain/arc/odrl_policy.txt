@@ -1,9 +1,42 @@
 
-=== user123 read document123 ===
-DECISION: ALLOW
-REASONING TRACE:
-- Evaluating policy for target 'document123'
-- Permission found for action 'read' by user 'user123'
-- Time constraint passed: 2025-07-28 00:00:00 >= 2025-07-01 00:00:00
-- Obligation 'notify' has been fulfilled.
-- All checks passed. Permission granted.
+========================================================================
+Answer
+========================================================================
+Query:  user=user123  action=read  target=document123  at=2025-07-28T00:00:00
+Result: ALLOW
+
+Key checks
+  • Policy applies to target?       True
+  • Prohibition matched?            False
+  • Permission found?               True
+  • Constraints satisfied?          True
+  • Obligation required (notify)?   True
+  • Obligation fulfilled?           True
+
+Trace (for transparency):
+   - Evaluating policy for target 'document123'
+   - Permission found for action 'read' by user 'user123'
+   - Time constraint passed: 2025-07-28 00:00:00 >= 2025-07-01 00:00:00
+   - Obligation 'notify' has been fulfilled.
+   - All checks passed. Permission granted.
+
+========================================================================
+Reason why
+========================================================================
+Evaluation order:
+  1) Target match — the policy must apply to the requested target.
+  2) Prohibitions — if a prohibition matches (assignee+action), access is denied.
+  3) Permissions — if a permission matches, all its constraints must hold.
+  4) Obligations — any required duties (e.g., 'notify') must be fulfilled;
+     otherwise access is denied. Only then is access granted.
+
+========================================================================
+Check (harness)
+========================================================================
+Baseline allow? True
+Time constraint enforced (pre-threshold denies)? True
+Prohibition overrides permission? True
+Obligation gating enforced (missing → deny)? True
+Deterministic on same inputs? True
+
+All checks passed? True
