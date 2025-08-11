@@ -1,0 +1,26 @@
+Answer
+------
+Conclusion: not flies(Tweety)
+
+Reason why
+----------
+Facts & strict derivations:
+  • bird(Tweety)  — From R1 using [penguin(Tweety)].
+  • penguin(Tweety)  — Given as a fact.
+
+Competing defeasible arguments:
+  • flies(Tweety): R2 (priority 1) from [bird(Tweety)]
+  • flies(Tweety): R2 (priority 1) from [bird(Tweety)]
+  • not flies(Tweety): R3 (priority 2) from [penguin(Tweety)]
+  • not flies(Tweety): R3 (priority 2) from [penguin(Tweety)]
+
+Resolution: REJECT flies(Tweety) — not flies(Tweety) is supported by a stronger, more specific rule.
+
+Check (harness)
+----------------
+[PASS] not flies(Tweety)    expected=True got=True — Specific penguin rule defeats general bird rule
+[PASS] flies(Robin)         expected=True got=True — Ordinary bird should fly
+[PASS] lays_eggs(Tweety)    expected=True got=True — Birds typically lay eggs; Tweety is (strictly) a bird
+[PASS] flies(Tweety)        expected=False got=False — Tweety should not fly due to stronger contrary rule
+
+4/4 tests passed.
