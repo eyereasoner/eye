@@ -4,7 +4,7 @@
 Insight Economy — Commented Reference Implementation
 ====================================================
 
-This file implements a small, end‑to‑end example of the "insight economy" idea:
+This file implements a small, end‑to‑end example of the "insight economy" idea [1]:
 derive *actionable insights* from sensitive, private data and share only the
 minimal instructions required to act — NOT the raw data itself.
 
@@ -26,6 +26,10 @@ What this file demonstrates
 3) **Explanation**: A human‑readable "reason" for the person (private side only).
 4) **Harness**: Small checks for data minimization, context restriction, behavior,
    and time‑boundedness.
+
+References
+----------
+[1] https://ruben.verborgh.org/blog/2025/08/12/inside-the-insight-economy/
 """
 
 from __future__ import annotations
