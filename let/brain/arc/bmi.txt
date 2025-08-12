@@ -1,25 +1,35 @@
-
-=== Proving ('status', '?P', 'true') ===
-
-Step 01: prove ('status', '?P', 'true')
-→ via R-status
-  Step 02: prove ('?P', 'bmi', '?B')
-  → via R-bmi
-    Step 03: prove ('?P', 'weight', '?W')
-    ✓ fact ('john', 'weight', 92.0)
-    Step 04: prove ('john', 'height', '?H')
-    ✓ fact ('john', 'height', 1.83)
-      ↪ bmi(john) = 27.47 kg/m²
-      ↪ check 27.47 ≥ 25  ✓
-    ✓ fact ('mary', 'weight', 65.0)
-    Step 05: prove ('mary', 'height', '?H')
-    ✓ fact ('mary', 'height', 1.71)
-      ↪ bmi(mary) = 22.23 kg/m²
-      ↪ check 22.23 ≥ 25  ✗
-
+Answer
+------
 Computed BMI values:
   john: 27.47 kg/m²
   mary: 22.23 kg/m²
 
-Overweight individuals (BMI ≥25):
-  john  (BMI 27.47 kg/m²)
+Overweight individuals (BMI ≥ 25):
+  john (BMI 27.47 kg/m²)
+
+Reason why
+----------
+Rules used:
+  R-bmi    : from weight & height derive bmi B = W/H²
+  R-status : if bmi B ≥ 25 then status(P,true)
+
+Proof trace (first lines):
+Step 01: prove ('status', '?P', 'true')
+→ via R-status
+ Step 02: prove ('?P', 'bmi', '?B')
+ → via R-bmi
+  Step 03: prove ('?P', 'weight', '?W')
+  ✓ fact ('john', 'weight', 92.0)
+  Step 04: prove ('john', 'height', '?H')
+  ✓ fact ('john', 'height', 1.83)
+ ↪ bmi(john) = 27.47 kg/m²  (B = W/H²)
+ ↪ check 27.47 ≥ 25 ✓
+  ✓ fact ('mary', 'weight', 65.0)
+  Step 05: prove ('mary', 'height', '?H')
+  ✓ fact ('mary', 'height', 1.71)
+ ↪ bmi(mary) = 22.23 kg/m²  (B = W/H²)
+ ↪ check 22.23 ≥ 25 ✗
+
+Check (harness)
+---------------
+OK: BMI derivations, status classification, and solver substitutions all match.
