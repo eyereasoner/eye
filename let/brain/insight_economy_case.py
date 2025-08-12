@@ -115,7 +115,9 @@ raw = RawPersonalData(
 )
 
 # PUBLIC context of the current retail session (OK to share).
-now = datetime.now(timezone.utc)
+# now = datetime.now(timezone.utc)
+now = datetime.fromisoformat("2025-08-12T12:52:50.456108+00:00")
+
 ctx = ShoppingContext(
     retailer="Delfour",
     device="self-scanner",
@@ -203,7 +205,8 @@ def create_envelope(payload: Dict[str, Any], ctx: ShoppingContext) -> InsightEnv
     - Scope includes "this_session" and a 2h expiry — avoids long‑term reuse.
     - Provenance records generator version and that minimization occurred.
     """
-    insight_id = f"ins-{uuid.uuid4()}"
+    #insight_id = f"ins-{uuid.uuid4()}"
+    insight_id = "ins-a4aa784b-20f0-4d33-af18-865e370a54dd"
 
     # Time‑box to keep the insight "hot". Adjust as needed; here we use 2 hours.
     expires_at = (ctx.timestamp + timedelta(hours=2)).isoformat()
