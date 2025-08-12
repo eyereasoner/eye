@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Insight Economy — Commented Reference Implementation
-====================================================
+INSIGHT ECONOMY
+===============
 
 This file implements a small, end‑to‑end example of the "insight economy" idea [1]:
 derive *actionable insights* from sensitive, private data and share only the
