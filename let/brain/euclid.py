@@ -27,7 +27,7 @@ What we build (no imports)
 Usage
 -----
 Edit K_START and ROUNDS below (defaults mimic your original: 5, 5) and run:
-    python euclid_noimports.py
+    python euclid.py
 """
 
 # --------------------------- tiny arithmetic --------------------------------
