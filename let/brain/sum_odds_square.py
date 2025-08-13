@@ -1,61 +1,53 @@
-# ============================================
-# Explain-and-Check: Induction Example
-# Claim: 1 + 3 + 5 + ... + (2n-1) = n^2  for all n ≥ 1
-# ============================================
-# What you'll see:
-#   • A clear "reason why" proof by induction (base case + inductive step).
-#   • A geometric intuition (adding an L-shaped border to grow squares).
-#   • A proof harness that verifies the identity for many n, quickly, with integers only.
-#
-# No imports. No user input.
+#!/usr/bin/env python3
+# ============================================================
+# Sum of first n odds equals n² — Explain & Check (ARC style)
+# ============================================================
+# You’ll see:
+#   • Answer      — the claim in one line.
+#   • Reason why  — a clean induction proof + geometric intuition.
+#   • Check       — a fast integer harness that verifies the identity
+#                   for many n by incremental summation (no imports).
+# Deterministic output. Pure Python. No inputs.
+# ============================================================
 
-# -----------------------------
-# Program output: the “reason why”
-# -----------------------------
-
-print("============================================")
-print("Induction Example — Sum of first n odds = n^2")
-print("============================================\n")
-
-print("Claim:")
-print("  For every n ≥ 1,  1 + 3 + 5 + ... + (2n−1) = n².\n")
-
-print("Proof (by induction on n):")
-print("  Base case (n=1):")
-print("    Left side = 1,  Right side = 1² = 1.  True.\n")
-
-print("  Inductive step:")
-print("    Assume for some n ≥ 1 that  1 + 3 + ... + (2n−1) = n².  (Induction hypothesis)")
-print("    Then for n+1 we have:")
-print("      1 + 3 + ... + (2n−1) + (2(n+1)−1)")
-print("      = n² + (2n + 1)                 (by the hypothesis)")
-print("      = (n + 1)².                     (algebra)")
-print("    So the statement holds for n+1.  By induction, it holds for all n ≥ 1.  □\n")
-
-print("Geometric intuition (why it *feels* true):")
-print("  Arrange dots as an n×n square (n² dots). To grow to (n+1)²,")
-print("  you add an L-shaped border of exactly 2n+1 dots — the next odd number.")
-print("  Repeating this from 1² adds 1, then 3, then 5, ... building perfect squares at each step.\n")
-
-# -----------------------------
-# Proof harness (checks many n)
-# -----------------------------
-# We verify the identity for n = 1..MAX_N by accumulating the odd numbers
-# incrementally. This keeps the check O(MAX_N) with simple integer arithmetic.
-
-def harness(MAX_N=200_000):
+# -----------------------
+# Proof harness (checker)
+# -----------------------
+def harness(MAX_N: int = 200_000) -> int:
     """
-    Incrementally check that sum_{k=1..n} (2k-1) == n^2 for many n.
-    No imports, integers only, linear time.
+    Verify  ∑_{k=1..n} (2k−1) = n²  for n = 1..MAX_N.
+    Linear-time, integers only, no libraries.
     """
-    odd_sum = 0
+    s = 0
     for n in range(1, MAX_N + 1):
-        odd_sum += (2*n - 1)
-        # Identity to check: odd_sum == n*n
-        assert odd_sum == n*n, f"Failed at n={n}: sum={odd_sum}, n^2={n*n}"
+        s += (2*n - 1)          # add next odd
+        assert s == n*n, f"Failed at n={n}: partial_sum={s}, n^2={n*n}"
     return MAX_N
 
-if __name__ == "__main__":
-    tested = harness()  # fast: ~200k integer steps
-    print(f"Proof harness: verified the identity for n = 1..{tested}. ✓")
+# ============
+# ARC sections
+# ============
+print("Answer")
+print("------")
+print("For every n ≥ 1, the sum of the first n odd numbers equals n²:")
+print("  1 + 3 + 5 + … + (2n−1) = n²")
+print()
+
+print("Reason why")
+print("----------")
+print("Proof by induction on n:")
+print("• Base (n=1):  1 = 1².  True.")
+print("• Step: assume 1+3+…+(2n−1) = n². Then")
+print("    1+3+…+(2n−1)+(2(n+1)−1) = n² + (2n+1) = (n+1)².")
+print("  Hence the statement holds for n+1. By induction, it holds for all n ≥ 1. □")
+print()
+print("Geometric intuition:")
+print("  Build an n×n square of dots (n²). To get (n+1)², add an L-shaped border")
+print("  of exactly 2n+1 dots — the next odd number. Repeating produces all squares.")
+print()
+
+print("Check (harness)")
+print("---------------")
+tested = harness()
+print(f"Verified ∑(first n odds) = n² for n = 1..{tested}. ✓")
 

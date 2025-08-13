@@ -1,19 +1,21 @@
-============================================
-Euler’s Identity — why e^{iπ} + 1 = 0
-============================================
+Answer
+------
+e^{iπ} + 1 = 0.
 
-Reason A (power series):
-  exp(z) = Σ z^n/n!,  cos x = Σ (-1)^k x^{2k}/(2k)!,  sin x = Σ (-1)^k x^{2k+1}/(2k+1)!
-  Put z = i x. Then exp(i x) splits into even + odd parts, using i^2 = -1:
-    exp(i x) = cos x + i sin x.
-  With x = π:  exp(iπ) = cos π + i sin π = -1 + 0·i, hence exp(iπ) + 1 = 0.
+Reason why
+----------
+A) Power series:
+   exp(z)=Σ z^n/n!,  cos x=Σ (-1)^k x^{2k}/(2k)!,  sin x=Σ (-1)^k x^{2k+1}/(2k+1)!
+   Put z=ix. Even/odd terms separate, using i^2=-1, giving exp(ix)=cos x + i sin x.
+   With x=π: exp(iπ)=cos π + i sin π = -1 + 0·i ⇒ exp(iπ)+1=0.
 
-Reason B (ODE uniqueness):
-  f(x)=exp(i x) solves f' = i f with f(0)=1.
-  g(x)=cos x + i sin x also solves g' = i g with g(0)=1.
-  The initial-value problem has a unique solution ⇒ f ≡ g ⇒ exp(i x)=cos x + i sin x ⇒ exp(iπ)=-1.
+B) ODE uniqueness:
+   f(x)=exp(ix) solves f'=i f, f(0)=1.  g(x)=cos x + i sin x also solves g'=i g, g(0)=1.
+   The IVP y'=i y, y(0)=1 has a unique solution, hence f≡g and exp(ix)=cos x + i sin x.
+   Therefore exp(iπ)=-1. □
 
-Conclusion:
-  Both arguments give exp(iπ) + 1 = 0. This links e, i, π, 1, and 0 in a single identity. □
-
-Proof harness passed: exp(i x)≈cos x+i sin x for multiple x, and e^{iπ}+1≈0.
+Check (harness)
+---------------
+Validated exp(ix)=cos x + i sin x on multiple angles; Euler’s identity holds numerically.
+Worst component error over tests:  |ΔRe|≈1.05e-19, |ΔIm|≈1.11e-16
+Residual for e^(iπ)+1: ≈3.34e-16  (target 0) ✓

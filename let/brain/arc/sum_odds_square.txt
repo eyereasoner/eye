@@ -1,25 +1,20 @@
-============================================
-Induction Example — Sum of first n odds = n^2
-============================================
+Answer
+------
+For every n ≥ 1, the sum of the first n odd numbers equals n²:
+  1 + 3 + 5 + … + (2n−1) = n²
 
-Claim:
-  For every n ≥ 1,  1 + 3 + 5 + ... + (2n−1) = n².
+Reason why
+----------
+Proof by induction on n:
+• Base (n=1):  1 = 1².  True.
+• Step: assume 1+3+…+(2n−1) = n². Then
+    1+3+…+(2n−1)+(2(n+1)−1) = n² + (2n+1) = (n+1)².
+  Hence the statement holds for n+1. By induction, it holds for all n ≥ 1. □
 
-Proof (by induction on n):
-  Base case (n=1):
-    Left side = 1,  Right side = 1² = 1.  True.
+Geometric intuition:
+  Build an n×n square of dots (n²). To get (n+1)², add an L-shaped border
+  of exactly 2n+1 dots — the next odd number. Repeating produces all squares.
 
-  Inductive step:
-    Assume for some n ≥ 1 that  1 + 3 + ... + (2n−1) = n².  (Induction hypothesis)
-    Then for n+1 we have:
-      1 + 3 + ... + (2n−1) + (2(n+1)−1)
-      = n² + (2n + 1)                 (by the hypothesis)
-      = (n + 1)².                     (algebra)
-    So the statement holds for n+1.  By induction, it holds for all n ≥ 1.  □
-
-Geometric intuition (why it *feels* true):
-  Arrange dots as an n×n square (n² dots). To grow to (n+1)²,
-  you add an L-shaped border of exactly 2n+1 dots — the next odd number.
-  Repeating this from 1² adds 1, then 3, then 5, ... building perfect squares at each step.
-
-Proof harness: verified the identity for n = 1..200000. ✓
+Check (harness)
+---------------
+Verified ∑(first n odds) = n² for n = 1..200000. ✓

@@ -1,25 +1,15 @@
-============================================
-Disjunction Elimination — realistic, exhaustive example
-============================================
+Answer
+------
+(C) Op — The museum is open today.
 
-Propositions:
-  Wd: Today is a weekday
-  We: Today is a weekend
-  Op: The museum is open today
+Reason why
+----------
+From (P1) Wd ∨ We, exactly one case holds (exclusive & exhaustive).
+• Case Weekday:  assume Wd. From (P2) Wd→Op, infer Op.
+• Case Weekend:  assume We. From (P3) We→Op, infer Op.
+Both cases yield Op, so Op holds unconditionally.  (∨-Elimination)
 
-Premises:
-  (P1) Wd ∨ We            # exhaustive: it’s either weekday or weekend
-  (P2) Wd → Op            # if weekday, open
-  (P3) We → Op            # if weekend, open
-
-Derivation (proof by cases):
-  From (P1), exactly one of Wd or We holds (mutually exclusive & exhaustive).
-   • Case Weekday: assume Wd.  From (P2), infer Op.
-   • Case Weekend: assume We.  From (P3), infer Op.
-  Since both cases yield Op, conclude Op.   (∨-Elim)
-
-Conclusion:
-  (C) Op — The museum is open today.
-
-Harness: scanned 4 exhaustive/exclusive day-cases; 2 satisfy (P1)&(P2)&(P3).
-All satisfying cases make Op True.  ∨-Elimination validated on a realistic, exhaustive split. ✓
+Check (harness)
+---------------
+Scanned 4 exclusive day-cases; 2 satisfy (P1)∧(P2)∧(P3).
+All satisfying cases make Op True.  ∨-Elimination validated. ✓

@@ -1,117 +1,129 @@
-# Compute the side length of a regular 12-gon inscribed in a circle of radius 1,
-# WITHOUT using imports. We also print a clear explanation and show both
-# an approximate computation (via a small Taylor series for sin) and the exact
-# closed form ( (sqrt(6) - sqrt(2)) / 2 ).
-#
-# Why the formula works (short version for the program output):
-# - A side of a regular n-gon inscribed in a circle is a chord.
-# - Two radii to adjacent vertices and the chord form an isosceles triangle.
-# - Bisecting the apex (central) angle yields a right triangle:
-#     sin(central_angle/2) = (half_chord) / radius
-#   So chord length s = 2 * r * sin(central_angle / 2).
-# - For n = 12 and r = 1, central_angle = 2*pi/12 = pi/6, so s = 2*sin(pi/12) = 2*sin(15°).
-# - Using angle subtraction (45° - 30°), sin(15°) = (sqrt(6) - sqrt(2)) / 4,
-#   hence s = (sqrt(6) - sqrt(2)) / 2.
+#!/usr/bin/env python3
+"""
+Regular 12-gon side length (ARC-ified)
+======================================
+
+Goal
+----
+Compute the side length s of a regular 12-gon inscribed in the unit circle (r = 1),
+without imports, and print a clear explanation plus an **Answer / Reason why / Check (harness)** trio.
+
+Facts
+-----
+• A side is a chord, so for central angle θ = 2π/n the chord length is:
+      s = 2 r sin(θ/2).
+• For n=12 and r=1: θ = 2π/12 = π/6 and s = 2 sin(π/12) = 2 sin(15°).
+• Using angle subtraction (45°−30°),
+      sin(15°) = (√6 − √2) / 4  ⇒  s = (√6 − √2) / 2.
+• Equivalent closed form: s = √(2 − √3).
+
+No imports are used; we implement π, sqrt, and sin (Taylor) ourselves.
+"""
 
 # -----------------------------
-# Minimal numeric "toolbox":
+# Minimal numeric “toolbox”
 # -----------------------------
 
-# Numerical value for pi (sufficiently precise for our needs)
+# Enough precision for our needs
 pi = 3.141592653589793
 
-def sqrt(x):
-    """
-    Compute square root via Newton-Raphson iteration.
-    - No imports allowed, so we implement it ourselves.
-    - For positive x, Newton's method converges quadratically with a decent initial guess.
-    - We use a fixed number of iterations which is plenty for double precision-like accuracy
-      in this context.
-    """
-    if x == 0:
+def sqrt(x: float) -> float:
+    """Newton–Raphson sqrt with fixed iterations; no imports required."""
+    if x == 0.0:
         return 0.0
-    # A simple initial guess: half the value (works fine for positive x)
-    g = x / 2.0
-    # Do ~20 iterations; more than enough for our small needs
-    for _ in range(20):
+    g = x / 2.0 if x >= 1.0 else 1.0  # decent initial guess for all x>0
+    for _ in range(25):
         g = 0.5 * (g + x / g)
     return g
 
-def sin(x):
+def sin(x: float) -> float:
     """
-    Compute sin(x) using a Taylor series around 0:
-        sin x = x - x^3/3! + x^5/5! - ...
-    For our use case, x = pi/12 ≈ 0.261799..., which is small, so convergence is fast.
-    NOTE:
-    - We do a handful of terms for a good approximation.
-    - No imports, so we hand-roll the factorial pattern by updating 'term' iteratively.
+    sin(x) by Taylor series around 0:
+      sin x = x − x^3/3! + x^5/5! − ...
+    Good accuracy for |x| ≤ π with ~10–12 terms; here x = π/12 ≈ 0.2618.
     """
-    # Optional: wrap x to [-pi, pi] for better numerical behavior (not strictly needed here)
-    # but harmless and illustrative.
+    # wrap to [-π, π] (helps accuracy)
     two_pi = 2.0 * pi
-    while x > pi:
-        x -= two_pi
-    while x < -pi:
-        x += two_pi
+    while x >  pi: x -= two_pi
+    while x < -pi: x += two_pi
 
-    term = x            # first term x
-    result = 0.0
-    sign = 1.0
-    k = 1               # current power index for the factorial pattern
-    # We'll sum enough terms to be very accurate for |x| <= pi
-    # For x ~ 0.26, ~9 terms is already overkill; we do more to be safe.
-    for _ in range(10):
-        result += sign * term
-        # Update term to next odd power / factorial piece:
-        # if current term is x^k / k!, next should be x^(k+2) / (k+2)!,
-        # which equals (current_term) * x^2 / ((k+1)*(k+2))
+    term = x
+    res  = 0.0
+    k    = 1        # current odd power/factorial index
+    sgn  = 1.0
+    for _ in range(12):  # 12 terms is overkill here; still cheap
+        res += sgn * term
+        # next term: multiply by x^2 / [(k+1)(k+2)] and flip sign
         term = term * x * x / ((k + 1) * (k + 2))
-        sign = -sign
-        k += 2
-    return result
+        k   += 2
+        sgn *= -1.0
+    return res
 
 # -----------------------------
 # Geometry-specific computation
 # -----------------------------
 
-# Radius r = 1 for the problem
-r = 1.0
+n = 12          # dodecagon
+r = 1.0         # unit circle
 
-# n = 12 (regular dodecagon)
-n = 12
+theta      = 2.0 * pi / n          # central angle = π/6
+half_theta = theta / 2.0           # π/12
 
-# Central angle (in radians) between two adjacent vertices:
-theta = 2.0 * pi / n           # = pi/6
+# Numeric via chord formula + Taylor sine
+s_numeric = 2.0 * r * sin(half_theta)
 
-# By the chord formula: side s = 2 * r * sin(theta/2)
-half_theta = theta / 2.0       # = pi/12 (i.e., 15 degrees)
-side_approx = 2.0 * r * sin(half_theta)
+# Closed-form 1:  s = (√6 − √2)/2
+s_closed1 = (sqrt(6.0) - sqrt(2.0)) / 2.0
 
-# Closed-form exact value via sin(15°) = (sqrt(6) - sqrt(2))/4
-# Therefore s = 2 * sin(15°) = (sqrt(6) - sqrt(2)) / 2
-exact_side = (sqrt(6.0) - sqrt(2.0)) / 2.0
+# Closed-form 2 (equivalent): s = √(2 − √3)
+s_closed2 = sqrt(2.0 - sqrt(3.0))
 
 # -----------------------------
-# Print a clear explanation + results
+# ARC output
 # -----------------------------
 
-print("WHY THE FORMULA IS TRUE (concise geometric reasoning):")
-print("1) In a regular n-gon inscribed in a circle, each side is a chord.")
-print("2) Two radii to adjacent vertices + the side form an isosceles triangle with central angle θ = 2π/n.")
-print("3) Bisect the triangle: you get a right triangle with hypotenuse r, opposite leg s/2, angle θ/2.")
-print("   Hence sin(θ/2) = (s/2)/r  =>  s = 2 r sin(θ/2).")
-print()
-print(f"For n = {n}, r = {r}:  θ = 2π/n = {theta:.12f} rad, so s = 2 * {r} * sin(θ/2) with θ/2 = {half_theta:.12f} rad.")
-print()
-
-print("NUMERICAL EVALUATION (Taylor series sine, no imports):")
-print(f"  s ≈ {side_approx:.12f}")
+print("Answer")
+print("------")
+print("Side length of a regular 12-gon in the unit circle:")
+print("  Exact forms:  s = (√6 − √2) / 2  =  √(2 − √3)")
+print(f"  Numeric:     s ≈ {s_numeric:.15f}")
+print(f"  Closed-form: (√6 − √2)/2 ≈ {s_closed1:.15f}")
+print(f"  Also:        √(2 − √3)  ≈ {s_closed2:.15f}")
 print()
 
-print("CLOSED-FORM EVALUATION (angle subtraction: sin(45°-30°)):")
-print("  sin(15°) = (√6 - √2) / 4  ⇒  s = 2 sin(15°) = (√6 - √2) / 2")
-print(f"  s = (sqrt(6) - sqrt(2)) / 2 ≈ {exact_side:.12f}")
+print("Reason why")
+print("----------")
+print("A side is a chord subtending central angle θ = 2π/n. Bisecting yields")
+print("sin(θ/2) = (s/2)/r, hence s = 2 r sin(θ/2). For n=12, r=1 ⇒ s = 2 sin(π/12).")
+print("Using sin(45°−30°) with standard exact values gives sin(15°) = (√6 − √2)/4,")
+print("so s = 2⋅sin(15°) = (√6 − √2)/2, which equals √(2 − √3).")
 print()
 
-print("Both approaches agree (within tiny numerical error).")
+print("Check (harness)")
+print("---------------")
+# 1) Consistency of two closed forms
+eps = 1e-12
+diff_closed = abs(s_closed1 - s_closed2)
+print(f"Closed-form equivalence: |(√6−√2)/2 − √(2−√3)| = {diff_closed:.3e}")
+assert diff_closed < 1e-12, "Closed forms should be numerically equal."
+
+# 2) Numeric (Taylor) vs exact
+diff_num = abs(s_numeric - s_closed1)
+print(f"Taylor vs exact: |s_numeric − s_exact| = {diff_num:.3e}")
+assert diff_num < 1e-12, "Numeric sine should match the exact value closely."
+
+# 3) Angle sanity: θ=π/6 and θ/2=π/12
+pi_over_6  = pi / 6.0
+pi_over_12 = pi / 12.0
+assert abs(theta - pi_over_6)  < 1e-15
+assert abs(half_theta - pi_over_12) < 1e-15
+print("Angle checks passed (θ=π/6, θ/2=π/12).")
+
+# 4) Optional alternative chord identity: s = √(2 − 2 cos θ) with cos θ = √3/2
+cos_pi_over_6 = sqrt(3.0) / 2.0
+s_alt = sqrt(2.0 - 2.0 * cos_pi_over_6)
+print(f"Chord identity check: √(2−2cosθ) ≈ {s_alt:.15f}")
+assert abs(s_alt - s_closed1) < 1e-12
+
+print("All checks passed ✔")
 
