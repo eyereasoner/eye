@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 dog_licence.py
 Backward-chaining proof for the “more than four dogs → dog licence” rule.
@@ -9,12 +10,17 @@ Rule
         hasDog(Person, d1) … hasDog(Person, dN)  and  N > 4.
 
 The built-in `count_dogs` checks the cardinality at proof time and
-prints the evidence (list of dogs).
+records the evidence (the dog's list) used in the explanation.
+
+ARC sections:
+- Answer      : who must have a dog license and the evidence list
+- Reason why  : the rule explained and per-owner proof traces
+- Check       : a harness that re-verifies counts, threshold (>4), and derived triples
 """
 
 from collections import defaultdict
 from itertools import count
-from typing import Dict, List, Tuple, Set
+from typing import Dict, List, Tuple, Set, Optional
 
 Triple = Tuple[str, str, str]     # (subject, predicate, object)
 
@@ -43,7 +49,7 @@ g.add(("bob", "hasDog", "dog6"))
 g.add(("bob", "hasDog", "dog7"))
 
 # ─────────────────────────────────────────────────────────────
-# 2.  Rule template
+# 2.  Rule template (one rule handled by a built-in)
 # ─────────────────────────────────────────────────────────────
 rule = dict(
     id="R-licence",
@@ -55,9 +61,14 @@ rule = dict(
 # ─────────────────────────────────────────────────────────────
 # 3.  Unification helpers
 # ─────────────────────────────────────────────────────────────
-is_var = lambda t: isinstance(t, str) and t.startswith("?")
+def is_var(t): 
+    return isinstance(t, str) and t.startswith("?")
 
 def unify(pat, fact, θ=None):
+    """
+    Tuple-wise unification with variables allowed on the pattern side.
+    Flat triples here, but works recursively if needed.
+    """
     θ = dict(θ or {})
     if isinstance(pat, tuple) != isinstance(fact, tuple):
         return None
@@ -76,41 +87,54 @@ def unify(pat, fact, θ=None):
             return None
     return θ
 
-subst = lambda t, θ: (
-    tuple(subst(x, θ) for x in t) if isinstance(t, tuple) else θ.get(t, t)
-)
+def subst(term, θ):
+    if isinstance(term, tuple):
+        return tuple(subst(x, θ) for x in term)
+    return θ.get(term, term)
 
 # ─────────────────────────────────────────────────────────────
-# 4.  Built-in: dog count
+# 4.  Built-in: dog count (records evidence instead of printing)
 # ─────────────────────────────────────────────────────────────
 licence_evidence: Dict[str, List[str]] = {}
 
-def count_dogs(θ):
+def count_dogs(θ, trace: List[str]) -> Optional[Dict]:
+    """
+    Built-in called after the rule head unifies:
+      success iff the person owns >4 dogs.
+    On success, returns θ unchanged and records evidence; else returns None.
+    """
     person = θ.get("?P")
     if person is None:
         return None
     dogs = g.dogs_of(person)
     if len(dogs) > 4:
-        licence_evidence[person] = dogs
-        print(f"      ↪ {person} owns {len(dogs)} dogs "
-              f"({', '.join(sorted(dogs))}) > 4 ✓")
+        licence_evidence[person] = list(dogs)
+        trace.append(f" ↪ {person} owns {len(dogs)} dogs "
+                     f"({', '.join(sorted(dogs))}) > 4 ✓")
         return θ
-    print(f"      ↪ {person} owns only {len(dogs)} dogs ✗")
+    trace.append(f" ↪ {person} owns only {len(dogs)} dogs ✗")
     return None
 
 # ─────────────────────────────────────────────────────────────
-# 5.  Backward-chaining prover
+# 5.  Backward-chaining prover (per-owner, first solution)
 # ─────────────────────────────────────────────────────────────
-def bc(goal: Tuple, θ: Dict, depth: int, step=count(1)):
+def bc(goal: Tuple, θ: Dict, depth: int, step=count(1), trace: Optional[List[str]] = None):
+    """
+    Prove a single goal:
+      (a) try matching existing facts (none for mustHave initially)
+      (b) try the single rule, then run the built-in count_dogs
+    Yields at most one θ (first success), mirroring the original script.
+    """
+    tr = trace if trace is not None else []
     g_inst = subst(goal, θ)
     indent = "  " * depth
-    print(f"{indent}Step {next(step):02}: prove {g_inst}")
+    tr.append(f"{indent}Step {next(step):02}: prove {g_inst}")
 
-    # (a) existing facts (graph currently has none for mustHave)
-    for f in g.facts():
+    # (a) existing facts
+    for f in sorted(g.facts()):
         θ2 = unify(g_inst, f, θ)
         if θ2:
-            print(indent + f"✓ fact {f}")
+            tr.append(indent + f"✓ fact {f}")
             yield θ2
             return
 
@@ -118,38 +142,125 @@ def bc(goal: Tuple, θ: Dict, depth: int, step=count(1)):
     θh = unify(rule["head"], g_inst, θ)
     if θh is None:
         return
-    print(indent + f"→ via {rule['id']}")
+    tr.append(indent + f"→ via {rule['id']}")
 
-    # built-in performs dog counting & binds nothing else
-    θb = count_dogs(θh)
+    θb = count_dogs(θh, tr)
     if θb:
         yield θb
 
+def prove_owner(owner: str):
+    """
+    Try to derive (owner, mustHave, dogLicense).
+    Returns (derived_bool, trace_lines).
+    """
+    trace: List[str] = []
+    goal = (owner, "mustHave", "dogLicense")
+    derived = any(bc(goal, {}, 0, count(1), trace))
+    return derived, trace
+
 # ─────────────────────────────────────────────────────────────
-# 6.  Run proofs for all owners in the graph
+# 6.  Run proofs for all owners (don’t mutate store until after proving)
 # ─────────────────────────────────────────────────────────────
 owners = sorted({s for s, p, _ in g.facts() if p == "hasDog"})
-derived: Set[Triple] = set()
+derived_facts: Set[Triple] = set()
+owner_traces: Dict[str, List[str]] = {}
 
 for owner in owners:
-    goal = (owner, "mustHave", "dogLicense")
-    print(f"\n=== Proving licence obligation for {owner} ===")
-    if any(bc(goal, {}, 0)):
-        derived.add(goal)
-        g.add(goal)          # store new fact
+    ok, tr = prove_owner(owner)
+    owner_traces[owner] = tr
+    if ok:
+        fact = (owner, "mustHave", "dogLicense")
+        derived_facts.add(fact)
+        g.add(fact)  # persist the new fact
 
 # ─────────────────────────────────────────────────────────────
-# 7.  Output triples and explanations
+# 7.  ARC-style sections
 # ─────────────────────────────────────────────────────────────
-print("\n----- Triples (sorted) -----")
-for s, p, o in sorted(g.facts()):
-    print(f"{s}  {p}  {o} .")
 
-if licence_evidence:
-    print("\n----- Proof explanations -----")
-    for person, dogs in licence_evidence.items():
-        print(f"{person} has {len(dogs)} dogs "
-              f"({', '.join(sorted(dogs))}) → mustHave dogLicense.")
-else:
-    print("\n(no licence obligations derived)")
+def arc_answer():
+    print("Answer")
+    print("------")
+    must = sorted([s for s, p, o in derived_facts if p == "mustHave" and o == "dogLicense"])
+    if must:
+        print("License obligations derived for:")
+        for person in must:
+            dogs = sorted(licence_evidence.get(person, []))
+            print(f"  {person}: {len(dogs)} dogs → mustHave dogLicense")
+            if dogs:
+                print(f"    evidence: {', '.join(dogs)}")
+    else:
+        print("No licence obligations derived.")
+    print()
+
+def arc_reason(max_lines_per_owner: int = 12):
+    print("Reason why")
+    print("----------")
+    print("We use a single rule with a built-in check:")
+    print("  R-licence:")
+    print("    mustHave(?P, dogLicense)  :-  count_dogs(?P) and  count > 4.")
+    print("The built-in counts hasDog facts for ?P at proof time.")
+    print()
+    for owner in owners:
+        print(f"[Trace for {owner}]")
+        lines = owner_traces.get(owner, [])
+        head = lines[:max_lines_per_owner]
+        for line in head:
+            print(line)
+        if len(lines) > max_lines_per_owner:
+            print(f"  … {len(lines)-max_lines_per_owner} more steps …")
+        print()
+
+def check_harness():
+    """
+    Verifications:
+      1) For every derived (P mustHave dogLicense), g.dogs_of(P) > 4.
+      2) For every non-derived owner, g.dogs_of(P) ≤ 4.
+      3) Derived triples are stored in the graph.
+      4) Re-running the proof yields the same outcome.
+    """
+    # 1 & 2
+    derived_people = {s for s, p, o in derived_facts}
+    for owner in owners:
+        n = len(g.dogs_of(owner))
+        if owner in derived_people:
+            assert n > 4, f"{owner} derived but has only {n} dogs."
+        else:
+            assert n <= 4, f"{owner} not derived but has {n} dogs."
+
+    # 3) Persistence in graph
+    for fact in derived_facts:
+        assert fact in g.facts(), "Derived fact not persisted."
+
+    # 4) Idempotence: proving again doesn’t change outcomes
+    again = set()
+    for owner in owners:
+        ok, _ = prove_owner(owner)
+        if ok:
+            again.add((owner, "mustHave", "dogLicense"))
+    assert again == derived_facts, "Re-run produced different results."
+
+def arc_check():
+    print("Check (harness)")
+    print("---------------")
+    try:
+        check_harness()
+        print("OK: counts and threshold verified; derived triples persisted; re-run consistent.")
+    except AssertionError as e:
+        print("FAILED:", e)
+        raise
+
+def dump_triples():
+    print("\nTriples (sorted)")
+    print("----------------")
+    for s, p, o in sorted(g.facts()):
+        print(f"{s}  {p}  {o} .")
+
+def main():
+    arc_answer()
+    arc_reason()
+    arc_check()
+    dump_triples()
+
+if __name__ == "__main__":
+    main()
 

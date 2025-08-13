@@ -1,15 +1,32 @@
+Answer
+------
+License obligations derived for:
+  alice: 5 dogs → mustHave dogLicense
+    evidence: dog1, dog2, dog3, dog4, dog5
 
-=== Proving licence obligation for alice ===
+Reason why
+----------
+We use a single rule with a built-in check:
+  R-licence:
+    mustHave(?P, dogLicense)  :-  count_dogs(?P) and  count > 4.
+The built-in counts hasDog facts for ?P at proof time.
+
+[Trace for alice]
 Step 01: prove ('alice', 'mustHave', 'dogLicense')
 → via R-licence
-      ↪ alice owns 5 dogs (dog1, dog2, dog3, dog4, dog5) > 4 ✓
+ ↪ alice owns 5 dogs (dog1, dog2, dog3, dog4, dog5) > 4 ✓
 
-=== Proving licence obligation for bob ===
-Step 02: prove ('bob', 'mustHave', 'dogLicense')
+[Trace for bob]
+Step 01: prove ('bob', 'mustHave', 'dogLicense')
 → via R-licence
-      ↪ bob owns only 2 dogs ✗
+ ↪ bob owns only 2 dogs ✗
 
------ Triples (sorted) -----
+Check (harness)
+---------------
+OK: counts and threshold verified; derived triples persisted; re-run consistent.
+
+Triples (sorted)
+----------------
 alice  hasDog  dog1 .
 alice  hasDog  dog2 .
 alice  hasDog  dog3 .
@@ -18,6 +35,3 @@ alice  hasDog  dog5 .
 alice  mustHave  dogLicense .
 bob  hasDog  dog6 .
 bob  hasDog  dog7 .
-
------ Proof explanations -----
-alice has 5 dogs (dog1, dog2, dog3, dog4, dog5) → mustHave dogLicense.
