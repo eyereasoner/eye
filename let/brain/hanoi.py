@@ -32,7 +32,6 @@ Edit `N`, `SRC`, `AUX`, `TGT` at the bottom or run as-is.
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Tuple, Dict
-import time
 
 Move = Tuple[int, str, str]   # (disk, from_peg, to_peg)
 
@@ -87,13 +86,11 @@ def peg_snapshot(pegs: Dict[str, List[int]]) -> str:
 # ─────────────────────────────────────────────────────────────
 # ARC: Answer / Reason / Check
 # ─────────────────────────────────────────────────────────────
-def arc_answer(n: int, src: str, aux: str, tgt: str, moves: List[Move], elapsed: float) -> None:
+def arc_answer(n: int, src: str, aux: str, tgt: str, moves: List[Move]) -> None:
     print("Answer")
     print("------")
     print(f"Problem: {n} disks, {src}→{tgt} using {aux}")
     print(f"Total moves: {len(moves)}  (expected 2^{n}-1 = {2**n - 1})")
-    if elapsed > 0:
-        print(f"Time: {elapsed:.4f}s  Moves/sec: {len(moves)/elapsed:,.0f}")
     print("\nMove list:")
     show_moves(moves)
     print()
@@ -166,11 +163,9 @@ if __name__ == "__main__":
     AUX = "B"
     TGT = "C"
 
-    t0 = time.perf_counter()
     MOVES = hanoi_moves(N, SRC, AUX, TGT)
-    dt = time.perf_counter() - t0
 
-    arc_answer(N, SRC, AUX, TGT, MOVES, dt)
+    arc_answer(N, SRC, AUX, TGT, MOVES)
     arc_reason(N, SRC, AUX, TGT, MOVES)
     arc_check(N, SRC, AUX, TGT, MOVES)
 
