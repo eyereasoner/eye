@@ -69,8 +69,6 @@ Why seed = 6? On a 4-bit counter, adding 10 steps to 6 wraps to 0:
   6→7→8→9→A→B→C→D→E→F→0  (10 increments)
 
 So we get exactly 10 loop iterations.
-
-Author: You + ChatGPT
 """
 
 from dataclasses import dataclass, field
@@ -244,8 +242,21 @@ class MiniAssembler:
                 labels[label] = pc
                 continue
 
-            # Tokenize
-            tokens = [t.strip().upper() for t in src.replace(',', ' , ').split()]
+            # Tokenize (commas separated so 'Rn, LABEL' splits cleanly)
+            tokens = [t.strip() for t in src.replace(',', ' , ').split()]
+
+            # Handle a leading label, e.g., "LOOP:" (label-only or label + instruction)
+            if tokens and tokens[0].endswith(':'):
+                label = tokens[0][:-1]
+                if not label.isidentifier():
+                    raise ValueError(f"Invalid label: {label!r}")
+                labels[label] = pc
+                tokens = tokens[1:]
+                if not tokens:
+                    continue  # label-only line; no instruction here
+
+            # Uppercase the remaining tokens and continue as before
+            tokens = [t.upper() for t in tokens]
             cleaned.append((pc, tokens))
 
             # Size accounting (predict instruction length)
@@ -363,8 +374,7 @@ def triangular_sum_1_to_10_program() -> List[str]:
         "        XCH R2        ; R2 ← 1 (first addend)",
         "        LDM 6         ; seed for 10-iteration ISZ loop",
         "        XCH R5        ; R5 ← 6",
-        "LOOP:",
-        "        XCH R0        ; A ↔ R0 (bring low nibble into A)",
+        "LOOP:   XCH R0        ; A ↔ R0 (bring low nibble into A)",
         "        ADD R2        ; A = low + i + carry",
         "        XCH R0        ; store low nibble back",
         "        XCH R1        ; bring high nibble into A",
