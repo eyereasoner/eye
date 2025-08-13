@@ -1,14 +1,29 @@
+=== Query 1 ===
+Answer
+------
+YES — instance: ('A', ':moreInterestingThan', 'B')
 
-=== Query ('A', ':moreInterestingThan', 'B') ===
-Answer 1: YES  (instance = ('A', ':moreInterestingThan', 'B'))
+Reason why
+----------
+Proof tree:
 Goal: ('A', ':moreInterestingThan', 'B')  via R1_score
   ✓ fact ('A', ':score', 8)
   ✓ fact ('B', ':score', 5)
   ✓ builtin (8, 'math:greaterThan', 5) (8 > 5)
 ✓ Proven: ('A', ':moreInterestingThan', 'B')
 
-=== Query ('A', ':moreInterestingThan', 'C') ===
-Answer 1: YES  (instance = ('A', ':moreInterestingThan', 'C'))
+Check (harness)
+---------------
+OK.
+
+=== Query 2 ===
+Answer
+------
+YES — instance: ('A', ':moreInterestingThan', 'C')
+
+Reason why
+----------
+Proof tree:
 Goal: ('A', ':moreInterestingThan', 'C')  via R3_transitive
   Goal: ('A', ':moreInterestingThan', 'B')  via R1_score
     ✓ memoized ('A', ':score', 8)
@@ -18,79 +33,93 @@ Goal: ('A', ':moreInterestingThan', 'C')  via R3_transitive
   ✓ fact ('B', ':moreInterestingThan', 'C')
 ✓ Proven: ('A', ':moreInterestingThan', 'C')
 
-=== Query ('D', ':moreInterestingThan', 'B') ===
-Answer 1: YES  (instance = ('D', ':moreInterestingThan', 'B'))
+Check (harness)
+---------------
+OK.
+
+=== Query 3 ===
+Answer
+------
+YES — instance: ('D', ':moreInterestingThan', 'B')
+
+Reason why
+----------
+Proof tree:
 Goal: ('D', ':moreInterestingThan', 'B')  via R2_award_boring
   ✓ fact ('D', ':hasAward', True)
   ✓ fact ('B', ':boring', True)
 ✓ Proven: ('D', ':moreInterestingThan', 'B')
 
-=== Query ('C', ':moreInterestingThan', 'A') ===
-Answer: NO
-Why not?
+Check (harness)
+---------------
+OK.
+
+=== Query 4 ===
+Answer
+------
+NO — not derivable from the KB.
+
+Reason why
+----------
+Failure explanation:
 ✗ ('C', ':moreInterestingThan', 'A') — all applicable rules' bodies failed
   ↳ ('C', ':moreInterestingThan', 'A') — rule R1_score body not provable
-    ✗ ('C', ':score', '?SX_847') — no applicable rules unify with the goal's arguments
+    ✗ ('C', ':score', '?SX_884') — no applicable rules unify with the goal's arguments
   ↳ ('C', ':moreInterestingThan', 'A') — rule R2_award_boring body not provable
     ✗ ('C', ':hasAward', True) — no applicable rules unify with the goal's arguments
   ↳ ('C', ':moreInterestingThan', 'A') — rule R3_transitive body not provable
-    ✗ ('C', ':moreInterestingThan', '?Y_855') — all applicable rules' bodies failed
-      ↳ ('C', ':moreInterestingThan', '?Y_855') — rule R1_score body not provable
-        ✗ ('C', ':score', '?SX_865') — no applicable rules unify with the goal's arguments
-      ↳ ('C', ':moreInterestingThan', '?Y_855') — rule R2_award_boring body not provable
+    ✗ ('C', ':moreInterestingThan', '?Y_892') — all applicable rules' bodies failed
+      ↳ ('C', ':moreInterestingThan', '?Y_892') — rule R1_score body not provable
+        ✗ ('C', ':score', '?SX_902') — no applicable rules unify with the goal's arguments
+      ↳ ('C', ':moreInterestingThan', '?Y_892') — rule R2_award_boring body not provable
         ✗ ('C', ':hasAward', True) — no applicable rules unify with the goal's arguments
-      ↳ ('C', ':moreInterestingThan', '?Y_855') — rule R3_transitive body not provable
-        ✗ ('C', ':moreInterestingThan', '?Y_873') — all applicable rules' bodies failed
-          ↳ ('C', ':moreInterestingThan', '?Y_873') — rule R1_score body not provable
-            ✗ ('C', ':score', '?SX_883') — no applicable rules unify with the goal's arguments
-          ↳ ('C', ':moreInterestingThan', '?Y_873') — rule R2_award_boring body not provable
+      ↳ ('C', ':moreInterestingThan', '?Y_892') — rule R3_transitive body not provable
+        ✗ ('C', ':moreInterestingThan', '?Y_910') — all applicable rules' bodies failed
+          ↳ ('C', ':moreInterestingThan', '?Y_910') — rule R1_score body not provable
+            ✗ ('C', ':score', '?SX_920') — no applicable rules unify with the goal's arguments
+          ↳ ('C', ':moreInterestingThan', '?Y_910') — rule R2_award_boring body not provable
             ✗ ('C', ':hasAward', True) — no applicable rules unify with the goal's arguments
-          ↳ ('C', ':moreInterestingThan', '?Y_873') — rule R3_transitive body not provable
-            ✗ ('C', ':moreInterestingThan', '?Y_891') — all applicable rules' bodies failed
+          ↳ ('C', ':moreInterestingThan', '?Y_910') — rule R3_transitive body not provable
+            ✗ ('C', ':moreInterestingThan', '?Y_928') — all applicable rules' bodies failed
               … (more detail truncated)
 
-=== Query ('?Who', ':moreInterestingThan', 'C') ===
-Answer 1: YES  (instance = ('B', ':moreInterestingThan', 'C'))  bindings={'?Who': 'B'}
-✓ fact ('B', ':moreInterestingThan', 'C')
-Answer 2: YES  (instance = ('A', ':moreInterestingThan', 'C'))  bindings={'?Who': 'A'}
-Goal: ('A', ':moreInterestingThan', 'C')  via R3_transitive
-  Goal: ('A', ':moreInterestingThan', 'B')  via R1_score
-    ✓ memoized ('A', ':score', 8)
-    ✓ memoized ('B', ':score', 5)
-    ✓ builtin (8, 'math:greaterThan', 5) (8 > 5)
-  ✓ Proven: ('A', ':moreInterestingThan', 'B')
-  ✓ fact ('B', ':moreInterestingThan', 'C')
-✓ Proven: ('A', ':moreInterestingThan', 'C')
-Answer 3: YES  (instance = ('D', ':moreInterestingThan', 'C'))  bindings={'?Who': 'D'}
-Goal: ('D', ':moreInterestingThan', 'C')  via R3_transitive
-  Goal: ('D', ':moreInterestingThan', 'B')  via R2_award_boring
-    ✓ memoized ('D', ':hasAward', True)
-    ✓ fact ('B', ':boring', True)
-  ✓ Proven: ('D', ':moreInterestingThan', 'B')
-  ✓ memoized ('B', ':moreInterestingThan', 'C')
-✓ Proven: ('D', ':moreInterestingThan', 'C')
+Check (harness)
+---------------
+OK.
 
-=== Query ('?X', ':moreInterestingThan', '?Y') ===
-Answer 1: YES  (instance = ('B', ':moreInterestingThan', 'C'))  bindings={'?X': 'B', '?Y': 'C'}
+=== Query 5 ===
+Answer
+------
+1. YES — instance: ('B', ':moreInterestingThan', 'C')  bindings={'?Who': 'B'}
+2. YES — instance: ('A', ':moreInterestingThan', 'C')  bindings={'?Who': 'A'}
+3. YES — instance: ('D', ':moreInterestingThan', 'C')  bindings={'?Who': 'D'}
+
+Reason why
+----------
+Proof tree:
 ✓ fact ('B', ':moreInterestingThan', 'C')
-Answer 2: YES  (instance = ('D', ':moreInterestingThan', 'B'))  bindings={'?X': 'D', '?Y': 'B'}
-Goal: ('D', ':moreInterestingThan', 'B')  via R2_award_boring
-  ✓ fact ('D', ':hasAward', True)
-  ✓ fact ('B', ':boring', True)
-✓ Proven: ('D', ':moreInterestingThan', 'B')
-Answer 3: YES  (instance = ('D', ':moreInterestingThan', 'C'))  bindings={'?X': 'D', '?Y': 'C'}
-Goal: ('D', ':moreInterestingThan', 'C')  via R3_transitive
-  ✓ memoized ('D', ':moreInterestingThan', 'B')
-  ✓ fact ('B', ':moreInterestingThan', 'C')
-✓ Proven: ('D', ':moreInterestingThan', 'C')
-Answer 4: YES  (instance = ('A', ':moreInterestingThan', 'B'))  bindings={'?X': 'A', '?Y': 'B'}
-Goal: ('A', ':moreInterestingThan', 'B')  via R1_score
-  ✓ memoized ('A', ':score', 8)
-  ✓ memoized ('B', ':score', 5)
-  ✓ builtin (8, 'math:greaterThan', 5) (8 > 5)
-✓ Proven: ('A', ':moreInterestingThan', 'B')
-Answer 5: YES  (instance = ('A', ':moreInterestingThan', 'C'))  bindings={'?X': 'A', '?Y': 'C'}
-Goal: ('A', ':moreInterestingThan', 'C')  via R3_transitive
-  ✓ memoized ('A', ':moreInterestingThan', 'B')
-  ✓ memoized ('B', ':moreInterestingThan', 'C')
-✓ Proven: ('A', ':moreInterestingThan', 'C')
+(+ 2 more proof(s) omitted)
+
+Check (harness)
+---------------
+OK.
+
+=== Query 6 ===
+Answer
+------
+1. YES — instance: ('B', ':moreInterestingThan', 'C')  bindings={'?X': 'B', '?Y': 'C'}
+2. YES — instance: ('D', ':moreInterestingThan', 'B')  bindings={'?X': 'D', '?Y': 'B'}
+3. YES — instance: ('D', ':moreInterestingThan', 'C')  bindings={'?X': 'D', '?Y': 'C'}
+4. YES — instance: ('A', ':moreInterestingThan', 'B')  bindings={'?X': 'A', '?Y': 'B'}
+5. YES — instance: ('A', ':moreInterestingThan', 'C')  bindings={'?X': 'A', '?Y': 'C'}
+
+Reason why
+----------
+Proof tree:
+✓ fact ('B', ':moreInterestingThan', 'C')
+(+ 4 more proof(s) omitted)
+
+Check (harness)
+---------------
+OK.
+

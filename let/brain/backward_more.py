@@ -1,5 +1,16 @@
+#!/usr/bin/env python3
 """
-Tabled backward-chaining tiny N3-ish demo.
+backward_more.py
+──────────────────────────────────────────────────────────────
+Description
+-----------
+Tabled backward-chaining tiny N3-ish demo with proof trees and compact failure
+explanations, now emitting ARC-style sections for each query:
+
+  • Answer      — YES/NO plus the grounded instance(s) or bindings
+  • Reason why  — readable proof tree(s) or a compact failure tree
+  • Check       — harness verifying soundness of proofs, tabling/fixpoint,
+                  built-ins, and expected query results
 
 Representation
 --------------
@@ -13,18 +24,12 @@ Features
 --------
 - Standardize-apart on each rule application (avoids variable capture)
 - Variant-based tabling (memoization) with in-progress detection
-- **Local fixpoint per goal** (saturates recursive rules like transitivity)
-- Proof trees for successful derivations (now show resolved instances)
+- Local fixpoint per goal (saturates recursive rules like transitivity)
+- Proof trees for successful derivations (show resolved instances)
 - Compact failure explanations (depth/width/line caps + grouping)
-
-With the KB below, the open queries return (order may vary):
-  ask(("?Who", ":moreInterestingThan", "C"), show_all=True)
-    -> B (fact), A (A>B & B>C), D (D>B & B>C)
-  ask(("?X", ":moreInterestingThan", "?Y"), show_all=True)
-    -> B>C, D>B, A>B, D>C, A>C
 """
 
-from itertools import count
+from itertools import count, product
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, List, Optional, Tuple, Set
 from collections import defaultdict
@@ -88,17 +93,11 @@ FACTS: List[Triple] = [
 # -----------------------------------------------------------------------------
 
 def is_var(t: Any) -> bool:
-    """
-    A term is a variable iff it's a string starting with '?'.
-    We do NOT treat uppercase identifiers as variables in this version.
-    """
+    """A term is a variable iff it's a string starting with '?'."""
     return isinstance(t, str) and t.startswith("?")
 
 def walk(t: Any, theta: Subst) -> Any:
-    """
-    Follow substitutions to a representative (may end at a var or constant).
-    Includes a small cycle guard in case of cyclic bindings (rare here).
-    """
+    """Follow substitutions to a representative (cycle-guarded)."""
     seen = set()
     while is_var(t) and t in theta:
         if t in seen:
@@ -108,36 +107,27 @@ def walk(t: Any, theta: Subst) -> Any:
     return t
 
 def subst_term(t: Any, theta: Subst) -> Any:
-    """Apply substitution 'theta' to a single term."""
     return walk(t, theta)
 
 def subst_triple(tr: Triple, theta: Subst) -> Triple:
-    """Apply substitution 'theta' to a triple (only S and O; P is a predicate/IRI)."""
     s, p, o = tr
     return (subst_term(s, theta), p, subst_term(o, theta))
 
 def unify(a: Any, b: Any, theta: Subst) -> Optional[Subst]:
-    """
-    Unify two terms (not triples), returning an extended substitution or None.
-    - Variables (strings starting with '?') can bind to anything (var or constant).
-    - Constants must be equal.
-    """
+    """Unify two terms, returning an extended substitution or None."""
     a, b = walk(a, theta), walk(b, theta)
     if a == b:
         return theta
     if is_var(a):
-        theta2 = dict(theta); theta2[a] = b
-        return theta2
+        t2 = dict(theta); t2[a] = b
+        return t2
     if is_var(b):
-        theta2 = dict(theta); theta2[b] = a
-        return theta2
-    return None  # both are non-vars and not equal
+        t2 = dict(theta); t2[b] = a
+        return t2
+    return None
 
 def unify_triples(pat: Triple, fact: Triple, theta: Subst) -> Optional[Subst]:
-    """
-    Unify two triples positionally (predicates must match exactly).
-    Returns an extended substitution or None if unification fails.
-    """
+    """Unify two triples positionally (predicates must match exactly)."""
     s1, p1, o1 = pat
     s2, p2, o2 = fact
     if p1 != p2:
@@ -145,8 +135,7 @@ def unify_triples(pat: Triple, fact: Triple, theta: Subst) -> Optional[Subst]:
     theta = unify(s1, s2, theta)
     if theta is None:
         return None
-    theta = unify(o1, o2, theta)
-    return theta
+    return unify(o1, o2, theta)
 
 # -----------------------------------------------------------------------------
 # Standardize-apart for rules (prevents variable capture across applications)
@@ -155,10 +144,7 @@ def unify_triples(pat: Triple, fact: Triple, theta: Subst) -> Optional[Subst]:
 _fresh = count(1)
 
 def std_apart_rule(rule: Tuple[str, Triple, List[Triple]]) -> Tuple[str, Triple, List[Triple]]:
-    """
-    Standardize variables apart each time we apply a rule, so distinct uses
-    don't share variable names/bindings. We append a fresh suffix to each ?Var.
-    """
+    """Append a fresh suffix to each ?Var in the rule head/body."""
     rid, head, body = rule
     n = next(_fresh)
     mapping: Dict[str, str] = {}
@@ -185,10 +171,7 @@ def is_builtin(pred: str) -> bool:
     return pred == "math:greaterThan"
 
 def eval_builtin(goal: Triple) -> Tuple[bool, str]:
-    """
-    Evaluate supported built-ins on ground terms and return (truth, reason).
-    Built-in succeeds only when its arguments are ground (no variables).
-    """
+    """Evaluate supported built-ins on ground terms → (truth, reason)."""
     s, p, o = goal
     if p == "math:greaterThan":
         if is_var(s) or is_var(o):
@@ -206,9 +189,8 @@ def eval_builtin(goal: Triple) -> Tuple[bool, str]:
 
 def canonicalize_goal(g: Triple) -> Triple:
     """
-    Alpha-variant canonicalization: replace variables by ?v0, ?v1 ... in
-    order of first appearance; keep constants as-is; predicate unchanged.
-    This lets us memoize by 'goal shape' irrespective of specific variable names.
+    Replace variables by ?v0, ?v1 ... in order of first appearance.
+    Keeps constants/predicate as-is. Memoize by 'goal shape'.
     """
     s, p, o = g
     mapping: Dict[str, str] = {}
@@ -231,21 +213,13 @@ def canonicalize_goal(g: Triple) -> Triple:
 
 @dataclass
 class ProofNode:
-    """
-    Proof tree node kinds:
-      - "fact":    succeeded by matching a ground fact
-      - "builtin": succeeded by evaluating a built-in
-      - "rule":    succeeded by applying a rule (children are subproofs)
-      - "memo":    succeeded by reusing a memoized instance (tabling)
-    `goal` in nodes is the **resolved instance** for readability.
-    """
+    """Kinds: 'fact', 'builtin', 'rule', 'memo'. `goal` is the resolved instance."""
     goal: Triple
-    kind: str                        # "fact", "builtin", "rule", or "memo"
+    kind: str
     detail: Optional[str] = None     # fact tuple, rule id, builtin reason, or "memo"
     children: List["ProofNode"] = field(default_factory=list)
 
 def pp_proof(node: ProofNode, indent: int = 0) -> None:
-    """Readable proof tree printer (now prints resolved instances)."""
     pad = "  " * indent
     if node.kind == "rule":
         print(f"{pad}Goal: {node.goal}  via {node.detail}")
@@ -272,9 +246,7 @@ def pp_failure(node: Failure,
                max_lines: int = 60) -> None:
     """
     Compact failure tree printer:
-      - limits total lines (max_lines)
-      - limits recursion depth (max_depth)
-      - shows at most max_children per level
+      - limits total lines and depth
       - groups identical child failures and prints "×N"
     """
     state = {"lines": 0}
@@ -300,9 +272,7 @@ def pp_failure(node: Failure,
         for ch in n.children:
             groups[(ch.goal, ch.reason)].append(ch)
 
-        # Largest groups first
         grouped = sorted(groups.items(), key=lambda kv: len(kv[1]), reverse=True)
-
         shown = 0
         for (g_goal, g_reason), group in grouped:
             if shown >= max_children:
@@ -320,7 +290,6 @@ def pp_failure(node: Failure,
             print(f"{pad}  ↳ {g_goal} — {g_reason}{suffix}")
             state["lines"] += 1
 
-            # Recurse into a representative sub-branch
             for grand in rep.children[:max_children]:
                 if state["lines"] >= max_lines:
                     break
@@ -349,10 +318,7 @@ DEFAULT_DEPTH_LIMIT = 200  # secondary safety net
 # -----------------------------------------------------------------------------
 
 def table_answers_for(goal_inst: Triple, theta: Subst) -> Iterable[Tuple[Subst, ProofNode]]:
-    """
-    Yield answers by unifying already-memoized instances with the current goal.
-    **Proof display fix**: show the resolved instance after unification.
-    """
+    """Yield answers by unifying already-memoized instances with the current goal."""
     canon = canonicalize_goal(goal_inst)
     entry = TABLE.get(canon)
     if not entry or not entry.instances:
@@ -360,7 +326,7 @@ def table_answers_for(goal_inst: Triple, theta: Subst) -> Iterable[Tuple[Subst, 
     for inst in list(entry.instances):
         s2 = unify_triples(goal_inst, inst, dict(theta))
         if s2 is not None:
-            shown = subst_triple(goal_inst, s2)  # resolved instance for display
+            shown = subst_triple(goal_inst, s2)  # resolved instance
             yield s2, ProofNode(goal=shown, kind="memo", detail="memoized")
 
 def prove_tabled(
@@ -372,12 +338,11 @@ def prove_tabled(
     """
     Prove `goal` under substitution `theta` using tabling + local fixpoint.
 
-    Important behavior for recursion:
-    - If a subgoal for the *same* predicate is encountered while its table
-      entry is in_progress, we **only consume current memoized answers** for
-      that subgoal (no re-expansion). The **outer local fixpoint loop** then
-      re-applies rules until no new instances are added, letting recursive rules
-      (like transitivity) see newly derived answers in the same call.
+    Recursion handling:
+    - If a subgoal for the same predicate appears while its table entry is
+      in-progress, we only consume current memoized answers (no re-expansion).
+    - The outer while-loop repeats until no new instances are added, achieving
+      a local fixpoint so recursive rules (like transitivity) saturate.
     """
     if depth > depth_limit:
         return
@@ -391,22 +356,19 @@ def prove_tabled(
         for s2, memo_node in table_answers_for(g, theta):
             yield s2, memo_node
         if entry.in_progress:
-            # Avoid left-recursive expansion; outer caller will iterate to fixpoint.
             return
     else:
         entry = TableEntry(key=canon)
         TABLE[canon] = entry
 
-    # Mark as in progress while computing new answers
     entry.in_progress = True
-
     s, p, o = g
 
     # 1) Built-ins
     if is_builtin(p):
         ok, reason = eval_builtin(g)
         if ok:
-            inst = g  # ground by construction when builtin succeeds
+            inst = g
             if inst not in entry.instances:
                 entry.instances.add(inst)
                 yield theta, ProofNode(goal=inst, kind="builtin", detail=reason)
@@ -414,7 +376,7 @@ def prove_tabled(
         entry.completed = True
         return
 
-    # 2) Facts (one pass is enough; facts don't change)
+    # 2) Facts
     for fact in FACTS:
         if fact[1] != p:
             continue
@@ -423,10 +385,9 @@ def prove_tabled(
             inst = subst_triple(g, theta2)
             if inst not in entry.instances:
                 entry.instances.add(inst)
-                # **Proof display fix**: show resolved instance
                 yield theta2, ProofNode(goal=inst, kind="fact", detail=str(fact))
 
-    # 3) Rules (apply to **local fixpoint**: loop until no new instances)
+    # 3) Rules to local fixpoint
     changed = True
     while changed:
         changed = False
@@ -439,17 +400,11 @@ def prove_tabled(
             if theta_head is None:
                 continue
 
-            # Prove the body in sequence with backtracking
             def prove_body(goals: List[Triple], th: Subst) -> Iterable[Tuple[Subst, List[ProofNode]]]:
                 if not goals:
                     yield th, []
                     return
                 first, rest = goals[0], goals[1:]
-                # IMPORTANT: If `first` is the same predicate as `g`, and our table
-                # is in_progress, `prove_tabled`(first, ...) yields only **current memo**
-                # answers. Because we're in a while-loop that repeats until no new
-                # instances are added, newly derived answers will be picked up on the
-                # next iteration of the outer loop (local fixpoint).
                 for th1, proof_first in prove_tabled(first, th, depth + 1, depth_limit):
                     for th2, proof_rest in prove_body(rest, th1):
                         yield th2, [proof_first] + proof_rest
@@ -459,10 +414,8 @@ def prove_tabled(
                 if inst not in entry.instances:
                     entry.instances.add(inst)
                     changed = True
-                    # **Proof display fix**: show resolved instance
                     yield th_final, ProofNode(goal=inst, kind="rule", detail=rid, children=children)
 
-    # Done expanding this goal to local fixpoint
     entry.in_progress = False
     entry.completed = True
 
@@ -476,10 +429,7 @@ def diagnose(
     depth: int = 0,
     depth_limit: int = DEFAULT_DEPTH_LIMIT,
 ) -> Failure:
-    """
-    Explain why a goal cannot be proven (at the current KB state).
-    Uses similar logic to the prover, but accumulates reasons instead of proofs.
-    """
+    """Explain why a goal cannot be proven (at the current KB state)."""
     if depth > depth_limit:
         return Failure(goal=subst_triple(goal, theta), reason=f"depth limit {depth_limit} exceeded")
 
@@ -488,20 +438,17 @@ def diagnose(
     canon = canonicalize_goal(g)
     entry = TABLE.get(canon)
 
-    # If table already has matching instances, this shouldn't be called
     if entry:
         for inst in entry.instances:
             if unify_triples(g, inst, dict(theta)) is not None:
                 return Failure(goal=g, reason="unexpected: memoized instance already proves goal")
 
-    # Built-in predicate
     if is_builtin(p):
         ok, reason = eval_builtin(g)
         if not ok:
             return Failure(goal=g, reason=f"builtin {p} failed: {reason}")
         return Failure(goal=g, reason=f"unexpected: builtin {p} succeeded")
 
-    # Facts quick check (same predicate)
     has_same_pred_fact = False
     for fact in FACTS:
         if fact[1] != p:
@@ -510,7 +457,6 @@ def diagnose(
         if unify_triples(g, fact, dict(theta)) is not None:
             return Failure(goal=g, reason="unexpected: matched a fact")
 
-    # Gather applicable rules by predicate
     rules_p = [r for r in RULES if r[1][1] == p]
     if not rules_p and not has_same_pred_fact:
         return Failure(goal=g, reason=f"no facts and no rules with head predicate {p}")
@@ -526,7 +472,6 @@ def diagnose(
             continue
         any_head_unified = True
 
-        # Try to satisfy body sequentially; report the first failing subgoal
         th_curr = theta_head
         body_ok = True
         body_fail_children: List[Failure] = []
@@ -544,7 +489,7 @@ def diagnose(
             if satisfied_by_memo:
                 continue
 
-            # Otherwise try to prove it freshly (bounded)
+            # Otherwise try fresh
             found = False
             for _th_next, _proof in prove_tabled(sub, th_curr, depth + 1, depth_limit):
                 found = True
@@ -565,63 +510,130 @@ def diagnose(
     return Failure(goal=g, reason="all applicable rules' bodies failed", children=rule_failures)
 
 # -----------------------------------------------------------------------------
-# ask() helper
+# Proof verification (for the harness)
 # -----------------------------------------------------------------------------
 
-def ask(goal: Triple,
-        show_all: bool = False,
-        depth_limit: int = DEFAULT_DEPTH_LIMIT,
-        explain: str = "compact") -> None:
-    """
-    Run a query, printing either:
-      - YES (with the first or all proofs), plus variable bindings from the query, or
-      - NO with a compact explanation of why not.
-    """
-    print(f"\n=== Query {goal} ===")
-    # Clear the memo table between independent queries for clarity
-    TABLE.clear()
+def verify_proof(node: ProofNode) -> bool:
+    """Check that each leaf is either a known fact or a true built-in; 'memo' is trusted."""
+    if node.kind == "builtin":
+        ok, _ = eval_builtin(node.goal)
+        return ok
+    if node.kind == "fact":
+        return any(unify_triples(node.goal, f, {}) is not None for f in FACTS)
+    if node.kind == "memo":
+        return True
+    if node.kind == "rule":
+        return all(verify_proof(ch) for ch in node.children)
+    return False
 
-    answers = list(prove_tabled(goal, {}, depth_limit=depth_limit))
+# -----------------------------------------------------------------------------
+# ARC sections per query
+# -----------------------------------------------------------------------------
+
+def collect_answers(goal: Triple, depth_limit: int = DEFAULT_DEPTH_LIMIT) -> List[Tuple[Subst, ProofNode]]:
+    TABLE.clear()
+    return list(prove_tabled(goal, {}, depth_limit=depth_limit))
+
+def arc_answer(goal: Triple, answers: List[Tuple[Subst, ProofNode]], show_all: bool = False) -> None:
+    print("Answer")
+    print("------")
     if answers:
-        for i, (theta, proof) in enumerate(answers, start=1):
+        if show_all:
+            for i, (theta, _proof) in enumerate(answers, start=1):
+                inst = subst_triple(goal, theta)
+                bindings = {t: subst_term(t, theta) for t in (goal[0], goal[2]) if is_var(t)}
+                extra = f"  bindings={bindings}" if bindings else ""
+                print(f"{i}. YES — instance: {inst}{extra}")
+        else:
+            theta, _ = answers[0]
             inst = subst_triple(goal, theta)
-            # Show bindings only for variables that appear in the query itself
             bindings = {t: subst_term(t, theta) for t in (goal[0], goal[2]) if is_var(t)}
             extra = f"  bindings={bindings}" if bindings else ""
-            print(f"Answer {i}: YES  (instance = {inst}){extra}")
-            pp_proof(proof)
-            if not show_all:
-                break
+            print(f"YES — instance: {inst}{extra}")
     else:
-        print("Answer: NO")
+        print("NO — not derivable from the KB.")
+    print()
+
+def arc_reason(goal: Triple, answers: List[Tuple[Subst, ProofNode]], depth_limit: int = DEFAULT_DEPTH_LIMIT) -> None:
+    print("Reason why")
+    print("----------")
+    if answers:
+        print("Proof tree:")
+        pp_proof(answers[0][1])
+        if len(answers) > 1:
+            print(f"(+ {len(answers)-1} more proof(s) omitted)")
+    else:
+        print("Failure explanation:")
+        # Re-run diagnose on a fresh table to avoid memo contamination
+        TABLE.clear()
+        _ = list(prove_tabled(goal, {}, depth_limit=depth_limit))  # populate any immediate tables
         failure = diagnose(goal, {}, depth_limit=depth_limit)
-        print("Why not?")
-        if explain == "compact":
-            pp_failure(failure, max_depth=6, max_children=3, max_lines=60)
-        else:
-            pp_failure(failure, max_depth=999, max_children=999, max_lines=10_000)
+        pp_failure(failure, max_depth=6, max_children=3, max_lines=60)
+    print()
+
+def arc_check(goal: Triple, answers: List[Tuple[Subst, ProofNode]], expect_subset: Set[Triple] | None = None) -> None:
+    print("Check (harness)")
+    print("---------------")
+    # 1) Proof verification for the first proof (if any)
+    if answers:
+        assert verify_proof(answers[0][1]), "Proof tree failed verification."
+        # Re-run should still have at least one answer
+        TABLE.clear()
+        assert any(True for _ in prove_tabled(goal, {})), "No proofs on re-run."
+    else:
+        # Ensure truly not provable
+        TABLE.clear()
+        assert not any(True for _ in prove_tabled(goal, {})), "Unexpected proof found on re-run."
+
+    # 2) If an expected subset is provided, ensure it's contained in the answers set
+    if expect_subset is not None:
+        insts = {subst_triple(goal, theta) for theta, _ in answers}
+        missing = {t for t in expect_subset if t not in insts}
+        assert not missing, f"Missing expected instances: {missing}"
+
+    print("OK.\n")
 
 # -----------------------------------------------------------------------------
-# Demo
+# Demo (ARC-ified per query)
 # -----------------------------------------------------------------------------
+
+def run_arc(goal: Triple, show_all: bool = False, expect_subset: Set[Triple] | None = None) -> None:
+    answers = collect_answers(goal)
+    arc_answer(goal, answers, show_all=show_all)
+    arc_reason(goal, answers)
+    arc_check(goal, answers, expect_subset=expect_subset)
 
 if __name__ == "__main__":
     # 1) Score rule: A > B (8 > 5)
-    ask(("A", ":moreInterestingThan", "B"))
+    print("=== Query 1 ===")
+    run_arc(("A", ":moreInterestingThan", "B"))
 
-    # 2) Transitivity: A > B and (fact) B > C  ⇒  A > C (no score for C)
-    ask(("A", ":moreInterestingThan", "C"))
+    # 2) Transitivity: A>B and (fact) B>C  ⇒  A>C (no score for C)
+    print("=== Query 2 ===")
+    run_arc(("A", ":moreInterestingThan", "C"))
 
-    # 3) Context rule: D has an award and B is boring  ⇒  D > B
-    ask(("D", ":moreInterestingThan", "B"))
+    # 3) Context rule: D has an award and B is boring  ⇒  D>B
+    print("=== Query 3 ===")
+    run_arc(("D", ":moreInterestingThan", "B"))
 
-    # 4) Failure example: C > A should fail (compact explanation)
-    ask(("C", ":moreInterestingThan", "A"))
+    # 4) Failure example: C > A should fail
+    print("=== Query 4 ===")
+    run_arc(("C", ":moreInterestingThan", "A"))
 
     # 5) Open variable: Who is moreInterestingThan C?
     #    Expect B (fact), A (via A>B & B>C), and D (via D>B & B>C).
-    ask(("?Who", ":moreInterestingThan", "C"), show_all=True)
+    print("=== Query 5 ===")
+    expect_who_c = {("B", ":moreInterestingThan", "C"),
+                    ("A", ":moreInterestingThan", "C"),
+                    ("D", ":moreInterestingThan", "C")}
+    run_arc(("?Who", ":moreInterestingThan", "C"), show_all=True, expect_subset=expect_who_c)
 
     # 6) Both ends open: expect B>C, D>B, A>B, D>C, A>C (order may vary)
-    ask(("?X", ":moreInterestingThan", "?Y"), show_all=True)
+    print("=== Query 6 ===")
+    expect_pairs = {("B", ":moreInterestingThan", "C"),
+                    ("D", ":moreInterestingThan", "B"),
+                    ("A", ":moreInterestingThan", "B"),
+                    ("D", ":moreInterestingThan", "C"),
+                    ("A", ":moreInterestingThan", "C")}
+    run_arc(("?X", ":moreInterestingThan", "?Y"), show_all=True, expect_subset=expect_pairs)
 

@@ -1,6 +1,11 @@
+#!/usr/bin/env python3
 """
+backward.py
+───────────────────────────────────────────────────────────────
+Description
+-----------
 Python rewrite of the N3 backward-rule example
-from https://www.w3.org/2000/10/swap/doc/tutorial-1.pdf (p. 17).
+(from https://www.w3.org/2000/10/swap/doc/tutorial-1.pdf, p.17).
 
 - Triples are (S, P, O)
 - Variables are strings starting with "?X"
@@ -8,11 +13,17 @@ from https://www.w3.org/2000/10/swap/doc/tutorial-1.pdf (p. 17).
 - Facts are triples
 - Built-in supported: math:greaterThan
 
-Implements:
+Implements the rule:
   { ?X :moreInterestingThan ?Y } <= { ?X math:greaterThan ?Y } .
-and queries:
-  (5, ":moreInterestingThan", 3)   # succeeds
-  (3, ":moreInterestingThan", 5)   # fails (with explanation)
+
+We run two queries:
+  1) (5, ":moreInterestingThan", 3)   — succeeds
+  2) (3, ":moreInterestingThan", 5)   — fails (with explanation)
+
+The program prints ARC sections per query:
+  • Answer — YES/NO plus the grounded instance (if any)
+  • Reason why — a readable proof tree or a failure explanation tree
+  • Check (harness) — sanity tests for unification, built-ins, and proof soundness
 """
 
 from itertools import count
@@ -242,7 +253,6 @@ def diagnose(goal: Triple, theta: Subst) -> Failure:
         if fact[1] != p:
             continue
         if unify_triples(g, fact, dict(theta)) is not None:
-            # (shouldn't happen: caller only calls on failure)
             return Failure(goal=g, reason="unexpected: matched a fact")
 
     # Gather applicable rules by predicate
@@ -267,13 +277,10 @@ def diagnose(goal: Triple, theta: Subst) -> Failure:
         body_ok = True
         body_fail_children: List[Failure] = []
         for sub in body:
-            # Is sub provable under th_curr?
             found = False
-            chosen_sub = None
             for th_next, _proof in prove(sub, th_curr):
                 th_curr = th_next
                 found = True
-                chosen_sub = sub
                 break
             if not found:
                 body_ok = False
@@ -282,34 +289,85 @@ def diagnose(goal: Triple, theta: Subst) -> Failure:
                 break
 
         if body_ok:
-            # (shouldn't happen because caller checks provability first)
             return Failure(goal=g, reason=f"unexpected: rule {rid} would actually prove the goal")
 
     if not any_head_unified:
         return Failure(goal=g, reason="no applicable rules unify with the goal's arguments")
 
-    # Heads unified but all bodies failed
-    # Summarize the first failing rule detail for compactness
     return Failure(goal=g, reason="all applicable rules' bodies failed", children=rule_failures)
 
 # -----------------------------------------------------------------------------
-# Convenience: run a query and print result or failure explanation
+# Proof verification (for the harness)
 # -----------------------------------------------------------------------------
 
-def ask(goal: Triple, show_all: bool = False) -> None:
-    print(f"\n=== Query {goal} ===")
-    answers = list(prove(goal, {}))
+def verify_proof(node: ProofNode) -> bool:
+    """Check that each leaf is either a known fact or a true built-in."""
+    if node.kind == "builtin":
+        ok, _ = eval_builtin(node.goal)
+        return ok
+    if node.kind == "fact":
+        return any(unify_triples(node.goal, f, {}) is not None for f in FACTS)
+    if node.kind == "rule":
+        return all(verify_proof(ch) for ch in node.children)
+    return False
+
+# -----------------------------------------------------------------------------
+# ARC sections per query
+# -----------------------------------------------------------------------------
+
+def arc_answer(goal: Triple, answers: List[Tuple[Subst, ProofNode]]) -> None:
+    print("Answer")
+    print("------")
     if answers:
-        for i, (theta, proof) in enumerate(answers, start=1):
-            print(f"Answer {i}: YES  (instance = {subst_triple(goal, theta)})")
-            pp_proof(proof)
-            if not show_all:
-                break
+        theta, _ = answers[0]
+        inst = subst_triple(goal, theta)
+        print(f"YES — instance: {inst}")
     else:
-        print("Answer: NO")
-        failure = diagnose(goal, {})
-        print("Why not?")
-        pp_failure(failure)
+        print("NO — not derivable from the rule base.")
+    print()
+
+def arc_reason(goal: Triple, answers: List[Tuple[Subst, ProofNode]]) -> None:
+    print("Reason why")
+    print("----------")
+    if answers:
+        print("Proof tree:")
+        pp_proof(answers[0][1])
+    else:
+        print("Failure explanation:")
+        pp_failure(diagnose(goal, {}))
+    print()
+
+def arc_check(goal: Triple, answers: List[Tuple[Subst, ProofNode]]) -> None:
+    print("Check (harness)")
+    print("---------------")
+    if answers:
+        # Verify the proof tree we printed
+        ok = verify_proof(answers[0][1])
+        assert ok, "Proof tree failed verification."
+        # Re-run: there must be at least one successful derivation
+        assert any(True for _ in prove(goal, {})), "Second run found no proofs."
+    else:
+        # Ensure truly not provable
+        assert not any(True for _ in prove(goal, {})), "Unexpected proof found on re-run."
+        # If it's a builtin-based rule, the builtin should actually fail
+        s, p, o = goal
+        if p == ":moreInterestingThan":
+            # Under our single rule, failure ⇔ !(s > o)
+            if not (is_var(s) or is_var(o)):
+                ok, reason = eval_builtin((s, "math:greaterThan", o))
+                assert not ok, "Builtin unexpectedly true in failing case."
+    print("OK.")
+    print()
+
+# -----------------------------------------------------------------------------
+# Run both demo queries with ARC sections
+# -----------------------------------------------------------------------------
+
+def run_query(goal: Triple, show_all: bool = False) -> None:
+    answers = list(prove(goal, {}))
+    arc_answer(goal, answers)
+    arc_reason(goal, answers)
+    arc_check(goal, answers)
 
 # -----------------------------------------------------------------------------
 # Demo
@@ -317,8 +375,10 @@ def ask(goal: Triple, show_all: bool = False) -> None:
 
 if __name__ == "__main__":
     # Succeeds via rule + builtin
-    ask((5, ":moreInterestingThan", 3))
+    print("=== Query 1 === (should succeed)")
+    run_query((5, ":moreInterestingThan", 3))
 
     # Fails; you'll get an explanation
-    ask((3, ":moreInterestingThan", 5))
+    print("=== Query 2 === (should fail)")
+    run_query((3, ":moreInterestingThan", 5))
 
