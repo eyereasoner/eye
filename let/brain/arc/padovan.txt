@@ -1,16 +1,50 @@
+========================================================================
+Answer
+------
+P(1) = 1
+digits(P(1)) = 1
 
-padovan(1) = 1
-=== Proof ===============================================
+Reason why
+----------
+Padovan recurrence and bases:
+  P(0)=0, P(1)=1, P(2)=1, and for n≥3:  P(n) = P(n-2) + P(n-3).
+Backward proof trace:
 Step 01: prove pad(1)
   ✓ fact   (pad(1) = 1)
 
-padovan(2) = 1
-=== Proof ===============================================
+Check (harness)
+---------------
+OK: bases, recurrence, DP cross-check, and growth sanity all verified.
+
+========================================================================
+Answer
+------
+P(2) = 1
+digits(P(2)) = 1
+
+Reason why
+----------
+Padovan recurrence and bases:
+  P(0)=0, P(1)=1, P(2)=1, and for n≥3:  P(n) = P(n-2) + P(n-3).
+Backward proof trace:
 Step 02: prove pad(2)
   ✓ fact   (pad(2) = 1)
 
-padovan(3) = 1
-=== Proof ===============================================
+Check (harness)
+---------------
+OK: bases, recurrence, DP cross-check, and growth sanity all verified.
+
+========================================================================
+Answer
+------
+P(3) = 1
+digits(P(3)) = 1
+
+Reason why
+----------
+Padovan recurrence and bases:
+  P(0)=0, P(1)=1, P(2)=1, and for n≥3:  P(n) = P(n-2) + P(n-3).
+Backward proof trace:
 Step 03: prove pad(3)
   → via recurrence  pad(3) = pad(1) + pad(0)
   Step 04: prove pad(1)
@@ -18,8 +52,21 @@ Step 03: prove pad(3)
   Step 05: prove pad(0)
     ✓ fact   (pad(0) = 0)
 
-padovan(4) = 2
-=== Proof ===============================================
+Check (harness)
+---------------
+OK: bases, recurrence, DP cross-check, and growth sanity all verified.
+
+========================================================================
+Answer
+------
+P(4) = 2
+digits(P(4)) = 1
+
+Reason why
+----------
+Padovan recurrence and bases:
+  P(0)=0, P(1)=1, P(2)=1, and for n≥3:  P(n) = P(n-2) + P(n-3).
+Backward proof trace:
 Step 06: prove pad(4)
   → via recurrence  pad(4) = pad(2) + pad(1)
   Step 07: prove pad(2)
@@ -27,8 +74,21 @@ Step 06: prove pad(4)
   Step 08: prove pad(1)
     ✓ fact   (pad(1) = 1)
 
-padovan(5) = 2
-=== Proof ===============================================
+Check (harness)
+---------------
+OK: bases, recurrence, DP cross-check, and growth sanity all verified.
+
+========================================================================
+Answer
+------
+P(5) = 2
+digits(P(5)) = 1
+
+Reason why
+----------
+Padovan recurrence and bases:
+  P(0)=0, P(1)=1, P(2)=1, and for n≥3:  P(n) = P(n-2) + P(n-3).
+Backward proof trace:
 Step 09: prove pad(5)
   → via recurrence  pad(5) = pad(3) + pad(2)
   Step 10: prove pad(3)
@@ -40,8 +100,21 @@ Step 09: prove pad(5)
   Step 13: prove pad(2)
     ✓ fact   (pad(2) = 1)
 
-padovan(20) = 151
-=== Proof ===============================================
+Check (harness)
+---------------
+OK: bases, recurrence, DP cross-check, and growth sanity all verified.
+
+========================================================================
+Answer
+------
+P(20) = 151
+digits(P(20)) = 3
+
+Reason why
+----------
+Padovan recurrence and bases:
+  P(0)=0, P(1)=1, P(2)=1, and for n≥3:  P(n) = P(n-2) + P(n-3).
+Backward proof trace:
 Step 14: prove pad(20)
   → via recurrence  pad(20) = pad(18) + pad(17)
   Step 15: prove pad(18)
@@ -841,26 +914,70 @@ Step 14: prove pad(20)
             Step 412: prove pad(2)
               ✓ fact   (pad(2) = 1)
 
-padovan(91) = 70748973084
-=== Proof ===============================================
+Check (harness)
+---------------
+OK: bases, recurrence, DP cross-check, and growth sanity all verified.
+
+========================================================================
+Answer
+------
+P(91) = 70748973084
+digits(P(91)) = 11
+
+Reason why
+----------
+Padovan recurrence and bases:
+  P(0)=0, P(1)=1, P(2)=1, and for n≥3:  P(n) = P(n-2) + P(n-3).
+Backward proof trace:
 Step 413: prove pad(91)
   → via recurrence  pad(91) = pad(89) + pad(88)
     (omitting sub-proofs for n > 20)
   Step 414: assume pad(89) proven
   Step 415: assume pad(88) proven
 
-padovan(283) = 19834325738278984504790864536272129
-=== Proof ===============================================
+Check (harness)
+---------------
+OK: bases, recurrence, DP cross-check, and growth sanity all verified.
+
+========================================================================
+Answer
+------
+P(283) = 19834325738278984504790864536272129
+digits(P(283)) = 35
+
+Reason why
+----------
+Padovan recurrence and bases:
+  P(0)=0, P(1)=1, P(2)=1, and for n≥3:  P(n) = P(n-2) + P(n-3).
+Backward proof trace:
 Step 416: prove pad(283)
   → via recurrence  pad(283) = pad(281) + pad(280)
     (omitting sub-proofs for n > 20)
   Step 417: assume pad(281) proven
   Step 418: assume pad(280) proven
 
-padovan(3674) = 26178594930998300129122144750852069608549403205774929555079079707081575465552356148508452550483580612948221886219497991654772054359076809450166551553886580037212540081075958680409828886869538010195558848488217299128261230125392693494793565831379519817637833179199806547822062027975157112247040373170650000852653450124493609094492793737517355809497791251385318177510845806782564433990788816833563231575956567960805822051433568191271295650424612344171
-=== Proof ===============================================
+Check (harness)
+---------------
+OK: bases, recurrence, DP cross-check, and growth sanity all verified.
+
+========================================================================
+Answer
+------
+P(3674) = 261785949309983001291221447508…433568191271295650424612344171  [digits=449]
+digits(P(3674)) = 449
+
+Reason why
+----------
+Padovan recurrence and bases:
+  P(0)=0, P(1)=1, P(2)=1, and for n≥3:  P(n) = P(n-2) + P(n-3).
+Backward proof trace:
 Step 419: prove pad(3674)
   → via recurrence  pad(3674) = pad(3672) + pad(3671)
     (omitting sub-proofs for n > 20)
   Step 420: assume pad(3672) proven
   Step 421: assume pad(3671) proven
+
+Check (harness)
+---------------
+OK: bases, recurrence, DP cross-check, and growth sanity all verified.
+

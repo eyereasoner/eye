@@ -102,17 +102,28 @@ def perfect_numbers(count: int, p_limit: int = 200_000):
         if idx >= count:
             break
 
-# ---------- printing helpers ----------
+# ---------- ARC sections per number ----------
+
+def print_answer(idx: int, p: int, M: int, N: int):
+    print("Answer")
+    print("------")
+    print(f"{idx}: N = {N}")
+    print(f"   with p = {p}, M = 2^{p} - 1 = {M}")
+    print(f"   sizes: |M|_10={digits(M)} digits, |N|_10={digits(N)} digits")
+    print()
 
 def print_reason_why(p: int, M: int, N: int):
-    print("Reason why:")
-    print("  Euclid–Euler theorem: An even integer is perfect iff it has the form")
-    print("    N = 2^(p-1) * (2^p - 1),  where p is prime and M = 2^p - 1 is prime.")
-    print(f"  Here p = {p} is prime and M = 2^{p} - 1 = {M} is prime,")
-    print(f"  so N = 2^{p-1} * M = {N} is perfect.")
+    print("Reason why")
+    print("----------")
+    print("Euclid–Euler theorem says an even N is perfect iff")
+    print("  N = 2^(p-1) * (2^p - 1) with p prime and M = 2^p - 1 prime.")
+    print(f"Here p = {p} is prime and M = 2^{p} - 1 = {M} is prime,")
+    print(f"so N = 2^{p-1} * M = {N} is perfect.")
+    print()
 
 def print_check_harness(p: int, M: int, N: int, ll_res: int):
-    print("Check (harness):")
+    print("Check (harness)")
+    print("---------------")
     # 1) Lucas–Lehmer primality of M
     if p == 2:
         print("  Lucas–Lehmer: p=2 ⇒ M=3 is prime (base case).")
@@ -120,7 +131,7 @@ def print_check_harness(p: int, M: int, N: int, ll_res: int):
         print(f"  Lucas–Lehmer for M=2^{p}-1:")
         print(f"    s_0=4, s_(k+1)=s_k^2-2 (mod M); after p-2={p-2} steps, s_{p-2} ≡ {ll_res} (mod M).")
         print(f"    M is prime? {ll_res == 0}")
-    # 2) σ(N) = 2N from factorization
+    # 2) σ(N) = 2N from factorization (exact)
     sig = sigma_from_even_perfect(p, M, N)
     print(f"  Sigma via factorization: σ(N) = (2^{p}-1)*(1+M) = {sig}  → equals 2N? {sig == 2*N}")
     # 3) Optional direct divisor-sum for small N
@@ -130,7 +141,8 @@ def print_check_harness(p: int, M: int, N: int, ll_res: int):
     else:
         print("  Direct divisor-sum: skipped (N is large; check above is exact).")
     # 4) Sanity facts
-    print(f"  Sizes: |M|_10 = {digits(M)} digits, |N|_10 = {digits(N)} digits.")
+    print(f"  Sanity: N even? {N % 2 == 0}, M odd? {M % 2 == 1}")
+    print()
 
 # ---------- main ----------
 
@@ -140,7 +152,7 @@ if __name__ == '__main__':
 
     for idx, p, M, N, res in perfect_numbers(COUNT, P_LIMIT):
         print("=" * 72)
-        print(f"{idx}: {N}")
+        print_answer(idx, p, M, N)
         print_reason_why(p, M, N)
         print_check_harness(p, M, N, res)
 
