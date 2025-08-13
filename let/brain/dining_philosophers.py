@@ -16,7 +16,7 @@ This guarantees:
 ARC output
 ----------
 • Answer
-    – Prints the eating schedule per round, total meals, and timing.
+    – Prints the eating schedule per round and total meals.
 
 • Reason why
     – Explains how the condition variable schedules turns and why this removes
@@ -119,7 +119,6 @@ def arc_answer(logs: List[Log], n: int, m: int, elapsed: float) -> None:
     starts = [L for L in logs if L.kind == "eat_start"]
     starts.sort(key=lambda L: L.t)
     print(f"Philosophers: {n}, meals each: {m}, total meals: {n*m}")
-    print(f"Timing: {elapsed:.3f}s  (think={THINK_TIME:.3f}s, eat={EAT_TIME:.3f}s)\n")
 
     # Show schedule per round
     print("Eating schedule (deterministic order):")
