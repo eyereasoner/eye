@@ -1,17 +1,21 @@
-# Derived locations for h:traveler1
+Answer
+------
 h:traveler1 h:location (42.3584 -71.0598)
 h:traveler1 h:location (42.3736 -71.1097)
 h:traveler1 h:location (51.0535 3.7304)
 h:traveler1 h:location (51.2154 2.9286)
 h:traveler1 h:location (51.2192 4.4029)
 
-# Observation
-h:traveler1 h:location (51.0535 3.7304)  --  ENTAILED
+Reason why
+----------
+• The rule matches each member ?C of the hypothesis list and unpacks
+  its tensor (?LA ?LO), emitting one h:location for the traveler.
+• Observation pair (51.0535 3.7304) arises from member t:Ghent-Belgium (entailed).
 
 === Pretty Proof ===
 
 [1] Facts: h:traveler1 h:inOneOf (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium) ;  t:* t:position-tensor (lat lon)
-[2] Premise-Rule: { ?T h:inOneOf ?LIST. ?C list:in ?LIST. ?C t:position-tensor (?LA ?LO). } => { ?T h:location (?LA ?LO). } // We will enumerate all ?C ∈ ?LIST
+[2] Premise-Rule: { ?T h:inOneOf ?LIST. ?C list:in ?LIST. ?C t:position-tensor (?LA ?LO). } => { ?T h:location (?LA ?LO). } // We enumerate each ?C ∈ ?LIST
 [3] List-Enumerate [2]: Members: t:Antwerp-Belgium, t:Boston-USA, t:Cambridge-USA, t:Ghent-Belgium, t:Ostend-Belgium
 [4] List-In [3]: t:Antwerp-Belgium ∈ LIST
 [5] Use-Tensor [4]: t:Antwerp-Belgium t:position-tensor (51.2192 4.4029)
@@ -28,5 +32,11 @@ h:traveler1 h:location (51.0535 3.7304)  --  ENTAILED
 [16] List-In [3]: t:Ostend-Belgium ∈ LIST
 [17] Use-Tensor [16]: t:Ostend-Belgium t:position-tensor (51.2154 2.9286)
 [18] Head-Intro [17]: h:traveler1 h:location (51.2154 2.9286) // Instantiate rule head with (?LA ?LO)
-[19] Goal: h:traveler1 h:location (51.0535 3.7304)
-[20] Observation-Check: Entailed by the Ghent member case
+
+Check (harness)
+---------------
+All checks passed.
+  members in list          = 5
+  members with tensors     = 5
+  derived h:location facts = 5
+  time = 0.000s

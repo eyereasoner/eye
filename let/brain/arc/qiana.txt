@@ -1,13 +1,24 @@
-# Answers
+Answer
+------
 :Fabian :believes { { ?x a :glitter } => { ?x :notNecessarilyA :gold } }
 :northStar :notNecessarilyA :gold
 
-=== Pretty Proof ===
+Reason why
+----------
+• Meta-rule 1 (says→believes): from :Einstein :says φ we instantiate x=:Fabian and derive :Fabian :believes φ.
+• Meta-rule 2 (says→assert): from :Einstein :says φ we admit φ into the KB.
+• Here φ is a *rule* { ?x a :glitter } ⇒ { ?x :notNecessarilyA :gold }, which we then fire on :northStar a :glitter.
 
-[1] Facts: :Einstein :says { { ?x a :glitter } => { ?x :notNecessarilyA :gold } } ; :northStar a :glitter
-[2] Premise-Rule: { :Einstein :says ?phi } => { ?x :believes ?phi } . // says→believes (universal :x)
-[3] Premise-Rule: { :Einstein :says ?phi } => ?phi . // says→assert (admit φ into KB)
-[4] Apply says→believes [2]: :Fabian :believes { { ?x a :glitter } => { ?x :notNecessarilyA :gold } } // Instantiate ?x = :Fabian
-[5] Apply says→assert [3]: Admitted rule: { ?x a :glitter } => { ?x :notNecessarilyA :gold } // Quoted formula added as a rule
-[6] Apply φ_E: :northStar :notNecessarilyA :gold // From admitted rule and glitter fact
-[7] Answer: :Fabian :believes { { ?x a :glitter } => { ?x :notNecessarilyA :gold } }; :northStar :notNecessarilyA :gold // All entailed matches for the two query patterns
+Pretty proof
+------------
+[1] Facts: :Einstein :says { { ?x a :glitter } => { ?x :notNecessarilyA :gold } }  ;  :northStar a :glitter
+[2] Premise-Rule: { :Einstein :says ?phi } => { ?x :believes ?phi }  // says→believes (∀x)
+[3] Premise-Rule: { :Einstein :says ?phi } => ?phi                 // says→assert
+[4] Apply says→believes [2]: :Fabian :believes { { ?x a :glitter } => { ?x :notNecessarilyA :gold } }
+[5] Apply says→assert [3]: Admitted rule: { ?x a :glitter } => { ?x :notNecessarilyA :gold }
+[6] Apply asserted φ: :northStar :notNecessarilyA :gold  (from ?x a :glitter)
+
+Check (harness)
+---------------
+OK: expected entailments present; rule firing matches glitter-facts; derivation deterministic; meta-rules required.
+

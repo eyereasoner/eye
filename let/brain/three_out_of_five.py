@@ -1,198 +1,209 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
+three_out_of_five.py
+──────────────────────────────────────────────────────────────
 N3 fragment with log:callWithOptional + math:sum + math:notLessThan
--------------------------------------------------------------------
 
-Given facts:
+Facts (dataset under test)
+--------------------------
   :s :p1 true.
-  #:s :p2 true.        (absent)
+  # :s :p2 true.      (absent)
   :s :p3 true.
   :s :p4 true.
-  #:s :p5 true.        (absent)
-  :s :p6 true.         (unused here)
-  :s :p7 true.         (unused here)
+  # :s :p5 true.      (absent)
+  :s :p6 true.        (unused here)
+  :s :p7 true.        (unused here)
 
-Rule:
-  For i in {1..5}:
-    true log:callWithOptional { :s :pi true. ?Ci = 1 } { ?Ci = 0 }.
-  (?C1 ?C2 ?C3 ?C4 ?C5) math:sum ?C.
-  ?C math:notLessThan 3.
-  ---------------------------------
-  =>  :s a :3outof5.
+Rule (schematic)
+----------------
+For i ∈ {1..5}:
+  true log:callWithOptional { :s :pi true.  ?Ci = 1 } { ?Ci = 0 } .
+(?C1 ?C2 ?C3 ?C4 ?C5) math:sum ?C .
+?C math:notLessThan 3 .
+---------------------------------
+⇒ :s a :3outof5 .
 
-Query asks whether we can conclude: :s a :3outof5.
+Query
+-----
+Can we conclude  :s a :3outof5  from the facts above?
 
-This program:
-  1) Encodes the above facts.
-  2) Implements the exact optional-binding behavior.
-  3) Computes the sum and threshold test.
-  4) Prints the derived triple.
-  5) Prints a goal-oriented, pretty proof trace.
+ARC output
+----------
+• Answer      — the derived triple (yes/no) and the computed C1..C5 and sum
+• Reason why  — which optional branches were taken, the sum, and threshold test
+• Check       — harness that:
+    - recomputes truth by direct counting;
+    - exhaustively validates all 2^5 presence/absence combinations;
+    - shows unused facts (:p6, :p7) do not affect the result;
+    - ensures determinism of the derivation.
 """
 
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Any, List, Optional, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Tuple, Set
 
-# -----------------------------------------------------------------------------
-# Tiny fact store and helpers
-# -----------------------------------------------------------------------------
-
+# ─────────────────────────────────────────────────────────────
+# Tiny fact store type
+# ─────────────────────────────────────────────────────────────
 Triple = Tuple[str, str, bool]
 
-FACTS: set[Triple] = {
+DEFAULT_FACTS: Set[Triple] = {
     (":s", ":p1", True),
-    # (":s", ":p2", True),   # intentionally absent
+    # (":s", ":p2", True),   # absent
     (":s", ":p3", True),
     (":s", ":p4", True),
-    # (":s", ":p5", True),   # intentionally absent
-    (":s", ":p6", True),     # unused by the rule
-    (":s", ":p7", True),     # unused by the rule
+    # (":s", ":p5", True),   # absent
+    (":s", ":p6", True),     # unused
+    (":s", ":p7", True),     # unused
 }
 
-def has_fact(s: str, p: str, o: bool) -> bool:
-    return (s, p, o) in FACTS
-
-# -----------------------------------------------------------------------------
-# Pretty-proof kernel (style similar to odrl_tc1.py dumps)
-# -----------------------------------------------------------------------------
-
-@dataclass(frozen=True)
-class Atom:
-    pred: str
-    args: Tuple[Any, ...]
-    def pretty(self) -> str:
-        def fmt(x: Any) -> str:
-            return x if isinstance(x, str) else str(x)
-        return f"{self.pred}(" + ", ".join(fmt(a) for a in self.args) + ")"
-
-@dataclass
-class Conclusion:
-    kind: str
-    payload: Any
-    def pretty(self) -> str:
-        if self.kind in ("formula", "goal", "text", "rule"):
-            return self.payload if isinstance(self.payload, str) else str(self.payload)
-        if hasattr(self.payload, "pretty"):
-            return self.payload.pretty()
-        return str(self.payload)
-
+# ─────────────────────────────────────────────────────────────
+# Pretty-proof kernel (compact)
+# ─────────────────────────────────────────────────────────────
 @dataclass
 class Step:
     id: int
     rule: str
-    premises: List[int]
-    conclusion: Conclusion
-    notes: Optional[str] = None
+    text: str
+    refs: List[int] = field(default_factory=list)
 
 @dataclass
 class Proof:
     steps: List[Step] = field(default_factory=list)
-    def add(self, rule: str, premises: List[int], conclusion: Conclusion, notes: Optional[str] = None) -> int:
+    def add(self, rule: str, text: str, refs: Iterable[int] = ()) -> int:
         sid = len(self.steps) + 1
-        self.steps.append(Step(sid, rule, premises, conclusion, notes))
+        self.steps.append(Step(sid, rule, text, list(refs)))
         return sid
     def pretty(self) -> str:
-        out = []
+        lines: List[str] = []
         for s in self.steps:
-            prem = f" [{', '.join(map(str, s.premises))}]" if s.premises else ""
-            note = f" // {s.notes}" if s.notes else ""
-            out.append(f"[{s.id}] {s.rule}{prem}: {s.conclusion.pretty()}{note}")
-        return "\n".join(out)
+            refs = f" [{', '.join(map(str, s.refs))}]" if s.refs else ""
+            lines.append(f"[{s.id}] {s.rule}{refs}: {s.text}")
+        return "\n".join(lines)
 
-# -----------------------------------------------------------------------------
+# ─────────────────────────────────────────────────────────────
 # Rule mechanics for this specific N3
-# -----------------------------------------------------------------------------
+# ─────────────────────────────────────────────────────────────
+def has_fact(facts: Set[Triple], s: str, p: str, o: bool) -> bool:
+    return (s, p, o) in facts
 
-def call_with_optional(pname: str) -> Tuple[int, str]:
+def call_with_optional(facts: Set[Triple], pname: str) -> Tuple[int, str]:
     """
-    true log:callWithOptional { :s pname true. ?C = 1 } { ?C = 0 }
-    If the fact exists, choose left branch (?C=1); otherwise right branch (?C=0).
-    Returns (C, explanation).
+    true log:callWithOptional { :s pname true. ?C=1 } { ?C=0 }
+    If the fact exists, choose left branch (?C=1); otherwise right (?C=0).
+    Returns (C, human_explanation).
     """
-    if has_fact(":s", pname, True):
+    if has_fact(facts, ":s", pname, True):
         return 1, f"left-branch (found :s {pname} true) ⇒ 1"
     else:
         return 0, f"right-branch (no :s {pname} true) ⇒ 0"
 
-def apply_rule_and_prove() -> Tuple[bool, Proof, dict]:
+def apply_rule_and_prove(facts: Set[Triple]) -> Tuple[bool, Proof, Dict[str, int]]:
     proof = Proof()
 
-    # [1] Present the rule sketch
-    rule_text = (
-        "R (N3): For i∈{1..5}, true log:callWithOptional { :s :pi true. ?Ci=1 } { ?Ci=0 } ; "
-        "then sum(?C1..?C5, ?C) and ?C ≥ 3 ⇒ (:s a :3outof5)."
-    )
-    s1 = proof.add("Premise-Rule", [], Conclusion("rule", rule_text),
-                   notes="Single rule concluding the type :3outof5")
+    # Present the rule sketch & goal
+    r = proof.add("Rule", "For i∈{1..5} do log:callWithOptional …; sum C1..C5 → C; require C≥3 ⇒ :s a :3outof5")
+    g = proof.add("Goal", ":s a :3outof5")
 
-    # [2] Goal
-    s2 = proof.add("Goal", [], Conclusion("goal", ":s a :3outof5"),
-                   notes="Original query")
-
-    # [3] Backchain on the rule
-    s3 = proof.add("Backchain", [s1, s2],
-                   Conclusion("text", "Reduce to establishing optional counts C1..C5, sum C, and C ≥ 3"),
-                   notes="Goal-directed use of rule head")
-
-    # [4..8] Evaluate the five optionals
-    ci = {}
-    expl = {}
-
+    # Optionals
+    ci: Dict[str, int] = {}
+    branches: Dict[str, str] = {}
     for i, pname in enumerate([":p1", ":p2", ":p3", ":p4", ":p5"], start=1):
-        val, why = call_with_optional(pname)
+        val, why = call_with_optional(facts, pname)
         ci[f"C{i}"] = val
-        expl[f"C{i}"] = why
-        proof.add(f"Optional-C{i}", [s3],
-                  Conclusion("text", f"{pname}: {why}  ⇒  C{i} = {val}"))
+        branches[f"C{i}"] = why
+        proof.add(f"Optional C{i}", f"{pname}: {why}  ⇒  C{i}={val}", refs=[r, g])
 
-    # [9] Sum the vector
+    # Sum and threshold
     C = sum(ci[f"C{i}"] for i in range(1, 6))
-    vec = "(" + " ".join(str(ci[f"C{i}"]) for i in range(1, 6)) + ")"
-    s9 = proof.add("math:sum", [],
-                   Conclusion("text", f"{vec} ⇒ sum C = {C}"),
-                   notes="math:sum over (C1 C2 C3 C4 C5)")
-
-    # [10] Check threshold
+    v = "(" + " ".join(str(ci[f"C{i}"]) for i in range(1, 6)) + ")"
+    s = proof.add("math:sum", f"{v} ⇒ C={C}")
     ok = C >= 3
-    s10 = proof.add("math:notLessThan", [s9],
-                    Conclusion("text", f"{C} ≥ 3  ⇒  {ok}"),
-                    notes="Threshold holds")
+    proof.add("math:notLessThan", f"{C} ≥ 3  ⇒  {ok}", refs=[s])
 
-    # [11] Conclude the head
+    # Head conclusion
     if ok:
-        s11 = proof.add("Head-Intro", [s3, s10],
-                        Conclusion("formula", ":s a :3outof5"),
-                        notes="Rule applied since antecedent holds")
-        derived = True
+        proof.add("Conclude", ":s a :3outof5", refs=[g])
     else:
-        s11 = proof.add("Head-Blocked", [s3, s10],
-                        Conclusion("text", "Cannot conclude :s a :3outof5"),
-                        notes="Antecedent failed")
-        derived = False
+        proof.add("Blocked", "Cannot conclude :s a :3outof5", refs=[g])
 
-    return derived, proof, {"C": C, **ci}
+    return ok, proof, {"C": C, **ci}
 
-# -----------------------------------------------------------------------------
-# Main
-# -----------------------------------------------------------------------------
+# ─────────────────────────────────────────────────────────────
+# ARC — Answer / Reason why / Check
+# ─────────────────────────────────────────────────────────────
+def arc_answer(facts: Set[Triple]) -> Tuple[bool, Proof, Dict[str, int]]:
+    ok, proof, vals = apply_rule_and_prove(facts)
+    C1, C2, C3, C4, C5, C = vals["C1"], vals["C2"], vals["C3"], vals["C4"], vals["C5"], vals["C"]
+    print("Answer")
+    print("------")
+    print(":s a :3outof5" if ok else "# Not derivable: :s a :3outof5")
+    print(f"C1..C5 = {C1}, {C2}, {C3}, {C4}, {C5}  (sum={C})\n")
+    return ok, proof, vals
 
-def main():
-    derived, proof, vals = apply_rule_and_prove()
-
-    # Print the grounded conclusion (if any)
-    if derived:
-        print(":s a :3outof5")
-    else:
-        print("# Not derivable: :s a :3outof5")
-
-    # Also show the chosen C1..C5 and sum, for transparency
-    print(f"C1..C5 = {vals['C1']}, {vals['C2']}, {vals['C3']}, {vals['C4']}, {vals['C5']}  (sum={vals['C']})")
-
-    # Pretty proof
-    print("\n=== Pretty Proof ===\n")
+def arc_reason(proof: Proof) -> None:
+    print("Reason why")
+    print("----------")
+    print("• Each optional chooses 1 if the corresponding fact :s :pi true is present; else 0.")
+    print("• The five choices are summed via math:sum to C, then we require C ≥ 3.")
+    print("• If true, the rule’s head :s a :3outof5 is concluded.\n")
+    print("Pretty proof\n------------")
     print(proof.pretty())
+    print()
 
+def arc_check(facts: Set[Triple], ok: bool, vals: Dict[str, int]) -> None:
+    print("Check (harness)")
+    print("---------------")
+    # 1) Direct counting equals computed sum
+    present = [p for p in [":p1", ":p2", ":p3", ":p4", ":p5"] if has_fact(facts, ":s", p, True)]
+    expected_sum = len(present)
+    assert vals["C"] == expected_sum, f"Sum mismatch: got {vals['C']}, expected {expected_sum}"
+
+    # 2) Threshold equivalence
+    assert ok == (vals["C"] >= 3), "Derived truth does not match threshold C≥3"
+
+    # 3) Unused facts do not influence the result
+    #    Toggle :p6 / :p7 presence; outcome must be identical.
+    def with_toggle(pname: str, present: bool) -> Set[Triple]:
+        new = set(facts)
+        triple = (":s", pname, True)
+        if present:
+            new.add(triple)
+        else:
+            new.discard(triple)
+        return new
+
+    for p in (":p6", ":p7"):
+        ok_on  = apply_rule_and_prove(with_toggle(p, True))[0]
+        ok_off = apply_rule_and_prove(with_toggle(p, False))[0]
+        assert ok_on == ok_off == ok, f"Unused {p} changed the outcome"
+
+    # 4) Exhaustive validation over all 2^5 patterns (p1..p5)
+    base = {(s, p, o) for (s, p, o) in facts if p not in {":p1", ":p2", ":p3", ":p4", ":p5"}}
+    pins = [":p1", ":p2", ":p3", ":p4", ":p5"]
+    for mask in range(32):
+        test_facts = set(base)
+        count = 0
+        for i, p in enumerate(pins):
+            if (mask >> i) & 1:
+                test_facts.add((":s", p, True))
+                count += 1
+        ok_test, _, vals_test = apply_rule_and_prove(test_facts)
+        assert vals_test["C"] == count, "math:sum disagreement in exhaustive check"
+        assert ok_test == (count >= 3), "Threshold disagreement in exhaustive check"
+
+    # 5) Determinism: run twice on the same facts
+    ok2, _, vals2 = apply_rule_and_prove(facts)
+    assert ok2 == ok and vals2 == vals, "Non-deterministic result on re-run"
+
+    print("OK: sums correct, threshold respected, unused facts ignored, exhaustive cases consistent, deterministic.\n")
+
+# ─────────────────────────────────────────────────────────────
+# Main
+# ─────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    main()
+    ok, proof, vals = arc_answer(DEFAULT_FACTS)
+    arc_reason(proof)
+    arc_check(DEFAULT_FACTS, ok, vals)
 
