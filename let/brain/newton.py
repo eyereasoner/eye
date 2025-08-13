@@ -1,30 +1,32 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-newton.py
-──────────────────────────────────────────────────────────────
-Backward-chaining “proof” of a root obtained by Newton-Raphson.
+newton.py — Newton–Raphson as a backward-style proof (ARC-ified)
+────────────────────────────────────────────────────────────────────
+
+We “prove” the goal  root(f, x*)  by exhibiting x* such that |f(x*)| < ε.
 
 Function
-    f(x)  =  x³ − 2x − 5     (has a real root near x = 2.09455…)
-
+  f(x)  =  x³ − 2x − 5        (has a single real root ≈ 2.09455)
 Derivative
-    f'(x) =  3x² − 2
+  f'(x) =  3x² − 2
 
-Goal predicate
-    root(f, x*)   holds when  |f(x*)| < ε   with ε = 1e-6.
+Method
+  Newton–Raphson:  x_{k+1} = x_k − f(x_k)/f'(x_k)
+  Start at x₀ = 2, stop when |f(x_k)| < ε with ε = 1e−6 (or max 20 iters).
 
-The script:
-    • starts with guess  x₀ = 2 ,
-    • prints each Newton step as  “→ via Newton”  in the proof,
-    • stops when the goal predicate is satisfied,
-    • reports the certified root.
+ARC sections
+  • Answer      — certified root, residual, iteration count, short trace
+  • Reason why  — why Newton works here + the exact update used
+  • Check       — harness verifies goal & a few safety properties
 """
 
-from typing import Dict
-from itertools import count
+from __future__ import annotations
+from dataclasses import dataclass
+from typing import List, Tuple
 
 # ─────────────────────────────────────────────────────────────
-# 0.  Function & derivative
+# Problem definition
 # ─────────────────────────────────────────────────────────────
 def f(x: float) -> float:
     return x**3 - 2*x - 5
@@ -32,51 +34,107 @@ def f(x: float) -> float:
 def df(x: float) -> float:
     return 3*x**2 - 2
 
-EPS  = 1e-6          # proof tolerance
-X0   = 2.0           # starting guess
-MAXI = 20            # hard limit on iterations
+EPS  = 1e-6      # tolerance for |f(x*)|
+X0   = 2.0       # starting guess
+MAXI = 20        # iteration limit
+SAFE = 1e-14     # guard against zero derivative
 
 # ─────────────────────────────────────────────────────────────
-# 1.  Backward-chaining prover
+# Newton driver that records a “proof trace”
 # ─────────────────────────────────────────────────────────────
-step_no = count(1)
+@dataclass
+class Step:
+    k: int
+    x: float
+    fx: float
+    dfx: float
+    x_next: float
 
-def prove_root(x: float, depth: int = 0) -> float:
-    """
-    Recursively prove root(f, x) by Newton backward chaining.
-    Returns the certified root once |f(x)| < EPS.
-    """
-    err = abs(f(x))
-    print("  "*depth + f"Step {next(step_no):02}: prove root at x = {x:.10f} "
-          f"( |f| = {err:.3e} )")
-
-    # Base case: predicate holds within tolerance
-    if err < EPS:
-        print("  "*depth + "✓ |f(x)| < ε  → goal satisfied")
-        return x
-
-    if depth >= MAXI:
-        raise RuntimeError("Maximum iterations exceeded")
-
-    # Newton update  x_new = x - f/df
-    deriv = df(x)
-    if deriv == 0.0:
-        raise ZeroDivisionError(f"Derivative zero at x = {x}")
-    x_new = x - f(x)/deriv
-
-    print("  "*depth + f"→ via Newton  "
-          f"(f = {f(x):+.3e},  f' = {deriv:+.3e})  ->  xₙ₊₁ = {x_new:.10f}")
-
-    # Sub-goal: prove root at x_new
-    return prove_root(x_new, depth + 1)
+def newton_with_trace(x0: float, eps: float = EPS, max_iter: int = MAXI) -> Tuple[float, List[Step]]:
+    """Run Newton and return (root, full trace). Raises on zero derivative."""
+    x = x0
+    trace: List[Step] = []
+    for k in range(1, max_iter + 1):
+        fx = f(x)
+        if abs(fx) < eps:
+            return x, trace
+        dfx = df(x)
+        if abs(dfx) < SAFE:
+            raise ZeroDivisionError(f"Derivative too small at iteration {k}: f'({x})={dfx}")
+        x_next = x - fx / dfx
+        trace.append(Step(k, x, fx, dfx, x_next))
+        x = x_next
+    # final check after loop
+    if abs(f(x)) < eps:
+        return x, trace
+    raise RuntimeError("Maximum iterations exceeded without meeting tolerance")
 
 # ─────────────────────────────────────────────────────────────
-# 2.  Run proof from initial guess
+# ARC — Answer
+# ─────────────────────────────────────────────────────────────
+def arc_answer(root: float, trace: List[Step]) -> None:
+    print("Answer")
+    print("------")
+    print(f"Goal:  root(f, x*) with |f(x*)| < ε,  ε = {EPS:g}")
+    print(f"Start: x₀ = {X0}")
+    print(f"Done:  x* = {root:.10f}")
+    print(f"Check: |f(x*)| = {abs(f(root)):.3e}")
+    print(f"Iters: {len(trace)} (≤ {MAXI})\n")
+
+    print("Short trace (first 6 steps or all):")
+    show = trace[:6] if len(trace) > 6 else trace
+    for s in show:
+        print(f"  Step {s.k:02}: x={s.x:.10f}  f={s.fx:+.3e}  f'={s.dfx:+.3e}  →  x₊₁={s.x_next:.10f}")
+    if len(trace) > 6:
+        print(f"  … ({len(trace)-6} more)")
+    print()
+
+# ─────────────────────────────────────────────────────────────
+# ARC — Reason why
+# ─────────────────────────────────────────────────────────────
+def arc_reason(root: float, trace: List[Step]) -> None:
+    print("Reason why")
+    print("----------")
+    print("Newton–Raphson solves f(x)=0 by repeatedly applying:")
+    print("  x_{k+1} = x_k − f(x_k) / f'(x_k)")
+    print("Geometric intuition: follow the tangent at x_k to its x-intercept.")
+    print("For f(x)=x³−2x−5, f' is continuous and nonzero near the root; the")
+    print("method converges quadratically once close enough.\n")
+
+    if trace:
+        s = trace[0]
+        print("First update used:")
+        print(f"  x₁ = x₀ − f(x₀)/f'(x₀) = {s.x:.10f} − ({s.fx:+.3e})/({s.dfx:+.3e}) = {s.x_next:.10f}\n")
+    print("Certified because the final iterate x* satisfies |f(x*)| < ε.\n")
+
+# ─────────────────────────────────────────────────────────────
+# ARC — Check (harness)
+# ─────────────────────────────────────────────────────────────
+def arc_check(root: float, trace: List[Step]) -> None:
+    print("Check (harness)")
+    print("---------------")
+    # 1) goal satisfied
+    assert abs(f(root)) < EPS, "Final residual not below tolerance."
+    # 2) derivative never vanished along the path we used
+    for s in trace:
+        assert abs(s.dfx) > SAFE, f"Near-zero derivative at step {s.k}."
+    # 3) iterations bounded
+    assert len(trace) <= MAXI, "Exceeded iteration cap."
+    # 4) root bracket sanity: f(2) < 0 < f(3), so x* ∈ (2,3)
+    assert f(2.0) < 0 < f(3.0), "Pre-check failed: function should cross between 2 and 3."
+    assert 2.0 < root < 3.0, "Root not in expected bracket (2,3)."
+    # 5) replay determinism from the same start/tolerance
+    r2, t2 = newton_with_trace(X0, EPS, MAXI)
+    assert abs(r2 - root) <= 1e-12, "Re-run produced a different root."
+    print("OK: goal satisfied, safe derivatives, bounded iters, bracketed, reproducible.\n")
+
+# ─────────────────────────────────────────────────────────────
+# Main
 # ─────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    print(f"Proving existence of a root for  f(x) = x³ − 2x − 5")
-    certified = prove_root(X0)
-
-    print(f"\nCertified root:  x* = {certified:.10f}")
-    print(f"Final check:     f(x*) = {f(certified):+.3e}")
+    print("Proving existence of a root for  f(x) = x³ − 2x − 5\n")
+    root, trace = newton_with_trace(X0, EPS, MAXI)
+    arc_answer(root, trace)
+    arc_reason(root, trace)
+    arc_check(root, trace)
 

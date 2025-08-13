@@ -1,37 +1,27 @@
-💭 Phil 0 thinking (meal 1/3)
-💭 Phil 1 thinking (meal 1/3)
-💭 Phil 2 thinking (meal 1/3)
-💭 Phil 3 thinking (meal 1/3)
-💭 Phil 4 thinking (meal 1/3)
-  🍴 Phil 0 eating (meal 1)
-💭 Phil 0 thinking (meal 2/3)
-  🍴 Phil 1 eating (meal 1)
-💭 Phil 1 thinking (meal 2/3)
-  🍴 Phil 2 eating (meal 1)
-💭 Phil 2 thinking (meal 2/3)
-  🍴 Phil 3 eating (meal 1)
-💭 Phil 3 thinking (meal 2/3)
-  🍴 Phil 4 eating (meal 1)
-💭 Phil 4 thinking (meal 2/3)
-  🍴 Phil 0 eating (meal 2)
-💭 Phil 0 thinking (meal 3/3)
-  🍴 Phil 1 eating (meal 2)
-💭 Phil 1 thinking (meal 3/3)
-  🍴 Phil 2 eating (meal 2)
-💭 Phil 2 thinking (meal 3/3)
-  🍴 Phil 3 eating (meal 2)
-💭 Phil 3 thinking (meal 3/3)
-  🍴 Phil 4 eating (meal 2)
-💭 Phil 4 thinking (meal 3/3)
-  🍴 Phil 0 eating (meal 3)
-✅ Phil 0 finished all meals
-  🍴 Phil 1 eating (meal 3)
-✅ Phil 1 finished all meals
-  🍴 Phil 2 eating (meal 3)
-✅ Phil 2 finished all meals
-  🍴 Phil 3 eating (meal 3)
-✅ Phil 3 finished all meals
-  🍴 Phil 4 eating (meal 3)
-✅ Phil 4 finished all meals
+Answer
+------
+Philosophers: 5, meals each: 3, total meals: 15
+Timing: 0.166s  (think=0.010s, eat=0.010s)
 
-🎉 Everyone ate, no deadlock, deterministic order!
+Eating schedule (deterministic order):
+  Round 1: 0 → 1 → 2 → 3 → 4
+  Round 2: 0 → 1 → 2 → 3 → 4
+  Round 3: 0 → 1 → 2 → 3 → 4
+
+Reason why
+----------
+We serialize eating with a condition-variable *token* (`turn`).
+Only the philosopher whose id equals `turn` proceeds to grab both forks.
+Everyone else waits on the condition, so no two philosophers attempt to
+lock conflicting forks simultaneously. After eating, the philosopher
+increments `turn` (mod N) and signals the condition.
+
+Consequences:
+  • Deadlock impossible (no circular wait; only one contender).
+  • Starvation impossible (token visits philosophers round-robin).
+  • Deterministic output (order 0..N−1 repeats for each round).
+
+Check (harness)
+---------------
+OK: no overlap, correct order each round, correct counts, run completed.
+
