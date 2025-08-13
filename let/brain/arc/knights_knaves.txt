@@ -1,35 +1,37 @@
-Solution (deterministic, pure Python):
-  A is a Knight
-  B is a Knave
-  C is a Knave
-  D is a Knight
-  E is a Knight
-  F is a Knight
-  G is a Knave
-  H is a Knight
+Answer
+------
+Total solutions found: 2
+First (deterministic) solution:
+  A: Knight
+  B: Knave
+  C: Knave
+  D: Knight
+  E: Knight
+  F: Knight
+  G: Knave
+  H: Knight
 
-Proof (explaining each statement logically):
-
+Reason why
+----------
 A is a Knight and says: "B is a Knave."
-  A is a Knight, and says B is a Knave → So B is a Knave
-
+  B is Knave → statement is true
 B is a Knave and says: "C is a Knight."
-  B is a Knave, and says C is a Knight → So C is a Knave
-
+  C is Knave → statement is false
 C is a Knave and says: "D is a Knave."
-  C is a Knave, and says D is a Knave → So D is a Knight
-
+  D is Knight → statement is false
 D is a Knight and says: "E and F are of the same type."
-  D is a Knight, and says E and F are the same → E is Knight, F is Knight → same
-
+  E=K, F=K → same? True → statement is true
 E is a Knight and says: "G is a Knave."
-  E is a Knight, and says G is a Knave → G is a Knave
-
+  G is Knave → statement is true
 F is a Knight and says: "I am a Knight."
-  F is a Knight, and says they are a Knight → Statement is true
-
+  Self-referential: 'I am a Knight.'
+  This imposes no constraint: Knight→true; Knave→false; both satisfy role == statement.
 G is a Knave and says: "H is a Knave."
-  G is a Knave, and says H is a Knave → H is a Knight
-
+  H is Knight → statement is false
 H is a Knight and says: "A is a Knight."
-  H is a Knight, and says A is a Knight → A is a Knight
+  A is Knight → statement is true
+
+Check (harness)
+---------------
+OK: solutions validated; deterministic; chosen solution locally unique under single flips.
+

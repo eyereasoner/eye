@@ -1,21 +1,35 @@
-Applying evidence: require ¬dp_viol (drop worlds that violate the diamond property).
-W1: [ab=e, ac=e]        dp_viol = FALSE → KEEP
-W2: [ab=e, ac=r]        dp_viol = FALSE → KEEP
-W3: [ab=r, ac=e]        dp_viol = FALSE → KEEP
-W4: [ab=r, ac=r]        dp_viol = TRUE  → DROP
-Surviving worlds: [ab=e, ac=e], [ab=e, ac=r], [ab=r, ac=e]
+Answer
+------
+Evidence: keep only worlds with ¬dp_viol.
+  W1: [ab=e, ac=e]        dp_viol=FALSE → KEEP
+  W2: [ab=e, ac=r]        dp_viol=FALSE → KEEP
+  W3: [ab=r, ac=e]        dp_viol=FALSE → KEEP
+  W4: [ab=r, ac=r]        dp_viol=TRUE  → DROP
 
-Surviving worlds detail (e and r edges):
-  [ab=e, ac=e]: e=[('a', 'a'), ('a', 'b'), ('a', 'c'), ('b', 'a'), ('b', 'b'), ('c', 'a'), ('c', 'c')], r=[]
-  [ab=e, ac=r]: e=[('a', 'a'), ('a', 'b'), ('b', 'a'), ('b', 'b'), ('c', 'c')], r=[('a', 'c')]
-  [ab=r, ac=e]: e=[('a', 'a'), ('a', 'c'), ('b', 'b'), ('c', 'a'), ('c', 'c')], r=[('a', 'b')]
+Surviving worlds (after evidence): [ab=e, ac=e], [ab=e, ac=r], [ab=r, ac=e]
 
-=== Proving goal: ∃U. re(b,U) ∧ re(c,U) ===
-World 1: [ab=e, ac=e]        ✓ goal  (witness U = a)
-World 2: [ab=e, ac=r]        ✓ goal  (witness U = c)
-World 3: [ab=r, ac=e]        ✓ goal  (witness U = b)
-Result: VALID given evidence — goal holds in all 3 surviving worlds.
+Goal: ∃U. re(b,U) ∧ re(c,U)
+  W1: [ab=e, ac=e]       ✓ holds  (witness U=a)
+  W2: [ab=e, ac=r]       ✓ holds  (witness U=c)
+  W3: [ab=r, ac=e]       ✓ holds  (witness U=b)
 
-=== Summary ===
-Total worlds: 4  |  Violating: 1  |  Surviving: 3
-goal: VALID (in all surviving worlds)
+Classification: VALID (holds in all surviving worlds)
+
+Reason why
+----------
+• Each base edge a→b, a→c is labeled either as equality ‘e’ or as a plain
+  directed relation ‘r’. Equality contributes reflexive (x,x) and symmetric
+  pairs, while ‘r’ stays directed.
+• We form re = e ∪ r and *close* it under e-left-composition:
+      if e(x,y) and re(y,z) then re(x,z).
+  Intuitively: equality lets you rewrite the left argument.
+• Evidence discards worlds that violate a ‘diamond property’: having a node
+  with two distinct outgoing r-edges to *leaves* (no further r-successors).
+• The query asks for a common re-successor of b and c. We report a witness U
+  for each surviving world where this holds.
+
+Check (harness)
+---------------
+OK: reflexive/symmetric e, closure of re, evidence filter, witness correctness,
+    and deterministic enumeration all verified.
+

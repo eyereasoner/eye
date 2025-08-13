@@ -1,7 +1,33 @@
-Shortest distances from A:
+Answer
+------
+Source: A
+Shortest distances:
   A → A: 0.0
   A → B: 7.0
   A → C: 9.0
   A → D: 20.0
   A → E: 20.0
   A → F: 11.0
+
+One shortest path to each reachable node:
+  A ⇒ A: A  (length 0.0)
+  A ⇒ B: A -> B  (length 7.0)
+  A ⇒ C: A -> C  (length 9.0)
+  A ⇒ D: A -> C -> D  (length 20.0)
+  A ⇒ E: A -> C -> F -> E  (length 20.0)
+  A ⇒ F: A -> C -> F  (length 11.0)
+
+Reason why
+----------
+Dijkstra maintains a set of settled nodes whose distances are final.
+At each step it extracts the unsettled node with smallest tentative
+distance (min-heap) and relaxes all outgoing edges. With non-negative
+weights, once a node u is extracted, no other path can later reach u
+with a shorter distance, so dist[u] is optimal. Repeating this proves
+optimality for all reachable nodes.
+
+Check (harness)
+---------------
+OK: non-negative weights, predecessor/tree invariants, edge-wise triangle check,
+    Bellman–Ford agreement, and deterministic re-run.
+
