@@ -2,7 +2,6 @@
 """
 Shor 9-qubit code demo (pure Python, no imports, little-endian convention)
 ==========================================================================
-(Original extensive comments preserved and augmented)
 
 Logical code words
 ------------------

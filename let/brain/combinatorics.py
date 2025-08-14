@@ -3,18 +3,14 @@
 r"""
 combinatorics.py
 
-Original intent (kept exactly):
-  • Print the power set of a given list of elements
-  • For each k=1..n, print all k-combinations and k-permutations (and their counts)
-  • Print combinations-with-replacement for k=2 (multiset combinations)
-
-This version additionally:
-  • Adds extensive comments explaining each section and formula
-  • Structures the computation so we can verify identities in a "Check (harness)"
-  • Produces three ARC-style sections on stdout:
-        Answer      – results (counts and full listings)
-        Reason why  – the combinatorial formulas behind those counts
-        Check       – a harness that re-derives everything and asserts identities
+• Print the power set of a given list of elements
+• For each k=1..n, print all k-combinations and k-permutations (and their counts)
+• Print combinations-with-replacement for k=2 (multiset combinations)
+• Structures the computation so we can verify identities in a "Check (harness)"
+• Produces three ARC-style sections on stdout:
+    Answer      – results (counts and full listings)
+    Reason why  – the combinatorial formulas behind those counts
+    Check       – a harness that re-derives everything and asserts identities
 
 Notes
 -----

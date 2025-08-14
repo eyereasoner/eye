@@ -2,13 +2,7 @@
 """
 Lee routing (grid shortest path via BFS)
 
-Based on your original lee.py (same constants, same random-grid generation),
-now with:
-  • Extensive comments that walk through the algorithm step-by-step
-  • A structured result (LeeResult) so we can inspect distances/visited/trace
-  • ARC-style console output sections: Answer / Reason why / Check (harness)
-
-Key properties (unchanged algorithmically):
+Key properties:
   - 4-neighborhood (up, right, down, left)
   - Obstacles are cells with value -1
   - BFS guarantees the found path (if any) is shortest in number of steps
