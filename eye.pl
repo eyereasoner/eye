@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.20.4 (2025-07-27)').
+version_info('EYE v11.20.5 (2025-08-14)').
 
 license_info('MIT License
 
@@ -7186,23 +7186,17 @@ prepare_builtins :-
     ).
 
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(X, Y) :-
-    when(
-        (   nonvar(X)
-        ;   nonvar(Y)
-        ),
-        (   X = [Y|_]
-        )
+    (   nonvar(X)
+    ;   nonvar(Y)
     ),
+    X = [Y|_],
     !.
 
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, Y) :-
-    when(
-        (   nonvar(X)
-        ;   nonvar(Y)
-        ),
-        (   X = [_|Y]
-        )
+    (   nonvar(X)
+    ;   nonvar(Y)
     ),
+    X = [_|Y],
     !.
 
 '<http://www.w3.org/2000/10/swap/crypto#md5>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
