@@ -1,0 +1,13 @@
+@prefix : <http://example.org/#> .
+
+:Ghent a :City .
+:Ghent :inCountry :Belgium .
+:Ghent :hasName "Ghent" .
+:Ghent :hasName "Gent" .
+_:b1 a :Port .
+_:b1 :name "Antwerp Port" .
+:Antwerp :hasPart _:b1 .
+
+{ ?x a :City . ?x :inCountry :Belgium . } => { ?x a :HumanCommunity . } .
+{ ?x a :HumanCommunity . } <= { ?x a :City . ?x a :UrbanArea . ?x :inCountry :Belgium . } .
+{ ?x a :City . ?x :inCountry :Belgium . } =^ { ?x :answer "Yes" . } .
