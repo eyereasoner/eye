@@ -1,61 +1,53 @@
+→ Parsed 4 transition edges from the N3 block.
+
 ============================================
-GPS case — Answer / Reason why / Check (harness)
+GPS (roads, N3 rules) — Answer / Reason why / Check (harness)
 ============================================
+
+Start city : Gent
+Goal city  : Oostende
 
 Answer
 ======
-Admissible routes for path(Gent, Oostende):
+✅ Found 2 admissible route(s) for path(Gent, Oostende):
 
-1. drive_gent_brugge → drive_brugge_oostende
-   dur=2400, cost=0.010, bel=0.941, comf=0.990, stages=1
-2. drive_gent_kortrijk → drive_kortrijk_brugge → drive_brugge_oostende
-   dur=4100, cost=0.018, bel=0.903, comf=0.980, stages=1
+Route #1
+ Steps    : 2
+ Duration : 2400 s (≤ 5000)
+ Cost     : 0.010 (≤ 5.0)
+ Belief   : 0.941 (≥ 0.2)
+ Comfort  : 0.990 (≥ 0.4)
+ Stages   : 1 (≤ 1)
+   1. drive_gent_brugge
+   2. drive_brugge_oostende
 
-Optimal (minimal duration): drive_gent_brugge → drive_brugge_oostende  [dur=2400]
+Route #2
+ Steps    : 3
+ Duration : 4100 s (≤ 5000)
+ Cost     : 0.018 (≤ 5.0)
+ Belief   : 0.903 (≥ 0.2)
+ Comfort  : 0.980 (≥ 0.4)
+ Stages   : 1 (≤ 1)
+   1. drive_gent_kortrijk
+   2. drive_kortrijk_brugge
+   3. drive_brugge_oostende
+
+Optimal (minimal duration): drive_gent_brugge → drive_brugge_oostende  [dur=2400 s]
 
 Reason why
 ==========
-Constraints (must all hold on the whole path):
-  duration ≤ 5000,  cost ≤ 5.0,  belief ≥ 0.2,  comfort ≥ 0.4,  stagecount ≤ 1
+Global limits (as in original gps.py):
+ duration ≤ 5000 s, cost ≤ €5.0, belief ≥ 0.2, comfort ≥ 0.4, stagecount ≤ 1
 
-Aggregation along a path:
-  • duration, cost: add each edge’s values
-  • belief, comfort: multiply each edge’s factors
-  • stagecount: count consecutive distinct map_ids (all edges here are ‘map-BE’, so it stays 1)
-
-Per-route feasibility:
-  Route A: Gent → Brugge → Oostende
-    dur = 1500 + 900  = 2400   (≤ 5000)
-    cost= 0.006+0.004 = 0.010  (≤ 5.0)
-    bel = 0.96×0.98   = 0.941  (≥ 0.2)
-    comf= 0.99×1.00   = 0.990  (≥ 0.4)
-    stages = 1
-
-  Route B: Gent → Kortrijk → Brugge → Oostende
-    dur = 1600 + 1600 + 900   = 4100   (≤ 5000)
-    cost= 0.007+ 0.007+ 0.004 = 0.018  (≤ 5.0)
-    bel = 0.96×0.96×0.98      ≈ 0.903  (≥ 0.2)
-    comf= 0.99×0.99×1.00      ≈ 0.980  (≥ 0.4)
-    stages = 1
+From the start city Gent, applicable actions: 2
+ • drive_gent_brugge: Gent → Brugge (+1500s, +€0.006, ×bel 0.960, ×comf 0.990)
+ • drive_gent_kortrijk: Gent → Kortrijk (+1600s, +€0.007, ×bel 0.960, ×comf 0.990)
 
 Check (harness)
 ===============
-Trace for route: drive_gent_brugge → drive_brugge_oostende
-  Step 01: at Gent (dur=0, cost=0.000, bel=1.000, comf=1.000)
-  → drive_gent_brugge
-  Step 02: at Brugge (dur=1500, cost=0.006, bel=0.960, comf=0.990)
-  → drive_brugge_oostende
-  Step 03: at Oostende (dur=2400, cost=0.010, bel=0.941, comf=0.990)
-  ✓ goal & constraints OK
+• Solution set equality ✓
+• Limits & stagecount checks ✓
+• Totals recomputation ✓
+• Optimal-by-duration ordering ✓
 
-Trace for route: drive_gent_kortrijk → drive_kortrijk_brugge → drive_brugge_oostende
-  Step 01: at Gent (dur=0, cost=0.000, bel=1.000, comf=1.000)
-  → drive_gent_kortrijk
-  Step 02: at Kortrijk (dur=1600, cost=0.007, bel=0.960, comf=0.990)
-  → drive_kortrijk_brugge
-  Step 03: at Brugge (dur=3200, cost=0.014, bel=0.922, comf=0.980)
-  → drive_brugge_oostende
-  Step 04: at Oostende (dur=4100, cost=0.018, bel=0.903, comf=0.980)
-  ✓ goal & constraints OK
-
-Harness: solutions set, constraints, totals, and optimality verified. ✓
+Harness complete: parsing, limits, search, and optimality verified. ✓
