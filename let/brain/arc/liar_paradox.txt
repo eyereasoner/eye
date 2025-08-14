@@ -1,24 +1,43 @@
-============================================
+============================================================
 The Liar — outer limits of reason (classical logic)
-============================================
+============================================================
 
 Sentence:
   L := "This sentence is false."
+
 Naïve classical schema:
-  L ≡ ¬L
+  True(L) ≡ L  ⇒  L ≡ ¬L
 
-Reason why it goes off the rails:
-  • Assume L is True  ⇒  ¬L is False  ⇒  L is False.  (Contradiction)
-  • Assume L is False ⇒  ¬L is True   ⇒  L is True.   (Contradiction)
-  No consistent truth value exists under these assumptions.
+Answer:
+  No classical truth-value assignment satisfies L ≡ ¬L.
+  Under the stated assumptions, the liar sentence has no consistent classical truth value.
 
-Philosophical upshot (without changing the system):
-  We can frankly admit the paradox marks an 'outer limit of reason' *for this setup*—
-  a place where our ordinary, two-valued, self-referential talk breaks itself.
+Reason why:
+  • Assume L is True.
+  • Given the schema L ≡ ¬L, the right-hand side must match the left-hand side.
+  • So ¬L must be True. But by classical negation, ¬L is False.
+  • Contradiction: ¬L cannot be both True and False.
+  • Equivalently: from L and (L ≡ ¬L) we infer ¬L; hence L ∧ ¬L.
 
-Check (classical two-valued):
-  ✓ No satisfying assignment exists for L ≡ ¬L. (Unsatisfiable)
+  • Assume L is False.
+  • Given the schema L ≡ ¬L, the right-hand side must match the left-hand side.
+  • So ¬L must be False. But by classical negation, ¬L is True.
+  • Contradiction: ¬L cannot be both False and True.
+  • Equivalently: from ¬L and (L ≡ ¬L) we infer L; hence L ∧ ¬L.
+
+  Takeaway:
+  Without changing the rules (e.g., restricting self-reference, stratifying truth,
+  or altering the logic), the liar sits at an 'outer limit of reason' for this system.
+
+Check (harness):
+  Trying L ∈ {False, True} against the constraint (L == (not L))...
+  ✓ Unsatisfiable: no assignment makes L ≡ ¬L true.
+
+  Truth table for L and (L == (not L)):
+    L      not L    (L == not L)
+    False  True    False
+    True   False   False
 
 Conclusion:
-  In plain classical logic, the liar forces contradiction either way—
-  a precise, technical sense in which it lives at the 'outer limits of reason.' □
+  In plain classical logic, assuming L ≡ ¬L forces contradiction either way—
+  a precise, technical sense in which the liar marks an 'outer limit of reason.' □

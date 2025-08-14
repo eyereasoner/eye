@@ -45,7 +45,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Tuple, Optional, Iterable
 import copy
-import time
 
 Board = List[List[int]]
 

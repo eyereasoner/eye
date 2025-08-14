@@ -1,24 +1,42 @@
-============================================
-Russell’s Paradox — outer limits of naïve comprehension
-============================================
+============================================================
+Russell’s Paradox — outer limits of naïve comprehension (classical logic)
+============================================================
 
 Setup:
   R := { x | x ∉ x }   (the set of all sets that do not contain themselves)
-Question:
-  Is R ∈ R ?  (abbreviate r := 'R ∈ R')
+  Abbreviation: r := 'R ∈ R'
 
-Reason why it explodes in classical logic:
-  • If r is True (R ∈ R), then by definition of R, R ∉ R — contradiction.
-  • If r is False (R ∉ R), then R meets its own membership condition, so R ∈ R — contradiction.
-  Therefore r ≡ ¬r has no classical solution.
+Naïve comprehension + classical reading yield:
+  r ≡ ¬r
 
-Philosophical upshot:
+Answer:
+  No classical truth-value assignment satisfies r ≡ ¬r.
+  Under naïve comprehension and two-valued classical logic, r has no consistent value.
+
+Reason why:
+  • Assume r is True, i.e., R ∈ R.
+  • By the definition of R = { x | x ∉ x }, membership in R requires ¬(R ∈ R).
+  • So from r we infer ¬r. Contradiction (r ∧ ¬r).
+  • In classical terms: r must be True to match ¬r, but ¬r is False by negation.
+
+  • Assume r is False, i.e., R ∉ R.
+  • But then R satisfies its own membership condition (x ∉ x), so R ∈ R.
+  • So from ¬r we infer r. Contradiction (r ∧ ¬r).
+  • In classical terms: r must be False to match ¬r, but ¬r is True by negation.
+
+  Takeaway:
   Naïve comprehension overreaches; restricting it (as in ZF/ZFC) avoids the paradox.
-  Without such restrictions, this is an 'outer limit of reason' for the system.
+  Without such restrictions, Russell’s construction marks an 'outer limit of reason' for this system.
 
-Check (classical two-valued):
-  ✓ Unsatisfiable: no truth value r makes r ≡ ¬r hold.
+Check (harness):
+  Trying r ∈ {False, True} against the constraint (r == (not r))...
+  ✓ Unsatisfiable: no assignment makes r ≡ ¬r true.
+
+  Truth table for r and (r == (not r)):
+    r      not r    (r == not r)
+    False  True    False
+    True   False   False
 
 Conclusion:
-  Russell’s construction forces r ≡ ¬r under naïve comprehension,
+  Russell’s construction forces r ≡ ¬r from naïve comprehension,
   so classical consistency fails — a precise 'outer limit of reason.' □

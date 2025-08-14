@@ -32,7 +32,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 import copy
-import time
 
 # ───────────────────────────── constants & types ─────────────────────────────
 N      = 6
@@ -243,9 +242,8 @@ if __name__ == "__main__":
         [0,     EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
     ]
 
-    # Find ALL solutions (and time it)
+    # Find ALL solutions
     grid_all = copy.deepcopy(puzzle)
-    t0 = time.perf_counter()
     solutions = solve_all(grid_all)  # or solve_all(grid_all, limit=2)
 
     # Also get a *trace* to the first solution

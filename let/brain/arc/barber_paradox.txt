@@ -1,26 +1,44 @@
-============================================
-The Barber Paradox — outer limits of reason
-============================================
+============================================================
+The Barber Paradox — outer limits of reason (classical logic)
+============================================================
 
 Setup:
-  Predicate S(x,y): 'x shaves y'. Let b be the barber.
-  Barber condition:  ∀y [ S(b,y) ↔ ¬S(y,y) ]
+  Predicate S(x,y): 'x shaves y'.  Constant b: 'the barber'.
+  Barber condition (axiom):  ∀y [ S(b,y) ↔ ¬S(y,y) ]
+  Abbreviation: p := S(b,b)
 
 Key instance (y := b):
-  S(b,b) ↔ ¬S(b,b)
+  S(b,b) ↔ ¬S(b,b)   i.e.,   p ↔ ¬p
 
-Reason why it contradicts classical logic:
-  • If S(b,b) is True, then ¬S(b,b) is True — impossible.
-  • If S(b,b) is False, then ¬S(b,b) is True, so S(b,b) must be True — impossible.
-  No classical assignment satisfies S(b,b) ↔ ¬S(b,b).
+Answer:
+  No classical truth-value assignment satisfies p ↔ ¬p.
+  Under the barber axiom with two-valued classical logic, p has no consistent value.
 
-Philosophical upshot:
-  Without changing the rules, this definition self-destructs;
-  it marks an 'outer limit of reason' for plain two-valued self-reference.
+Reason why:
+  • Assume p is True (S(b,b)).
+  • From ∀y [S(b,y) ↔ ¬S(y,y)], instantiating y := b gives S(b,b) ↔ ¬S(b,b).
+  • Thus from p we infer ¬p. Contradiction (p ∧ ¬p).
+  • Hence no classical truth value makes p ↔ ¬p true.
 
-Check (classical two-valued):
-  ✓ Unsatisfiable: no truth value p makes p ↔ ¬p hold.
+  • Assume p is False (¬S(b,b)).
+  • From S(b,b) ↔ ¬S(b,b), the right-hand side says ¬p, which matches the left.
+  • But then the biconditional forces p. Contradiction (p ∧ ¬p).
+  • Hence no classical truth value makes p ↔ ¬p true.
+
+  Takeaway:
+  Taken at face value, the barber condition self-destructs in classical logic.
+  Consistent formalisms avoid it by blocking self-application (typing, domain tweaks,
+  or curbing 'all-and-only' definitions).
+
+Check (harness):
+  Trying p ∈ {False, True} against the constraint (p == (not p))...
+  ✓ Unsatisfiable: no assignment makes p ↔ ¬p true.
+
+  Truth table for p and (p == (not p)):
+    p      not p    (p == not p)
+    False  True    False
+    True   False   False
 
 Conclusion:
-  The barber condition forces p ↔ ¬p at p = S(b,b), so there’s no classical model.
-  That’s precisely how the paradox lives at the 'outer limits of reason.' □
+  The barber axiom forces p ↔ ¬p at p = S(b,b), so there is no classical model —
+  a precise 'outer limit of reason' for this setup. □

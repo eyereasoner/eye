@@ -31,7 +31,6 @@ This script:
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, List, Optional, Set, Tuple, Dict
-import time
 
 # ─────────────────────────────────────────────────────────────
 # Data
@@ -171,7 +170,6 @@ def print_reason(kb: KB) -> None:
 def arc_check(locs: List[Triple], kb: KB) -> None:
     print("\nCheck (harness)")
     print("---------------")
-    t0 = time.time()
 
     # 1) Determinism — recompute in a fresh KB+proof
     kb2 = KB(); proof2 = Proof()
@@ -193,12 +191,10 @@ def arc_check(locs: List[Triple], kb: KB) -> None:
     # 4) Uniqueness: no duplicate locations
     assert len(locs) == len(set(locs)), "Duplicate derived locations found."
 
-    dt = time.time() - t0
     print("All checks passed.")
     print(f"  members in list          = {len(H_IN_ONE_OF)}")
     print(f"  members with tensors     = {len(expected)}")
     print(f"  derived h:location facts = {len(locs)}")
-    print(f"  time = {dt:.3f}s")
 
 # ─────────────────────────────────────────────────────────────
 # Driver (query answering + proof)

@@ -17,7 +17,6 @@ We provide:
 from __future__ import annotations
 from functools import lru_cache
 from typing import Generator, Iterable, List, Tuple
-import time
 
 # ---------- Part 1: Enumerate partitions into k parts (orderless) ----------
 def enumerate_partitions_into_k(n: int, k: int) -> Generator[Tuple[int, ...], None, None]:
@@ -74,9 +73,7 @@ def main() -> None:
     K = 4
 
     # Search quickly using DP
-    t0 = time.time()
     matches = [n for n in range(1, LIMIT + 1) if count_partitions_into_k(n, K) == n]
-    elapsed = time.time() - t0
 
     # ── Answer ──────────────────────────────────────────────────────────────
     print("Answer")
@@ -107,7 +104,6 @@ def main() -> None:
     # ── Check (harness) ────────────────────────────────────────────────────
     print("Check (harness)")
     print("---------------")
-    t0 = time.time()
 
     # 1) Determinism of enumeration order and content for n=11
     parts_a = list_partitions(11, K)
@@ -129,10 +125,7 @@ def main() -> None:
     # 4) Exact count check at G=11
     assert count_partitions_into_k(11, K) == 11, "p_4(11) must be 11"
 
-    dt = time.time() - t0
     print("All checks passed.")
-    print(f"  scan time (DP)  : {elapsed:.3f}s")
-    print(f"  harness time    : {dt:.3f}s")
     if matches:
         print(f"  unique solution : {matches[0]}")
 

@@ -44,7 +44,6 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Set, Tuple
 import math
-import time
 import copy
 
 # ─────────────────────────────────────────────────────────────
@@ -202,7 +201,6 @@ def print_reason(proof: Proof, first_n_inner: int = 10) -> None:
 def arc_check(answers: List[Tuple[str, List[str]]], kb: KB, threshold: float = THRESHOLD) -> None:
     print("\nCheck (harness)")
     print("---------------")
-    t0 = time.time()
 
     # 1) Determinism: recompute in a fresh KB+proof and compare lists.
     kb2 = KB(); proof2 = Proof()
@@ -244,11 +242,9 @@ def arc_check(answers: List[Tuple[str, List[str]]], kb: KB, threshold: float = T
     # 6) Chicago should have no neighbors within 1.0°
     assert neigh.get("t:Chicago-USA", set()) == set(), "Chicago should have zero neighbors within 1.0°"
 
-    dt = time.time() - t0
     print("All checks passed.")
     print(f"  cities = {len(answers)}")
     print(f"  total neighbor links = {sum(len(L) for _, L in answers)}")
-    print(f"  time = {dt:.3f}s")
 
 # ─────────────────────────────────────────────────────────────
 # Driver
