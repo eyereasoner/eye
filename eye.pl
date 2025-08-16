@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.20.5 (2025-08-14)').
+version_info('EYE v11.20.6 (2025-08-16)').
 
 license_info('MIT License
 
@@ -5892,10 +5892,6 @@ prepare_builtins :-
             fail
         ;   true
         ),
-
-        % remove rdf lists
-        retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, _)),
-        retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(_, _)),
 
         % create forward rules
         assertz(implies((
