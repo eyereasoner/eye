@@ -55,7 +55,8 @@ This bridges symbolic reasoning with generative models by treating the LLM as a 
 
 ## Quickstart
 
-Run the [insights cases](cases) to get [answer, reason why and check (harness)](cases/arc)
+Run the [insights cases](https://github.com/eyereasoner/eye/tree/master/insights/cases)
+to get [answer, reason why and check (harness)](https://github.com/eyereasoner/eye/tree/master/insights/cases/arc)
    ```bash
    ./test
    ```
