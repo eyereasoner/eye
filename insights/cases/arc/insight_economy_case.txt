@@ -1,0 +1,59 @@
+=== INSIGHT (to retailer) ===
+{
+  "insight_id": "ins-a4aa784b-20f0-4d33-af18-865e370a54dd",
+  "recipient": "Delfour",
+  "scope": {
+    "device": "self-scanner",
+    "event": "pick_up_scanner",
+    "valid_for": "this_session",
+    "retailer_store": "store-42",
+    "expires_at": "2025-08-12T14:52:50.456108+00:00"
+  },
+  "payload": {
+    "ui_banner": {
+      "title": "Track sugar per serving while you scan",
+      "metrics": [
+        "sugar_g_per_serving"
+      ],
+      "actions": [
+        {
+          "type": "suggest_alternative_if_high_metric",
+          "metric": "sugar_g_per_serving",
+          "operator": ">=",
+          "threshold": 10.0,
+          "suggestion_strategy": "lower_metric_first_higher_price_ok"
+        }
+      ]
+    }
+  },
+  "provenance": {
+    "created_at": "2025-08-12T12:52:50.456108+00:00",
+    "generator": "private_insight_refiner_v1",
+    "data_minimization": true
+  }
+}
+
+=== REASON WHY (private) ===
+Household requires low-sugar guidance. You are starting a self-scanner session at Delfour right now. The envelope minimizes data: it avoids medical terms and is limited to this session.
+
+=== RUNTIME PREVIEW (device banner for a scanned product) ===
+{
+  "headline": "Track sugar per serving while you scan",
+  "product_name": "Classic Tea Biscuits",
+  "sugar_g_per_serving": 12.0,
+  "note": "High sugar (\u2265 10.0 g/serving).",
+  "suggested_alternative": {
+    "sku": "BIS-101",
+    "name": "Low-Sugar Tea Biscuits",
+    "sugar_g_per_serving": 3.0,
+    "price_eur": 2.6
+  }
+}
+
+=== HARNESS CHECKS ===
+PASS - derive_in_context
+PASS - minimization_no_sensitive_terms
+PASS - no_derivation_outside_delfour
+PASS - behavior_alternative_logic
+PASS - time_bound_envelope
+Overall: 5/5 checks passed.

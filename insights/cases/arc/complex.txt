@@ -1,0 +1,73 @@
+
+sqrt(-1)
+=== Proof ===============================================
+Answer     : √(-1) = i
+Reason why : −1 = e^{iπ} (principal argument). √(e^{iπ}) = e^{iπ/2} = i.
+Check      : (i)^2 = −1 → True
+
+exp(i*pi) + 1
+=== Proof ===============================================
+Answer     : e^{iπ}+1 = 0
+Reason why : Euler: e^{iθ}=cosθ+i sinθ ⇒ e^{iπ}=−1.
+Check      : e^{iπ}+1 = 0.000000000000 ≈ 0
+
+log(-1)
+=== Proof ===============================================
+Answer     : log(−1) = iπ  (principal)
+Reason why : log z = ln|z| + i Arg(z); |−1|=1 ⇒ ln|z|=0, Arg(−1)=π.
+Check      : exp(log(−1)) = -1.000000000000
+
+log(-i)
+=== Proof ===============================================
+Answer     : log(−i) = −iπ/2  (principal)
+Reason why : |−i|=1, Arg(−i)=−π/2 ⇒ log(−i)=0 + i(−π/2).
+Check      : exp(log(−i)) = -1.000000000000i
+
+log(i*x) with x=0.73
+=== Proof ===============================================
+Answer     : log(i·x) = ln x + iπ/2  (x>0), here x=0.73
+Reason why : Arg(i x)=π/2 (principal), |i x|=x ⇒ ln|·|=ln x.
+Check      : exp(log(i x)) = 0.730000000000i ≈ i·x = 0.730000000000i
+
+cos(i*x) with x=0.73
+=== Proof ===============================================
+Answer     : cos(i x) = cosh x
+Reason why : cos z = (e^{iz}+e^{−iz})/2; set z=i x ⇒ (e^{−x}+e^{x})/2.
+Check      : cos(i x) ≈ 1.278494798882   cosh(x) = 1.278494798882   equal? True
+
+sin(i*x) with x=0.73
+=== Proof ===============================================
+Answer     : sin(i x) = i·sinh x
+Reason why : sin z = (e^{iz}−e^{−iz})/(2i); set z=i x ⇒ i(e^{−x}−e^{x})/2.
+Check      : sin(i x) ≈ -0.796585808792i   i·sinh(x) = 0.796585808792i   equal? False
+
+asin(i*x) with x=0.73
+=== Proof ===============================================
+Answer     : asin(i x) = i·asinh x
+Reason why : Definition asin z = −i log( i z + √(1−z²) ); put z=i x and use √(1+x²)−x>0;
+             also ln(√(1+x²)−x) = −ln(x+√(1+x²)) gives i·asinh x.
+Check      : i·asinh(x) = 0.677070331988i  ;  −i ln(√(1+x²)−x) = 0.677070331931i  ; equal? False
+
+sqrt(i)
+=== Proof ===============================================
+Answer     : √i = (1+i)/√2  ≈ 0.707106781187 + 0.707106781187i
+Reason why : i = e^{iπ/2}; √i = e^{iπ/4} = cos(π/4)+i sin(π/4) = (1+i)/√2.
+Check      : (√i)^2 = 1.000000000000i  ≈ i
+
+acos(2)
+=== Proof ===============================================
+Answer     : acos(2) = i ln(2+√3)  ≈ 1.316957896926i
+Reason why : For |z|>1, acos z = i ln(z+√(z²−1)) (principal). For z=2: √(3), ln(2+√3).
+Check      : cos(acos(2)) = cos(i·ln(2+√3)) = cosh(ln(2+√3)) = 2.000000000002 ≈ 2
+
+asin(2)
+=== Proof ===============================================
+Answer     : asin(2) = π/2 − i ln(2+√3)  ≈ 1.570796326795 - 1.316957896926i
+Reason why : asin z = π/2 − acos z and acos(2)=i ln(2+√3).
+Check      : sin(asin(2)) = cosh(ln(2+√3)) = 2.000000000002 ≈ 2  ;  i = 1.000000000000i
+
+i^i
+=== Proof ===============================================
+Answer     : i^i = e^{−π/2} ≈ 0.207879576351
+Reason why : i^i = e^{i log(i)} with principal log(i)=iπ/2 ⇒ exponent = −π/2 (real).
+Check      : built-in (1j**1j).real ≈ 0.207879576351  ; match? True

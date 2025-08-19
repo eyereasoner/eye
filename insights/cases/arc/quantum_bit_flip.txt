@@ -1,0 +1,23 @@
+Answer:
+  none      → fidelity = 1.000000
+  X on q0   → fidelity = 1.000000
+  X on q1   → fidelity = 1.000000
+  X on q2   → fidelity = 1.000000
+
+Reason why:
+  Encode by copying the data qubit to two ancillae: |ψ̄⟩ = α|000⟩+β|111⟩.
+  A single X flips one physical bit and flips the signs of stabilizers that
+  touch it. Measuring S₁=Z₀Z₁ and S₂=Z₁Z₂ yields a unique ±1 pair that
+  pinpoints the flipped qubit (see syndrome table above). Applying that X
+  restores |ψ̄⟩, and inverse CNOTs decode back to |ψ⟩, so the final fidelity
+  with the original is 1 (up to rounding).
+
+Check (harness):
+  Test state            : |ψ⟩ = 0.397148|0⟩ + 0.917755|1⟩
+  |||ψ̄⟩||² before errors = 1.000000000000 (should be 1)
+
+  case       syndrome  correction  fidelity
+  none      (1, 1)    none       1.000000
+  X on q0   (-1, 1)    X(q0)      1.000000
+  X on q1   (-1, -1)    X(q1)      1.000000
+  X on q2   (1, -1)    X(q2)      1.000000

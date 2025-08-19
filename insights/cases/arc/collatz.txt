@@ -1,0 +1,52 @@
+1/ Answer
+- Verified Collatz up to n = 100,000: every start reaches 1.
+- Longest total-stopping-time : 350 steps (for n = 77031)
+- Highest value observed      : 1570824736 (along the trajectory starting at n = 77671)
+
+2/ Reason why
+- Collatz map: n → 3n+1 if n is odd, else n → n/2. The conjecture states every positive integer
+  eventually reaches 1 when iterating this map.
+- We compute each trajectory, memoising total-stopping-times in a cache to avoid recomputation.
+- A guard caps per-trajectory steps to catch anomalies early. This is a finite verification up to N,
+  not a proof for all integers.
+
+3/ Check (harness)
+Distribution (#starts with exactly k total-stopping steps), for n ≤ 100,000
+  0 →       1
+  1 →       1
+  2 →       1
+  3 →       1
+  4 →       1
+  5 →       2
+  6 →       2
+  7 →       4
+  8 →       4
+  9 →       6
+ 10 →       6
+ 11 →       8
+ 12 →      10
+ 13 →      14
+ 14 →      18
+ 15 →      24
+ 16 →      29
+ 17 →      35
+ 18 →      43
+ 19 →      57
+ 20 →      63
+ 21 →      81
+ 22 →      80
+ 23 →     105
+ 24 →     138
+... (290 more k-values)
+
+Top 10 by total-stopping-time:
+ 1. n =   77031  →  steps = 350
+ 2. n =   52527  →  steps = 339
+ 3. n =   78791  →  steps = 337
+ 4. n =   60975  →  steps = 334
+ 5. n =   91463  →  steps = 332
+ 6. n =   88059  →  steps = 332
+ 7. n =   87087  →  steps = 332
+ 8. n =   63387  →  steps = 329
+ 9. n =   99067  →  steps = 327
+10. n =   95081  →  steps = 327

@@ -1,0 +1,58 @@
+Answer
+======
+
+=== Arg1: It rained yesterday. Therefore, the stock market will rise.
+Premises:
+  • ('topic', 'rain')
+Conclusion:
+  → ('topic', 'stock_up')
+Result: NON SEQUITUR
+
+=== Arg2: Company profits increased; therefore its stock may rise.
+Premises:
+  • ('topic', 'profits_up')
+Conclusion:
+  → ('topic', 'stock_up')
+Result: follows (no non sequitur)
+  reason: topic reachable via support (seed/par: profits_up)
+
+=== Arg3: All mammals are warm-blooded. A whale is a mammal. Therefore, a whale is warm-blooded.
+Premises:
+  • ('class_property', 'mammal', 'warm_blooded')
+  • ('is_a', 'whale', 'mammal')
+Conclusion:
+  → ('has', 'whale', 'warm_blooded')
+Result: follows (no non sequitur)
+  reason: from is_a(whale,mammal) and class_property(mammal,warm_blooded)
+
+=== Arg4: We must reduce traffic. Therefore, we should ban books.
+Premises:
+  • ('topic', 'reduce_traffic')
+Conclusion:
+  → ('ban', 'books')
+Result: NON SEQUITUR
+
+Summary
+  Arg1: non sequitur
+  Arg2: ok
+  Arg3: ok
+  Arg4: non sequitur
+
+Reason why
+==========
+We derive conclusions using two small, transparent mechanisms:
+  • Topic chaining over a tiny relevance graph support(T,U).
+    If a premise provides topic T and T→…→C holds in that graph,
+    then ('topic', C) follows.
+  • Class property instantiation: from is_a(X,K) and class_property(K,P),
+    we infer has(X,P).
+If the argument’s conclusion is not derivable by those routes, we flag a non sequitur.
+
+Check (harness)
+===============
+Expected classifications hold? True
+Arg1 stops being a non sequitur after adding support(rain, stock_up)? True
+Arg3 becomes a non sequitur if class_property is removed? True
+Deterministic (same inputs ⇒ same result)? True
+
+All checks passed? True

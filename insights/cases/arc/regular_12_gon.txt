@@ -1,0 +1,22 @@
+Answer
+------
+Side length of a regular 12-gon in the unit circle:
+  Exact forms:  s = (√6 − √2) / 2  =  √(2 − √3)
+  Numeric:     s ≈ 0.517638090205041
+  Closed-form: (√6 − √2)/2 ≈ 0.517638090205041
+  Also:        √(2 − √3)  ≈ 0.517638090205042
+
+Reason why
+----------
+A side is a chord subtending central angle θ = 2π/n. Bisecting yields
+sin(θ/2) = (s/2)/r, hence s = 2 r sin(θ/2). For n=12, r=1 ⇒ s = 2 sin(π/12).
+Using sin(45°−30°) with standard exact values gives sin(15°) = (√6 − √2)/4,
+so s = 2⋅sin(15°) = (√6 − √2)/2, which equals √(2 − √3).
+
+Check (harness)
+---------------
+Closed-form equivalence: |(√6−√2)/2 − √(2−√3)| = 2.220e-16
+Taylor vs exact: |s_numeric − s_exact| = 1.110e-16
+Angle checks passed (θ=π/6, θ/2=π/12).
+Chord identity check: √(2−2cosθ) ≈ 0.517638090205042
+All checks passed ✔

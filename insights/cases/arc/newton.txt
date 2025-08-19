@@ -1,0 +1,32 @@
+Proving existence of a root for  f(x) = x³ − 2x − 5
+
+Answer
+------
+Goal:  root(f, x*) with |f(x*)| < ε,  ε = 1e-06
+Start: x₀ = 2.0
+Done:  x* = 2.0945514817
+Check: |f(x*)| = 1.740e-09
+Iters: 3 (≤ 20)
+
+Short trace (first 6 steps or all):
+  Step 01: x=2.0000000000  f=-1.000e+00  f'=+1.000e+01  →  x₊₁=2.1000000000
+  Step 02: x=2.1000000000  f=+6.100e-02  f'=+1.123e+01  →  x₊₁=2.0945681211
+  Step 03: x=2.0945681211  f=+1.857e-04  f'=+1.116e+01  →  x₊₁=2.0945514817
+
+Reason why
+----------
+Newton–Raphson solves f(x)=0 by repeatedly applying:
+  x_{k+1} = x_k − f(x_k) / f'(x_k)
+Geometric intuition: follow the tangent at x_k to its x-intercept.
+For f(x)=x³−2x−5, f' is continuous and nonzero near the root; the
+method converges quadratically once close enough.
+
+First update used:
+  x₁ = x₀ − f(x₀)/f'(x₀) = 2.0000000000 − (-1.000e+00)/(+1.000e+01) = 2.1000000000
+
+Certified because the final iterate x* satisfies |f(x*)| < ε.
+
+Check (harness)
+---------------
+OK: goal satisfied, safe derivatives, bounded iters, bracketed, reproducible.
+

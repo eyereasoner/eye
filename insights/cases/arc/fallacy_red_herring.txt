@@ -1,0 +1,66 @@
+Answer
+======
+
+=== Arg1: We shouldn’t strengthen privacy regulation because the CEO is very charitable.
+Issue:        privacy_regulation
+Conclusion:   oppose_privacy_regulation
+Evidence:     ['charity']
+Relevant→Issue: ∅
+Salient off-topic: ['charity']
+Result: RED HERRING (salient distraction with no relevant evidence)
+
+=== Arg2: We shouldn’t strengthen privacy regulation because compliance costs will hurt small firms.
+Issue:        privacy_regulation
+Conclusion:   oppose_privacy_regulation
+Evidence:     ['compliance_costs']
+Relevant→Issue: ['compliance_costs']
+Salient off-topic: ∅
+Result: no red herring detected
+
+=== Arg3: Approve the transport plan; besides, the opposition had a scandal years ago.
+Issue:        transport_plan
+Conclusion:   approve_transport_plan
+Evidence:     ['scandal']
+Relevant→Issue: ∅
+Salient off-topic: ['scandal']
+Result: RED HERRING (salient distraction with no relevant evidence)
+
+=== Arg4: Adopt the health policy; clinical trials show reduced mortality.
+Issue:        health_policy
+Conclusion:   adopt_health_policy
+Evidence:     ['clinical_trials', 'reduced_mortality']
+Relevant→Issue: ['clinical_trials', 'reduced_mortality']
+Salient off-topic: ∅
+Result: no red herring detected
+
+=== Arg5: Support the emissions cap; it reduces smog — and by the way, the sponsor is popular.
+Issue:        emissions_cap
+Conclusion:   support_emissions_cap
+Evidence:     ['popularity', 'smog_reduction']
+Relevant→Issue: ['smog_reduction']
+Salient off-topic: ['popularity']
+Result: no red herring detected
+
+Summary
+  Arg1: red herring
+  Arg2: ok
+  Arg3: red herring
+  Arg4: ok
+  Arg5: ok
+
+Reason why
+==========
+We model topic-level relevance explicitly via support(X, issue).
+An argument is flagged only if it leans on at least one *salient, off-topic*
+consideration and lacks *any* evidence that connects to the issue.
+Thus a colorful aside does not trigger a flag when the argument also presents
+relevant evidence (see Arg5).
+
+Check (harness)
+===============
+Expected classifications hold? True
+Arg1 clears after adding support(charity→privacy_regulation)? True
+Arg3 clears after adding relevant evidence? True
+Deterministic (same inputs ⇒ same result)? True
+
+All checks passed? True

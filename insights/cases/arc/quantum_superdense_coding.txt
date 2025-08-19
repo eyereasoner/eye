@@ -1,0 +1,69 @@
+Alice sends  Bob gets
+------------ --------
+   (0, 0)       (0, 0)
+   (0, 1)       (0, 1)
+   (1, 0)       (1, 0)
+   (1, 1)       (1, 1)
+
+Detailed cases
+==============
+
+------------------------------------------------------------------------
+Case bits b1b0 = 00
+Reason why:
+  Start in |Φ⁺⟩ = (|00⟩+|11⟩)/√2.
+  Alice applies I → state stays |Φ⁺⟩.
+  Bob’s decode CNOT→H maps Bell basis to computational basis:
+     |Φ⁺⟩→|00⟩,  |Ψ⁺⟩→|01⟩,  |Φ⁻⟩→|10⟩,  |Ψ⁻⟩→|11⟩.
+  Therefore the measurement yields exactly b1b0.
+Check (harness):
+  Encoded norm = 1.000000000000 (should be 1)
+  Matches expected |Φ⁺⟩ up to global phase? True
+  Bob decodes to bits = (0, 0)  (should be (0, 0))
+  Decoded norm = 1.000000000000 (should be 1)
+  Measurement deterministic? True  (probs = [1.0, 0.0, 0.0, 0.0])
+
+------------------------------------------------------------------------
+Case bits b1b0 = 01
+Reason why:
+  Start in |Φ⁺⟩ = (|00⟩+|11⟩)/√2.
+  Alice applies X on her qubit: |Φ⁺⟩ → |Ψ⁺⟩ (flips Alice’s bit).
+  Bob’s decode CNOT→H maps Bell basis to computational basis:
+     |Φ⁺⟩→|00⟩,  |Ψ⁺⟩→|01⟩,  |Φ⁻⟩→|10⟩,  |Ψ⁻⟩→|11⟩.
+  Therefore the measurement yields exactly b1b0.
+Check (harness):
+  Encoded norm = 1.000000000000 (should be 1)
+  Matches expected |Ψ⁺⟩ up to global phase? True
+  Bob decodes to bits = (0, 1)  (should be (0, 1))
+  Decoded norm = 1.000000000000 (should be 1)
+  Measurement deterministic? True  (probs = [0.0, 1.0, 0.0, 0.0])
+
+------------------------------------------------------------------------
+Case bits b1b0 = 10
+Reason why:
+  Start in |Φ⁺⟩ = (|00⟩+|11⟩)/√2.
+  Alice applies Z on her qubit: |Φ⁺⟩ → |Φ⁻⟩ (phase on |11⟩).
+  Bob’s decode CNOT→H maps Bell basis to computational basis:
+     |Φ⁺⟩→|00⟩,  |Ψ⁺⟩→|01⟩,  |Φ⁻⟩→|10⟩,  |Ψ⁻⟩→|11⟩.
+  Therefore the measurement yields exactly b1b0.
+Check (harness):
+  Encoded norm = 1.000000000000 (should be 1)
+  Matches expected |Φ⁻⟩ up to global phase? True
+  Bob decodes to bits = (1, 0)  (should be (1, 0))
+  Decoded norm = 1.000000000000 (should be 1)
+  Measurement deterministic? True  (probs = [0.0, 0.0, 1.0, 0.0])
+
+------------------------------------------------------------------------
+Case bits b1b0 = 11
+Reason why:
+  Start in |Φ⁺⟩ = (|00⟩+|11⟩)/√2.
+  Alice applies Y=iXZ: |Φ⁺⟩ → |Ψ⁻⟩ up to a global phase.
+  Bob’s decode CNOT→H maps Bell basis to computational basis:
+     |Φ⁺⟩→|00⟩,  |Ψ⁺⟩→|01⟩,  |Φ⁻⟩→|10⟩,  |Ψ⁻⟩→|11⟩.
+  Therefore the measurement yields exactly b1b0.
+Check (harness):
+  Encoded norm = 1.000000000000 (should be 1)
+  Matches expected |Ψ⁻⟩ up to global phase? True
+  Bob decodes to bits = (1, 1)  (should be (1, 1))
+  Decoded norm = 1.000000000000 (should be 1)
+  Measurement deterministic? True  (probs = [0.0, 0.0, 0.0, 1.0])

@@ -1,0 +1,37 @@
+Answer
+======
+Houses (left → right):
+House   Color      Nation       Drink          Cigar           Pet     
+-----------------------------------------------------------------------
+1       yellow     Norwegian    water          Kools           fox     
+2       blue       Ukrainian    tea            Chesterfields   horse   
+3       red        Englishman   milk           Old Gold        snails  
+4       ivory      Spaniard     orange juice   Lucky Strike    dog     
+5       green      Japanese     coffee         Parliaments     zebra   
+
+Key facts
+---------
+Water is drunk by the Norwegian (house 1).
+The zebra is owned by the Japanese (house 5).
+
+Reason why
+==========
+We model each attribute (color, nation, drink, cigar, pet) as a permutation of 5 values,
+mapping to house positions 1..5. We then enforce the 14 clues:
+  • direct equalities (e.g., Englishman ↔ red, coffee ↔ green, etc.),
+  • position constraints (green is immediately to the right of ivory; milk is in the middle;
+    Norwegian at the first house),
+  • adjacency constraints (Chesterfields next to the fox; Kools next to the horse;
+    Norwegian next to the blue house).
+Backtracking with early pruning guarantees we explore only consistent partial assignments,
+yielding the unique classic solution (water drinker and zebra owner as shown).
+
+Check (harness)
+===============
+Any solution found? True
+All found solutions satisfy all 14 clues? True
+Unique solution? True (found 1)
+Derived 'water' and 'zebra' owners are valid names? True
+Deterministic solve (same #solutions on rerun)? True
+
+All checks passed? True

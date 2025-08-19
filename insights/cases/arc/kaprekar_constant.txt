@@ -1,0 +1,23 @@
+1/ Answer
+- Kaprekar’s constant (6174) is reached by 9990/10000 numbers.
+- Maximum iterations required: 7
+- Non-converging cases (rep-digits): 10
+
+2/ Reason why
+- Kaprekar’s routine: sort digits descending and ascending (keeping leading zeros), then subtract.
+- All 4-digit numbers except the rep-digits eventually land on 6174 and then stay there.
+- Rep-digits (e.g., 1111) produce 0000 in one step and get stuck at 0000; they never reach 6174.
+
+3/ Check (harness)
+Distribution (#numbers needing k steps):
+ 0 →    1
+ 1 →  383
+ 2 →  576
+ 3 → 2400
+ 4 → 1272
+ 5 → 1518
+ 6 → 1656
+ 7 → 2184
+
+Example numbers that need 7 steps: ['0014', '0015', '0016', '0025', '0041', '0049', '0051', '0052', '0058', '0059']
+Non-converging rep-digits: ['0000', '1111', '2222', '3333', '4444', '5555', '6666', '7777', '8888', '9999']

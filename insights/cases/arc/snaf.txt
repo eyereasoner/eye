@@ -1,0 +1,27 @@
+Answer
+------
+Goal: (':Alice', ':hates', ':Nobody')
+Result: PROVED
+Bindings: {'?x': ':Bob'}
+
+KB facts:
+  :Alice :loves :Bob .
+  :Bob a :Person .
+
+Reason why
+----------
+We use scoped negation-as-failure on the *single* KB:
+  ?SCOPE log:notIncludes { :Alice :hates ?x }  succeeds
+  iff no triple in the KB matches (:Alice :hates ?x).
+Since KB has no :hates triple for Alice, the test holds;
+and we can instantiate ?x with a person (here :Bob) to fire the rule.
+
+Proof trace:
+Step 01: prove (':Alice', ':hates', ':Nobody')
+→ via R-hates-nobody
+  ✓ notIncludes (absent in KB)
+  ✓ fact (':Bob', 'a', ':Person')
+
+Check (harness)
+---------------
+OK: SNAF is correctly scoped to the single KB; success/failure conditions verified.

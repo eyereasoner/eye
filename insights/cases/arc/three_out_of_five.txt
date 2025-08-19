@@ -1,0 +1,28 @@
+Answer
+------
+:s a :3outof5
+C1..C5 = 1, 0, 1, 1, 0  (sum=3)
+
+Reason why
+----------
+• Each optional chooses 1 if the corresponding fact :s :pi true is present; else 0.
+• The five choices are summed via math:sum to C, then we require C ≥ 3.
+• If true, the rule’s head :s a :3outof5 is concluded.
+
+Pretty proof
+------------
+[1] Rule: For i∈{1..5} do log:callWithOptional …; sum C1..C5 → C; require C≥3 ⇒ :s a :3outof5
+[2] Goal: :s a :3outof5
+[3] Optional C1 [1, 2]: :p1: left-branch (found :s :p1 true) ⇒ 1  ⇒  C1=1
+[4] Optional C2 [1, 2]: :p2: right-branch (no :s :p2 true) ⇒ 0  ⇒  C2=0
+[5] Optional C3 [1, 2]: :p3: left-branch (found :s :p3 true) ⇒ 1  ⇒  C3=1
+[6] Optional C4 [1, 2]: :p4: left-branch (found :s :p4 true) ⇒ 1  ⇒  C4=1
+[7] Optional C5 [1, 2]: :p5: right-branch (no :s :p5 true) ⇒ 0  ⇒  C5=0
+[8] math:sum: (1 0 1 1 0) ⇒ C=3
+[9] math:notLessThan [8]: 3 ≥ 3  ⇒  True
+[10] Conclude [2]: :s a :3outof5
+
+Check (harness)
+---------------
+OK: sums correct, threshold respected, unused facts ignored, exhaustive cases consistent, deterministic.
+

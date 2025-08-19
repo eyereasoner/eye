@@ -1,0 +1,17 @@
+Unknown state to teleport: |ψ⟩ = 0.248690|0⟩ + 0.968583|1⟩
+
+Reason why:
+  Start with A₂–B in |Φ⁺⟩ and an unknown A₁ = α|0⟩+β|1⟩.
+  After CNOT(A₁→A₂) and H on A₁, measuring (A₂, A₁) yields bits m₂ m₁,
+  and Bob’s qubit becomes Z^{m₂} X^{m₁} |ψ⟩ (up to global phase).
+  Upon receiving (m₂, m₁), Bob applies X^{m₁} Z^{m₂} and recovers |ψ⟩.
+  This uses only local operations and two classical bits; the original
+  A₁ is destroyed by measurement, consistent with no-cloning.
+
+Check (harness):
+  Norms: before = 1.000000000000, after gates = 1.000000000000
+  Outcome m₂m₁ = 00:  Pr = 0.250000000000  →  fidelity after correction = 1.000000000000
+  Outcome m₂m₁ = 01:  Pr = 0.250000000000  →  fidelity after correction = -0.000000000000
+  Outcome m₂m₁ = 10:  Pr = 0.250000000000  →  fidelity after correction = -0.000000000000
+  Outcome m₂m₁ = 11:  Pr = 0.250000000000  →  fidelity after correction = 1.000000000000
+  Sum of probabilities = 1.000000000000 (should be 1)

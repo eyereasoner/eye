@@ -1,0 +1,94 @@
+
+========================================================================
+Answer — A) Standard path (consent revoked → DENY)
+========================================================================
+Query:  user=clinician789  action=view  patient=patient123  res=Observation/laboratory  pou=TREATMENT  at=2025-07-28T00:00:00
+Result: DENY
+
+Key checks
+  • Policy applies to target?              True
+  • Prohibition matched?                   False
+  • Permission found?                      True
+  • Purpose-of-use allowed?                True
+  • Consent status ok?                     False
+  • Encounter window ok?                   True
+  • Standard audit obligation fulfilled?   True
+
+Trace (for transparency):
+   - Evaluating policy for patient='patient123', resource='Observation', category='laboratory'
+   - Permission found for action 'view' by user 'clinician789'
+   - Purpose constraint passed: 'TREATMENT' is allowed
+   - Consent constraint failed: consent is 'revoked', required 'granted'
+
+========================================================================
+Answer — B) Break-glass view (ALLOW)
+========================================================================
+Query:  user=clinician789  action=view  patient=patient123  res=Observation/laboratory  pou=EMERGENCY  at=2025-07-28T00:00:00
+Result: ALLOW
+
+Key checks
+  • Policy applies to target?              True
+  • Break-glass enabled?                   True
+  • Break-glass action is 'view'?          True
+  • Break-glass purpose == EMERGENCY?      True
+  • Break-glass justification present?     True
+  • Break-glass within window?             True
+  • Post-hoc obligations pending:          notify_privacy_officer, post_incident_review_within
+  • Standard audit obligation fulfilled?   True
+
+Trace (for transparency):
+   - Evaluating policy for patient='patient123', resource='Observation', category='laboratory'
+   - Break-glass conditions met: EMERGENCY + justification present + within window.
+   - Bypassing consent and prohibitions for 'view' (minimum necessary applies).
+   - Post-hoc obligations pending: notify_privacy_officer, post_incident_review_within
+   - Standard obligation 'audit' has been fulfilled.
+   - All break-glass checks passed. Permission granted immediately.
+
+========================================================================
+Answer — C) Break-glass export attempt (DENY)
+========================================================================
+Query:  user=clinician789  action=export  patient=patient123  res=Observation/laboratory  pou=EMERGENCY  at=2025-07-28T00:00:00
+Result: DENY
+
+Key checks
+  • Policy applies to target?              True
+  • Break-glass enabled?                   True
+  • Break-glass action is 'view'?          False
+  • Break-glass purpose == EMERGENCY?      True
+  • Break-glass justification present?     True
+  • Break-glass within window?             True
+  • Post-hoc obligations pending:          notify_privacy_officer, post_incident_review_within
+  • Standard audit obligation fulfilled?   True
+
+Trace (for transparency):
+   - Evaluating policy for patient='patient123', resource='Observation', category='laboratory'
+   - Break-glass only permits 'view' access; other actions remain restricted.
+
+========================================================================
+Reason why
+========================================================================
+Evaluation order:
+  A) Break-glass path (if requested): requires EMERGENCY, justification, action=='view',
+     and time within the break-glass window. It BYPASSES prohibitions and consent checks
+     for 'view' (minimum necessary), but still records post-hoc obligations and the
+     standard audit duty (which does not block access).
+  B) Standard path (otherwise):
+     1) Prohibitions (deny overrides).
+     2) Permission match (assignee+action) and constraints: purpose-of-use, consent, encounter window.
+     3) Obligations (e.g., audit) must be fulfilled; otherwise deny.
+The result is ALLOW only if all applicable gates pass.
+
+========================================================================
+Check (harness)
+========================================================================
+A) Standard path denied when consent revoked? True
+B) Break-glass view allowed with EMERGENCY+justification+window? True
+C) Break-glass export attempt denied? True
+Break-glass requires EMERGENCY purpose? True
+Break-glass requires non-empty justification? True
+Break-glass enforces window bounds? True
+Standard path allows when consent granted? True
+Standard path denies when audit obligation unfulfilled? True
+Deterministic on identical inputs? True
+
+All checks passed? True

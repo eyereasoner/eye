@@ -1,0 +1,338 @@
+Answer
+======
+
+=== quiz-00-01.ttl ===
+Overall: Conflict (1 pair(s) analyzed)
+[example] CONFLICT: Permission vs Prohibition
+ ex:quiz-00-01a permission: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:use ;
+   _:r01 odrl:target <http://uni.edu/allowed/use/file.txt> .
+ ex:quiz00-01b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:use ;
+   _:r02 odrl:target <http://uni.edu/allowed/use/file.txt> .
+ Action overlap: same action (odrl:use)
+ Details: branch overlap: both clauses unconstrained
+
+=== quiz-00-02.ttl ===
+Overall: No conflict (0 pair(s) analyzed)
+
+=== quiz-00-03.ttl ===
+Overall: Conflict (1 pair(s) analyzed)
+[example] CONFLICT: Permission vs Prohibition
+ ex:quiz-00-03c permission: _:r03
+   _:r03 odrl:assignee ex:alice ;
+   _:r03 odrl:action odrl:read ;
+   _:r03 odrl:target <http://uni.edu/allowed/use/file.txt> .
+ ex:quiz-00-03b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:read ;
+   _:r02 odrl:target <http://uni.edu/allowed/use/file.txt> .
+ Action overlap: same action (odrl:read)
+ Details: branch overlap: both clauses unconstrained
+
+=== quiz-00-04.ttl ===
+Overall: Conflict (1 pair(s) analyzed)
+[example] CONFLICT: Permission vs Prohibition
+ ex:quiz-00-04a permission: _:r01
+   _:r01 odrl:assignee ex:bob ;
+   _:r01 odrl:action odrl:read ;
+   _:r01 odrl:target <http://uni.edu/allowed/use/file.txt> .
+ ex:quiz-00-04c prohibition: _:r03
+   _:r03 odrl:assignee ex:bob ;
+   _:r03 odrl:action odrl:use ;
+   _:r03 odrl:target <http://uni.edu/allowed/use/file.txt> .
+ Action overlap: odrl:read ⊑ odrl:use
+ Details: branch overlap: both clauses unconstrained
+
+=== quiz-00-05.ttl ===
+Overall: No conflict (0 pair(s) analyzed)
+
+=== quiz-00-06.ttl ===
+Overall: Conflict (1 pair(s) analyzed)
+[example] CONFLICT: Permission vs Prohibition
+ ex:quiz-00-06a permission: _:r01
+   _:r01 odrl:assignee ex:bob ;
+   _:r01 odrl:action ex:notUse ;
+   _:r01 odrl:target <http://uni.edu/allowed/use/file.txt> .
+ ex:quiz-00-06c prohibition: _:r03
+   _:r03 odrl:assignee ex:bob ;
+   _:r03 odrl:action odrl:use ;
+   _:r03 odrl:target <http://uni.edu/allowed/use/file.txt> .
+ Action overlap: ex:notUse ⊑ odrl:use
+ Details: branch overlap: both clauses unconstrained
+
+=== quiz-00-07.ttl ===
+Overall: No conflict (0 pair(s) analyzed)
+
+=== quiz-00-08.ttl ===
+Overall: Conflict (1 pair(s) analyzed)
+[example] CONFLICT: Obligation blocked by Prohibition
+ ex:quiz-00-08b obligation: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:index ;
+   _:r02 odrl:target ex:resourceX .
+ ex:quiz-00-08c prohibition: _:r03
+   _:r03 odrl:assignee ex:alice ;
+   _:r03 odrl:action odrl:use ;
+   _:r03 odrl:target ex:resourceX .
+ Action overlap: odrl:index ⊑ odrl:use
+ Details: branch overlap: both clauses unconstrained
+
+=== quiz-00-09.ttl ===
+Overall: No conflict (0 pair(s) analyzed)
+
+=== quiz-00-10.ttl ===
+Overall: Conflict (1 pair(s) analyzed)
+[example] CONFLICT: Obligation blocked by Prohibition
+ ex:quiz-00-10b obligation: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action ex:demo ;
+   _:r02 odrl:target ex:resourceX .
+ ex:quiz-00-10a prohibition: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:transfer ;
+   _:r01 odrl:target ex:resourceX .
+ Action overlap: ex:demo ⊑ odrl:transfer
+ Details: branch overlap: both clauses unconstrained
+
+=== quiz-01-01.ttl ===
+Overall: Conflict (1 pair(s) analyzed)
+[example] CONFLICT: Permission vs Prohibition
+ ex:quiz-01-01a permission: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:use ;
+   _:r01 odrl:target ex:resourceX .
+ ex:quiz-01-01b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:use ;
+   _:r02 odrl:target ex:resourceX .
+ Action overlap: same action (odrl:use)
+ Details: branch overlap: overlap on odrl:purpose
+
+=== quiz-01-02.ttl ===
+Overall: Conflict (1 pair(s) analyzed)
+[example] CONFLICT: Obligation blocked by Prohibition
+ ex:quiz-01-02a obligation: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action ex:demo ;
+   _:r01 odrl:target ex:resourceX .
+ ex:quiz-01-02b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:use ;
+   _:r02 odrl:target ex:resourceX .
+ Action overlap: ex:demo ⊑ odrl:use
+ Details: branch overlap: overlap on odrl:purpose
+
+=== quiz-01-03.ttl ===
+Overall: Conflict (1 pair(s) analyzed)
+[example] CONFLICT: Obligation blocked by Prohibition
+ ex:quiz-01-03a obligation: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:use ;
+   _:r01 odrl:target ex:resourceX .
+ ex:quiz-01-03b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:use ;
+   _:r02 odrl:target ex:resourceX .
+ Action overlap: same action (odrl:use)
+ Details: branch overlap: overlap on odrl:purpose
+
+=== quiz-01-04.ttl ===
+Overall: Ambiguous (1 pair(s) analyzed)
+[example] AMBIGUOUS: Permission vs Prohibition
+ ex:quiz-01-04a permission: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:use ;
+   _:r01 odrl:target ex:resourceX .
+ ex:quiz-01-04b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:use ;
+   _:r02 odrl:target ex:resourceX .
+ Action overlap: same action (odrl:use)
+ Details: branch overlap: overlap on odrl:purpose; safe witness: odrl:purpose = ex:MyPurpose
+
+=== quiz-01-05.ttl ===
+Overall: Ambiguous (1 pair(s) analyzed)
+[example] AMBIGUOUS: Permission vs Prohibition
+ ex:quiz-01-05a permission: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:use ;
+   _:r01 odrl:target ex:resourceX .
+ ex:quiz-01-05b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:use ;
+   _:r02 odrl:target ex:resourceX .
+ Action overlap: same action (odrl:use)
+ Details: branch overlap: overlap on odrl:purpose; safe witness: odrl:purpose = set()
+
+=== quiz-01-06.ttl ===
+Overall: Conflict (1 pair(s) analyzed)
+[example] CONFLICT: Permission vs Prohibition
+ ex:quiz-01-06a permission: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:use ;
+   _:r01 odrl:target ex:resourceX .
+ ex:quiz-01-06b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:use ;
+   _:r02 odrl:target ex:resourceX .
+ Action overlap: same action (odrl:use)
+ Details: branch overlap: overlap on odrl:purpose
+
+=== quiz-01-07.ttl ===
+Overall: Conflict (1 pair(s) analyzed)
+[example] CONFLICT: Permission vs Prohibition
+ ex:quiz-01-07a permission: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:use ;
+   _:r01 odrl:target ex:resourceX .
+ ex:quiz-01-07b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:use ;
+   _:r02 odrl:target ex:resourceX .
+ Action overlap: same action (odrl:use)
+ Details: branch overlap: overlap on odrl:purpose
+
+=== quiz-01-08.ttl ===
+Overall: Conflict (1 pair(s) analyzed)
+[example] CONFLICT: Permission vs Prohibition
+ ex:quiz-01-08a permission: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:use ;
+   _:r01 odrl:target ex:resourceX .
+ ex:quiz-01-08b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:use ;
+   _:r02 odrl:target ex:resourceX .
+ Action overlap: same action (odrl:use)
+ Details: branch overlap: overlap on odrl:purpose
+
+=== quiz-01-09.ttl ===
+Overall: Ambiguous (1 pair(s) analyzed)
+[example] AMBIGUOUS: Permission vs Prohibition
+ ex:quiz-01-09a permission: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:use ;
+   _:r01 odrl:target ex:resourceX .
+ ex:quiz-01-09b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:use ;
+   _:r02 odrl:target ex:resourceX .
+ Action overlap: same action (odrl:use)
+ Details: branch overlap: overlap on odrl:purpose; safe witness: odrl:purpose = ex:EducationalPurpose
+
+=== quiz-01-10.ttl ===
+Overall: Ambiguous (6 pair(s) analyzed)
+[example] AMBIGUOUS: Permission vs Prohibition
+ ex:quiz-01-10a permission: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:distribute ;
+   _:r01 odrl:target ex:resourceX .
+ ex:quiz-01-10d prohibition: _:r04
+   _:r04 odrl:assignee ex:alice ;
+   _:r04 odrl:action odrl:distribute ;
+   _:r04 odrl:target ex:resourceX .
+ Action overlap: same action (odrl:distribute)
+ Details: branch overlap: overlap on odrl:dateTime; safe witness: odrl:dateTime = "2026-05-06"^^<http://www.w3.org/2001/XMLSchema#date>
+... (5 other pair(s) elided)
+
+=== quiz-02-01.ttl ===
+Overall: Ambiguous (1 pair(s) analyzed)
+[example] AMBIGUOUS: Permission vs Prohibition
+ ex:quiz-02-01a permission: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:use ;
+   _:r01 odrl:target ex:resourceX .
+ ex:quiz-02-01b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:use ;
+   _:r02 odrl:target ex:resourceX .
+ Action overlap: same action (odrl:use)
+ Details: branch overlap: overlap on odrl:purpose; safe witness: odrl:purpose = set(); branch non-overlap: no shared leftOperand in selected branches
+
+=== quiz-02-02.ttl ===
+Overall: Ambiguous (1 pair(s) analyzed)
+[example] AMBIGUOUS: Permission vs Prohibition
+ ex:quiz-02-02a permission: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:use ;
+   _:r01 odrl:target ex:resourceX .
+ ex:quiz-02-02b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:use ;
+   _:r02 odrl:target ex:resourceX .
+ Action overlap: same action (odrl:use)
+ Details: branch overlap: overlap on odrl:purpose; safe witness: odrl:purpose = ex:EducationalPurpose; branch non-overlap: no shared leftOperand in selected branches; branch non-overlap: no shared leftOperand in selected branches; branch non-overlap: incompatible on odrl:dateTime
+
+=== quiz-02-03.ttl ===
+Overall: Ambiguous (1 pair(s) analyzed)
+[example] AMBIGUOUS: Permission vs Prohibition
+ ex:quiz-02-03a permission: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:use ;
+   _:r01 odrl:target ex:resourceX .
+ ex:quiz-02-03b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:use ;
+   _:r02 odrl:target ex:resourceX .
+ Action overlap: same action (odrl:use)
+ Details: branch overlap: overlap on odrl:dateTime, odrl:purpose; safe witness: odrl:purpose = set()
+
+=== quiz-02-04.ttl ===
+Overall: Ambiguous (1 pair(s) analyzed)
+[example] AMBIGUOUS: Permission vs Prohibition
+ ex:quiz-02-04a permission: _:r01
+   _:r01 odrl:assignee ex:alice ;
+   _:r01 odrl:action odrl:use ;
+   _:r01 odrl:target ex:resourceX .
+ ex:quiz-02-04b prohibition: _:r02
+   _:r02 odrl:assignee ex:alice ;
+   _:r02 odrl:action odrl:use ;
+   _:r02 odrl:target ex:resourceX .
+ Action overlap: same action (odrl:use)
+ Details: branch overlap: overlap on odrl:purpose; safe witness: odrl:purpose = set(); branch overlap: overlap on odrl:dateTime
+
+Reason why
+==========
+We flatten each rule (permission/prohibition/obligation) to a tuple:
+  ⟨assignee, action, target, [Expr,…]⟩  with Expr ∈ {Atom | Or | And | Xone | AndSeq}.
+Each rule expands to disjunctive branches (clauses) grouped by leftOperand.
+Two rules are comparable only if they share scope (same assignee and target)
+and their actions overlap via equality or odrl:includedIn*/rdfs:subClassOf*.
+For each Permission/Obligation vs Prohibition pair we check branches:
+  • Overlap: all shared operands are jointly satisfiable;
+  • Ambiguity: there exists a value v on a shared operand that satisfies P but not N.
+If at least one pair overlaps and admits such a v ⇒ Ambiguous;
+if at least one pair overlaps but none admit v ⇒ Conflict;
+if no pair overlaps ⇒ No conflict.
+
+Check (harness)
+===============
+quiz-00-01.ttl — internal checks: True
+quiz-00-02.ttl — internal checks: True
+quiz-00-03.ttl — internal checks: True
+quiz-00-04.ttl — internal checks: True
+quiz-00-05.ttl — internal checks: True
+quiz-00-06.ttl — internal checks: True
+quiz-00-07.ttl — internal checks: True
+quiz-00-08.ttl — internal checks: True
+quiz-00-09.ttl — internal checks: True
+quiz-00-10.ttl — internal checks: True
+quiz-01-01.ttl — internal checks: True
+quiz-01-02.ttl — internal checks: True
+quiz-01-03.ttl — internal checks: True
+quiz-01-04.ttl — internal checks: True
+quiz-01-05.ttl — internal checks: True
+quiz-01-06.ttl — internal checks: True
+quiz-01-07.ttl — internal checks: True
+quiz-01-08.ttl — internal checks: True
+quiz-01-09.ttl — internal checks: True
+quiz-01-10.ttl — internal checks: True
+quiz-02-01.ttl — internal checks: True
+quiz-02-02.ttl — internal checks: True
+quiz-02-03.ttl — internal checks: True
+quiz-02-04.ttl — internal checks: True
+
+All checks passed? True

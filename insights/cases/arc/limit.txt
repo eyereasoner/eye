@@ -1,0 +1,38 @@
+Answer / Reason why / Check (harness)
+======================================
+
+Case 1: limit(sin(x)/x, x, oo)
+Answer     : 0
+Reason why : |sin x| ≤ 1 ⇒ |sin x|/|x| ≤ 1/|x| → 0 as x→∞ (Squeeze Theorem).
+Check (harness):
+   x           sin(x)/x          bound 1/x
+        10   -0.0544021110889            0.1
+       100   -0.0050636564111           0.01
+      1000   0.000826879540532          0.001
+     10000   -3.05614388889e-05         0.0001
+
+Case 2: limit(1/x, x, 0)   # default dir='+' (right-hand)
+Answer     : +∞
+Reason why : as x→0⁺, 1/x is positive and unbounded above.
+Note       : the two-sided limit does not exist; specify dir='-'/dir='+' to be explicit.
+Check (harness):
+   n        x_n (0⁺)     1/x_n
+   1            0.1            10
+   2           0.01           100
+   3          0.001          1000
+   4         0.0001         10000
+   5          1e-05        100000
+   6          1e-06       1000000
+
+Case 3: limit(1/x, x, 0, dir='-')
+Answer     : −∞
+Reason why : for x<0 near 0, 1/x is negative and unbounded below; magnitude → ∞.
+Check (harness):
+   n        x_n (0⁻)     1/x_n
+   1           -0.1           -10
+   2          -0.01          -100
+   3         -0.001         -1000
+   4        -0.0001        -10000
+   5         -1e-05       -100000
+   6         -1e-06      -1000000
+

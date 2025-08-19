@@ -1,0 +1,63 @@
+Answer
+------
+t:Antwerp-Belgium t:answer (t:Ghent-Belgium)
+t:Boston-USA t:answer (t:Cambridge-USA)
+t:Bruges-Belgium t:answer (t:Ghent-Belgium t:Ostend-Belgium)
+t:Cambridge-USA t:answer (t:Boston-USA)
+t:Chicago-USA t:answer ()
+t:Ghent-Belgium t:answer (t:Antwerp-Belgium t:Bruges-Belgium t:Ostend-Belgium)
+t:Ostend-Belgium t:answer (t:Bruges-Belgium t:Ghent-Belgium)
+
+Reason why
+----------
+• Rule 1 unpacks each tfcontext tensor into geo:lat/geo:long.
+• Rule 2 uses e:findall to collect, for each city C, all T ≠ C with
+  Euclidean-on-degrees distance < 1.0. The head concludes C t:answer (… neighbors …).
+
+First 10 inner solutions:
+  - C=t:Antwerp-Belgium, T=t:Ghent-Belgium, D=0.6926 < 1.0 ✓
+  - C=t:Boston-USA, T=t:Cambridge-USA, D=0.0522 < 1.0 ✓
+  - C=t:Bruges-Belgium, T=t:Ghent-Belgium, D=0.5294 < 1.0 ✓
+  - C=t:Bruges-Belgium, T=t:Ostend-Belgium, D=0.2963 < 1.0 ✓
+  - C=t:Cambridge-USA, T=t:Boston-USA, D=0.0522 < 1.0 ✓
+  - C=t:Ghent-Belgium, T=t:Antwerp-Belgium, D=0.6926 < 1.0 ✓
+  - C=t:Ghent-Belgium, T=t:Bruges-Belgium, D=0.5294 < 1.0 ✓
+  - C=t:Ghent-Belgium, T=t:Ostend-Belgium, D=0.8180 < 1.0 ✓
+  - C=t:Ostend-Belgium, T=t:Bruges-Belgium, D=0.2963 < 1.0 ✓
+  - C=t:Ostend-Belgium, T=t:Ghent-Belgium, D=0.8180 < 1.0 ✓
+
+=== Pretty Proof ===
+
+[1] Facts: t:* t:position-tensor (lat lon) for Antwerp, Boston, Bruges, Cambridge, Chicago, Ghent, Ostend
+[2] Premise-Rule-1: { ?C t:position-tensor (?LA ?LO). } => { ?C geo:lat ?LA. ?C geo:long ?LO. }.
+[3] Apply-Rule-1 [2]: t:Antwerp-Belgium geo:lat 51.2192 ; geo:long 4.4029 // unpacked from position-tensor
+[4] Apply-Rule-1 [2]: t:Boston-USA geo:lat 42.3584 ; geo:long -71.0598 // unpacked from position-tensor
+[5] Apply-Rule-1 [2]: t:Bruges-Belgium geo:lat 51.2108 ; geo:long 3.2249 // unpacked from position-tensor
+[6] Apply-Rule-1 [2]: t:Cambridge-USA geo:lat 42.3736 ; geo:long -71.1097 // unpacked from position-tensor
+[7] Apply-Rule-1 [2]: t:Chicago-USA geo:lat 41.8781 ; geo:long -87.6298 // unpacked from position-tensor
+[8] Apply-Rule-1 [2]: t:Ghent-Belgium geo:lat 51.0535 ; geo:long 3.7304 // unpacked from position-tensor
+[9] Apply-Rule-1 [2]: t:Ostend-Belgium geo:lat 51.2154 ; geo:long 2.9286 // unpacked from position-tensor
+[10] Premise-Rule-2: { ?C geo:lat ?LAC. ?C geo:long ?LOC. e:findall(?T {...} ?L). } => { ?C t:answer ?L. } // query rule with e:findall
+[11] Inner-Solution [10]: C=t:Antwerp-Belgium, T=t:Ghent-Belgium, D=0.6926 < 1.0 ✓
+[12] Head-Intro [10]: t:Antwerp-Belgium t:answer (t:Ghent-Belgium) // e:findall collected the T-solutions
+[13] Inner-Solution [10]: C=t:Boston-USA, T=t:Cambridge-USA, D=0.0522 < 1.0 ✓
+[14] Head-Intro [10]: t:Boston-USA t:answer (t:Cambridge-USA) // e:findall collected the T-solutions
+[15] Inner-Solution [10]: C=t:Bruges-Belgium, T=t:Ghent-Belgium, D=0.5294 < 1.0 ✓
+[16] Inner-Solution [10]: C=t:Bruges-Belgium, T=t:Ostend-Belgium, D=0.2963 < 1.0 ✓
+[17] Head-Intro [10]: t:Bruges-Belgium t:answer (t:Ghent-Belgium t:Ostend-Belgium) // e:findall collected the T-solutions
+[18] Inner-Solution [10]: C=t:Cambridge-USA, T=t:Boston-USA, D=0.0522 < 1.0 ✓
+[19] Head-Intro [10]: t:Cambridge-USA t:answer (t:Boston-USA) // e:findall collected the T-solutions
+[20] Head-Intro [10]: t:Chicago-USA t:answer () // e:findall collected the T-solutions
+[21] Inner-Solution [10]: C=t:Ghent-Belgium, T=t:Antwerp-Belgium, D=0.6926 < 1.0 ✓
+[22] Inner-Solution [10]: C=t:Ghent-Belgium, T=t:Bruges-Belgium, D=0.5294 < 1.0 ✓
+[23] Inner-Solution [10]: C=t:Ghent-Belgium, T=t:Ostend-Belgium, D=0.8180 < 1.0 ✓
+[24] Head-Intro [10]: t:Ghent-Belgium t:answer (t:Antwerp-Belgium t:Bruges-Belgium t:Ostend-Belgium) // e:findall collected the T-solutions
+[25] Inner-Solution [10]: C=t:Ostend-Belgium, T=t:Bruges-Belgium, D=0.2963 < 1.0 ✓
+[26] Inner-Solution [10]: C=t:Ostend-Belgium, T=t:Ghent-Belgium, D=0.8180 < 1.0 ✓
+[27] Head-Intro [10]: t:Ostend-Belgium t:answer (t:Bruges-Belgium t:Ghent-Belgium) // e:findall collected the T-solutions
+
+Check (harness)
+---------------
+All checks passed.
+  cities = 7
+  total neighbor links = 10

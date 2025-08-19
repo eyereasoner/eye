@@ -1,0 +1,30 @@
+Answer
+------
+(:A, :moreInterestingThan, :B)  →  YES
+(:A, :moreInterestingThan, :C)  →  YES
+(:D, :moreInterestingThan, :B)  →  YES
+(:C, :moreInterestingThan, :A)  →  NO
+
+Who is more interesting than :C?
+  :A, :B, :D
+
+All pairs ?X > ?Y:
+  :A > :B
+  :A > :C
+  :B > :C
+  :D > :B
+  :D > :C
+
+Reason why
+----------
+Forward-chaining proof trace (each derived edge in order):
+✓ fact (:B, :moreInterestingThan, :C)
+✓ :A > :B  via score rule (8 > 5)
+✓ :D > :B  via award/boring rule
+✓ :A > :C  via transitivity (:A > :B and :B > :C)
+✓ :D > :C  via transitivity (:D > :B and :B > :C)
+
+Check (harness)
+---------------
+OK: re-derivation matches; expected edges present; closure & rule soundness verified.
+
