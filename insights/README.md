@@ -55,7 +55,7 @@ This bridges symbolic reasoning with generative models by treating the LLM as a 
 
 ## Quickstart
 
-Run the [cases](cases) to get [answer, reason why and check (harness)](cases/arc)
+Run the [insights cases](cases) to get [answer, reason why and check (harness)](cases/arc)
    ```bash
    ./test
    ```
