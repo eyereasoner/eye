@@ -46,7 +46,7 @@ This bridges symbolic reasoning with generative models by treating the LLM as a 
 ## Features
 
 * **Executable reasoning:** LLM emits runnable Python, not just a narrative.
-* **Three artifacts by design:** `Answer`, `Reason why`, `Check (harness)` aka ARC.
+* **Three artifacts by design:** `Answer`, `Reason why`, `Check (harness)`.
 * **Separation of concerns:** declarative **Data/Logic/Goal** → imperative program.
 * **Auditable & diffable:** code, not hidden activations; easy to review and rerun.
 * **Extensible:** swap datasets, rule sets, goals, or models.
@@ -55,7 +55,7 @@ This bridges symbolic reasoning with generative models by treating the LLM as a 
 
 ## Quickstart
 
-Run the [eye insights examples and test cases](https://github.com/eyereasoner/eye/tree/master/insights/cases) to get the [answer, reason why and check (harness)](https://github.com/eyereasoner/eye/tree/master/insights/cases/arc)
+Run the [eye insights examples and test cases](https://github.com/eyereasoner/eye/tree/master/insights/cases) to get the [answer, reason why and check (harness)](https://github.com/eyereasoner/eye/tree/master/insights/cases/output)
    ```bash
    ./test
    ```
