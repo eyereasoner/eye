@@ -1,6 +1,6 @@
 # Insights
 
-Insights are **deep, actionable understandings** derived from analyzing data, observations, or experiences that reveal hidden patterns, motivations, or relationships. Unlike raw facts or surface-level information, insights uncover the **“why”** behind behaviors, trends, or outcomes, enabling better decision-making and strategy. They often come from connecting disparate pieces of information in a meaningful way, helping individuals or organizations identify opportunities, solve problems, and drive innovation. In essence, insights transform data and knowledge into **clarity and direction**.
+Insights are **deep, actionable understandings** derived from analyzing data, observations, or experiences that reveal hidden patterns, motivations, or relationships. Unlike raw facts or surface-level information, insights uncover the **“why”** behind behaviors, trends, or outcomes, enabling better decision-making and strategy. They often come from connecting disparate pieces of information in a meaningful way; here, we do that explicitly by combining **Data** (e.g., RDF), **Logic** (e.g., N3), and a **Goal**, which an **LLM** translates into a self-contained Python program that produces an **Answer**, explains the **Reason why**, and runs an independent **Check (harness)**. In essence, insights transform data and knowledge into **clarity and direction**.
 
 ---
 
