@@ -18,32 +18,7 @@ This bridges symbolic reasoning with generative models by treating the LLM as a 
 
 ## Conceptual Overview
 
-![Insights — Conceptual Overview](insights.png)
-
-```
-                 ┌──────────────────────────────────────────────┐
-                 │                  LLM input                   │
-                 │   • Data (e.g., RDF)                         │
-                 │   • Logic (e.g., N3)                         │
-                 │   • Goal                                     │
-                 └───────────────────────┬──────────────────────┘
-                                         ▼
-                 ┌──────────────────────────────────────────────┐
-                 │           LLM (e.g., GPT-5 Thinking)         │
-                 │   • Translates Data + Logic + Goal           │
-                 │   • Synthesizes Python code                  │
-                 │   • Constructs proof strategy                │
-                 └───────────────────────┬──────────────────────┘
-                                         ▼
-                 ┌──────────────────────────────────────────────┐
-                 │        Self-contained Python Program         │
-                 │   • Produces an Answer                       │
-                 │   • Explains the Reason why                  │
-                 │   • Runs an independent Check (harness)      │
-                 └──────────────────────────────────────────────┘
-```
-
----
+![Insights — Conceptual Overview](insights_conceptual_overview.png)
 
 ## Features
 
