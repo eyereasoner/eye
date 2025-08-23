@@ -18,6 +18,8 @@ This bridges symbolic reasoning with generative models by treating the LLM as a 
 
 ## Conceptual Overview
 
+![Insights — Conceptual Overview](insights.png)
+
 ```
                  ┌──────────────────────────────────────────────┐
                  │                  LLM input                   │
