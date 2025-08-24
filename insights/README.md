@@ -6,15 +6,7 @@ Insights are **deep, actionable understandings** derived from analyzing data, ob
 
 ## Conceptual Overview
 
-```
-┌──────────────────────────────────┐       ┌──────────────────────────────────┐       ┌──────────────────────────────────┐
-│         LLM Input                │       │         LLM (e.g., GPT-5)        │       │         Python Output            │
-│                                  │       │                                  │       │                                  │
-│   • Data (e.g., RDF)             │──────►│   • Translates Data/Logic/Goal   │──────►│   • Answer                       │
-│   • Logic (e.g., N3)             │       │   • Constructs proof strategy    │       │   • Reason why                   │
-│   • Goal                         │       │   • Synthesizes Python code      │       │   • Check (harness)              │
-└──────────────────────────────────┘       └──────────────────────────────────┘       └──────────────────────────────────┘
-```
+![Conceptual Overview](images/conceptual_overview.svg)
 
 The approach is to use a **Large Language Model (LLM)**—e.g., *GPT-5 Thinking*—to translate **Data/Logic/Goal** into a **self-contained Python program** that:
 
