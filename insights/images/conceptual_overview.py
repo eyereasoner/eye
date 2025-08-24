@@ -1,10 +1,10 @@
-# Generating conceptual_overview.py
+# create svg for Insights - Conceptual Overview
 
 MARGIN = 40
 BOX_W = 720
 SPACING = 40
 
-# Typography + layout parameters (same as previous compact version)
+# Layout (unchanged height)
 HEADER_H = 110
 TOP_PAD = 34
 LINE_GAP = 42
@@ -21,15 +21,14 @@ y = MARGIN
 
 svg = []
 
-svg.append(f'''<svg xmlns="http://www.w3.org/2000/svg" width="{CANVAS_W}" height="{CANVAS_H}" viewBox="0 0 {CANVAS_W} {CANVAS_H}" role="img" aria-label="LLM to Python infographic — compact height with orange middle box">
+svg.append(f'''<svg xmlns="http://www.w3.org/2000/svg" width="{CANVAS_W}" height="{CANVAS_H}" viewBox="0 0 {CANVAS_W} {CANVAS_H}" role="img" aria-label="LLM to Python infographic — larger fonts">
   <defs>
     <style>
       .box {{ fill: #ffffff; stroke: #111827; stroke-width: 3.2; rx: 26; ry: 26; filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.05)); }}
-      .title {{ font: 800 36px "Inter", "Segoe UI", Arial, Helvetica, sans-serif; fill: #0f172a; }}
-      .bulletText {{ font: 500 28px "Inter", "Segoe UI", Arial, Helvetica, sans-serif; fill: #0b1220; }}
+      .title {{ font: 800 42px "Inter", "Segoe UI", Arial, Helvetica, sans-serif; fill: #0f172a; }}
+      .bulletText {{ font: 600 32px "Inter", "Segoe UI", Arial, Helvetica, sans-serif; fill: #0b1220; }}
       .arrow {{ stroke: #111827; stroke-width: 5; fill: none; }}
     </style>
-    <!-- Gradients -->
     <linearGradient id="hdrBlue" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#dbeafe"/>
       <stop offset="100%" stop-color="#bfdbfe"/>
@@ -47,16 +46,16 @@ svg.append(f'''<svg xmlns="http://www.w3.org/2000/svg" width="{CANVAS_W}" height
 ''')
 
 def add_box(x, y, w, h, header_title, header_fill, accent, bullets):
-    inner_pad_x = 36
+    inner_pad_x = 34
     start_y = y + HEADER_H + TOP_PAD
     svg.append(f'<rect class="box" x="{x}" y="{y}" width="{w}" height="{h}" rx="26" ry="26"/>')
     svg.append(f'<rect x="{x}" y="{y}" width="{w}" height="{HEADER_H}" rx="26" ry="26" fill="url(#{header_fill})"/>')
-    svg.append(f'<text class="title" x="{x+inner_pad_x}" y="{y+70}">{header_title}</text>')
+    svg.append(f'<text class="title" x="{x+inner_pad_x}" y="{y+74}">{header_title}</text>')
     cy = start_y
     for text in bullets:
         cx = x + inner_pad_x + 6
-        svg.append(f'<circle cx="{cx}" cy="{cy-6}" r="7.5" fill="{accent}"/>')
-        svg.append(f'<text class="bulletText" x="{cx+24}" y="{cy}">{text}</text>')
+        svg.append(f'<circle cx="{cx}" cy="{cy-7}" r="9" fill="{accent}"/>')
+        svg.append(f'<text class="bulletText" x="{cx+28}" y="{cy}">{text}</text>')
         cy += LINE_GAP
 
 def add_arrow(from_right_x, to_left_x, y_top, h):
@@ -71,11 +70,11 @@ add_box(
     ["Data (e.g., RDF)", "Logic (e.g., N3)", "Goal"]
 )
 
-# Middle box (orange/amber instead of purple)
+# Middle box (orange)
 add_box(
     x2, y, BOX_W, BOX_H,
     "LLM (e.g., GPT-5)", "hdrOrange", "#d97706",
-    ["Translates data/logic/goal", "Constructs proof strategy", "Synthesizes Python code"]
+    ["Translates Data + Logic + Goal", "Constructs proof strategy", "Synthesizes self-contained Python code"]
 )
 
 # Right box (green)
