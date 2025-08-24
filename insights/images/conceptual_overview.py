@@ -67,13 +67,13 @@ def add_arrow(from_right_x, to_left_x, y_top, h):
 add_box(
     x1, y, BOX_W, BOX_H,
     "LLM Input", "hdrBlue", "#2563eb",
-    ["Data (e.g., RDF)", "Logic (e.g., N3)", "Goal"]
+    ["Data (e.g., RDF)", "Logic (e.g., N3 and RDF Surfaces)", "Goal"]
 )
 
 # Middle box (orange)
 add_box(
     x2, y, BOX_W, BOX_H,
-    "LLM (e.g., GPT-5)", "hdrOrange", "#d97706",
+    "LLM (e.g., GPT-5 Thinking)", "hdrOrange", "#d97706",
     ["Translates Data + Logic + Goal", "Constructs proof strategy", "Synthesizes self-contained Python code"]
 )
 
