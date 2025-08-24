@@ -7,16 +7,16 @@ Insights are **deep, actionable understandings** derived from analyzing data, ob
 ## Conceptual Overview
 
 ```
-┌──────────────────────────┐   ┌────────────────────────────────────────┐   ┌────────────────────────────────────────────┐
-│       LLM input          │   │       LLM (e.g., GPT-5 Thinking)       │   │       Self-contained Python Program        │
-│                          │   │                                        │   │                                            │
-│   • Data (e.g., RDF)     │──►│   • Translates Data + Logic + Goal     │──►│   • Produces an Answer                     │
-│   • Logic (e.g., N3)     │   │   • Synthesizes Python code            │   │   • Explains the Reason why                │
-│   • Goal                 │   │   • Constructs proof strategy          │   │   • Runs an independent Check (harness)    │
-└──────────────────────────┘   └────────────────────────────────────────┘   └────────────────────────────────────────────┘
+┌──────────────────────────────────┐       ┌──────────────────────────────────┐       ┌──────────────────────────────────┐
+│         LLM input                │       │         LLM (e.g., GPT-5)        │       │         Python Output            │
+│                                  │       │                                  │       │                                  │
+│   • Data (e.g., RDF)             │──────►│   • Translates Data/Logic/Goal   │──────►│   • Answer                       │
+│   • Logic (e.g., N3)             │       │   • Synthesizes Python code      │       │   • Reason why                   │
+│   • Goal                         │       │   • Constructs proof strategy    │       │   • Check (harness)              │
+└──────────────────────────────────┘       └──────────────────────────────────┘       └──────────────────────────────────┘
 ```
 
-The approach is to use a **Large Language Model (LLM)**—e.g., *GPT-5 Thinking*—to translate **Data + Logic + Goal** into a **self-contained Python program** that:
+The approach is to use a **Large Language Model (LLM)**—e.g., *GPT-5 Thinking*—to translate **Data/Logic/Goal** into a **self-contained Python program** that:
 
 1. computes an **Answer**,
 2. explains the **Reason why**, and
