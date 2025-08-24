@@ -8,7 +8,7 @@ Insights are **deep, actionable understandings** derived from analyzing data, ob
 
 ![Conceptual Overview](images/conceptual_overview.svg)
 
-The approach is to use a **Large Language Model (LLM)**—e.g., *GPT-5 Thinking*—to translate **Data/Logic/Goal** into a **self-contained Python program** that:
+The approach is to use a **Large Language Model (LLM)**—e.g., *GPT-5 Thinking*—to translate **Data + Logic + Goal** into a **self-contained Python program** that:
 
 1. computes an **Answer**,
 2. explains the **Reason why**, and
@@ -20,7 +20,7 @@ This bridges symbolic reasoning with generative models by treating the LLM as a 
 
 * **Executable reasoning:** LLM emits runnable Python, not just a narrative.
 * **Three artifacts by design:** `Answer`, `Reason why`, `Check (harness)`.
-* **Separation of concerns:** declarative **Data/Logic/Goal** → imperative program.
+* **Separation of concerns:** declarative **Data + Logic + Goal** → imperative program.
 * **Auditable & diffable:** code, not hidden activations; easy to review and rerun.
 * **Extensible:** swap datasets, rule sets, goals, or models.
 
