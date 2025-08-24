@@ -4,18 +4,6 @@ Insights are **deep, actionable understandings** derived from analyzing data, ob
 
 ---
 
-## Approach
-
-Use a **Large Language Model (LLM)**—e.g., *GPT-5 Thinking*—to translate **Data + Logic + Goal** into a **self-contained Python program** that:
-
-1. computes an **Answer**,
-2. explains the **Reason why**, and
-3. runs an independent **Check (harness)** to verify itself.
-
-This bridges symbolic reasoning with generative models by treating the LLM as a **meta-compiler for executable reasoning** rather than just a text generator.
-
----
-
 ## Conceptual Overview
 
 ```
@@ -27,6 +15,14 @@ This bridges symbolic reasoning with generative models by treating the LLM as a 
 │   • Goal                 │   │   • Constructs proof strategy          │   │   • Runs an independent Check (harness)    │
 └──────────────────────────┘   └────────────────────────────────────────┘   └────────────────────────────────────────────┘
 ```
+
+The approach is to use a **Large Language Model (LLM)**—e.g., *GPT-5 Thinking*—to translate **Data + Logic + Goal** into a **self-contained Python program** that:
+
+1. computes an **Answer**,
+2. explains the **Reason why**, and
+3. runs an independent **Check (harness)** to verify itself.
+
+This bridges symbolic reasoning with generative models by treating the LLM as a **meta-compiler for executable reasoning** rather than just a text generator.
 
 ## Features
 
