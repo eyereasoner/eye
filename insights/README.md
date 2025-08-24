@@ -8,7 +8,7 @@ Insights are **deep, actionable understandings** derived from analyzing data, ob
 
 ```
 ┌──────────────────────────────────┐       ┌──────────────────────────────────┐       ┌──────────────────────────────────┐
-│         LLM input                │       │         LLM (e.g., GPT-5)        │       │         Python Output            │
+│         LLM Input                │       │         LLM (e.g., GPT-5)        │       │         Python Output            │
 │                                  │       │                                  │       │                                  │
 │   • Data (e.g., RDF)             │──────►│   • Translates Data/Logic/Goal   │──────►│   • Answer                       │
 │   • Logic (e.g., N3)             │       │   • Synthesizes Python code      │       │   • Reason why                   │
