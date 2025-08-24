@@ -18,6 +18,7 @@ This bridges symbolic reasoning with generative models by treating the LLM as a 
 
 ## Conceptual Overview
 
+```
 ┌──────────────────────────────────────────────┐     ┌──────────────────────────────────────────────┐     ┌──────────────────────────────────────────────┐
 │                  LLM input                   │     │           LLM (e.g., GPT-5 Thinking)         │     │        Self-contained Python Program         │
 │                                              │     │                                              │     │                                              │
@@ -25,6 +26,7 @@ This bridges symbolic reasoning with generative models by treating the LLM as a 
 │   • Logic (e.g., N3)                         │     │   • Synthesizes Python code                  │     │   • Explains the Reason why                  │
 │   • Goal                                     │     │   • Constructs proof strategy                │     │   • Runs an independent Check (harness)      │
 └──────────────────────────────────────────────┘     └──────────────────────────────────────────────┘     └──────────────────────────────────────────────┘
+```
 
 ## Features
 
