@@ -1,0 +1,27 @@
+
+======
+Answer
+======
+Interpretation: e^{iθ} is rotation by θ on the unit circle.
+e^{'iπ'}  ≈  -1.0000000000 + 0.0000000000·i
+e^{'iπ'} + 1 ≈ 0.0000000000 + 0.0000000000·i
+Conclusion: e^{iπ} + 1 = 0 (within numerical tolerance).
+
+==================
+Reason (geometric)
+==================
+On the unit circle, a rotation by θ maps (1,0) to (cos θ, sin θ).
+Composition of rotations adds angles, which matches multiplication:
+   E(α)·E(β) = E(α+β).
+Setting θ = π gives E(π) = (-1, 0); hence E(π) + (1,0) = (0,0).
+
+===========================
+Independent Check (harness)
+===========================
+[PASS] Unit circle: |E(θ)| = 1 for random θ
+[PASS] Angle-addition law holds
+[PASS] Quarter-turn squared equals half-turn
+[PASS] Rotations preserve Euclidean length
+[PASS] Euler identity: E(π) + 1 = 0
+
+Result: ALL CHECKS PASSED ✅
