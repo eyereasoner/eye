@@ -1,0 +1,35 @@
+
+======
+Answer
+======
+Conclusion: √2 is irrational (not a ratio of whole numbers).
+
+========================================
+Reason (Aristotelian apagogé / reductio)
+========================================
+Assume, for contradiction, that √2 = p/q in lowest terms (gcd(p,q)=1).
+Then 2 = p²/q², so p² = 2·q². Thus p² is even, hence p is even (parity lemma).
+Write p = 2k. Substituting, (2k)² = 2·q² ⇒ 4k² = 2·q² ⇒ q² = 2k², so q is even.
+But then p and q are both even, contradicting the 'lowest terms' assumption.
+Therefore the assumption is impossible; by the Principle of Non-Contradiction,
+we reject it. Hence √2 is irrational.
+
+===========================
+Independent Check (harness)
+===========================
+[PASS] Parity lemma: n^2 even  ⇔  n even (tested on [-2000,2000])
+[PASS] For 1 ≤ q ≤ 4999, 2·q^2 is never a perfect square
+[PASS] No coprime p,q satisfy p^2 = 2 q^2 up to q ≤ 5000
+[PASS] Convergents get close to √2 but (as rationals) never equal it
+      First few convergents and errors:
+        1/1   error ≈ 4.142e-01
+        3/2   error ≈ 8.579e-02
+        7/5   error ≈ 1.421e-02
+        17/12   error ≈ 2.453e-03
+        41/29   error ≈ 4.205e-04
+        99/70   error ≈ 7.215e-05
+        239/169   error ≈ 1.238e-05
+        577/408   error ≈ 2.124e-06
+        1393/985   error ≈ 3.644e-07
+
+Result: ALL CHECKS PASSED ✅

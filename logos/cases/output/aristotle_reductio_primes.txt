@@ -1,0 +1,42 @@
+
+======
+Answer
+======
+Conclusion: there are infinitely many prime numbers.
+
+=================================================
+Reason (Aristotelian apagogé / Euclid's reductio)
+=================================================
+Assume for contradiction the primes are finite: p1, p2, …, pk.
+Form the Euclid number N = p1·p2·…·pk + 1.
+For any listed prime pi, we have N ≡ 1 (mod pi), so pi ∤ N.
+Hence no listed prime divides N. Either:
+  • N is itself prime → a new prime; or
+  • N is composite → its prime divisors are not in the list (still new).
+Contradiction with finitude. Therefore, primes are infinite.
+
+===========================
+Independent Check (harness)
+===========================
+[INFO] Using initial primes: [2, 3, 5, 7, 11, 13, 17, 19, 23]
+[PASS] Euclid property holds for first 1 primes → N = product+1 = 3
+[PASS] Euclid property holds for first 2 primes → N = product+1 = 7
+[PASS] Euclid property holds for first 3 primes → N = product+1 = 31
+[PASS] Euclid property holds for first 4 primes → N = product+1 = 211
+[PASS] Euclid property holds for first 5 primes → N = product+1 = 2311
+[PASS] Euclid property holds for first 6 primes → N = product+1 = 30031
+[PASS] Euclid property holds for first 7 primes → N = product+1 = 510511
+[PASS] Euclid property holds for first 8 primes → N = product+1 = 9699691
+[PASS] Euclid property holds for first 9 primes → N = product+1 = 223092871
+[PASS] For first 1 primes: N = 3 factors as 3; new prime: 3
+[PASS] For first 2 primes: N = 7 factors as 7; new prime: 7
+[PASS] For first 3 primes: N = 31 factors as 31; new prime: 31
+[PASS] For first 4 primes: N = 211 factors as 211; new prime: 211
+[PASS] For first 5 primes: N = 2311 factors as 2311; new prime: 2311
+[PASS] For first 6 primes: N = 30031 factors as 59 * 509; new prime: 59
+[PASS] For first 7 primes: N = 510511 factors as 19 * 97 * 277; new prime: 19
+[PASS] For first 8 primes: N = 9699691 factors as 347 * 27953; new prime: 347
+[PASS] For first 9 primes: N = 223092871 factors as 317 * 703763; new prime: 317
+[PASS] Prime counts grow with N: π(10)=4, π(100)=25, π(1000)=168, π(5000)=669, π(20000)=2262
+
+Result: ALL CHECKS PASSED ✅
