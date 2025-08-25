@@ -2,26 +2,29 @@
 ======
 Answer
 ======
-Interpretation: e^{iθ} is rotation by θ on the unit circle.
-e^{'iπ'}  ≈  -1.0000000000 + 0.0000000000·i
-e^{'iπ'} + 1 ≈ 0.0000000000 + 0.0000000000·i
-Conclusion: e^{iπ} + 1 = 0 (within numerical tolerance).
+Interpretation: E(θ) = rotation by θ on the unit circle.
+E(π)        ≈ -1.000000000000 + 0.000000000000·i
+E(π) + 1    ≈ 0.000000000000 + 0.000000000000·i
+Conclusion : Euler's identity holds: E(π) + 1 = 0 (within tolerance).
 
-==================
-Reason (geometric)
-==================
-On the unit circle, a rotation by θ maps (1,0) to (cos θ, sin θ).
-Composition of rotations adds angles, which matches multiplication:
-   E(α)·E(β) = E(α+β).
-Setting θ = π gives E(π) = (-1, 0); hence E(π) + (1,0) = (0,0).
+==============================
+Reason (geometric explanation)
+==============================
+1) On the unit circle, a rotation by θ maps (1,0) to (cos θ, sin θ) = E(θ).
+2) Composition of rotations adds angles, which mirrors multiplication:
+       E(α) · E(β) = E(α + β).
+3) Setting θ = π gives E(π) = (-1, 0); thus E(π) + (1,0) = (0,0).
+This unifies arithmetic with geometry: multiplying by E(θ) *is* 'turn by θ'.
 
 ===========================
 Independent Check (harness)
 ===========================
 [PASS] Unit circle: |E(θ)| = 1 for random θ
-[PASS] Angle-addition law holds
+[PASS] Angle-addition: E(α)E(β) = E(α+β)
 [PASS] Quarter-turn squared equals half-turn
 [PASS] Rotations preserve Euclidean length
+[PASS] Norm multiplicativity: |zw| = |z||w|
+[PASS] De Moivre: (E(θ))^n = E(nθ)
 [PASS] Euler identity: E(π) + 1 = 0
 
 Result: ALL CHECKS PASSED ✅
