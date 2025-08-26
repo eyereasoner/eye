@@ -1,0 +1,41 @@
+
+======
+Answer
+======
+The naive barber definition is IMPOSSIBLE (no model):
+   ∀x: S(b,x) ⇔ ¬S(x,x)  ⇒  at x=b: S(b,b) ⇔ ¬S(b,b).
+Aristotelian repair (non-circular essence) is CONSISTENT:
+   ∀x ≠ b: S(b,x) ⇔ ¬S(x,x)  (scope excludes the barber).
+
+===============================
+Reason (Aristotelian diagnosis)
+===============================
+A definition must state a non-circular logos (essence). The naive clause quantifies over *all* townspeople, including the barber himself, which forces S(b,b) ⇔ ¬S(b,b) and violates the Principle of Non-Contradiction (PNC).
+Restricting the scope to x ≠ b removes the vicious self-application. The role is then grounded in prior facts (who self-shaves) and is satisfiable.
+
+===========================
+Independent Check (harness)
+===========================
+[A] Naive clause at x=b forces S(b,b) ⇔ ¬S(b,b):
+    Try S(b,b) =     0:  biconditional is False  -> CONTRADICTION
+    Try S(b,b) =     1:  biconditional is False  -> CONTRADICTION
+    [PASS] Both branches fail; naive clause has no model
+
+[B] Repaired clause holds across random towns:
+    [PASS] Trial 0: town=['Barber', 'Alice', 'Bob', 'Cara', 'Dion', 'Eve', 'Fay', 'Gus'], self_shaves=['Barber', 'Bob', 'Dion']
+    [PASS] Trial 1: town=['Barber', 'Alice', 'Bob', 'Cara'], self_shaves=['Cara']
+    [PASS] Trial 2: town=['Barber', 'Alice', 'Bob', 'Cara', 'Dion', 'Eve', 'Fay', 'Gus'], self_shaves=['Barber', 'Fay', 'Gus']
+    [PASS] Trial 3: town=['Barber', 'Alice'], self_shaves=[]
+    [PASS] Trial 4: town=['Barber', 'Alice', 'Bob', 'Cara', 'Dion'], self_shaves=['Alice', 'Bob', 'Dion']
+    [PASS] Trial 5: town=['Barber', 'Alice', 'Bob', 'Cara', 'Dion', 'Eve'], self_shaves=['Barber', 'Bob', 'Eve']
+    [PASS] Trial 6: town=['Barber', 'Alice', 'Bob', 'Cara', 'Dion', 'Eve', 'Fay'], self_shaves=['Fay']
+    [PASS] Trial 7: town=['Barber', 'Alice', 'Bob', 'Cara', 'Dion', 'Eve', 'Fay'], self_shaves=['Barber', 'Bob', 'Dion']
+    [PASS] Trial 8: town=['Barber', 'Alice', 'Bob', 'Cara', 'Dion'], self_shaves=['Barber', 'Dion']
+    [PASS] Trial 9: town=['Barber', 'Alice', 'Bob', 'Cara'], self_shaves=[]
+
+[C] Russell set shadow: r := (r ∉ r)  is impossible:
+    Try (R∈R) =     0:  biconditional is False  -> CONTRADICTION
+    Try (R∈R) =     1:  biconditional is False  -> CONTRADICTION
+    [PASS] Both branches fail; no assignment satisfies R∈R ⇔ ¬(R∈R)
+
+Result: ALL CHECKS PASSED ✅
