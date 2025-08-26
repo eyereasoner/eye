@@ -1,6 +1,6 @@
 # learning
 
-EYE learning turns raw **Data**  (e.g., *RDF*), **Logic** (e.g., *N3*) and **Goal** into **actionable insight**.
+EYE learning turns raw **Data**  (e.g., *RDF*), **Logic** (e.g., *N3*) and **Goal** into **actionable insight**.  
 It uses an **LLM** (e.g., *GPT-5 Thinking*) as a **meta-compiler** to synthesize a **self-contained Python program** that produces an **Answer**, explains the **Reason why**, and runs an independent **Check (harness)**.
 
 ---
