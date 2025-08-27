@@ -1,0 +1,33 @@
+Answer
+------
+Residual program (generated at mix time):
+def inside_T(x, y):
+    """Residual program: point ∈ triangle? (inclusive=True)"""
+    ax, ay = 0, 0
+    inv00, inv01 = 0.3333333333333333, -0.1666666666666667
+    inv10, inv11 = -0, 0.5
+    # Compute barycentric (u,v) for p - a
+    px = x - ax
+    py = y - ay
+    u = inv00*px + inv01*py
+    v = inv10*px + inv11*py
+    s = u + v
+    return (u >= -1e-12) and (v >= -1e-12) and (s <= 1.000000000001)
+Example evaluation: for p = (1.0, 1.0), inside_T(p) = True
+
+Reason why
+----------
+• We treat the triangle vertices (a, b, c) as *static* and the query point p=(x,y) as *dynamic*.
+• At mix time we compute the inverse of the 2×2 matrix [v0 v1] with columns v0=b-a and v1=c-a.
+• This lets the residual program compute barycentric (u, v) via two affine forms and test simple inequalities.
+• a = (0, 0), b = (3, 0), c = (1, 2)
+• v0 = b-a = (3, 0), v1 = c-a = (1, 2)
+• det = v0x*v1y - v1x*v0y = 6  (triangle is counter-clockwise; |area| = 3)
+• Inverse([v0 v1]) = (1/det) * [[ v1y, -v1x], [-v0y,  v0x]]
+• → inv00=0.33333333, inv01=-0.16666667, inv10=-0, inv11=0.5
+• Inside test (inclusive): u ≥ 0, v ≥ 0, u+v ≤ 1 (with small EPS tolerance).
+
+Check (harness)
+----------------
+PASS: residual program agrees with the generic test on 808 points (including edges and randoms).
+
