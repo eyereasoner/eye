@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.20.8 (2025-08-26)').
+version_info('EYE v11.20.9 (2025-08-27)').
 
 license_info('MIT License
 
@@ -7182,7 +7182,8 @@ prepare_builtins :-
     ).
 
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(X, Y) :-
-    (   nonvar(X)
+    (   nonvar(X),
+        \+clause('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(X, _), true)
     ;   nonvar(Y)
     ),
     X = [Y|_],
@@ -7190,7 +7191,8 @@ prepare_builtins :-
 
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, Y) :-
     (   nonvar(X)
-    ;   nonvar(Y)
+    ;   nonvar(Y),
+        \+clause('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(_, Y), true)
     ),
     X = [_|Y],
     !.
