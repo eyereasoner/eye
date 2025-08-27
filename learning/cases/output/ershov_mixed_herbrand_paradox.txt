@@ -1,0 +1,26 @@
+Answer
+------
+Residual program (generated at mix time):
+def barber_sentence_res(S: dict) -> bool:
+    """Residual: truth of ∀x. Shaves(b,x) == (not Shaves(x,x)) over the fixed domain."""
+    D = ['b', 'alice', 'bob']
+    def val(a, b): return S.get((a, b), False)
+    # Ground instance x='b': val('b','b') == (not val('b','b'))  → impossible
+    return False
+Example evaluation on a random Shaves/2 interpretation S: result = False
+
+Reason why
+----------
+• We treat the domain and the axiom as static; the Shaves/2 interpretation S is dynamic.
+• Domain D = ['b', 'alice', 'bob']
+• Sentence: ∀x. Shaves(b,x) == (not Shaves(x,x))
+• Unroll the universal quantifier over D and examine each ground instance:
+•  - For x='b': instance is A == (not A) with A := Shaves(b,b) → contradiction.
+•  - For x='alice': instance is Shaves(b,'alice') == (not Shaves('alice','alice')). (Constraint on S if we were searching for a model.)
+•  - For x='bob': instance is Shaves(b,'bob') == (not Shaves('bob','bob')). (Constraint on S if we were searching for a model.)
+• Conclusion at mix time: the sentence is unsatisfiable for any S; residual returns False.
+
+Check (harness)
+----------------
+PASS: residual evaluator agrees with the generic evaluator on 800 random interpretations.
+
