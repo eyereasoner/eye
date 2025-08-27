@@ -1,0 +1,30 @@
+Answer
+------
+Residual program (generated at mix time):
+def pow_13(x):
+    """Residual program computing x**13, specialized at mix time."""
+    r = 1
+    p0 = x  # x^(2**0)
+    r = r * p0  # include bit 0 (2**0)
+    p1 = p0 * p0  # square for next bit
+    p2 = p1 * p1  # square for next bit
+    r = r * p2  # include bit 2 (2**2)
+    p3 = p2 * p2  # square for next bit
+    r = r * p3  # include bit 3 (2**3)
+    return r
+Example evaluation: for x = 7, pow_13(x) = 96889010407
+
+Reason why
+----------
+• We treat the exponent n as *static* (known now) and the base x as *dynamic* (known later).
+• Therefore we can eliminate the loop/branches by inspecting the bits of n at mix time.
+• Each '1' bit emits one multiply by the current power; every step emits one squaring.
+• Bit 0 of n is 1 → multiply by x^(2**0).
+• Bit 1 of n is 0 → skip multiplication.
+• Bit 2 of n is 1 → multiply by x^(2**2).
+• Bit 3 of n is 1 → multiply by x^(2**3).
+
+Check (harness)
+----------------
+PASS: residual program matches original pow_plain(x, 13) for 307 tested values of x.
+
