@@ -1,0 +1,35 @@
+Answer
+------
+Residual program (generated at mix time):
+import math
+def f(x):
+    return ((math.exp((2.0 * (x))) * math.sin((x))) + ((x) ** 3.0))
+
+def df(x):
+    return ((2.0 * math.exp((2.0 * (x))) * math.sin((x))) + (math.cos((x)) * math.exp((2.0 * (x)))) + (3.0 * ((x) ** 2.0)))
+
+Example evaluation at x = 0.7:
+  f(x)  = 2.95543154393
+  f'(x) = 9.79645110037
+
+Reason why
+----------
+• Static expression: f(x) = ((exp((2 * x)) * sin(x)) + (x ** 3))
+• Goal: build residual df(x) = ((2 * exp((2 * x)) * sin(x)) + (cos(x) * exp((2 * x))) + (3 * (x ** 2))) using symbolic rules at mix time.
+• We apply linearity, product/quotient rules, and the chain rule; constants are folded.
+• Linearity: d/dx [((exp((2 * x)) * sin(x)) + (x ** 3))] = sum of term derivatives
+• Product rule: d/dx [(exp((2 * x)) * sin(x))] = Σ (f_i' * Π_{j≠i} f_j)
+• Chain rule (exp): d/dx [exp(u)] = exp(u)*u', with u=(2 * x)
+• Product rule: d/dx [(2 * x)] = Σ (f_i' * Π_{j≠i} f_j)
+• d/dx [c] = 0
+• d/dx [x] = 1
+• Chain rule (sin): d/dx [sin(u)] = cos(u)*u', with u=x
+• d/dx [x] = 1
+• Power (const exp): d/dx [(x ** 3)] = 3.0*b^2.0 * b'
+• d/dx [x] = 1
+
+Check (harness)
+----------------
+PASS: residual derivative matches a high-accuracy finite-difference approximation on 600 samples.
+Spot-check vs. generic symbolic derivative: OK.
+
