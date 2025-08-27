@@ -1,0 +1,32 @@
+Answer
+------
+Residual program (generated at mix time):
+def phi(x):
+    """Residual program: decide φ(x) over a fixed finite structure."""
+    N = 5
+    if not (0 <= x < N):
+        raise ValueError('x not in domain 0..4')
+    EVEN = [True, False, True, False, True]
+    EDGE = [[False, True, True, False, False], [False, False, True, True, False], [False, False, False, True, False], [False, False, False, False, True], [True, False, False, False, False]]
+    return (((not EDGE[x][2])) and ((EDGE[1][x]) or (EDGE[3][x])))
+Example evaluation: for x = 2, φ_res(x) = True
+
+Reason why
+----------
+• We treat the finite structure and the formula as static, and the value of x as dynamic.
+• Domain size = 5 with elements 0..4
+• Even as 0/1 flags = [1, 0, 1, 0, 1]
+• Edge out-degrees per node = [2, 2, 1, 1, 1]
+• At mix time we unroll all quantifiers over the domain and fold ground atoms to constants.
+• Exists over z: instance z = 2 is True at mix time, so the whole disjunction is True.
+• Exists over z: instance z = 2 is True at mix time, so the whole disjunction is True.
+• Exists over z: all 5 instances were False at mix time.
+• Exists over z: instance z = 4 is True at mix time, so the whole disjunction is True.
+• Exists over z: instance z = 0 is True at mix time, so the whole disjunction is True.
+• Forall over y: emitted conjunction of 1 dynamic clauses; 4 instances folded to True.
+• Exists over y: emitted disjunction of 2 dynamic clauses; 3 instances folded to False.
+
+Check (harness)
+----------------
+PASS: residual φ_res agrees with the generic evaluator for all 5 elements of the domain.
+
