@@ -1,0 +1,50 @@
+Answer
+------
+Residual program (generated at mix time):
+def reachable(u, v):
+    """Residual: reachability in a fixed directed graph G. Accepts vertex names or indices."""
+    N = 8
+    NAME_TO_ID = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7}
+    SCC = [0, 0, 0, 1, 1, 2, 2, 3]          # vertex index -> component id
+    CLOSURE = [15, 14, 12, 8]  # component id -> bitmask of reachable components (incl. itself)
+
+    def to_index(x):
+        if isinstance(x, int):
+            i = x
+        else:
+            i = NAME_TO_ID.get(x)
+        if i is None or not (0 <= i < N):
+            raise ValueError('Unknown vertex: %r' % (x,))
+        return i
+
+    iu, iv = to_index(u), to_index(v)
+    su, sv = SCC[iu], SCC[iv]
+    return ((CLOSURE[su] >> sv) & 1) == 1
+Example evaluation: reachable('A', 'H') = True
+Example evaluation: reachable('F', 'B') = False
+Example evaluation: reachable('G', 'H') = True
+Example evaluation: reachable('E', 'C') = False
+Example evaluation: reachable('H', 'H') = True
+
+Reason why
+----------
+• We treat the graph G as static and the query (u,v) as dynamic.
+• Vertices (N=8): ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+• Edges (M=10): [('A', 'B'), ('B', 'C'), ('C', 'A'), ('C', 'D'), ('D', 'E'), ('E', 'D'), ('E', 'F'), ('F', 'G'), ('G', 'F'), ('G', 'H')]
+• At mix time we compute SCCs (each listed by vertex names):
+•   SCC 0: ['A', 'C', 'B']
+•   SCC 1: ['D', 'E']
+•   SCC 2: ['F', 'G']
+•   SCC 3: ['H']
+• SCC-DAG edges: [(0, 1), (1, 2), (2, 3)]
+• Topological order on SCC-DAG: [0, 1, 2, 3]
+• Closure[0] covers components [0, 1, 2, 3]
+• Closure[1] covers components [1, 2, 3]
+• Closure[2] covers components [2, 3]
+• Closure[3] covers components [3]
+• Residual test does: su=SCC[u], sv=SCC[v], then checks bit sv in CLOSURE[su].
+
+Check (harness)
+----------------
+PASS: residual reachable matches generic BFS on 807 (u,v) queries.
+
