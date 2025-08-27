@@ -1,0 +1,50 @@
+Answer
+------
+Residual program (generated at mix time):
+def solve_A(b0, b1, b2):
+    """Residual solver for A x = b (A specialized at mix time)."""
+    # Permutation: (P b)[i] = b[perm[i]]
+    perm0, perm1, perm2 = 0, 2, 1
+    # L (unit diag) multipliers
+    l21, l31, l32 = 0.125, 0.25, -2
+    # U upper-triangular entries
+    u11, u12, u13 = 4, 2, 1
+    u22, u23      = -1.25, 1.875
+    u33           = 5.5
+
+    # Apply P to b
+    Pb0 = (b0, b1, b2)[perm0]
+    Pb1 = (b0, b1, b2)[perm1]
+    Pb2 = (b0, b1, b2)[perm2]
+
+    # Forward substitution: L y = P b
+    y0 = Pb0
+    y1 = Pb1 - l21*y0
+    y2 = Pb2 - l31*y0 - l32*y1
+
+    # Back substitution: U x = y
+    x2 = y2 / u33
+    x1 = (y1 - u23*x2) / u22
+    x0 = (y0 - u12*x1 - u13*x2) / u11
+    return (x0, x1, x2)
+Example evaluation: for b = (7.0, 4.0, 1.5), solve_A(b) = ('1.36364', '0.454545', '0.636364')
+
+Reason why
+----------
+• We treat A as *static* and b as *dynamic*.
+• At mix time we compute the partial-pivoting LU: P·A = L·U (L unit lower, U upper).
+• Pivot at (0,0) = 4
+• l21 = a21/a11 = 0.25
+• l31 = a31/a11 = 0.125
+• Swap rows 1 and 2 for |pivot| maximization.
+• Pivot at (1,1) = -1.25
+• l32 = a32/a22 = -2
+• Assemble L (unit lower) and U (upper) such that P·A = L·U.
+• Permutation (rows in P·A come from original rows): perm = [0, 2, 1]
+• The residual solver performs only: P-apply to b, forward-substitution (L), back-substitution (U).
+• No run-time pivot search or row swaps remain; their outcomes are baked into the permutation and multipliers.
+
+Check (harness)
+----------------
+PASS: residual solver matches the generic solver on 500 random right-hand sides.
+
