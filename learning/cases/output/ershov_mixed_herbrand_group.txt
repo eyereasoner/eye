@@ -1,0 +1,49 @@
+Answer
+------
+Residual program (generated at mix time):
+def nf_res(word):
+    """Residual S3 normal form: return (i,j) for r^i s^j given a word over r,R,s,S."""
+    # Normalize input to a list of letters
+    letters = list(word) if isinstance(word, str) else list(word)
+    for ch in letters:
+        if ch not in ('r','R','s','S'):
+            raise ValueError('illegal letter: ' + repr(ch))
+
+    # Expand inverses to {r,s} only (R -> r r, S -> s)
+    seq = []
+    for ch in letters:
+        if ch == 'r': seq.append('r')
+        elif ch == 'R': seq.extend(['r','r'])
+        elif ch in ('s','S'): seq.append('s')
+
+    # Scan with a precomputed Cayley transition table over 6 states
+    TR = [1, 2, 0, 5, 3, 4]
+    TS = [3, 4, 5, 0, 1, 2]
+    state = 0  # start at e = r^0 s^0
+    for ch in seq:
+        if ch == 'r':
+            state = TR[state]
+        else:  # ch == 's'
+            state = TS[state]
+
+    # Map state index back to (i,j)
+    states = [(0,0),(1,0),(2,0),(0,1),(1,1),(2,1)]
+    return states[state]
+Example evaluation: word = 'srsrRS'  →  normal form (i,j) = (2, 1) (means r^i s^j)
+Is identity? no
+
+Reason why
+----------
+• We fix S3 with presentation ⟨ r, s | r^3=e, s^2=e, s r s = r^{-1} ⟩ as *static*.
+• Herbrand terms are words over {r,s} (R=r^{-1} expands to r r; S=s^{-1} expands to s).
+• At mix time we replace rewriting with a DFA over 6 states representing elements:
+•   0:e, 1:r, 2:r^2, 3:s, 4:r·s, 5:r^2·s (normal form r^i s^j).
+• We precompute transitions state := state * gen on the right:
+•   TR (× r): 0:e→1:r, 1:r→2:r^2, 2:r^2→0:e, 3:e·s→5:r^2·s, 4:r·s→3:e·s, 5:r^2·s→4:r·s
+•   TS (× s): 0:e→3:e·s, 1:r→4:r·s, 2:r^2→5:r^2·s, 3:e·s→0:e, 4:r·s→1:r, 5:r^2·s→2:r^2
+• Residual evaluator: expand inverses, scan with TR/TS, return the pair (i,j).
+
+Check (harness)
+----------------
+PASS: residual normal form agrees with the generic Herbrand reducer on 1012 words.
+
