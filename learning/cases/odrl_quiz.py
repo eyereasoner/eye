@@ -484,7 +484,7 @@ class TurtleParser:
 
 # ─────────────────────────── Config ───────────────────────────
 ODRL = Namespace("http://www.w3.org/ns/odrl/2/")
-ODRL_TTL_URL = "https://www.w3.org/ns/odrl/2/ODRL22.ttl"
+ODRL_TTL_URL = "./resources/ODRL22.ttl"   #cached from https://www.w3.org/ns/odrl/2/ODRL22.ttl
 
 # Logical constructors (use bracket notation for safety)
 ODRL_OR = ODRL["or"]

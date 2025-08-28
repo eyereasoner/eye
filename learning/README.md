@@ -8,7 +8,7 @@ This program not only produces an **Answer** but also explains the **Reason why*
 
 ## Conceptual overview
 
-![Conceptual overview](images/conceptual_overview.svg)
+![Conceptual overview](resources/conceptual_overview.svg)
 
 ---
 
