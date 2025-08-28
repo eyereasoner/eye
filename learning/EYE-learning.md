@@ -55,37 +55,22 @@ The repository contains **a large suite of cases** illustrating the pattern acro
 ## Architecture at a glance
 
 ```mermaid
-flowchart LR
+graph LR
+D[Data (RDF)]-->S[LLM synthesizer]
+R[Rules (N3)]-->S
+G[Goal]-->S
+S-->P[Self-contained Python (Answer, Reason, Check)]
+P-->AI[Actionable insight]
+P-. optional .->E[EYE reasoner (proofs, scale)]
 
-  %% ------- nodes -------
-  D[Data (RDF)]
-  R[Rules (N3)]
-  G[Goal]
-  S[LLM synthesizer]
-  P[Self-contained Python<br/>Answer / Reason-why / Check]
-  AI[Actionable insight]
-  E[[EYE reasoner<br/>(proofs, scale)]]
-
-  %% ------- edges -------
-  D --> S
-  R --> S
-  G --> S
-  S --> P
-  P --> AI
-  P -. optional .-> E
-
-  %% ------- simple, GitHub-friendly styles -------
-  classDef input  fill:#E3F2FD,stroke:#1E88E5;
-  classDef llm    fill:#FFF3E0,stroke:#FB8C00;
-  classDef code   fill:#E8F5E9,stroke:#43A047;
-  classDef output fill:#F3E5F5,stroke:#8E24AA;
-  classDef opt    fill:#ECEFF1,stroke:#607D8B;
-
-  class D,R,G input;
-  class S llm;
-  class P code;
-  class AI output;
-  class E opt;
+%% simple per-node coloring that works on GitHub
+style D fill:#E3F2FD,stroke:#1E88E5,stroke-width:1px
+style R fill:#E3F2FD,stroke:#1E88E5,stroke-width:1px
+style G fill:#E3F2FD,stroke:#1E88E5,stroke-width:1px
+style S fill:#FFF3E0,stroke:#FB8C00,stroke-width:1px
+style P fill:#E8F5E9,stroke:#43A047,stroke-width:1px
+style AI fill:#F3E5F5,stroke:#8E24AA,stroke-width:1px
+style E fill:#ECEFF1,stroke:#607D8B,stroke-width:1px
 ```
 
 The conceptual diagram shows a succinct pipeline: **Data + Rules + Goal** → **LLM synthesis** → **Self-contained Python (answer, reason-why, check)** → **Actionable insight**, with optional hand-off to EYE where formal proofs or scale demand it. This architecture makes two deliberate bets: (i) runtime **verification** is non-negotiable, and (ii) the **unit of work** is a portable script that travels well across tooling, teams, and environments.
