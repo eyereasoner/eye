@@ -74,5 +74,8 @@ EYE learning favors **well-formed goals** and **well-structured inputs**. Ambigu
 
 ## Getting started
 
-1. Read the short **README** to understand the pattern and the “answer / reason-why / check” outputs; 2) inspect the **cases** folder to see many concrete examples and their expected outputs; 3) run `./test` to reproduce results locally; and 4) adapt a case to your data and rules to create your first self-contained script. From there, you can wire the script into CI and, where appropriate, call into **EYE** for semantics-aware performance and proofs.
+1. Read the short **README** to understand the pattern and the “answer / reason-why / check” outputs
+2. inspect the **cases** folder to see many concrete examples and their expected outputs
+3. run `./test` to reproduce results locally
+4. adapt a case to your data and rules to create your first self-contained script. From there, you can wire the script into CI and, where appropriate, call into **EYE** for semantics-aware performance and proofs.
 
