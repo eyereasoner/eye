@@ -54,7 +54,41 @@ The repository contains **a large suite of cases** illustrating the pattern acro
 
 ## Architecture at a glance
 
-![Conceptual overview](resources/conceptual_overview.svg)
+%% A colored, GitHub-renderable diagram for the EYE learning pipeline
+%% You can tune colors in classDef below
+%%{init: {'theme': 'base', 'themeVariables': {'fontSize':'14px','lineColor':'#9e9e9e'}}}%%
+flowchart LR
+  subgraph Inputs[Input artifacts]
+    D[Data (RDF)]
+    R[Rules (N3)]
+    G[Goal (question/entailment)]
+  end
+
+  S[LLM synthesizer<br/>(goal-directed)]:::llm
+  P[Self-contained Python<br/>• computes <b>Answer</b><br/>• prints <b>Reason why</b><br/>• runs <b>Check (harness)</b>]:::code
+
+  A1[Answer]:::output
+  A2[Reason why]:::output
+  A3[Check (harness)]:::output
+  AI[Actionable insight]:::output
+  E[EYE reasoner<br/>(proofs, scale)]:::opt
+
+  D --> S
+  R --> S
+  G --> S
+  S --> P
+  P --> A1
+  P --> A2
+  P --> A3
+  P --> AI
+  P -. optional .-> E
+
+  class D,R,G input
+  classDef input fill:#E3F2FD,stroke:#1E88E5,color:#0D47A1
+  classDef llm fill:#FFF3E0,stroke:#FB8C00,color:#E65100
+  classDef code fill:#E8F5E9,stroke:#43A047,color:#1B5E20
+  classDef output fill:#F3E5F5,stroke:#8E24AA,color:#4A148C
+  classDef opt fill:#ECEFF1,stroke:#607D8B,color:#263238,stroke-dasharray: 5 5
 
 The conceptual diagram shows a succinct pipeline: **Data + Rules + Goal** → **LLM synthesis** → **Self-contained Python (answer, reason-why, check)** → **Actionable insight**, with optional hand-off to EYE where formal proofs or scale demand it. This architecture makes two deliberate bets: (i) runtime **verification** is non-negotiable, and (ii) the **unit of work** is a portable script that travels well across tooling, teams, and environments.
 
