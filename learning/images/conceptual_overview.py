@@ -97,14 +97,14 @@ def build_svg(variant: str = "teal") -> str:
     add_box(
         x1, y, BOX_W, BOX_H,
         "LLM Input", "hdrBlue", "#2563eb",
-        ["Data (e.g., RDF)", "Logic (e.g., N3)", "Goal"]
+        ["Data (e.g., RDF)", "Rules (e.g., N3)", "Goal"]
     )
 
     # Middle box (variant color)
     add_box(
         x2, y, BOX_W, BOX_H,
         "LLM (e.g., GPT-5 Thinking)", mid["grad_id"], mid["bullet"],
-        ["Translates Data + Logic + Goal", "Constructs proof strategy", "Synthesizes Python code"]
+        ["Translates Data + Rules + Goal", "Constructs proof strategy", "Synthesizes Python code"]
     )
 
     # Right box (green)
