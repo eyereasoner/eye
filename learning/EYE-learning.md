@@ -54,9 +54,9 @@ The repository contains **a large suite of cases** illustrating the pattern acro
 
 ## Architecture at a glance
 
-The conceptual diagram shows a succinct pipeline: **Data + Rules + Goal** → **LLM synthesis** → **Self-contained Python (answer, reason-why, check)** → **Actionable insight**, with optional hand-off to EYE where formal proofs or scale demand it. This architecture makes two deliberate bets: (i) runtime **verification** is non-negotiable, and (ii) the **unit of work** is a portable script that travels well across tooling, teams, and environments.
-
 ![Conceptual overview](resources/conceptual_overview.svg)
+
+The conceptual diagram shows a succinct pipeline: **Data + Rules + Goal** → **LLM synthesis** → **Self-contained Python (answer, reason-why, check)** → **Actionable insight**, with optional hand-off to EYE where formal proofs or scale demand it. This architecture makes two deliberate bets: (i) runtime **verification** is non-negotiable, and (ii) the **unit of work** is a portable script that travels well across tooling, teams, and environments.
 
 ## Relationship to EYE reasoning
 
