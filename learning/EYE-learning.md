@@ -54,6 +54,7 @@ The repository contains **a large suite of cases** illustrating the pattern acro
 
 ## Architecture at a glance
 
+```mermaid
 graph LR
   %% ===== styles =====
   classDef input  fill:#E3F2FD,stroke:#1E88E5,color:#0D47A1;
@@ -81,6 +82,7 @@ graph LR
   S --> P
   P --> AI
   P -. optional .-> E
+```
 
 The conceptual diagram shows a succinct pipeline: **Data + Rules + Goal** → **LLM synthesis** → **Self-contained Python (answer, reason-why, check)** → **Actionable insight**, with optional hand-off to EYE where formal proofs or scale demand it. This architecture makes two deliberate bets: (i) runtime **verification** is non-negotiable, and (ii) the **unit of work** is a portable script that travels well across tooling, teams, and environments.
 
