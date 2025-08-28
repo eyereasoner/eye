@@ -54,24 +54,16 @@ The repository contains **a large suite of cases** illustrating the pattern acro
 
 ## Architecture at a glance
 
-```mermaid
-graph LR
-D[Data (RDF)]-->S[LLM synthesizer]
-R[Rules (N3)]-->S
-G[Goal]-->S
-S-->P[Self-contained Python (Answer, Reason, Check)]
-P-->AI[Actionable insight]
-P-. optional .->E[EYE reasoner (proofs, scale)]
-
-%% simple per-node coloring that works on GitHub
-style D fill:#E3F2FD,stroke:#1E88E5,stroke-width:1px
-style R fill:#E3F2FD,stroke:#1E88E5,stroke-width:1px
-style G fill:#E3F2FD,stroke:#1E88E5,stroke-width:1px
-style S fill:#FFF3E0,stroke:#FB8C00,stroke-width:1px
-style P fill:#E8F5E9,stroke:#43A047,stroke-width:1px
-style AI fill:#F3E5F5,stroke:#8E24AA,stroke-width:1px
-style E fill:#ECEFF1,stroke:#607D8B,stroke-width:1px
-```
+🟦 Data (RDF)      🟦 Rules (N3)      🟦 Goal
+        \              |               /
+                      ▼
+          🟧 LLM synthesizer (goal-directed)
+                      ▼
+   🟩 Self-contained Python: Answer • Reason-why • Check
+                      ▼
+            🟪 Actionable insight
+                      ↘
+               (optional) → ◻ EYE reasoner (proofs, scale)
 
 The conceptual diagram shows a succinct pipeline: **Data + Rules + Goal** → **LLM synthesis** → **Self-contained Python (answer, reason-why, check)** → **Actionable insight**, with optional hand-off to EYE where formal proofs or scale demand it. This architecture makes two deliberate bets: (i) runtime **verification** is non-negotiable, and (ii) the **unit of work** is a portable script that travels well across tooling, teams, and environments.
 
