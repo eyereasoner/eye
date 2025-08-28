@@ -16,7 +16,7 @@ This program not only produces an **Answer** but also explains the **Reason why*
 
 ---
 
-## Running the eye learning cases
+## Running the EYE learning cases
 
 Run the [eye learning cases](https://github.com/eyereasoner/eye/tree/master/learning/cases) to get the [answer, reason why and check (harness)](https://github.com/eyereasoner/eye/tree/master/learning/cases/output)
    ```bash
