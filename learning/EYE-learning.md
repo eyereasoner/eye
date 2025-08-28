@@ -55,33 +55,37 @@ The repository contains **a large suite of cases** illustrating the pattern acro
 ## Architecture at a glance
 
 ```mermaid
-graph LR
-  %% ===== styles =====
-  classDef input  fill:#E3F2FD,stroke:#1E88E5,color:#0D47A1;
-  classDef llm    fill:#FFF3E0,stroke:#FB8C00,color:#E65100;
-  classDef code   fill:#E8F5E9,stroke:#43A047,color:#1B5E20;
-  classDef output fill:#F3E5F5,stroke:#8E24AA,color:#4A148C;
-  classDef opt    fill:#ECEFF1,stroke:#607D8B,color:#263238,stroke-dasharray:5 5;
+flowchart LR
 
-  %% ===== nodes =====
-  subgraph Inputs
-    D[Data (RDF)]:::input
-    R[Rules (N3)]:::input
-    G[Goal]:::input
-  end
+  %% ------- nodes -------
+  D[Data (RDF)]
+  R[Rules (N3)]
+  G[Goal]
+  S[LLM synthesizer]
+  P[Self-contained Python<br/>Answer / Reason-why / Check]
+  AI[Actionable insight]
+  E[[EYE reasoner<br/>(proofs, scale)]]
 
-  S[LLM synthesizer]:::llm
-  P[Self-contained Python\nAnswer • Reason why • Check]:::code
-  AI[Actionable insight]:::output
-  E[EYE reasoner\n(proofs, scale)]:::opt
-
-  %% ===== edges =====
+  %% ------- edges -------
   D --> S
   R --> S
   G --> S
   S --> P
   P --> AI
   P -. optional .-> E
+
+  %% ------- simple, GitHub-friendly styles -------
+  classDef input  fill:#E3F2FD,stroke:#1E88E5;
+  classDef llm    fill:#FFF3E0,stroke:#FB8C00;
+  classDef code   fill:#E8F5E9,stroke:#43A047;
+  classDef output fill:#F3E5F5,stroke:#8E24AA;
+  classDef opt    fill:#ECEFF1,stroke:#607D8B;
+
+  class D,R,G input;
+  class S llm;
+  class P code;
+  class AI output;
+  class E opt;
 ```
 
 The conceptual diagram shows a succinct pipeline: **Data + Rules + Goal** → **LLM synthesis** → **Self-contained Python (answer, reason-why, check)** → **Actionable insight**, with optional hand-off to EYE where formal proofs or scale demand it. This architecture makes two deliberate bets: (i) runtime **verification** is non-negotiable, and (ii) the **unit of work** is a portable script that travels well across tooling, teams, and environments.
