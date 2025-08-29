@@ -11,8 +11,8 @@ This program not only produces an **Answer** but also explains the **Reason why*
 ```
 🟦 Data (RDF) ─┐
 🟦 Rules (N3)  ├─▶ 🟧 LLM synthesizer ─▶ 🟩 Python code [Answer • Reason-why • Check] ─▶ 🟪 Actionable insight
-🟦 Goal ───────┘                                                                                           |    
-                                                             (optional) 🟨 EYE reasoner (proofs, scale) ◀──┘
+🟦 Goal ───────┘
+                                                             (optional) 🟨 EYE reasoner (proofs, scale) ◀─┘
 ```
 
 ---
