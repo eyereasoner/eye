@@ -4,8 +4,6 @@ from __future__ import annotations
 Beer Advisor — EYE-style mixed computation (self-contained + self-checking)
 ===========================================================================
 
-ASCII diagram (matches your schematic)
---------------------------------------
   ME (you) ---------------------------+
                                      |        +-------------------+
                                      |        |   Behaviors       |  (policy weights,
