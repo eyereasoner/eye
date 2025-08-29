@@ -56,9 +56,11 @@ The repository contains **a large suite of cases** illustrating the pattern acro
 
 ```
 🟦 Data (RDF) ─┐
-🟦 Rules (N3)  ├─▶ 🟧 LLM synthesizer ─▶ 🟩 Python code [Answer • Reason-why • Check] ─▶ 🟪 Actionable insight
-🟦 Goal ───────┘
-                                                             (optional) 🟨 EYE reasoner (proofs, scale) ◀─┘
+🟦 Rules (N3)  ├─▶ 🟧 LLM synthesizer ─▶ 🟩 Python code ─▶ 🟪 Actionable insight ─▶ [🟨 EYE reasoner]
+🟦 Goal ───────┘                               /                                             /
+                                               ├─ Answer                                     ├─ proofs
+                                               ├─ Reason why                                 └─ scale
+                                               └─ Check (harness)
 ```
 
 The conceptual diagram shows a succinct pipeline: **Data + Rules + Goal** → **LLM synthesis** → **Self-contained Python (answer, reason-why, check)** → **Actionable insight**, with optional hand-off to EYE where formal proofs or scale demand it. This architecture makes two deliberate bets: (i) runtime **verification** is non-negotiable, and (ii) the **unit of work** is a portable script that travels well across tooling, teams, and environments.
