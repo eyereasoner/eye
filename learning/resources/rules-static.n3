@@ -1,0 +1,13 @@
+@prefix ex: <http://example.org/bike#> .
+# Closed routes are rejected
+{ ?c ex:affects ?r. } => { ?r ex:isClosed true } .
+
+# Infrastructure -> numeric safety
+{ ?r ex:infrastructure ex:protected } => { ?r ex:safety 1.0 } .
+{ ?r ex:infrastructure ex:painted   } => { ?r ex:safety 0.5 } .
+{ ?r ex:infrastructure ex:none      } => { ?r ex:safety -0.4 } .
+
+# In rain, protected gets a small bonus
+{ ?w ex:precipitation true. ?r ex:infrastructure ex:protected } => { ?r ex:weatherFit 0.3 } .
+
+# Elevation penalty and headwind penalty are numeric aggregations in the Driver.

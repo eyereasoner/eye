@@ -1,0 +1,29 @@
+@prefix ex: <http://example.org/bike#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Ontology-ish stubs for clarity
+ex:Route a ex:Class .
+ex:InfrastructureType a ex:Class .
+ex:protected a ex:InfrastructureType .
+ex:painted a ex:InfrastructureType .
+ex:none a ex:InfrastructureType .
+
+# Default policy (= learned behavior template). These are "compile-time constants"
+# that our AGENT (partial evaluator) will bake into the Driver (scorer).
+ex:defaultPolicy ex:scenicWeight 0.50 ;
+                ex:safetyWeight 0.80 ;
+                ex:timeWeight   0.45 ;
+                ex:elevPenaltyPer100m 1.00 ;
+                ex:rainPenalty  0.40 ;
+                ex:headwindPenaltyPerMs 0.15 ;
+                ex:defaultCruiseKmh 16.0 .
+
+# Infrastructure safety mapping
+ex:protected ex:weight 1.0 .
+ex:painted   ex:weight 0.5 .
+ex:none      ex:weight -0.4 .
+
+# Traffic impact mapping
+ex:traffic_low  ex:trafficWeight  0.25 .
+ex:traffic_med  ex:trafficWeight  0.0  .
+ex:traffic_high ex:trafficWeight -0.25 .

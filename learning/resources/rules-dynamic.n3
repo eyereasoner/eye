@@ -1,0 +1,5 @@
+@prefix ex: <http://example.org/bike#> .
+# User preferences select the active policy (override defaults)
+{ ex:me ex:prefScenic  ?s . } => { ex:activePolicy ex:scenicWeight ?s } .
+{ ex:me ex:prefSafety  ?s . } => { ex:activePolicy ex:safetyWeight ?s } .
+{ ex:me ex:prefTime    ?s . } => { ex:activePolicy ex:timeWeight   ?s } .

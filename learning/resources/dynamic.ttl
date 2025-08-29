@@ -1,0 +1,58 @@
+@prefix ex: <http://example.org/bike#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ME -> preferences (dynamic context)
+ex:me a ex:Cyclist .
+ex:me ex:prefScenic 0.60 .
+ex:me ex:prefSafety 0.90 .
+ex:me ex:prefTime   0.40 .
+ex:me ex:maxElevationPerKm 25.0 .
+
+# Weather (dynamic context)
+ex:todayWeather ex:precipitation true .
+ex:todayWeather ex:windSpeedMs 6.0 .
+ex:todayWeather ex:windDirectionDeg 270 .
+
+# Known closures (dynamic)
+ex:closure1 ex:affects ex:canal_shortcut .
+
+# Targets/capabilities: candidate routes (dynamic)
+ex:river_trail a ex:Route .
+ex:river_trail ex:label "River Trail" .
+ex:river_trail ex:distanceKm 8.5 .
+ex:river_trail ex:elevationGainM 60 .
+ex:river_trail ex:infrastructure ex:protected .
+ex:river_trail ex:scenic 0.9 .
+ex:river_trail ex:traffic ex:traffic_low .
+ex:river_trail ex:surface "paved" .
+ex:river_trail ex:headingDeg 90 .
+
+ex:main_st_rapid a ex:Route .
+ex:main_st_rapid ex:label "Main St Rapid" .
+ex:main_st_rapid ex:distanceKm 6.7 .
+ex:main_st_rapid ex:elevationGainM 45 .
+ex:main_st_rapid ex:infrastructure ex:painted .
+ex:main_st_rapid ex:scenic 0.4 .
+ex:main_st_rapid ex:traffic ex:traffic_high .
+ex:main_st_rapid ex:surface "paved" .
+ex:main_st_rapid ex:headingDeg 100 .
+
+ex:park_loop a ex:Route .
+ex:park_loop ex:label "Park Loop" .
+ex:park_loop ex:distanceKm 10.2 .
+ex:park_loop ex:elevationGainM 160 .
+ex:park_loop ex:infrastructure ex:protected .
+ex:park_loop ex:scenic 0.95 .
+ex:park_loop ex:traffic ex:traffic_low .
+ex:park_loop ex:surface "mixed" .
+ex:park_loop ex:headingDeg 150 .
+
+ex:canal_shortcut a ex:Route .
+ex:canal_shortcut ex:label "Canal Shortcut" .
+ex:canal_shortcut ex:distanceKm 5.9 .
+ex:canal_shortcut ex:elevationGainM 20 .
+ex:canal_shortcut ex:infrastructure ex:none .
+ex:canal_shortcut ex:scenic 0.3 .
+ex:canal_shortcut ex:traffic ex:traffic_med .
+ex:canal_shortcut ex:surface "paved" .
+ex:canal_shortcut ex:headingDeg 270 .
