@@ -47,7 +47,7 @@ USAGE
 
 OUTPUTS
 -------
-files in ./resources
+files in eye/learning/resources
     - static.ttl, dynamic.ttl            (RDF Turtle)
     - rules-static.n3, rules-dynamic.n3  (N3 docs of intended rules)
     - ranked_routes.csv                  (final ranking with trace columns)
@@ -451,5 +451,5 @@ with open(csv_path, "w", newline="", encoding="utf-8") as f:
 
 print("ALL TESTS PASSED")
 print("Top route:", non_closed[0][1]["label"], "Score:", round(non_closed[0][0],3))
-print("Artifacts in eye/learnin/resources")
+print("Artifacts in eye/learning/resources")
 
