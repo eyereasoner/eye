@@ -1,0 +1,26 @@
+@prefix ex: <http://example.org/clinic#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Ontology-ish stubs
+ex:Patient a ex:Class .
+ex:Action  a ex:Class .
+
+# Default policy weights (compile-time constants)
+# These are learned or standardized defaults that the Agent can bake in.
+ex:defaultPolicy ex:qsofaWeight 1.0 .
+ex:defaultPolicy ex:lactateWeight 0.5 .
+ex:defaultPolicy ex:interventionThreshold 1.0 .
+ex:defaultPolicy ex:fluidBasePriority 0.6 .
+ex:defaultPolicy ex:lactateOrderPriority 0.9 .
+ex:defaultPolicy ex:antibioticBasePriority 0.8 .
+ex:defaultPolicy ex:contraFluidCHF 0.4 .
+ex:defaultPolicy ex:contraBetaLactamAllergy 1.0 .
+
+# qSOFA cutoffs (compile-time constants)
+ex:qsofaRRcutoff ex:value 22 .      # respirations per min
+ex:qsofaSBPcutoff ex:value 100 .    # systolic BP mmHg
+ex:qsofaMentationFlag ex:value "altered" .
+
+# Lactate scaling parameters (toy)
+ex:lactateUpper ex:value 4.0 .
+ex:lactateLower ex:value 2.0 .

@@ -1,0 +1,19 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix ex: <http://example.org/clinic#> .
+
+# qSOFA points
+{ ?p ex:RR ?rr . ?rr math:greaterThan 22 } => { ?p ex:qsofaPoint 1 } .
+{ ?p ex:SBP ?sbp . ?sbp math:lessThan 100 } => { ?p ex:qsofaPoint 1 } .
+{ ?p ex:MentalStatus "altered" } => { ?p ex:qsofaPoint 1 } .
+
+# Lactate contribution (piecewise)
+{ ?p ex:Lactate ?l . ?l math:notLessThan 4.0 } => { ?p ex:lactateBucket "high" } .
+{ ?p ex:Lactate ?l . ?l math:notLessThan 2.0 . ?l math:lessThan 4.0 } => { ?p ex:lactateBucket "mod" } .
+
+# Risk -> interventions
+{ ?p ex:risk ?r . ?r math:greaterThan 1.0 } => { ?p ex:shouldTrigger ex:act_protocol } .
+{ ?p ex:risk ?r } => { ?p ex:shouldOrder ex:act_lactate } .
+
+# Contraindications (documentation mirror)
+{ ?p ex:Allergy "beta_lactam" } => { ex:act_antibiotics ex:penalized true } .
+{ ?p ex:Comorbidity "CHF" }    => { ex:act_fluids ex:penalized true } .

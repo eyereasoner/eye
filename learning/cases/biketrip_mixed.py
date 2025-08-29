@@ -30,13 +30,13 @@ BikeTrip Planner - EYE-style mixed computation (self-contained + self-checking)
                          actionable insight + feedback
 
 Legend:
-- data: RDF Turtle describing constants and route candidates
-- context: dynamic situation (user prefs, weather, closures)
-- behaviors: N3 rule templates + default policy weights
-- agent: the Python partial evaluator that compiles a specialized scorer
-- driver: the scorer function itself (generated via partial evaluation)
+- data:         RDF Turtle describing constants and route candidates
+- context:      dynamic situation (user prefs, weather, closures)
+- behaviors:    N3 rule templates + default policy weights
+- agent:        the Python partial evaluator that compiles a specialized scorer
+- driver:       the scorer function itself (generated via partial evaluation)
 - targets/capabilities: available routes and constraints
-- actionable insight: ranked routes with justification trace
+- actionable insight:   ranked routes with justification trace
 
 The script is self-checking: it asserts that closures are pruned, rain improves
 protected infrastructure, and headwinds are penalized.
@@ -47,7 +47,7 @@ USAGE
 
 OUTPUTS
 -------
-files in eye/learning/resources
+files in output/biketrip_artifacts
     - static.ttl, dynamic.ttl            (RDF Turtle)
     - rules-static.n3, rules-dynamic.n3  (N3 docs of intended rules)
     - ranked_routes.csv                  (final ranking with trace columns)
@@ -59,7 +59,7 @@ from typing import Any, Dict, List, Tuple
 # ----------------------------------------------------------------------------
 # Driver output location (shared store for data, context, artifacts)
 # ----------------------------------------------------------------------------
-BASE = os.path.join(os.path.dirname(__file__), "../resources")
+BASE = os.path.join(os.path.dirname(__file__), "output/biketrip_artifacts")
 os.makedirs(BASE, exist_ok=True)
 
 EX = "http://example.org/bike#"
@@ -451,5 +451,4 @@ with open(csv_path, "w", newline="", encoding="utf-8") as f:
 
 print("ALL TESTS PASSED")
 print("Top route:", non_closed[0][1]["label"], "Score:", round(non_closed[0][0],3))
-print("Artifacts in eye/learning/resources")
 
