@@ -57,7 +57,7 @@ The repository contains **a large suite of cases** illustrating the pattern acro
 ```
 🟦 Data (RDF) ─┐
 🟦 Rules (N3)  ├─▶ 🟧 LLM synthesizer ─▶ 🟩 Python code ─▶ 🟪 Actionable insight ─▶ [🟨 EYE reasoner]
-🟦 Goal ───────┘                               /                                             /
+🟦 Goal ───────┘                               🔽                                            🔽
                                                ├─ Answer                                     ├─ proofs
                                                ├─ Reason why                                 └─ scale
                                                └─ Check (harness)
