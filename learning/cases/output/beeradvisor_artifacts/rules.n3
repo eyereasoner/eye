@@ -1,0 +1,10 @@
+@prefix ex: <http://example.org/beer#> .
+# If hot -> add bonus proportional to style crispness
+{ ex:today ex:isHot true . ?b ex:style ?s . ?s ex:crisp ?c . } => { ?b ex:hotBonus ?c } .
+# If meal is spicy -> add bonus proportional to style hoppy and crisp
+{ ex:meal ex:type "spicy" . ?b ex:style ?s . ?s ex:hoppy ?h . } => { ?b ex:spicyBonusH ?h } .
+{ ex:meal ex:type "spicy" . ?b ex:style ?s . ?s ex:crisp ?c . } => { ?b ex:spicyBonusC ?c } .
+# Dietary constraints -> rejections
+{ ex:me ex:wantsLactoseFree true . ?b ex:lactose true } => { ?b ex:reject true } .
+{ ex:me ex:wantsVegan true . ?b ex:vegan false } => { ?b ex:reject true } .
+{ ex:me ex:wantsGlutenFree true . ?b ex:glutenFree false } => { ?b ex:reject true } .
