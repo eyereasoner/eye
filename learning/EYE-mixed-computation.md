@@ -1,7 +1,7 @@
 # EYE Mixed Computation: from RDF/N3 to Specialized Drivers
 
 ```text
-  ME (user) ----------------------+ 
+  ME (user) ---------------------+ 
                                  |        +-------------------+
                                  |        |   Behaviors       |   (rules / N3,
                                  |        |   (rulebooks)     |    policy templates)
@@ -34,4 +34,9 @@ Ershov’s mixed computation gives the operational split. We mark policy constan
 Governance and traceability follow naturally. Policies live as **N3 rules** and weights in RDF, so changes are human-reviewable and versioned; re-specializing the Driver applies them without algorithm rewrites. The Driver emits **explanation traces** (why an option ranked higher, which bonuses/penalties applied), and lightweight **self-checks** guard invariants. Because the schematic is stable—*ME → data/context/behaviors → Agent → Driver → targets/capabilities → insight*—you can move across domains, swap in richer rulebooks, or tighten assurance by recording EYE proofs alongside the Driver’s traces, all without entangling policy with code.
 
 We mirror the [EYE learning guide](https://github.com/eyereasoner/eye/blob/master/learning/EYE-learning.md)’s contract by synthesizing a **single, self-contained Python program** that (1) computes an **Answer**, (2) prints a **Reason why**, and (3) runs an internal **Check (harness)**—the “answer / reason-why / check” triad. Inputs are provided as **Data (RDF)** and **Rules (N3)**, optionally preceded by an EYE reasoning pass; the **Agent** plays the role of the “LLM synthesizer” that produces the portable script; and the **Driver** is the run-time core that turns the (possibly entailed) graph into actionable results. This directly matches the guide’s “Data + Rules + Goal → LLM synthesizer → Python \[Answer • Reason-why • Check] → Actionable insight,” with optional hand-off to the EYE reasoner for proofs and scale.
+
+To see it at work, see some concrete cases:
+- https://github.com/eyereasoner/eye/blob/master/learning/cases/biketrip_mixed.py
+- https://github.com/eyereasoner/eye/blob/master/learning/cases/clinicsupport_mixed.py
+- https://github.com/eyereasoner/eye/blob/master/learning/cases/beeradvisor_mixed.py
 
