@@ -1,4 +1,4 @@
-# EYE-Style Mixed Computation: From RDF/N3 to Specialized Drivers
+# EYE Mixed Computation: from RDF/N3 to Specialized Drivers
 
 ```text
   ME (user) ----------------------+ 
@@ -12,7 +12,7 @@
 +----------------+    AC     +----------+          |     |
 | data (RDF)     | <-------> | context  |----------+     |
 | facts, defaults|  (access) +----------+                |
-+----------------+                                         v
++----------------+                                       v
                            Agent (partial evaluator / codegen)
                                       |
                                       v
