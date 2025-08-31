@@ -34,15 +34,6 @@ ASCII schematic
                                      |
                                      v
                           actionable insight + feedback (trace)
-
-Legend (aligned with EYE-learning.md + Ershov mixed computation)
-----------------------------------------------------------------
-- Data (RDF, static): device specs (EV, charger, dishwasher), policy weights, peak limit.
-- Context (RDF, dynamic): price & carbon forecasts, base load, initial SoC, deadlines.
-- Behaviors (N3): declarative intent (prefer cheap/green slots, respect peak/deadlines).
-- Agent: partially evaluates static facts to produce a specialized Driver (by closure).
-- Driver: consumes only dynamic arrays and emits a feasible plan + explanation trace.
-- Answer • Reason-why • Check: schedule CSV, per-slot notes, and assertions/guardrails.
 """
 
 import os, csv, math, json
@@ -537,9 +528,5 @@ with open(os.path.join(BASE, "reason-why.txt"), "w", encoding="utf-8") as tf:
                  f"peakFrac={res['peak_frac'][i]:.2f}, ev_kw={res['ev_kw'][i]:.1f}\n")
 
 print("ALL TESTS PASSED")
-print("Summary:")
-print(" - Baseline cost:  €", round(res["baseline_cost"], 2), "  Optimized: €", round(res["total_cost"], 2))
-print(" - Baseline CO2:   ", int(res["baseline_carbon"]), "g   Optimized:", int(res["total_carbon"]), "g")
-print(" - Peak limit (kW):", res["peak"])
-print(" - EV SoC start→end:", round(res["initial_soc"],2), "→", round(res["soc_end"],2), "(target", res["target_soc"], ")")
-
+print("Artifacts in:", BASE)
+print("CSV:", csv_path)

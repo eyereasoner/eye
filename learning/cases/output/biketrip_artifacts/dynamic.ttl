@@ -1,58 +1,77 @@
 @prefix ex: <http://example.org/bike#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# ME -> preferences (dynamic context)
-ex:me a ex:Cyclist .
-ex:me ex:prefScenic 0.60 .
-ex:me ex:prefSafety 0.90 .
-ex:me ex:prefTime   0.40 .
-ex:me ex:maxElevationPerKm 25.0 .
+# Weather/context
+ex:weather ex:rain false .
 
-# Weather (dynamic context)
-ex:todayWeather ex:precipitation true .
-ex:todayWeather ex:windSpeedMs 6.0 .
-ex:todayWeather ex:windDirectionDeg 270 .
+# Routes and route-level wind fractions
+ex:route_r1 ex:windFrac  0.05 .
+ex:route_r2 ex:windFrac -0.10 .
+ex:route_r3 ex:windFrac  0.00 .
 
-# Known closures (dynamic)
-ex:closure1 ex:affects ex:canal_shortcut .
+# Route segment membership
+ex:route_r1 ex:hasSegment ex:r1_s1 .
+ex:route_r1 ex:hasSegment ex:r1_s2 .
+ex:route_r1 ex:hasSegment ex:r1_s3 .
+ex:route_r2 ex:hasSegment ex:r2_s1 .
+ex:route_r2 ex:hasSegment ex:r2_s2 .
+ex:route_r2 ex:hasSegment ex:r2_s3 .
+ex:route_r3 ex:hasSegment ex:r3_s1 .
+ex:route_r3 ex:hasSegment ex:r3_s2 .
+ex:route_r3 ex:hasSegment ex:r3_s3 .
 
-# Targets/capabilities: candidate routes (dynamic)
-ex:river_trail a ex:Route .
-ex:river_trail ex:label "River Trail" .
-ex:river_trail ex:distanceKm 8.5 .
-ex:river_trail ex:elevationGainM 60 .
-ex:river_trail ex:infrastructure ex:protected .
-ex:river_trail ex:scenic 0.9 .
-ex:river_trail ex:traffic ex:traffic_low .
-ex:river_trail ex:surface "paved" .
-ex:river_trail ex:headingDeg 90 .
-
-ex:main_st_rapid a ex:Route .
-ex:main_st_rapid ex:label "Main St Rapid" .
-ex:main_st_rapid ex:distanceKm 6.7 .
-ex:main_st_rapid ex:elevationGainM 45 .
-ex:main_st_rapid ex:infrastructure ex:painted .
-ex:main_st_rapid ex:scenic 0.4 .
-ex:main_st_rapid ex:traffic ex:traffic_high .
-ex:main_st_rapid ex:surface "paved" .
-ex:main_st_rapid ex:headingDeg 100 .
-
-ex:park_loop a ex:Route .
-ex:park_loop ex:label "Park Loop" .
-ex:park_loop ex:distanceKm 10.2 .
-ex:park_loop ex:elevationGainM 160 .
-ex:park_loop ex:infrastructure ex:protected .
-ex:park_loop ex:scenic 0.95 .
-ex:park_loop ex:traffic ex:traffic_low .
-ex:park_loop ex:surface "mixed" .
-ex:park_loop ex:headingDeg 150 .
-
-ex:canal_shortcut a ex:Route .
-ex:canal_shortcut ex:label "Canal Shortcut" .
-ex:canal_shortcut ex:distanceKm 5.9 .
-ex:canal_shortcut ex:elevationGainM 20 .
-ex:canal_shortcut ex:infrastructure ex:none .
-ex:canal_shortcut ex:scenic 0.3 .
-ex:canal_shortcut ex:traffic ex:traffic_med .
-ex:canal_shortcut ex:surface "paved" .
-ex:canal_shortcut ex:headingDeg 270 .
+# Segments: one triple per line to keep parsing trivial
+ex:r1_s1 ex:lengthKm 2.0 .
+ex:r1_s1 ex:gainM 20 .
+ex:r1_s1 ex:lts 3 .
+ex:r1_s1 ex:bikeLane false .
+ex:r1_s1 ex:scenic 0.5 .
+ex:r1_s1 ex:closed false .
+ex:r1_s2 ex:lengthKm 1.8 .
+ex:r1_s2 ex:gainM 15 .
+ex:r1_s2 ex:lts 2 .
+ex:r1_s2 ex:bikeLane true .
+ex:r1_s2 ex:scenic 0.6 .
+ex:r1_s2 ex:closed false .
+ex:r1_s3 ex:lengthKm 1.4 .
+ex:r1_s3 ex:gainM 10 .
+ex:r1_s3 ex:lts 2 .
+ex:r1_s3 ex:bikeLane true .
+ex:r1_s3 ex:scenic 0.7 .
+ex:r1_s3 ex:closed false .
+ex:r2_s1 ex:lengthKm 2.2 .
+ex:r2_s1 ex:gainM 25 .
+ex:r2_s1 ex:lts 2 .
+ex:r2_s1 ex:bikeLane true .
+ex:r2_s1 ex:scenic 0.7 .
+ex:r2_s1 ex:closed false .
+ex:r2_s2 ex:lengthKm 2.0 .
+ex:r2_s2 ex:gainM 20 .
+ex:r2_s2 ex:lts 1 .
+ex:r2_s2 ex:bikeLane true .
+ex:r2_s2 ex:scenic 0.8 .
+ex:r2_s2 ex:closed false .
+ex:r2_s3 ex:lengthKm 1.9 .
+ex:r2_s3 ex:gainM 15 .
+ex:r2_s3 ex:lts 1 .
+ex:r2_s3 ex:bikeLane true .
+ex:r2_s3 ex:scenic 0.9 .
+ex:r2_s3 ex:closed false .
+ex:r3_s1 ex:lengthKm 1.9 .
+ex:r3_s1 ex:gainM 5 .
+ex:r3_s1 ex:lts 3 .
+ex:r3_s1 ex:bikeLane false .
+ex:r3_s1 ex:scenic 0.4 .
+ex:r3_s1 ex:closed false .
+ex:r3_s2 ex:lengthKm 1.5 .
+ex:r3_s2 ex:gainM 5 .
+ex:r3_s2 ex:lts 4 .
+ex:r3_s2 ex:bikeLane false .
+ex:r3_s2 ex:scenic 0.3 .
+ex:r3_s2 ex:closed true .
+ex:r3_s3 ex:lengthKm 1.2 .
+ex:r3_s3 ex:gainM 5 .
+ex:r3_s3 ex:lts 3 .
+ex:r3_s3 ex:bikeLane false .
+ex:r3_s3 ex:scenic 0.4 .
+ex:r3_s3 ex:closed false .

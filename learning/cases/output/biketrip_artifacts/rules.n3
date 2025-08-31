@@ -1,0 +1,25 @@
+@prefix ex:   <http://example.org/bike#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Score = wTime*timeN + wSafety*riskN + wGain*gainN + wScenic*(1 - scenicN)
+{ ?r ex:timeN ?tN .
+  ?r ex:riskN ?sN .
+  ?r ex:gainN ?gN .
+  ?r ex:scenicN ?scN .
+  ex:policy ex:wTime   ?wT .
+  ex:policy ex:wSafety ?wS .
+  ex:policy ex:wGain   ?wG .
+  ex:policy ex:wScenic ?wSc .
+  ( 1 ?scN ) math:difference ?invSc .
+  ( ?wT ?tN )  math:product ?tTerm .
+  ( ?wS ?sN )  math:product ?sTerm .
+  ( ?wG ?gN )  math:product ?gTerm .
+  ( ?wSc ?invSc ) math:product ?scTerm .
+  ( ?tTerm ?sTerm ) math:sum ?ts .
+  ( ?gTerm ?scTerm ) math:sum ?gs .
+  ( ?ts ?gs ) math:sum ?score .
+} => { ?r ex:score ?score } .
+
+# Feasibility: any closed segment makes route infeasible
+{ ?r ex:hasSegment ?seg . ?seg ex:closed true . } => { ?r ex:feasible false } .
