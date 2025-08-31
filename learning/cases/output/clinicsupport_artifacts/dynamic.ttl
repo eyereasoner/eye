@@ -1,30 +1,22 @@
 @prefix ex: <http://example.org/clinic#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Patient context (dynamic)
-ex:pt123 a ex:Patient .
-ex:pt123 ex:RR 24 .
-ex:pt123 ex:SBP 92 .
-ex:pt123 ex:MentalStatus "altered" .
-ex:pt123 ex:Lactate 4.2 .
-ex:pt123 ex:TempC 38.6 .
-ex:pt123 ex:HR 118 .
-ex:pt123 ex:Comorbidity "CHF" .
-ex:pt123 ex:Allergy "beta_lactam" .
+# Patient context
+ex:pt ex:ageYears 54 .
+ex:pt ex:pregnant false .
+ex:pt ex:asthma false .
+ex:pt ex:egfr 42 .
+ex:pt ex:allergyPenicillin true .
 
-# Available actions (targets/capabilities), kept deliberately generic
-ex:act_protocol a ex:Action .
-ex:act_protocol ex:label "Trigger Sepsis Protocol" .
+# Presenting problems / goals
+ex:pt ex:hasCondition ex:HTN .
+ex:pt ex:hasCondition ex:T2D .
+ex:pt ex:hasCondition ex:CKD .
 
-ex:act_lactate a ex:Action .
-ex:act_lactate ex:label "Order Lactate + Broad Labs" .
-
-ex:act_fluids a ex:Action .
-ex:act_fluids ex:label "Start Isotonic Fluids (titrate/caution)" .
-
-ex:act_antibiotics a ex:Action .
-ex:act_antibiotics ex:label "Begin Empiric Antibiotics (class selection per allergy)" .
-
-# Contextual constraints in this encounter
-ex:pt123 ex:contraindication ex:betaLactamIfAllergy .  # avoid beta-lactams
-ex:pt123 ex:fluidCaution ex:CHF .                      # fluids with CHF -> caution
+# Candidate interventions under consideration
+ex:cand ex:consider ex:ACEi .
+ex:cand ex:consider ex:BB_nonselect .
+ex:cand ex:consider ex:Metformin .
+ex:cand ex:consider ex:SGLT2 .
+ex:cand ex:consider ex:Amoxicillin .
+ex:cand ex:consider ex:NSAID .

@@ -1,26 +1,52 @@
 @prefix ex: <http://example.org/clinic#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Ontology-ish stubs
-ex:Patient a ex:Class .
-ex:Action  a ex:Class .
+# Policy weights (sum ~ 1.0): minimize score = wRisk*riskN + wCost*costN + wBenefit*(1 - benefitN)
+ex:policy ex:wRisk   0.50 .
+ex:policy ex:wCost   0.20 .
+ex:policy ex:wBenefit 0.30 .
 
-# Default policy weights (compile-time constants)
-# These are learned or standardized defaults that the Agent can bake in.
-ex:defaultPolicy ex:qsofaWeight 1.0 .
-ex:defaultPolicy ex:lactateWeight 0.5 .
-ex:defaultPolicy ex:interventionThreshold 1.0 .
-ex:defaultPolicy ex:fluidBasePriority 0.6 .
-ex:defaultPolicy ex:lactateOrderPriority 0.9 .
-ex:defaultPolicy ex:antibioticBasePriority 0.8 .
-ex:defaultPolicy ex:contraFluidCHF 0.4 .
-ex:defaultPolicy ex:contraBetaLactamAllergy 1.0 .
+# Condition vocabulary (examples)
+ex:HTN  a ex:Condition .
+ex:T2D  a ex:Condition .
+ex:CKD  a ex:Condition .
+ex:Pregnancy a ex:Context .
 
-# qSOFA cutoffs (compile-time constants)
-ex:qsofaRRcutoff ex:value 22 .      # respirations per min
-ex:qsofaSBPcutoff ex:value 100 .    # systolic BP mmHg
-ex:qsofaMentationFlag ex:value "altered" .
+# Interventions (names as IRIs)
+ex:ACEi           a ex:Intervention .   # ACE inhibitor (e.g., lisinopril)
+ex:BB_nonselect   a ex:Intervention .   # non-selective beta-blocker
+ex:Metformin      a ex:Intervention .
+ex:SGLT2          a ex:Intervention .
+ex:Amoxicillin    a ex:Intervention .
+ex:NSAID          a ex:Intervention .
 
-# Lactate scaling parameters (toy)
-ex:lactateUpper ex:value 4.0 .
-ex:lactateLower ex:value 2.0 .
+# Base benefit signals per targeted condition (0..1), rough/illustrative only
+ex:ACEi         ex:benefitHTN 0.85 .
+ex:BB_nonselect ex:benefitHTN 0.60 .
+ex:Metformin    ex:benefitT2D 0.85 .
+ex:SGLT2        ex:benefitT2D 0.75 .
+ex:NSAID        ex:benefitPain 0.70 .
+ex:Amoxicillin  ex:benefitInfection 0.80 .
+
+# Default monthly costs (arbitrary units)
+ex:ACEi         ex:costPerMonth 4 .
+ex:BB_nonselect ex:costPerMonth 3 .
+ex:Metformin    ex:costPerMonth 2 .
+ex:SGLT2        ex:costPerMonth 45 .
+ex:Amoxicillin  ex:costPerMonth 5 .
+ex:NSAID        ex:costPerMonth 1 .
+
+# Hard contraindications / thresholds (illustrative)
+# Pregnancy: avoid ACE inhibitors and SGLT2
+ex:ACEi  ex:contraInContext ex:Pregnancy .
+ex:SGLT2 ex:contraInContext ex:Pregnancy .
+
+# Asthma: avoid nonselective beta-blockers
+ex:BB_nonselect ex:contraIfAsthma true .
+
+# Renal function: Metformin and SGLT2 require eGFR >= threshold (ml/min/1.73m2)
+ex:Metformin ex:minEgfr 30 .
+ex:SGLT2     ex:minEgfr 30 .
+
+# Allergy: Amoxicillin contraindicated if penicillin allergy
+ex:Amoxicillin ex:contraIfAllergyPenicillin true .

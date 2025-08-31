@@ -1,0 +1,28 @@
+@prefix ex:   <http://example.org/clinic#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# -----------------------------------------------------------------------------
+# Feasibility (illustrative): intervention is infeasible if any hard contraindication holds
+# -----------------------------------------------------------------------------
+{ ?i ex:contraInContext ex:Pregnancy . ?pt ex:pregnant true . } => { ?i ex:feasible false } .
+{ ?i ex:contraIfAsthma true .        ?pt ex:asthma true .     } => { ?i ex:feasible false } .
+{ ?i ex:contraIfAllergyPenicillin true . ?pt ex:allergyPenicillin true . } => { ?i ex:feasible false } .
+{ ?i ex:minEgfr ?thr . ?pt ex:egfr ?gfr . ?thr math:greaterThan ?gfr . } => { ?i ex:feasible false } .
+
+# -----------------------------------------------------------------------------
+# Benefit proxy: combine per-condition benefit terms the patient actually has
+# benefit = sum(benefitHTN for HTN?  else 0) + sum(benefitT2D for T2D? else 0) + ...
+# For brevity we document a normalized variant in the driver; here we state the shape.
+# -----------------------------------------------------------------------------
+# Score = wRisk*riskN + wCost*costN + wBenefit*(1 - benefitN)
+# (Driver provides normalization; N3 shows the triple-only intent.)
+{ ?i ex:riskN ?rN . ?i ex:costN ?cN . ?i ex:benefitN ?bN .
+  ex:policy ex:wRisk ?wR . ex:policy ex:wCost ?wC . ex:policy ex:wBenefit ?wB .
+  ( 1 ?bN ) math:difference ?invB .
+  ( ?wR ?rN ) math:product ?rTerm .
+  ( ?wC ?cN ) math:product ?cTerm .
+  ( ?wB ?invB ) math:product ?bTerm .
+  ( ?rTerm ?cTerm ) math:sum ?rc .
+  ( ?rc ?bTerm ) math:sum ?score .
+} => { ?i ex:score ?score } .

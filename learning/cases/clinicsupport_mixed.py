@@ -1,374 +1,552 @@
-
 from __future__ import annotations
 """
-Clinical Support (Educational Demo) — EYE-style mixed computation
-=================================================================
+ClinicSupport — EYE-style mixed computation (final, educational demo)
+====================================================================
+Static RDF + N3 intent → Agent (partial eval, Ershov) → specialized Driver → ranked interventions.
 
-  ME (user) ---------------------+
-                                |        +-------------------+
-                                |        |   Behaviors       |  (learned policy templates /
-                                |        |   (rules/N3)      |   rulebooks)
-                                |        +-------------------+
-                                |                 ^    ^
-                                |                 |    |
-                                v                 |    |  context (dynamic)
-+-------------+     AC      +----------+          |    |
-| data        | <---------> | context  |----------+    |
-| (RDF)       |   (access)  +----------+               |
-+-------------+                                        v
-                          Agent (partial evaluator / codegen)
-                                   |
-                                   v
-                           Driver (specialized scoring fn)
-                                   |
-                                   v
-              +----------------------------------------------+
-              | Targets / Capabilities / Context (candidates)| --> ranked options
-              +----------------------------------------------+
-                                   |
-                                   v
-                         actionable insight + feedback
+One-liner: a compact EYE-style planner that partially evaluates static policy/clinical constraints
+plus N3 rule intent into a specialized driver which consumes dynamic patient context and produces
+a feasibility-checked, benefit/risk/cost–aware ranking with explanation traces.
 
-Legend:
-- ME:            the clinician/user persona (here implicit; preferences could be added)
-- data:          RDF (Turtle) for ontology fragments, default policy weights, thresholds
-- context:       RDF (Turtle) for patient vitals/labs/comorbidities + local settings
-- behaviors:     N3 rule templates that describe how scoring/logic works at a high level
-- agent:         partial evaluator that closes over static constants (compile-time)
-- driver:        specialized scorer that consumes dynamic facts per patient (run-time)
-- targets/caps:  actions/interventions available in this ED encounter
-- actionable insight: ranked interventions + justification trace (for auditability)
+ASCII schematic
+---------------
+  ME (clinician/student) ---------+
+                                  |         +-------------------+
+                                  |         |   Behaviors       |  (rule docs)
+                                  |         |   (N3 templates)  |
+                                  |         +-------------------+
+                                  |                  ^    ^
+                                  |                  |    |
+                                  v                  |    | context (patient state)
++-------------------+   AC    +----------+           |    |
+| data (RDF, static)| <-----> | context  |-----------+    |
+| policy, thresholds| (access)+----------+                |
++-------------------+                                     v
+                         Agent (partial evaluator / specialization)
+                                     |
+                                     v
+                           Driver (specialized scorer)
+                                     |
+                                     v
+             +-------------------------------------------------------------+
+             | Targets / Capabilities / Context (interventions & patient)  | --> ranked list
+             +-------------------------------------------------------------+
+                                     |
+                                     v
+                          actionable insight + feedback (trace)
 
-Example scenario
-----------------
-Toy early sepsis risk stratification and intervention prioritization:
-- Compute a qSOFA-like score (RR, SBP, mental status) + lactate contribution.
-- Adjust priorities based on context (CHF fluid caution, allergies constrain antibiotic
-  class).
-- Output a ranked list of **generic** interventions (not drug names), e.g.:
-  - Trigger Sepsis Protocol
-  - Order Lactate
-  - Start Isotonic Fluids (caution w/ CHF)
-  - Begin Empiric Antibiotics (avoid beta-lactams if allergy; general advice only)
-
-Outputs
--------
-- A folder output/clinicsupport_artifacts with RDF/N3 and CSV:
-    static.ttl, dynamic.ttl, rules-static.n3, rules-dynamic.n3, ranked_actions.csv
-- Console prints 'ALL TESTS PASSED' if self-checks succeed.
-
-SAFETY NOTICE
--------------
-This program is an **illustrative demo** only, not medical advice, not a medical
-device, and not intended for clinical use. It simplifies complex topics and is
-unsafe for real patient care. Use it only to understand the data/reasoning
-patterns (RDF + N3 + partial evaluation) discussed in the EYE learning guide.
-
+NOTE: This script is an educational demonstration — NOT medical advice.
 """
-import os, math, csv
+
+import os, csv, json
 from typing import Any, Dict, List, Tuple
 
+# -----------------------------------------------------------------------------
+# Artifact directory
+# -----------------------------------------------------------------------------
 BASE = os.path.join(os.path.dirname(__file__), "output/clinicsupport_artifacts")
 os.makedirs(BASE, exist_ok=True)
 
 EX = "http://example.org/clinic#"
 
-# ---------------------------------------------------------------------------
-# STATIC (compile-time): ontology fragments + default policies/thresholds
-# ---------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# STATIC RDF (compile-time): policy weights, base benefits, constraints/thresholds
+# -----------------------------------------------------------------------------
 STATIC_TTL = """@prefix ex: <http://example.org/clinic#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Ontology-ish stubs
-ex:Patient a ex:Class .
-ex:Action  a ex:Class .
+# Policy weights (sum ~ 1.0): minimize score = wRisk*riskN + wCost*costN + wBenefit*(1 - benefitN)
+ex:policy ex:wRisk   0.50 .
+ex:policy ex:wCost   0.20 .
+ex:policy ex:wBenefit 0.30 .
 
-# Default policy weights (compile-time constants)
-# These are learned or standardized defaults that the Agent can bake in.
-ex:defaultPolicy ex:qsofaWeight 1.0 .
-ex:defaultPolicy ex:lactateWeight 0.5 .
-ex:defaultPolicy ex:interventionThreshold 1.0 .
-ex:defaultPolicy ex:fluidBasePriority 0.6 .
-ex:defaultPolicy ex:lactateOrderPriority 0.9 .
-ex:defaultPolicy ex:antibioticBasePriority 0.8 .
-ex:defaultPolicy ex:contraFluidCHF 0.4 .
-ex:defaultPolicy ex:contraBetaLactamAllergy 1.0 .
+# Condition vocabulary (examples)
+ex:HTN  a ex:Condition .
+ex:T2D  a ex:Condition .
+ex:CKD  a ex:Condition .
+ex:Pregnancy a ex:Context .
 
-# qSOFA cutoffs (compile-time constants)
-ex:qsofaRRcutoff ex:value 22 .      # respirations per min
-ex:qsofaSBPcutoff ex:value 100 .    # systolic BP mmHg
-ex:qsofaMentationFlag ex:value "altered" .
+# Interventions (names as IRIs)
+ex:ACEi           a ex:Intervention .   # ACE inhibitor (e.g., lisinopril)
+ex:BB_nonselect   a ex:Intervention .   # non-selective beta-blocker
+ex:Metformin      a ex:Intervention .
+ex:SGLT2          a ex:Intervention .
+ex:Amoxicillin    a ex:Intervention .
+ex:NSAID          a ex:Intervention .
 
-# Lactate scaling parameters (toy)
-ex:lactateUpper ex:value 4.0 .
-ex:lactateLower ex:value 2.0 .
+# Base benefit signals per targeted condition (0..1), rough/illustrative only
+ex:ACEi         ex:benefitHTN 0.85 .
+ex:BB_nonselect ex:benefitHTN 0.60 .
+ex:Metformin    ex:benefitT2D 0.85 .
+ex:SGLT2        ex:benefitT2D 0.75 .
+ex:NSAID        ex:benefitPain 0.70 .
+ex:Amoxicillin  ex:benefitInfection 0.80 .
+
+# Default monthly costs (arbitrary units)
+ex:ACEi         ex:costPerMonth 4 .
+ex:BB_nonselect ex:costPerMonth 3 .
+ex:Metformin    ex:costPerMonth 2 .
+ex:SGLT2        ex:costPerMonth 45 .
+ex:Amoxicillin  ex:costPerMonth 5 .
+ex:NSAID        ex:costPerMonth 1 .
+
+# Hard contraindications / thresholds (illustrative)
+# Pregnancy: avoid ACE inhibitors and SGLT2
+ex:ACEi  ex:contraInContext ex:Pregnancy .
+ex:SGLT2 ex:contraInContext ex:Pregnancy .
+
+# Asthma: avoid nonselective beta-blockers
+ex:BB_nonselect ex:contraIfAsthma true .
+
+# Renal function: Metformin and SGLT2 require eGFR >= threshold (ml/min/1.73m2)
+ex:Metformin ex:minEgfr 30 .
+ex:SGLT2     ex:minEgfr 30 .
+
+# Allergy: Amoxicillin contraindicated if penicillin allergy
+ex:Amoxicillin ex:contraIfAllergyPenicillin true .
 """
 
-# ---------------------------------------------------------------------------
-# DYNAMIC (run-time): patient context + available actions (targets/caps)
-# ---------------------------------------------------------------------------
-DYNAMIC_TTL = """@prefix ex: <http://example.org/clinic#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+# -----------------------------------------------------------------------------
+# DYNAMIC RDF (run-time): patient facts + targeted problems
+# -----------------------------------------------------------------------------
+def make_dynamic_ttl() -> str:
+    ln = [
+        "@prefix ex: <http://example.org/clinic#> .",
+        "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .",
+        "",
+        "# Patient context",
+        "ex:pt ex:ageYears 54 .",
+        "ex:pt ex:pregnant false .",
+        "ex:pt ex:asthma false .",
+        "ex:pt ex:egfr 42 .",
+        "ex:pt ex:allergyPenicillin true .",
+        "",
+        "# Presenting problems / goals",
+        "ex:pt ex:hasCondition ex:HTN .",
+        "ex:pt ex:hasCondition ex:T2D .",
+        # CKD present to make eGFR relevant
+        "ex:pt ex:hasCondition ex:CKD .",
+        "",
+        "# Candidate interventions under consideration",
+        "ex:cand ex:consider ex:ACEi .",
+        "ex:cand ex:consider ex:BB_nonselect .",
+        "ex:cand ex:consider ex:Metformin .",
+        "ex:cand ex:consider ex:SGLT2 .",
+        "ex:cand ex:consider ex:Amoxicillin .",
+        "ex:cand ex:consider ex:NSAID .",
+    ]
+    return "\n".join(ln)
 
-# Patient context (dynamic)
-ex:pt123 a ex:Patient .
-ex:pt123 ex:RR 24 .
-ex:pt123 ex:SBP 92 .
-ex:pt123 ex:MentalStatus "altered" .
-ex:pt123 ex:Lactate 4.2 .
-ex:pt123 ex:TempC 38.6 .
-ex:pt123 ex:HR 118 .
-ex:pt123 ex:Comorbidity "CHF" .
-ex:pt123 ex:Allergy "beta_lactam" .
+DYNAMIC_TTL = make_dynamic_ttl()
 
-# Available actions (targets/capabilities), kept deliberately generic
-ex:act_protocol a ex:Action .
-ex:act_protocol ex:label "Trigger Sepsis Protocol" .
+# -----------------------------------------------------------------------------
+# Behaviors as N3 (valid triple-only math built-ins). Documentation mirror.
+# -----------------------------------------------------------------------------
+RULES_N3 = """@prefix ex:   <http://example.org/clinic#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
-ex:act_lactate a ex:Action .
-ex:act_lactate ex:label "Order Lactate + Broad Labs" .
+# -----------------------------------------------------------------------------
+# Feasibility (illustrative): intervention is infeasible if any hard contraindication holds
+# -----------------------------------------------------------------------------
+{ ?i ex:contraInContext ex:Pregnancy . ?pt ex:pregnant true . } => { ?i ex:feasible false } .
+{ ?i ex:contraIfAsthma true .        ?pt ex:asthma true .     } => { ?i ex:feasible false } .
+{ ?i ex:contraIfAllergyPenicillin true . ?pt ex:allergyPenicillin true . } => { ?i ex:feasible false } .
+{ ?i ex:minEgfr ?thr . ?pt ex:egfr ?gfr . ?thr math:greaterThan ?gfr . } => { ?i ex:feasible false } .
 
-ex:act_fluids a ex:Action .
-ex:act_fluids ex:label "Start Isotonic Fluids (titrate/caution)" .
-
-ex:act_antibiotics a ex:Action .
-ex:act_antibiotics ex:label "Begin Empiric Antibiotics (class selection per allergy)" .
-
-# Contextual constraints in this encounter
-ex:pt123 ex:contraindication ex:betaLactamIfAllergy .  # avoid beta-lactams
-ex:pt123 ex:fluidCaution ex:CHF .                      # fluids with CHF -> caution
+# -----------------------------------------------------------------------------
+# Benefit proxy: combine per-condition benefit terms the patient actually has
+# benefit = sum(benefitHTN for HTN?  else 0) + sum(benefitT2D for T2D? else 0) + ...
+# For brevity we document a normalized variant in the driver; here we state the shape.
+# -----------------------------------------------------------------------------
+# Score = wRisk*riskN + wCost*costN + wBenefit*(1 - benefitN)
+# (Driver provides normalization; N3 shows the triple-only intent.)
+{ ?i ex:riskN ?rN . ?i ex:costN ?cN . ?i ex:benefitN ?bN .
+  ex:policy ex:wRisk ?wR . ex:policy ex:wCost ?wC . ex:policy ex:wBenefit ?wB .
+  ( 1 ?bN ) math:difference ?invB .
+  ( ?wR ?rN ) math:product ?rTerm .
+  ( ?wC ?cN ) math:product ?cTerm .
+  ( ?wB ?invB ) math:product ?bTerm .
+  ( ?rTerm ?cTerm ) math:sum ?rc .
+  ( ?rc ?bTerm ) math:sum ?score .
+} => { ?i ex:score ?score } .
 """
 
-# ---------------------------------------------------------------------------
-# Behaviors: documented as N3 rule templates (mirrors what the code enforces)
-# ---------------------------------------------------------------------------
-STATIC_N3 = """@prefix math: <http://www.w3.org/2000/10/swap/math#>.
-@prefix ex: <http://example.org/clinic#> .
-
-# qSOFA points
-{ ?p ex:RR ?rr . ?rr math:greaterThan 22 } => { ?p ex:qsofaPoint 1 } .
-{ ?p ex:SBP ?sbp . ?sbp math:lessThan 100 } => { ?p ex:qsofaPoint 1 } .
-{ ?p ex:MentalStatus "altered" } => { ?p ex:qsofaPoint 1 } .
-
-# Lactate contribution (piecewise)
-{ ?p ex:Lactate ?l . ?l math:notLessThan 4.0 } => { ?p ex:lactateBucket "high" } .
-{ ?p ex:Lactate ?l . ?l math:notLessThan 2.0 . ?l math:lessThan 4.0 } => { ?p ex:lactateBucket "mod" } .
-
-# Risk -> interventions
-{ ?p ex:risk ?r . ?r math:greaterThan 1.0 } => { ?p ex:shouldTrigger ex:act_protocol } .
-{ ?p ex:risk ?r } => { ?p ex:shouldOrder ex:act_lactate } .
-
-# Contraindications (documentation mirror)
-{ ?p ex:Allergy "beta_lactam" } => { ex:act_antibiotics ex:penalized true } .
-{ ?p ex:Comorbidity "CHF" }    => { ex:act_fluids ex:penalized true } .
-"""
-
-DYNAMIC_N3 = """@prefix ex: <http://example.org/clinic#> .
-# Here we could capture dynamic preference weights, staffing load, etc.
-# (kept empty in this toy example; policy overrides would slot here).
-"""
-
-def _write(name: str, content: str):
-    path = os.path.join(BASE, name)
+def _write(path: str, content: str):
     with open(path, "w", encoding="utf-8") as f:
         f.write(content)
-    return path
 
-_write("static.ttl", STATIC_TTL)
-_write("dynamic.ttl", DYNAMIC_TTL)
-_write("rules-static.n3", STATIC_N3)
-_write("rules-dynamic.n3", DYNAMIC_N3)
+_write(os.path.join(BASE, "static.ttl"), STATIC_TTL)
+_write(os.path.join(BASE, "dynamic.ttl"), DYNAMIC_TTL)
+_write(os.path.join(BASE, "rules.n3"),   RULES_N3)
 
-# ---------------------------------------------------------------------------
-# Tiny Turtle reader
-# ---------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Tiny Turtle Reader (robust to inline '#' and '#' inside IRIs; supports multi-triple lines)
+# -----------------------------------------------------------------------------
 def parse_ttl(ttl_text: str):
     prefixes, triples = {}, []
+
+    def strip_inline_comments(line: str) -> str:
+        in_quotes = False
+        in_angle = False
+        out = []
+        for ch in line.rstrip():
+            if ch == '"' and not in_angle:
+                in_quotes = not in_quotes
+            elif ch == '<' and not in_quotes:
+                in_angle = True
+            elif ch == '>' and not in_quotes:
+                in_angle = False
+            if ch == '#' and not in_quotes and not in_angle:
+                break
+            out.append(ch)
+        return "".join(out).strip()
+
+    def split_statements(line: str) -> List[str]:
+        stmts, buf = [], []
+        in_quotes = False
+        in_angle = False
+        for ch in line:
+            if ch == '"' and not in_angle:
+                in_quotes = not in_quotes; buf.append(ch); continue
+            if ch == '<' and not in_quotes:
+                in_angle = True; buf.append(ch); continue
+            if ch == '>' and not in_quotes:
+                in_angle = False; buf.append(ch); continue
+            if ch == '.' and not in_quotes and not in_angle:
+                # End of statement
+                stmts.append("".join(buf).strip()); buf = []
+                continue
+            buf.append(ch)
+        if buf and "".join(buf).strip():
+            stmts.append("".join(buf).strip())
+        return [s for s in stmts if s]
+
     for raw in ttl_text.splitlines():
-        line = raw.strip()
-        if not line or line.startswith("#"): 
+        line = strip_inline_comments(raw)
+        if not line:
             continue
+
         if line.startswith("@prefix"):
             parts = line.split()
-            prefixes[parts[1].rstrip(":")] = parts[2].strip("<>")
+            if len(parts) >= 3:
+                prefixes[parts[1].rstrip(":")] = parts[2].strip("<>")
             continue
-        if line.endswith("."): 
-            line = line[:-1].strip()
-        toks, buf, q = [], "", False
-        for ch in line:
-            if ch == '"':
-                q = not q
-                buf += ch
+
+        for stmt in split_statements(line):
+            # Tokenize (space-splitting outside quotes)
+            toks, buf = [], ""
+            in_quotes = False
+            for ch in stmt.strip():
+                if ch == '"':
+                    in_quotes = not in_quotes; buf += ch
+                elif ch == ' ' and not in_quotes:
+                    if buf: toks.append(buf); buf = ""
+                else:
+                    buf += ch
+            if buf: toks.append(buf)
+            if len(toks) < 3:
                 continue
-            if ch == ' ' and not q:
-                if buf:
-                    toks.append(buf)
-                    buf = ''
+
+            s, p, o = toks[0], toks[1], " ".join(toks[2:])
+
+            def expand(t: str) -> str:
+                if t.startswith("<") and t.endswith(">"):
+                    return t[1:-1]
+                if ":" in t and not t.startswith('"'):
+                    pref, local = t.split(":", 1)
+                    return prefixes.get(pref, pref + ":") + local
+                return t
+
+            s_e, p_e = expand(s), expand(p)
+
+            if o.startswith('"') and o.endswith('"'):
+                obj: Any = o.strip('"')
+            elif o in ("true", "false"):
+                obj = (o == "true")
             else:
-                buf += ch
-        if buf: 
-            toks.append(buf)
-        if len(toks) < 3: 
-            continue
-        s, p, o = toks[0], toks[1], ' '.join(toks[2:])
-        def expand(t):
-            if t.startswith('<') and t.endswith('>'):
-                return t[1:-1]
-            if ':' in t and not t.startswith('"'):
-                pref, local = t.split(':', 1)
-                return prefixes.get(pref, pref + ':') + local
-            return t
-        s_e, p_e = expand(s), expand(p)
-        if o.startswith('"') and o.endswith('"'):
-            obj = o.strip('"')
-        elif o in ('true','false'):
-            obj = (o == 'true')
-        else:
-            try:
-                obj = float(o) if '.' in o else int(o)
-            except Exception:
-                obj = expand(o)
-        triples.append((s_e, p_e, obj))
+                try:
+                    obj = float(o) if "." in o else int(o)
+                except Exception:
+                    obj = expand(o)
+
+            triples.append((s_e, p_e, obj))
     return prefixes, triples
 
-def triples_index(triples):
-    idx = {}
+def index_triples(triples: List[Tuple[str,str,Any]]):
+    idx: Dict[str, Dict[str, List[Any]]] = {}
     for s,p,o in triples:
         idx.setdefault(s, {}).setdefault(p, []).append(o)
     return idx
 
-def get1(idx, s, p, default=None):
+def get1(idx: Dict[str, Dict[str, List[Any]]], s: str, p: str, default=None):
     vals = idx.get(s, {}).get(p, [])
     return vals[0] if vals else default
 
 # Load graphs
 with open(os.path.join(BASE, "static.ttl"), encoding="utf-8") as f:
-    _, S_triples = parse_ttl(f.read())
+    _, S_tr = parse_ttl(f.read())
 with open(os.path.join(BASE, "dynamic.ttl"), encoding="utf-8") as f:
-    _, D_triples = parse_ttl(f.read())
+    _, D_tr = parse_ttl(f.read())
 
-S = triples_index(S_triples)
-D = triples_index(D_triples)
+S = index_triples(S_tr)
+D = index_triples(D_tr)
 
-# ---------------------------------------------------------------------------
-# AGENT: capture constants and build a specialized DRIVER via closures
-# ---------------------------------------------------------------------------
-def policy_get(pred, default):
-    return float(get1(S, EX+"defaultPolicy", EX+pred, default))
+# -----------------------------------------------------------------------------
+# Agent → Driver (Ershov mixed computation)
+# -----------------------------------------------------------------------------
+def norm(xs: List[float]) -> List[float]:
+    lo, hi = min(xs), max(xs)
+    if hi - lo < 1e-9:
+        return [0.0]*len(xs)
+    return [(x-lo)/(hi-lo) for x in xs]
 
-POLICY = {
-    "qsofaWeight": policy_get("qsofaWeight", 1.0),
-    "lactateWeight": policy_get("lactateWeight", 0.5),
-    "interventionThreshold": policy_get("interventionThreshold", 1.0),
-    "fluidBasePriority": policy_get("fluidBasePriority", 0.6),
-    "lactateOrderPriority": policy_get("lactateOrderPriority", 0.9),
-    "antibioticBasePriority": policy_get("antibioticBasePriority", 0.8),
-    "contraFluidCHF": policy_get("contraFluidCHF", 0.4),
-    "contraBetaLactamAllergy": policy_get("contraBetaLactamAllergy", 1.0),
-    "qsofaRRcutoff": 22.0,
-    "qsofaSBPcutoff": 100.0,
-    "qsofaMentationFlag": "altered",
-    "lactateUpper": 4.0,
-    "lactateLower": 2.0,
-}
+def make_driver(S):
+    # Static policy
+    wR = float(get1(S, EX+"policy", EX+"wRisk",    0.50))
+    wC = float(get1(S, EX+"policy", EX+"wCost",    0.20))
+    wB = float(get1(S, EX+"policy", EX+"wBenefit", 0.30))
 
-def make_sepsis_driver(policy):
-    q_w = policy["qsofaWeight"]; l_w = policy["lactateWeight"]
-    thr = policy["interventionThreshold"]
-    lact_lo, lact_hi = policy["lactateLower"], policy["lactateUpper"]
-    rr_cut, sbp_cut, ment_flag = policy["qsofaRRcutoff"], policy["qsofaSBPcutoff"], policy["qsofaMentationFlag"]
-    p_fluid_base = policy["fluidBasePriority"]
-    p_lact_order = policy["lactateOrderPriority"]
-    p_abx_base = policy["antibioticBasePriority"]
-    pen_fluid_chf = policy["contraFluidCHF"]
-    pen_beta_allergy = policy["contraBetaLactamAllergy"]
+    # Static constraints and defaults (for thresholds etc.)
+    minEgfr = {
+        EX+"Metformin": float(get1(S, EX+"Metformin", EX+"minEgfr", 30)),
+        EX+"SGLT2":     float(get1(S, EX+"SGLT2",     EX+"minEgfr", 30)),
+    }
 
-    def compute_qsofa(vitals: Dict[str, float | str]) -> Tuple[float, List[str]]:
-        pts = 0; why = []
-        if vitals.get("RR", 0) >= rr_cut: pts += 1; why.append("RR≥22")
-        if vitals.get("SBP", 999) <= sbp_cut: pts += 1; why.append("SBP≤100")
-        if vitals.get("MentalStatus","normal") == ment_flag: pts += 1; why.append("Altered mentation")
-        return q_w * pts, why
+    # Base benefit lookup by condition-specific predicates (illustrative)
+    benefit_predicates = {
+        "HTN": (EX+"benefitHTN", EX+"HTN"),
+        "T2D": (EX+"benefitT2D", EX+"T2D"),
+        # pain/infection not in patient goals here but included for completeness
+        "Pain": (EX+"benefitPain", None),
+        "Infection": (EX+"benefitInfection", None),
+    }
 
-    def lactate_score(lactate: float) -> Tuple[float, str]:
-        if lactate >= lact_hi: return l_w * 1.0, "Lactate high (≥4)"
-        if lactate >= lact_lo: return l_w * 0.5, "Lactate moderate (2–4)"
-        return 0.0, "Lactate low"
+    def compute_metrics(D) -> Dict[str, Any]:
+        # Patient state
+        pt = EX+"pt"
+        pregnant = bool(get1(D, pt, EX+"pregnant", False))
+        asthma   = bool(get1(D, pt, EX+"asthma",   False))
+        gfr      = float(get1(D, pt, EX+"egfr",    90))
+        has_cond = set(D.get(pt, {}).get(EX+"hasCondition", []))
 
-    def propose_actions(patient: str, facts: Dict[str, Any]) -> List[Tuple[str, float, List[str]]]:
-        vitals = {k: facts.get(k) for k in ["RR","SBP","MentalStatus","Lactate","TempC","HR"]}
-        q, qwhy = compute_qsofa(vitals)
-        l, lwhy = lactate_score(facts.get("Lactate", 0.0))
-        risk = q + l
-        out: List[Tuple[str, float, List[str]]] = []
+        # Candidate list
+        cand_root = EX+"cand"
+        candidates = [i for i in D.get(cand_root, {}).get(EX+"consider", [])]
 
-        # Protocol trigger
-        score_protocol = risk - thr
-        out.append(("Trigger Sepsis Protocol", score_protocol, [f"risk={risk:.2f} - thr={thr:.2f}", *(qwhy+[lwhy])]))
+        # Cost table
+        def cost_of(i: str) -> float:
+            return float(get1(S, i, EX+"costPerMonth", 10))
 
-        # Order lactate (and broad labs)
-        out.append(("Order Lactate + Broad Labs", p_lact_order + risk*0.1, ["baseline="+str(p_lact_order), f"risk bump={risk*0.1:.2f}"]))
+        # Aggregate "benefit signal" out of static baseBenefit terms for present conditions
+        def benefit_of(i: str) -> float:
+            total = 0.0
+            if EX+"HTN" in has_cond:
+                total += float(get1(S, i, EX+"benefitHTN", 0.0))
+            if EX+"T2D" in has_cond:
+                total += float(get1(S, i, EX+"benefitT2D", 0.0))
+            # (others can be added as needed)
+            return total
 
-        # Start fluids (CHF caution)
-        fluids_score = p_fluid_base
-        trace = [f"baseline={p_fluid_base}"]
-        if "CHF" in facts.get("Comorbidity",""):
-            fluids_score -= pen_fluid_chf
-            trace.append(f"-CHF penalty={pen_fluid_chf}")
-        out.append(("Start Isotonic Fluids (titrate/caution)", fluids_score, trace))
+        # Hard contraindications → infeasible
+        def infeasible(i: str) -> bool:
+            # pregnancy contexts
+            if (i == EX+"ACEi" or i == EX+"SGLT2") and pregnant:
+                return True
+            # nonselective BB with asthma
+            if i == EX+"BB_nonselect" and bool(get1(D, pt, EX+"asthma", False)):
+                return True
+            # eGFR thresholds
+            if i in minEgfr and gfr < minEgfr[i]:
+                return True
+            # penicillin allergy
+            if i == EX+"Amoxicillin" and bool(get1(D, pt, EX+"allergyPenicillin", False)):
+                return True
+            return False
 
-        # Begin empiric antibiotics (avoid beta-lactams if allergy)
-        abx_score = p_abx_base + risk*0.1
-        abx_trace = [f"baseline={p_abx_base}", f"risk bump={risk*0.1:.2f}"]
-        if "beta_lactam" in facts.get("Allergy",""):
-            abx_score -= pen_beta_allergy
-            abx_trace.append(f"-allergy penalty={pen_beta_allergy}")
-            abx_trace.append("Note: select NON-beta-lactam class")
-        out.append(("Begin Empiric Antibiotics (class per allergy)", abx_score, abx_trace))
+        # Soft risk proxy (0..1): accumulate flags; here a simple additive proxy
+        def risk_proxy(i: str) -> float:
+            r = 0.0
+            if i == EX+"ACEi" and pregnant: r += 1.0
+            if i == EX+"SGLT2" and pregnant: r += 1.0
+            if i == EX+"BB_nonselect" and asthma: r += 0.7
+            if i in minEgfr and gfr < (minEgfr[i] + 10): r += 0.5  # near threshold
+            # allergy:
+            if i == EX+"Amoxicillin" and bool(get1(D, pt, EX+"allergyPenicillin", False)): r += 1.0
+            return r
 
-        return out
+        metrics = {}
+        for i in candidates:
+            metrics[i] = {
+                "intervention": i,
+                "feasible": (not infeasible(i)),
+                "benefit_raw": benefit_of(i),       # higher is better
+                "risk_raw": risk_proxy(i),          # higher is worse
+                "cost_raw": cost_of(i),             # higher is worse
+                "pregnant": pregnant,
+                "asthma": asthma,
+                "egfr": gfr,
+                "has_conditions": list(has_cond),
+            }
+        return metrics
 
-    return propose_actions
+    def score_and_rank(D):
+        M = compute_metrics(D)
+        items = list(M.keys())
+        assert items, "No candidate interventions found."
 
-driver = make_sepsis_driver(POLICY)
+        feas = [i for i in items if M[i]["feasible"]]
+        assert feas, "No feasible interventions — all hard-contraindicated in this context."
 
-# Materialize patient facts
-pt = EX + "pt123"
-facts = {
-    "RR": float(get1(D, pt, EX+"RR", 0.0)),
-    "SBP": float(get1(D, pt, EX+"SBP", 0.0)),
-    "MentalStatus": get1(D, pt, EX+"MentalStatus", "normal"),
-    "Lactate": float(get1(D, pt, EX+"Lactate", 0.0)),
-    "TempC": float(get1(D, pt, EX+"TempC", 0.0)),
-    "HR": float(get1(D, pt, EX+"HR", 0.0)),
-    "Comorbidity": get1(D, pt, EX+"Comorbidity", ""),
-    "Allergy": get1(D, pt, EX+"Allergy", ""),
-}
+        # Normalize across feasible set
+        benefit_vals = [M[i]["benefit_raw"] for i in feas]
+        risk_vals    = [M[i]["risk_raw"]    for i in feas]
+        cost_vals    = [M[i]["cost_raw"]    for i in feas]
 
-actions = driver(pt, facts)
-actions_sorted = sorted(actions, key=lambda x: x[1], reverse=True)
+        # Normalizers
+        def norm(vals: List[float]) -> Dict[str, float]:
+            lo, hi = min(vals), max(vals)
+            if hi - lo < 1e-9:
+                return {k: 0.0 for k in feas}
+            return {feas[j]: (vals[j]-lo)/(hi-lo) for j in range(len(feas))}
 
-# Self-checks
-protocol = [a for a in actions_sorted if a[0].startswith("Trigger Sepsis")][0]
-assert protocol[1] > 0, "Expected protocol to be favored (risk above threshold)"
-abx = [a for a in actions_sorted if a[0].startswith("Begin Empiric Antibiotics")][0]
-assert any("allergy penalty" in s for s in abx[2]), "Antibiotic allergy penalty missing"
-assert any("NON-beta-lactam" in s for s in abx[2]), "Allergy note missing"
-fluids = [a for a in actions_sorted if a[0].startswith("Start Isotonic Fluids")][0]
-assert any("CHF" in s for s in fluids[2]), "CHF caution penalty missing for fluids"
-lact = [a for a in actions_sorted if a[0].startswith("Order Lactate")][0]
-assert lact is not None, "Lactate order action missing"
+        bN = norm(benefit_vals)  # 0..1 (higher better)
+        rN = norm(risk_vals)     # 0..1 (higher worse)
+        cN = norm(cost_vals)     # 0..1 (higher worse)
 
-# Emit CSV
-csv_path = os.path.join(BASE, "ranked_actions.csv")
+        results = []
+        for i in items:
+            m = M[i]
+            if not m["feasible"]:
+                score = float("+inf")
+                note = "infeasible (hard contraindication)"
+                bn = rn = cn = None
+            else:
+                bn = bN[i]; rn = rN[i]; cn = cN[i]
+                score = (wR*rn + wC*cn + wB*(1.0 - bn))
+                reasons = []
+                if bn >= 0.7: reasons.append("high expected benefit")
+                if rn <= 0.2: reasons.append("low risk proxy")
+                if cn <= 0.2: reasons.append("low cost")
+                if m["pregnant"]: reasons.append("pregnancy context")
+                if m["asthma"]: reasons.append("asthma context")
+                if m["egfr"] < 45: reasons.append("reduced eGFR")
+                note = "; ".join(reasons)
+            results.append({
+                "intervention": i, "feasible": m["feasible"], "score": score, "note": note,
+                "benefitN": bn, "riskN": rn, "costN": cn, **m
+            })
+
+        ranked = sorted(results, key=lambda x: x["score"])
+        return ranked, results, {"wRisk": wR, "wCost": wC, "wBenefit": wB}
+
+    return score_and_rank
+
+# Build specialized driver
+driver = make_driver(S)
+
+# -----------------------------------------------------------------------------
+# Execute
+# -----------------------------------------------------------------------------
+ranked, all_results, weights = driver(D)
+
+# Basic checks (educational guardrails; NOT clinical validation)
+feasible = [r for r in ranked if r["feasible"]]
+assert feasible, "No feasible interventions after scoring."
+
+best = feasible[0]
+
+# Monotonicity wrt safety weight: increasing wRisk should not pick a *riskier* best option
+def rerun_with_safety_bonus(delta=0.20):
+    # clone S and bump wRisk; renormalize other weights proportionally (sum ~ 1)
+    S_mod = {k:{kk:list(vv) for kk,vv in props.items()} for k,props in S.items()}
+    S_mod[EX+"policy"][EX+"wRisk"] = [min(0.99, weights["wRisk"] + delta)]
+    remain = 1.0 - S_mod[EX+"policy"][EX+"wRisk"][0]
+    others = [weights["wCost"], weights["wBenefit"]]
+    tot = sum(others)
+    scale = remain/tot if tot>0 else 0.0
+    S_mod[EX+"policy"][EX+"wCost"]    = [weights["wCost"]*scale]
+    S_mod[EX+"policy"][EX+"wBenefit"] = [weights["wBenefit"]*scale]
+    ranked2, _, _ = make_driver(S_mod)(D)
+    best2 = [r for r in ranked2 if r["feasible"]][0]
+    return best2
+
+best_after = rerun_with_safety_bonus(0.20)
+# If both have normalized risk values, enforce non-increase
+if best.get("riskN") is not None and best_after.get("riskN") is not None:
+    assert best_after["riskN"] <= best["riskN"] + 1e-9, \
+        "Increasing safety weight should not produce a riskier chosen intervention."
+
+# -----------------------------------------------------------------------------
+# Emit recommendations.csv + machine- and human-readable traces
+# -----------------------------------------------------------------------------
+csv_path = os.path.join(BASE, "recommendations.csv")
 with open(csv_path, "w", newline="", encoding="utf-8") as f:
     w = csv.writer(f)
-    w.writerow(["action","score","trace"])
-    for name, score, trace in actions_sorted:
-        w.writerow([name, f"{score:.3f}", " | ".join(trace)])
+    w.writerow([
+        "rank","intervention","feasible",
+        "benefitN","riskN","costN","score","note",
+        "benefit_raw","risk_raw","cost_raw","egfr","pregnant","asthma","conditions"
+    ])
+    for i,r in enumerate(ranked, start=1):
+        w.writerow([
+            i, r["intervention"].split("#")[-1], r["feasible"],
+            (None if r["benefitN"] is None else f"{r['benefitN']:.3f}"),
+            (None if r["riskN"]    is None else f"{r['riskN']:.3f}"),
+            (None if r["costN"]    is None else f"{r['costN']:.3f}"),
+            (None if r["score"] == float("+inf") else f"{r['score']:.3f}"),
+            r["note"],
+            f"{r['benefit_raw']:.2f}", f"{r['risk_raw']:.2f}", f"{r['cost_raw']:.2f}",
+            f"{r['egfr']:.1f}", r["pregnant"], r["asthma"], "|".join([c.split("#")[-1] for c in r["has_conditions"]]),
+        ])
+
+# Machine-readable trace (JSON)
+trace = {
+    "weights": weights,
+    "chosen": best["intervention"],
+    "patient": {
+        "egfr": best["egfr"],
+        "pregnant": best["pregnant"],
+        "asthma": best["asthma"],
+        "conditions": [c for c in best["has_conditions"]],
+    },
+    "interventions": [
+        {
+            "intervention": r["intervention"],
+            "feasible": r["feasible"],
+            "benefit_raw": r["benefit_raw"],
+            "risk_raw": r["risk_raw"],
+            "cost_raw": r["cost_raw"],
+            "benefitN": r["benefitN"],
+            "riskN": r["riskN"],
+            "costN": r["costN"],
+            "score": (None if r["score"] == float("+inf") else r["score"]),
+            "note": r["note"]
+        } for r in ranked
+    ]
+}
+with open(os.path.join(BASE, "trace.json"), "w", encoding="utf-8") as jf:
+    json.dump(trace, jf, indent=2)
+
+# Human-readable “Reason why”
+with open(os.path.join(BASE, "reason-why.txt"), "w", encoding="utf-8") as tf:
+    tf.write("Reason why / explanation summary — ClinicSupport (educational)\n")
+    tf.write("----------------------------------------------------------------\n")
+    tf.write(f"Weights: wRisk={weights['wRisk']}, wCost={weights['wCost']}, wBenefit={weights['wBenefit']}\n")
+    tf.write(f"Chosen intervention: {best['intervention']}\n")
+    tf.write(f"Feasible: {best['feasible']}\n")
+    if best.get('benefitN') is not None:
+        tf.write(f"BenefitN={best['benefitN']:.3f}, RiskN={best['riskN']:.3f}, CostN={best['costN']:.3f}, "
+                 f"Score={best['score']:.3f}\n")
+    tf.write(f"Patient context: eGFR={best['egfr']:.1f}, pregnant={best['pregnant']}, asthma={best['asthma']}, "
+             f"conditions={[c.split('#')[-1] for c in best['has_conditions']]}\n")
+    tf.write(f"Notes: {best['note']}\n\n")
+    tf.write("All candidates (ranked):\n")
+    for i,r in enumerate([x for x in ranked if x["feasible"]], start=1):
+        tf.write(f"  {i}. {r['intervention']}  score={r['score']:.3f}  "
+                 f"benefitN={r['benefitN']:.3f}  riskN={r['riskN']:.3f}  costN={r['costN']:.3f}\n")
 
 print("ALL TESTS PASSED")
-print("Top actions (toy, educational):")
-for name, score, trace in actions_sorted[:3]:
-    print(" -", name, "=>", round(score,3))
+print("Artifacts in:", BASE)
+print("CSV:", csv_path)
 
