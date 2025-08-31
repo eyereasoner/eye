@@ -328,11 +328,13 @@ def make_driver(S):
         pregnant = bool(get1(D, pt, EX+"pregnant", False))
         asthma   = bool(get1(D, pt, EX+"asthma",   False))
         gfr      = float(get1(D, pt, EX+"egfr",    90))
-        has_cond = set(D.get(pt, {}).get(EX+"hasCondition", []))
+        # DETERMINISTIC: sort conditions by IRI for stable outputs
+        has_cond = sorted(set(D.get(pt, {}).get(EX+"hasCondition", [])))
 
         # Candidate list
         cand_root = EX+"cand"
-        candidates = [i for i in D.get(cand_root, {}).get(EX+"consider", [])]
+        # DETERMINISTIC: sort candidates by IRI
+        candidates = sorted(D.get(cand_root, {}).get(EX+"consider", []))
 
         # Cost table
         def cost_of(i: str) -> float:
@@ -386,33 +388,35 @@ def make_driver(S):
                 "pregnant": pregnant,
                 "asthma": asthma,
                 "egfr": gfr,
-                "has_conditions": list(has_cond),
+                "has_conditions": has_cond,         # already sorted for determinism
             }
         return metrics
 
     def score_and_rank(D):
         M = compute_metrics(D)
-        items = list(M.keys())
+        # DETERMINISTIC: iterate items in sorted IRI order
+        items = sorted(M.keys())
         assert items, "No candidate interventions found."
 
         feas = [i for i in items if M[i]["feasible"]]
         assert feas, "No feasible interventions — all hard-contraindicated in this context."
 
-        # Normalize across feasible set
+        # Normalize across feasible set (keep the order sorted by IRI for stability)
+        times = [M[i]["benefit_raw"] for i in feas]  # naming kept from earlier pattern
         benefit_vals = [M[i]["benefit_raw"] for i in feas]
         risk_vals    = [M[i]["risk_raw"]    for i in feas]
         cost_vals    = [M[i]["cost_raw"]    for i in feas]
 
         # Normalizers
-        def norm(vals: List[float]) -> Dict[str, float]:
+        def norm_map(vals: List[float], keys: List[str]) -> Dict[str, float]:
             lo, hi = min(vals), max(vals)
             if hi - lo < 1e-9:
-                return {k: 0.0 for k in feas}
-            return {feas[j]: (vals[j]-lo)/(hi-lo) for j in range(len(feas))}
+                return {k: 0.0 for k in keys}
+            return {keys[j]: (vals[j]-lo)/(hi-lo) for j in range(len(keys))}
 
-        bN = norm(benefit_vals)  # 0..1 (higher better)
-        rN = norm(risk_vals)     # 0..1 (higher worse)
-        cN = norm(cost_vals)     # 0..1 (higher worse)
+        bN = norm_map(benefit_vals, feas)  # 0..1 (higher better)
+        rN = norm_map(risk_vals,    feas)  # 0..1 (higher worse)
+        cN = norm_map(cost_vals,    feas)  # 0..1 (higher worse)
 
         results = []
         for i in items:
@@ -437,7 +441,15 @@ def make_driver(S):
                 "benefitN": bn, "riskN": rn, "costN": cn, **m
             })
 
-        ranked = sorted(results, key=lambda x: x["score"])
+        # DETERMINISTIC: stable tie-break — by (score, riskN, costN, -benefitN, IRI)
+        def sort_key(r):
+            sc = r["score"]
+            rn = 1e9 if r["riskN"]    is None else r["riskN"]
+            cn = 1e9 if r["costN"]    is None else r["costN"]
+            bn = -1.0 if r["benefitN"] is None else r["benefitN"]
+            return (sc, rn, cn, -bn, r["intervention"])
+
+        ranked = sorted(results, key=sort_key)
         return ranked, results, {"wRisk": wR, "wCost": wC, "wBenefit": wB}
 
     return score_and_rank
