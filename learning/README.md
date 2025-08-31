@@ -8,7 +8,6 @@ This program not only produces an **Answer** but also explains the **Reason why*
 
 ## Conceptual overview
 
-
 ```
  +--------------+
  |  Data (RDF)  |----+
@@ -21,6 +20,7 @@ This program not only produces an **Answer** but also explains the **Reason why*
  +--------------+    |                               |  o Check (harness) |                                 |  o scale         |
  |     Goal     |----+                               +--------------------+                                 +------------------+
  +--------------
+```
 
 ---
 
