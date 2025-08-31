@@ -79,7 +79,7 @@ def prove_even_herbrand(t: Term) -> bool:
         return False                     # no clause matches
 
 
-# ───────────────────────── Specialization artefact ─────────────────────────
+# ───────────────────────── Specialization artifact ─────────────────────────
 
 @dataclass
 class SpecializationResult:

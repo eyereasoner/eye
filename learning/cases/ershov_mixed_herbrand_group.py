@@ -118,7 +118,7 @@ def reduce_S3_generic(w: Word) -> Tuple[int, int]:
     return (i, j)  # represents element r^i s^j
 
 
-# ─────────────────────── Specialization artefact ───────────────────────
+# ─────────────────────── Specialization artifact ───────────────────────
 
 @dataclass
 class SpecializationResult:

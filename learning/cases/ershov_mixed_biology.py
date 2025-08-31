@@ -97,7 +97,7 @@ def site_likelihood_generic(a: int, b: int, c: int, d: int, mu: float = 1.0) -> 
     return 0.25 * sum(X)
 
 
-# ---------- Specialization artefact ----------
+# ---------- Specialization artifact ----------
 
 @dataclass
 class SpecializationResult:

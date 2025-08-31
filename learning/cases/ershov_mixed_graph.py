@@ -82,7 +82,7 @@ def reachable_generic(G: Dict[str, List[str]], u: str, v: str) -> bool:
     return False
 
 
-# ---------- Specialization artefact ----------
+# ---------- Specialization artifact ----------
 
 @dataclass
 class SpecializationResult:

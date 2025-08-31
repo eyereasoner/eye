@@ -137,7 +137,7 @@ def eval_formula(struct: Dict, f: Formula, env: Dict[str, int]) -> bool:
     raise TypeError("Unknown formula node")
 
 
-# ---------- Specialization artefact ----------
+# ---------- Specialization artifact ----------
 
 @dataclass
 class SpecializationResult:

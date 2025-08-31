@@ -317,7 +317,7 @@ def eval_expr(e: Expr, x: float) -> float:
     raise TypeError("Unknown node in eval")
 
 
-# ───────────────────────── Specialization artefact ───────────────────────
+# ───────────────────────── Specialization artifact ───────────────────────
 
 @dataclass
 class SpecializationResult:
