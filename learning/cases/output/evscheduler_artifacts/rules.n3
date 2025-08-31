@@ -1,0 +1,54 @@
+@prefix ex:   <http://example.org/ev#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# -----------------------------------------------------------------------------
+# Scoring from normalized features (requires ex:pNorm, ex:cNorm per slot)
+# score = wP * pNorm + wC * cNorm + wPeak * peakFrac
+# peakFrac can be derived below from baseKw / peakLimitKw
+# -----------------------------------------------------------------------------
+{ ?s ex:pNorm ?pN .
+  ?s ex:cNorm ?cN .
+  ?s ex:peakFrac ?pF .
+  ex:policy ex:wPrice ?wP .
+  ex:policy ex:wCarbon ?wC .
+  ex:policy ex:wPeakPenalty ?wPk .
+  ( ?wP ?pN ) math:product ?pTerm .
+  ( ?wC ?cN ) math:product ?cTerm .
+  ( ?wPk ?pF ) math:product ?pkTerm .
+  ( ?pTerm ?cTerm ) math:sum ?pcSum .
+  ( ?pcSum ?pkTerm ) math:sum ?score .
+} => { ?s ex:score ?score } .
+
+# -----------------------------------------------------------------------------
+# Derive peak fraction: peakFrac = baseKw / peakLimitKw
+# -----------------------------------------------------------------------------
+{ ?s ex:baseKw ?b .
+  ex:grid ex:peakLimitKw ?L .
+  ( ?b ?L ) math:quotient ?f .
+} => { ?s ex:peakFrac ?f } .
+
+# -----------------------------------------------------------------------------
+# Peak feasibility: baseKw + evKw + dwKw <= peakLimitKw
+# -----------------------------------------------------------------------------
+{ ?s ex:baseKw ?b .
+  ?s ex:evKw   ?e .
+  ?s ex:dwKw   ?d .
+  ex:grid ex:peakLimitKw ?L .
+  ( ?b ?e ) math:sum ?be .
+  ( ?be ?d ) math:sum ?tot .
+  ?tot math:notGreaterThan ?L .
+} => { ?s ex:feasible true } .
+
+# -----------------------------------------------------------------------------
+# EV goal: reach target SoC by the deadline (documents the obligation)
+# -----------------------------------------------------------------------------
+{ ex:session ex:deadlineSlot ?T .
+  ex:ev      ex:targetSoc   ?Z .
+} => { ex:ev ex:mustReach [ ex:targetSoc ?Z ; ex:bySlot ?T ] } .
+
+# -----------------------------------------------------------------------------
+# Dishwasher goal: finish before latestFinishSlot
+# -----------------------------------------------------------------------------
+{ ex:dishwasher ex:latestFinishSlot ?D . }
+  => { ex:dishwasher ex:mustFinishBefore ?D } .

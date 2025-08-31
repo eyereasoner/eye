@@ -1,0 +1,20 @@
+@prefix ex: <http://example.org/ev#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Policy weights (combine price + carbon; add peak proximity penalty term)
+ex:policy ex:wPrice 0.7 .
+ex:policy ex:wCarbon 0.3 .
+ex:policy ex:wPeakPenalty 0.2 .
+
+# Household constraints
+ex:grid ex:peakLimitKw 8.0 .
+
+# EV device specs
+ex:ev ex:capacityKwh 60.0 .
+ex:ev ex:chargerMaxKw 7.4 .
+ex:ev ex:minSoc 0.20 .
+ex:ev ex:targetSoc 0.80 .
+
+# Dishwasher specs (as a representative flexible load)
+ex:dishwasher ex:powerKw 1.2 .
+ex:dishwasher ex:cycleSlots 4 .
