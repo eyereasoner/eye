@@ -1,7 +1,7 @@
 from __future__ import annotations
 """
-BeerAdvisor — EYE-style mixed computation (final)
-=================================================
+BeerAdvisor — EYE-style mixed computation (final, deterministic)
+===============================================================
 Static RDF + N3 intent → Agent (partial eval, Ershov) → specialized Driver → ranked beers.
 
 One-liner: a compact EYE-style advisor that partially evaluates static style/price facts and
@@ -50,6 +50,7 @@ EX = "http://example.org/beer#"
 # -----------------------------------------------------------------------------
 # STATIC RDF (compile-time): catalog of beers + base prices
 # IBU ~ bitterness (0-100), SRM ~ color (2-40), ABV %, price arbitrary currency
+# IMPORTANT: one triple per line to keep it valid TTL and parser-friendly.
 # -----------------------------------------------------------------------------
 STATIC_TTL = """@prefix ex: <http://example.org/beer#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -60,14 +61,63 @@ ex:policy ex:wPrice 0.20 .
 ex:policy ex:wAbv   0.15 .
 ex:policy ex:wCtx   0.10 .
 
-# Catalog (synthetic)
-ex:IPA       a ex:Beer . ex:IPA       ex:style "IPA" .       ex:IBU 60 . ex:SRM 10 . ex:ABV 6.5 . ex:price 4.5 . ex:containsGluten true .
-ex:Stout     a ex:Beer . ex:Stout     ex:style "Stout" .     ex:IBU 40 . ex:SRM 35 . ex:ABV 6.0 . ex:price 4.0 . ex:containsGluten true .
-ex:Pilsner   a ex:Beer . ex:Pilsner   ex:style "Pilsner" .   ex:IBU 25 . ex:SRM 4  . ex:ABV 4.8 . ex:price 3.0 . ex:containsGluten true .
-ex:Saison    a ex:Beer . ex:Saison    ex:style "Saison" .    ex:IBU 30 . ex:SRM 7  . ex:ABV 6.5 . ex:price 4.2 . ex:containsGluten true .
-ex:Witbier   a ex:Beer . ex:Witbier   ex:style "Witbier" .   ex:IBU 12 . ex:SRM 3  . ex:ABV 5.0 . ex:price 3.8 . ex:containsGluten true .
-ex:GF_Lager  a ex:Beer . ex:GF_Lager  ex:style "GF Lager" .  ex:IBU 18 . ex:SRM 5  . ex:ABV 4.5 . ex:price 3.6 . ex:containsGluten false . ex:glutenFree true .
-ex:LowIPA    a ex:Beer . ex:LowIPA    ex:style "Session IPA" . ex:IBU 45 . ex:SRM 9 . ex:ABV 3.8 . ex:price 4.0 . ex:containsGluten true .
+# Catalog (synthetic) — ONE TRIPLE PER LINE
+ex:IPA a ex:Beer .
+ex:IPA ex:style "IPA" .
+ex:IPA ex:IBU 60 .
+ex:IPA ex:SRM 10 .
+ex:IPA ex:ABV 6.5 .
+ex:IPA ex:price 4.5 .
+ex:IPA ex:containsGluten true .
+
+ex:Stout a ex:Beer .
+ex:Stout ex:style "Stout" .
+ex:Stout ex:IBU 40 .
+ex:Stout ex:SRM 35 .
+ex:Stout ex:ABV 6.0 .
+ex:Stout ex:price 4.0 .
+ex:Stout ex:containsGluten true .
+
+ex:Pilsner a ex:Beer .
+ex:Pilsner ex:style "Pilsner" .
+ex:Pilsner ex:IBU 25 .
+ex:Pilsner ex:SRM 4 .
+ex:Pilsner ex:ABV 4.8 .
+ex:Pilsner ex:price 3.0 .
+ex:Pilsner ex:containsGluten true .
+
+ex:Saison a ex:Beer .
+ex:Saison ex:style "Saison" .
+ex:Saison ex:IBU 30 .
+ex:Saison ex:SRM 7 .
+ex:Saison ex:ABV 6.5 .
+ex:Saison ex:price 4.2 .
+ex:Saison ex:containsGluten true .
+
+ex:Witbier a ex:Beer .
+ex:Witbier ex:style "Witbier" .
+ex:Witbier ex:IBU 12 .
+ex:Witbier ex:SRM 3 .
+ex:Witbier ex:ABV 5.0 .
+ex:Witbier ex:price 3.8 .
+ex:Witbier ex:containsGluten true .
+
+ex:GF_Lager a ex:Beer .
+ex:GF_Lager ex:style "GF Lager" .
+ex:GF_Lager ex:IBU 18 .
+ex:GF_Lager ex:SRM 5 .
+ex:GF_Lager ex:ABV 4.5 .
+ex:GF_Lager ex:price 3.6 .
+ex:GF_Lager ex:containsGluten false .
+ex:GF_Lager ex:glutenFree true .
+
+ex:LowIPA a ex:Beer .
+ex:LowIPA ex:style "Session IPA" .
+ex:LowIPA ex:IBU 45 .
+ex:LowIPA ex:SRM 9 .
+ex:LowIPA ex:ABV 3.8 .
+ex:LowIPA ex:price 4.0 .
+ex:LowIPA ex:containsGluten true .
 
 # Expose the catalog list (for convenience)
 ex:catalog ex:hasBeer ex:IPA .
@@ -81,9 +131,6 @@ ex:catalog ex:hasBeer ex:LowIPA .
 
 # -----------------------------------------------------------------------------
 # DYNAMIC RDF (run-time): user preferences + constraints + context
-# - taste targets: IBU, SRM, ABV targets (soft)
-# - hard bans: e.g., gluten
-# - context: meal, weather (affects context penalty)
 # -----------------------------------------------------------------------------
 def make_dynamic_ttl() -> str:
     ln = [
@@ -260,12 +307,6 @@ D = index_triples(D_tr)
 # -----------------------------------------------------------------------------
 # Agent → Driver (Ershov mixed computation)
 # -----------------------------------------------------------------------------
-def norm(xs: List[float]) -> List[float]:
-    lo, hi = min(xs), max(xs)
-    if hi - lo < 1e-9:
-        return [0.0]*len(xs)
-    return [(x-lo)/(hi-lo) for x in xs]
-
 def clamp01(x: float) -> float:
     return max(0.0, min(1.0, x))
 
@@ -276,8 +317,8 @@ def make_driver(S):
     wA = float(get1(S, EX+"policy", EX+"wAbv",   0.15))
     wC = float(get1(S, EX+"policy", EX+"wCtx",   0.10))
 
-    # Catalog (list of beers)
-    catalog = [b for b in S.get(EX+"catalog", {}).get(EX+"hasBeer", [])]
+    # Catalog (list of beers) — deterministic order
+    catalog = sorted([b for b in S.get(EX+"catalog", {}).get(EX+"hasBeer", [])])
 
     # Feature domains (for normalization to [0..1])
     def domains():
@@ -293,6 +334,14 @@ def make_driver(S):
         if hi - lo < 1e-9:
             return 0.0
         return clamp01((x - lo) / (hi - lo))
+
+    def infeasible_and_reason(b: str, ban_gluten: bool, max_abv_hard: float) -> Tuple[bool,str]:
+        reasons = []
+        if ban_gluten and bool(get1(S, b, EX+"containsGluten", False)) and not bool(get1(S, b, EX+"glutenFree", False)):
+            reasons.append("gluten ban")
+        if float(get1(S, b, EX+"ABV", 0.0)) > max_abv_hard:
+            reasons.append("ABV > hard cap")
+        return (len(reasons) > 0, "; ".join(reasons))
 
     def score_and_rank(D):
         # Preferences & context
@@ -311,16 +360,7 @@ def make_driver(S):
         pref_srmN = to_N(pref_srm, SRM_lo, SRM_hi)
         pref_abvN = to_N(pref_abv, ABV_lo, ABV_hi)
 
-        def infeasible(b: str) -> bool:
-            # Gluten ban
-            if ban_gluten and bool(get1(S, b, EX+"containsGluten", False)) and not bool(get1(S, b, EX+"glutenFree", False)):
-                return True
-            # Hard ABV limit
-            if float(get1(S, b, EX+"ABV", 0.0)) > max_abv_hard:
-                return True
-            return False
-
-        # Compute metrics per beer
+        # Compute metrics per beer (deterministic order via catalog sort)
         metrics = {}
         for b in catalog:
             IBU  = float(get1(S, b, EX+"IBU", 0.0))
@@ -330,72 +370,77 @@ def make_driver(S):
             ibuN = to_N(IBU, IBU_lo, IBU_hi)
             srmN = to_N(SRM, SRM_lo, SRM_hi)
             abvN = to_N(ABV, ABV_lo, ABV_hi)
-            priceN = to_N(PRICE, P_lo, P_hi)
 
             # Taste distance (Euclidean in normalized space, then normalize by max possible sqrt(3))
             d = math.sqrt((ibuN - pref_ibuN)**2 + (srmN - pref_srmN)**2 + (abvN - pref_abvN)**2)
             distN = clamp01(d / math.sqrt(3.0))
 
-            # ABV penalty (soft): deviation from preferred ABV (normalized absolute diff)
-            abvPenaltyN = abs(abvN - pref_abvN)
-
-            # Context penalty: simple heuristics
-            ctx_pen = 0.0
-            if weather.lower() == "hot":
-                # prefer lower ABV, higher IBU crispness → penalize >6.5% and very dark SRM
-                if ABV > 6.5: ctx_pen += 0.4
-                if SRM > 20:  ctx_pen += 0.2
-            if meal.lower() == "spicy":
-                # prefer crisper/refreshing: penalize very sweet/dark (high SRM) a bit
-                if SRM > 15:  ctx_pen += 0.2
-            contextN = clamp01(ctx_pen)
+            infeas, why = infeasible_and_reason(b, ban_gluten, max_abv_hard)
 
             metrics[b] = {
                 "beer": b, "style": get1(S, b, EX+"style", "Beer"),
-                "feasible": (not infeasible(b)),
+                "feasible": (not infeas),
+                "why_infeasible": why,
                 "IBU": IBU, "SRM": SRM, "ABV": ABV, "price": PRICE,
-                "ibuN": ibuN, "srmN": srmN, "abvN": abvN, "priceN": priceN,
-                "distN": distN, "abvPenaltyN": abvPenaltyN, "contextN": contextN,
+                "ibuN": ibuN, "srmN": srmN, "abvN": abvN,
+                "distN": distN,
                 "containsGluten": bool(get1(S, b, EX+"containsGluten", True)),
                 "glutenFree": bool(get1(S, b, EX+"glutenFree", False)),
                 "pref": {"ibuN": pref_ibuN, "srmN": pref_srmN, "abvN": pref_abvN},
                 "ctx": {"meal": meal, "weather": weather}
             }
 
-        # Normalize price across feasible only (so a single super expensive infeasible item won't skew)
+        # Normalize price across feasible only (so a single infeasible item won't skew)
         feas_beers = [b for b in catalog if metrics[b]["feasible"]]
         assert feas_beers, "No feasible beers given current bans/limits."
-        # Re-normalize priceN on feasible set
         pvals = [metrics[b]["price"] for b in feas_beers]
         Plo, Phi = min(pvals), max(pvals)
+        def priceN_of(x: float) -> float:
+            if Phi - Plo < 1e-9: return 0.0
+            return (x - Plo) / (Phi - Plo)
         for b in catalog:
-            metrics[b]["priceN"] = to_N(metrics[b]["price"], Plo, Phi)
+            metrics[b]["priceN"] = priceN_of(metrics[b]["price"])
 
-        # Compose score
+        # ABV penalty (soft): normalized absolute diff from preferred ABV
+        for b in catalog:
+            metrics[b]["abvPenaltyN"] = abs(metrics[b]["abvN"] - metrics[b]["pref"]["abvN"])
+
+        # Context penalty: simple heuristics
+        for b in catalog:
+            ctx_pen = 0.0
+            if weather.lower() == "hot":
+                if metrics[b]["ABV"] > 6.5: ctx_pen += 0.4
+                if metrics[b]["SRM"] > 20:  ctx_pen += 0.2
+            if metrics[b]["ctx"]["meal"].lower() == "spicy":
+                if metrics[b]["SRM"] > 15:  ctx_pen += 0.2
+            metrics[b]["contextN"] = clamp01(ctx_pen)
+
+        # Compose score + notes
         results = []
         for b in catalog:
             m = metrics[b]
             if not m["feasible"]:
                 score = float("+inf")
-                note = "infeasible (ban or hard ABV cap)"
+                note = f"infeasible ({m['why_infeasible']})"
             else:
                 score = (wT*m["distN"] + wP*m["priceN"] + wA*m["abvPenaltyN"] + wC*m["contextN"])
                 reasons = []
-                # Taste alignment clues
                 if m["distN"] <= 0.15: reasons.append("close to taste target")
                 elif m["distN"] <= 0.30: reasons.append("near taste target")
-                # Price
                 if m["priceN"] <= 0.2: reasons.append("good price")
-                # ABV closeness
                 if m["abvPenaltyN"] <= 0.15: reasons.append("ABV near preference")
-                # Context
                 if m["contextN"] <= 0.05: reasons.append("fits context")
-                if m["glutenFree"] and bool(get1(D, EX+"me", EX+"banGluten", False)):
-                    reasons.append("gluten-free")
+                if m["glutenFree"] and ban_gluten: reasons.append("gluten-free")
                 note = "; ".join(reasons)
             results.append({**m, "score": score, "note": note})
 
-        ranked = sorted(results, key=lambda r: r["score"])
+        # Deterministic ranking with tie-breakers
+        ranked = sorted(results, key=lambda r: (
+            r["score"],
+            (r["priceN"] if not math.isinf(r["score"]) else 1e9),
+            (r["distN"] if not math.isinf(r["score"]) else 1e9),
+            r["beer"]
+        ))
         weights = {"wTaste": wT, "wPrice": wP, "wAbv": wA, "wCtx": wC}
         return ranked, results, weights
 
