@@ -1,10 +1,27 @@
-@prefix ex: <http://example.org/beer#> .
-# If hot -> add bonus proportional to style crispness
-{ ex:today ex:isHot true . ?b ex:style ?s . ?s ex:crisp ?c . } => { ?b ex:hotBonus ?c } .
-# If meal is spicy -> add bonus proportional to style hoppy and crisp
-{ ex:meal ex:type "spicy" . ?b ex:style ?s . ?s ex:hoppy ?h . } => { ?b ex:spicyBonusH ?h } .
-{ ex:meal ex:type "spicy" . ?b ex:style ?s . ?s ex:crisp ?c . } => { ?b ex:spicyBonusC ?c } .
-# Dietary constraints -> rejections
-{ ex:me ex:wantsLactoseFree true . ?b ex:lactose true } => { ?b ex:reject true } .
-{ ex:me ex:wantsVegan true . ?b ex:vegan false } => { ?b ex:reject true } .
-{ ex:me ex:wantsGlutenFree true . ?b ex:glutenFree false } => { ?b ex:reject true } .
+@prefix ex:   <http://example.org/beer#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Feasibility: gluten ban or hard ABV cap
+{ ?b ex:containsGluten true . ex:me ex:banGluten true . } => { ?b ex:feasible false } .
+{ ?b ex:ABV ?a . ex:me ex:maxAbvHard ?m . ?a math:greaterThan ?m . } => { ?b ex:feasible false } .
+
+# Taste distance (driver computes normalization to [0..1]; N3 expresses intent)
+# dist = sqrt( (IBUN-IBU_prefN)^2 + (SRMN-SRM_prefN)^2 + (ABVN-ABV_prefN)^2 )
+# Score = wTaste*distN + wPrice*priceN + wAbv*abvPenaltyN + wCtx*contextN
+{ ?b ex:distN ?dN .
+  ?b ex:priceN ?pN .
+  ?b ex:abvPenaltyN ?aN .
+  ?b ex:contextN ?cN .
+  ex:policy ex:wTaste ?wT .
+  ex:policy ex:wPrice ?wP .
+  ex:policy ex:wAbv   ?wA .
+  ex:policy ex:wCtx   ?wC .
+  ( ?wT ?dN ) math:product ?tTerm .
+  ( ?wP ?pN ) math:product ?pTerm .
+  ( ?wA ?aN ) math:product ?aTerm .
+  ( ?wC ?cN ) math:product ?cTerm .
+  ( ?tTerm ?pTerm ) math:sum ?tp .
+  ( ?aTerm ?cTerm ) math:sum ?ac .
+  ( ?tp ?ac ) math:sum ?score .
+} => { ?b ex:score ?score } .

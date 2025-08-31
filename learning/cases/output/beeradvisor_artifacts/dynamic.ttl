@@ -1,108 +1,15 @@
 @prefix ex: <http://example.org/beer#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# ME: prefs & constraints
-ex:me ex:prefHoppy 0.8 .
-ex:me ex:prefMalty 0.4 .
-ex:me ex:prefSour  0.2 .
-ex:me ex:prefABVmin 4.0 .
-ex:me ex:prefABVmax 6.5 .
-ex:me ex:budgetMax 6.0 .
-ex:me ex:wantsVegan true .
-ex:me ex:wantsLactoseFree true .
-ex:me ex:wantsGlutenFree false .
+# Preferences (targets are soft; distances are penalized)
+ex:me ex:targetIBU 30 .
+ex:me ex:targetSRM 8 .
+ex:me ex:targetABV 5.0 .
+
+# Hard constraints
+ex:me ex:banGluten true .
+ex:me ex:maxAbvHard 8.0 .
 
 # Context
-ex:today ex:isHot true .
-ex:meal ex:type "spicy" .
-
-# Beer candidates
-ex:beer_pils ex:label "Pilsner Urquell" .
-ex:beer_pils ex:style ex:pilsner .
-ex:beer_pils ex:abv 4.4 .
-ex:beer_pils ex:ibu 35 .
-ex:beer_pils ex:price 4.5 .
-ex:beer_pils ex:availability "wide" .
-ex:beer_pils ex:lactose false .
-ex:beer_pils ex:vegan true .
-ex:beer_pils ex:glutenFree false .
-
-ex:beer_pale ex:label "Sierra Nevada Pale Ale" .
-ex:beer_pale ex:style ex:pale_ale .
-ex:beer_pale ex:abv 5.6 .
-ex:beer_pale ex:ibu 38 .
-ex:beer_pale ex:price 4.0 .
-ex:beer_pale ex:availability "wide" .
-ex:beer_pale ex:lactose false .
-ex:beer_pale ex:vegan true .
-ex:beer_pale ex:glutenFree false .
-
-ex:beer_neipa ex:label "Hazy NEIPA" .
-ex:beer_neipa ex:style ex:neipa .
-ex:beer_neipa ex:abv 6.4 .
-ex:beer_neipa ex:ibu 50 .
-ex:beer_neipa ex:price 6.5 .
-ex:beer_neipa ex:availability "seasonal" .
-ex:beer_neipa ex:lactose false .
-ex:beer_neipa ex:vegan true .
-ex:beer_neipa ex:glutenFree false .
-
-ex:beer_milkstout ex:label "Milk Stout" .
-ex:beer_milkstout ex:style ex:milk_stout .
-ex:beer_milkstout ex:abv 6.0 .
-ex:beer_milkstout ex:ibu 25 .
-ex:beer_milkstout ex:price 5.0 .
-ex:beer_milkstout ex:availability "wide" .
-ex:beer_milkstout ex:lactose true .
-ex:beer_milkstout ex:vegan false .
-ex:beer_milkstout ex:glutenFree false .
-
-ex:beer_porter ex:label "Robust Porter" .
-ex:beer_porter ex:style ex:porter .
-ex:beer_porter ex:abv 5.6 .
-ex:beer_porter ex:ibu 35 .
-ex:beer_porter ex:price 4.8 .
-ex:beer_porter ex:availability "wide" .
-ex:beer_porter ex:lactose false .
-ex:beer_porter ex:vegan true .
-ex:beer_porter ex:glutenFree false .
-
-ex:beer_gose ex:label "Lemon Gose" .
-ex:beer_gose ex:style ex:gose .
-ex:beer_gose ex:abv 4.2 .
-ex:beer_gose ex:ibu 10 .
-ex:beer_gose ex:price 5.5 .
-ex:beer_gose ex:availability "limited" .
-ex:beer_gose ex:lactose false .
-ex:beer_gose ex:vegan true .
-ex:beer_gose ex:glutenFree false .
-
-ex:beer_hefe ex:label "Hefeweizen" .
-ex:beer_hefe ex:style ex:hefeweizen .
-ex:beer_hefe ex:abv 5.2 .
-ex:beer_hefe ex:ibu 18 .
-ex:beer_hefe ex:price 4.2 .
-ex:beer_hefe ex:availability "wide" .
-ex:beer_hefe ex:lactose false .
-ex:beer_hefe ex:vegan true .
-ex:beer_hefe ex:glutenFree false .
-
-ex:beer_tripel ex:label "Belgian Tripel" .
-ex:beer_tripel ex:style ex:tripel .
-ex:beer_tripel ex:abv 9.0 .
-ex:beer_tripel ex:ibu 30 .
-ex:beer_tripel ex:price 7.0 .
-ex:beer_tripel ex:availability "seasonal" .
-ex:beer_tripel ex:lactose false .
-ex:beer_tripel ex:vegan true .
-ex:beer_tripel ex:glutenFree false .
-
-ex:beer_gf_lager ex:label "Gluten-Free Lager" .
-ex:beer_gf_lager ex:style ex:pilsner .
-ex:beer_gf_lager ex:abv 4.5 .
-ex:beer_gf_lager ex:ibu 18 .
-ex:beer_gf_lager ex:price 5.0 .
-ex:beer_gf_lager ex:availability "limited" .
-ex:beer_gf_lager ex:lactose false .
-ex:beer_gf_lager ex:vegan true .
-ex:beer_gf_lager ex:glutenFree true .
+ex:ctx ex:meal "spicy" .
+ex:ctx ex:weather "hot" .

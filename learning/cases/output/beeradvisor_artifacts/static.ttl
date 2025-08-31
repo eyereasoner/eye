@@ -1,63 +1,26 @@
 @prefix ex: <http://example.org/beer#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Policy weights (defaults)
-ex:policy ex:wHoppy 1.0 .
-ex:policy ex:wMalty 0.7 .
-ex:policy ex:wSour  0.6 .
-ex:policy ex:wCrisp 0.8 .
-ex:policy ex:wABVPenalty 0.5 .
-ex:policy ex:wPricePenalty 0.4 .
-ex:policy ex:availabilityBonus 0.2 .
+# Policy weights (sum ~ 1.0) for score = wTaste*tasteDistN + wPrice*priceN + wAbv*abvPenaltyN + wCtx*contextN
+ex:policy ex:wTaste 0.55 .
+ex:policy ex:wPrice 0.20 .
+ex:policy ex:wAbv   0.15 .
+ex:policy ex:wCtx   0.10 .
 
-# Food pairing templates (how meal nudges traits)
-ex:pairingSpicy ex:hoppy 0.6 .
-ex:pairingSpicy ex:crisp 0.4 .
-ex:pairingDessert ex:malty 0.7 .
-ex:pairingSalad ex:sour 0.6 .
+# Catalog (synthetic)
+ex:IPA       a ex:Beer . ex:IPA       ex:style "IPA" .       ex:IBU 60 . ex:SRM 10 . ex:ABV 6.5 . ex:price 4.5 . ex:containsGluten true .
+ex:Stout     a ex:Beer . ex:Stout     ex:style "Stout" .     ex:IBU 40 . ex:SRM 35 . ex:ABV 6.0 . ex:price 4.0 . ex:containsGluten true .
+ex:Pilsner   a ex:Beer . ex:Pilsner   ex:style "Pilsner" .   ex:IBU 25 . ex:SRM 4  . ex:ABV 4.8 . ex:price 3.0 . ex:containsGluten true .
+ex:Saison    a ex:Beer . ex:Saison    ex:style "Saison" .    ex:IBU 30 . ex:SRM 7  . ex:ABV 6.5 . ex:price 4.2 . ex:containsGluten true .
+ex:Witbier   a ex:Beer . ex:Witbier   ex:style "Witbier" .   ex:IBU 12 . ex:SRM 3  . ex:ABV 5.0 . ex:price 3.8 . ex:containsGluten true .
+ex:GF_Lager  a ex:Beer . ex:GF_Lager  ex:style "GF Lager" .  ex:IBU 18 . ex:SRM 5  . ex:ABV 4.5 . ex:price 3.6 . ex:containsGluten false . ex:glutenFree true .
+ex:LowIPA    a ex:Beer . ex:LowIPA    ex:style "Session IPA" . ex:IBU 45 . ex:SRM 9 . ex:ABV 3.8 . ex:price 4.0 . ex:containsGluten true .
 
-# Style trait vectors
-ex:pilsner ex:hoppy 0.3 .
-ex:pilsner ex:malty 0.3 .
-ex:pilsner ex:sour  0.0 .
-ex:pilsner ex:crisp 0.9 .
-
-ex:pale_ale ex:hoppy 0.7 .
-ex:pale_ale ex:malty 0.4 .
-ex:pale_ale ex:sour  0.0 .
-ex:pale_ale ex:crisp 0.5 .
-
-ex:ipa ex:hoppy 0.9 .
-ex:ipa ex:malty 0.4 .
-ex:ipa ex:sour  0.0 .
-ex:ipa ex:crisp 0.4 .
-
-ex:neipa ex:hoppy 0.85 .
-ex:neipa ex:malty 0.5 .
-ex:neipa ex:sour  0.0 .
-ex:neipa ex:crisp 0.3 .
-
-ex:milk_stout ex:hoppy 0.2 .
-ex:milk_stout ex:malty 0.9 .
-ex:milk_stout ex:sour  0.0 .
-ex:milk_stout ex:crisp 0.1 .
-
-ex:porter ex:hoppy 0.3 .
-ex:porter ex:malty 0.8 .
-ex:porter ex:sour  0.0 .
-ex:porter ex:crisp 0.2 .
-
-ex:gose ex:hoppy 0.1 .
-ex:gose ex:malty 0.2 .
-ex:gose ex:sour  0.9 .
-ex:gose ex:crisp 0.6 .
-
-ex:hefeweizen ex:hoppy 0.2 .
-ex:hefeweizen ex:malty 0.4 .
-ex:hefeweizen ex:sour  0.1 .
-ex:hefeweizen ex:crisp 0.7 .
-
-ex:tripel ex:hoppy 0.5 .
-ex:tripel ex:malty 0.7 .
-ex:tripel ex:sour  0.0 .
-ex:tripel ex:crisp 0.4 .
+# Expose the catalog list (for convenience)
+ex:catalog ex:hasBeer ex:IPA .
+ex:catalog ex:hasBeer ex:Stout .
+ex:catalog ex:hasBeer ex:Pilsner .
+ex:catalog ex:hasBeer ex:Saison .
+ex:catalog ex:hasBeer ex:Witbier .
+ex:catalog ex:hasBeer ex:GF_Lager .
+ex:catalog ex:hasBeer ex:LowIPA .
