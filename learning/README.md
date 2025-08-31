@@ -10,11 +10,11 @@ This program not only produces an **Answer** but also explains the **Reason why*
 
 ```
 +--------------+        +-------------------+    +--------------------+    +---------------------+    +------------------+
-|  Data (RDF)  |---o--->|  LLM synthesizer  |--->|    Python code     |--->|  Actionable insight |--->|   (optional)     |
+|  Data (RDF)  |---+--->|  LLM synthesizer  |--->|    Python code     |--->|  Actionable insight |--->|   (optional)     |
 +--------------+   |    +-------------------+    |  o Answer          |    +---------------------+    |   EYE reasoner   |
                    |                             |  o Reason why      |                               |  o proofs        |
 +--------------+   |                             |  o Check (harness) |                               |  o scale         |
-|  Rules (N3)  |---o                             +--------------------+                               +------------------+
+|  Rules (N3)  |---+                             +--------------------+                               +------------------+
 +--------------+   |
                    |
 +--------------+   |
