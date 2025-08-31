@@ -1,0 +1,30 @@
+@prefix ex: <http://example.org/irrig#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Policy weights (sum ~ 1.0): score = wCost*tariffN + wEvap*ET0N
+ex:policy ex:wCost 0.60 .
+ex:policy ex:wEvap 0.40 .
+
+# System constraints
+ex:system ex:maxConcurrent 2 .
+
+# Legal watering windows (decimal hours)
+ex:windows ex:amStart 0.00 .
+ex:windows ex:amEnd   10.00 .
+ex:windows ex:pmStart 18.00 .
+ex:windows ex:pmEnd   24.00 .
+
+# Zones (θ in volumetric fraction 0..1)
+ex:zoneA ex:plant "tomato" .
+ex:zoneA ex:flowLpm 8 .
+ex:zoneA ex:thetaMin 0.22 .
+ex:zoneA ex:thetaMax 0.30 .
+ex:zoneA ex:bucketLPerTheta 120 .       # liters to lift θ by 1.0
+ex:zoneA ex:etThetaPerMm 0.004 .        # θ drop per 1 mm ET0
+
+ex:zoneB ex:plant "lawn" .
+ex:zoneB ex:flowLpm 6 .
+ex:zoneB ex:thetaMin 0.18 .
+ex:zoneB ex:thetaMax 0.28 .
+ex:zoneB ex:bucketLPerTheta 180 .
+ex:zoneB ex:etThetaPerMm 0.003 .

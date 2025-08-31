@@ -1,0 +1,25 @@
+@prefix ex:   <http://example.org/irrig#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Window legality (illustrative: driver enforces; here we state intent)
+{ ?s ex:hour ?h .
+  ex:windows ex:amStart ?aS . ex:windows ex:amEnd ?aE .
+  ex:windows ex:pmStart ?pS . ex:windows ex:pmEnd ?pE .
+  # (h in [aS,aE) OR h in [pS,pE)) → windowOK
+} => { ?s ex:windowOK true } .
+
+# Avoid watering when rain probability high (driver uses a threshold)
+{ ?s ex:rainProb ?r . } => { ?s ex:rainSignal ?r } .
+
+# Slot score = wCost*tariffN + wEvap*ET0N
+{ ?s ex:tariffN ?pN . ?s ex:ET0N ?eN .
+  ex:policy ex:wCost ?wC . ex:policy ex:wEvap ?wE .
+  ( ?wC ?pN ) math:product ?cTerm .
+  ( ?wE ?eN ) math:product ?eTerm .
+  ( ?cTerm ?eTerm ) math:sum ?score .
+} => { ?s ex:score ?score } .
+
+# Capacity cap (conceptual): activeZones ≤ maxConcurrent
+# (Driver computes the count; N3 expresses the presence of a cap)
+{ ex:system ex:maxConcurrent ?K . } => { ex:system ex:cap ?K } .
