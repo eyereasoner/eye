@@ -1,12 +1,16 @@
 from __future__ import annotations
 """
-Carbon- & Price-Aware Home Energy / EV-Charging Scheduler — with schematic & comments
-=====================================================================================
+Carbon- & Price-Aware Home Energy / EV-Charging Scheduler — final
+=================================================================
 EYE-style pipeline: RDF Data + N3 Behaviors → Agent (partial eval, Ershov) → Driver → schedule.
+
+One-liner: a compact EYE-style scheduler that partially evaluates static device/policy RDF plus
+N3 rule intent into a specialized driver which consumes dynamic price/carbon/base-load signals
+and outputs a peak-safe, deadline-feasible EV/DW plan with explanations.
 
 ASCII schematic
 ---------------
-  ME (homeowner) ------------------+
+  ME (homeowner) -----------------+
                                   |         +-------------------+
                                   |         |   Behaviors       |  (rule docs)
                                   |         |   (N3 templates)  |
@@ -17,7 +21,7 @@ ASCII schematic
 +-------------------+   AC    +----------+           |    |
 | data (RDF, static)| <-----> | context  |-----------+    |
 | facts, defaults   | (access)+----------+                |
-+-------------------+                                     v
++-------------------+                                      v
                          Agent (partial evaluator / specialization)
                                      |
                                      v
@@ -39,12 +43,10 @@ Legend (aligned with EYE-learning.md + Ershov mixed computation)
 - Agent: partially evaluates static facts to produce a specialized Driver (by closure).
 - Driver: consumes only dynamic arrays and emits a feasible plan + explanation trace.
 - Answer • Reason-why • Check: schedule CSV, per-slot notes, and assertions/guardrails.
-
-One-liner: a compact EYE-style scheduler that partially evaluates static device/policy RDF plus N3 rule intent into a specialized driver which consumes dynamic price/carbon/base-load signals and outputs a peak-safe, deadline-feasible EV/DW plan with explanations.
 """
 
-import os, csv, math
-from typing import Any, Dict, List, Tuple
+import os, csv, math, json
+from typing import Any, Dict, List
 
 # -----------------------------------------------------------------------------
 # Artifact directory (simple knowledge store)
@@ -55,7 +57,7 @@ os.makedirs(BASE, exist_ok=True)
 EX = "http://example.org/ev#"
 
 # -----------------------------------------------------------------------------
-# STATIC (compile-time) RDF
+# STATIC (compile-time) RDF (keep triples clean; comments allowed on separate lines)
 # -----------------------------------------------------------------------------
 STATIC_TTL = """@prefix ex: <http://example.org/ev#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -99,12 +101,15 @@ def make_dynamic_ttl() -> str:
     price, carbon, baseload = [], [], []
     for s in range(slots):
         hour = s/4.0
+        # price: base 0.20 €/kWh + day hump + evening peak; cheaper after midnight
         p = 0.20 + 0.05*max(0, math.sin((hour-12)/12*math.pi)) + 0.12*max(0, math.sin((hour-18)/6*math.pi))
         if 0 <= hour < 6: p -= 0.05
         price.append(round(p, 3))
+        # carbon intensity: base 300 g/kWh + correlation with price peaks; lower at night
         c = 300 + 80*max(0, math.sin((hour-12)/12*math.pi)) + 120*max(0, math.sin((hour-18)/6*math.pi))
         if 0 <= hour < 6: c -= 60
         carbon.append(int(round(c)))
+        # base load: 0.6 kW night, breakfast 1.2 kW, evening 1.8 kW peak
         b = 0.6
         if 6 <= hour < 9: b = 1.2
         if 18 <= hour < 22: b = 1.8
@@ -118,7 +123,7 @@ def make_dynamic_ttl() -> str:
 DYNAMIC_TTL = make_dynamic_ttl()
 
 # -----------------------------------------------------------------------------
-# Behaviors: Rule documentation in N3 (declarative mirror of the driver)
+# Behaviors: Rule documentation in N3 (valid triple-only math built-ins)
 # -----------------------------------------------------------------------------
 RULES_N3 = """@prefix ex:   <http://example.org/ev#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
@@ -127,7 +132,6 @@ RULES_N3 = """@prefix ex:   <http://example.org/ev#> .
 # -----------------------------------------------------------------------------
 # Scoring from normalized features (requires ex:pNorm, ex:cNorm per slot)
 # score = wP * pNorm + wC * cNorm + wPeak * peakFrac
-# peakFrac can be derived below from baseKw / peakLimitKw
 # -----------------------------------------------------------------------------
 { ?s ex:pNorm ?pN .
   ?s ex:cNorm ?cN .
@@ -187,7 +191,7 @@ _write("dynamic.ttl", DYNAMIC_TTL)
 _write("rules.n3", RULES_N3)
 
 # -----------------------------------------------------------------------------
-# Tiny Turtle Reader (FIXED: robust to inline '#' and to '#' inside IRIs <...#...>)
+# Tiny Turtle Reader (robust to inline '#' and to '#' inside IRIs <...#...>)
 # -----------------------------------------------------------------------------
 def parse_ttl(ttl_text: str):
     prefixes, triples = {}, []
@@ -284,7 +288,7 @@ S = index_triples(S_tr)
 D = index_triples(D_tr)
 
 # -----------------------------------------------------------------------------
-# Agent: capture static constants, specialize a Driver via closures
+# Agent: capture static constants, specialize a Driver via closures (Ershov)
 # -----------------------------------------------------------------------------
 def norm_list(xs: List[float]) -> List[float]:
     lo, hi = min(xs), max(xs)
@@ -304,7 +308,6 @@ def make_driver(S, policy_key=EX+"policy"):
     dw_power = float(get1(S, EX+"dishwasher", EX+"powerKw", 1.2))
     dw_slots = int(get1(S, EX+"dishwasher", EX+"cycleSlots", 4))
 
-    # The specialized Driver needs only dynamic arrays & deadlines.
     def plan(D):
         initial_soc = float(get1(D, EX+"session", EX+"initialSoc", 0.4))
         deadline = int(get1(D, EX+"session", EX+"deadlineSlot", 28))
@@ -350,7 +353,8 @@ def make_driver(S, policy_key=EX+"policy"):
                     i = s0+k
                     if base[i] + ev_kw[i] + dw_power > peak + 1e-9:
                         ok = False; break
-                if ok: best_start = s0; break
+                if ok:
+                    best_start = s0; break
             if best_start is None:
                 best_start = max(0, latest_dw_finish - dw_slots)
             for k in range(dw_slots): dw[best_start+k] = 1
@@ -400,7 +404,7 @@ def make_driver(S, policy_key=EX+"policy"):
         base_cost = sum((base_ev_kw[i] + base_dw[i]*dw_power) * 0.25 * price[i] for i in range(n))
         base_carbon = sum((base_ev_kw[i] + base_dw[i]*dw_power) * 0.25 * carbon[i] for i in range(n))
 
-        # Explanations per slot
+        # Per-slot notes
         notes = []
         for i in range(n):
             why = []
@@ -421,7 +425,10 @@ def make_driver(S, policy_key=EX+"policy"):
             "soc_end": soc_end, "deadline": deadline,
             "dw_power": dw_power, "peak": peak,
             "initial_soc": initial_soc, "target_soc": target_soc,
-            "notes": notes
+            "notes": notes,
+            # Expose internals for richer trace/CSV
+            "score": score, "pNorm": pN, "cNorm": cN, "peak_frac": peak_fraction,
+            "weights": {"wPrice": wP, "wCarbon": wC, "wPeakPenalty": wPeak},
         }
 
     return plan
@@ -460,17 +467,74 @@ res_looser = rerun_with_peak(2.0)
 assert res_looser["total_cost"] <= res["total_cost"] + 1e-9, "Looser peak unexpectedly increased cost"
 
 # -----------------------------------------------------------------------------
-# Emit per-slot CSV + console summary
+# Emit per-slot CSV (extended) + machine- and human-readable traces
 # -----------------------------------------------------------------------------
 csv_path = os.path.join(BASE, "schedule.csv")
 with open(csv_path, "w", newline="", encoding="utf-8") as f:
     w = csv.writer(f)
-    w.writerow(["slot","hour","price_eur_per_kwh","carbon_g_per_kwh","base_kw","ev_kw","dw_kw","total_kw","note"])
+    w.writerow([
+        "slot","hour",
+        "price_eur_per_kwh","carbon_g_per_kwh","base_kw",
+        "ev_kw","dw_kw","total_kw",
+        "pNorm","cNorm","peakFrac","score",
+        "note"
+    ])
     for i,s in enumerate(res["SLOTS"]):
         hour = i/4.0
-        w.writerow([i, f"{hour:05.2f}", f"{res['price'][i]:.3f}", int(res['carbon'][i]), f"{res['base'][i]:.2f}",
-                    f"{res['ev_kw'][i]:.2f}", f"{res['dw'][i]*res['dw_power']:.2f}", f"{res['total_kw'][i]:.2f}",
-                    res['notes'][i]])
+        w.writerow([
+            i, f"{hour:05.2f}",
+            f"{res['price'][i]:.3f}", int(res['carbon'][i]), f"{res['base'][i]:.2f}",
+            f"{res['ev_kw'][i]:.2f}", f"{res['dw'][i]*res['dw_power']:.2f}", f"{res['total_kw'][i]:.2f}",
+            f"{res['pNorm'][i]:.3f}", f"{res['cNorm'][i]:.3f}", f"{res['peak_frac'][i]:.3f}",
+            f"{res['score'][i]:.3f}",
+            res["notes"][i]
+        ])
+
+# Machine-readable trace (JSON)
+trace = {
+    "weights": res["weights"],
+    "constraints": {"peak_limit_kw": res["peak"], "deadline_slot": res["deadline"]},
+    "ev": {"initial_soc": res["initial_soc"], "target_soc": res["target_soc"], "soc_end": res["soc_end"]},
+    "baseline": {"cost_eur": res["baseline_cost"], "carbon_g": res["baseline_carbon"]},
+    "optimized": {"cost_eur": res["total_cost"], "carbon_g": res["total_carbon"]},
+    "decisions": [
+        {
+            "slot": i,
+            "hour": i/4.0,
+            "price": res["price"][i],
+            "carbon": res["carbon"][i],
+            "base_kw": res["base"][i],
+            "ev_kw": res["ev_kw"][i],
+            "dw_kw": res["dw"][i]*res["dw_power"],
+            "pNorm": res["pNorm"][i],
+            "cNorm": res["cNorm"][i],
+            "peakFrac": res["peak_frac"][i],
+            "score": res["score"][i],
+            "note": res["notes"][i],
+        } for i in range(len(res["SLOTS"]))
+    ]
+}
+with open(os.path.join(BASE, "trace.json"), "w", encoding="utf-8") as jf:
+    json.dump(trace, jf, indent=2)
+
+# Human-readable “Reason why”
+with open(os.path.join(BASE, "reason-why.txt"), "w", encoding="utf-8") as tf:
+    tf.write("Reason why / explanation summary\n")
+    tf.write("--------------------------------\n")
+    tf.write(f"Weights: wPrice={res['weights']['wPrice']}, wCarbon={res['weights']['wCarbon']}, "
+             f"wPeakPenalty={res['weights']['wPeakPenalty']}\n")
+    tf.write(f"Peak limit: {res['peak']} kW; Deadline slot: {res['deadline']}\n")
+    tf.write(f"EV SoC: start {res['initial_soc']:.2f} → end {res['soc_end']:.2f} "
+             f"(target {res['target_soc']:.2f})\n")
+    tf.write(f"Cost: baseline €{res['baseline_cost']:.2f} → optimized €{res['total_cost']:.2f}\n")
+    tf.write(f"CO2:  baseline {int(res['baseline_carbon'])} g → optimized {int(res['total_carbon'])} g\n\n")
+    used_slots = [i for i,v in enumerate(res["ev_kw"]) if v > 0]
+    top = sorted(used_slots, key=lambda i: res["score"][i])[:5]
+    tf.write("Top contributing charging slots (lowest score):\n")
+    for i in top:
+        tf.write(f"  - slot {i:02d} (h={i/4.0:05.2f}): score={res['score'][i]:.3f}, "
+                 f"price={res['price'][i]:.3f}, carbon={int(res['carbon'][i])}, "
+                 f"peakFrac={res['peak_frac'][i]:.2f}, ev_kw={res['ev_kw'][i]:.1f}\n")
 
 print("ALL TESTS PASSED")
 print("Summary:")
