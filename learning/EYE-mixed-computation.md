@@ -35,8 +35,8 @@ Governance and traceability follow naturally. Policies live as **N3 rules** and 
 
 We mirror the [EYE learning guide](https://github.com/eyereasoner/eye/blob/master/learning/EYE-learning.md)’s contract by synthesizing a **single, self-contained Python program** that (1) computes an **Answer**, (2) prints a **Reason why**, and (3) runs an internal **Check (harness)**—the “answer / reason-why / check” triad. Inputs are provided as **Data (RDF)** and **Rules (N3)**, optionally preceded by an EYE reasoning pass; the **Agent** plays the role of the “LLM synthesizer” that produces the portable script; and the **Driver** is the run-time core that turns the (possibly entailed) graph into actionable results. This directly matches the guide’s “Data + Rules + Goal → LLM synthesizer → Python \[Answer • Reason-why • Check] → Actionable insight,” with optional hand-off to the EYE reasoner for proofs and scale.
 
-To see it at work, see some concrete cases:
-- https://github.com/eyereasoner/eye/blob/master/learning/cases/biketrip_mixed.py
-- https://github.com/eyereasoner/eye/blob/master/learning/cases/clinicsupport_mixed.py
-- https://github.com/eyereasoner/eye/blob/master/learning/cases/beeradvisor_mixed.py
+Some concrete cases:
+* **[Bike-trip planner](https://github.com/eyereasoner/eye/blob/master/learning/cases/biketrip_mixed.py):** Static RDF captured default policy weights and infrastructure/traffic maps, dynamic RDF held weather/closures/routes, and the specialized driver ranked candidate routes with an explanation trace.
+* **[Clinical demo (educational, not medical advice)](https://github.com/eyereasoner/eye/blob/master/learning/cases/clinicsupport_mixed.py):** Static RDF/N3 documented thresholds and policy weights while dynamic RDF provided patient vitals/comorbidities; the specialized driver prioritized generic interventions with contraindication penalties and emitted rationale.
+* **[Beer advisor](https://github.com/eyereasoner/eye/blob/master/learning/cases/beeradvisor_mixed.py):** Static RDF defined style trait vectors and policy weights, dynamic RDF expressed your taste/constraints plus context (weather/meal), and the specialized driver scored and ranked beers—rejecting those that violated constraints—along with a clear trace.
 
