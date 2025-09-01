@@ -55,15 +55,15 @@ The repository contains **a large suite of cases** illustrating the pattern acro
 ## Architecture at a glance
 
 ```
-+--------------+        +-------------------+    +--------------------+    +---------------------+    +------------------+
-|  Data (RDF)  |---+--->|  LLM synthesizer  |--->|    Python code     |--->|  Actionable insight |--->|   (optional)     |
-+--------------+   |    +-------------------+    |  o Answer          |    +---------------------+    |   EYE reasoner   |
-                   |                             |  o Reason why      |                               |  o proofs        |
-+--------------+   |                             |  o Check (harness) |                               |  o scale         |
-|  Rules (N3)  |---+                             +--------------------+                               +------------------+
-+--------------+   |
-                   |
-+--------------+   |
++--------------+
+|  Data (RDF)  |---+
++--------------+   |                             +--------------------+                               +------------------+
+                   |                             |    Python code     |                               |   (optional)     |
++--------------+   |    +-------------------+    |                    |    +---------------------+    |   EYE reasoner   |
+|  Rules (N3)  |---+--->|  LLM synthesizer  |--->|  o Answer          |--->|  Actionable insight |--->|                  |
++--------------+   |    +-------------------+    |  o Reason why      |    +---------------------+    |  o proofs        |
+                   |                             |  o Check (harness) |                               |  o scale         |
++--------------+   |                             +--------------------+                               +------------------+
 |     Goal     |---+
 +--------------+
 ```

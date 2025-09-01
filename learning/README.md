@@ -9,15 +9,15 @@ This program not only produces an **Answer** but also explains the **Reason why*
 ## Conceptual overview
 
 ```
-+--------------+        +-------------------+    +--------------------+    +---------------------+    +------------------+
-|  Data (RDF)  |---+--->|  LLM synthesizer  |--->|    Python code     |--->|  Actionable insight |--->|   (optional)     |
-+--------------+   |    +-------------------+    |  o Answer          |    +---------------------+    |   EYE reasoner   |
-                   |                             |  o Reason why      |                               |  o proofs        |
-+--------------+   |                             |  o Check (harness) |                               |  o scale         |
-|  Rules (N3)  |---+                             +--------------------+                               +------------------+
-+--------------+   |
-                   |
-+--------------+   |
++--------------+
+|  Data (RDF)  |---+
++--------------+   |                             +--------------------+                               +------------------+
+                   |                             |    Python code     |                               |   (optional)     |
++--------------+   |    +-------------------+    |                    |    +---------------------+    |   EYE reasoner   |
+|  Rules (N3)  |---+--->|  LLM synthesizer  |--->|  o Answer          |--->|  Actionable insight |--->|                  |
++--------------+   |    +-------------------+    |  o Reason why      |    +---------------------+    |  o proofs        |
+                   |                             |  o Check (harness) |                               |  o scale         |
++--------------+   |                             +--------------------+                               +------------------+
 |     Goal     |---+
 +--------------+
 ```
