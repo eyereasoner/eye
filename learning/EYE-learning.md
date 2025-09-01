@@ -72,7 +72,7 @@ The conceptual diagram shows a succinct pipeline: **Data + Rules + Goal** → **
 
 ## Mixed computation
 
-EYE learning also admits a **mixed-computation** view inspired by Ershov: treat **stable policy and mappings** as **static**, and **live inputs** (user preferences, signals, candidates) as **dynamic**. An Agent (the LLM-guided synthesis step) **partially evaluates** the rulebook against the static knowledge to **specialize** a compact **Driver**—a small decision/scoring function.
+EYE learning also admits a **mixed-computation** view inspired by Ershov [1]: treat **stable policy and mappings** as **static**, and **live inputs** (user preferences, signals, candidates) as **dynamic**. An Agent (the LLM-guided synthesis step) **partially evaluates** the rulebook against the static knowledge to **specialize** a compact **Driver**—a small decision/scoring function.
 
 - **Before specialization (optional):** run EYE over data/context to *materialize* derived triples (closures, contraindications, bonuses). Specialization can then target this entailed graph, keeping reasoning (EYE) cleanly separated from execution (Driver).
 - **At runtime:** the Driver consumes only dynamic facts to score/rank candidates and emit a clear **explanation trace** (why an option ranked higher, which bonuses/penalties applied). The Driver also carries lightweight **self-checks** to guard invariants.
