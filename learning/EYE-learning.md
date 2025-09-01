@@ -37,21 +37,6 @@ We use “learning” in a precise, engineering-oriented sense: the system *lear
 
 **Goal-first engineering.** Because the Goal is fixed up front, the LLM “learns” a concrete procedure to reach it. The result is a durable artifact for CI/CD, compliance, and reproducible research.
 
-## Evidence in practice
-
-The repository contains **a large suite of cases** illustrating the pattern across varied scenarios, together with an `./test` runner that executes them end-to-end and emits the **answer / reason-why / check** outputs for each case. In our experience, these cases typically worked **first-time-right**, which suggests the approach is robust under realistic constraints.
-
-> **Reproducibility:** Because the generated Python is self-contained, anyone can rerun a case from a clean environment and expect the same outputs (answer, explanation, and verification), which is essential for auditability and scientific method.
-
-## Typical workflow
-
-1. **Frame the goal.** Define the entailment or decision you want (e.g., “Given this RDF and these N3 rules, compute X and justify it.”).
-2. **Assemble inputs.** Provide the relevant RDF graphs and N3 rule files.
-3. **Synthesize.** Prompt the LLM to generate a **single Python script** that: loads inputs; computes the **Answer**; prints the **Reason why**; runs an internal **Check**.
-4. **Execute and validate.** Run the script locally or in CI; record outputs and harness results. Use the repository’s `./test` command to execute the case suite consistently.
-5. **Iterate and harden.** As rules and data evolve, update the inputs and regenerate the script, preserving the same acceptance criteria (answer, reason, check).
-6. **(Optional) Integrate with EYE.** For larger or performance-sensitive scenarios, hand the reasoning step to the EYE engine to leverage forward/backward chaining and proof features, while retaining the LLM-synthesized harness for verification.
-
 ## Architecture at a glance
 
 ```
@@ -70,7 +55,7 @@ The repository contains **a large suite of cases** illustrating the pattern acro
 
 The conceptual diagram shows a succinct pipeline: **Data + Rules + Goal** → **LLM synthesis** → **Self-contained Python (answer, reason-why, check)** → **Actionable insight**, with optional hand-off to EYE where formal proofs or scale demand it. This architecture makes two deliberate bets: (i) runtime **verification** is non-negotiable, and (ii) the **unit of work** is a portable script that travels well across tooling, teams, and environments.
 
-## Mixed computation
+### Mixed computation
 
 EYE learning also admits a **mixed-computation** view inspired by Ershov [1]: treat **stable policy and mappings** as **static**, and **live inputs** (user preferences, signals, candidates) as **dynamic**. An Agent (the LLM-guided synthesis step) **partially evaluates** the rulebook against the static knowledge to **specialize** a compact **Driver**—a small decision/scoring function.
 
@@ -79,9 +64,24 @@ EYE learning also admits a **mixed-computation** view inspired by Ershov [1]: tr
 - **Governance:** policies live as **N3 rules** and weights in RDF—human-reviewable and versioned. Updating policy simply triggers **re-specialization**; no algorithm rewrite is needed.
 - **Contract alignment:** the mixed-computation lens preserves the same **Answer • Reason why • Check** contract while improving speed, testability, and auditability.
 
+## Typical workflow
+
+1. **Frame the goal.** Define the entailment or decision you want (e.g., “Given this RDF and these N3 rules, compute X and justify it.”).
+2. **Assemble inputs.** Provide the relevant RDF graphs and N3 rule files.
+3. **Synthesize.** Prompt the LLM to generate a **single Python script** that: loads inputs; computes the **Answer**; prints the **Reason why**; runs an internal **Check**.
+4. **Execute and validate.** Run the script locally or in CI; record outputs and harness results. Use the repository’s `./test` command to execute the case suite consistently.
+5. **Iterate and harden.** As rules and data evolve, update the inputs and regenerate the script, preserving the same acceptance criteria (answer, reason, check).
+6. **(Optional) Integrate with EYE.** For larger or performance-sensitive scenarios, hand the reasoning step to the EYE engine to leverage forward/backward chaining and proof features, while retaining the LLM-synthesized harness for verification.
+
 ## Relationship to EYE reasoning
 
 EYE is a production-grade reasoner for N3, used to draw conclusions over RDF using forward and backward chaining along Euler paths. EYE learning is not a replacement: it’s a **front door** that accelerates getting to a validated solution while preserving a path to formal reasoning and proofs when needed. In practice, the LLM often emits **running reasoning code**—the sort of code we would otherwise craft by hand—so engineers can focus on domain rules and quality of evidence rather than boilerplate.
+
+## Evidence in practice
+
+The repository contains **a large suite of cases** illustrating the pattern across varied scenarios, together with an `./test` runner that executes them end-to-end and emits the **answer / reason-why / check** outputs for each case. In our experience, these cases typically worked **first-time-right**, which suggests the approach is robust under realistic constraints.
+
+> **Reproducibility:** Because the generated Python is self-contained, anyone can rerun a case from a clean environment and expect the same outputs (answer, explanation, and verification), which is essential for auditability and scientific method.
 
 ## Governance, trust, and assurance
 
