@@ -1,3 +1,21 @@
-ALL TESTS PASSED
-Artifacts in: /home/jdroo/github.com/eyereasoner/eye/learning/cases/output/biketrip_artifacts
-CSV: /home/jdroo/github.com/eyereasoner/eye/learning/cases/output/biketrip_artifacts/routes.csv
+Answer:
+- #1 ex:route_r2  • score 0.660  • time 19.2 min  • risk 0.11  • gain 60 m  • scenic 0.80
+- #2 ex:route_r1  • score 0.761  • time 19.2 min  • risk 0.48  • gain 45 m  • scenic 0.60
+
+Reason why:
+- ex:route_r2:
+  • Score N3: (1 0.800) math:difference 0.200 ; (0.50 1.000) math:product 0.500 ; (0.30 0.000) math:product 0.000 ; (0.15 1.000) math:product 0.150 ; (0.05 0.200) math:product 0.010 ; sum→ 0.660
+  • Feasible from triples: ex:route_r2 ex:feasible true .
+- ex:route_r1:
+  • Score N3: (1 0.600) math:difference 0.400 ; (0.50 0.983) math:product 0.491 ; (0.30 0.500) math:product 0.150 ; (0.15 0.667) math:product 0.100 ; (0.05 0.400) math:product 0.020 ; sum→ 0.761
+  • Feasible from triples: ex:route_r1 ex:feasible true .
+- ex:route_r3:
+  • Score N3: (1 0.367) math:difference 0.633 ; (0.50 0.000) math:product 0.000 ; (0.30 1.000) math:product 0.300 ; (0.15 0.000) math:product 0.000 ; (0.05 0.633) math:product 0.032 ; sum→ 0.332
+  • Feasible from triples: ex:route_r3 ex:feasible false .
+
+Inputs (fingerprints):
+- Static RDF bytes: 476 ; Dynamic RDF bytes: 2229
+- Rules N3 bytes: 1003 (arithmetic via math:* only)
+
+Check (harness):
+✅ PASS — all checks satisfied.
