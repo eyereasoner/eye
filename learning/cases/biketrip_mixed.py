@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# biketrip_mixed.py
 #
 # Mixed-Computation Header (what this program does)
 # -------------------------------------------------

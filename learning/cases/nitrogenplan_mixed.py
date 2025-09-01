@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# nitrogen_plan_mixed.py
 #
 # Mixed-Computation Header (what this program does)
 # -------------------------------------------------

@@ -1,555 +1,463 @@
+#!/usr/bin/env python3
+#
+# Mixed-Computation Header (what this program does)
+# -------------------------------------------------
+# Static RDF (policy weights) + RULES_N3 (math:* triple patterns only) are
+# partially evaluated into a small driver. At run time, the driver ingests
+# dynamic RDF (user taste targets + candidate beers), computes normalized
+# distance-to-target features (IBU, color SRM, ABV, price), mirrors the N3
+# scoring (weighted sum via math:* semantics), enforces feasibility from
+# hard constraints (gluten-free, ABV range, disliked styles), and prints:
+#   1) Answer (ranked feasible beers),
+#   2) Reason why (trace lines that mirror math:* steps),
+#   3) Check (a harness that re-validates feasibility, scoring, and sorting).
+#
+# Contract with EYE learning:
+# - All rule arithmetic/relations appear as math:* built-ins only in N3.
+# - Everything is inline (no external file writes).
+# - One file produces Answer • Reason why • Check.
+
 from __future__ import annotations
-"""
-BeerAdvisor — EYE-style mixed computation (final, deterministic)
-===============================================================
-Static RDF + N3 intent → Agent (partial eval, Ershov) → specialized Driver → ranked beers.
-
-One-liner: a compact EYE-style advisor that partially evaluates static style/price facts and
-N3 rule intent into a specialized driver which consumes dynamic taste/context/constraints and
-outputs a feasible, preference/price/context–aware ranking with explanation traces.
-
-ASCII schematic
----------------
-  ME (drinker) -------------------+
-                                  |         +-------------------+
-                                  |         |   Behaviors       |  (rule docs)
-                                  |         |   (N3 templates)  |
-                                  |         +-------------------+
-                                  |                  ^    ^
-                                  |                  |    |
-                                  v                  |    | context (dynamic)
-+-------------------+   AC    +----------+           |    |
-| data (RDF, static)| <-----> | context  |-----------+    |
-| styles, prices    | (access)+----------+                |
-+-------------------+                                     v
-                         Agent (partial evaluator / specialization)
-                                     |
-                                     v
-                           Driver (specialized scorer)
-                                     |
-                                     v
-             +-------------------------------------------------------------+
-             | Targets / Capabilities / Context (beers & preferences)      | --> ranked beers
-             +-------------------------------------------------------------+
-                                     |
-                                     v
-                          actionable insight + feedback (trace)
-"""
-
-import os, csv, json, math
+from dataclasses import dataclass
 from typing import Any, Dict, List, Tuple
 
-# -----------------------------------------------------------------------------
-# Artifact directory
-# -----------------------------------------------------------------------------
-BASE = os.path.join(os.path.dirname(__file__), "output/beeradvisor_artifacts")
-os.makedirs(BASE, exist_ok=True)
+# ──────────────────────────────────────────────────────────────────────────────
+# Static + Dynamic RDF (inline)
+# ──────────────────────────────────────────────────────────────────────────────
 
-EX = "http://example.org/beer#"
-
-# -----------------------------------------------------------------------------
-# STATIC RDF (compile-time): catalog of beers + base prices
-# IBU ~ bitterness (0-100), SRM ~ color (2-40), ABV %, price arbitrary currency
-# IMPORTANT: one triple per line to keep it valid TTL and parser-friendly.
-# -----------------------------------------------------------------------------
-STATIC_TTL = """@prefix ex: <http://example.org/beer#> .
+STATIC_TTL = r"""
+@prefix ex:  <http://example.org/beer#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Policy weights (sum ~ 1.0) for score = wTaste*tasteDistN + wPrice*priceN + wAbv*abvPenaltyN + wCtx*contextN
-ex:policy ex:wTaste 0.55 .
-ex:policy ex:wPrice 0.20 .
-ex:policy ex:wAbv   0.15 .
-ex:policy ex:wCtx   0.10 .
-
-# Catalog (synthetic) — ONE TRIPLE PER LINE
-ex:IPA a ex:Beer .
-ex:IPA ex:style "IPA" .
-ex:IPA ex:IBU 60 .
-ex:IPA ex:SRM 10 .
-ex:IPA ex:ABV 6.5 .
-ex:IPA ex:price 4.5 .
-ex:IPA ex:containsGluten true .
-
-ex:Stout a ex:Beer .
-ex:Stout ex:style "Stout" .
-ex:Stout ex:IBU 40 .
-ex:Stout ex:SRM 35 .
-ex:Stout ex:ABV 6.0 .
-ex:Stout ex:price 4.0 .
-ex:Stout ex:containsGluten true .
-
-ex:Pilsner a ex:Beer .
-ex:Pilsner ex:style "Pilsner" .
-ex:Pilsner ex:IBU 25 .
-ex:Pilsner ex:SRM 4 .
-ex:Pilsner ex:ABV 4.8 .
-ex:Pilsner ex:price 3.0 .
-ex:Pilsner ex:containsGluten true .
-
-ex:Saison a ex:Beer .
-ex:Saison ex:style "Saison" .
-ex:Saison ex:IBU 30 .
-ex:Saison ex:SRM 7 .
-ex:Saison ex:ABV 6.5 .
-ex:Saison ex:price 4.2 .
-ex:Saison ex:containsGluten true .
-
-ex:Witbier a ex:Beer .
-ex:Witbier ex:style "Witbier" .
-ex:Witbier ex:IBU 12 .
-ex:Witbier ex:SRM 3 .
-ex:Witbier ex:ABV 5.0 .
-ex:Witbier ex:price 3.8 .
-ex:Witbier ex:containsGluten true .
-
-ex:GF_Lager a ex:Beer .
-ex:GF_Lager ex:style "GF Lager" .
-ex:GF_Lager ex:IBU 18 .
-ex:GF_Lager ex:SRM 5 .
-ex:GF_Lager ex:ABV 4.5 .
-ex:GF_Lager ex:price 3.6 .
-ex:GF_Lager ex:containsGluten false .
-ex:GF_Lager ex:glutenFree true .
-
-ex:LowIPA a ex:Beer .
-ex:LowIPA ex:style "Session IPA" .
-ex:LowIPA ex:IBU 45 .
-ex:LowIPA ex:SRM 9 .
-ex:LowIPA ex:ABV 3.8 .
-ex:LowIPA ex:price 4.0 .
-ex:LowIPA ex:containsGluten true .
-
-# Expose the catalog list (for convenience)
-ex:catalog ex:hasBeer ex:IPA .
-ex:catalog ex:hasBeer ex:Stout .
-ex:catalog ex:hasBeer ex:Pilsner .
-ex:catalog ex:hasBeer ex:Saison .
-ex:catalog ex:hasBeer ex:Witbier .
-ex:catalog ex:hasBeer ex:GF_Lager .
-ex:catalog ex:hasBeer ex:LowIPA .
+# Policy weights (sum ~ 1.0): minimize score = wIBU*ibuN + wColor*srmN + wABV*abvN + wPrice*priceN
+ex:policy ex:wIBU   0.40 .
+ex:policy ex:wColor 0.20 .
+ex:policy ex:wABV   0.25 .
+ex:policy ex:wPrice 0.15 .
 """
 
-# -----------------------------------------------------------------------------
-# DYNAMIC RDF (run-time): user preferences + constraints + context
-# -----------------------------------------------------------------------------
-def make_dynamic_ttl() -> str:
-    ln = [
-        "@prefix ex: <http://example.org/beer#> .",
-        "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .",
-        "",
-        "# Preferences (targets are soft; distances are penalized)",
-        "ex:me ex:targetIBU 30 .",
-        "ex:me ex:targetSRM 8 .",
-        "ex:me ex:targetABV 5.0 .",
-        "",
-        "# Hard constraints",
-        "ex:me ex:banGluten true .",
-        "ex:me ex:maxAbvHard 8.0 .",   # beyond this is infeasible
-        "",
-        "# Context",
-        "ex:ctx ex:meal \"spicy\" .",
-        "ex:ctx ex:weather \"hot\" .",
-    ]
-    return "\n".join(ln)
+DYNAMIC_TTL = r"""
+@prefix ex:  <http://example.org/beer#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-DYNAMIC_TTL = make_dynamic_ttl()
+# User preference targets + constraints
+ex:pt  ex:ibuTarget 45 .
+ex:pt  ex:srmTarget 10 .
+ex:pt  ex:abvTarget 6.0 .
+ex:pt  ex:minAbv    4.0 .
+ex:pt  ex:maxAbv    8.0 .
+ex:pt  ex:glutenFree false .
+ex:pt  ex:budget     5.0 .
+ex:pt  ex:dislikeStyle ex:Smoked .
 
-# -----------------------------------------------------------------------------
-# Behaviors as N3 (valid triple-only math built-ins) — documentation mirror
-# -----------------------------------------------------------------------------
-RULES_N3 = """@prefix ex:   <http://example.org/beer#> .
+# Candidate set
+ex:cand ex:consider ex:beer1 .
+ex:cand ex:consider ex:beer2 .
+ex:cand ex:consider ex:beer3 .
+ex:cand ex:consider ex:beer4 .
+ex:cand ex:consider ex:beer5 .
+ex:cand ex:consider ex:beer6 .
+
+# Beers
+ex:beer1 ex:name "Citrus Haze IPA" .
+ex:beer1 ex:style ex:IPA .
+ex:beer1 ex:ibu 60 .
+ex:beer1 ex:srm 6 .
+ex:beer1 ex:abv 6.5 .
+ex:beer1 ex:price 5.5 .
+ex:beer1 ex:gluten true .
+
+ex:beer2 ex:name "Velvet Stout" .
+ex:beer2 ex:style ex:Stout .
+ex:beer2 ex:ibu 40 .
+ex:beer2 ex:srm 40 .
+ex:beer2 ex:abv 7.0 .
+ex:beer2 ex:price 6.0 .
+ex:beer2 ex:gluten true .
+
+ex:beer3 ex:name "Pilsner Prima" .
+ex:beer3 ex:style ex:Pilsner .
+ex:beer3 ex:ibu 30 .
+ex:beer3 ex:srm 4 .
+ex:beer3 ex:abv 5.0 .
+ex:beer3 ex:price 4.0 .
+ex:beer3 ex:gluten true .
+
+ex:beer4 ex:name "Wheat Breeze" .
+ex:beer4 ex:style ex:Wheat .
+ex:beer4 ex:ibu 18 .
+ex:beer4 ex:srm 5 .
+ex:beer4 ex:abv 4.8 .
+ex:beer4 ex:price 4.5 .
+ex:beer4 ex:gluten true .
+
+ex:beer5 ex:name "Gluten-Free Pale" .
+ex:beer5 ex:style ex:PaleAle .
+ex:beer5 ex:ibu 35 .
+ex:beer5 ex:srm 7 .
+ex:beer5 ex:abv 5.2 .
+ex:beer5 ex:price 5.0 .
+ex:beer5 ex:gluten false .
+
+ex:beer6 ex:name "Smoky Lager" .
+ex:beer6 ex:style ex:Smoked .
+ex:beer6 ex:ibu 22 .
+ex:beer6 ex:srm 15 .
+ex:beer6 ex:abv 5.6 .
+ex:beer6 ex:price 5.0 .
+ex:beer6 ex:gluten true .
+"""
+
+# ──────────────────────────────────────────────────────────────────────────────
+# RULES (N3) — only math:* built-ins for arithmetic/relations
+# ──────────────────────────────────────────────────────────────────────────────
+RULES_N3 = r"""
+@prefix ex:   <http://example.org/beer#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
-# Feasibility: gluten ban or hard ABV cap
-{ ?b ex:containsGluten true . ex:me ex:banGluten true . } => { ?b ex:feasible false } .
-{ ?b ex:ABV ?a . ex:me ex:maxAbvHard ?m . ?a math:greaterThan ?m . } => { ?b ex:feasible false } .
+# Feasibility (hard constraints)
+{ ?b ex:gluten true .  ex:pt ex:glutenFree true . }                               => { ?b ex:feasible false } .
+{ ?b ex:style ?s .     ex:pt ex:dislikeStyle ?s . }                               => { ?b ex:feasible false } .
+{ ?b ex:abv ?a .       ex:pt ex:maxAbv ?mx .  ?a  math:greaterThan ?mx . }        => { ?b ex:feasible false } .
+{ ?b ex:abv ?a .       ex:pt ex:minAbv ?mn .  ?mn math:greaterThan ?a  . }        => { ?b ex:feasible false } .
 
-# Taste distance (driver computes normalization to [0..1]; N3 expresses intent)
-# dist = sqrt( (IBUN-IBU_prefN)^2 + (SRMN-SRM_prefN)^2 + (ABVN-ABV_prefN)^2 )
-# Score = wTaste*distN + wPrice*priceN + wAbv*abvPenaltyN + wCtx*contextN
-{ ?b ex:distN ?dN .
+# Score = wIBU*ibuN + wColor*srmN + wABV*abvN + wPrice*priceN
+{
+  ?b ex:ibuN   ?iN .
+  ?b ex:srmN   ?cN .
+  ?b ex:abvN   ?aN .
   ?b ex:priceN ?pN .
-  ?b ex:abvPenaltyN ?aN .
-  ?b ex:contextN ?cN .
-  ex:policy ex:wTaste ?wT .
+  ex:policy ex:wIBU   ?wI .
+  ex:policy ex:wColor ?wC .
+  ex:policy ex:wABV   ?wA .
   ex:policy ex:wPrice ?wP .
-  ex:policy ex:wAbv   ?wA .
-  ex:policy ex:wCtx   ?wC .
-  ( ?wT ?dN ) math:product ?tTerm .
-  ( ?wP ?pN ) math:product ?pTerm .
-  ( ?wA ?aN ) math:product ?aTerm .
-  ( ?wC ?cN ) math:product ?cTerm .
-  ( ?tTerm ?pTerm ) math:sum ?tp .
-  ( ?aTerm ?cTerm ) math:sum ?ac .
-  ( ?tp ?ac ) math:sum ?score .
-} => { ?b ex:score ?score } .
+  ( ?wI ?iN )        math:product ?iTerm .
+  ( ?wC ?cN )        math:product ?cTerm .
+  ( ?wA ?aN )        math:product ?aTerm .
+  ( ?wP ?pN )        math:product ?pTerm .
+  ( ?iTerm ?cTerm )  math:sum     ?ic .
+  ( ?aTerm ?pTerm )  math:sum     ?ap .
+  ( ?ic ?ap )        math:sum     ?score .
+}
+=>
+{ ?b ex:score ?score } .
 """
 
-def _write(path: str, content: str):
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(content)
+# ──────────────────────────────────────────────────────────────────────────────
+# Inline-comment–safe tiny Turtle reader (1 triple per line; collects repeats)
+# ──────────────────────────────────────────────────────────────────────────────
+def parse_turtle_simple(ttl: str) -> Dict[str, Dict[str, Any]]:
+    """
+    Minimal TTL for this case:
+      - Skips @prefix lines.
+      - Strips inline comments after '#' (outside quoted strings).
+      - One triple per line (as provided here), tolerant to ' . ' separators.
+      - Parses booleans, numbers, qnames, and quoted strings.
+      - Collects repeated predicates into lists.
+    """
+    out: Dict[str, Dict[str, Any]] = {}
 
-_write(os.path.join(BASE, "static.ttl"), STATIC_TTL)
-_write(os.path.join(BASE, "dynamic.ttl"), DYNAMIC_TTL)
-_write(os.path.join(BASE, "rules.n3"),   RULES_N3)
-
-# -----------------------------------------------------------------------------
-# Tiny Turtle Reader (robust to inline '#' and '#' inside IRIs; supports multi-triple lines)
-# -----------------------------------------------------------------------------
-def parse_ttl(ttl_text: str):
-    prefixes, triples = {}, []
-
-    def strip_inline_comments(line: str) -> str:
-        in_quotes = False
-        in_angle = False
-        out = []
-        for ch in line.rstrip():
-            if ch == '"' and not in_angle:
-                in_quotes = not in_quotes
-            elif ch == '<' and not in_quotes:
-                in_angle = True
-            elif ch == '>' and not in_quotes:
-                in_angle = False
-            if ch == '#' and not in_quotes and not in_angle:
-                break
-            out.append(ch)
-        return "".join(out).strip()
-
-    def split_statements(line: str) -> List[str]:
-        stmts, buf = [], []
-        in_quotes = False
-        in_angle = False
+    def strip_inline_comment(line: str) -> str:
+        in_str = False
+        esc = False
+        chars = []
         for ch in line:
-            if ch == '"' and not in_angle:
-                in_quotes = not in_quotes; buf.append(ch); continue
-            if ch == '<' and not in_quotes:
-                in_angle = True; buf.append(ch); continue
-            if ch == '>' and not in_quotes:
-                in_angle = False; buf.append(ch); continue
-            if ch == '.' and not in_quotes and not in_angle:
-                stmts.append("".join(buf).strip()); buf = []
+            if ch == '"' and not esc:
+                in_str = not in_str
+            if ch == '#' and not in_str:
+                break
+            chars.append(ch)
+            if esc:
+                esc = False
+            elif ch == '\\':
+                esc = True
+        return ''.join(chars)
+
+    def add(subj: str, pred: str, val: Any):
+        slot = out.setdefault(subj, {})
+        if pred not in slot:
+            slot[pred] = val
+        else:
+            if isinstance(slot[pred], list):
+                slot[pred].append(val)
+            else:
+                slot[pred] = [slot[pred], val]
+
+    for raw in ttl.splitlines():
+        if raw.lstrip().startswith('@prefix'):
+            continue
+        line = strip_inline_comment(raw).strip()
+        if not line or line.startswith('#'):
+            continue
+        for stmt in [s.strip() for s in line.split(' . ') if s.strip()]:
+            if stmt.endswith('.'):
+                stmt = stmt[:-1].strip()
+            if not stmt:
                 continue
-            buf.append(ch)
-        if buf and "".join(buf).strip():
-            stmts.append("".join(buf).strip())
-        return [s for s in stmts if s]
-
-    for raw in ttl_text.splitlines():
-        line = strip_inline_comments(raw)
-        if not line:
-            continue
-
-        if line.startswith("@prefix"):
-            parts = line.split()
-            if len(parts) >= 3:
-                prefixes[parts[1].rstrip(":")] = parts[2].strip("<>")
-            continue
-
-        for stmt in split_statements(line):
-            toks, buf = [], ""
-            in_quotes = False
-            for ch in stmt.strip():
-                if ch == '"':
-                    in_quotes = not in_quotes; buf += ch
-                elif ch == ' ' and not in_quotes:
-                    if buf: toks.append(buf); buf = ""
+            parts = stmt.split(None, 2)
+            if len(parts) < 3:
+                continue
+            s, p, o = parts[0], parts[1], parts[2].strip()
+            if o.startswith('"'):
+                lit = o[1:o.find('"', 1)]
+                add(s, p, lit)
+            else:
+                tok = o.split()[0]
+                if tok in ('true', 'false'):
+                    add(s, p, tok == 'true')
                 else:
-                    buf += ch
-            if buf: toks.append(buf)
-            if len(toks) < 3:
-                continue
+                    try:
+                        add(s, p, float(tok) if ('.' in tok) else int(tok))
+                    except Exception:
+                        add(s, p, tok)
+    return out
 
-            s, p, o = toks[0], toks[1], " ".join(toks[2:])
+def listify(v) -> List[Any]:
+    if v is None: return []
+    return v if isinstance(v, list) else [v]
 
-            def expand(t: str) -> str:
-                if t.startswith("<") and t.endswith(">"):
-                    return t[1:-1]
-                if ":" in t and not t.startswith('"'):
-                    pref, local = t.split(":", 1)
-                    return prefixes.get(pref, pref + ":") + local
-                return t
+# ──────────────────────────────────────────────────────────────────────────────
+# Domain structures and driver specialization
+# ──────────────────────────────────────────────────────────────────────────────
+@dataclass
+class Weights:
+    wI: float
+    wC: float
+    wA: float
+    wP: float
 
-            s_e, p_e = expand(s), expand(p)
+@dataclass
+class BeerEval:
+    iri: str
+    name: str
+    style: str
+    feasible: bool
+    ibu: float
+    srm: float
+    abv: float
+    price: float
+    ibuN: float
+    srmN: float
+    abvN: float
+    priceN: float
+    score: float
+    trace: List[str]
 
-            if o.startswith('"') and o.endswith('"'):
-                obj: Any = o.strip('"')
-            elif o in ("true", "false"):
-                obj = (o == "true")
-            else:
-                try:
-                    obj = float(o) if "." in o else int(o)
-                except Exception:
-                    obj = expand(o)
+def specialize_driver(S: Dict[str, Dict[str, Any]]):
+    W = Weights(
+        wI=float(S["ex:policy"]["ex:wIBU"]),
+        wC=float(S["ex:policy"]["ex:wColor"]),
+        wA=float(S["ex:policy"]["ex:wABV"]),
+        wP=float(S["ex:policy"]["ex:wPrice"]),
+    )
 
-            triples.append((s_e, p_e, obj))
-    return prefixes, triples
+    def infeasible(beer: Dict[str, Any], D: Dict[str, Dict[str, Any]]) -> bool:
+        gluten = bool(beer.get("ex:gluten", False))
+        style  = str(beer.get("ex:style", "ex:Unknown"))
+        abv    = float(beer.get("ex:abv", 0.0))
+        pt     = D.get("ex:pt", {})
+        gf     = bool(pt.get("ex:glutenFree", False))
+        maxAbv = float(pt.get("ex:maxAbv", 100.0))
+        minAbv = float(pt.get("ex:minAbv", 0.0))
+        dislikes = set(listify(pt.get("ex:dislikeStyle")))
+        # Mirror RULES_N3 feasibility
+        if gluten and gf: return True
+        if style in dislikes: return True
+        if abv > maxAbv: return True
+        if abv < minAbv: return True
+        return False
 
-def index_triples(triples: List[Tuple[str,str,Any]]):
-    idx: Dict[str, Dict[str, List[Any]]] = {}
-    for s,p,o in triples:
-        idx.setdefault(s, {}).setdefault(p, []).append(o)
-    return idx
+    def normalize(values: List[float]) -> Tuple[List[float], Dict[str, float]]:
+        lo, hi = min(values), max(values)
+        rng = hi - lo
+        if rng < 1e-12:
+            return [0.0 for _ in values], {"min": lo, "max": hi, "rng": rng}
+        return [(v - lo) / rng for v in values], {"min": lo, "max": hi, "rng": rng}
 
-def get1(idx: Dict[str, Dict[str, List[Any]]], s: str, p: str, default=None):
-    vals = idx.get(s, {}).get(p, [])
-    return vals[0] if vals else default
+    def driver(D: Dict[str, Dict[str, Any]]):
+        pt = D.get("ex:pt", {})
+        target_ibu = float(pt.get("ex:ibuTarget", 40))
+        target_srm = float(pt.get("ex:srmTarget", 8))
+        target_abv = float(pt.get("ex:abvTarget", 5.5))
 
-# Load graphs
-with open(os.path.join(BASE, "static.ttl"), encoding="utf-8") as f:
-    _, S_tr = parse_ttl(f.read())
-with open(os.path.join(BASE, "dynamic.ttl"), encoding="utf-8") as f:
-    _, D_tr = parse_ttl(f.read())
+        # Candidate IRIs
+        candidates = sorted(set(listify(D.get("ex:cand", {}).get("ex:consider"))))
+        beers = []
+        for b in candidates:
+            props = D.get(b, {})
+            beers.append({
+                "iri": b,
+                "name": str(props.get("ex:name", b)),
+                "style": str(props.get("ex:style", "ex:Unknown")),
+                "ibu": float(props.get("ex:ibu", 0.0)),
+                "srm": float(props.get("ex:srm", 0.0)),
+                "abv": float(props.get("ex:abv", 0.0)),
+                "price": float(props.get("ex:price", 0.0)),
+                "gluten": bool(props.get("ex:gluten", False)),
+            })
 
-S = index_triples(S_tr)
-D = index_triples(D_tr)
+        # Normalization bases (across all candidates)
+        ibu_vals   = [b["ibu"]   for b in beers]
+        srm_vals   = [b["srm"]   for b in beers]
+        abv_vals   = [b["abv"]   for b in beers]
+        price_vals = [b["price"] for b in beers]
+        priceN_all, _ = normalize(price_vals)  # higher price → higher penalty
 
-# -----------------------------------------------------------------------------
-# Agent → Driver (Ershov mixed computation)
-# -----------------------------------------------------------------------------
-def clamp01(x: float) -> float:
-    return max(0.0, min(1.0, x))
+        # Distance-to-target normalized by global range (if rng==0 → 0.0)
+        def distanceN(vals: List[float], target: float) -> List[float]:
+            lo, hi = min(vals), max(vals)
+            rng = hi - lo
+            if rng < 1e-12:
+                return [0.0 for _ in vals]
+            return [abs(v - target) / rng for v in vals]
 
-def make_driver(S):
-    # Static policy weights
-    wT = float(get1(S, EX+"policy", EX+"wTaste", 0.55))
-    wP = float(get1(S, EX+"policy", EX+"wPrice", 0.20))
-    wA = float(get1(S, EX+"policy", EX+"wAbv",   0.15))
-    wC = float(get1(S, EX+"policy", EX+"wCtx",   0.10))
+        ibuN_all = distanceN(ibu_vals,   target_ibu)
+        srmN_all = distanceN(srm_vals,   target_srm)
+        abvN_all = distanceN(abv_vals,   target_abv)
 
-    # Catalog (list of beers) — deterministic order
-    catalog = sorted([b for b in S.get(EX+"catalog", {}).get(EX+"hasBeer", [])])
+        evals: List[BeerEval] = []
+        for idx, b in enumerate(beers):
+            feas = not infeasible(D.get(b["iri"], {}), D)  # pass beer node + dataset
+            # RULES mirror (math:*) for score
+            iN, cN, aN, pN = ibuN_all[idx], srmN_all[idx], abvN_all[idx], priceN_all[idx]
+            iTerm = W.wI * iN
+            cTerm = W.wC * cN
+            aTerm = W.wA * aN
+            pTerm = W.wP * pN
+            ic    = iTerm + cTerm
+            ap    = aTerm + pTerm
+            score = ic + ap
 
-    # Feature domains (for normalization to [0..1])
-    def domains():
-        ibus = [float(get1(S, b, EX+"IBU", 0.0)) for b in catalog]
-        srms = [float(get1(S, b, EX+"SRM", 2.0)) for b in catalog]
-        abvs = [float(get1(S, b, EX+"ABV", 0.0)) for b in catalog]
-        prices = [float(get1(S, b, EX+"price", 0.0)) for b in catalog]
-        return (min(ibus), max(ibus)), (min(srms), max(srms)), (min(abvs), max(abvs)), (min(prices), max(prices))
+            trace = [
+                (f"Score N3: "
+                 f"({W.wI:.2f} {iN:.3f}) math:product {iTerm:.3f} ; "
+                 f"({W.wC:.2f} {cN:.3f}) math:product {cTerm:.3f} ; "
+                 f"({W.wA:.2f} {aN:.3f}) math:product {aTerm:.3f} ; "
+                 f"({W.wP:.2f} {pN:.3f}) math:product {pTerm:.3f} ; "
+                 f"sum→ {score:.3f}")
+            ]
+            evals.append(BeerEval(
+                iri=b["iri"], name=b["name"], style=b["style"], feasible=feas,
+                ibu=b["ibu"], srm=b["srm"], abv=b["abv"], price=b["price"],
+                ibuN=iN, srmN=cN, abvN=aN, priceN=pN,
+                score=score, trace=trace
+            ))
 
-    (IBU_lo, IBU_hi), (SRM_lo, SRM_hi), (ABV_lo, ABV_hi), (P_lo, P_hi) = domains()
+        # Sort: feasible first, then ascending score, tie-break by price then name
+        evals.sort(key=lambda e: (not e.feasible, e.score, e.price, e.name))
+        return evals, W
 
-    def to_N(x, lo, hi):
-        if hi - lo < 1e-9:
-            return 0.0
-        return clamp01((x - lo) / (hi - lo))
+    return driver
 
-    def infeasible_and_reason(b: str, ban_gluten: bool, max_abv_hard: float) -> Tuple[bool,str]:
-        reasons = []
-        if ban_gluten and bool(get1(S, b, EX+"containsGluten", False)) and not bool(get1(S, b, EX+"glutenFree", False)):
-            reasons.append("gluten ban")
-        if float(get1(S, b, EX+"ABV", 0.0)) > max_abv_hard:
-            reasons.append("ABV > hard cap")
-        return (len(reasons) > 0, "; ".join(reasons))
+# ──────────────────────────────────────────────────────────────────────────────
+# Run
+# ──────────────────────────────────────────────────────────────────────────────
+def main():
+    S = parse_turtle_simple(STATIC_TTL)
+    D = parse_turtle_simple(DYNAMIC_TTL)
 
-    def score_and_rank(D):
-        # Preferences & context
-        pref_ibu = float(get1(D, EX+"me", EX+"targetIBU", 30))
-        pref_srm = float(get1(D, EX+"me", EX+"targetSRM", 8))
-        pref_abv = float(get1(D, EX+"me", EX+"targetABV", 5.0))
-        ban_gluten = bool(get1(D, EX+"me", EX+"banGluten", False))
-        max_abv_hard = float(get1(D, EX+"me", EX+"maxAbvHard", 100))
-        meal = str(get1(D, EX+"ctx", EX+"meal", "neutral"))
-        weather = str(get1(D, EX+"ctx", EX+"weather", "mild"))
+    driver = specialize_driver(S)
+    evals, W = driver(D)
 
-        assert catalog, "No beers in the static catalog"
+    feasible = [e for e in evals if e.feasible]
+    winners = feasible
 
-        # Normalize preference targets to same [0..1] as features
-        pref_ibuN = to_N(pref_ibu, IBU_lo, IBU_hi)
-        pref_srmN = to_N(pref_srm, SRM_lo, SRM_hi)
-        pref_abvN = to_N(pref_abv, ABV_lo, ABV_hi)
+    # ── ANSWER ──
+    print("Answer:")
+    if not winners:
+        print("- No feasible beers for the given constraints.")
+    else:
+        for rank, e in enumerate(winners, start=1):
+            print(f"- #{rank} {e.name} ({e.style.split(':')[-1]}) • score {e.score:.3f} • "
+                  f"IBU {e.ibu:.0f} • SRM {e.srm:.0f} • ABV {e.abv:.1f}% • price {e.price:.2f}")
 
-        # Compute metrics per beer (deterministic order via catalog sort)
-        metrics = {}
-        for b in catalog:
-            IBU  = float(get1(S, b, EX+"IBU", 0.0))
-            SRM  = float(get1(S, b, EX+"SRM", 2.0))
-            ABV  = float(get1(S, b, EX+"ABV", 0.0))
-            PRICE= float(get1(S, b, EX+"price", 0.0))
-            ibuN = to_N(IBU, IBU_lo, IBU_hi)
-            srmN = to_N(SRM, SRM_lo, SRM_hi)
-            abvN = to_N(ABV, ABV_lo, ABV_hi)
+    # ── REASON WHY ──
+    print("\nReason why:")
+    pt = D.get("ex:pt", {})
+    print(f"- Weights: wIBU={W.wI:.2f}, wColor={W.wC:.2f}, wABV={W.wA:.2f}, wPrice={W.wP:.2f}")
+    print(f"- Targets: IBU={float(pt.get('ex:ibuTarget', 0)):.0f}, "
+          f"SRM={float(pt.get('ex:srmTarget', 0)):.0f}, ABV={float(pt.get('ex:abvTarget', 0)):.1f}")
+    print(f"- ABV range: {float(pt.get('ex:minAbv', 0)):.1f}–{float(pt.get('ex:maxAbv', 100)):.1f} ; "
+          f"glutenFree={'true' if bool(pt.get('ex:glutenFree', False)) else 'false'} ; "
+          f"dislikes={[s.split(':')[-1] for s in listify(pt.get('ex:dislikeStyle'))] or []}")
+    for e in evals:
+        feas = "true" if e.feasible else "false"
+        print(f"- {e.name}: feasible={feas}")
+        for ln in e.trace:
+            print(f"  • {ln}")
 
-            # Taste distance (Euclidean in normalized space, then normalize by max possible sqrt(3))
-            d = math.sqrt((ibuN - pref_ibuN)**2 + (srmN - pref_srmN)**2 + (abvN - pref_abvN)**2)
-            distN = clamp01(d / math.sqrt(3.0))
+    # Echo rule/data fingerprints for auditability
+    print("\nInputs (fingerprints):")
+    print(f"- Static RDF bytes: {len(STATIC_TTL.encode())} ; Dynamic RDF bytes: {len(DYNAMIC_TTL.encode())}")
+    print(f"- Rules N3 bytes: {len(RULES_N3.encode())} (math:* triples only)")
 
-            infeas, why = infeasible_and_reason(b, ban_gluten, max_abv_hard)
+    # ── CHECK (harness) ──
+    print("\nCheck (harness):")
+    errors: List[str] = []
 
-            metrics[b] = {
-                "beer": b, "style": get1(S, b, EX+"style", "Beer"),
-                "feasible": (not infeas),
-                "why_infeasible": why,
-                "IBU": IBU, "SRM": SRM, "ABV": ABV, "price": PRICE,
-                "ibuN": ibuN, "srmN": srmN, "abvN": abvN,
-                "distN": distN,
-                "containsGluten": bool(get1(S, b, EX+"containsGluten", True)),
-                "glutenFree": bool(get1(S, b, EX+"glutenFree", False)),
-                "pref": {"ibuN": pref_ibuN, "srmN": pref_srmN, "abvN": pref_abvN},
-                "ctx": {"meal": meal, "weather": weather}
-            }
+    # (C1) Re-derive feasibility according to RULES_N3 and compare with evals
+    def n3_feasible(e: BeerEval) -> bool:
+        pt = D.get("ex:pt", {})
+        gf = bool(pt.get("ex:glutenFree", False))
+        dislikes = set(listify(pt.get("ex:dislikeStyle")))
+        maxAbv = float(pt.get("ex:maxAbv", 100.0))
+        minAbv = float(pt.get("ex:minAbv", 0.0))
+        if bool(D.get(e.iri, {}).get("ex:gluten", False)) and gf:
+            return False
+        if str(D.get(e.iri, {}).get("ex:style", "")) in dislikes:
+            return False
+        a = float(D.get(e.iri, {}).get("ex:abv", 0.0))
+        if a > maxAbv: return False
+        if a < minAbv: return False
+        return True
 
-        # Normalize price across feasible only (so a single infeasible item won't skew)
-        feas_beers = [b for b in catalog if metrics[b]["feasible"]]
-        assert feas_beers, "No feasible beers given current bans/limits."
-        pvals = [metrics[b]["price"] for b in feas_beers]
-        Plo, Phi = min(pvals), max(pvals)
-        def priceN_of(x: float) -> float:
-            if Phi - Plo < 1e-9: return 0.0
-            return (x - Plo) / (Phi - Plo)
-        for b in catalog:
-            metrics[b]["priceN"] = priceN_of(metrics[b]["price"])
+    for e in evals:
+        if e.feasible != n3_feasible(e):
+            errors.append(f"(C1) Feasibility mismatch for {e.name}")
 
-        # ABV penalty (soft): normalized absolute diff from preferred ABV
-        for b in catalog:
-            metrics[b]["abvPenaltyN"] = abs(metrics[b]["abvN"] - metrics[b]["pref"]["abvN"])
+    # (C2) Winner (if any) must be feasible
+    if feasible and not winners[0].feasible:
+        errors.append("(C2) Top-ranked beer is not feasible")
 
-        # Context penalty: simple heuristics
-        for b in catalog:
-            ctx_pen = 0.0
-            if weather.lower() == "hot":
-                if metrics[b]["ABV"] > 6.5: ctx_pen += 0.4
-                if metrics[b]["SRM"] > 20:  ctx_pen += 0.2
-            if metrics[b]["ctx"]["meal"].lower() == "spicy":
-                if metrics[b]["SRM"] > 15:  ctx_pen += 0.2
-            metrics[b]["contextN"] = clamp01(ctx_pen)
+    # (C3) Score recomputation from normalized terms + weights
+    for e in feasible:
+        iTerm = W.wI * e.ibuN
+        cTerm = W.wC * e.srmN
+        aTerm = W.wA * e.abvN
+        pTerm = W.wP * e.priceN
+        recomputed = (iTerm + cTerm) + (aTerm + pTerm)
+        if abs(recomputed - e.score) > 1e-9:
+            errors.append(f"(C3) Score mismatch for {e.name}: {e.score:.6f} vs {recomputed:.6f}")
 
-        # Compose score + notes
-        results = []
-        for b in catalog:
-            m = metrics[b]
-            if not m["feasible"]:
-                score = float("+inf")
-                note = f"infeasible ({m['why_infeasible']})"
-            else:
-                score = (wT*m["distN"] + wP*m["priceN"] + wA*m["abvPenaltyN"] + wC*m["contextN"])
-                reasons = []
-                if m["distN"] <= 0.15: reasons.append("close to taste target")
-                elif m["distN"] <= 0.30: reasons.append("near taste target")
-                if m["priceN"] <= 0.2: reasons.append("good price")
-                if m["abvPenaltyN"] <= 0.15: reasons.append("ABV near preference")
-                if m["contextN"] <= 0.05: reasons.append("fits context")
-                if m["glutenFree"] and ban_gluten: reasons.append("gluten-free")
-                note = "; ".join(reasons)
-            results.append({**m, "score": score, "note": note})
+    # (C4) Increasing price weight shouldn't yield a *more expensive* top pick (if a winner exists).
+    def rerun_with_price_bonus(delta=0.20):
+        S2 = {k: {kk: (vv[:] if isinstance(vv, list) else vv) for kk, vv in v.items()} for k, v in S.items()}
+        S2["ex:policy"]["ex:wPrice"] = float(S2["ex:policy"]["ex:wPrice"]) + delta
+        # Renormalize other weights proportionally
+        remain = 1.0 - float(S2["ex:policy"]["ex:wPrice"])
+        tot_other = float(S["ex:policy"]["ex:wIBU"]) + float(S["ex:policy"]["ex:wColor"]) + float(S["ex:policy"]["ex:wABV"])
+        scale = (remain / tot_other) if tot_other > 0 else 0.0
+        S2["ex:policy"]["ex:wIBU"]   = float(S["ex:policy"]["ex:wIBU"])   * scale
+        S2["ex:policy"]["ex:wColor"] = float(S["ex:policy"]["ex:wColor"]) * scale
+        S2["ex:policy"]["ex:wABV"]   = float(S["ex:policy"]["ex:wABV"])   * scale
+        evals2, W2 = specialize_driver(S2)(D)
+        feas2 = [x for x in evals2 if x.feasible]
+        return feas2[0] if feas2 else None
 
-        # Deterministic ranking with tie-breakers
-        ranked = sorted(results, key=lambda r: (
-            r["score"],
-            (r["priceN"] if not math.isinf(r["score"]) else 1e9),
-            (r["distN"] if not math.isinf(r["score"]) else 1e9),
-            r["beer"]
-        ))
-        weights = {"wTaste": wT, "wPrice": wP, "wAbv": wA, "wCtx": wC}
-        return ranked, results, weights
+    best = winners[0] if winners else None
+    best2 = rerun_with_price_bonus(0.20)
+    if best and best2 and (best2.price > best.price + 1e-9):
+        errors.append("(C4) Increasing wPrice produced a *more expensive* chosen beer")
 
-    return score_and_rank
+    if errors:
+        print("❌ FAIL")
+        for e in errors:
+            print(" -", e)
+        raise SystemExit(1)
+    else:
+        print("✅ PASS — all checks satisfied.")
 
-# Build specialized driver
-driver = make_driver(S)
-
-# -----------------------------------------------------------------------------
-# Execute
-# -----------------------------------------------------------------------------
-ranked, all_results, weights = driver(D)
-
-# Basic checks
-feasible = [r for r in ranked if r["feasible"]]
-assert feasible, "No feasible beers after scoring."
-
-best = feasible[0]
-
-# Monotonicity wrt price weight: increasing wPrice should not pick a MORE expensive best beer
-def rerun_with_price_bonus(delta=0.20):
-    S_mod = {k:{kk:list(vv) for kk,vv in props.items()} for k, props in S.items()}
-    S_mod[EX+"policy"][EX+"wPrice"] = [min(0.99, weights["wPrice"] + delta)]
-    # Renormalize the other weights proportionally (sum ~ 1.0)
-    remain = 1.0 - S_mod[EX+"policy"][EX+"wPrice"][0]
-    others = [weights["wTaste"], weights["wAbv"], weights["wCtx"]]
-    tot = sum(others)
-    scale = remain / tot if tot > 0 else 0.0
-    S_mod[EX+"policy"][EX+"wTaste"] = [weights["wTaste"] * scale]
-    S_mod[EX+"policy"][EX+"wAbv"]   = [weights["wAbv"]   * scale]
-    S_mod[EX+"policy"][EX+"wCtx"]   = [weights["wCtx"]   * scale]
-    ranked2, _, _ = make_driver(S_mod)(D)
-    best2 = [r for r in ranked2 if r["feasible"]][0]
-    return best2
-
-best_after = rerun_with_price_bonus(0.20)
-assert best_after["price"] <= best["price"] + 1e-9, \
-    "Increasing price weight should not produce a more expensive chosen beer."
-
-# -----------------------------------------------------------------------------
-# Emit beers.csv (score breakdown) + machine- and human-readable traces
-# -----------------------------------------------------------------------------
-csv_path = os.path.join(BASE, "beers.csv")
-with open(csv_path, "w", newline="", encoding="utf-8") as f:
-    w = csv.writer(f)
-    w.writerow([
-        "rank","beer","style","feasible",
-        "IBU","SRM","ABV","price",
-        "distN","priceN","abvPenaltyN","contextN","score","note"
-    ])
-    for i,r in enumerate(ranked, start=1):
-        w.writerow([
-            i, r["beer"].split("#")[-1], r["style"], r["feasible"],
-            int(r["IBU"]), int(r["SRM"]), f"{r['ABV']:.1f}", f"{r['price']:.2f}",
-            (None if math.isinf(r["score"]) else f"{r['distN']:.3f}"),
-            (None if math.isinf(r["score"]) else f"{r['priceN']:.3f}"),
-            (None if math.isinf(r["score"]) else f"{r['abvPenaltyN']:.3f}"),
-            (None if math.isinf(r["score"]) else f"{r['contextN']:.3f}"),
-            (None if math.isinf(r["score"]) else f"{r['score']:.3f}"),
-            r["note"],
-        ])
-
-# Machine-readable trace (JSON)
-trace = {
-    "weights": weights,
-    "chosen": best["beer"],
-    "preferences": all_results[0]["pref"] if all_results else {},
-    "context": all_results[0]["ctx"] if all_results else {},
-    "beers": [
-        {
-            "beer": r["beer"],
-            "style": r["style"],
-            "feasible": r["feasible"],
-            "IBU": r["IBU"], "SRM": r["SRM"], "ABV": r["ABV"], "price": r["price"],
-            "distN": (None if math.isinf(r["score"]) else r["distN"]),
-            "priceN": (None if math.isinf(r["score"]) else r["priceN"]),
-            "abvPenaltyN": (None if math.isinf(r["score"]) else r["abvPenaltyN"]),
-            "contextN": (None if math.isinf(r["score"]) else r["contextN"]),
-            "score": (None if math.isinf(r["score"]) else r["score"]),
-            "glutenFree": r["glutenFree"],
-            "containsGluten": r["containsGluten"],
-            "note": r["note"]
-        } for r in ranked
-    ]
-}
-with open(os.path.join(BASE, "trace.json"), "w", encoding="utf-8") as jf:
-    json.dump(trace, jf, indent=2)
-
-# Human-readable “Reason why”
-with open(os.path.join(BASE, "reason-why.txt"), "w", encoding="utf-8") as tf:
-    tf.write("Reason why / explanation summary — BeerAdvisor\n")
-    tf.write("--------------------------------------------\n")
-    tf.write(f"Weights: wTaste={weights['wTaste']}, wPrice={weights['wPrice']}, "
-             f"wAbv={weights['wAbv']}, wCtx={weights['wCtx']}\n")
-    tf.write(f"Chosen beer: {best['beer']} ({best['style']})\n")
-    tf.write(f"IBU/SRM/ABV/Price: {int(best['IBU'])}/{int(best['SRM'])}/{best['ABV']:.1f}%/€{best['price']:.2f}\n")
-    if not math.isinf(best["score"]):
-        tf.write(f"Components — distN={best['distN']:.3f}, priceN={best['priceN']:.3f}, "
-                 f"abvPenaltyN={best['abvPenaltyN']:.3f}, contextN={best['contextN']:.3f}, "
-                 f"score={best['score']:.3f}\n")
-    tf.write(f"Notes: {best['note']}\n\n")
-    tf.write("Top feasible beers:\n")
-    rank = 1
-    for r in [x for x in ranked if x["feasible"]][:5]:
-        tf.write(f"  {rank}. {r['beer']}  score={r['score']:.3f}  "
-                 f"IBU={int(r['IBU'])}  SRM={int(r['SRM'])}  ABV={r['ABV']:.1f}%  price=€{r['price']:.2f}\n")
-        rank += 1
-
-print("ALL TESTS PASSED")
-print("Artifacts in:", BASE)
-print("CSV:", csv_path)
+if __name__ == "__main__":
+    main()
 
