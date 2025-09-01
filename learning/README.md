@@ -10,7 +10,7 @@ See the [EYE learning guide](https://github.com/eyereasoner/eye/blob/master/lear
 
 ## Running the EYE learning cases
 
-Run the [eye learning cases](https://github.com/eyereasoner/eye/tree/master/learning/cases) to get the [answer, reason why and check (harness)](https://github.com/eyereasoner/eye/tree/master/learning/cases/output)
+Run the [EYE learning cases](https://github.com/eyereasoner/eye/tree/master/learning/cases) to get the [answer, reason why and check (harness)](https://github.com/eyereasoner/eye/tree/master/learning/cases/output)
    ```bash
    ./test
    ```
