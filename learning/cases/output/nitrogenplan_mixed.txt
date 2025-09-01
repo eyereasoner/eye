@@ -1,0 +1,20 @@
+Answer:
+- FieldA (10.0 ha): 2 applications using Urea (46% N)
+  • App #1: 102.0 kg N/ha  (farm total 1020.0 kg)
+  • App #2: 68.0 kg N/ha  (farm total 680.0 kg)
+  • Season total: 170.0 kg N/ha
+
+Reason why:
+- R1: (?npt 25.0 ?yt 8.0 ?prod 200.0) math:product; (?prod 200.0 ?soil 30.0 ?req 170.0) math:difference.
+- R1b: (?req 170.0 ?cap 220.0) math:notGreaterThan ⇒ keep 170.0.
+- R2: stage='tillering' ⇒ split [0.6, 0.4] of total.
+- R4: (?ideal 102.0 ?cap 120.0) math:notGreaterThan ⇒ app#1 102.0 kg/ha.
+- R4: (?ideal 68.0 ?cap 120.0) math:notGreaterThan ⇒ app#2 68.0 kg/ha.
+- R3: (?r 5.0 ?hr 10.0) not satisfied ⇒ prefer cheaper product Urea (46% N).
+
+Inputs (fingerprints):
+- Data RDF size: 813 bytes; subjects: 5
+- Rules N3 size: 778 bytes (math:* triples only)
+
+Check (harness):
+✅ PASS — all checks satisfied.

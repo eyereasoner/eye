@@ -1,3 +1,29 @@
-ALL TESTS PASSED
-Artifacts in: /home/jdroo/github.com/eyereasoner/eye/learning/cases/output/clinicsupport_artifacts
-CSV: /home/jdroo/github.com/eyereasoner/eye/learning/cases/output/clinicsupport_artifacts/recommendations.csv
+Answer:
+- #1 ex:Metformin • score 0.005 • benefitN 1.000 • riskN 0.000 • costN 0.023
+- #2 ex:ACEi • score 0.014 • benefitN 1.000 • riskN 0.000 • costN 0.068
+- #3 ex:BB_nonselect • score 0.097 • benefitN 0.706 • riskN 0.000 • costN 0.045
+- #4 ex:SGLT2 • score 0.235 • benefitN 0.882 • riskN 0.000 • costN 1.000
+- #5 ex:NSAID • score 0.300 • benefitN 0.000 • riskN 0.000 • costN 0.000
+
+Reason why:
+- Weights: wRisk=0.50, wCost=0.20, wBenefit=0.30
+- Patient conditions: ['CKD', 'HTN', 'T2D']
+- ex:Metformin: feasible=true
+  • Score N3: (1 1.000) math:difference 0.000 ; (0.50 0.000) math:product 0.000 ; (0.20 0.023) math:product 0.005 ; (0.30 0.000) math:product 0.000 ; sum→ 0.005
+- ex:ACEi: feasible=true
+  • Score N3: (1 1.000) math:difference 0.000 ; (0.50 0.000) math:product 0.000 ; (0.20 0.068) math:product 0.014 ; (0.30 0.000) math:product 0.000 ; sum→ 0.014
+- ex:BB_nonselect: feasible=true
+  • Score N3: (1 0.706) math:difference 0.294 ; (0.50 0.000) math:product 0.000 ; (0.20 0.045) math:product 0.009 ; (0.30 0.294) math:product 0.088 ; sum→ 0.097
+- ex:SGLT2: feasible=true
+  • Score N3: (1 0.882) math:difference 0.118 ; (0.50 0.000) math:product 0.000 ; (0.20 1.000) math:product 0.200 ; (0.30 0.118) math:product 0.035 ; sum→ 0.235
+- ex:NSAID: feasible=true
+  • Score N3: (1 0.000) math:difference 1.000 ; (0.50 0.000) math:product 0.000 ; (0.20 0.000) math:product 0.000 ; (0.30 1.000) math:product 0.300 ; sum→ 0.300
+- ex:Amoxicillin: feasible=false
+  • infeasible (hard contraindication)
+
+Inputs (fingerprints):
+- Static RDF bytes: 1808 ; Dynamic RDF bytes: 659
+- Rules N3 bytes: 1163 (math:* triples only)
+
+Check (harness):
+✅ PASS — all checks satisfied.
