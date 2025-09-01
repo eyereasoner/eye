@@ -1,3 +1,20 @@
-ALL TESTS PASSED
-Artifacts in: /home/jdroo/github.com/eyereasoner/eye/learning/cases/output/irrigation_artifacts
-CSV: /home/jdroo/github.com/eyereasoner/eye/learning/cases/output/irrigation_artifacts/schedule.csv
+Answer:
+- Event depth: 24.0 mm (cap 24.0 mm)
+  • Soil gain this event: 20.4 mm (eff 0.85)
+  • Field volume: 3600.0 m³ over 15.0 ha
+  • Remaining unmet soil need (if any): 13.6 mm (gross need 34.0 mm)
+
+Reason why:
+- R1: (25.0 18.0) math:difference 7.000 ; (7.000 100) math:quotient 0.070 ; (0.070 0.4) math:product 0.028 ; (0.028 1000) math:product 28.0 mm.
+- R2: (10.0 4.0) math:difference 6.0 mm.
+- R3: (28.0 6.0) math:sum 34.0 mm.
+- R4: required_applied = (34.0 / 0.85) → 40.0 mm (mirrors math:quotient).
+- Caps: perEventCap 25.0 mm ; system cap (12.0×2.0) = 24.0 mm ⇒ deliverable 24.0 mm (min via math:notGreaterThan reasoning).
+- Vol: event 24.0 mm × area 15.0 ha × 10 → 3600.0 m³.
+
+Inputs (fingerprints):
+- Static RDF bytes: 525 ; Dynamic RDF bytes: 328
+- Rules N3 bytes: 1408 (math:* triples only)
+
+Check (harness):
+✅ PASS — all checks satisfied.
