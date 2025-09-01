@@ -1,532 +1,409 @@
+#!/usr/bin/env python3
+#
+# Mixed-Computation Header (what this program does)
+# -------------------------------------------------
+# Static RDF (policy weights, charger/site caps, efficiency) + RULES_N3
+# (math:* triple patterns only) are partially evaluated into a tiny "driver".
+# At run time, the driver ingests dynamic RDF (EV state, availability window,
+# hourly prices + renewable share), computes normalized per-slot scores, and
+# chooses a charging schedule that meets the energy requirement while obeying
+# power/availability constraints. It prints:
+#   1) Answer (per-hour kW, grid kWh, cost — plus totals),
+#   2) Reason why (math:* trace lines for slot scores),
+#   3) Check (harness re-validating energy, caps, window, and scoring).
+#
+# Contract with EYE learning:
+# - All rule arithmetic/relations appear as math:* built-ins only in N3.
+# - Everything is inline (no external file writes).
+# - One file produces Answer • Reason why • Check.
+
 from __future__ import annotations
-"""
-Carbon- & Price-Aware Home Energy / EV-Charging Scheduler — final
-=================================================================
-EYE-style pipeline: RDF Data + N3 Behaviors → Agent (partial eval, Ershov) → Driver → schedule.
+from dataclasses import dataclass
+from typing import Any, Dict, List, Tuple
 
-One-liner: a compact EYE-style scheduler that partially evaluates static device/policy RDF plus
-N3 rule intent into a specialized driver which consumes dynamic price/carbon/base-load signals
-and outputs a peak-safe, deadline-feasible EV/DW plan with explanations.
+# ──────────────────────────────────────────────────────────────────────────────
+# Static + Dynamic RDF (inline)
+# ──────────────────────────────────────────────────────────────────────────────
 
-ASCII schematic
----------------
-  ME (homeowner) -----------------+
-                                  |         +-------------------+
-                                  |         |   Behaviors       |  (rule docs)
-                                  |         |   (N3 templates)  |
-                                  |         +-------------------+
-                                  |                  ^    ^
-                                  |                  |    |
-                                  v                  |    | context (dynamic)
-+-------------------+   AC    +----------+           |    |
-| data (RDF, static)| <-----> | context  |-----------+    |
-| facts, defaults   | (access)+----------+                |
-+-------------------+                                      v
-                         Agent (partial evaluator / specialization)
-                                     |
-                                     v
-                           Driver (specialized scheduler)
-                                     |
-                                     v
-             +-------------------------------------------------------------+
-             | Targets / Capabilities / Context (devices & time slots)     | --> schedule
-             +-------------------------------------------------------------+
-                                     |
-                                     v
-                          actionable insight + feedback (trace)
-"""
-
-import os, csv, math, json
-from typing import Any, Dict, List
-
-# -----------------------------------------------------------------------------
-# Artifact directory (simple knowledge store)
-# -----------------------------------------------------------------------------
-BASE = os.path.join(os.path.dirname(__file__), "output/evscheduler_artifacts")
-os.makedirs(BASE, exist_ok=True)
-
-EX = "http://example.org/ev#"
-
-# -----------------------------------------------------------------------------
-# STATIC (compile-time) RDF (keep triples clean; comments allowed on separate lines)
-# -----------------------------------------------------------------------------
-STATIC_TTL = """@prefix ex: <http://example.org/ev#> .
+STATIC_TTL = r"""
+@prefix ex:  <http://example.org/ev#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Policy weights (combine price + carbon; add peak proximity penalty term)
-ex:policy ex:wPrice 0.7 .
-ex:policy ex:wCarbon 0.3 .
-ex:policy ex:wPeakPenalty 0.2 .
+# Policy weights (sum ~ 1.0): minimize score = wPrice*priceN + wCO2*(1 - greenN)
+ex:policy ex:wPrice 0.60 .
+ex:policy ex:wCO2   0.40 .
 
-# Household constraints
-ex:grid ex:peakLimitKw 8.0 .
-
-# EV device specs
-ex:ev ex:capacityKwh 60.0 .
-ex:ev ex:chargerMaxKw 7.4 .
-ex:ev ex:minSoc 0.20 .
-ex:ev ex:targetSoc 0.80 .
-
-# Dishwasher specs (as a representative flexible load)
-ex:dishwasher ex:powerKw 1.2 .
-ex:dishwasher ex:cycleSlots 4 .
+# Site/charger characteristics
+ex:site    ex:siteCapKw     11.0 .
+ex:charger ex:maxKw          7.0 .
+ex:charger ex:efficiency     0.90 .   # battery gain = grid_kWh * efficiency
+ex:policy  ex:slotHours      1.0 .    # hour granularity
 """
 
-# -----------------------------------------------------------------------------
-# DYNAMIC (run-time) RDF — synthetic 24h forecast with 15-min slots (96 slots)
-# -----------------------------------------------------------------------------
-def make_dynamic_ttl() -> str:
-    lines = [
-        "@prefix ex: <http://example.org/ev#> .",
-        "@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .",
-        "",
-        "# EV state & deadlines",
-        "ex:session ex:initialSoc 0.35 .",
-        "ex:session ex:deadlineSlot 28 .",
-        "",
-        "# Dishwasher latest finish (same as EV deadline for simplicity)",
-        "ex:dishwasher ex:latestFinishSlot 28 .",
-        "",
-    ]
-    slots = 96
-    price, carbon, baseload = [], [], []
-    for s in range(slots):
-        hour = s/4.0
-        # price: base 0.20 €/kWh + day hump + evening peak; cheaper after midnight
-        p = 0.20 + 0.05*max(0, math.sin((hour-12)/12*math.pi)) + 0.12*max(0, math.sin((hour-18)/6*math.pi))
-        if 0 <= hour < 6: p -= 0.05
-        price.append(round(p, 3))
-        # carbon intensity: base 300 g/kWh + correlation with price peaks; lower at night
-        c = 300 + 80*max(0, math.sin((hour-12)/12*math.pi)) + 120*max(0, math.sin((hour-18)/6*math.pi))
-        if 0 <= hour < 6: c -= 60
-        carbon.append(int(round(c)))
-        # base load: 0.6 kW night, breakfast 1.2 kW, evening 1.8 kW peak
-        b = 0.6
-        if 6 <= hour < 9: b = 1.2
-        if 18 <= hour < 22: b = 1.8
-        baseload.append(round(b, 2))
-    for s in range(slots):
-        lines.append(f"ex:slot_{s:02d} ex:price {price[s]} .")
-        lines.append(f"ex:slot_{s:02d} ex:carbon {carbon[s]} .")
-        lines.append(f"ex:slot_{s:02d} ex:baseKw {baseload[s]} .")
-    return "\n".join(lines)
+DYNAMIC_TTL = r"""
+@prefix ex:  <http://example.org/ev#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-DYNAMIC_TTL = make_dynamic_ttl()
+# EV state + requirement
+ex:ev  ex:batteryKWh 60 .
+ex:ev  ex:socNow     0.30 .
+ex:ev  ex:socTarget  0.80 .
 
-# -----------------------------------------------------------------------------
-# Behaviors: Rule documentation in N3 (valid triple-only math built-ins)
-# -----------------------------------------------------------------------------
-RULES_N3 = """@prefix ex:   <http://example.org/ev#> .
+# Availability window (today), and explicit slot membership
+ex:window ex:arrivalHour 18 .
+ex:window ex:departHour  23 .
+ex:window ex:hasSlot ex:slot_h18 .
+ex:window ex:hasSlot ex:slot_h19 .
+ex:window ex:hasSlot ex:slot_h20 .
+ex:window ex:hasSlot ex:slot_h21 .
+ex:window ex:hasSlot ex:slot_h22 .
+
+# Hourly tariff + renewable share (0..1)
+ex:slot_h18 ex:hour 18 . ex:slot_h18 ex:price 0.25 . ex:slot_h18 ex:green 0.35 .
+ex:slot_h19 ex:hour 19 . ex:slot_h19 ex:price 0.20 . ex:slot_h19 ex:green 0.40 .
+ex:slot_h20 ex:hour 20 . ex:slot_h20 ex:price 0.18 . ex:slot_h20 ex:green 0.55 .
+ex:slot_h21 ex:hour 21 . ex:slot_h21 ex:price 0.22 . ex:slot_h21 ex:green 0.60 .
+ex:slot_h22 ex:hour 22 . ex:slot_h22 ex:price 0.26 . ex:slot_h22 ex:green 0.30 .
+"""
+
+# ──────────────────────────────────────────────────────────────────────────────
+# RULES (N3) — only math:* built-ins for arithmetic/relations
+# ──────────────────────────────────────────────────────────────────────────────
+RULES_N3 = r"""
+@prefix ex:   <http://example.org/ev#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
-# -----------------------------------------------------------------------------
-# Scoring from normalized features (requires ex:pNorm, ex:cNorm per slot)
-# score = wP * pNorm + wC * cNorm + wPeak * peakFrac
-# -----------------------------------------------------------------------------
-{ ?s ex:pNorm ?pN .
-  ?s ex:cNorm ?cN .
-  ?s ex:peakFrac ?pF .
+# Slot score = wPrice*priceN + wCO2*(1 - greenN)
+{
+  ?s ex:priceN ?pN .
+  ?s ex:greenN ?gN .
   ex:policy ex:wPrice ?wP .
-  ex:policy ex:wCarbon ?wC .
-  ex:policy ex:wPeakPenalty ?wPk .
-  ( ?wP ?pN ) math:product ?pTerm .
-  ( ?wC ?cN ) math:product ?cTerm .
-  ( ?wPk ?pF ) math:product ?pkTerm .
-  ( ?pTerm ?cTerm ) math:sum ?pcSum .
-  ( ?pcSum ?pkTerm ) math:sum ?score .
-} => { ?s ex:score ?score } .
+  ex:policy ex:wCO2   ?wC .
+  ( 1 ?gN )        math:difference ?invG .
+  ( ?wP ?pN )      math:product    ?pTerm .
+  ( ?wC ?invG )    math:product    ?gTerm .
+  ( ?pTerm ?gTerm ) math:sum       ?score .
+}
+=>
+{ ?s ex:score ?score } .
 
-# -----------------------------------------------------------------------------
-# Derive peak fraction: peakFrac = baseKw / peakLimitKw
-# -----------------------------------------------------------------------------
-{ ?s ex:baseKw ?b .
-  ex:grid ex:peakLimitKw ?L .
-  ( ?b ?L ) math:quotient ?f .
-} => { ?s ex:peakFrac ?f } .
-
-# -----------------------------------------------------------------------------
-# Peak feasibility: baseKw + evKw + dwKw <= peakLimitKw
-# -----------------------------------------------------------------------------
-{ ?s ex:baseKw ?b .
-  ?s ex:evKw   ?e .
-  ?s ex:dwKw   ?d .
-  ex:grid ex:peakLimitKw ?L .
-  ( ?b ?e ) math:sum ?be .
-  ( ?be ?d ) math:sum ?tot .
-  ?tot math:notGreaterThan ?L .
-} => { ?s ex:feasible true } .
-
-# -----------------------------------------------------------------------------
-# EV goal: reach target SoC by the deadline (documents the obligation)
-# -----------------------------------------------------------------------------
-{ ex:session ex:deadlineSlot ?T .
-  ex:ev      ex:targetSoc   ?Z .
-} => { ex:ev ex:mustReach [ ex:targetSoc ?Z ; ex:bySlot ?T ] } .
-
-# -----------------------------------------------------------------------------
-# Dishwasher goal: finish before latestFinishSlot
-# -----------------------------------------------------------------------------
-{ ex:dishwasher ex:latestFinishSlot ?D . }
-  => { ex:dishwasher ex:mustFinishBefore ?D } .
+# Feasibility (pure triple patterns) is handled by the driver:
+# - Only slots in ex:window are considered.
+# - Per-slot power ≤ min(siteCap, chargerCap).
+# - Sum of battery gain ≥ required (within tolerance).
 """
 
-def _write(name: str, content: str):
-    path = os.path.join(BASE, name)
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(content)
-    return path
+# ──────────────────────────────────────────────────────────────────────────────
+# Inline-comment–safe tiny Turtle reader (collects repeated predicates)
+# ──────────────────────────────────────────────────────────────────────────────
+def parse_turtle_simple(ttl: str) -> Dict[str, Dict[str, Any]]:
+    """
+    Minimal TTL for this case:
+      - Skips @prefix lines.
+      - Strips inline comments after '#' (outside quoted strings).
+      - One triple per line (as provided here), tolerant to ' . ' separators.
+      - Parses booleans, numbers, qnames, and quoted strings.
+      - Collects repeated predicates into lists.
+    """
+    out: Dict[str, Dict[str, Any]] = {}
 
-_write("static.ttl", STATIC_TTL)
-_write("dynamic.ttl", DYNAMIC_TTL)
-_write("rules.n3", RULES_N3)
-
-# -----------------------------------------------------------------------------
-# Tiny Turtle Reader (robust to inline '#' and to '#' inside IRIs <...#...>)
-# -----------------------------------------------------------------------------
-def parse_ttl(ttl_text: str):
-    prefixes, triples = {}, []
-    for raw in ttl_text.splitlines():
-        # Strip inline comments only when outside quotes AND outside <...> IRIs
-        in_quotes = False
-        in_angle = False
-        cleaned_chars = []
-        for ch in raw.rstrip():
-            if ch == '"' and not in_angle:
-                in_quotes = not in_quotes
-            elif ch == '<' and not in_quotes:
-                in_angle = True
-            elif ch == '>' and not in_quotes:
-                in_angle = False
-            if ch == '#' and (not in_quotes) and (not in_angle):
-                break  # comment starts here
-            cleaned_chars.append(ch)
-        line = ''.join(cleaned_chars).strip()
-        if not line:
-            continue
-
-        if line.startswith("@prefix"):
-            parts = line.split()
-            # e.g., @prefix ex: <http://example.org/ev#> .
-            if len(parts) >= 3:
-                prefixes[parts[1].rstrip(":")] = parts[2].strip("<>")
-            continue
-
-        if line.endswith("."):
-            line = line[:-1].strip()
-
-        # Tokenize (space-splitting outside quotes)
-        toks, buf = [], ""
-        in_quotes = False
+    def strip_inline_comment(line: str) -> str:
+        in_str = False
+        esc = False
+        chars = []
         for ch in line:
-            if ch == '"':
-                in_quotes = not in_quotes
-                buf += ch
-                continue
-            if ch == ' ' and not in_quotes:
-                if buf:
-                    toks.append(buf); buf = ''
-            else:
-                buf += ch
-        if buf:
-            toks.append(buf)
-        if len(toks) < 3:
-            continue
+            if ch == '"' and not esc:
+                in_str = not in_str
+            if ch == '#' and not in_str:
+                break
+            chars.append(ch)
+            if esc:
+                esc = False
+            elif ch == '\\':
+                esc = True
+        return ''.join(chars)
 
-        s, p, o = toks[0], toks[1], ' '.join(toks[2:])
-
-        def expand(t: str) -> str:
-            if t.startswith('<') and t.endswith('>'):
-                return t[1:-1]
-            if ':' in t and not t.startswith('"'):
-                pref, local = t.split(':', 1)
-                return prefixes.get(pref, pref + ':') + local
-            return t
-
-        s_e, p_e = expand(s), expand(p)
-
-        # Parse object
-        if o.startswith('"') and o.endswith('"'):
-            obj = o.strip('"')
-        elif o in ('true', 'false'):
-            obj = (o == 'true')
+    def add(subj: str, pred: str, val: Any):
+        slot = out.setdefault(subj, {})
+        if pred not in slot:
+            slot[pred] = val
         else:
-            try:
-                obj = float(o) if '.' in o else int(o)
-            except Exception:
-                obj = expand(o)
+            if isinstance(slot[pred], list):
+                slot[pred].append(val)
+            else:
+                slot[pred] = [slot[pred], val]
 
-        triples.append((s_e, p_e, obj))
-    return prefixes, triples
+    for raw in ttl.splitlines():
+        if raw.lstrip().startswith('@prefix'):
+            continue
+        line = strip_inline_comment(raw).strip()
+        if not line or line.startswith('#'):
+            continue
+        for stmt in [s.strip() for s in line.split(' . ') if s.strip()]:
+            if stmt.endswith('.'):
+                stmt = stmt[:-1].strip()
+            if not stmt:
+                continue
+            parts = stmt.split(None, 2)
+            if len(parts) < 3:
+                continue
+            s, p, o = parts[0], parts[1], parts[2].strip()
+            if o.startswith('"'):
+                lit = o[1:o.find('"', 1)]
+                add(s, p, lit)
+            else:
+                tok = o.split()[0]
+                if tok in ('true', 'false'):
+                    add(s, p, tok == 'true')
+                else:
+                    try:
+                        add(s, p, float(tok) if ('.' in tok) else int(tok))
+                    except Exception:
+                        add(s, p, tok)
+    return out
 
-def index_triples(triples):
-    idx: Dict[str, Dict[str, List[Any]]] = {}
-    for s, p, o in triples:
-        idx.setdefault(s, {}).setdefault(p, []).append(o)
-    return idx
+def listify(v) -> List[Any]:
+    if v is None: return []
+    return v if isinstance(v, list) else [v]
 
-def get1(idx, s, p, default=None):
-    vals = idx.get(s, {}).get(p, [])
-    return vals[0] if vals else default
+# ──────────────────────────────────────────────────────────────────────────────
+# Domain structures and driver specialization
+# ──────────────────────────────────────────────────────────────────────────────
+@dataclass
+class Weights:
+    wPrice: float
+    wCO2: float
 
-# Load graphs
-with open(os.path.join(BASE, "static.ttl"), encoding="utf-8") as f:
-    _, S_tr = parse_ttl(f.read())
-with open(os.path.join(BASE, "dynamic.ttl"), encoding="utf-8") as f:
-    _, D_tr = parse_ttl(f.read())
+@dataclass
+class Slot:
+    iri: str
+    hour: int
+    price: float
+    green: float
+    priceN: float = 0.0
+    greenN: float = 0.0
+    score: float = 0.0
+    trace: List[str] = None
 
-S = index_triples(S_tr)
-D = index_triples(D_tr)
+@dataclass
+class Allocation:
+    slot: Slot
+    kw: float
+    grid_kwh: float
+    batt_kwh: float
+    cost: float
 
-# -----------------------------------------------------------------------------
-# Agent: capture static constants, specialize a Driver via closures (Ershov)
-# -----------------------------------------------------------------------------
-def norm_list(xs: List[float]) -> List[float]:
-    lo, hi = min(xs), max(xs)
-    if hi - lo < 1e-9:
-        return [0.0]*len(xs)
-    return [(x-lo)/(hi-lo) for x in xs]
+def specialize_driver(S: Dict[str, Dict[str, Any]]):
+    W = Weights(
+        wPrice=float(S["ex:policy"]["ex:wPrice"]),
+        wCO2=float(S["ex:policy"]["ex:wCO2"]),
+    )
+    site_cap = float(S.get("ex:site", {}).get("ex:siteCapKw", 99))
+    charger_cap = float(S.get("ex:charger", {}).get("ex:maxKw", 7.0))
+    eff = float(S.get("ex:charger", {}).get("ex:efficiency", 0.90))
+    slot_hours = float(S.get("ex:policy", {}).get("ex:slotHours", 1.0))
 
-def make_driver(S, policy_key=EX+"policy"):
-    wP = float(get1(S, policy_key, EX+"wPrice", 0.7))
-    wC = float(get1(S, policy_key, EX+"wCarbon", 0.3))
-    wPeak = float(get1(S, policy_key, EX+"wPeakPenalty", 0.2))
-    peak = float(get1(S, EX+"grid", EX+"peakLimitKw", 8.0))
-    cap = float(get1(S, EX+"ev", EX+"capacityKwh", 60.0))
-    charger = float(get1(S, EX+"ev", EX+"chargerMaxKw", 7.4))
-    min_soc = float(get1(S, EX+"ev", EX+"minSoc", 0.2))
-    target_soc = float(get1(S, EX+"ev", EX+"targetSoc", 0.8))
-    dw_power = float(get1(S, EX+"dishwasher", EX+"powerKw", 1.2))
-    dw_slots = int(get1(S, EX+"dishwasher", EX+"cycleSlots", 4))
+    def normalize(vals: List[float]) -> Tuple[List[float], Dict[str, float]]:
+        lo, hi = min(vals), max(vals)
+        rng = hi - lo
+        if rng < 1e-12:
+            return [0.0 for _ in vals], {"min": lo, "max": hi, "rng": rng}
+        return [(v - lo) / rng for v in vals], {"min": lo, "max": hi, "rng": rng}
 
-    def plan(D):
-        initial_soc = float(get1(D, EX+"session", EX+"initialSoc", 0.4))
-        deadline = int(get1(D, EX+"session", EX+"deadlineSlot", 28))
-        latest_dw_finish = int(get1(D, EX+"dishwasher", EX+"latestFinishSlot", deadline))
+    def driver(D: Dict[str, Dict[str, Any]]):
+        # EV requirement
+        batt_kwh = float(D["ex:ev"]["ex:batteryKWh"])
+        soc_now = float(D["ex:ev"]["ex:socNow"])
+        soc_target = float(D["ex:ev"]["ex:socTarget"])
+        need_batt = max(0.0, (soc_target - soc_now) * batt_kwh)  # kWh into battery
 
-        # Collect arrays
-        SLOTS = sorted([s for s in D.keys() if s.startswith(EX+"slot_")])
-        n = len(SLOTS)
-        assert n == 96, f"Expected 96 slots (15-min over 24h), parsed {n}. Check dynamic.ttl newlines and inline comments."
+        # Window + slots
+        arrival = int(D["ex:window"]["ex:arrivalHour"])
+        depart  = int(D["ex:window"]["ex:departHour"])
+        window_slots = [str(s) for s in listify(D["ex:window"]["ex:hasSlot"])]
 
-        price = [float(get1(D, s, EX+"price", 0.3)) for s in SLOTS]
-        carbon = [float(get1(D, s, EX+"carbon", 300.0)) for s in SLOTS]
-        base = [float(get1(D, s, EX+"baseKw", 0.6)) for s in SLOTS]
+        # Build slot objects
+        slots: List[Slot] = []
+        for s in window_slots:
+            props = D.get(s, {})
+            slots.append(Slot(
+                iri=s,
+                hour=int(props.get("ex:hour", -1)),
+                price=float(props.get("ex:price", 1.0)),
+                green=float(props.get("ex:green", 0.0)),
+            ))
 
-        # Normalize for scoring
-        pN, cN = norm_list(price), norm_list(carbon)
-        peak_fraction = [b/peak for b in base]
+        # Normalize price & green across available slots
+        priceN, _ = normalize([s.price for s in slots])
+        greenN, _ = normalize([s.green for s in slots])
+        for i, s in enumerate(slots):
+            s.priceN = priceN[i]
+            s.greenN = greenN[i]
+            invG = (1 - s.greenN)             # (1 greenN) math:difference invG
+            pTerm = W.wPrice * s.priceN       # (wPrice priceN) math:product
+            gTerm = W.wCO2   * invG           # (wCO2 invG)    math:product
+            s.score = pTerm + gTerm           # (pTerm gTerm)  math:sum
+            s.trace = [(
+                f"Score N3: (1 {s.greenN:.3f}) math:difference {invG:.3f} ; "
+                f"({W.wPrice:.2f} {s.priceN:.3f}) math:product {pTerm:.3f} ; "
+                f"({W.wCO2:.2f} {invG:.3f}) math:product {gTerm:.3f} ; "
+                f"sum→ {s.score:.3f}"
+            )]
 
-        # EV energy requirement
-        def soc_to_kwh(s): return s*cap
-        kwh_needed = max(0.0, soc_to_kwh(target_soc) - soc_to_kwh(initial_soc))
+        # Sort slots by ascending score (cheaper & greener first)
+        slots.sort(key=lambda s: s.score)
 
-        # Baseline: greedy soonest schedule at max power, then earliest dishwasher
-        def baseline():
-            ev_kw = [0.0]*n
-            remaining = kwh_needed
-            for i in range(deadline+1):
-                if remaining <= 1e-9: break
-                headroom = max(0.0, peak - base[i])
-                ev_here = min(charger, headroom)
-                ev_kwh = ev_here * 0.25
-                if ev_kwh > remaining:
-                    ev_here = remaining / 0.25
-                    ev_kwh = remaining
-                ev_kw[i] = ev_here
-                remaining -= ev_kwh
-            # Dishwasher earliest feasible
-            dw = [0]*n
-            best_start = None
-            for s0 in range(0, latest_dw_finish - dw_slots + 1):
-                ok = True
-                for k in range(dw_slots):
-                    i = s0+k
-                    if base[i] + ev_kw[i] + dw_power > peak + 1e-9:
-                        ok = False; break
-                if ok:
-                    best_start = s0; break
-            if best_start is None:
-                best_start = max(0, latest_dw_finish - dw_slots)
-            for k in range(dw_slots): dw[best_start+k] = 1
-            return ev_kw, dw
+        # Greedy allocate until battery need is met; obey per-slot power cap
+        kw_cap = min(site_cap, charger_cap)
+        allocations: List[Allocation] = []
+        remain_batt = need_batt
+        total_grid_kwh = 0.0
+        total_cost = 0.0
+        green_energy = 0.0
 
-        # Optimized EV: pick cheapest/greenest slots before deadline
-        # Score per slot: wP*pN + wC*cN + wPeak*peak_fraction
-        score = [wP*pN[i] + wC*cN[i] + wPeak*peak_fraction[i] for i in range(n)]
-        order = sorted(range(0, deadline+1), key=lambda i: (score[i], pN[i], cN[i]))
-        ev_kw = [0.0]*n
-        remaining = kwh_needed
-        for i in order:
-            if remaining <= 1e-9: break
-            headroom = max(0.0, peak - base[i])
-            ev_here = min(charger, headroom)  # obey peak & charger
-            ev_kwh = ev_here * 0.25
-            if ev_kwh > remaining:
-                ev_here = remaining / 0.25
-                ev_kwh = remaining
-            ev_kw[i] = ev_here
-            remaining -= ev_kwh
+        for s in slots:
+            if remain_batt <= 1e-9:
+                break
+            # Max battery gain this slot at cap
+            max_batt_gain = kw_cap * slot_hours * eff
+            take_batt = min(max_batt_gain, remain_batt)
+            grid_kwh = take_batt / eff
+            kw = grid_kwh / slot_hours
+            cost = grid_kwh * s.price
 
-        # Dishwasher: choose cheapest feasible start (respect peak and latest finish)
-        dw = [0]*n
-        best = (1e9, None)  # (accumulated score, start slot)
-        for s0 in range(0, latest_dw_finish - dw_slots + 1):
-            ok = True; accum = 0.0
-            for k in range(dw_slots):
-                i = s0+k
-                if base[i] + ev_kw[i] + dw_power > peak + 1e-9:
-                    ok = False; break
-                accum += score[i]
-            if ok and accum < best[0]:
-                best = (accum, s0)
-        if best[1] is None:
-            best = (1e9, max(0, latest_dw_finish - dw_slots))
-        for k in range(dw_slots): dw[best[1]+k] = 1
+            allocations.append(Allocation(
+                slot=s, kw=kw, grid_kwh=grid_kwh, batt_kwh=take_batt, cost=cost
+            ))
+            remain_batt -= take_batt
+            total_grid_kwh += grid_kwh
+            total_cost += cost
+            green_energy += grid_kwh * s.green  # green share of grid energy
 
-        # Derived metrics
-        total_kw = [base[i] + ev_kw[i] + (dw[i]*dw_power) for i in range(n)]
-        total_cost = sum((ev_kw[i] + dw[i]*dw_power) * 0.25 * price[i] for i in range(n))
-        total_carbon = sum((ev_kw[i] + dw[i]*dw_power) * 0.25 * carbon[i] for i in range(n))
-        soc_end = initial_soc + sum(ev_kw)*0.25 / cap
-
-        # Baseline for comparison
-        base_ev_kw, base_dw = baseline()
-        base_cost = sum((base_ev_kw[i] + base_dw[i]*dw_power) * 0.25 * price[i] for i in range(n))
-        base_carbon = sum((base_ev_kw[i] + base_dw[i]*dw_power) * 0.25 * carbon[i] for i in range(n))
-
-        # Per-slot notes
-        notes = []
-        for i in range(n):
-            why = []
-            if ev_kw[i] > 0:
-                why.append(f"EV@{ev_kw[i]:.1f}kW (score={score[i]:.2f})")
-            if dw[i] == 1:
-                why.append("DW on")
-            if not why and i <= deadline and score[i] == min(score[:deadline+1]):
-                why.append("low score slot")
-            notes.append("; ".join(why))
+        avg_green = (green_energy / total_grid_kwh) if total_grid_kwh > 0 else 0.0
 
         return {
-            "SLOTS": SLOTS,
-            "price": price, "carbon": carbon, "base": base,
-            "ev_kw": ev_kw, "dw": dw, "total_kw": total_kw,
-            "total_cost": total_cost, "total_carbon": total_carbon,
-            "baseline_cost": base_cost, "baseline_carbon": base_carbon,
-            "soc_end": soc_end, "deadline": deadline,
-            "dw_power": dw_power, "peak": peak,
-            "initial_soc": initial_soc, "target_soc": target_soc,
-            "notes": notes,
-            # Expose internals for richer trace/CSV
-            "score": score, "pNorm": pN, "cNorm": cN, "peak_frac": peak_fraction,
-            "weights": {"wPrice": wP, "wCarbon": wC, "wPeakPenalty": wPeak},
+            "weights": W,
+            "eff": eff,
+            "kw_cap": kw_cap,
+            "slot_hours": slot_hours,
+            "need_batt": need_batt,
+            "arrival": arrival,
+            "depart": depart,
+            "slots": slots,
+            "allocs": allocations,
+            "sum_grid": total_grid_kwh,
+            "sum_cost": total_cost,
+            "sum_batt": need_batt - remain_batt if 'remain_batt' in locals() else 0.0,
+            "avg_green": avg_green,
         }
 
-    return plan
+    return driver
 
-# Agent step: specialize a scheduler Driver by closing over static facts
-driver = make_driver(S)
+# ──────────────────────────────────────────────────────────────────────────────
+# Run
+# ──────────────────────────────────────────────────────────────────────────────
+def main():
+    S = parse_turtle_simple(STATIC_TTL)
+    D = parse_turtle_simple(DYNAMIC_TTL)
 
-# Driver execution: consume dynamic arrays & deadlines and produce a plan
-res = driver(D)
+    driver = specialize_driver(S)
+    result = driver(D)
 
-# -----------------------------------------------------------------------------
-# Self-checks (Answer • Reason-why • Check triad)
-# -----------------------------------------------------------------------------
-# 1) Peak never exceeded (safety constraint)
-assert all(k <= res["peak"] + 1e-6 for k in res["total_kw"]), "Peak limit violated"
+    W: Weights = result["weights"]
+    kw_cap = result["kw_cap"]
+    slot_hours = result["slot_hours"]
 
-# 2) EV SoC meets target by deadline
-assert res["soc_end"] + 1e-9 >= res["target_soc"], "EV target SoC not reached"
+    allocs: List[Allocation] = result["allocs"]
 
-# 3) Dishwasher finishes by latestFinishSlot (same as deadline here)
-dw_on_slots = [i for i,v in enumerate(res["dw"]) if v==1]
-assert dw_on_slots, "Dishwasher never scheduled"
-assert max(dw_on_slots) <= res["deadline"], "Dishwasher finishes after deadline"
+    # ── ANSWER ──
+    print("Answer:")
+    if not allocs:
+        print("- No charging scheduled.")
+    else:
+        for i, a in enumerate(allocs, start=1):
+            print(f"- Slot h{a.slot.hour}: {a.kw:.2f} kW for {slot_hours:.1f} h "
+                  f"→ grid {a.grid_kwh:.2f} kWh, cost €{a.cost:.2f} (green {a.slot.green:.0%})")
+        print(f"  • Battery gain: {result['sum_batt']:.2f} kWh "
+              f"(need {result['need_batt']:.2f} kWh)")
+        print(f"  • Grid energy:  {result['sum_grid']:.2f} kWh")
+        print(f"  • Total cost:   €{result['sum_cost']:.2f}")
+        print(f"  • Avg green share: {result['avg_green']:.0%}")
 
-# 4) Optimized vs baseline: cost and carbon should not be worse
-assert res["total_cost"] <= res["baseline_cost"] + 1e-9, "Optimized cost > baseline"
-assert res["total_carbon"] <= res["baseline_carbon"] + 1e-9, "Optimized carbon > baseline"
+    # ── REASON WHY ──
+    print("\nReason why:")
+    print(f"- Weights: wPrice={W.wPrice:.2f}, wCO2={W.wCO2:.2f}")
+    print(f"- Caps: min(siteCap, chargerCap) = {kw_cap:.2f} kW ; efficiency={result['eff']:.2f}")
+    for s in result["slots"]:
+        print(f"- slot h{s.hour}:")
+        for ln in s.trace:
+            print(f"  • {ln}")
 
-# 5) Monotonicity spot-check: if we raise peak limit, optimized cost shouldn't increase
-def rerun_with_peak(delta):
-    S_mod = {k: {kk:list(vv) for kk,vv in props.items()} for k,props in S.items()}
-    S_mod[EX+"grid"][EX+"peakLimitKw"] = [res["peak"] + delta]
-    return make_driver(S_mod)(D)
+    # Echo rule/data fingerprints for auditability
+    print("\nInputs (fingerprints):")
+    print(f"- Static RDF bytes: {len(STATIC_TTL.encode())} ; Dynamic RDF bytes: {len(DYNAMIC_TTL.encode())}")
+    print(f"- Rules N3 bytes: {len(RULES_N3.encode())} (math:* triples only)")
 
-res_looser = rerun_with_peak(2.0)
-assert res_looser["total_cost"] <= res["total_cost"] + 1e-9, "Looser peak unexpectedly increased cost"
+    # ── CHECK (harness) ──
+    print("\nCheck (harness):")
+    errors: List[str] = []
 
-# -----------------------------------------------------------------------------
-# Emit per-slot CSV (extended) + machine- and human-readable traces
-# -----------------------------------------------------------------------------
-csv_path = os.path.join(BASE, "schedule.csv")
-with open(csv_path, "w", newline="", encoding="utf-8") as f:
-    w = csv.writer(f)
-    w.writerow([
-        "slot","hour",
-        "price_eur_per_kwh","carbon_g_per_kwh","base_kw",
-        "ev_kw","dw_kw","total_kw",
-        "pNorm","cNorm","peakFrac","score",
-        "note"
-    ])
-    for i,s in enumerate(res["SLOTS"]):
-        hour = i/4.0
-        w.writerow([
-            i, f"{hour:05.2f}",
-            f"{res['price'][i]:.3f}", int(res['carbon'][i]), f"{res['base'][i]:.2f}",
-            f"{res['ev_kw'][i]:.2f}", f"{res['dw'][i]*res['dw_power']:.2f}", f"{res['total_kw'][i]:.2f}",
-            f"{res['pNorm'][i]:.3f}", f"{res['cNorm'][i]:.3f}", f"{res['peak_frac'][i]:.3f}",
-            f"{res['score'][i]:.3f}",
-            res["notes"][i]
-        ])
+    # (C1) Energy requirement met within tolerance
+    if result["sum_batt"] + 1e-6 < result["need_batt"]:
+        errors.append(f"(C1) Battery energy shortfall: {result['sum_batt']:.3f} < {result['need_batt']:.3f}")
 
-# Machine-readable trace (JSON)
-trace = {
-    "weights": res["weights"],
-    "constraints": {"peak_limit_kw": res["peak"], "deadline_slot": res["deadline"]},
-    "ev": {"initial_soc": res["initial_soc"], "target_soc": res["target_soc"], "soc_end": res["soc_end"]},
-    "baseline": {"cost_eur": res["baseline_cost"], "carbon_g": res["baseline_carbon"]},
-    "optimized": {"cost_eur": res["total_cost"], "carbon_g": res["total_carbon"]},
-    "decisions": [
-        {
-            "slot": i,
-            "hour": i/4.0,
-            "price": res["price"][i],
-            "carbon": res["carbon"][i],
-            "base_kw": res["base"][i],
-            "ev_kw": res["ev_kw"][i],
-            "dw_kw": res["dw"][i]*res["dw_power"],
-            "pNorm": res["pNorm"][i],
-            "cNorm": res["cNorm"][i],
-            "peakFrac": res["peak_frac"][i],
-            "score": res["score"][i],
-            "note": res["notes"][i],
-        } for i in range(len(res["SLOTS"]))
-    ]
-}
-with open(os.path.join(BASE, "trace.json"), "w", encoding="utf-8") as jf:
-    json.dump(trace, jf, indent=2)
+    # (C2) Per-slot power cap respected and non-negative; hours within window membership
+    window_hours = {int(D["ex:window"]["ex:arrivalHour"]) + i for i in range(
+        int(D["ex:window"]["ex:departHour"]) - int(D["ex:window"]["ex:arrivalHour"]))}
+    # We used explicit membership in TTL, but also check numeric hours are in [arrival, depart)
+    a_hr = int(D["ex:window"]["ex:arrivalHour"])
+    d_hr = int(D["ex:window"]["ex:departHour"])
+    for a in allocs:
+        if a.kw - kw_cap > 1e-9:
+            errors.append(f"(C2) Slot h{a.slot.hour} exceeds cap: {a.kw:.3f} kW > {kw_cap:.3f} kW")
+        if a.kw < -1e-9:
+            errors.append(f"(C2) Slot h{a.slot.hour} negative power")
+        if not (a_hr <= a.slot.hour < d_hr):
+            errors.append(f"(C2) Slot h{a.slot.hour} outside window [{a_hr},{d_hr})")
 
-# Human-readable “Reason why”
-with open(os.path.join(BASE, "reason-why.txt"), "w", encoding="utf-8") as tf:
-    tf.write("Reason why / explanation summary\n")
-    tf.write("--------------------------------\n")
-    tf.write(f"Weights: wPrice={res['weights']['wPrice']}, wCarbon={res['weights']['wCarbon']}, "
-             f"wPeakPenalty={res['weights']['wPeakPenalty']}\n")
-    tf.write(f"Peak limit: {res['peak']} kW; Deadline slot: {res['deadline']}\n")
-    tf.write(f"EV SoC: start {res['initial_soc']:.2f} → end {res['soc_end']:.2f} "
-             f"(target {res['target_soc']:.2f})\n")
-    tf.write(f"Cost: baseline €{res['baseline_cost']:.2f} → optimized €{res['total_cost']:.2f}\n")
-    tf.write(f"CO2:  baseline {int(res['baseline_carbon'])} g → optimized {int(res['total_carbon'])} g\n\n")
-    used_slots = [i for i,v in enumerate(res["ev_kw"]) if v > 0]
-    top = sorted(used_slots, key=lambda i: res["score"][i])[:5]
-    tf.write("Top contributing charging slots (lowest score):\n")
-    for i in top:
-        tf.write(f"  - slot {i:02d} (h={i/4.0:05.2f}): score={res['score'][i]:.3f}, "
-                 f"price={res['price'][i]:.3f}, carbon={int(res['carbon'][i])}, "
-                 f"peakFrac={res['peak_frac'][i]:.2f}, ev_kw={res['ev_kw'][i]:.1f}\n")
+    # (C3) Recompute each slot score from normalized terms & weights
+    for s in result["slots"]:
+        invG = (1 - s.greenN)
+        pTerm = W.wPrice * s.priceN
+        gTerm = W.wCO2   * invG
+        recomputed = pTerm + gTerm
+        if abs(recomputed - s.score) > 1e-9:
+            errors.append(f"(C3) Score mismatch for slot h{s.hour}: {s.score:.6f} vs {recomputed:.6f}")
 
-print("ALL TESTS PASSED")
-print("Artifacts in:", BASE)
-print("CSV:", csv_path)
+    # (C4) Sorting by ascending score is preserved
+    sorted_copy = sorted(result["slots"], key=lambda z: z.score)
+    if [s.iri for s in sorted_copy] != [s.iri for s in result["slots"]]:
+        errors.append("(C4) Slot sort order mismatch")
+
+    # (C5) Increasing wPrice should not increase average € per kWh in the chosen schedule (heuristic check)
+    def rerun_with_price_bonus(delta=0.20):
+        S2 = {k: {kk: (vv[:] if isinstance(vv, list) else vv) for kk, vv in v.items()} for k, v in S.items()}
+        S2["ex:policy"]["ex:wPrice"] = float(S2["ex:policy"]["ex:wPrice"]) + delta
+        # Renormalize wCO2 to keep sum ~ 1.0
+        S2["ex:policy"]["ex:wCO2"] = max(0.0, 1.0 - float(S2["ex:policy"]["ex:wPrice"]))
+        r2 = specialize_driver(S2)(D)
+        if r2["sum_grid"] > 0:
+            return r2["sum_cost"] / r2["sum_grid"]
+        return float("inf")
+
+    base_avg_price = (result["sum_cost"] / result["sum_grid"]) if result["sum_grid"] > 0 else float("inf")
+    new_avg_price = rerun_with_price_bonus(0.20)
+    if new_avg_price > base_avg_price + 1e-9:
+        errors.append("(C5) Raising wPrice increased average price per kWh")
+
+    if errors:
+        print("❌ FAIL")
+        for e in errors:
+            print(" -", e)
+        raise SystemExit(1)
+    else:
+        print("✅ PASS — all checks satisfied.")
+
+if __name__ == "__main__":
+    main()
+

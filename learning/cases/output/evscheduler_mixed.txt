@@ -1,3 +1,31 @@
-ALL TESTS PASSED
-Artifacts in: /home/jdroo/github.com/eyereasoner/eye/learning/cases/output/evscheduler_artifacts
-CSV: /home/jdroo/github.com/eyereasoner/eye/learning/cases/output/evscheduler_artifacts/schedule.csv
+Answer:
+- Slot h20: 7.00 kW for 1.0 h → grid 7.00 kWh, cost €1.26 (green 55%)
+- Slot h21: 7.00 kW for 1.0 h → grid 7.00 kWh, cost €1.54 (green 60%)
+- Slot h19: 7.00 kW for 1.0 h → grid 7.00 kWh, cost €1.40 (green 40%)
+- Slot h18: 7.00 kW for 1.0 h → grid 7.00 kWh, cost €1.75 (green 35%)
+- Slot h22: 5.33 kW for 1.0 h → grid 5.33 kWh, cost €1.39 (green 30%)
+  • Battery gain: 30.00 kWh (need 30.00 kWh)
+  • Grid energy:  33.33 kWh
+  • Total cost:   €7.34
+  • Avg green share: 45%
+
+Reason why:
+- Weights: wPrice=0.60, wCO2=0.40
+- Caps: min(siteCap, chargerCap) = 7.00 kW ; efficiency=0.90
+- slot h20:
+  • Score N3: (1 0.833) math:difference 0.167 ; (0.60 0.000) math:product 0.000 ; (0.40 0.167) math:product 0.067 ; sum→ 0.067
+- slot h21:
+  • Score N3: (1 1.000) math:difference 0.000 ; (0.60 0.500) math:product 0.300 ; (0.40 0.000) math:product 0.000 ; sum→ 0.300
+- slot h19:
+  • Score N3: (1 0.333) math:difference 0.667 ; (0.60 0.250) math:product 0.150 ; (0.40 0.667) math:product 0.267 ; sum→ 0.417
+- slot h18:
+  • Score N3: (1 0.167) math:difference 0.833 ; (0.60 0.875) math:product 0.525 ; (0.40 0.833) math:product 0.333 ; sum→ 0.858
+- slot h22:
+  • Score N3: (1 0.000) math:difference 1.000 ; (0.60 1.000) math:product 0.600 ; (0.40 1.000) math:product 0.400 ; sum→ 1.000
+
+Inputs (fingerprints):
+- Static RDF bytes: 464 ; Dynamic RDF bytes: 943
+- Rules N3 bytes: 718 (math:* triples only)
+
+Check (harness):
+✅ PASS — all checks satisfied.
