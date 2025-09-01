@@ -4,25 +4,9 @@ EYE learning transforms raw **Data** (e.g., *RDF*), **Rules** (e.g., *N3*), and 
 It leverages a **LLM** (e.g., *GPT-5 Thinking*) as a **meta-compiler** to automatically synthesize a **self-contained Python program**.  
 This program not only produces an **Answer** but also explains the **Reason why** and performs an independent **Check (harness)** to ensure correctness.
 
----
+## Rationale for EYE learning
 
-## Conceptual overview
-
-```
-+--------------+
-|  Data (RDF)  |---+
-+--------------+   |                             +--------------------+                               +------------------+
-                   |                             |    Python code     |                               |   (optional)     |
-+--------------+   |    +-------------------+    |                    |    +---------------------+    |   EYE reasoner   |
-|  Rules (N3)  |---+--->|  LLM synthesizer  |--->|  o Answer          |--->|  Actionable insight |--->|                  |
-+--------------+   |    +-------------------+    |  o Reason why      |    +---------------------+    |  o proofs        |
-                   |                             |  o Check (harness) |                               |  o scale         |
-+--------------+   |                             +--------------------+                               +------------------+
-|     Goal     |---+
-+--------------+
-```
-
----
+See the [EYE learning guide](https://github.com/eyereasoner/eye/blob/master/learning/EYE-learning.md).
 
 ## Running the EYE learning cases
 
