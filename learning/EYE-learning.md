@@ -57,12 +57,15 @@ The conceptual diagram shows a succinct pipeline: **Data + Rules + Goal** → **
 
 ### Mixed computation
 
-EYE learning also admits a **mixed-computation** view inspired by Ershov [1]: treat **stable policy and mappings** as **static**, and **live inputs** (user preferences, signals, candidates) as **dynamic**. An Agent (the LLM-guided synthesis step) **partially evaluates** the rulebook against the static knowledge to **specialize** a compact **Driver**—a small decision/scoring function.
+We treat **policy and mappings** as *static* and **live inputs** as *dynamic*, in the spirit of Ershov’s partial evaluation [1]. Policy stays as human-readable N3 rules plus RDF weights. Optionally, we run EYE once on the static graph (and any slow-changing context) to materialize useful facts—e.g., closures, contraindications, or bonuses—so the rulebook is clean and declarative.
 
-- **Before specialization (optional):** run EYE over data/context to *materialize* derived triples (closures, contraindications, bonuses). Specialization can then target this entailed graph, keeping reasoning (EYE) cleanly separated from execution (Driver).
-- **At runtime:** the Driver consumes only dynamic facts to score/rank candidates and emit a clear **explanation trace** (why an option ranked higher, which bonuses/penalties applied). The Driver also carries lightweight **self-checks** to guard invariants.
-- **Governance:** policies live as **N3 rules** and weights in RDF—human-reviewable and versioned. Updating policy simply triggers **re-specialization**; no algorithm rewrite is needed.
-- **Contract alignment:** the mixed-computation lens preserves the same **Answer • Reason why • Check** contract while improving speed, testability, and auditability.
+An **Agent** then specializes the rulebook against this (entailed) static graph to produce a compact **Driver** that mirrors the rule semantics but executes quickly. At runtime, the Driver reads only dynamic facts (preferences, measurements, candidates), computes scores or plans, and prints our contract:
+
+* **Answer** — the chosen option or ranking,
+* **Reason why** — a short trace that echoes the rule steps (arithmetic in rules uses `math:*` built-ins),
+* **Check** — lightweight self-tests that recompute key quantities, verify caps/feasibility, and confirm sort order.
+
+This keeps **reasoning** auditable in EYE and **execution** fast and deterministic in the Driver. Changing a rule or a weight just triggers re-specialization—no algorithm rewrite—so governance and versioning remain straightforward.
 
 ## Typical workflow
 
