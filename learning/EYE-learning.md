@@ -70,6 +70,15 @@ The repository contains **a large suite of cases** illustrating the pattern acro
 
 The conceptual diagram shows a succinct pipeline: **Data + Rules + Goal** → **LLM synthesis** → **Self-contained Python (answer, reason-why, check)** → **Actionable insight**, with optional hand-off to EYE where formal proofs or scale demand it. This architecture makes two deliberate bets: (i) runtime **verification** is non-negotiable, and (ii) the **unit of work** is a portable script that travels well across tooling, teams, and environments.
 
+## Mixed computation
+
+EYE learning also admits a **mixed-computation** view inspired by Ershov: treat **stable policy and mappings** as **static**, and **live inputs** (user preferences, signals, candidates) as **dynamic**. An Agent (the LLM-guided synthesis step) **partially evaluates** the rulebook against the static knowledge to **specialize** a compact **Driver**—a small decision/scoring function.
+
+- **Before specialization (optional):** run EYE over data/context to *materialize* derived triples (closures, contraindications, bonuses). Specialization can then target this entailed graph, keeping reasoning (EYE) cleanly separated from execution (Driver).
+- **At runtime:** the Driver consumes only dynamic facts to score/rank candidates and emit a clear **explanation trace** (why an option ranked higher, which bonuses/penalties applied). The Driver also carries lightweight **self-checks** to guard invariants.
+- **Governance:** policies live as **N3 rules** and weights in RDF—human-reviewable and versioned. Updating policy simply triggers **re-specialization**; no algorithm rewrite is needed.
+- **Contract alignment:** the mixed-computation lens preserves the same **Answer • Reason why • Check** contract while improving speed, testability, and auditability.
+
 ## Relationship to EYE reasoning
 
 EYE is a production-grade reasoner for N3, used to draw conclusions over RDF using forward and backward chaining along Euler paths. EYE learning is not a replacement: it’s a **front door** that accelerates getting to a validated solution while preserving a path to formal reasoning and proofs when needed. In practice, the LLM often emits **running reasoning code**—the sort of code we would otherwise craft by hand—so engineers can focus on domain rules and quality of evidence rather than boilerplate.
@@ -90,4 +99,8 @@ EYE learning favors **well-formed goals** and **well-structured inputs**. Ambigu
 2. inspect the **cases** folder to see many concrete examples and their expected outputs
 3. run `./test` to reproduce results locally
 4. adapt a case to your data and rules to create your first self-contained script. From there, you can wire the script into CI and, where appropriate, call into **EYE** for semantics-aware performance and proofs.
+
+## References
+
+[1] Ershov, A. P. (1982). Mixed Computation: Potential Applications and Problems for Study. Theoretical Computer Science, 18, 41–67.
 
