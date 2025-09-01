@@ -6,7 +6,7 @@ This program not only produces an **Answer** but also explains the **Reason why*
 
 ## Rationale for EYE learning
 
-See the [EYE learning guide](https://github.com/eyereasoner/eye/blob/master/learning/EYE-learning.md).
+See the [EYE learning write up](https://github.com/eyereasoner/eye/blob/master/learning/EYE-learning.md).
 
 ## Running the EYE learning cases
 
