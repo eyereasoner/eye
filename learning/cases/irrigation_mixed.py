@@ -57,43 +57,38 @@ RULES_N3 = r"""
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
-# R1: Soil deficit from setpoint:
-#   dtheta_pct = targetVWC_pct - VWC_pct
-#   dtheta_frac = dtheta_pct / 100
-#   soilDef_mm = dtheta_frac * rootDepth_m * 1000
+# R1: Soil deficit from setpoint
 {
   ex:policy  ex:targetVWC_pct ?t .
   ex:FieldA  ex:VWC_pct       ?v .
-  ( ?t ?v ?dtheta_pct )       math:difference .
-  ( ?dtheta_pct 100 ?dtheta ) math:quotient .
+  ( ?t ?v )            math:difference ?dtheta_pct .
+  ( ?dtheta_pct 100 )  math:quotient   ?dtheta .
   ex:FieldA  ex:rootDepth_m   ?z .
-  ( ?dtheta ?z ?tmp )         math:product .
-  ( ?tmp 1000 ?soilDef )      math:product .
+  ( ?dtheta ?z )       math:product    ?tmp .
+  ( ?tmp 1000 )        math:product    ?soilDef .
 }
 =>
 { ex:Plan ex:soilDef_mm ?soilDef } .
 
-# R2: Net atmosphere adjustment:
-#   netAtmos_mm = ETc_mm - rain_mm
+# R2: Net atmosphere adjustment
 {
   ex:Forecast ex:ETc_mm  ?e .
   ex:Forecast ex:rain_mm ?r .
-  ( ?e ?r ?net )         math:difference .
+  ( ?e ?r )             math:difference ?net .
 }
 =>
 { ex:Plan ex:netAtmos_mm ?net } .
 
-# R3: Gross need:
-#   grossNeed_mm = soilDef_mm + netAtmos_mm
+# R3: Gross need
 {
-  ex:Plan ex:soilDef_mm ?d .
+  ex:Plan ex:soilDef_mm  ?d .
   ex:Plan ex:netAtmos_mm ?n .
-  ( ?d ?n ?gross ) math:sum .
+  ( ?d ?n )             math:sum ?gross .
 }
 =>
 { ex:Plan ex:grossNeed_mm ?gross } .
 
-# R4: Expose policy constants for the driver
+# R4: Expose policy constants
 { ex:policy ex:efficiency ?eff . }        => { ex:Plan ex:eff ?eff } .
 { ex:policy ex:perEventCap_mm ?cap . }    => { ex:Plan ex:perEventCap ?cap } .
 { ex:policy ex:systemRate_mm_h ?rate . }  => { ex:Plan ex:systemRate ?rate } .

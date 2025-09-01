@@ -70,16 +70,16 @@ RULES_N3 = r"""
   :WheatCropSpec :nPerTon_kg ?npt .
   :WheatCropSpec :targetYield_t_ha ?yt .
   :FieldA :soilN_kg_ha ?soil .
-  ( ?npt ?yt ?prod ) math:product .
-  ( ?prod ?soil ?req ) math:difference .
+  ( ?npt ?yt )   math:product   ?prod .
+  ( ?prod ?soil ) math:difference ?req .
 }
 =>
 { :Plan :reqN_kg_ha ?req . } .
 
-# R1b: expose season cap for downstream clamping in the driver
+# R1b: expose season cap for clamping
 { :Policy :maxSeasonTotal_kg_ha ?cap . } => { :Plan :seasonCap ?cap . } .
 
-# R3: expose heavy-rain threshold (comparison done with math:notLessThan notion in driver trace)
+# R3: expose heavy-rain threshold
 { :Policy :heavyRain_mm ?hr . } => { :Plan :heavyRainThreshold ?hr . } .
 
 # R4: expose per-application cap
@@ -233,8 +233,10 @@ def specialize_driver(policy: Policy, crop: CropSpec, products: Dict[str, Produc
         # R1 mirror: req = (nPerTon * targetYield) - soilN
         prod = crop.n_per_ton * crop.target_yield
         req = prod - field.soilN
-        trace.append(f"R1: (?npt {crop.n_per_ton} ?yt {crop.target_yield} ?prod {prod:.1f}) math:product; "
-                     f"(?prod {prod:.1f} ?soil {field.soilN} ?req {req:.1f}) math:difference.")
+        trace.append(
+            f"R1: ({crop.n_per_ton} {crop.target_yield}) math:product {prod:.1f}; "
+            f"({prod:.1f} {field.soilN}) math:difference {req:.1f}."
+        )
 
         # Clamp to season cap (R1b exposure)
         clamped_req = max(0.0, min(policy.max_season_total, req))
