@@ -1,29 +1,34 @@
 Answer:
-- #1 ex:Metformin • score 0.005 • benefitN 1.000 • riskN 0.000 • costN 0.023
-- #2 ex:ACEi • score 0.014 • benefitN 1.000 • riskN 0.000 • costN 0.068
-- #3 ex:BB_nonselect • score 0.097 • benefitN 0.706 • riskN 0.000 • costN 0.045
-- #4 ex:SGLT2 • score 0.235 • benefitN 0.882 • riskN 0.000 • costN 1.000
-- #5 ex:NSAID • score 0.300 • benefitN 0.000 • riskN 0.000 • costN 0.000
+- #1 ex:Metformin • cost 2/mo • benefit 0.85 • score 0.005
+- #2 ex:ACEi • cost 4/mo • benefit 0.85 • score 0.014
+- #3 ex:BB_nonselect • cost 3/mo • benefit 0.60 • score 0.097
+- #4 ex:SGLT2 • cost 45/mo • benefit 0.75 • score 0.235
+- #5 ex:NSAID • cost 1/mo • benefit 0.00 • score 0.300
 
 Reason why:
 - Weights: wRisk=0.50, wCost=0.20, wBenefit=0.30
-- Patient conditions: ['CKD', 'HTN', 'T2D']
-- ex:Metformin: feasible=true
-  • Score N3: (1 1.000) math:difference 0.000 ; (0.50 0.000) math:product 0.000 ; (0.20 0.023) math:product 0.005 ; (0.30 0.000) math:product 0.000 ; sum→ 0.005
-- ex:ACEi: feasible=true
-  • Score N3: (1 1.000) math:difference 0.000 ; (0.50 0.000) math:product 0.000 ; (0.20 0.068) math:product 0.014 ; (0.30 0.000) math:product 0.000 ; sum→ 0.014
-- ex:BB_nonselect: feasible=true
-  • Score N3: (1 0.706) math:difference 0.294 ; (0.50 0.000) math:product 0.000 ; (0.20 0.045) math:product 0.009 ; (0.30 0.294) math:product 0.088 ; sum→ 0.097
-- ex:SGLT2: feasible=true
-  • Score N3: (1 0.882) math:difference 0.118 ; (0.50 0.000) math:product 0.000 ; (0.20 1.000) math:product 0.200 ; (0.30 0.118) math:product 0.035 ; sum→ 0.235
-- ex:NSAID: feasible=true
-  • Score N3: (1 0.000) math:difference 1.000 ; (0.50 0.000) math:product 0.000 ; (0.20 0.000) math:product 0.000 ; (0.30 1.000) math:product 0.300 ; sum→ 0.300
-- ex:Amoxicillin: feasible=false
-  • infeasible (hard contraindication)
-
-Inputs (fingerprints):
-- Static RDF bytes: 1808 ; Dynamic RDF bytes: 659
-- Rules N3 bytes: 1163 (math:* triples only)
+- ex:Metformin:
+  • Feasibility flags → feasible=true
+  • N3 score: (1 1.000) math:difference invB=0.000; (0.50 0.000) math:product 0.000; (0.20 0.023) math:product 0.005; (0.30 0.000) math:product 0.000; (0.000 0.005) math:sum 0.005; (0.005 0.000) math:sum 0.005
+- ex:ACEi:
+  • Feasibility flags → feasible=true
+  • N3 score: (1 1.000) math:difference invB=0.000; (0.50 0.000) math:product 0.000; (0.20 0.068) math:product 0.014; (0.30 0.000) math:product 0.000; (0.000 0.014) math:sum 0.014; (0.014 0.000) math:sum 0.014
+- ex:BB_nonselect:
+  • Feasibility flags → feasible=true
+  • N3 score: (1 0.706) math:difference invB=0.294; (0.50 0.000) math:product 0.000; (0.20 0.045) math:product 0.009; (0.30 0.294) math:product 0.088; (0.000 0.009) math:sum 0.009; (0.009 0.088) math:sum 0.097
+- ex:SGLT2:
+  • Feasibility flags → feasible=true
+  • N3 score: (1 0.882) math:difference invB=0.118; (0.50 0.000) math:product 0.000; (0.20 1.000) math:product 0.200; (0.30 0.118) math:product 0.035; (0.000 0.200) math:sum 0.200; (0.200 0.035) math:sum 0.235
+- ex:NSAID:
+  • Feasibility flags → feasible=true
+  • N3 score: (1 0.000) math:difference invB=1.000; (0.50 0.000) math:product 0.000; (0.20 0.000) math:product 0.000; (0.30 1.000) math:product 0.300; (0.000 0.000) math:sum 0.000; (0.000 0.300) math:sum 0.300
+- ex:Amoxicillin:
+  • Feasibility flags → feasible=false
+  • N3 score: (1 0.000) math:difference invB=1.000; (0.50 1.000) math:product 0.500; (0.20 0.091) math:product 0.018; (0.30 1.000) math:product 0.300; (0.500 0.018) math:sum 0.518; (0.518 0.300) math:sum 0.818
 
 Check (harness):
 ✅ PASS — all checks satisfied.
+  • [C1] Score re-check OK: max Δ=0.000e+00
+  • [C2] Feasibility OK: mismatches=0
+  • [C3] Order OK: stable
+  • [C4] Cost-weight monotonicity OK: top cost 2 → 2 (expected Δ≤0)
