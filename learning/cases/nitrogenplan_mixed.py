@@ -334,42 +334,104 @@ def main():
     for line in plan.reason_lines:
         print(f"- {line}")
 
-    # Echo rule/data fingerprints for auditability
-    print("\nInputs (fingerprints):")
-    print(f"- Data RDF size: {len(DATA_RDF_TURTLE.encode('utf-8'))} bytes; subjects: {len(parse_turtle_simple(DATA_RDF_TURTLE))}")
-    print(f"- Rules N3 size: {len(RULES_N3.encode('utf-8'))} bytes (math:* triples only)")
-
     # ── CHECK (harness) ──
     print("\nCheck (harness):")
     errors: List[str] = []
 
-    # (C1) Season total == clamped requirement
+    # (C1) Season total equals clamped requirement (match rounding to 0.1 like the driver)
     raw_req = crop.n_per_ton * crop.target_yield - field.soilN
     clamp_expected = max(0.0, min(policy.max_season_total, raw_req))
-    if abs(total_per_ha - clamp_expected) > 1e-6:
-        errors.append(f"(C1) Season total {total_per_ha} ≠ clamped requirement {clamp_expected:.1f}")
+    total_expected_01 = round(clamp_expected, 1)
+    if abs(total_per_ha - total_expected_01) > 1e-6:
+        errors.append(f"(C1) Season total {total_per_ha:.1f} ≠ clamped requirement {total_expected_01:.1f}")
 
-    # (C2) Per-app cap
+    # (C2) Per-application cap & non-negativity
+    c2_viol = 0
     for i, r in enumerate(plan.per_ha_rates, start=1):
+        if r < -1e-9:
+            errors.append(f"(C2) App #{i} negative: {r:.1f} kg/ha")
+            c2_viol += 1
         if r - policy.max_per_app > 1e-9:
-            errors.append(f"(C2) App #{i} {r} exceeds per-app cap {policy.max_per_app}")
+            errors.append(f"(C2) App #{i} {r:.1f} exceeds per-app cap {policy.max_per_app:.1f}")
+            c2_viol += 1
 
-    # (C3) Rain rule respected
+    # (C3) Heavy-rain product rule respected
     if field.rain24h_mm >= policy.heavy_rain_mm and plan.product_qname == ":Urea":
-        errors.append(f"(C3) Heavy rain but product is Urea")
+        errors.append(f"(C3) Heavy rain ({field.rain24h_mm:.1f} mm ≥ {policy.heavy_rain_mm:.1f}) but product is Urea")
 
     # (C4) Prefer cheaper when not heavy rain
     cheaper_qname = min((p.qname for p in products.values()), key=lambda q: products[q].cost_index)
     if field.rain24h_mm < policy.heavy_rain_mm and plan.product_qname != cheaper_qname:
         errors.append(f"(C4) No heavy rain; expected cheaper product {products[cheaper_qname].name}")
 
+    # (C5) Farm totals: Σ(app_i * area) ≈ total_per_ha * area (allowing 0.1 rounding granularity)
+    farm_sum = sum(per_app_totals)
+    expected_farm = round(total_per_ha * field.area_ha, 1)
+    if abs(farm_sum - expected_farm) > 0.15:
+        errors.append(f"(C5) Farm total mismatch: {farm_sum:.1f} vs expected {expected_farm:.1f}")
+
+    # (C6) Rounding grid: each application should be on a 0.1 kg/ha step (driver rounds to 1 decimal)
+    for i, r in enumerate(plan.per_ha_rates, start=1):
+        if abs(r*10 - round(r*10)) > 1e-6:
+            errors.append(f"(C6) App #{i} not on 0.1 grid: {r:.6f} kg/ha")
+
+    # (C7) Monotonicity: increasing season cap should not reduce total N/ha
+    from copy import deepcopy
+    pol_more_cap = Policy(
+        max_per_app=policy.max_per_app,
+        max_season_total=policy.max_season_total * 1.10,
+        heavy_rain_mm=policy.heavy_rain_mm
+    )
+    plan_more = specialize_driver(pol_more_cap, crop, products)(field)
+    total_more = round(sum(plan_more.per_ha_rates), 1)
+    if total_more + 1e-9 < total_per_ha:
+        errors.append(f"(C7) Increasing season cap lowered season total ({total_per_ha:.1f} → {total_more:.1f} kg/ha)")
+
+    # (C8) Monotonicity: decreasing per-app cap should not increase any single application rate
+    pol_tighter_app = Policy(
+        max_per_app=policy.max_per_app * 0.90,
+        max_season_total=policy.max_season_total,
+        heavy_rain_mm=policy.heavy_rain_mm
+    )
+    plan_tight = specialize_driver(pol_tighter_app, crop, products)(field)
+    max_base = max(plan.per_ha_rates) if plan.per_ha_rates else 0.0
+    max_tight = max(plan_tight.per_ha_rates) if plan_tight.per_ha_rates else 0.0
+    if max_tight > max_base + 1e-9:
+        errors.append(f"(C8) Tightening per-app cap increased a per-app rate ({max_base:.1f} → {max_tight:.1f} kg/ha)")
+
+    # (C9) Monotonicity: bumping rain toward/over threshold should not switch to Urea
+    field_rainier = FieldState(
+        area_ha=field.area_ha,
+        stage=field.stage,
+        soilN=field.soilN,
+        rain24h_mm=field.rain24h_mm + 5.0,
+        airTemp_C=field.airTemp_C,
+        soilTemp_C=field.soilTemp_C
+    )
+    plan_rainier = specialize_driver(policy, crop, products)(field_rainier)
+    if field_rainier.rain24h_mm >= policy.heavy_rain_mm and plan_rainier.product_qname == ":Urea":
+        errors.append(f"(C9) After +5 mm rain (≥ {policy.heavy_rain_mm:.1f}), product still Urea")
+
+    # Outcome
     if errors:
         print("❌ FAIL")
         for e in errors:
             print(" -", e)
         raise SystemExit(1)
     else:
+        # Rich PASS summary
+        n_apps = len(plan.per_ha_rates)
+        max_app = max(plan.per_ha_rates) if plan.per_ha_rates else 0.0
         print("✅ PASS — all checks satisfied.")
+        print(f"  • [C1] Season total OK: {total_per_ha:.1f} kg/ha (expected {total_expected_01:.1f})")
+        print(f"  • [C2] Per-app caps OK across {n_apps} apps (max {max_app:.1f} ≤ cap {policy.max_per_app:.1f})")
+        print(f"  • [C3–C4] Product choice OK: {product_name} at rain {field.rain24h_mm:.1f} mm "
+              f"(heavy threshold {policy.heavy_rain_mm:.1f})")
+        print(f"  • [C5] Farm total OK: {farm_sum:.1f} kg vs expected {expected_farm:.1f} kg over {field.area_ha:.1f} ha")
+        print(f"  • [C6] Rounding grid OK (0.1 kg/ha)")
+        print(f"  • [C7] Season-cap monotonicity OK: base {total_per_ha:.1f} → +10% cap {total_more:.1f} kg/ha (Δ≥0)")
+        print(f"  • [C8] Per-app-cap monotonicity OK: base max {max_base:.1f} → tighter cap max {max_tight:.1f} kg/ha (Δ≤0)")
+        print(f"  • [C9] Rain-threshold monotonicity OK (no regression to Urea when rain increases)")
 
 if __name__ == "__main__":
     main()
