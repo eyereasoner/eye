@@ -1,0 +1,63 @@
+Answer:
+- h18 v=5.0 m/s (operable, curfew=false) → setpoint 0.049 • 146 kW • 146.2 kWh • €29.24
+- h19 v=8.0 m/s (operable, curfew=false) → setpoint 0.278 • 835 kW • 835.2 kWh • €183.74
+- h20 v=11.5 m/s (operable, curfew=false) → setpoint 0.833 • 2500 kW • 2500.0 kWh • €625.00
+- h21 v=13.0 m/s (operable, curfew=false) → setpoint 0.700 • 2100 kW • 2100.0 kWh • €504.00
+- h22 v=4.0 m/s (operable, curfew=true) → setpoint 0.000 • 0 kW • 0.0 kWh • €0.00
+- h23 v=26.0 m/s (stopped, curfew=true) → setpoint 0.000 • 0 kW • 0.0 kWh • €0.00
+  • Total energy: 5581.4 kWh
+  • Total revenue: €1341.98
+  • Avg setpoint: 0.310
+
+Reason why:
+- Turbine: rated=3000 kW, vin=3.5, vr=12.0, vout=25.0
+- Site: gridCapFrac=0.833, slotHours=1.0, maintenance=false
+- slot h18:
+  • R2: (1 0.00) math:difference requestedFrac=1.000
+  • R1: (2500 3000) math:quotient gridCapFrac=0.833
+  • R3: operable if 5.0 math:notLessThan 3.5 and 5.0 math:lessThan 25.0 ⇒ true
+  • Power curve: physFrac=0.049 (vin=3.5, vr=12.0, vout=25.0)
+  • R4: curfew=false ⇒ allowedMaxFrac=1.0
+  • Setpoint = min(0.049, 0.833, 1.000, 1.0) = 0.049
+- slot h19:
+  • R2: (1 0.20) math:difference requestedFrac=0.800
+  • R1: (2500 3000) math:quotient gridCapFrac=0.833
+  • R3: operable if 8.0 math:notLessThan 3.5 and 8.0 math:lessThan 25.0 ⇒ true
+  • Power curve: physFrac=0.278 (vin=3.5, vr=12.0, vout=25.0)
+  • R4: curfew=false ⇒ allowedMaxFrac=1.0
+  • Setpoint = min(0.278, 0.833, 0.800, 1.0) = 0.278
+- slot h20:
+  • R2: (1 0.00) math:difference requestedFrac=1.000
+  • R1: (2500 3000) math:quotient gridCapFrac=0.833
+  • R3: operable if 11.5 math:notLessThan 3.5 and 11.5 math:lessThan 25.0 ⇒ true
+  • Power curve: physFrac=0.877 (vin=3.5, vr=12.0, vout=25.0)
+  • R4: curfew=false ⇒ allowedMaxFrac=1.0
+  • Setpoint = min(0.877, 0.833, 1.000, 1.0) = 0.833
+- slot h21:
+  • R2: (1 0.30) math:difference requestedFrac=0.700
+  • R1: (2500 3000) math:quotient gridCapFrac=0.833
+  • R3: operable if 13.0 math:notLessThan 3.5 and 13.0 math:lessThan 25.0 ⇒ true
+  • Power curve: physFrac=1.000 (vin=3.5, vr=12.0, vout=25.0)
+  • R4: curfew=false ⇒ allowedMaxFrac=1.0
+  • Setpoint = min(1.000, 0.833, 0.700, 1.0) = 0.700
+- slot h22:
+  • R2: (1 0.00) math:difference requestedFrac=1.000
+  • R1: (2500 3000) math:quotient gridCapFrac=0.833
+  • R3: operable if 4.0 math:notLessThan 3.5 and 4.0 math:lessThan 25.0 ⇒ true
+  • Power curve: physFrac=0.013 (vin=3.5, vr=12.0, vout=25.0)
+  • R4: curfew=true ⇒ allowedMaxFrac=0.0
+  • Setpoint = min(0.013, 0.833, 1.000, 0.0) = 0.000
+- slot h23:
+  • R2: (1 0.00) math:difference requestedFrac=1.000
+  • R1: (2500 3000) math:quotient gridCapFrac=0.833
+  • R3: operable if 26.0 math:notLessThan 3.5 and 26.0 math:lessThan 25.0 ⇒ false
+  • Power curve: physFrac=0.000 (vin=3.5, vr=12.0, vout=25.0)
+  • R4: curfew=true ⇒ allowedMaxFrac=0.0
+  • Setpoint = min(0.000, 0.833, 1.000, 0.0) = 0.000
+
+Check (harness):
+✅ PASS — all checks satisfied.
+  • [C1] Arithmetic re-check: 6 slots OK (max Δsetpoint=0.000e+00, max Δenergy=0.000e+00 kWh, max Δrevenue=0.000e+00 €)
+  • [C2] Caps/flags OK: curfew slots=2, non-operable slots=1, grid-cap hit slots=1
+  • [C3] Curtailment monotonicity OK: base 5581.4 → +20% curtail 4881.4 kWh (Δ=700.0 kWh ≤ 0)
+  • [C4] Order OK: hours [18, 19, 20, 21, 22, 23]
