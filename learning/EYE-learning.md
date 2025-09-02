@@ -62,7 +62,7 @@ For more demanding tasks involving complex logic or large datasets, the Python s
 
 ## Advanced Pattern: Mixed Computation
 
-For performance-critical applications, EYE learning supports an advanced pattern that separates stable logic from dynamic data. This "mixed-computation" approach, inspired by the work of Andrei Ershov [^1], treats **stable policies** as static code and **live inputs** (like user signals) as dynamic data.
+For performance-critical applications, EYE learning supports an advanced pattern that separates stable logic from dynamic data. This "mixed-computation" approach, inspired by the work of Andrei Ershov [Ershov, A. P. (1982). Mixed Computation: Potential Applications and Problems for Study. Theoretical Computer Science, 18, 41–67], treats **stable policies** as static code and **live inputs** (like user signals) as dynamic data.
 
 The LLM-guided synthesis step acts as a "specializer," converting the N3 rulebook into a compact, highly-efficient **Driver** function.
 
@@ -80,6 +80,3 @@ The LLM-guided synthesis step acts as a "specializer," converting the N3 ruleboo
 4.  **Execute and Validate:** Run the script to confirm the outputs and see the harness pass. The repository's `./test` command automates this for all cases.
 5.  **Iterate and Harden:** As your data and rules evolve, simply regenerate the script to create an updated, validated artifact.
 6.  **(Optional) Integrate with EYE:** For complex reasoning at scale, modify the script to call the EYE engine for its core logic while retaining the LLM-generated harness for verification.
-
-[^1]: Ershov, A. P. (1982). Mixed Computation: Potential Applications and Problems for Study. Theoretical Computer Science, 18, 41–67.
-
