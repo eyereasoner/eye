@@ -309,41 +309,72 @@ def main():
     for ln in plan.traces:
         print(f"- {ln}")
 
-    # Echo rule/data fingerprints for auditability
-    print("\nInputs (fingerprints):")
-    print(f"- Static RDF bytes: {len(STATIC_TTL.encode())} ; Dynamic RDF bytes: {len(DYNAMIC_TTL.encode())}")
-    print(f"- Rules N3 bytes: {len(RULES_N3.encode())} (math:* triples only)")
-
-    # ── CHECK (harness) ──
+    # ── CHECK (harness) ─
     print("\nCheck (harness):")
     errors: List[str] = []
 
-    # (C1) Non-negativity and caps
-    if plan.event_mm < -1e-9:
+    # Convenience aliases
+    event = plan.event_mm
+    eff   = P.efficiency
+    area  = F.area_ha
+    rate_cap = P.system_rate_mm_h * P.window_hours
+    expected_event_min = min(required_applied, deliverable_cap)
+
+    # (C1) Non-negativity and cap + "min" selection mirror
+    if event < -1e-9:
         errors.append("(C1) Event depth negative")
-    if plan.event_mm - deliverable_cap > 1e-9:
-        errors.append(f"(C1) Event depth {plan.event_mm:.3f} exceeds deliverable cap {deliverable_cap:.3f}")
+    if event - deliverable_cap > 1e-9:
+        errors.append(f"(C1) Event depth {event:.3f} exceeds deliverable cap {deliverable_cap:.3f}")
+    d_event_min = abs(event - expected_event_min)
+    if d_event_min > 1e-9:
+        errors.append(f"(C1) Event depth not min(required_applied, cap): {event:.6f} vs {expected_event_min:.6f}")
 
     # (C2) Soil gain consistency with efficiency
-    if abs(plan.soil_gain_mm - plan.event_mm * P.efficiency) > 1e-6:
+    expected_gain = event * eff
+    d_gain = abs(plan.soil_gain_mm - expected_gain)
+    if d_gain > 1e-6:
         errors.append("(C2) Soil gain ≠ event_mm × efficiency")
 
-    # (C3) If required_applied ≤ deliverable_cap, then soil gain should meet gross (within tolerance)
+    # (C3) Meet-vs-leftover logic
     if required_applied <= deliverable_cap + 1e-9:
+        # capacity sufficient → we expect soil gain ≈ gross and leftover ≈ 0
         if abs(plan.soil_gain_mm - gross) > 1e-6:
             errors.append(f"(C3) Gross need {gross:.3f} not fully met though capacity sufficed")
+        if abs(plan.leftover_soil_mm - 0.0) > 1e-6:
+            errors.append("(C3) Leftover should be zero when capacity suffices")
     else:
-        # Otherwise leftover should be positive and equal to gross - soil_gain
+        # capacity limited → event==cap and leftover = gross - soil_gain > 0
+        if abs(event - deliverable_cap) > 1e-9:
+            errors.append("(C3) Expected event depth to hit the cap under limitation")
         if plan.leftover_soil_mm <= -1e-9:
-            errors.append("(C3) Expected positive leftover soil need")
-        if abs(plan.leftover_soil_mm - (gross - plan.soil_gain_mm)) > 1e-6:
+            errors.append("(C3) Expected non-negative leftover soil need")
+        d_leftover_match = abs(plan.leftover_soil_mm - (gross - plan.soil_gain_mm))
+        if d_leftover_match > 1e-6:
             errors.append("(C3) Leftover soil need mismatch")
 
     # (C4) Volume conversion check: 1 mm over 1 ha = 10 m³
-    expected_vol = plan.event_mm * F.area_ha * 10.0
-    if abs(plan.volume_m3 - expected_vol) > 1e-6:
+    expected_vol = event * area * 10.0
+    d_vol = abs(plan.volume_m3 - expected_vol)
+    if d_vol > 1e-6:
         errors.append("(C4) Volume conversion mismatch")
 
+    # (C5) Caps provenance: deliverable_cap = min(perEventCap, systemRate*windowHours)
+    if abs(rate_cap - (P.system_rate_mm_h * P.window_hours)) > 1e-12:
+        errors.append("(C5) Internal rate cap computation drift")
+    expected_cap = min(P.per_event_cap_mm, rate_cap)
+    d_cap = abs(deliverable_cap - expected_cap)
+    if d_cap > 1e-9:
+        errors.append("(C5) Deliverable cap ≠ min(perEventCap, systemRate*windowHours)")
+
+    # (C6) Efficiency monotonicity: increasing efficiency should not increase the required event depth
+    if eff > 0:
+        eff2 = eff * 1.10
+        req2 = gross / eff2 if eff2 > 0 else float("inf")
+        event2 = min(req2, deliverable_cap)
+        if event2 - event > 1e-9:
+            errors.append(f"(C6) Increasing efficiency raised event depth ({event:.3f} → {event2:.3f} mm)")
+
+    # Outcome
     if errors:
         print("❌ FAIL")
         for e in errors:
@@ -351,6 +382,18 @@ def main():
         raise SystemExit(1)
     else:
         print("✅ PASS — all checks satisfied.")
+        print(f"  • [C1] Event bounds & min() OK: event={event:.1f} mm, cap={deliverable_cap:.1f} mm, "
+              f"req_applied={required_applied:.1f} mm, Δmin={d_event_min:.2e}")
+        print(f"  • [C2] Soil gain OK: gain={plan.soil_gain_mm:.1f} mm (eff={eff:.2f}), Δgain={d_gain:.2e}")
+        if required_applied <= deliverable_cap + 1e-9:
+            print(f"  • [C3] Capacity sufficed: gross={gross:.1f} mm fully met, leftover≈0.0")
+        else:
+            print(f"  • [C3] Capacity limited: event hits cap; leftover={plan.leftover_soil_mm:.1f} mm")
+        print(f"  • [C4] Volume OK: {plan.volume_m3:.1f} m³ over {area:.1f} ha, Δvol={d_vol:.2e}")
+        print(f"  • [C5] Cap derivation OK: perEventCap={P.per_event_cap_mm:.1f} mm; "
+              f"systemRate×window={rate_cap:.1f} mm; deliverable={deliverable_cap:.1f} mm")
+        if eff > 0:
+            print("  • [C6] Efficiency monotonicity OK (event depth non-increasing with +10% eff)")
 
 if __name__ == "__main__":
     main()

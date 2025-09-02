@@ -12,9 +12,11 @@ Reason why:
 - Caps: perEventCap 25.0 mm ; system cap (12.0×2.0) = 24.0 mm ⇒ deliverable 24.0 mm (min via math:notGreaterThan reasoning).
 - Vol: event 24.0 mm × area 15.0 ha × 10 → 3600.0 m³.
 
-Inputs (fingerprints):
-- Static RDF bytes: 525 ; Dynamic RDF bytes: 328
-- Rules N3 bytes: 1216 (math:* triples only)
-
 Check (harness):
 ✅ PASS — all checks satisfied.
+  • [C1] Event bounds & min() OK: event=24.0 mm, cap=24.0 mm, req_applied=40.0 mm, Δmin=0.00e+00
+  • [C2] Soil gain OK: gain=20.4 mm (eff=0.85), Δgain=0.00e+00
+  • [C3] Capacity limited: event hits cap; leftover=13.6 mm
+  • [C4] Volume OK: 3600.0 m³ over 15.0 ha, Δvol=0.00e+00
+  • [C5] Cap derivation OK: perEventCap=25.0 mm; systemRate×window=24.0 mm; deliverable=24.0 mm
+  • [C6] Efficiency monotonicity OK (event depth non-increasing with +10% eff)
