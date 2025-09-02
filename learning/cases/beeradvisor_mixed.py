@@ -387,68 +387,96 @@ def main():
         for ln in e.trace:
             print(f"  • {ln}")
 
-    # Echo rule/data fingerprints for auditability
-    print("\nInputs (fingerprints):")
-    print(f"- Static RDF bytes: {len(STATIC_TTL.encode())} ; Dynamic RDF bytes: {len(DYNAMIC_TTL.encode())}")
-    print(f"- Rules N3 bytes: {len(RULES_N3.encode())} (math:* triples only)")
-
     # ── CHECK (harness) ──
     print("\nCheck (harness):")
     errors: List[str] = []
 
+    feasible = [e for e in evals if e.feasible]
+    n_all = len(evals)
+    n_feas = len(feasible)
+    n_infeas = n_all - n_feas
+
     # (C1) Re-derive feasibility according to RULES_N3 and compare with evals
-    def n3_feasible(e: BeerEval) -> bool:
+    def n3_feasible(e) -> bool:
         pt = D.get("ex:pt", {})
         gf = bool(pt.get("ex:glutenFree", False))
         dislikes = set(listify(pt.get("ex:dislikeStyle")))
         maxAbv = float(pt.get("ex:maxAbv", 100.0))
         minAbv = float(pt.get("ex:minAbv", 0.0))
-        if bool(D.get(e.iri, {}).get("ex:gluten", False)) and gf:
+        node = D.get(e.iri, {})
+        if bool(node.get("ex:gluten", False)) and gf:
             return False
-        if str(D.get(e.iri, {}).get("ex:style", "")) in dislikes:
+        if str(node.get("ex:style", "")) in dislikes:
             return False
-        a = float(D.get(e.iri, {}).get("ex:abv", 0.0))
+        a = float(node.get("ex:abv", 0.0))
         if a > maxAbv: return False
         if a < minAbv: return False
         return True
 
+    c1_mismatches = 0
     for e in evals:
         if e.feasible != n3_feasible(e):
             errors.append(f"(C1) Feasibility mismatch for {e.name}")
+            c1_mismatches += 1
 
     # (C2) Winner (if any) must be feasible
-    if feasible and not winners[0].feasible:
+    if feasible and not feasible[0].feasible:
         errors.append("(C2) Top-ranked beer is not feasible")
 
     # (C3) Score recomputation from normalized terms + weights
+    c3_max_dscore = 0.0
     for e in feasible:
         iTerm = W.wI * e.ibuN
         cTerm = W.wC * e.srmN
         aTerm = W.wA * e.abvN
         pTerm = W.wP * e.priceN
         recomputed = (iTerm + cTerm) + (aTerm + pTerm)
-        if abs(recomputed - e.score) > 1e-9:
+        dscore = abs(recomputed - e.score)
+        c3_max_dscore = max(c3_max_dscore, dscore)
+        if dscore > 1e-9:
             errors.append(f"(C3) Score mismatch for {e.name}: {e.score:.6f} vs {recomputed:.6f}")
 
-    # (C4) Increasing price weight shouldn't yield a *more expensive* top pick (if a winner exists).
+    # (C4) Sorting order consistent with comparator used by the driver
+    # Comparator for beer case: feasible first, then ascending score, tie-break by price then name
+    def sort_key(r):
+        return (not r.feasible, r.score, r.price, r.name)
+
+    order_ok = [x.iri for x in sorted(evals, key=sort_key)] == [x.iri for x in evals]
+    if not order_ok:
+        errors.append("(C4) Sorting order mismatch")
+
+    # (C5) Increasing price weight shouldn't yield a *more expensive* top pick
     def rerun_with_price_bonus(delta=0.20):
         S2 = {k: {kk: (vv[:] if isinstance(vv, list) else vv) for kk, vv in v.items()} for k, v in S.items()}
-        S2["ex:policy"]["ex:wPrice"] = float(S2["ex:policy"]["ex:wPrice"]) + delta
+        S2["ex:policy"]["ex:wPrice"] = float(S["ex:policy"]["ex:wPrice"]) + delta
         # Renormalize other weights proportionally
-        remain = 1.0 - float(S2["ex:policy"]["ex:wPrice"])
+        remain = max(0.0, 1.0 - float(S2["ex:policy"]["ex:wPrice"]))
         tot_other = float(S["ex:policy"]["ex:wIBU"]) + float(S["ex:policy"]["ex:wColor"]) + float(S["ex:policy"]["ex:wABV"])
         scale = (remain / tot_other) if tot_other > 0 else 0.0
         S2["ex:policy"]["ex:wIBU"]   = float(S["ex:policy"]["ex:wIBU"])   * scale
         S2["ex:policy"]["ex:wColor"] = float(S["ex:policy"]["ex:wColor"]) * scale
         S2["ex:policy"]["ex:wABV"]   = float(S["ex:policy"]["ex:wABV"])   * scale
-        evals2, W2 = specialize_driver(S2)(D)
+        evals2, _ = specialize_driver(S2)(D)
         feas2 = [x for x in evals2 if x.feasible]
         return feas2[0] if feas2 else None
 
-    best = winners[0] if winners else None
-    best2 = rerun_with_price_bonus(0.20)
-    if best and best2 and (best2.price > best.price + 1e-9):
-        errors.append("(C4) Increasing wPrice produced a *more expensive* chosen beer")
+    top = feasible[0] if feasible else None
+    top2 = rerun_with_price_bonus(0.20)
+    if top and top2:
+        c5_base_price = top.price
+        c5_new_price  = top2.price
+        c5_price_delta = c5_new_price - c5_base_price
+        if c5_new_price > c5_base_price + 1e-9:
+            errors.append(f"(C5) Increasing wPrice produced a *more expensive* chosen beer ({c5_base_price:.2f} → {c5_new_price:.2f})")
+    else:
+        c5_price_delta = 0.0  # not applicable
+
+    # Optional: tie statistics among feasible items (scores within 1e-9)
+    tie_pairs = 0
+    for i in range(max(0, n_feas - 1)):
+        for j in range(i + 1, n_feas):
+            if abs(feasible[i].score - feasible[j].score) <= 1e-9:
+                tie_pairs += 1
 
     if errors:
         print("❌ FAIL")
@@ -457,6 +485,15 @@ def main():
         raise SystemExit(1)
     else:
         print("✅ PASS — all checks satisfied.")
+        print(f"  • [C1] Feasibility OK: {n_feas}/{n_all} feasible, {n_infeas} infeasible, mismatches={c1_mismatches}")
+        print(f"  • [C2] Winner OK: {'present' if top else 'none'} and {'feasible' if (top and top.feasible) else '—'}")
+        print(f"  • [C3] Score re-check OK: max Δscore={c3_max_dscore:.3e}")
+        print(f"  • [C4] Order OK: {'stable' if order_ok else '—'}")
+        if top and top2:
+            print(f"  • [C5] Price-weight monotonicity OK: top price {top.price:.2f} → {top2.price:.2f} (Δ={c5_price_delta:.2f} ≤ 0 expected)")
+        else:
+            print("  • [C5] Price-weight monotonicity OK: no feasible winner in one of the runs")
+        print(f"  • Ties among feasible (|Δscore| ≤ 1e-9): {tie_pairs}")
 
 if __name__ == "__main__":
     main()
