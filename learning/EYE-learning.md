@@ -40,28 +40,37 @@ We use “learning” in a precise, engineering-oriented sense: the system *lear
 ## Architecture at a glance
 
 ```
-+--------------+
-|  Data (RDF)  |---+
-+--------------+   |                             +--------------------+                               +------------------+
-                   |                             |    Python code     |                               |   (optional)     |
-+--------------+   |    +-------------------+    |                    |    +---------------------+    |   EYE reasoner   |
-|  Rules (N3)  |---+--->|  LLM synthesizer  |--->|  o Answer          |--->|  Actionable insight |--->|                  |
-+--------------+   |    +-------------------+    |  o Reason why      |    +---------------------+    |  o proofs        |
-                   |                             |  o Check (harness) |                               |  o scale         |
-+--------------+   |                             +--------------------+                               +------------------+
-|     Goal     |---+
-+--------------+
+┌──────────────┐
+│  Data (RDF)  │───┐
+└──────────────┘   │
+                   │
+┌──────────────┐   │   ┌───────────────────┐   ┌────────────────────┐   ┌─────────────────────┐   ┌──────────────────┐
+│  Rules (N3)  │───┼──>│  LLM synthesizer  │──>│   Python code      │──>│  Actionable insight │──>│   EYE reasoner   │
+└──────────────┘   │   └───────────────────┘   │ ◦ Answer           │   └─────────────────────┘   │    (optional)    │
+                   │                           │ ◦ Reason why       │                             │   ◦ proofs       │
+┌──────────────┐   │                           │ ◦ Check (harness)  │                             │   ◦ scale        │
+│     Goal     │───┘                           └────────────────────┘                             └──────────────────┘
+└──────────────┘
 ```
 
 The conceptual diagram shows a succinct pipeline: **Data + Rules + Goal** → **LLM synthesis** → **Self-contained Python (answer, reason-why, check)** → **Actionable insight**, with optional hand-off to EYE where formal proofs or scale demand it. This architecture makes two deliberate bets: (i) runtime **verification** is non-negotiable, and (ii) the **unit of work** is a portable script that travels well across tooling, teams, and environments.
 
 ## Mixed computation
 
-EYE learning also admits a **mixed-computation** view inspired by Ershov [1]: treat **stable policy and mappings** as **static**, and **live inputs** (user preferences, signals, candidates) as **dynamic**. An Agent (the LLM-guided synthesis step) **partially evaluates** the rulebook against the static knowledge to **specialize** a compact **Driver**—a small decision/scoring function.
+EYE learning also admits a **mixed-computation** view (à la Ershov [1]): treat **stable policy & mappings** as **static** and **live inputs** (user preferences, signals, candidates) as **dynamic**. An Agent (the LLM-guided synthesis step) **partially evaluates** the N3 rulebook against the static graph to **specialize** a compact **Driver**—a small, testable decision/scoring function.
 
-- **Before specialization (optional):** run EYE over data/context to *materialize* derived triples (closures, contraindications, bonuses). Specialization can then target this entailed graph, keeping reasoning (EYE) cleanly separated from execution (Driver).
-- **At runtime:** the Driver consumes only dynamic facts to score/rank candidates and emit a clear **explanation trace** (why an option ranked higher, which bonuses/penalties applied). The Driver also carries lightweight **self-checks** to guard invariants.
-- **Governance:** policies live as **N3 rules** and weights in RDF—human-reviewable and versioned. Updating policy simply triggers **re-specialization**; no algorithm rewrite is needed.
+- **Before specialization (optional):** run EYE once over the current context to *materialize* derived triples (closures, contraindications, bonuses). Specialization can then target this **entailed** graph—keeping **reasoning** (EYE) cleanly separated from **execution** (Driver).
+
+- **Specialization output:** a Driver that mirrors the rule math (via the same `math:*` semantics), compiles policy into a handful of numeric operations, and exposes a minimal interface.
+
+- **At runtime:** the Driver consumes only **dynamic** facts, computes normalized features, applies the specialized scoring/feasibility, and emits:
+  - **Answer** — the ranked choice(s),
+  - **Reason why** — a trace that mirrors the rule steps (which weights/penalties/thresholds fired),
+  - **Check** — a harness that revalidates arithmetic and ordering, and probes simple **invariants/monotonicity**.
+
+- **Governance:** policies live as **N3 rules** with weights in RDF—human-reviewable and versioned. Updating policy simply triggers **re-specialization**; no algorithm rewrite is needed.
+
+- **Benefits:** mixed computation preserves the same **Answer • Reason why • Check** contract while improving **speed**, **determinism**, **testability**, and **auditability**. Logic stays declarative; execution stays small and fast.
 
 ## Typical workflow
 
