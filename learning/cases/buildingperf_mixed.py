@@ -272,45 +272,62 @@ def main():
         for ln in e.trace:
             print(f"  • {ln}")
 
-    print("\nInputs (fingerprints):")
-    print(f"- Static RDF bytes: {len(STATIC_TTL.encode())} ; Dynamic RDF bytes: {len(DYNAMIC_TTL.encode())}")
-    print(f"- Rules N3 bytes: {len(RULES_N3.encode())} (math:* triples only)")
-
+    # ── CHECK (harness) ─
     print("\nCheck (harness):")
     errors: List[str] = []
 
-    # (C1) Recompute D_proxy and compare
+    n_rooms = len(evals)
+    pass_count = sum(1 for e in evals if e.passes)
+
+    # (C1) Recompute D_proxy and compare (track max Δ)
+    c1_max_dd = 0.0
+    c1_mismatches = 0
     for e in evals:
         props = D[e.iri]
         Rc, A, Dp = predicted_facade_D_proxy(props)
-        if abs(Dp - e.predicted) > 1e-9:
+        dd = abs(Dp - e.predicted)
+        c1_max_dd = max(c1_max_dd, dd)
+        if dd > 1e-9:
             errors.append(f"(C1) Predicted mismatch for {e.iri}: {e.predicted:.6f} vs {Dp:.6f}")
+            c1_mismatches += 1
 
-    # (C2) Pass iff predicted >= required; margin matches difference
+    # (C2) Rule logic: pass iff predicted >= required; margin = predicted - required
+    c2_pass_mism = 0
+    c2_margin_mism = 0
     for e in evals:
         if e.passes != (e.predicted >= e.required):
             errors.append(f"(C2) Pass logic mismatch for {e.iri}")
+            c2_pass_mism += 1
         if abs(e.margin - (e.predicted - e.required)) > 1e-9:
             errors.append(f"(C2) Margin mismatch for {e.iri}")
+            c2_margin_mism += 1
 
-    # (C3) Bedrooms vs living requirements mapping
+    # (C3) Bedrooms use bedroom min; living uses living min
+    c3_mismatches = 0
     for e in evals:
         expect = mins["bed_min"] if e.kind == "Bedroom" else mins["liv_min"]
         if abs(e.required - expect) > 1e-9:
             errors.append(f"(C3) Requirement mapping mismatch for {e.iri}")
+            c3_mismatches += 1
 
-    # (C4) Sorting order
+    # (C4) Sorting: failing rooms should appear before passing rooms; then by margin asc
     sorted_copy = sorted(evals, key=lambda z: (z.passes, z.margin))
-    if [x.iri for x in sorted_copy] != [x.iri for x in evals]:
+    order_ok = ([x.iri for x in sorted_copy] == [x.iri for x in evals])
+    if not order_ok:
         errors.append("(C4) Sorting order mismatch")
 
+    # Outcome
     if errors:
         print("❌ FAIL")
-        for e in errors:
-            print(" -", e)
+        for er in errors:
+            print(" -", er)
         raise SystemExit(1)
     else:
         print("✅ PASS — all checks satisfied.")
+        print(f"  • [C1] Predicted D re-check OK: {n_rooms} rooms (max Δ={c1_max_dd:.3e} dB, mismatches={c1_mismatches})")
+        print(f"  • [C2] Logic OK: pass mismatches={c2_pass_mism}, margin mismatches={c2_margin_mism}")
+        print(f"  • [C3] Requirement mapping OK: mismatches={c3_mismatches}")
+        print(f"  • [C4] Order OK: {'stable' if order_ok else '—'}; sequence {[e.iri for e in evals]}")
 
 if __name__ == "__main__":
     main()
