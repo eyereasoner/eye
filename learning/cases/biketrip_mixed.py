@@ -1,512 +1,444 @@
 #!/usr/bin/env python3
+# biketrip_mixed_min.py
 #
 # Mixed-Computation Header (what this program does)
 # -------------------------------------------------
-# Static RDF (policy & rider model) + RULES_N3 (math:* triple patterns only)
-# are partially evaluated into a small "driver" function. At run time, the
-# driver ingests dynamic RDF (routes, segments, weather/closures), computes
-# normalized route features, mirrors the N3 scoring with weighted sums
-# (using the same math:* semantics), eliminates infeasible routes (any closed
-# segment), and prints:
-#   1) Answer (ranked feasible routes),
+# Static RDF (weights + rider physics/policies) + RULES_N3 (math:* triple
+# patterns only) are partially evaluated into a compact Driver. At run time,
+# the Driver ingests dynamic RDF (candidate routes + weather/traffic), computes
+# per-route features (time, hills, traffic, rain, headwind), normalizes them,
+# mirrors the N3 scoring (weighted sum), enforces feasibility constraints, and
+# prints:
+#   1) Answer (ranked feasible routes with key metrics),
 #   2) Reason why (trace lines that mirror math:* steps),
-#   3) Check (a built-in harness that re-validates feasibility, scoring, and sorting).
+#   3) Check (harness that revalidates feasibility, scores, sorting, and
+#      a monotonicity probe on the time weight).
 #
 # Contract with EYE learning:
-# - All rules arithmetic/relations are expressed with math:* built-ins only.
+# - All arithmetic/relations in RULES_N3 use math:* built-ins only.
 # - Everything is inline (no external file writes).
 # - One file produces Answer • Reason why • Check.
 
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Dict, List, Tuple, Any
+from typing import Any, Dict, List, Tuple
+import math
 
 # ──────────────────────────────────────────────────────────────────────────────
-# GOAL
+# Static + Dynamic RDF (inline)
 # ──────────────────────────────────────────────────────────────────────────────
-GOAL = (
-    "Given static policy/physics RDF and math:* N3 rules, specialize a driver "
-    "that ingests dynamic routes/weather/closures and outputs a feasible, ranked "
-    "route list with explanation traces."
-)
 
-# ──────────────────────────────────────────────────────────────────────────────
-# STATIC RDF (compile-time): policy weights, rider model, constants
-# ──────────────────────────────────────────────────────────────────────────────
 STATIC_TTL = r"""
 @prefix ex:  <http://example.org/bike#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Policy weights (sum ≈ 1.0)
-ex:policy ex:wTime   0.50 .
-ex:policy ex:wSafety 0.30 .
-ex:policy ex:wGain   0.15 .
-ex:policy ex:wScenic 0.05 .
+# Policy weights (sum ~= 1.0) — lower is better on all normalized features
+ex:policy ex:wTime    0.45 .
+ex:policy ex:wHills   0.20 .
+ex:policy ex:wTraffic 0.20 .
+ex:policy ex:wRain    0.10 .
+ex:policy ex:wWind    0.05 .
 
-# Rider model / physics-ish constants
-ex:rider  ex:baseSpeedKmh    18.0 .   # flat road, fair weather
-ex:rider  ex:rainSpeedFactor  0.90 .  # slowdown if raining
-ex:rider  ex:ltsSlowdown3     0.95 .  # extra slowdown on LTS≥3 segments
+# Rider/physics
+ex:policy ex:baseSpeed_kmh         22.0 .   # baseline cruise speed on flat, dry, calm
+ex:policy ex:rainSpeedFactor       0.02 .   # speed multiplier loss per mm/h rain
+ex:policy ex:headWindPenalty_kmh   0.50 .   # km/h speed loss per m/s headwind
+ex:policy ex:minSpeed_kmh          10.0 .   # floor after penalties
+ex:policy ex:hillTime_min_per_100m 4.0 .    # extra minutes per 100 m of climb
+
+# Feasibility thresholds
+ex:policy ex:maxTime_min    120 .          # must arrive within 2h
+ex:policy ex:maxTraffic_idx 7 .            # cap on traffic index
 """
 
-# ──────────────────────────────────────────────────────────────────────────────
-# DYNAMIC RDF (run-time): routes, segments, weather, closures
-# (note: one triple per line to keep parsing trivial)
-# ──────────────────────────────────────────────────────────────────────────────
 DYNAMIC_TTL = r"""
 @prefix ex:  <http://example.org/bike#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-# Weather/context
-ex:weather ex:rain false .
+# Weather/traffic signals per route (avg over the route)
+ex:RouteA ex:rain_mm_h 0.5 . ex:RouteA ex:headwind_ms 1.0 . ex:RouteA ex:traffic_idx 4 .
+ex:RouteB ex:rain_mm_h 2.0 . ex:RouteB ex:headwind_ms 3.0 . ex:RouteB ex:traffic_idx 6 .
+ex:RouteC ex:rain_mm_h 0.0 . ex:RouteC ex:headwind_ms 0.0 . ex:RouteC ex:traffic_idx 5 .
 
-# Route-level wind fractions (headwind>0 slows; tailwind<0 aids)
-ex:route_r1 ex:windFrac 0.05 .
-ex:route_r2 ex:windFrac -0.10 .
-ex:route_r3 ex:windFrac 0.00 .
+# Candidates
+ex:cand ex:consider ex:RouteA .
+ex:cand ex:consider ex:RouteB .
+ex:cand ex:consider ex:RouteC .
 
-# Route segment membership
-ex:route_r1 ex:hasSegment ex:r1_s1 .
-ex:route_r1 ex:hasSegment ex:r1_s2 .
-ex:route_r1 ex:hasSegment ex:r1_s3 .
-ex:route_r2 ex:hasSegment ex:r2_s1 .
-ex:route_r2 ex:hasSegment ex:r2_s2 .
-ex:route_r2 ex:hasSegment ex:r2_s3 .
-ex:route_r3 ex:hasSegment ex:r3_s1 .
-ex:route_r3 ex:hasSegment ex:r3_s2 .
-ex:route_r3 ex:hasSegment ex:r3_s3 .
+# Route geometry (aggregate per route)
+ex:RouteA ex:name "Park Loop" .
+ex:RouteA ex:distance_km 18.0 .
+ex:RouteA ex:uphill_m    120 .
+ex:RouteA ex:notes "Mostly park paths, a few crossings." .
 
-# Segments — one triple per line
-# r1: shortest, some stress, small climbs, moderate scenic
-ex:r1_s1 ex:lengthKm 2.0 .
-ex:r1_s1 ex:gainM 20 .
-ex:r1_s1 ex:lts 3 .
-ex:r1_s1 ex:bikeLane false .
-ex:r1_s1 ex:scenic 0.5 .
-ex:r1_s1 ex:closed false .
+ex:RouteB ex:name "Direct Arterial" .
+ex:RouteB ex:distance_km 15.5 .
+ex:RouteB ex:uphill_m    200 .
+ex:RouteB ex:notes "Fast but busier." .
 
-ex:r1_s2 ex:lengthKm 1.8 .
-ex:r1_s2 ex:gainM 15 .
-ex:r1_s2 ex:lts 2 .
-ex:r1_s2 ex:bikeLane true .
-ex:r1_s2 ex:scenic 0.6 .
-ex:r1_s2 ex:closed false .
-
-ex:r1_s3 ex:lengthKm 1.4 .
-ex:r1_s3 ex:gainM 10 .
-ex:r1_s3 ex:lts 2 .
-ex:r1_s3 ex:bikeLane true .
-ex:r1_s3 ex:scenic 0.7 .
-ex:r1_s3 ex:closed false .
-
-# r2: a bit longer, safer, more scenic, good tailwind
-ex:r2_s1 ex:lengthKm 2.2 .
-ex:r2_s1 ex:gainM 25 .
-ex:r2_s1 ex:lts 2 .
-ex:r2_s1 ex:bikeLane true .
-ex:r2_s1 ex:scenic 0.7 .
-ex:r2_s1 ex:closed false .
-
-ex:r2_s2 ex:lengthKm 2.0 .
-ex:r2_s2 ex:gainM 20 .
-ex:r2_s2 ex:lts 1 .
-ex:r2_s2 ex:bikeLane true .
-ex:r2_s2 ex:scenic 0.8 .
-ex:r2_s2 ex:closed false .
-
-ex:r2_s3 ex:lengthKm 1.9 .
-ex:r2_s3 ex:gainM 15 .
-ex:r2_s3 ex:lts 1 .
-ex:r2_s3 ex:bikeLane true .
-ex:r2_s3 ex:scenic 0.9 .
-ex:r2_s3 ex:closed false .
-
-# r3: flat and direct but one closure (should be infeasible)
-ex:r3_s1 ex:lengthKm 1.9 .
-ex:r3_s1 ex:gainM 5 .
-ex:r3_s1 ex:lts 3 .
-ex:r3_s1 ex:bikeLane false .
-ex:r3_s1 ex:scenic 0.4 .
-ex:r3_s1 ex:closed false .
-
-ex:r3_s2 ex:lengthKm 1.5 .
-ex:r3_s2 ex:gainM 5 .
-ex:r3_s2 ex:lts 4 .
-ex:r3_s2 ex:bikeLane false .
-ex:r3_s2 ex:scenic 0.3 .
-ex:r3_s2 ex:closed true .
-
-ex:r3_s3 ex:lengthKm 1.2 .
-ex:r3_s3 ex:gainM 5 .
-ex:r3_s3 ex:lts 3 .
-ex:r3_s3 ex:bikeLane false .
-ex:r3_s3 ex:scenic 0.4 .
-ex:r3_s3 ex:closed false .
+ex:RouteC ex:name "Greenway" .
+ex:RouteC ex:distance_km 20.0 .
+ex:RouteC ex:uphill_m     80 .
+ex:RouteC ex:notes "Longer but calm and flat." .
 """
 
 # ──────────────────────────────────────────────────────────────────────────────
-# RULES (N3) — only math:* built-ins for arithmetic/relations
+# RULES (N3) — math:* built-ins only (correct arities)
 # ──────────────────────────────────────────────────────────────────────────────
 RULES_N3 = r"""
 @prefix ex:   <http://example.org/bike#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
-# Score = wTime*timeN + wSafety*riskN + wGain*gainN + wScenic*(1 - scenicN)
+# Attach score from normalized features and policy weights:
+# score = wTime*timeN + wHills*hillsN + wTraffic*trafficN + wRain*rainN + wWind*windN
 {
-  ?r  ex:timeN   ?tN .
-  ?r  ex:riskN   ?sN .
-  ?r  ex:gainN   ?gN .
-  ?r  ex:scenicN ?scN .
-  ex:policy ex:wTime   ?wT .
-  ex:policy ex:wSafety ?wS .
-  ex:policy ex:wGain   ?wG .
-  ex:policy ex:wScenic ?wSc .
-  ( 1 ?scN )          math:difference ?invSc .
-  ( ?wT ?tN )         math:product    ?tTerm .
-  ( ?wS ?sN )         math:product    ?sTerm .
-  ( ?wG ?gN )         math:product    ?gTerm .
-  ( ?wSc ?invSc )     math:product    ?scTerm .
-  ( ?tTerm ?sTerm )   math:sum        ?ts .
-  ( ?gTerm ?scTerm )  math:sum        ?gs .
-  ( ?ts ?gs )         math:sum        ?score .
+  ?r ex:timeN ?tN .
+  ?r ex:hillsN ?hN .
+  ?r ex:trafficN ?trN .
+  ?r ex:rainN ?raN .
+  ?r ex:windN ?wiN .
+  ex:policy ex:wTime    ?wT .
+  ex:policy ex:wHills   ?wH .
+  ex:policy ex:wTraffic ?wTr .
+  ex:policy ex:wRain    ?wR .
+  ex:policy ex:wWind    ?wW .
+  ( ?wT ?tN )   math:product ?tTerm .
+  ( ?wH ?hN )   math:product ?hTerm .
+  ( ?wTr ?trN ) math:product ?trTerm .
+  ( ?wR ?raN )  math:product ?rTerm .
+  ( ?wW ?wiN )  math:product ?wTerm .
+  ( ?tTerm ?hTerm )   math:sum ?th .
+  ( ?trTerm ?rTerm )  math:sum ?trr .
+  ( ?th ?trr )        math:sum ?left .
+  ( ?left ?wTerm )    math:sum ?score .
 }
 =>
 { ?r ex:score ?score } .
 
-# Feasibility: any closed segment implies infeasible route (pure triple pattern)
-{ ?r ex:hasSegment ?seg . ?seg ex:closed true . } => { ?r ex:feasible false } .
+# Feasibility
+# time_min ≤ maxTime_min  AND  traffic_idx ≤ maxTraffic_idx
+{ ?r ex:time_min ?tm . ex:policy ex:maxTime_min ?lim . ?tm math:notGreaterThan ?lim . } => { ?r ex:feasible true } .
+{ ?r ex:time_min ?tm . ex:policy ex:maxTime_min ?lim . ?tm math:greaterThan ?lim . }   => { ?r ex:feasible false } .
+{ ?r ex:traffic_idx ?ti . ex:policy ex:maxTraffic_idx ?mx . ?ti math:greaterThan ?mx . } => { ?r ex:feasible false } .
 """
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Minimal Turtle reader (numbers, booleans, strings, qnames; supports repeats)
+# Tiny Turtle reader (inline-comment–safe; collects repeated predicates)
 # ──────────────────────────────────────────────────────────────────────────────
-def parse_turtle_simple(s: str) -> Dict[str, Dict[str, Any]]:
-    """
-    Minimal, resilient Turtle reader for this case:
-    - Skips @prefix lines.
-    - Strips inline comments after '#' (but preserves '#' inside quoted strings).
-    - Handles booleans, numbers, qnames; collects repeated predicates into lists.
-    - Assumes one triple per line (as in our TTL), but is tolerant if multiple show up.
-    """
+def parse_turtle_simple(ttl: str) -> Dict[str, Dict[str, Any]]:
     out: Dict[str, Dict[str, Any]] = {}
-    buf: List[str] = []
 
     def strip_inline_comment(line: str) -> str:
         in_str = False
         esc = False
-        out_chars = []
+        buf = []
         for ch in line:
             if ch == '"' and not esc:
                 in_str = not in_str
             if ch == '#' and not in_str:
-                break  # cut comment
-            out_chars.append(ch)
-            # manage escaping inside strings
+                break
+            buf.append(ch)
             if esc:
                 esc = False
             elif ch == '\\':
                 esc = True
-        return ''.join(out_chars)
+        return ''.join(buf)
 
-    def _add(subj: str, pred: str, val: Any):
-        if pred == 'a':
-            pred = ':type'
-        slot = out.setdefault(subj, {})
-        if pred not in slot:
-            slot[pred] = val
+    def add(s: str, p: str, o: Any):
+        slot = out.setdefault(s, {})
+        if p not in slot:
+            slot[p] = o
         else:
-            if isinstance(slot[pred], list):
-                slot[pred].append(val)
-            else:
-                slot[pred] = [slot[pred], val]
+            slot[p] = slot[p] + [o] if isinstance(slot[p], list) else [slot[p], o]
 
-    def flush(stmt: str):
-        # allow multiple triples in a single statement if present
-        for triple in [t.strip() for t in stmt.split(' . ') if t.strip()]:
-            if triple.endswith('.'):
-                triple = triple[:-1].strip()
-            if not triple or triple.startswith('@prefix'):
-                continue
-            parts = triple.split(None, 2)
-            if len(parts) < 3:
-                continue
-            subj, pred, obj = parts[0], parts[1], parts[2].strip()
-            if obj.startswith('"'):
-                # read quoted literal (no datatype/lang handling needed here)
-                if obj.count('"') == 1:
-                    # very long literal broken across spaces — nothing in our data, but be safe
-                    pass
-                lit = obj[1: obj.find('"', 1)]
-                _add(subj, pred, lit)
-            else:
-                tok = obj.split()[0]
-                if tok in ('true', 'false'):
-                    _add(subj, pred, tok == 'true')
-                else:
-                    try:
-                        _add(subj, pred, float(tok))
-                    except ValueError:
-                        _add(subj, pred, tok)
-
-    for raw in s.splitlines():
+    for raw in ttl.splitlines():
         if raw.lstrip().startswith('@prefix'):
             continue
         line = strip_inline_comment(raw).strip()
-        if not line:
+        if not line or line.startswith('#'):
             continue
-        buf.append(line)
-        if line.endswith('.'):
-            flush(' '.join(buf))
-            buf = []
-    if buf:
-        flush(' '.join(buf))
+        for stmt in [s.strip() for s in line.split(' . ') if s.strip()]:
+            if stmt.endswith('.'):
+                stmt = stmt[:-1].strip()
+            if not stmt:
+                continue
+            parts = stmt.split(None, 2)
+            if len(parts) < 3:
+                continue
+            s, p, o = parts[0], parts[1], parts[2].strip()
+            if o.startswith('"'):
+                add(s, p, o[1:o.find('"', 1)])
+            else:
+                tok = o.split()[0]
+                if tok in ('true', 'false'):
+                    add(s, p, tok == 'true')
+                else:
+                    try:
+                        add(s, p, float(tok) if '.' in tok else int(tok))
+                    except Exception:
+                        add(s, p, tok)
     return out
 
 def listify(v) -> List[Any]:
-    if v is None:
-        return []
+    if v is None: return []
     return v if isinstance(v, list) else [v]
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Domain structures
+# Domain and driver
 # ──────────────────────────────────────────────────────────────────────────────
 @dataclass
-class Policy:
-    w_time: float
-    w_safety: float
-    w_gain: float
-    w_scenic: float
-    base_speed: float
-    rain_factor: float
-    lts3_factor: float
-
-@dataclass
-class Segment:
-    name: str
-    length_km: float
-    gain_m: float
-    lts: int
-    bike_lane: bool
-    scenic: float
-    closed: bool
+class Weights:
+    wTime: float
+    wHills: float
+    wTraffic: float
+    wRain: float
+    wWind: float
 
 @dataclass
 class RouteEval:
-    route: str
+    iri: str
+    name: str
+    distance_km: float
+    uphill_m: float
+    rain_mm_h: float
+    headwind_ms: float
+    traffic_idx: float
+    time_min: float
     feasible: bool
-    time_h: float
-    risk: float
-    gain_m: float
-    scenic: float
+    # normalized features captured for auditability
     timeN: float
-    riskN: float
-    gainN: float
-    scenicN: float
+    hillsN: float
+    trafficN: float
+    rainN: float
+    windN: float
     score: float
     trace: List[str]
+    notes: str
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Driver specialization (mixed computation)
-# ──────────────────────────────────────────────────────────────────────────────
-def specialize_driver(policy: Policy):
-    MIN_SPEED_KMH = 5.0
-    CLIMB_HOURS_PER_M = 0.0002  # +0.72 s per meter climb
+def clamp(x, lo, hi): return lo if x < lo else hi if x > hi else x
 
-    def seg_speed_kmh(lts: int, rain: bool, wind_frac: float) -> float:
-        v = policy.base_speed
-        if rain:
-            v *= policy.rain_factor
-        v *= (1.0 - wind_frac)  # headwind>0 reduces; tailwind<0 increases
-        if lts >= 3:
-            v *= policy.lts3_factor
-        return max(v, MIN_SPEED_KMH)
+def specialize_driver(S: Dict[str, Dict[str, Any]]):
+    # weights
+    W = Weights(
+        wTime=float(S["ex:policy"]["ex:wTime"]),
+        wHills=float(S["ex:policy"]["ex:wHills"]),
+        wTraffic=float(S["ex:policy"]["ex:wTraffic"]),
+        wRain=float(S["ex:policy"]["ex:wRain"]),
+        wWind=float(S["ex:policy"]["ex:wWind"]),
+    )
+    base_v = float(S["ex:policy"]["ex:baseSpeed_kmh"])
+    rain_fac = float(S["ex:policy"]["ex:rainSpeedFactor"])
+    wind_pen = float(S["ex:policy"]["ex:headWindPenalty_kmh"])
+    v_min = float(S["ex:policy"]["ex:minSpeed_kmh"])
+    hill_min_per100 = float(S["ex:policy"]["ex:hillTime_min_per_100m"])
+    max_time = float(S["ex:policy"]["ex:maxTime_min"])
+    max_traffic = float(S["ex:policy"]["ex:maxTraffic_idx"])
 
-    def eval_routes(kb: Dict[str, Dict[str, Any]]) -> Tuple[List[RouteEval], List[str]]:
-        traces_global: List[str] = []
-        rain = bool(kb.get("ex:weather", {}).get("ex:rain", False))
+    def driver(D: Dict[str, Dict[str, Any]]):
+        routes = [str(r) for r in listify(D["ex:cand"]["ex:consider"])]
+        rows = []
+        for iri in routes:
+            P = D[iri]
+            name = str(P.get("ex:name", iri))
+            distance = float(P.get("ex:distance_km", 0.0))
+            uphill = float(P.get("ex:uphill_m", 0.0))
+            rain = float(P.get("ex:rain_mm_h", 0.0))
+            headwind = float(P.get("ex:headwind_ms", 0.0))
+            traffic = float(P.get("ex:traffic_idx", 0.0))
+            notes = str(P.get("ex:notes", ""))
 
-        routes = [s for s in kb.keys() if s.startswith("ex:route_")]
-        segments: Dict[str, Segment] = {}
-        membership: Dict[str, List[str]] = {r: [] for r in routes}
-        wind: Dict[str, float] = {r: float(kb.get(r, {}).get("ex:windFrac", 0.0)) for r in routes}
+            # Effective speed (km/h): base reduced by rain & headwind; floor at v_min
+            v_rain = base_v * (1.0 - rain_fac * max(0.0, rain))
+            v_head = v_rain - wind_pen * max(0.0, headwind)
+            v_eff = max(v_min, v_head)
 
-        # Build segments
-        for subj, props in kb.items():
-            if subj.startswith("ex:r") and "_s" in subj:
-                segments[subj] = Segment(
-                    name=subj,
-                    length_km=float(props.get("ex:lengthKm", 0.0)),
-                    gain_m=float(props.get("ex:gainM", 0.0)),
-                    lts=int(float(props.get("ex:lts", 1))),
-                    bike_lane=bool(props.get("ex:bikeLane", False)),
-                    scenic=float(props.get("ex:scenic", 0.0)),
-                    closed=bool(props.get("ex:closed", False)),
-                )
+            # Time on distance + hill penalty
+            time_h = distance / v_eff
+            time_min = time_h * 60.0 + (uphill / 100.0) * hill_min_per100
 
-        # Route→segments (preserve all ex:hasSegment triples)
-        for r in routes:
-            for v in listify(kb.get(r, {}).get("ex:hasSegment")):
-                membership[r].append(str(v))
+            # Feasibility
+            feasible = (time_min <= max_time) and (traffic <= max_traffic)
 
-        # Evaluate each route
+            rows.append({
+                "iri": iri, "name": name, "distance": distance, "uphill": uphill,
+                "rain": rain, "headwind": headwind, "traffic": traffic, "time_min": time_min,
+                "feasible": feasible, "notes": notes,
+                "v_eff": v_eff, "v_head": v_head, "v_rain": v_rain
+            })
+
+        # Normalization (min-max) where smaller is better
+        def minmax(vals):
+            lo, hi = min(vals), max(vals)
+            if hi - lo < 1e-12:
+                return [0.0]*len(vals), (lo, hi)
+            return [(v - lo)/(hi - lo) for v in vals], (lo, hi)
+
+        timeN, _     = minmax([r["time_min"]  for r in rows])
+        hillsN, _    = minmax([r["uphill"]    for r in rows])
+        trafficN, _  = minmax([r["traffic"]   for r in rows])
+        rainN, _     = minmax([max(0.0, r["rain"])     for r in rows])
+        windN, _     = minmax([max(0.0, r["headwind"]) for r in rows])
+
         evals: List[RouteEval] = []
-        for r in routes:
-            segs = [segments[s] for s in membership[r] if s in segments]
-            feas = all(not s.closed for s in segs)
-            t_h = 0.0
-            risk_vals = []
-            gain_total = 0.0
-            scenic_vals = []
+        for i, r in enumerate(rows):
+            # RULES mirror (math:*) score
+            tTerm = W.wTime    * timeN[i]
+            hTerm = W.wHills   * hillsN[i]
+            trTerm= W.wTraffic * trafficN[i]
+            raTerm= W.wRain    * rainN[i]
+            wTerm = W.wWind    * windN[i]
+            th    = tTerm + hTerm
+            trr   = trTerm + raTerm
+            left  = th + trr
+            score = left + wTerm
 
-            for s in segs:
-                v = seg_speed_kmh(s.lts, rain, wind[r])
-                t_seg = s.length_km / v + s.gain_m * CLIMB_HOURS_PER_M
-                t_h += t_seg
-                # risk per segment: base on LTS (1..4) + lane bonus
-                risk_base = max(0.0, min(1.0, (s.lts - 1) / 3.0))
-                if not s.bike_lane:
-                    risk_base = min(1.0, risk_base + 0.10)
-                risk_vals.append(risk_base)
-                gain_total += s.gain_m
-                scenic_vals.append(s.scenic)
-
-            risk_avg = sum(risk_vals) / len(risk_vals) if risk_vals else 0.0
-            scenic_avg = sum(scenic_vals) / len(scenic_vals) if scenic_vals else 0.0
-
-            evals.append(RouteEval(
-                route=r, feasible=feas, time_h=t_h, risk=risk_avg, gain_m=gain_total,
-                scenic=scenic_avg, timeN=0, riskN=0, gainN=0, scenicN=0, score=0.0, trace=[]
-            ))
-
-        # Normalize (min-max across routes)
-        def minmax(values: List[float]) -> Dict[str, float]:
-            mn, mx = min(values), max(values)
-            return {"mn": mn, "mx": mx, "rng": (mx - mn)}
-
-        if evals:
-            mm_time = minmax([e.time_h for e in evals])
-            mm_risk = minmax([e.risk   for e in evals])
-            mm_gain = minmax([e.gain_m for e in evals])
-
-        for e in evals:
-            e.timeN   = 0.5 if mm_time["rng"] == 0 else (e.time_h - mm_time["mn"]) / mm_time["rng"]
-            e.riskN   = 0.5 if mm_risk["rng"] == 0 else (e.risk   - mm_risk["mn"]) / mm_risk["rng"]
-            e.gainN   = 0.5 if mm_gain["rng"] == 0 else (e.gain_m - mm_gain["mn"]) / mm_gain["rng"]
-            e.scenicN = max(0.0, min(1.0, e.scenic))
-
-            # RULES_N3 mirror (math:*): score terms and sums
-            invSc   = (1 - e.scenicN)                                  # (1 scenicN) math:difference invSc
-            tTerm   = policy.w_time   * e.timeN                        # (wT tN)    math:product
-            sTerm   = policy.w_safety * e.riskN                        # (wS sN)    math:product
-            gTerm   = policy.w_gain   * e.gainN                        # (wG gN)    math:product
-            scTerm  = policy.w_scenic * invSc                          # (wSc invSc) math:product
-            ts      = tTerm + sTerm                                    # (tTerm sTerm) math:sum
-            gs      = gTerm + scTerm                                   # (gTerm scTerm) math:sum
-            e.score = ts + gs                                          # (ts gs) math:sum
-
-            feas_str = "true" if e.feasible else "false"
-            e.trace = [
-                (f"Score N3: (1 {e.scenicN:.3f}) math:difference {invSc:.3f} ; "
-                 f"({policy.w_time:.2f} {e.timeN:.3f}) math:product {tTerm:.3f} ; "
-                 f"({policy.w_safety:.2f} {e.riskN:.3f}) math:product {sTerm:.3f} ; "
-                 f"({policy.w_gain:.2f} {e.gainN:.3f}) math:product {gTerm:.3f} ; "
-                 f"({policy.w_scenic:.2f} {invSc:.3f}) math:product {scTerm:.3f} ; "
-                 f"sum→ {e.score:.3f}"),
-                f"Feasible from triples: {e.route} ex:feasible {feas_str} ."
+            trace = [
+                (f"Speed chain: base={base_v:.1f} → rain ({max(0.0,r['rain']):.1f} mm/h) → v_rain={r['v_rain']:.1f} ; "
+                 f"headwind ({max(0.0,r['headwind']):.1f} m/s) → v_head={r['v_head']:.1f} ; "
+                 f"v_eff=max({v_min:.1f}, v_head)={r['v_eff']:.1f} km/h"),
+                (f"Time: dist {r['distance']:.1f} km / {r['v_eff']:.1f} km/h ×60 "
+                 f"+ hills {r['uphill']:.0f} m × {hill_min_per100:.1f}/100m → {r['time_min']:.1f} min"),
+                (f"Score N3: "
+                 f"({W.wTime:.2f} {timeN[i]:.3f}) math:product {tTerm:.3f} ; "
+                 f"({W.wHills:.2f} {hillsN[i]:.3f}) math:product {hTerm:.3f} ; "
+                 f"({W.wTraffic:.2f} {trafficN[i]:.3f}) math:product {trTerm:.3f} ; "
+                 f"({W.wRain:.2f} {rainN[i]:.3f}) math:product {raTerm:.3f} ; "
+                 f"({W.wWind:.2f} {windN[i]:.3f}) math:product {wTerm:.3f} ; "
+                 f"sums→ {score:.3f}")
             ]
 
-        # Sort by feasibility first (true before false), then by ascending score
-        evals.sort(key=lambda z: (not z.feasible, z.score))
-        return evals, traces_global
+            evals.append(RouteEval(
+                iri=r["iri"], name=r["name"], distance_km=r["distance"], uphill_m=r["uphill"],
+                rain_mm_h=r["rain"], headwind_ms=r["headwind"], traffic_idx=r["traffic"],
+                time_min=r["time_min"], feasible=r["feasible"],
+                timeN=timeN[i], hillsN=hillsN[i], trafficN=trafficN[i], rainN=rainN[i], windN=windN[i],
+                score=score, trace=trace, notes=r["notes"]
+            ))
 
-    return eval_routes
+        # Sort: feasible first, then ascending score, tie-break by time then name
+        evals.sort(key=lambda e: (not e.feasible, e.score, e.time_min, e.name))
+        return evals, W
+
+    return driver
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Run
 # ──────────────────────────────────────────────────────────────────────────────
 def main():
-    kb = {}
-    kb.update(parse_turtle_simple(STATIC_TTL))
-    kb_dyn = parse_turtle_simple(DYNAMIC_TTL)
-    for k, v in kb_dyn.items():
-        kb.setdefault(k, {}).update(v)
+    S = parse_turtle_simple(STATIC_TTL)
+    D = parse_turtle_simple(DYNAMIC_TTL)
 
-    # Pull policy/rider constants
-    pol = Policy(
-        w_time=float(kb["ex:policy"]["ex:wTime"]),
-        w_safety=float(kb["ex:policy"]["ex:wSafety"]),
-        w_gain=float(kb["ex:policy"]["ex:wGain"]),
-        w_scenic=float(kb["ex:policy"]["ex:wScenic"]),
-        base_speed=float(kb["ex:rider"]["ex:baseSpeedKmh"]),
-        rain_factor=float(kb["ex:rider"]["ex:rainSpeedFactor"]),
-        lts3_factor=float(kb["ex:rider"]["ex:ltsSlowdown3"]),
-    )
+    driver = specialize_driver(S)
+    evals, W = driver(D)
 
-    driver = specialize_driver(pol)
-    evals, _ = driver(kb)
+    feasible = [e for e in evals if e.feasible]
 
     # ── ANSWER ──
     print("Answer:")
-    winners = [e for e in evals if e.feasible]
-    if not winners:
-        print("- No feasible routes.")
+    if not feasible:
+        print("- No feasible routes for the given constraints.")
     else:
-        for rank, e in enumerate(winners, start=1):
-            mins = e.time_h * 60
-            print(f"- #{rank} {e.route}  • score {e.score:.3f}  • time {mins:.1f} min  "
-                  f"• risk {e.risk:.2f}  • gain {e.gain_m:.0f} m  • scenic {e.scenic:.2f}")
+        for rank, e in enumerate(feasible, start=1):
+            print(f"- #{rank} {e.name} • {e.distance_km:.1f} km • time {e.time_min:.1f} min • "
+                  f"traffic {e.traffic_idx:.0f} • hills {e.uphill_m:.0f} m • score {e.score:.3f}")
 
     # ── REASON WHY ──
     print("\nReason why:")
+    print(f"- Weights: wTime={W.wTime:.2f}, wHills={W.wHills:.2f}, wTraffic={W.wTraffic:.2f}, "
+          f"wRain={W.wRain:.2f}, wWind={W.wWind:.2f}")
     for e in evals:
-        print(f"- {e.route}:")
+        feas = "true" if e.feasible else "false"
+        print(f"- {e.name}: feasible={feas}")
         for ln in e.trace:
             print(f"  • {ln}")
 
-    # Echo rule/data fingerprints for auditability
-    print("\nInputs (fingerprints):")
-    print(f"- Static RDF bytes: {len(STATIC_TTL.encode())} ; Dynamic RDF bytes: {len(DYNAMIC_TTL.encode())}")
-    print(f"- Rules N3 bytes: {len(RULES_N3.encode())} (arithmetic via math:* only)")
-
-    # ── CHECK (harness) ──
+    # ── CHECK (harness) ─
     print("\nCheck (harness):")
     errors: List[str] = []
 
-    # (C1) All infeasible routes have at least one closed segment; feasible winners have none.
+    # (C1) Recompute score from stored normalized features + weights (exact mirror)
+    c1_max_d = 0.0
     for e in evals:
-        segs = listify(kb.get(e.route, {}).get("ex:hasSegment"))
-        has_closed = any(bool(kb.get(s, {}).get("ex:closed", False)) for s in segs)
-        if e.feasible == has_closed:
-            errors.append(f"(C1) Feasibility mismatch for {e.route}")
+        tTerm = W.wTime    * e.timeN
+        hTerm = W.wHills   * e.hillsN
+        trTerm= W.wTraffic * e.trafficN
+        rTerm = W.wRain    * e.rainN
+        wTerm = W.wWind    * e.windN
+        th = tTerm + hTerm
+        trr = trTerm + rTerm
+        left = th + trr
+        recomputed = left + wTerm
+        d = abs(recomputed - e.score)
+        c1_max_d = max(c1_max_d, d)
+        if d > 1e-12:
+            errors.append(f"(C1) Score mismatch for {e.name}: {e.score:.6f} vs {recomputed:.6f}")
 
-    # (C2) Winner (if any) must be feasible
-    if winners and not winners[0].feasible:
-        errors.append("(C2) Top-ranked route is not feasible")
+    # (C2) Feasibility re-check
+    S_pol = parse_turtle_simple(STATIC_TTL)["ex:policy"]
+    max_time = float(S_pol["ex:maxTime_min"])
+    max_traffic = float(S_pol["ex:maxTraffic_idx"])
 
-    # (C3) Score = weighted sum of normalized terms (recompute)
+    c2_mismatches = 0
     for e in evals:
-        invSc = (1 - e.scenicN)
-        tTerm = pol.w_time   * e.timeN
-        sTerm = pol.w_safety * e.riskN
-        gTerm = pol.w_gain   * e.gainN
-        scTerm= pol.w_scenic * invSc
-        recomputed = (tTerm + sTerm) + (gTerm + scTerm)
-        if abs(recomputed - e.score) > 1e-9:
-            errors.append(f"(C3) Score mismatch on {e.route}: {e.score:.6f} vs {recomputed:.6f}")
+        feas2 = (e.time_min <= max_time) and (e.traffic_idx <= max_traffic)
+        if feas2 != e.feasible:
+            errors.append(f"(C2) Feasibility mismatch for {e.name}")
+            c2_mismatches += 1
 
-    # (C4) Sorting by feasibility then score is correct
-    sorted_copy = sorted(evals, key=lambda z: (not z.feasible, z.score))
-    if [e.route for e in sorted_copy] != [e.route for e in evals]:
-        errors.append("(C4) Sorting order mismatch")
+    # (C3) Sorting order (feasible first, then score, then time, then name)
+    order_ok = [x.iri for x in sorted(evals, key=lambda z: (not z.feasible, z.score, z.time_min, z.name))] \
+               == [x.iri for x in evals]
+    if not order_ok:
+        errors.append("(C3) Sorting order mismatch")
 
+    # (C4) Monotonicity w.r.t time weight — re-rank using the same stored normals
+    def winner_with_wtime(delta: float):
+        wT = W.wTime + delta
+        # Renormalize the rest to keep sum ~ 1.0
+        others_sum = W.wHills + W.wTraffic + W.wRain + W.wWind
+        remain = max(0.0, 1.0 - wT)
+        scale = (remain / others_sum) if others_sum > 1e-12 else 0.0
+        wH = W.wHills * scale
+        wTr= W.wTraffic * scale
+        wR = W.wRain * scale
+        wW = W.wWind * scale
+
+        def new_score(e):
+            return (wT * e.timeN) + (wH * e.hillsN) + (wTr * e.trafficN) + (wR * e.rainN) + (wW * e.windN)
+
+        reranked = sorted(evals, key=lambda z: (not z.feasible, new_score(z), z.time_min, z.name))
+        feas2 = [x for x in reranked if x.feasible]
+        return feas2[0] if feas2 else None
+
+    top = feasible[0] if feasible else None
+    top2 = winner_with_wtime(0.20)
+    if top and top2 and (top2.time_min > top.time_min + 1e-9):
+        errors.append(f"(C4) Increasing wTime produced a *slower* winner ({top.time_min:.1f} → {top2.time_min:.1f} min)")
+
+    # (C5) Determinism of formatting + tie stats
+    tie_pairs = 0
+    for i in range(max(0, len(feasible) - 1)):
+        for j in range(i + 1, len(feasible)):
+            if abs(feasible[i].score - feasible[j].score) <= 1e-12:
+                tie_pairs += 1
+
+    # Outcome
     if errors:
         print("❌ FAIL")
-        for er in errors:
-            print(" -", er)
+        for e in errors:
+            print(" -", e)
         raise SystemExit(1)
     else:
         print("✅ PASS — all checks satisfied.")
+        print(f"  • [C1] Score re-check OK: max Δ={c1_max_d:.3e}")
+        print(f"  • [C2] Feasibility OK: mismatches={c2_mismatches}")
+        print(f"  • [C3] Order OK: {'stable' if order_ok else '—'}")
+        if top and top2:
+            print(f"  • [C4] Time-weight monotonicity OK: {top.time_min:.1f} → {top2.time_min:.1f} min (expected Δ≤0)")
+        else:
+            print("  • [C4] Time-weight monotonicity OK: no feasible winner in one of the runs")
+        print(f"  • Ties among feasible (|Δscore| ≤ 1e-12): {tie_pairs}")
 
 if __name__ == "__main__":
     main()
