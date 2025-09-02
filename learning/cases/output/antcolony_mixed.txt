@@ -1,0 +1,49 @@
+Answer:
+- Creek        [operable] • ants  60.00 ( 50.0%) • food  54.00 • pher  4.00 → 19.40
+- Driveway     [blocked] • ants   0.00 (  0.0%) • food   0.00 • pher 10.00 →  8.00
+- Fence Corner [operable] • ants  18.39 ( 15.3%) • food   7.36 • pher  2.00 →  3.81
+- Oak Path     [operable] • ants  41.61 ( 34.7%) • food  24.96 • pher  6.00 → 12.29
+  • Totals: ants 120.00/120.00 ; food 86.32 ; rainEff 0.70
+
+Reason why:
+- Weights: wFood=0.45, wPher=0.25, wSafe=0.20, wDist=0.10; epsilon=0.15; maxHazard=0.80
+- Creek:
+  • R1: invHazard = (1 0.300) math:difference → 0.700
+  • R2: rainEffect = (1 0.300) math:difference → 0.700
+  • R3: pherEff = (4.00 0.70) math:product → 2.80; normalized pherN=0.250
+  • R4: score = (0.45 0.900)· + (0.25 0.250)· + (0.20 0.700)· + (0.10 0.600) → 0.667
+  • Split: base=0.85*0.805 + eps=0.15*0.333 → desired ants≈88.14
+  • Caps/blocks: cap=60.0, blocked=false ⇒ assigned=60.00
+  • Phero update: (4.00 (1 0.20) math:difference→3.20) + (0.30 54.00) math:product→16.20 = 19.40
+- Driveway:
+  • R1: invHazard = (1 0.900) math:difference → 0.100
+  • R2: rainEffect = (1 0.300) math:difference → 0.700
+  • R3: pherEff = (10.00 0.70) math:product → 7.00; normalized pherN=1.000
+  • R4: score = (0.45 0.300)· + (0.25 1.000)· + (0.20 0.100)· + (0.10 0.400) → 0.445
+  • Split: base=0.85*0.000 + eps=0.15*0.000 → desired ants≈0.00
+  • Caps/blocks: cap=40.0, blocked=true ⇒ assigned=0.00
+  • Phero update: (10.00 (1 0.20) math:difference→8.00) + (0.30 0.00) math:product→0.00 = 8.00
+- Fence Corner:
+  • R1: invHazard = (1 0.200) math:difference → 0.800
+  • R2: rainEffect = (1 0.300) math:difference → 0.700
+  • R3: pherEff = (2.00 0.70) math:product → 1.40; normalized pherN=0.000
+  • R4: score = (0.45 0.400)· + (0.25 0.000)· + (0.20 0.800)· + (0.10 1.000) → 0.440
+  • Split: base=0.85*0.000 + eps=0.15*0.333 → desired ants≈6.00
+  • Caps/blocks: cap=25.0, blocked=false ⇒ assigned=18.39
+  • Phero update: (2.00 (1 0.20) math:difference→1.60) + (0.30 7.36) math:product→2.21 = 3.81
+- Oak Path:
+  • R1: invHazard = (1 0.500) math:difference → 0.500
+  • R2: rainEffect = (1 0.300) math:difference → 0.700
+  • R3: pherEff = (6.00 0.70) math:product → 4.20; normalized pherN=0.500
+  • R4: score = (0.45 0.600)· + (0.25 0.500)· + (0.20 0.500)· + (0.10 0.000) → 0.495
+  • Split: base=0.85*0.195 + eps=0.15*0.333 → desired ants≈25.86
+  • Caps/blocks: cap=50.0, blocked=false ⇒ assigned=41.61
+  • Phero update: (6.00 (1 0.20) math:difference→4.80) + (0.30 24.96) math:product→7.49 = 12.29
+
+Check (harness):
+✅ PASS — all checks satisfied.
+  • [C1] Score re-check OK: max Δscore=0.000e+00
+  • [C2] Conservation & caps OK: assigned 120.00 / expected 120.00 ants
+  • [C3] Pheromone update OK (evap=0.20, deposit=0.30)
+  • [C4] Safety-weight monotonicity OK: avg hazard 0.3540 → 0.3398 (expected Δ≤0)
+  • [C5] Exploration monotonicity OK: HHI 0.3937 → 0.3894 (expected Δ≤0)
