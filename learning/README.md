@@ -1,8 +1,10 @@
 # EYE learning
 
-EYE learning transforms raw **Data** (e.g., *RDF*), **Rules** (e.g., *N3*), and a well-defined **Goal** into **actionable insights**.  
-It leverages a **LLM** (e.g., *GPT-5 Thinking*) as a **meta-compiler** to automatically synthesize a **self-contained Python program**.  
-This program not only produces an **Answer** but also explains the **Reason why** and performs an independent **Check (harness)** to ensure correctness.  
+EYE learning is a practical method for transforming **Data** (like RDF graphs), **Rules** (in Notation3/N3), and a specific **Goal** into actionable, verifiable insight. The approach uses a Large Language Model (LLM) as a *meta-compiler* to generate a **single, self-contained Python program**. This program is designed to be fully autonomous, delivering three key outputs:
+
+1.  The final **Answer**.
+2.  An explanation of the **Reason Why**.
+3.  An independent **Check (harness)** that validates the result, guarding against errors and hallucinations.
 
 ## Rationale for EYE learning
 
