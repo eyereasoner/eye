@@ -1,6 +1,6 @@
-# 🧠 Zebra Puzzle in eyelet (Einstein’s Riddle)
+# 🧠 Zebra Puzzle in arcus (Einstein’s Riddle)
 
-This eyelet program models the classic **Zebra Puzzle**, also known as **Einstein’s Riddle**, using RDF Turtle and N3 Logic. The puzzle describes a set of constraints over five neighboring houses with different attributes — and asks: *“Who owns the fish?”*
+This arcus program models the classic **Zebra Puzzle**, also known as **Einstein’s Riddle**, using RDF Turtle and N3 Logic. The puzzle describes a set of constraints over five neighboring houses with different attributes — and asks: *“Who owns the fish?”*
 
 ---
 
@@ -104,9 +104,9 @@ This query will return the entity bound to `var:WHO` — the person who owns the
 
 ---
 
-> **TIP:** The Zebra Puzzle is a classic constraint satisfaction problem. eyelet models it using RDF lists, logical implication, and list-based reasoning patterns.
+> **TIP:** The Zebra Puzzle is a classic constraint satisfaction problem. arcus models it using RDF lists, logical implication, and list-based reasoning patterns.
 
 > **NOTE:** Variables like `var:A1`, `var:B`, etc., are universally quantified. The solution emerges from unifying constraints through logic inference.
 
-> **Reference:** Based on the [*Zebra Puzzle*](https://en.wikipedia.org/wiki/Zebra_Puzzle) and modeled using eyelet and N3 Logic.
+> **Reference:** Based on the [*Zebra Puzzle*](https://en.wikipedia.org/wiki/Zebra_Puzzle) and modeled using arcus and N3 Logic.
 

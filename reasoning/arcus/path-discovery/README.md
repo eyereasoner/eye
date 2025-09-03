@@ -1,6 +1,6 @@
-# ✈️ Airroute Reasoning with eyelet
+# ✈️ Airroute Reasoning with arcus
 
-This eyelet logic program demonstrates **graph traversal and route discovery** using RDF Turtle and N3 Logic. It's inspired by [AWS Neptune's blog on building knowledge graphs with RDF and OpenCypher](https://aws.amazon.com/blogs/database/build-and-deploy-knowledge-graphs-faster-with-rdf-and-opencypher/).
+This arcus logic program demonstrates **graph traversal and route discovery** using RDF Turtle and N3 Logic. It's inspired by [AWS Neptune's blog on building knowledge graphs with RDF and OpenCypher](https://aws.amazon.com/blogs/database/build-and-deploy-knowledge-graphs-faster-with-rdf-and-opencypher/).
 
 The goal is to compute valid flight routes between airports with a limited number of stopovers.
 
@@ -96,5 +96,5 @@ This query:
 
 > **NOTE:** Routes are built recursively, and airport labels are resolved using a `log:collectAllIn` pattern.
 
-> **Reference:** Based on [this AWS Neptune blog post](https://aws.amazon.com/blogs/database/build-and-deploy-knowledge-graphs-faster-with-rdf-and-opencypher/) and implemented in eyelet using RDF and N3 Logic.
+> **Reference:** Based on [this AWS Neptune blog post](https://aws.amazon.com/blogs/database/build-and-deploy-knowledge-graphs-faster-with-rdf-and-opencypher/) and implemented in arcus using RDF and N3 Logic.
 

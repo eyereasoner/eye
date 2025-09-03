@@ -1,6 +1,6 @@
-# 🗺️ Four Color Map Coloring in eyelet
+# 🗺️ Four Color Map Coloring in arcus
 
-This eyelet reasoning model tests the **Four Color Theorem** — the idea that **any planar map** can be colored using just four colors such that **no two neighboring regions share the same color**.
+This arcus reasoning model tests the **Four Color Theorem** — the idea that **any planar map** can be colored using just four colors such that **no two neighboring regions share the same color**.
 
 This example encodes a map of European Union countries and infers a valid 4-coloring using **graph traversal** and **logical constraints**.
 
@@ -99,7 +99,7 @@ When no more places are left to color, the coloring is considered complete.
 )].
 ```
 
-This query asks eyelet to return a valid assignment of four colors to countries in the `:mapEU`.
+This query asks arcus to return a valid assignment of four colors to countries in the `:mapEU`.
 
 ---
 
@@ -107,5 +107,5 @@ This query asks eyelet to return a valid assignment of four colors to countries 
 
 > **NOTE:** The program simulates a **backtracking search** in logic form — exploring color combinations until constraints are satisfied.
 
-> **Reference:** Inspired by the [Four Color Theorem](https://en.wikipedia.org/wiki/Four_color_theorem), this model demonstrates constraint satisfaction in eyelet and N3 Logic.
+> **Reference:** Inspired by the [Four Color Theorem](https://en.wikipedia.org/wiki/Four_color_theorem), this model demonstrates constraint satisfaction in arcus and N3 Logic.
 

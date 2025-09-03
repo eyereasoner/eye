@@ -1,6 +1,6 @@
-# ❌ Scoped Negation as Failure in eyelet
+# ❌ Scoped Negation as Failure in arcus
 
-This eyelet reasoning model demonstrates **Scoped Negation as Failure (SNAF)** — a reasoning pattern in N3 Logic that allows inferring negation based on the **absence** of information in a given graph.
+This arcus reasoning model demonstrates **Scoped Negation as Failure (SNAF)** — a reasoning pattern in N3 Logic that allows inferring negation based on the **absence** of information in a given graph.
 
 The example uses a simple social domain to infer that *Alice hates nobody*, because there's no evidence to the contrary.
 
@@ -64,7 +64,7 @@ This query asks:
 
 > *Who does Alice hate?*
 
-Since the graph does not contain any `:Alice :hates ?X` facts, and all conditions for the rule are met, eyelet will infer:
+Since the graph does not contain any `:Alice :hates ?X` facts, and all conditions for the rule are met, arcus will infer:
 
 ```turtle
 :Alice :hates :Nobody .

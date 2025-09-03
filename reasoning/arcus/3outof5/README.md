@@ -1,6 +1,6 @@
-# ✅ 3-out-of-5 Optional Matching in eyelet
+# ✅ 3-out-of-5 Optional Matching in arcus
 
-This eyelet logic program implements a **scoring pattern** using `log:callWithOptional` and numeric constraints. The goal is to infer that a subject meets a classification (e.g., `:3outof5`) if **at least 3 out of 5 properties are present**.
+This arcus logic program implements a **scoring pattern** using `log:callWithOptional` and numeric constraints. The goal is to infer that a subject meets a classification (e.g., `:3outof5`) if **at least 3 out of 5 properties are present**.
 
 ---
 
@@ -103,5 +103,5 @@ This rule uses **optional pattern matching** to count the number of satisfied pr
 
 > **NOTE:** This approach generalizes well for **threshold-based reasoning**, like "at least N of M conditions met."
 
-> **Reference:** Inspired by fuzzy logic and SPARQL-style optional patterns, implemented using N3 Logic and eyelet.
+> **Reference:** Inspired by fuzzy logic and SPARQL-style optional patterns, implemented using N3 Logic and arcus.
 

@@ -1,6 +1,6 @@
-# 🔐 Crypto Hashing in eyelet
+# 🔐 Crypto Hashing in arcus
 
-This eyelet logic program demonstrates how to compute **cryptographic hashes** (MD5, SHA-1, SHA-256, SHA-512) from a string literal using N3 Logic and the `crypto:` vocabulary.
+This arcus logic program demonstrates how to compute **cryptographic hashes** (MD5, SHA-1, SHA-256, SHA-512) from a string literal using N3 Logic and the `crypto:` vocabulary.
 
 It simulates typical data transformation steps useful in **authentication**, **integrity checking**, and **data fingerprinting** within RDF-based systems.
 
@@ -68,13 +68,13 @@ _:result :subject "hello world" ;
          crypto:sha512 "309ecc489c12d6eb4cc40f50c902f2b4..." .
 ```
 
-*(actual hash values will be computed by eyelet or an N3 reasoning engine that supports `crypto:` functions)*
+*(actual hash values will be computed by arcus or an N3 reasoning engine that supports `crypto:` functions)*
 
 ---
 
 > **TIP:** Use `crypto:` predicates to bind cryptographic functions directly into RDF-based reasoning.
 
-> **NOTE:** Hashing in eyelet can be used for identifying content, verifying integrity, or linking anonymized data.
+> **NOTE:** Hashing in arcus can be used for identifying content, verifying integrity, or linking anonymized data.
 
-> **Reference:** Built on the [N3 Crypto vocabulary](http://www.w3.org/2000/10/swap/crypto#), this example integrates hash functions into logical inference using eyelet.
+> **Reference:** Built on the [N3 Crypto vocabulary](http://www.w3.org/2000/10/swap/crypto#), this example integrates hash functions into logical inference using arcus.
 

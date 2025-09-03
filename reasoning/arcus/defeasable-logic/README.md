@@ -1,6 +1,6 @@
-# 🐦 Tweety & Polly in eyelet
+# 🐦 Tweety & Polly in arcus
 
-This eyelet reasoning program models the classic *Tweety* example: **most birds fly, unless they are abnormal**.
+This arcus reasoning program models the classic *Tweety* example: **most birds fly, unless they are abnormal**.
 It adds a twist—**penguins are abnormal birds**, plus optional *probability* annotations that capture how confident we are a normal bird can fly.
 
 The model illustrates:

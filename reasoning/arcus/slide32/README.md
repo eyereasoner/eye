@@ -1,4 +1,4 @@
-# 🏙️ Ghent Inference in eyelet
+# 🏙️ Ghent Inference in arcus
 
 This example uses **Notation3 (N3)** and **negative surface logic** to encode a **universal implication** (i.e., "all cities are human communities") via **refutation**. The reasoning is based on deriving a contradiction from the negation of the intended conclusion.
 

@@ -1,8 +1,8 @@
-# 🦉 OWL Restriction Reasoning in eyelet
+# 🦉 OWL Restriction Reasoning in arcus
 
-This eyelet logic model demonstrates how to **simulate OWL restrictions** using RDF Turtle and N3 Logic — specifically, the behavior of the `owl:allValuesFrom` constraint.
+This arcus logic model demonstrates how to **simulate OWL restrictions** using RDF Turtle and N3 Logic — specifically, the behavior of the `owl:allValuesFrom` constraint.
 
-It shows how eyelet can derive class memberships and enforce OWL-style reasoning over RDF graphs using scoped negation and logical surfaces.
+It shows how arcus can derive class memberships and enforce OWL-style reasoning over RDF graphs using scoped negation and logical surfaces.
 
 See slide 33 example from https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk
 
@@ -45,7 +45,7 @@ Given the OWL restriction above, this should **entail**:
 :yyy rdf:type :ccc .
 ```
 
-eyelet can be used to enforce and check this inference.
+arcus can be used to enforce and check this inference.
 
 ---
 
@@ -123,9 +123,9 @@ This enables scoped **non-monotonic validation** via the use of `log:onNegativeA
 
 ---
 
-> **TIP:** `owl:allValuesFrom` can be simulated in eyelet using a combination of `log:onNegativeSurface`, logical implication, and RDF list constructs.
+> **TIP:** `owl:allValuesFrom` can be simulated in arcus using a combination of `log:onNegativeSurface`, logical implication, and RDF list constructs.
 
-> **NOTE:** This model enables **OWL-style reasoning** without relying on an OWL reasoner — using only eyelet and N3 Logic.
+> **NOTE:** This model enables **OWL-style reasoning** without relying on an OWL reasoner — using only arcus and N3 Logic.
 
 > **Reference:** Based on the semantics of [`owl:allValuesFrom`](https://www.w3.org/TR/owl2-syntax/#Object_Property_All-Values_From) and inspired by OWL validation techniques in RDF logic systems.
 

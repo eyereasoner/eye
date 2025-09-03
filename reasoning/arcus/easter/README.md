@@ -1,6 +1,6 @@
 # ✝️ Easter Date – Eyelet Computation Demo
 
-Compute the **Gregorian Easter date** (Western Easter) purely with eyelet / N3
+Compute the **Gregorian Easter date** (Western Easter) purely with arcus / N3
 arithmetic built‑ins — no external code.  
 The rule implements the standard *Anonymous Gregorian algorithm* (a variant of
 Meeus/Jones/Butcher) using only integer quotient, remainder, sums, differences,

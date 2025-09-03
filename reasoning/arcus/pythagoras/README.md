@@ -1,6 +1,6 @@
 # 📐 Pythagoras – Eyelet Rule Demo
 
-A tiny eyelet (N3) encoding of the abstract Pythagorean pattern:
+A tiny arcus (N3) encoding of the abstract Pythagorean pattern:
 
 > **Square(A,A²) ∧ Square(B,B²) ∧ Square(C,C²) ∧ Add(A²,B²,C²) ⇒ Pythagoras(A,B,C)**
 
@@ -8,7 +8,7 @@ We give one symbolic triangle `(a,b,c)`, assert its three squares and their sum,
 
 ---
 
-## 🧠 Core rule (eyelet fragment)
+## 🧠 Core rule (arcus fragment)
 
 ```turtle
 # Squares + addition ⇒ Pythagoras

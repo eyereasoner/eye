@@ -1,6 +1,6 @@
-# 🧮 Meta-Interpreter in eyelet
+# 🧮 Meta-Interpreter in arcus
 
-This eyelet reasoning model implements a **meta-interpreter**, a reasoning construct that **interprets its own logic rules**. It’s inspired by [Markus Triska’s meta-interpreter](https://www.metalevel.at/acomip/) and showcases how to define logic programming semantics within N3 Logic.
+This arcus reasoning model implements a **meta-interpreter**, a reasoning construct that **interprets its own logic rules**. It’s inspired by [Markus Triska’s meta-interpreter](https://www.metalevel.at/acomip/) and showcases how to define logic programming semantics within N3 Logic.
 
 The model also includes an encoding of **natural numbers**, demonstrating recursive computation within a logical framework.
 
@@ -131,9 +131,9 @@ Which confirms that 5 (in successor notation) is a valid natural number.
 
 ---
 
-> **TIP:** A meta-interpreter allows eyelet to reason about its own reasoning rules — enabling logic reflection and dynamic rule chaining.
+> **TIP:** A meta-interpreter allows arcus to reason about its own reasoning rules — enabling logic reflection and dynamic rule chaining.
 
 > **NOTE:** This model recursively evaluates goals using RDF list structure and simulated logic program clauses.
 
-> **Reference:** Inspired by [Markus Triska's article](https://www.metalevel.at/acomip/) on meta-interpreters in Prolog, adapted here into RDF/N3 logic with eyelet.
+> **Reference:** Inspired by [Markus Triska's article](https://www.metalevel.at/acomip/) on meta-interpreters in Prolog, adapted here into RDF/N3 logic with arcus.
 

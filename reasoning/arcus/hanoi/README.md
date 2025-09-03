@@ -1,4 +1,4 @@
-# 🗼 Towers of Hanoi in eyelet
+# 🗼 Towers of Hanoi in arcus
 
 This example models the classic **Towers of Hanoi** problem using RDF Turtle and N3 Logic, inspired by *The Art of Prolog* by Leon Sterling and Ehud Shapiro.
 
@@ -84,5 +84,5 @@ It recursively computes the sequence of moves required to transfer `N` disks fro
 > \[!NOTE]
 > Moves are represented as lists of pairs `(X Y)`, and combined using `list:append`.
 
-**Reference:** Based on [_The Art of Prolog_](https://en.wikipedia.org/wiki/The_Art_of_Prolog) and N3 logic modeling using eyelet.
+**Reference:** Based on [_The Art of Prolog_](https://en.wikipedia.org/wiki/The_Art_of_Prolog) and N3 logic modeling using arcus.
 

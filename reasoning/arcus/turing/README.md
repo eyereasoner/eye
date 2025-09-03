@@ -1,6 +1,6 @@
-# 🧠 Turing Machine in eyelet
+# 🧠 Turing Machine in arcus
 
-This eyelet reasoning program simulates a **Turing machine** using RDF Turtle and N3 Logic. It is a demonstration of **Turing completeness**, adapted from the [Prolog-based proof of Turing completeness](https://en.wikipedia.org/wiki/Prolog#Turing_completeness).
+This arcus reasoning program simulates a **Turing machine** using RDF Turtle and N3 Logic. It is a demonstration of **Turing completeness**, adapted from the [Prolog-based proof of Turing completeness](https://en.wikipedia.org/wiki/Prolog#Turing_completeness).
 
 The machine encoded here performs **binary increment** — adding 1 to a binary number.
 
@@ -167,5 +167,5 @@ Each query applies the machine to a binary input list and returns the incremente
 
 > **NOTE:** The machine uses `list:firstRest` and `list:append` to simulate tape operations, and logical continuation for state transitions.
 
-> **Reference:** Based on [Turing completeness](https://en.wikipedia.org/wiki/Prolog#Turing_completeness), reimagined with N3 Logic and eyelet.
+> **Reference:** Based on [Turing completeness](https://en.wikipedia.org/wiki/Prolog#Turing_completeness), reimagined with N3 Logic and arcus.
 

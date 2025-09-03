@@ -1,6 +1,6 @@
-# ⚙️ Control Systems with eyelet
+# ⚙️ Control Systems with arcus
 
-This example demonstrates how to model and reason over control systems using **N3 Logic** and **eyelet**. It includes **sensor inputs**, **state observations**, **disturbances**, and **forward and backward control rules** that result in actuator outputs.
+This example demonstrates how to model and reason over control systems using **N3 Logic** and **arcus**. It includes **sensor inputs**, **state observations**, **disturbances**, and **forward and backward control rules** that result in actuator outputs.
 
 ---
 

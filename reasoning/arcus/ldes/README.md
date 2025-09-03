@@ -1,6 +1,6 @@
-# 🔄 Linked Data Event Streams (LDES) with Policies in eyelet
+# 🔄 Linked Data Event Streams (LDES) with Policies in arcus
 
-This example demonstrates how to model and reason over a **transactional LDES member** using **eyelet** and **N3 logic**. It captures an event with metadata such as the payload, provenance, policy, and cryptographic signature.
+This example demonstrates how to model and reason over a **transactional LDES member** using **arcus** and **N3 logic**. It captures an event with metadata such as the payload, provenance, policy, and cryptographic signature.
 
 Based on [LDES](https://github.com/SEMICeu/LinkedDataEventStreams) and ActivityStreams.
 
@@ -137,7 +137,7 @@ _:item123 log:triple (_:bn_7 :after "P1M") .
 
 ---
 
-> **NOTE:** This LDES example demonstrates how to **encode temporal policies, provenance, and transactional behavior** in RDF and query it using eyelet logic rules.
+> **NOTE:** This LDES example demonstrates how to **encode temporal policies, provenance, and transactional behavior** in RDF and query it using arcus logic rules.
 
 > **TIP:** You can extend this model with verification rules, retention enforcement, or time-based triggers using `xsd:duration` and external reasoning.
 

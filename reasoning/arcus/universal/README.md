@@ -1,6 +1,6 @@
-# 🌍 Universal Statements in eyelet
+# 🌍 Universal Statements in arcus
 
-This eyelet reasoning model demonstrates **universal quantification**, **Skolemization**, and **class membership** using RDF Turtle and N3 Logic.
+This arcus reasoning model demonstrates **universal quantification**, **Skolemization**, and **class membership** using RDF Turtle and N3 Logic.
 
 It encodes universal truths like *“Everything is a resource”* and captures existential claims like *“Everybody loves someone who is lonely.”*
 
@@ -96,7 +96,7 @@ This retrieves the **existentially implied** individual `:bob` loves — someone
 
 ---
 
-> **TIP:** Use `log:skolem` in eyelet to represent existentially implied individuals — uniquely generated but logically scoped.
+> **TIP:** Use `log:skolem` in arcus to represent existentially implied individuals — uniquely generated but logically scoped.
 
 > **NOTE:** `log:isImpliedBy true` acts like a universal axiom or a global truth in this context.
 

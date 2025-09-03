@@ -1,6 +1,6 @@
-# 🔁 Query Generation in eyelet
+# 🔁 Query Generation in arcus
 
-This eyelet reasoning model demonstrates **meta-query generation**, where a query not only requests information — it **generates another query** that retrieves the answer.
+This arcus reasoning model demonstrates **meta-query generation**, where a query not only requests information — it **generates another query** that retrieves the answer.
 
 The technique showcases **query abstraction and templating**, which is useful in question-answering, query rewriting, and logic-based automation.
 

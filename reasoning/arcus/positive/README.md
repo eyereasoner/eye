@@ -1,6 +1,6 @@
 # ♻️ Proof by Contradiction (Eyelet Mini‑Demo)
 
-This example shows how to encode a **proof by contradiction** (a.k.a. *reductio ad absurdum*) in eyelet / N3 using `log:satisfiable false` together with *nested graph contexts*.
+This example shows how to encode a **proof by contradiction** (a.k.a. *reductio ad absurdum*) in arcus / N3 using `log:satisfiable false` together with *nested graph contexts*.
 
 Goal: infer that every integer `X` in the range **0 … 9** is `:Positive`.
 

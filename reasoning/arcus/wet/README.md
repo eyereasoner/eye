@@ -1,6 +1,6 @@
-# 🔄 Proof by Contrapositive in eyelet
+# 🔄 Proof by Contrapositive in arcus
 
-This eyelet reasoning model demonstrates **logical inference** using **contrapositive reasoning** in RDF Turtle and N3 Logic.
+This arcus reasoning model demonstrates **logical inference** using **contrapositive reasoning** in RDF Turtle and N3 Logic.
 
 It shows how to infer that a premise is false based on a conclusion that is false — using formal logic and `log:implies`.
 

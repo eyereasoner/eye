@@ -1,6 +1,6 @@
-# 🔀 Disjunction Elimination in eyelet
+# 🔀 Disjunction Elimination in arcus
 
-This eyelet logic program models **disjunction elimination** — also known as **proof by cases** — in RDF Turtle and N3 Logic. It demonstrates how an entity known to belong to a disjunction (e.g. being solid, liquid, or gas) can be shown to satisfy a shared consequence (e.g. being observable).
+This arcus logic program models **disjunction elimination** — also known as **proof by cases** — in RDF Turtle and N3 Logic. It demonstrates how an entity known to belong to a disjunction (e.g. being solid, liquid, or gas) can be shown to satisfy a shared consequence (e.g. being observable).
 
 Inspired by classical logic and the pattern described in the [Wikipedia article on Disjunction Elimination](https://en.wikipedia.org/wiki/Disjunction_elimination).
 
@@ -110,13 +110,13 @@ This query asks:
 
 > What can we infer `A` is?
 
-Given the rules, eyelet will derive `:water :is :observable` by disjunction elimination.
+Given the rules, arcus will derive `:water :is :observable` by disjunction elimination.
 
 ---
 
-> **TIP:** Use `log:allPossibleCases` to represent disjunctions in eyelet. Pair this with `log:forAllIn` to eliminate them via shared consequence.
+> **TIP:** Use `log:allPossibleCases` to represent disjunctions in arcus. Pair this with `log:forAllIn` to eliminate them via shared consequence.
 
-> **NOTE:** Disjunction elimination is a valid inference rule in classical logic — and eyelet models it using graph-based implications over RDF Turtle.
+> **NOTE:** Disjunction elimination is a valid inference rule in classical logic — and arcus models it using graph-based implications over RDF Turtle.
 
 > **Reference:** Based on [Disjunction Elimination](https://en.wikipedia.org/wiki/Disjunction_elimination) and formalized using N3 Logic.
 

@@ -1,4 +1,4 @@
-# 🧠 Derived Rule Inference with eyelet
+# 🧠 Derived Rule Inference with arcus
 
 This example demonstrates **deriving a rule** from facts and using it to prove a new statement. A rule is generated based on the presence of certain types, then used in a nested implication to trigger a conclusion.
 
@@ -71,7 +71,7 @@ This query checks whether the `:test` result has been logically inferred.
 :test :is true .
 ```
 
-eyelet will derive this fact through the chained reasoning process.
+arcus will derive this fact through the chained reasoning process.
 
 ---
 

@@ -1,6 +1,6 @@
 # 🛣️ Dijkstra (Forward Search) – Eyelet Rule Demo
 
-A logic (eyelet / N3) rendition of **Dijkstra’s shortest‑path algorithm** over a
+A logic (arcus / N3) rendition of **Dijkstra’s shortest‑path algorithm** over a
 small weighted, *undirected* graph.  
 The rules manipulate *lists-as-queues* using the built‑ins in the `list:` and
 `math:` vocabularies to iteratively expand the *cheapest* frontier first.

@@ -1,6 +1,6 @@
-# Collatz Reasoning in eyelet
+# Collatz Reasoning in arcus
 
-This example demonstrates how **eyelet** models the **Collatz sequence** using RDF Turtle and N3 Logic. It shows a base case, recursive step, and a query using functional constructs and rule-based reasoning.
+This example demonstrates how **arcus** models the **Collatz sequence** using RDF Turtle and N3 Logic. It shows a base case, recursive step, and a query using functional constructs and rule-based reasoning.
 
 ---
 

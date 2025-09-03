@@ -1,6 +1,6 @@
-# 🐶 Dog License Rule in eyelet
+# 🐶 Dog License Rule in arcus
 
-This eyelet logic program enforces a **policy rule**:
+This arcus logic program enforces a **policy rule**:
 
 > *If a person has more than 4 dogs, they must have a dog license.*
 
@@ -84,7 +84,7 @@ Expected output:
 
 > **TIP:** Use `log:collectAllIn` with embedded graphs to dynamically gather facts scoped to a particular subject.
 
-> **NOTE:** `math:sum` works on the count of collected bindings, enabling eyelet to model rules based on **cardinality constraints**.
+> **NOTE:** `math:sum` works on the count of collected bindings, enabling arcus to model rules based on **cardinality constraints**.
 
 > **Reference:** This pattern generalizes to other threshold-based policy rules (e.g., maximum pets, seats reserved, etc.).
 
