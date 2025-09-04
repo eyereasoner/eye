@@ -1,0 +1,157 @@
+### 1) VOCAB_TTL ###
+@prefix ex: <https://example.org/leisure#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:Person                 a rdfs:Class ; rdfs:label "Person" ; rdfs:subClassOf foaf:Person .
+ex:LeisureApplication     a rdfs:Class ; rdfs:label "Leisure Voucher Application" .
+ex:LeisureVoucher         a rdfs:Class ; rdfs:label "Leisure Voucher" .
+
+ex:SportsVoucher a skos:Concept ; skos:prefLabel "Community Sports Voucher" .
+
+ex:hasApplicant      a rdf:Property ; rdfs:domain ex:LeisureApplication ; rdfs:range ex:Person ; rdfs:label "has applicant" .
+ex:appliesFor        a rdf:Property ; rdfs:domain ex:LeisureApplication ; rdfs:range skos:Concept ; rdfs:label "applies for" .
+ex:status            a rdf:Property ; rdfs:domain ex:LeisureApplication ; rdfs:label "status" .
+ex:eligible          a rdf:Property ; rdfs:domain ex:LeisureApplication ; rdfs:label "eligible" .
+ex:issuedVoucher     a rdf:Property ; rdfs:domain ex:LeisureApplication ; rdfs:range ex:LeisureVoucher ; rdfs:label "issued voucher" .
+
+ex:hasAge               a rdf:Property ; rdfs:domain ex:Person ; rdfs:label "age" .
+ex:commitsSessionsPerWeek a rdf:Property ; rdfs:domain ex:Person ; rdfs:label "committed sports sessions per week" .
+ex:minutesPerSession    a rdf:Property ; rdfs:domain ex:Person ; rdfs:label "minutes per session" .
+ex:householdIncome      a rdf:Property ; rdfs:domain ex:Person ; rdfs:label "household income" .
+
+ex:hasEvidence a rdf:Property ; rdfs:domain ex:LeisureApplication ; rdfs:label "has evidence" .
+ex:AgeEvidence a rdfs:Class ; rdfs:label "Age Evidence" .
+ex:ActivityEvidence a rdfs:Class ; rdfs:label "Activity Evidence" .
+ex:IncomeEvidence a rdfs:Class ; rdfs:label "Income Evidence" .
+
+# Minimal statuses as SKOS concepts
+ex:Submitted a skos:Concept ; skos:prefLabel "Submitted" .
+ex:Approved  a skos:Concept ; skos:prefLabel "Approved" .
+ex:Rejected  a skos:Concept ; skos:prefLabel "Rejected" .
+
+### 2) PROFILE_SHACL_TTL ###
+@prefix sh:  <http://www.w3.org/ns/shacl#> .
+@prefix ex:  <https://example.org/leisure#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:LeisureApplicationShape a sh:NodeShape ;
+  sh:targetClass ex:LeisureApplication ;
+  sh:property [
+    sh:path ex:hasApplicant ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+  ] ;
+  sh:property [
+    sh:path ex:appliesFor ;
+    sh:hasValue ex:SportsVoucher ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ex:status ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ex:hasEvidence ;
+    sh:minCount 3 ;                         # require at least 3 evidences (age, activity, income)
+  ] .
+
+ex:PersonShape a sh:NodeShape ;
+  sh:targetClass ex:Person ;
+  sh:property [
+    sh:path ex:hasAge ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] ;
+  sh:property [
+    sh:path ex:commitsSessionsPerWeek ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] ;
+  sh:property [
+    sh:path ex:minutesPerSession ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] ;
+  sh:property [
+    sh:path ex:householdIncome ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] .
+
+### 3) RULES_N3 ###
+# Interaction pattern: Community Sports Voucher
+# States: Submitted -> (Eligible?) -> Approved/Rejected
+# Preconditions: Application conforms to LeisureApplicationShape; Person conforms to PersonShape
+# Abstract messages: submitApplication, validate, decide, notify
+
+@prefix ex:   <https://example.org/leisure#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+
+# R1: Eligibility — age∈[12,30), sessions≥3, weeklyMinutes≥150, income<30000
+# weeklyMinutes = sessions * minutesPerSession
+{
+  ?app  ex:appliesFor           ex:SportsVoucher .
+  ?app  ex:hasApplicant         ?p .
+  ?p    ex:hasAge               ?age .
+  ?p    ex:commitsSessionsPerWeek ?s .
+  ?p    ex:minutesPerSession    ?m .
+  ?p    ex:householdIncome      ?inc .
+  "12"^^xsd:integer  math:notGreaterThan ?age .
+  ?age  math:lessThan           "30"^^xsd:integer .
+  "3"^^xsd:integer   math:notGreaterThan ?s .
+  (?s ?m)            math:product        ?weekMin .
+  ?weekMin           math:notLessThan    "150"^^xsd:integer .
+  ?inc               math:lessThan       "30000"^^xsd:integer .
+}
+=>
+{
+  ?app ex:eligible true .
+} .
+
+# R2: Approve — eligible true AND status Submitted → status Approved + voucher issuance
+{
+  ?app ex:eligible true .
+  ?app ex:status   ex:Submitted .
+}
+=>
+{
+  ?app ex:status ex:Approved .
+  _:v a ex:LeisureVoucher .
+  ?app ex:issuedVoucher _:v .
+} .
+
+# R3: Reject — eligible false AND status Submitted → status Rejected
+{
+  ?app ex:eligible false .
+  ?app ex:status   ex:Submitted .
+}
+=>
+{
+  ?app ex:status ex:Rejected .
+} .
+
+### DATA (Turtle from FACTS) ###
+@prefix ex: <https://example.org/leisure#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+ex:APP-LEIS-01 
+  ex:appliesFor ex:SportsVoucher ;
+  ex:hasApplicant ex:Liam ;
+  ex:hasEvidence "ActivityEvidence" ;
+  ex:hasEvidence "AgeEvidence" ;
+  ex:hasEvidence "IncomeEvidence" ;
+  ex:status ex:Submitted .
+
+ex:Liam 
+  ex:commitsSessionsPerWeek 4 ;
+  ex:hasAge 19 ;
+  ex:householdIncome 20000 ;
+  ex:minutesPerSession 45 .
+

@@ -1,0 +1,155 @@
+### 1) VOCAB_TTL ###
+@prefix ex: <https://example.org/health#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:Patient                a rdfs:Class ; rdfs:label "Patient" ; rdfs:subClassOf foaf:Person .
+ex:CoPayApplication       a rdfs:Class ; rdfs:label "Hypertension Co-pay Application" .
+ex:HealthcarePayment      a rdfs:Class ; rdfs:label "Healthcare Payment" .
+
+ex:HypertensionCoPayAid a skos:Concept ; skos:prefLabel "Hypertension Co-pay Aid" .
+
+ex:hasApplicant    a rdf:Property ; rdfs:domain ex:CoPayApplication ; rdfs:range ex:Patient ; rdfs:label "has applicant" .
+ex:appliesFor      a rdf:Property ; rdfs:domain ex:CoPayApplication ; rdfs:range skos:Concept ; rdfs:label "applies for" .
+ex:status          a rdf:Property ; rdfs:domain ex:CoPayApplication ; rdfs:label "status" .
+ex:eligible        a rdf:Property ; rdfs:domain ex:CoPayApplication ; rdfs:label "eligible" .
+ex:issuedPayment   a rdf:Property ; rdfs:domain ex:CoPayApplication ; rdfs:range ex:HealthcarePayment ; rdfs:label "issued payment" .
+
+ex:hasAge   a rdf:Property ; rdfs:domain ex:Patient ; rdfs:label "age" .
+ex:bpS1     a rdf:Property ; rdfs:domain ex:Patient ; rdfs:label "systolic BP reading 1" .
+ex:bpS2     a rdf:Property ; rdfs:domain ex:Patient ; rdfs:label "systolic BP reading 2" .
+ex:bpS3     a rdf:Property ; rdfs:domain ex:Patient ; rdfs:label "systolic BP reading 3" .
+
+ex:hasEvidence a rdf:Property ; rdfs:domain ex:CoPayApplication ; rdfs:label "has evidence" .
+ex:AgeEvidence a rdfs:Class ; rdfs:label "Age Evidence" .
+ex:BPReadingEvidence a rdfs:Class ; rdfs:label "BP Reading Evidence" .
+
+# Minimal statuses as SKOS concepts
+ex:Submitted a skos:Concept ; skos:prefLabel "Submitted" .
+ex:Approved  a skos:Concept ; skos:prefLabel "Approved" .
+ex:Rejected  a skos:Concept ; skos:prefLabel "Rejected" .
+
+### 2) PROFILE_SHACL_TTL ###
+@prefix sh:  <http://www.w3.org/ns/shacl#> .
+@prefix ex:  <https://example.org/health#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:CoPayApplicationShape a sh:NodeShape ;
+  sh:targetClass ex:CoPayApplication ;
+  sh:property [
+    sh:path ex:hasApplicant ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+  ] ;
+  sh:property [
+    sh:path ex:appliesFor ;
+    sh:hasValue ex:HypertensionCoPayAid ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ex:status ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ex:hasEvidence ;
+    sh:minCount 3 ;                         # require at least three evidences (e.g., age + 2 BP proofs)
+  ] .
+
+ex:PatientShape a sh:NodeShape ;
+  sh:targetClass ex:Patient ;
+  sh:property [
+    sh:path ex:hasAge ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] ;
+  sh:property [
+    sh:path ex:bpS1 ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] ;
+  sh:property [
+    sh:path ex:bpS2 ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] ;
+  sh:property [
+    sh:path ex:bpS3 ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] .
+
+### 3) RULES_N3 ###
+# Interaction pattern: Hypertension Co-pay Aid
+# States: Submitted -> (Eligible?) -> Approved/Rejected
+# Preconditions: Application conforms to CoPayApplicationShape; Patient conforms to PatientShape
+# Abstract messages: submitApplication, validate, decide, notify
+
+@prefix ex:   <https://example.org/health#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+
+# R1: Eligibility — age≥40 AND avg(systolic BP over 3 readings) ≥ 140
+# avg = (r1 + r2 + r3) / 3
+{
+  ?app  ex:appliesFor    ex:HypertensionCoPayAid .
+  ?app  ex:hasApplicant  ?p .
+  ?p    ex:hasAge        ?age .
+  ?p    ex:bpS1          ?r1 .
+  ?p    ex:bpS2          ?r2 .
+  ?p    ex:bpS3          ?r3 .
+  "40"^^xsd:integer  math:notGreaterThan ?age .
+  (?r1 ?r2)          math:sum       ?s12 .
+  (?s12 ?r3)         math:sum       ?sum3 .
+  (?sum3 "3"^^xsd:integer) math:quotient ?avg .
+  ?avg               math:notLessThan "140"^^xsd:integer .
+}
+=>
+{
+  ?app ex:eligible true .
+} .
+
+# R2: Approve — eligible true AND status Submitted → status Approved + payment issuance
+{
+  ?app ex:eligible true .
+  ?app ex:status   ex:Submitted .
+}
+=>
+{
+  ?app ex:status ex:Approved .
+  _:pay a ex:HealthcarePayment .
+  ?app ex:issuedPayment _:pay .
+} .
+
+# R3: Reject — eligible false AND status Submitted → status Rejected
+{
+  ?app ex:eligible false .
+  ?app ex:status   ex:Submitted .
+}
+=>
+{
+  ?app ex:status ex:Rejected .
+} .
+
+### DATA (Turtle from FACTS) ###
+@prefix ex: <https://example.org/health#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+ex:APP-HYP-01 
+  ex:appliesFor ex:HypertensionCoPayAid ;
+  ex:hasApplicant ex:Dana ;
+  ex:hasEvidence "AgeEvidence" ;
+  ex:hasEvidence "BPReadingEvidence" ;
+  ex:hasEvidence "BPReadingEvidence" ;
+  ex:status ex:Submitted .
+
+ex:Dana 
+  ex:bpS1 150 ;
+  ex:bpS2 142 ;
+  ex:bpS3 138 ;
+  ex:hasAge 52 .
+

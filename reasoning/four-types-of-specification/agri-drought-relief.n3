@@ -1,0 +1,155 @@
+### 1) VOCAB_TTL ###
+@prefix ex: <https://example.org/agri#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:Farm              a rdfs:Class ; rdfs:label "Farm" .
+ex:DroughtApplication a rdfs:Class ; rdfs:label "Drought Relief Application" .
+ex:ReliefPayment     a rdfs:Class ; rdfs:label "Relief Payment" .
+
+ex:DroughtReliefGrant a skos:Concept ; skos:prefLabel "Drought Relief Grant" .
+
+ex:hasApplicant    a rdf:Property ; rdfs:domain ex:DroughtApplication ; rdfs:range ex:Farm ; rdfs:label "has applicant" .
+ex:appliesFor      a rdf:Property ; rdfs:domain ex:DroughtApplication ; rdfs:range skos:Concept ; rdfs:label "applies for" .
+ex:status          a rdf:Property ; rdfs:domain ex:DroughtApplication ; rdfs:label "status" .
+ex:eligible        a rdf:Property ; rdfs:domain ex:DroughtApplication ; rdfs:label "eligible" .
+ex:issuedPayment   a rdf:Property ; rdfs:domain ex:DroughtApplication ; rdfs:range ex:ReliefPayment ; rdfs:label "issued payment" .
+
+ex:totalArea        a rdf:Property ; rdfs:domain ex:Farm ; rdfs:label "total area (ha)" .
+ex:rainfallLast30d  a rdf:Property ; rdfs:domain ex:Farm ; rdfs:label "rainfall last 30 days (mm)" .
+ex:baselineYield    a rdf:Property ; rdfs:domain ex:Farm ; rdfs:label "baseline yield (kg/ha)" .
+ex:currentYield     a rdf:Property ; rdfs:domain ex:Farm ; rdfs:label "current yield (kg/ha)" .
+
+ex:hasEvidence a rdf:Property ; rdfs:domain ex:DroughtApplication ; rdfs:label "has evidence" .
+ex:AreaEvidence a rdfs:Class ; rdfs:label "Area Evidence" .
+ex:RainfallEvidence a rdfs:Class ; rdfs:label "Rainfall Evidence" .
+ex:YieldEvidence a rdfs:Class ; rdfs:label "Yield Evidence" .
+
+# Minimal statuses as SKOS concepts
+ex:Submitted a skos:Concept ; skos:prefLabel "Submitted" .
+ex:Approved  a skos:Concept ; skos:prefLabel "Approved" .
+ex:Rejected  a skos:Concept ; skos:prefLabel "Rejected" .
+
+### 2) PROFILE_SHACL_TTL ###
+@prefix sh:  <http://www.w3.org/ns/shacl#> .
+@prefix ex:  <https://example.org/agri#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:DroughtApplicationShape a sh:NodeShape ;
+  sh:targetClass ex:DroughtApplication ;
+  sh:property [
+    sh:path ex:hasApplicant ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+  ] ;
+  sh:property [
+    sh:path ex:appliesFor ;
+    sh:hasValue ex:DroughtReliefGrant ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ex:status ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ex:hasEvidence ;
+    sh:minCount 3 ;                         # require at least 3 evidences (area, rainfall, yield)
+  ] .
+
+ex:FarmShape a sh:NodeShape ;
+  sh:targetClass ex:Farm ;
+  sh:property [
+    sh:path ex:totalArea ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] ;
+  sh:property [
+    sh:path ex:rainfallLast30d ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] ;
+  sh:property [
+    sh:path ex:baselineYield ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] ;
+  sh:property [
+    sh:path ex:currentYield ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] .
+
+### 3) RULES_N3 ###
+# Interaction pattern: Drought Relief Grant
+# States: Submitted -> (Eligible?) -> Approved/Rejected
+# Preconditions: Application conforms to DroughtApplicationShape; Farm conforms to FarmShape
+# Abstract messages: submitApplication, validate, decide, notify
+
+@prefix ex:   <https://example.org/agri#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+
+# R1: Eligibility — area ≥ 5, rainfallLast30d < 20, yield drop ≥ 30
+# drop = baselineYield - currentYield
+{
+  ?app   ex:appliesFor       ex:DroughtReliefGrant .
+  ?app   ex:hasApplicant     ?farm .
+  ?farm  ex:totalArea        ?area .
+  ?farm  ex:rainfallLast30d  ?rain .
+  ?farm  ex:baselineYield    ?by .
+  ?farm  ex:currentYield     ?cy .
+  (?by ?cy) math:difference  ?drop .
+  "5"^^xsd:integer    math:notGreaterThan ?area .
+  ?rain               math:lessThan       "20"^^xsd:integer .
+  ?drop               math:notLessThan    "30"^^xsd:integer .
+}
+=>
+{
+  ?app ex:eligible true .
+} .
+
+# R2: Approve — eligible true AND status Submitted → status Approved + payment issuance
+{
+  ?app ex:eligible true .
+  ?app ex:status   ex:Submitted .
+}
+=>
+{
+  ?app ex:status ex:Approved .
+  _:pay a ex:ReliefPayment .
+  ?app ex:issuedPayment _:pay .
+} .
+
+# R3: Reject — eligible false AND status Submitted → status Rejected
+{
+  ?app ex:eligible false .
+  ?app ex:status   ex:Submitted .
+}
+=>
+{
+  ?app ex:status ex:Rejected .
+} .
+
+### DATA (Turtle from FACTS) ###
+@prefix ex: <https://example.org/agri#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+ex:APP-DR-01 
+  ex:appliesFor ex:DroughtReliefGrant ;
+  ex:hasApplicant ex:FarmAlpha ;
+  ex:hasEvidence "AreaEvidence" ;
+  ex:hasEvidence "RainfallEvidence" ;
+  ex:hasEvidence "YieldEvidence" ;
+  ex:status ex:Submitted .
+
+ex:FarmAlpha 
+  ex:baselineYield 100 ;
+  ex:currentYield 60 ;
+  ex:rainfallLast30d 12 ;
+  ex:totalArea 8 .
+

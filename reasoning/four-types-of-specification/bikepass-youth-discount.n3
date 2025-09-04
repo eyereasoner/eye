@@ -1,0 +1,177 @@
+### 1) VOCAB_TTL ###
+@prefix ex: <https://example.org/bikepass#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:Person                a rdfs:Class ; rdfs:label "Person" ; rdfs:subClassOf foaf:Person .
+ex:BikePassApplication   a rdfs:Class ; rdfs:label "BikePass Discount Application" .
+ex:BikePass              a rdfs:Class ; rdfs:label "BikePass" .
+
+ex:YouthDiscount a skos:Concept ; skos:prefLabel "BikePass Youth Discount" .
+
+ex:hasApplicant     a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:range ex:Person ; rdfs:label "has applicant" .
+ex:appliesFor       a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:range skos:Concept ; rdfs:label "applies for" .
+ex:status           a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:label "status" .
+ex:eligible         a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:label "eligible" .
+ex:issuedPass       a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:range ex:BikePass ; rdfs:label "issued pass" .
+ex:approvedPrice    a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:label "approved price (monthly)" .
+
+ex:hasAge           a rdf:Property ; rdfs:domain ex:Person ; rdfs:label "age" .
+ex:tripsPerWeek     a rdf:Property ; rdfs:domain ex:Person ; rdfs:label "committed trips per week" .
+
+ex:baseMonthlyPrice a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:label "base monthly price" .
+
+ex:hasEvidence a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:label "has evidence" .
+ex:AgeEvidence a rdfs:Class ; rdfs:label "Age Evidence" .
+ex:TripsEvidence a rdfs:Class ; rdfs:label "Trips Evidence" .
+ex:PriceEvidence a rdfs:Class ; rdfs:label "Price Evidence" .
+
+# Minimal statuses as SKOS concepts
+ex:Submitted a skos:Concept ; skos:prefLabel "Submitted" .
+ex:Approved  a skos:Concept ; skos:prefLabel "Approved" .
+ex:Rejected  a skos:Concept ; skos:prefLabel "Rejected" .
+
+### 2) PROFILE_SHACL_TTL ###
+@prefix sh:  <http://www.w3.org/ns/shacl#> .
+@prefix ex:  <https://example.org/bikepass#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:BikePassApplicationShape a sh:NodeShape ;
+  sh:targetClass ex:BikePassApplication ;
+  sh:property [
+    sh:path ex:hasApplicant ;
+    sh:minCount 1 ;
+    sh:nodeKind sh:IRI ;
+  ] ;
+  sh:property [
+    sh:path ex:appliesFor ;
+    sh:hasValue ex:YouthDiscount ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ex:baseMonthlyPrice ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] ;
+  sh:property [
+    sh:path ex:status ;
+    sh:minCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ex:hasEvidence ;
+    sh:minCount 3 ;                         # require at least 3 evidences (age, trips, price)
+  ] .
+
+ex:PersonShape a sh:NodeShape ;
+  sh:targetClass ex:Person ;
+  sh:property [
+    sh:path ex:hasAge ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] ;
+  sh:property [
+    sh:path ex:tripsPerWeek ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] .
+
+### 3) RULES_N3 ###
+# Interaction pattern: BikePass Youth Discount
+# States: Submitted -> (Eligible?) -> Approved/Rejected
+# Preconditions: Application conforms to BikePassApplicationShape; Person conforms to PersonShape
+# Abstract messages: submitApplication, validate, decide, notify
+
+@prefix ex:   <https://example.org/bikepass#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+
+# R1: Eligibility — age∈[12,26) and tripsPerWeek ≥ 3
+{
+  ?app  ex:appliesFor   ex:YouthDiscount .
+  ?app  ex:hasApplicant ?p .
+  ?p    ex:hasAge       ?age .
+  ?p    ex:tripsPerWeek ?t .
+  "12"^^xsd:integer  math:notGreaterThan ?age .
+  ?age  math:lessThan "26"^^xsd:integer .
+  "3"^^xsd:integer   math:notGreaterThan ?t .
+}
+=>
+{
+  ?app ex:eligible true .
+} .
+
+# R2a: Approve & compute price for age < 18 → 60% discount
+# price = base - (base * 60 / 100)
+{
+  ?app  ex:eligible true .
+  ?app  ex:status   ex:Submitted .
+  ?app  ex:baseMonthlyPrice ?bp .
+  ?app  ex:hasApplicant ?p .
+  ?p    ex:hasAge ?age .
+  ?age  math:lessThan "18"^^xsd:integer .
+  (?bp "60"^^xsd:integer)  math:product  ?tmp .
+  (?tmp "100"^^xsd:integer) math:quotient ?discAmt .
+  (?bp ?discAmt)           math:difference ?price .
+}
+=>
+{
+  ?app ex:status ex:Approved .
+  ?app ex:approvedPrice ?price .
+  _:pass a ex:BikePass .
+  ?app ex:issuedPass _:pass .
+} .
+
+# R2b: Approve & compute price for 18 ≤ age < 26 → 40% discount
+# price = base - (base * 40 / 100)
+{
+  ?app  ex:eligible true .
+  ?app  ex:status   ex:Submitted .
+  ?app  ex:baseMonthlyPrice ?bp .
+  ?app  ex:hasApplicant ?p .
+  ?p    ex:hasAge ?age .
+  "18"^^xsd:integer math:notGreaterThan ?age .
+  ?age  math:lessThan "26"^^xsd:integer .
+  (?bp "40"^^xsd:integer)  math:product  ?tmp2 .
+  (?tmp2 "100"^^xsd:integer) math:quotient ?discAmt2 .
+  (?bp ?discAmt2)           math:difference ?price2 .
+}
+=>
+{
+  ?app ex:status ex:Approved .
+  ?app ex:approvedPrice ?price2 .
+  _:pass a ex:BikePass .
+  ?app ex:issuedPass _:pass .
+} .
+
+# R3: Reject — eligible false AND status Submitted → status Rejected
+{
+  ?app ex:eligible false .
+  ?app ex:status   ex:Submitted .
+}
+=>
+{
+  ?app ex:status ex:Rejected .
+} .
+
+### DATA (Turtle from FACTS) ###
+@prefix ex: <https://example.org/bikepass#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+ex:APP-BP-01 
+  ex:appliesFor ex:YouthDiscount ;
+  ex:baseMonthlyPrice 30 ;
+  ex:hasApplicant ex:Zoe ;
+  ex:hasEvidence "AgeEvidence" ;
+  ex:hasEvidence "PriceEvidence" ;
+  ex:hasEvidence "TripsEvidence" ;
+  ex:status ex:Submitted .
+
+ex:Zoe 
+  ex:hasAge 17 ;
+  ex:tripsPerWeek 5 .
+
