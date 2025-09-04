@@ -560,10 +560,10 @@ def run_checks():
 # -----------------------------------------------------------------------------
 def main(argv: List[str]):
     if "--show-spec" in argv:
-        print("# === 1) VOCAB_TTL ===");                print(VOCAB_TTL)
-        print("# === 2) PROFILE_SHACL_TTL ===");        print(PROFILE_SHACL_TTL)
-        print("# === 3) RULES_N3 ===");                 print(RULES_N3)
-        print("# === 4) IMPLEMENTATION_GUIDE_MD ===");  print(IMPLEMENTATION_GUIDE_MD)
+        print("=== 1) VOCAB_TTL ===");             print(VOCAB_TTL)
+        print("=== 2) PROFILE_SHACL_TTL ===");     print(PROFILE_SHACL_TTL)
+        print("=== 3) RULES_N3 ===");              print(RULES_N3)
+        print("=== 4) IMPLEMENTATION_GUIDE_MD ==="); print(IMPLEMENTATION_GUIDE_MD)
         return
 
     if "--show-data" in argv:
@@ -573,10 +573,10 @@ def main(argv: List[str]):
                 "ex": EX,
                 "xsd": "http://www.w3.org/2001/XMLSchema#",
                 "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-                "skos": "http://www.w3.org/2004/02/skos/core#"
+                "skos": "http://www.w3.org/2004/02/skos/core#",
             }
         )
-        print("# === DATA (Turtle from FACTS) ===")
+        print("=== DATA (Turtle from FACTS) ===")
         print(turtle)
         return
 

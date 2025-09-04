@@ -24,8 +24,8 @@
 #   python agri_drought_relief.py
 #
 # Optional:
-#   python agri_drought_relief.py --show-spec
-#       → prints the 4 artefacts embedded below
+#   python agri_drought_relief.py --show-spec   # print the 4 artefacts
+#   python agri_drought_relief.py --show-data   # print FACTS as Turtle
 # =============================================================================
 
 from dataclasses import dataclass, field
@@ -137,7 +137,7 @@ RULES_N3 = """# Interaction pattern: Drought Relief Grant
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 
 # R1: Eligibility — area ≥ 5, rainfallLast30d < 20, yield drop ≥ 30
-# yield drop = baselineYield - currentYield
+# drop = baselineYield - currentYield
 {
   ?app   ex:appliesFor       ex:DroughtReliefGrant .
   ?app   ex:hasApplicant     ?farm .
@@ -230,6 +230,70 @@ FACTS: List[Triple] = [
     (f"{EX}APP-DR-01",   f"{EX}hasEvidence",      "RainfallEvidence"),
     (f"{EX}APP-DR-01",   f"{EX}hasEvidence",      "YieldEvidence"),
 ]
+
+# -----------------------------------------------------------------------------
+# Utility: print FACTS as Turtle
+# -----------------------------------------------------------------------------
+def to_turtle(triples, prefixes=None):
+    """
+    Convert a List[Triple] -> Turtle string.
+    Triple = (subject:str, predicate:str, object: str|int|float|bool)
+    - Subjects/predicates that look like IRIs are shortened to CURIEs using `prefixes`.
+    - Predicate 'a' is printed as rdf:type shorthand.
+    - Literals are auto-typed by Turtle (int/float/bool); strings are quoted+escaped.
+    """
+    if prefixes is None:
+        prefixes = {}
+
+    lines = []
+    for pfx, ns in prefixes.items():
+        lines.append(f"@prefix {pfx}: <{ns}> .")
+    if prefixes:
+        lines.append("")
+
+    def is_iri(v):
+        return isinstance(v, str) and (v.startswith("http://") or v.startswith("https://"))
+
+    def qname(iri):
+        for pfx, ns in prefixes.items():
+            if iri.startswith(ns):
+                local = iri[len(ns):]
+                if local and all(c.isalnum() or c in "_-." for c in local):
+                    return f"{pfx}:{local}"
+        return f"<{iri}>"
+
+    def esc(s: str) -> str:
+        return s.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
+
+    def term(v):
+        if v is True:  return "true"
+        if v is False: return "false"
+        if isinstance(v, int):   return str(v)
+        if isinstance(v, float):
+            s = repr(v)
+            if "." not in s and "e" not in s and "E" not in s:
+                s += ".0"
+            return s
+        if is_iri(v):            return qname(v)
+        return f"\"{esc(str(v))}\""
+
+    # Group by subject and pretty-print
+    from collections import defaultdict
+    spo = defaultdict(list)
+    for s, p, o in triples:
+        spo[s].append((p, o))
+
+    for s in sorted(spo.keys()):
+        subj = qname(s) if is_iri(s) else f"\"{esc(str(s))}\""
+        lines.append(f"{subj} ")
+        po_lines = []
+        for p, o in sorted(spo[s], key=lambda x: (x[0], str(x[1]))):
+            pred = "a" if p == "a" else (qname(p) if is_iri(p) else f"\"{esc(str(p))}\"")
+            po_lines.append(f"  {pred} {term(o)}")
+        lines.append(" ;\n".join(po_lines) + " .")
+        lines.append("")
+
+    return "\n".join(lines)
 
 # -----------------------------------------------------------------------------
 # Tiny forward-chaining engine and helpers
@@ -432,7 +496,7 @@ def run_checks():
     print("Running checks...")
     # 1) Happy path -> Approved
     t1 = clone(FACTS)
-    ans1, _, _ = compute_answer_reason(t1)
+    _, _, _ = compute_answer_reason(t1)
     s1 = get_final_status(t1, f"{EX}APP-DR-01")
     assert s1 == "Approved", "Expected Approved for base case"
     print("[1] Happy path → Approved ✓")
@@ -484,6 +548,20 @@ def main(argv: List[str]):
         print("=== 2) PROFILE_SHACL_TTL ===");     print(PROFILE_SHACL_TTL)
         print("=== 3) RULES_N3 ===");              print(RULES_N3)
         print("=== 4) IMPLEMENTATION_GUIDE_MD ==="); print(IMPLEMENTATION_GUIDE_MD)
+        return
+
+    if "--show-data" in argv:
+        turtle = to_turtle(
+            FACTS,
+            prefixes={
+                "ex": EX,
+                "xsd": "http://www.w3.org/2001/XMLSchema#",
+                "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+                "skos": "http://www.w3.org/2004/02/skos/core#",
+            }
+        )
+        print("=== DATA (Turtle from FACTS) ===")
+        print(turtle)
         return
 
     # EYE-learning outputs
