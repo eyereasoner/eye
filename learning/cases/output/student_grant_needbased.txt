@@ -1,13 +1,12 @@
 Answer:
-  Application APP-1001 status: Approved; issued award: AWARD-001
+  Application APP-GR-01 status: Approved; issued payment: PAY-001
 Reason why:
-  R1: Eligible (age∈[18,26), FullTime, income<20000, GPA≥2.5). R2: Approved + award issued.
+  R1: Eligible (ECTS≥30, perCapita≤18000, tuition>0). R2: Approved + payment issued.
 Check (harness):
 Running checks...
 [1] Happy path → Approved ✓
-[2] Over-age (27) → Rejected ✓
-[3] Part-time → Rejected ✓
-[4] High income (30000) → Rejected ✓
-[5] Low GPA (2.2) → Rejected ✓
-[6] Missing evidence → Validation error ✓
+[2] Per-capita income 30000 → Rejected ✓
+[3] ECTS = 24 → Rejected ✓
+[4] Per-capita = 18000 → Approved ✓
+[5] Missing evidence → Validation error ✓
 All checks passed.

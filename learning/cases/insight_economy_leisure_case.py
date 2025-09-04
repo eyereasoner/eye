@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-INSIGHT ECONOMY — LEISURE DOMAIN (THEME PARK)
-=============================================
+INSIGHT ECONOMY [1] — LEISURE DOMAIN (THEME PARK)
+=================================================
 
 What this script shows
 ----------------------
@@ -25,6 +25,10 @@ Program output
 2) R — REASON WHY: A **private explanation** (stays on the user's side)
 3) Runtime preview: Example banner for a selected attraction
 4) C — CHECK: A **harness** of sanity checks (minimization, scoping, behavior, expiry, schema)
+
+References
+----------
+[1] https://ruben.verborgh.org/blog/2025/08/12/inside-the-insight-economy/
 """
 
 from __future__ import annotations

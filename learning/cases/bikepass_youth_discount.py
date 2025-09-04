@@ -1,81 +1,78 @@
 #!/usr/bin/env python3
 # =============================================================================
-# BikePass Youth Discount — Single-file EYE-learning case with 4 spec artefacts
+# Mobility — BikePass Youth Discount (single-file EYE-learning case with 4 specs)
 # =============================================================================
-# Problem (short): Decide if a submitted BikePass Youth Discount application
-# should be Approved (and a permit issued) or Rejected based on the rules:
-# applicant must be under 26 and live in Ghent.
+# Problem (short): Decide if a submitted youth BikePass discount application
+# should be Approved (and a pass issued) or Rejected based on:
+# age in [12,26), committed trips/week ≥ 3; if eligible, compute approvedPrice:
+#   - age < 18  → 60% discount
+#   - 18 ≤ age < 26 → 40% discount
 #
 # This file is completely self-contained and uses no third-party packages.
 #
-# It demonstrates a use case that follows “four types of specification artefacts”:
+# It demonstrates a use case that follows “four types of specification artefacts” [1]:
 #
 #   1) Vocabulary (RDFS/SKOS)
 #   2) Application Profile (SHACL)
-#   3) Interaction Pattern / Rules (N3; triple patterns)
+#   3) Interaction Pattern / Rules (N3; triple patterns only, math:* built-ins)
 #   4) Implementation Guide (human-readable composition/integration notes)
 #
 # and implements the EYE-learning style:
 #   - Answer      : final result
-#   - Reason why  : trace of rule firings
+#   - Reason why  : brief trace of rule firings
 #   - Check       : concise harness verifying behavior
 #
 # Run:
 #   python bikepass_youth_discount.py
 #
 # Optional:
-#   python bikepass_youth_discount.py --show-spec
-#       → prints the 4 artefacts embedded below
+#   python bikepass_youth_discount.py --show-spec   # print the 4 artefacts
+#   python bikepass_youth_discount.py --show-data   # print FACTS as Turtle
 #
-# Notes:
-# - The Python code below is a tiny forward-chaining demo engine + validator.
-# - The N3 rules are provided as documentation/parallel expression of the logic
-#   using only triple patterns (no FILTER). Swap this tiny engine for EYE if you
-#   want formal proofs and full N3 support.
+# References:
+#   [1] https://pietercolpaert.be/interoperability/2025/09/03/four-types-specification-artefacts
 # =============================================================================
 
 from dataclasses import dataclass, field
 from typing import List, Tuple, Dict, Any, Callable
 import sys
 
-Triple = Tuple[str, str, Any]  # (subject, predicate, object) — object may be str|int|bool
+Triple = Tuple[str, str, Any]  # (subject, predicate, object) — object may be str|int|float|bool
 
 # -----------------------------------------------------------------------------
 # 1) Vocabulary (RDFS/SKOS)
 # -----------------------------------------------------------------------------
 VOCAB_TTL = """@prefix ex: <https://example.org/bikepass#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix dct: <http://purl.org/dc/terms/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-ex:Person a rdfs:Class ;
-  rdfs:label "Person" ;
-  rdfs:subClassOf foaf:Person .
+ex:Person                a rdfs:Class ; rdfs:label "Person" ; rdfs:subClassOf foaf:Person .
+ex:BikePassApplication   a rdfs:Class ; rdfs:label "BikePass Discount Application" .
+ex:BikePass              a rdfs:Class ; rdfs:label "BikePass" .
 
-ex:Application a rdfs:Class ; rdfs:label "Application" .
-ex:Permit      a rdfs:Class ; rdfs:label "Permit" .
+ex:YouthDiscount a skos:Concept ; skos:prefLabel "BikePass Youth Discount" .
 
-ex:YouthDiscount a skos:Concept ; skos:prefLabel "Youth Discount" .
+ex:hasApplicant     a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:range ex:Person ; rdfs:label "has applicant" .
+ex:appliesFor       a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:range skos:Concept ; rdfs:label "applies for" .
+ex:status           a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:label "status" .
+ex:eligible         a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:label "eligible" .
+ex:issuedPass       a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:range ex:BikePass ; rdfs:label "issued pass" .
+ex:approvedPrice    a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:label "approved price (monthly)" .
 
-ex:hasApplicant   a rdf:Property ; rdfs:domain ex:Application ; rdfs:range ex:Person ; rdfs:label "has applicant" .
-ex:appliesFor     a rdf:Property ; rdfs:domain ex:Application ; rdfs:range skos:Concept ; rdfs:label "applies for" .
-ex:status         a rdf:Property ; rdfs:domain ex:Application ; rdfs:label "status" .
-ex:eligible       a rdf:Property ; rdfs:domain ex:Application ; rdfs:label "eligible" .
-ex:issuedPermit   a rdf:Property ; rdfs:domain ex:Application ; rdfs:range ex:Permit ; rdfs:label "issued permit" .
+ex:hasAge           a rdf:Property ; rdfs:domain ex:Person ; rdfs:label "age" .
+ex:tripsPerWeek     a rdf:Property ; rdfs:domain ex:Person ; rdfs:label "committed trips per week" .
 
-ex:hasAge         a rdf:Property ; rdfs:domain ex:Person ; rdfs:label "age" .
-ex:residenceCity  a rdf:Property ; rdfs:domain ex:Person ; rdfs:label "residence city" .
+ex:baseMonthlyPrice a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:label "base monthly price" .
 
-ex:requiresEvidence a rdf:Property ; rdfs:domain skos:Concept ; rdfs:label "requires evidence type" .
-ex:hasEvidence      a rdf:Property ; rdfs:domain ex:Application ; rdfs:label "has evidence" .
-ex:AgeEvidence       a rdfs:Class ; rdfs:label "Age Evidence" .
-ex:ResidenceEvidence a rdfs:Class ; rdfs:label "Residence Evidence" .
-ex:evidenceOf a rdf:Property ; rdfs:label "evidence of" .
+ex:hasEvidence a rdf:Property ; rdfs:domain ex:BikePassApplication ; rdfs:label "has evidence" .
+ex:AgeEvidence a rdfs:Class ; rdfs:label "Age Evidence" .
+ex:TripsEvidence a rdfs:Class ; rdfs:label "Trips Evidence" .
+ex:PriceEvidence a rdfs:Class ; rdfs:label "Price Evidence" .
 
-# Minimal status code list (could be SKOS in a real system)
+# Minimal statuses as SKOS concepts
 ex:Submitted a skos:Concept ; skos:prefLabel "Submitted" .
 ex:Approved  a skos:Concept ; skos:prefLabel "Approved" .
 ex:Rejected  a skos:Concept ; skos:prefLabel "Rejected" .
@@ -88,8 +85,8 @@ PROFILE_SHACL_TTL = """@prefix sh:  <http://www.w3.org/ns/shacl#> .
 @prefix ex:  <https://example.org/bikepass#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ex:ApplicationShape a sh:NodeShape ;
-  sh:targetClass ex:Application ;
+ex:BikePassApplicationShape a sh:NodeShape ;
+  sh:targetClass ex:BikePassApplication ;
   sh:property [
     sh:path ex:hasApplicant ;
     sh:minCount 1 ;
@@ -101,12 +98,17 @@ ex:ApplicationShape a sh:NodeShape ;
     sh:minCount 1 ;
   ] ;
   sh:property [
+    sh:path ex:baseMonthlyPrice ;
+    sh:minCount 1 ;
+    sh:datatype xsd:integer ;
+  ] ;
+  sh:property [
     sh:path ex:status ;
     sh:minCount 1 ;
   ] ;
   sh:property [
     sh:path ex:hasEvidence ;
-    sh:minCount 2 ;
+    sh:minCount 3 ;                         # require at least 3 evidences (age, trips, price)
   ] .
 
 ex:PersonShape a sh:NodeShape ;
@@ -117,46 +119,80 @@ ex:PersonShape a sh:NodeShape ;
     sh:datatype xsd:integer ;
   ] ;
   sh:property [
-    sh:path ex:residenceCity ;
+    sh:path ex:tripsPerWeek ;
     sh:minCount 1 ;
+    sh:datatype xsd:integer ;
   ] .
 """
 
 # -----------------------------------------------------------------------------
 # 3) Interaction Pattern / RULES_N3 (N3, triple patterns only)
 # -----------------------------------------------------------------------------
-RULES_N3 = """# Interaction pattern: BikePass Youth Discount application
+RULES_N3 = """# Interaction pattern: BikePass Youth Discount
 # States: Submitted -> (Eligible?) -> Approved/Rejected
-# Preconditions: Application conforms to ApplicationShape; Person conforms to PersonShape
+# Preconditions: Application conforms to BikePassApplicationShape; Person conforms to PersonShape
 # Abstract messages: submitApplication, validate, decide, notify
 
 @prefix ex:   <https://example.org/bikepass#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
 
-# R1: Eligibility — age < 26 AND city == "Ghent" AND appliesFor YouthDiscount
+# R1: Eligibility — age∈[12,26) and tripsPerWeek ≥ 3
 {
   ?app  ex:appliesFor   ex:YouthDiscount .
   ?app  ex:hasApplicant ?p .
   ?p    ex:hasAge       ?age .
-  ?p    ex:residenceCity "Ghent" .
-  ?age  math:lessThan   "26"^^xsd:integer .
+  ?p    ex:tripsPerWeek ?t .
+  "12"^^xsd:integer  math:notGreaterThan ?age .
+  ?age  math:lessThan "26"^^xsd:integer .
+  "3"^^xsd:integer   math:notGreaterThan ?t .
 }
 =>
 {
   ?app ex:eligible true .
 } .
 
-# R2: Approve — eligible true AND status Submitted → status Approved + permit issuance
+# R2a: Approve & compute price for age < 18 → 60% discount
+# price = base - (base * 60 / 100)
 {
-  ?app ex:eligible true .
-  ?app ex:status   ex:Submitted .
+  ?app  ex:eligible true .
+  ?app  ex:status   ex:Submitted .
+  ?app  ex:baseMonthlyPrice ?bp .
+  ?app  ex:hasApplicant ?p .
+  ?p    ex:hasAge ?age .
+  ?age  math:lessThan "18"^^xsd:integer .
+  (?bp "60"^^xsd:integer)  math:product  ?tmp .
+  (?tmp "100"^^xsd:integer) math:quotient ?discAmt .
+  (?bp ?discAmt)           math:difference ?price .
 }
 =>
 {
   ?app ex:status ex:Approved .
-  _:permit a ex:Permit .
-  ?app ex:issuedPermit _:permit .
+  ?app ex:approvedPrice ?price .
+  _:pass a ex:BikePass .
+  ?app ex:issuedPass _:pass .
+} .
+
+# R2b: Approve & compute price for 18 ≤ age < 26 → 40% discount
+# price = base - (base * 40 / 100)
+{
+  ?app  ex:eligible true .
+  ?app  ex:status   ex:Submitted .
+  ?app  ex:baseMonthlyPrice ?bp .
+  ?app  ex:hasApplicant ?p .
+  ?p    ex:hasAge ?age .
+  "18"^^xsd:integer math:notGreaterThan ?age .
+  ?age  math:lessThan "26"^^xsd:integer .
+  (?bp "40"^^xsd:integer)  math:product  ?tmp2 .
+  (?tmp2 "100"^^xsd:integer) math:quotient ?discAmt2 .
+  (?bp ?discAmt2)           math:difference ?price2 .
+}
+=>
+{
+  ?app ex:status ex:Approved .
+  ?app ex:approvedPrice ?price2 .
+  _:pass a ex:BikePass .
+  ?app ex:issuedPass _:pass .
 } .
 
 # R3: Reject — eligible false AND status Submitted → status Rejected
@@ -178,7 +214,7 @@ IMPLEMENTATION_GUIDE_MD = """# BikePass Youth Discount — Implementation Guide
 This guide composes the four artefacts — **Vocabulary**, **Application Profile**, **Interaction Pattern/Rules**, and this **Implementation Guide** — into a ready-to-implement package.
 
 ## Purpose
-Help cities issue a *BikePass Youth Discount* permit to residents under 26 living in Ghent.
+Boost bike adoption among young residents by offering a discounted BikePass to 12–25 year olds who commit to regular trips.
 
 ## Artefacts overview
 - `VOCAB_TTL` — domain terms (RDFS/SKOS)
@@ -188,17 +224,13 @@ Help cities issue a *BikePass Youth Discount* permit to residents under 26 livin
   **Answer**, **Reason why**, and a **Check (harness)** per EYE-learning.
 
 ## Minimal HTTP binding (suggested)
-1. `POST /applications` → create an Application (status=Submitted).
-2. `POST /applications/{id}/validate` → run SHACL (shape IDs in this guide).
-3. `POST /applications/{id}/decide` → execute the interaction rules; transition to Approved/Rejected.
-4. `GET  /applications/{id}` → fetch current status, issued permit.
-
-## Reuse and alignment
-- `ex:Person` aligns to `foaf:Person`.
-- Statuses are SKOS concepts that can be extended to a full code list.
+1. `POST /bikepass-applications` → create a BikePassApplication (status=Submitted).
+2. `POST /bikepass-applications/{id}/validate` → run SHACL (shape IDs in this guide).
+3. `POST /bikepass-applications/{id}/decide` → execute the rules; transition to Approved/Rejected.
+4. `GET  /bikepass-applications/{id}` → fetch current status, approved price, issued pass.
 
 ## Conformance
-- Validate incoming `Application` and `Person` resources against the shapes.
+- Validate incoming `BikePassApplication` and `Person` resources against the shapes.
 - A server is conformant if, given data that meets the shapes, it transitions
   state identically to the rules in `RULES_N3`.
 
@@ -212,15 +244,83 @@ Run this file with Python. It prints the **Answer**, **Reason why**, and then ru
 EX = "https://example.org/bikepass#"
 
 FACTS: List[Triple] = [
-    (f"{EX}Alice",     f"{EX}hasAge",         22),
-    (f"{EX}Alice",     f"{EX}residenceCity",  "Ghent"),
-    (f"{EX}APP-001",   f"{EX}hasApplicant",   f"{EX}Alice"),
-    (f"{EX}APP-001",   f"{EX}appliesFor",     f"{EX}YouthDiscount"),
-    (f"{EX}APP-001",   f"{EX}status",         f"{EX}Submitted"),
-    # Abstract evidence markers (to satisfy the shape)
-    (f"{EX}APP-001",   f"{EX}hasEvidence",    "AgeEvidence"),
-    (f"{EX}APP-001",   f"{EX}hasEvidence",    "ResidenceEvidence"),
+    # Person (Zoe): age 17, commits 5 trips/week
+    (f"{EX}Zoe",             f"{EX}hasAge",         17),
+    (f"{EX}Zoe",             f"{EX}tripsPerWeek",   5),
+
+    # Application with base price 30 (currency omitted; integer units)
+    (f"{EX}APP-BP-01",       f"{EX}hasApplicant",   f"{EX}Zoe"),
+    (f"{EX}APP-BP-01",       f"{EX}appliesFor",     f"{EX}YouthDiscount"),
+    (f"{EX}APP-BP-01",       f"{EX}status",         f"{EX}Submitted"),
+    (f"{EX}APP-BP-01",       f"{EX}baseMonthlyPrice", 30),
+
+    # Evidence markers (to satisfy shape)
+    (f"{EX}APP-BP-01",       f"{EX}hasEvidence",    "AgeEvidence"),
+    (f"{EX}APP-BP-01",       f"{EX}hasEvidence",    "TripsEvidence"),
+    (f"{EX}APP-BP-01",       f"{EX}hasEvidence",    "PriceEvidence"),
 ]
+
+# -----------------------------------------------------------------------------
+# Utility: print FACTS as Turtle
+# -----------------------------------------------------------------------------
+def to_turtle(triples, prefixes=None):
+    """
+    Convert a List[Triple] -> Turtle string.
+    Triple = (subject:str, predicate:str, object: str|int|float|bool)
+    - Subjects/predicates that look like IRIs are shortened to CURIEs using `prefixes`.
+    - Predicate 'a' is printed as rdf:type shorthand.
+    - Literals are auto-typed by Turtle (int/float/bool); strings are quoted+escaped.
+    """
+    if prefixes is None:
+        prefixes = {}
+
+    lines = []
+    for pfx, ns in prefixes.items():
+        lines.append(f"@prefix {pfx}: <{ns}> .")
+    if prefixes:
+        lines.append("")
+
+    def is_iri(v):
+        return isinstance(v, str) and (v.startswith("http://") or v.startswith("https://"))
+
+    def qname(iri):
+        for pfx, ns in prefixes.items():
+            if iri.startswith(ns):
+                local = iri[len(ns):]
+                if local and all(c.isalnum() or c in "_-." for c in local):
+                    return f"{pfx}:{local}"
+        return f"<{iri}>"
+
+    def esc(s: str) -> str:
+        return s.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
+
+    def term(v):
+        if v is True:  return "true"
+        if v is False: return "false"
+        if isinstance(v, int):   return str(v)
+        if isinstance(v, float):
+            s = repr(v)
+            if "." not in s and "e" not in s and "E" not in s:
+                s += ".0"
+            return s
+        if is_iri(v):            return qname(v)
+        return f"\"{esc(str(v))}\""
+
+    from collections import defaultdict
+    spo = defaultdict(list)
+    for s, p, o in triples:
+        spo[s].append((p, o))
+
+    for s in sorted(spo.keys()):
+        subj = qname(s) if is_iri(s) else f"\"{esc(str(s))}\""
+        lines.append(f"{subj} ")
+        po_lines = []
+        for p, o in sorted(spo[s], key=lambda x: (x[0], str(x[1]))):
+            pred = "a" if p == "a" else (qname(p) if is_iri(p) else f"\"{esc(str(p))}\"")
+            po_lines.append(f"  {pred} {term(o)}")
+        lines.append(" ;\n".join(po_lines) + " .")
+        lines.append("")
+    return "\n".join(lines)
 
 # -----------------------------------------------------------------------------
 # Tiny forward-chaining engine and helpers
@@ -252,47 +352,111 @@ class ReasoningResult:
 # Rules (Python mirrors of RULES_N3 for this tiny engine)
 # -----------------------------------------------------------------------------
 def rule_R1_eligibility(triples: List[Triple], fires: List[RuleFire]) -> int:
-    """If appliesFor YouthDiscount and applicant's age < 26 and city == Ghent → eligible true; else eligible false."""
+    """
+    Eligibility if:
+      - appliesFor YouthDiscount
+      - 12 ≤ age < 26
+      - trips/week ≥ 3
+    """
     added = 0
     apps = [s for (s,_,_) in q(triples, None, f"{EX}appliesFor", f"{EX}YouthDiscount")]
     for app in apps:
         persons = [o for (_,_,o) in q(triples, app, f"{EX}hasApplicant", None)]
-        for p in persons:
-            ages   = [o for (_,_,o) in q(triples, p, f"{EX}hasAge", None) if isinstance(o, int)]
-            cities = [o for (_,_,o) in q(triples, p, f"{EX}residenceCity", None)]
-            if ages and cities:
-                age, city = ages[0], cities[0]
-                if age < 26 and city == "Ghent":
+        for person in persons:
+            ageL  = [o for (_,_,o) in q(triples, person, f"{EX}hasAge", None) if isinstance(o, int)]
+            tripsL= [o for (_,_,o) in q(triples, person, f"{EX}tripsPerWeek", None) if isinstance(o, int)]
+            if ageL and tripsL:
+                age, trips = ageL[0], tripsL[0]
+                ok = (age >= 12) and (age < 26) and (trips >= 3)
+                if ok:
                     if add_unique(triples, (app, f"{EX}eligible", True)):
-                        fires.append(RuleFire("R1", {"app": app, "person": p, "age": str(age), "city": city}))
+                        fires.append(RuleFire("R1", {
+                            "app": app, "person": person,
+                            "age": str(age), "trips": str(trips)
+                        }))
                         added += 1
                 else:
                     if add_unique(triples, (app, f"{EX}eligible", False)):
-                        fires.append(RuleFire("R1-not", {"app": app, "person": p, "age": str(age), "city": city}))
+                        fires.append(RuleFire("R1-not", {
+                            "app": app, "person": person,
+                            "age": str(age), "trips": str(trips)
+                        }))
                         added += 1
     return added
 
-permit_counter = 0
-def new_permit_iri() -> str:
-    """Generate a unique (mock) permit IRI."""
-    global permit_counter
-    permit_counter += 1
-    return f"{EX}PERMIT-{permit_counter:03d}"
+pass_counter = 0
+def new_pass_iri() -> str:
+    """Generate a unique (mock) BikePass IRI."""
+    global pass_counter
+    pass_counter += 1
+    return f"{EX}PASS-{pass_counter:03d}"
 
-def rule_R2_approve(triples: List[Triple], fires: List[RuleFire]) -> int:
-    """If eligible true and status Submitted → add status Approved and issue a permit (single-fire per application)."""
+def rule_R2a_approve_under18(triples: List[Triple], fires: List[RuleFire]) -> int:
+    """If eligible true, status Submitted, age<18 → approve with 60% discount and issue pass."""
     added = 0
     for (app,_,_) in q(triples, None, f"{EX}eligible", True):
+        if (app, f"{EX}status", f"{EX}Submitted") not in triples:
+            continue
         already_approved = any(True for _ in q(triples, app, f"{EX}status", f"{EX}Approved"))
-        has_permit       = any(True for _ in q(triples, app, f"{EX}issuedPermit", None))
-        if (app, f"{EX}status", f"{EX}Submitted") in triples and not already_approved and not has_permit:
+        has_pass         = any(True for _ in q(triples, app, f"{EX}issuedPass", None))
+        if already_approved or has_pass:
+            continue
+        # Gather data
+        personL = [o for (_,_,o) in q(triples, app, f"{EX}hasApplicant", None)]
+        priceL  = [o for (_,_,o) in q(triples, app, f"{EX}baseMonthlyPrice", None) if isinstance(o, int)]
+        if not personL or not priceL:
+            continue
+        person, base = personL[0], priceL[0]
+        ageL = [o for (_,_,o) in q(triples, person, f"{EX}hasAge", None) if isinstance(o, int)]
+        if not ageL:
+            continue
+        age = ageL[0]
+        if age < 18:
+            disc_amount = (base * 60) // 100
+            price = base - disc_amount
             if add_unique(triples, (app, f"{EX}status", f"{EX}Approved")):
-                fires.append(RuleFire("R2", {"app": app}))
+                fires.append(RuleFire("R2a", {"app": app, "rate": "60", "price": str(price)}))
                 added += 1
-            iri = new_permit_iri()
-            if add_unique(triples, (iri, "a", f"{EX}Permit")):
+            if add_unique(triples, (app, f"{EX}approvedPrice", price)):
                 added += 1
-            if add_unique(triples, (app, f"{EX}issuedPermit", iri)):
+            iri = new_pass_iri()
+            if add_unique(triples, (iri, "a", f"{EX}BikePass")):
+                added += 1
+            if add_unique(triples, (app, f"{EX}issuedPass", iri)):
+                added += 1
+    return added
+
+def rule_R2b_approve_youth(triples: List[Triple], fires: List[RuleFire]) -> int:
+    """If eligible true, status Submitted, 18≤age<26 → approve with 40% discount and issue pass."""
+    added = 0
+    for (app,_,_) in q(triples, None, f"{EX}eligible", True):
+        if (app, f"{EX}status", f"{EX}Submitted") not in triples:
+            continue
+        already_approved = any(True for _ in q(triples, app, f"{EX}status", f"{EX}Approved"))
+        has_pass         = any(True for _ in q(triples, app, f"{EX}issuedPass", None))
+        if already_approved or has_pass:
+            continue
+        personL = [o for (_,_,o) in q(triples, app, f"{EX}hasApplicant", None)]
+        priceL  = [o for (_,_,o) in q(triples, app, f"{EX}baseMonthlyPrice", None) if isinstance(o, int)]
+        if not personL or not priceL:
+            continue
+        person, base = personL[0], priceL[0]
+        ageL = [o for (_,_,o) in q(triples, person, f"{EX}hasAge", None) if isinstance(o, int)]
+        if not ageL:
+            continue
+        age = ageL[0]
+        if 18 <= age < 26:
+            disc_amount = (base * 40) // 100
+            price = base - disc_amount
+            if add_unique(triples, (app, f"{EX}status", f"{EX}Approved")):
+                fires.append(RuleFire("R2b", {"app": app, "rate": "40", "price": str(price)}))
+                added += 1
+            if add_unique(triples, (app, f"{EX}approvedPrice", price)):
+                added += 1
+            iri = new_pass_iri()
+            if add_unique(triples, (iri, "a", f"{EX}BikePass")):
+                added += 1
+            if add_unique(triples, (app, f"{EX}issuedPass", iri)):
                 added += 1
     return added
 
@@ -308,7 +472,8 @@ def rule_R3_reject(triples: List[Triple], fires: List[RuleFire]) -> int:
 
 RULES: List[Callable[[List[Triple], List[RuleFire]], int]] = [
     rule_R1_eligibility,
-    rule_R2_approve,
+    rule_R2a_approve_under18,
+    rule_R2b_approve_youth,
     rule_R3_reject,
 ]
 
@@ -323,22 +488,34 @@ def validate_application_shape(triples: List[Triple], app: str) -> List[str]:
         errors.append("Application not for ex:YouthDiscount")
     if not list(q(triples, app, f"{EX}status", None)):
         errors.append("Missing ex:status")
+    if not list(q(triples, app, f"{EX}baseMonthlyPrice", None)):
+        errors.append("Missing ex:baseMonthlyPrice")
     evidences = list(q(triples, app, f"{EX}hasEvidence", None))
-    if len(evidences) < 2:
-        errors.append("Need at least 2 evidences (age & residence)")
+    if len(evidences) < 3:
+        errors.append("Need at least 3 evidences (age, trips, price)")
     return errors
 
 def validate_person_shape(triples: List[Triple], person: str) -> List[str]:
     errors = []
     if not list(q(triples, person, f"{EX}hasAge", None)):
         errors.append("Missing ex:hasAge")
-    if not list(q(triples, person, f"{EX}residenceCity", None)):
-        errors.append("Missing ex:residenceCity")
+    if not list(q(triples, person, f"{EX}tripsPerWeek", None)):
+        errors.append("Missing ex:tripsPerWeek")
     return errors
 
 # -----------------------------------------------------------------------------
 # Reasoning pipeline
 # -----------------------------------------------------------------------------
+@dataclass
+class RuleFire:
+    rule_id: str
+    bindings: Dict[str, str]
+
+@dataclass
+class ReasoningResult:
+    added: int
+    fires: List[RuleFire] = field(default_factory=list)
+
 def decide(triples: List[Triple]) -> ReasoningResult:
     fires: List[RuleFire] = []
     # validation
@@ -370,23 +547,32 @@ def get_final_status(triples: List[Triple], app: str) -> str:
         return "UNKNOWN"
     return statuses[-1].split("#")[-1] if isinstance(statuses[-1], str) else str(statuses[-1])
 
+def get_approved_price(triples: List[Triple], app: str):
+    vals = [o for (s,p,o) in triples if s == app and p == f"{EX}approvedPrice"]
+    return vals[-1] if vals else None
+
 def compute_answer_reason(triples: List[Triple]):
     res = decide(triples)
-    app    = f"{EX}APP-001"
+    app    = f"{EX}APP-BP-01"
     status = get_final_status(triples, app)
-    permit = [o for (_,_,o) in q(triples, app, f"{EX}issuedPermit", None)]
-    answer = f"Application APP-001 status: {status}"
-    if permit:
-        answer += f"; issued permit: {permit[0].split('#')[-1]}"
-    # Reason — render fired rules briefly
+    price  = get_approved_price(triples, app)
+    issued = [o for (_,_,o) in q(triples, app, f"{EX}issuedPass", None)]
+    answer = f"Application APP-BP-01 status: {status}"
+    if price is not None:
+        answer += f"; approved price: {price}"
+    if issued:
+        answer += f"; issued pass: {issued[0].split('#')[-1]}"
+    # Reason — brief rule trace
     lines = []
     for f in res.fires:
         if f.rule_id == "R1":
-            lines.append("R1: Eligible (age<26 & city=Ghent).")
+            lines.append("R1: Eligible (age∈[12,26), trips/week≥3).")
         elif f.rule_id == "R1-not":
             lines.append("R1-not: Not eligible.")
-        elif f.rule_id == "R2":
-            lines.append("R2: Approved + permit issued.")
+        elif f.rule_id == "R2a":
+            lines.append("R2a: Approved with 60% discount.")
+        elif f.rule_id == "R2b":
+            lines.append("R2b: Approved with 40% discount.")
         elif f.rule_id == "R3":
             lines.append("R3: Rejected.")
     reason = " ".join(lines) if lines else "No rules fired."
@@ -399,39 +585,60 @@ def run_checks():
     def clone(trs): return [(s, p, o) for (s, p, o) in trs]
 
     print("Running checks...")
-    # 1) Happy path -> Approved
+    # 1) Happy path (age 17) -> Approved, 60% discount on 30 => 12
     t1 = clone(FACTS)
-    ans1, _, _ = compute_answer_reason(t1)
-    s1 = get_final_status(t1, f"{EX}APP-001")
-    assert s1 == "Approved", "Expected Approved for base case"
-    print("[1] Happy path → Approved ✓")
+    _, _, _ = compute_answer_reason(t1)
+    s1 = get_final_status(t1, f"{EX}APP-BP-01")
+    p1 = get_approved_price(t1, f"{EX}APP-BP-01")
+    assert s1 == "Approved" and p1 == 12, "Expected Approved with price 12"
+    print("[1] Age 17 → Approved, price 12 ✓")
 
-    # 2) Over-age -> Rejected
+    # 2) Age 22 → Approved with 40% discount (price 18)
     t2 = clone(FACTS)
-    t2 = [tr for tr in t2 if not (tr[0] == f"{EX}Alice" and tr[1] == f"{EX}hasAge")]
-    t2.append((f"{EX}Alice", f"{EX}hasAge", 27))
+    t2 = [tr for tr in t2 if not (tr[0] == f"{EX}Zoe" and tr[1] == f"{EX}hasAge")]
+    t2.append((f"{EX}Zoe", f"{EX}hasAge", 22))
     _, _, _ = compute_answer_reason(t2)
-    s2 = get_final_status(t2, f"{EX}APP-001")
-    assert s2 == "Rejected", "Over-age should lead to Rejected"
-    print("[2] Over-age (27) → Rejected ✓")
+    s2 = get_final_status(t2, f"{EX}APP-BP-01")
+    p2 = get_approved_price(t2, f"{EX}APP-BP-01")
+    assert s2 == "Approved" and p2 == 18, "Expected Approved with price 18"
+    print("[2] Age 22 → Approved, price 18 ✓")
 
-    # 3) Wrong city -> Rejected
+    # 3) Age 26 (too old) → Rejected
     t3 = clone(FACTS)
-    t3 = [tr for tr in t3 if not (tr[0] == f"{EX}Alice" and tr[1] == f"{EX}residenceCity")]
-    t3.append((f"{EX}Alice", f"{EX}residenceCity", "Brussels"))
+    t3 = [tr for tr in t3 if not (tr[0] == f"{EX}Zoe" and tr[1] == f"{EX}hasAge")]
+    t3.append((f"{EX}Zoe", f"{EX}hasAge", 26))
     _, _, _ = compute_answer_reason(t3)
-    s3 = get_final_status(t3, f"{EX}APP-001")
-    assert s3 == "Rejected", "Wrong city should lead to Rejected"
-    print("[3] Wrong city (Brussels) → Rejected ✓")
+    s3 = get_final_status(t3, f"{EX}APP-BP-01")
+    assert s3 == "Rejected", "Too old should lead to Rejected"
+    print("[3] Age 26 → Rejected ✓")
 
-    # 4) Shape invalid (missing evidence) -> validation error
+    # 4) Too few trips (2) → Rejected
     t4 = clone(FACTS)
-    t4 = [tr for tr in t4 if tr[1] != f"{EX}hasEvidence"]
+    t4 = [tr for tr in t4 if not (tr[0] == f"{EX}Zoe" and tr[1] == f"{EX}tripsPerWeek")]
+    t4.append((f"{EX}Zoe", f"{EX}tripsPerWeek", 2))
+    _, _, _ = compute_answer_reason(t4)
+    s4 = get_final_status(t4, f"{EX}APP-BP-01")
+    assert s4 == "Rejected", "Too few trips should lead to Rejected"
+    print("[4] Trips/week = 2 → Rejected ✓")
+
+    # 5) Boundary: age exactly 18 → Approved, 40% discount
+    t5 = clone(FACTS)
+    t5 = [tr for tr in t5 if not (tr[0] == f"{EX}Zoe" and tr[1] == f"{EX}hasAge")]
+    t5.append((f"{EX}Zoe", f"{EX}hasAge", 18))
+    _, _, _ = compute_answer_reason(t5)
+    s5 = get_final_status(t5, f"{EX}APP-BP-01")
+    p5 = get_approved_price(t5, f"{EX}APP-BP-01")
+    assert s5 == "Approved" and p5 == 18, "Age 18 should be 40% discount"
+    print("[5] Age 18 → Approved, price 18 ✓")
+
+    # 6) Shape invalid (remove baseMonthlyPrice) → validation error
+    t6 = clone(FACTS)
+    t6 = [tr for tr in t6 if not (tr[0] == f"{EX}APP-BP-01" and tr[1] == f"{EX}baseMonthlyPrice")]
     try:
-        compute_answer_reason(t4)
-        raise AssertionError("Expected validation failure for missing evidence")
+        compute_answer_reason(t6)
+        raise AssertionError("Expected validation failure for missing baseMonthlyPrice")
     except ValueError:
-        print("[4] Missing evidence → Validation error ✓")
+        print("[6] Missing baseMonthlyPrice → Validation error ✓")
 
     print("All checks passed.")
 
@@ -444,6 +651,20 @@ def main(argv: List[str]):
         print("=== 2) PROFILE_SHACL_TTL ===");     print(PROFILE_SHACL_TTL)
         print("=== 3) RULES_N3 ===");              print(RULES_N3)
         print("=== 4) IMPLEMENTATION_GUIDE_MD ==="); print(IMPLEMENTATION_GUIDE_MD)
+        return
+
+    if "--show-data" in argv:
+        turtle = to_turtle(
+            FACTS,
+            prefixes={
+                "ex": EX,
+                "xsd": "http://www.w3.org/2001/XMLSchema#",
+                "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+                "skos": "http://www.w3.org/2004/02/skos/core#",
+            }
+        )
+        print("=== DATA (Turtle from FACTS) ===")
+        print(turtle)
         return
 
     # EYE-learning outputs

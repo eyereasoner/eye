@@ -8,7 +8,7 @@
 #
 # This file is completely self-contained and uses no third-party packages.
 #
-# It demonstrates a use case that follows “four types of specification artefacts”:
+# It demonstrates a use case that follows “four types of specification artefacts” [1]:
 #
 #   1) Vocabulary (RDFS/SKOS)
 #   2) Application Profile (SHACL)
@@ -26,6 +26,9 @@
 # Optional:
 #   python leisure_sports_voucher.py --show-spec   # print the 4 artefacts
 #   python leisure_sports_voucher.py --show-data   # print FACTS as Turtle
+#
+# References:
+#   [1] https://pietercolpaert.be/interoperability/2025/09/03/four-types-specification-artefacts
 # =============================================================================
 
 from dataclasses import dataclass, field
