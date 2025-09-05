@@ -70,23 +70,44 @@ No external packages or files are used by this script.
 """
 
 from __future__ import annotations
-import json, hmac, base64, hashlib, re
+import os, sys, json, hmac, base64, hashlib, re
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Dict, List, Tuple, Iterable, Optional, Any, Union
 
 # =============================================================================
-# Small utilities
+# Deterministic clock (freeze 'now' for reproducible outputs/signatures)
 # =============================================================================
 
-def now_utc_iso() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+_FIXED_NOW: Optional[datetime] = None  # set via set_fixed_now()
 
-def iso_in_hours(h: int) -> str:
-    return (datetime.now(timezone.utc) + timedelta(hours=h)).replace(microsecond=0).isoformat()
+def _parse_iso_to_utc(ts: str) -> datetime:
+    return datetime.fromisoformat(ts.replace("Z", "+00:00")).astimezone(timezone.utc)
+
+def set_fixed_now(arg_value: Optional[str] = None) -> None:
+    """Choose a frozen 'now'. Default: 2025-01-01T09:00:00Z. Override with --now or env."""
+    global _FIXED_NOW
+    ts = arg_value or os.getenv("INSIGHT_FIXED_NOW")
+    if ts:
+        _FIXED_NOW = _parse_iso_to_utc(ts)
+    else:
+        _FIXED_NOW = datetime(2025, 1, 1, 9, 0, 0, tzinfo=timezone.utc)
+
+def fixed_now() -> datetime:
+    return _FIXED_NOW or datetime(2025, 1, 1, 9, 0, 0, tzinfo=timezone.utc)
+
+def now_utc_iso() -> str:
+    return fixed_now().replace(microsecond=0).isoformat()
+
+def iso_in_hours(hours: int) -> str:
+    return (fixed_now() + timedelta(hours=hours)).replace(microsecond=0).isoformat()
+
+def today_iso_z() -> str:
+    # For Turtle literals expecting Z-suffix
+    return fixed_now().replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 def parse_iso(ts: str) -> datetime:
-    return datetime.fromisoformat(ts.replace("Z", "+00:00"))
+    return _parse_iso_to_utc(ts)
 
 def b64u(b: bytes) -> str:
     return base64.urlsafe_b64encode(b).decode("ascii").rstrip("=")
@@ -97,9 +118,6 @@ def stable_json(x: Any) -> str:
 # =============================================================================
 # Turtle data (with @prefix) — copy/pasteable into EYE
 # =============================================================================
-
-def today_iso_z() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00","Z")
 
 def turtle_data() -> str:
     ts = today_iso_z()
@@ -118,7 +136,7 @@ ex:altRoute rdf:type ex:Route .
 ex:altRoute ex:distanceKm 38.0 .
 ex:altRoute ex:gradientFactor 1.05 .
 
-# Scan context today at DepotX
+# Scan context at DepotX (deterministic timestamp)
 ex:scan1 rdf:type ex:ScanEvent .
 ex:scan1 ex:inDepot ex:DepotX .
 ex:scan1 ex:atTime "{ts}"^^xsd:dateTime .
@@ -303,7 +321,7 @@ ex:EnvSignatureShape sh:datatype xsd:string .
 """
 
 # =============================================================================
-# Minimal RDF graph + “just-enough” N3 engine + safety synth to mirror EYE
+# Minimal RDF + N3 engine (math:* only) and robust Turtle/N3 parsing
 # =============================================================================
 
 Triple = Tuple[str, str, Any]
@@ -333,7 +351,7 @@ def norm_obj(o: Any) -> Any:
         return ("list", [norm_obj(o[1][0]), norm_obj(o[1][1])])
     return o
 
-# --- Turtle reader (robust line-wise; one triple per line) -------------------
+# --- Turtle reader (robust line-wise) ----------------------------------------
 
 _num_re = re.compile(r"^[+-]?(?:\d+\.\d*|\.\d+|\d+)(?:[eE][+-]?\d+)?$")
 
@@ -505,7 +523,7 @@ def materialize(g: Graph, rules: List[N3Rule]) -> List[str]:
 # =============================================================================
 
 def synthesize_if_missing(g: Graph, reason: List[str]) -> None:
-    """Derive the exact triples your EYE run outputs if insight not present."""
+    """Add the exact triples your EYE run outputs if insight not present."""
     have = any((s,p,o)==("ex:insight1","rdf:type","ex:Insight") for (s,p,o) in g.triples())
     if have: return
 
@@ -539,7 +557,7 @@ def synthesize_if_missing(g: Graph, reason: List[str]) -> None:
             g.add("ex:insight1","ex:estimatedSaving",Fi1-Fi2)
 
 # =============================================================================
-# Envelope + SHACL
+# Envelope + SHACL validation
 # =============================================================================
 
 ISSUER_SECRET = b"demo-issuer-secret-key-rotate-regularly"
@@ -574,7 +592,7 @@ def envelope_from_graph(g: Graph) -> Dict[str, Any]:
         "ex:allowedUse":"ui.eco.banner",
         "ex:issuedAt": now_utc_iso(),
         "ex:expiry":   iso_in_hours(3),
-        "ex:assertions": stable_json(assertions),  # string per SHACL shape
+        "ex:assertions": stable_json(assertions),  # string per SHACL simplicity
     }
     return sign_envelope(env)
 
@@ -665,29 +683,29 @@ def ruleset() -> List[N3Rule]:
     return parse_n3_rules(n3_rules())
 
 def interaction_flow(audience_store: str) -> Tuple[Graph, Dict[str, Any], Dict[str, Any]]:
-    # REQUEST
-    # ISSUE
+    # REQUEST (implicit: audience_store asks for a local insight)
+    # ISSUE: load data, run rules, and ensure EYE-equivalent facts exist
     g = seed_graph()
     _ = materialize(g, ruleset())
-    synthesize_if_missing(g, [])  # ensures EYE-equivalent facts exist
+    synthesize_if_missing(g, [])
 
+    # sanity: core insight must exist now
     have = any((s,p,o)==("ex:insight1","rdf:type","ex:Insight") for (s,p,o) in g.triples())
-    if not have:
-        raise FlowError("No insight derived; check data and rules.")
+    if not have: raise FlowError("No insight derived; check data and rules.")
 
-    # CONSUME → envelope
+    # CONSUME: build minimal signed envelope
     env = envelope_from_graph(g)
     if env.get("ex:audience") != audience_store: raise FlowError("Audience mismatch.")
     if not verify_envelope(env): raise FlowError("Invalid signature.")
-    if parse_iso(env["ex:expiry"]) <= datetime.now(timezone.utc): raise FlowError("Envelope expired.")
+    if parse_iso(env["ex:expiry"]) <= fixed_now(): raise FlowError("Envelope expired.")
     if env["ex:allowedUse"] not in ALLOWED_USES: raise FlowError("Disallowed use.")
-    # COMPLETE
-    # Build a compact “reason why” dict for printing
+
+    # COMPLETE: produce compact explanation
     reason = build_compact_reason(g, env)
     return g, env, reason
 
 # =============================================================================
-# COMPACT, HUMAN-READABLE “REASON WHY”
+# Compact, human-readable REASON
 # =============================================================================
 
 def gnum(g: Graph, s: str, p: str) -> Optional[float]:
@@ -701,7 +719,6 @@ def gstr(g: Graph, s: str, p: str) -> Optional[str]:
     return None
 
 def build_compact_reason(g: Graph, env: Dict[str, Any]) -> Dict[str, Any]:
-    """Produce a small narrative with the key inputs, calculations and decisions."""
     payload_kg = gnum(g, "ex:shipment1", "ex:payloadKg")
     d1 = gnum(g, "ex:currentRoute", "ex:distanceKm")
     g1 = gnum(g, "ex:currentRoute", "ex:gradientFactor")
@@ -713,14 +730,14 @@ def build_compact_reason(g: Graph, env: Dict[str, Any]) -> Dict[str, Any]:
     comfort1 = gnum(g, "ex:currentRoute", "ex:comfortIndex")
     comfort2 = gnum(g, "ex:altRoute", "ex:comfortIndex")
     suggested = gstr(g, "ex:insight1", "ex:suggestRoute")
-    depot = gstr(g, "ex:insight1", "ex:showEcoBanner")
+    depot = gstr(g, "ex:insight1", "ex:showEcoBanner") or env.get("ex:audience")
 
     wton = (payload_kg/1000.0) if payload_kg is not None else None
     saving = (fi1 - fi2) if (fi1 is not None and fi2 is not None) else None
 
     return {
         "inputs": {
-            "audience": depot or env.get("ex:audience"),
+            "audience": depot,
             "payloadKg": payload_kg,
             "payloadTon": round(wton, 4) if wton is not None else None,
             "currentRoute": {"distanceKm": d1, "gradientFactor": g1},
@@ -728,18 +745,12 @@ def build_compact_reason(g: Graph, env: Dict[str, Any]) -> Dict[str, Any]:
             "policyThreshold": t
         },
         "calculation": {
-            "fuelIndex": {
-                "current": fi1,
-                "alternative": fi2
-            },
-            "comfortIndex": {
-                "current": comfort1,
-                "alternative": comfort2
-            },
+            "fuelIndex": {"current": fi1, "alternative": fi2},
+            "comfortIndex": {"current": comfort1, "alternative": comfort2},
             "saving": saving
         },
         "decisions": [
-            f"Show eco banner at {depot or env.get('ex:audience')} because {fi1:.2f} > threshold {t:.2f}.",
+            f"Show eco banner at {depot} because {fi1:.2f} > threshold {t:.2f}.",
             f"Suggest {suggested} because current {fi1:.2f} > alt {fi2:.2f}.",
             f"Estimated saving ≈ {saving:.2f} (same units as fuelIndex)."
         ]
@@ -766,10 +777,7 @@ def print_reason_compact(reason: Dict[str, Any], g: Graph) -> None:
     if calc['saving'] is not None:
         print(f"  • estimated saving      = {calc['saving']}")
     print("\nDecisions:")
-    for d in dec:
-        print(f"  • {d}")
-
-    # Minimal derived facts snapshot (useful for diffing with EYE)
+    for d in dec: print(f"  • {d}")
     print("\nDerived facts (key subset):")
     focus={"ex:fuelIndex","ex:comfortIndex","ex:showEcoBanner","ex:suggestRoute","ex:estimatedSaving"}
     for (s,p,o) in g.triples():
@@ -777,7 +785,7 @@ def print_reason_compact(reason: Dict[str, Any], g: Graph) -> None:
             print(f"  {s} {p} {o}")
 
 # =============================================================================
-# EYE-learning Outputs: ANSWER / REASON / CHECK
+# EYE-learning Outputs: ANSWER / CHECK
 # =============================================================================
 
 def print_answer(env: Dict[str, Any]) -> None:
@@ -797,7 +805,7 @@ def check_audience(env: Dict[str, Any]) -> Tuple[bool,str]:
     return (env.get("ex:audience")=="ex:DepotX", "audience matches")
 
 def check_expiry(env: Dict[str, Any]) -> Tuple[bool,str]:
-    try: return (parse_iso(env["ex:expiry"])>datetime.now(timezone.utc), "expiry in future")
+    try: return (parse_iso(env["ex:expiry"])>fixed_now(), "expiry in future")
     except Exception: return False, "expiry unparsable"
 
 def check_better(g: Graph) -> Tuple[bool,str]:
@@ -844,6 +852,14 @@ def main() -> None:
     print_reason_compact(reason, g)
     print_checks(run_checks(g, env))
 
-if __name__=="__main__":
+if __name__ == "__main__":
+    # Optional override: --now "YYYY-MM-DDTHH:MM:SSZ"
+    cli_now = None
+    argv = sys.argv[1:]
+    if "--now" in argv:
+        i = argv.index("--now")
+        if i + 1 < len(argv):
+            cli_now = argv[i + 1]
+    set_fixed_now(cli_now)
     main()
 
