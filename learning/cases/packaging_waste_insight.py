@@ -882,7 +882,8 @@ if __name__ == "__main__":
 # =============================================================================
 # • Copy turtle_data() and n3_rules() into EYE to reproduce derivations:
 #     eye --quiet --nope /tmp/data.ttl /tmp/rules.n3 --pass-only-new
-# • Rules use ONLY triple-pattern math:* built-ins.
+# • Rules use ONLY triple-pattern math:* built-ins (sum, difference, product,
+#   quotient, lessThan/greaterThan/notGreaterThan/notLessThan).
 # • Envelope structure is constrained by SHACL (Turtle) and signed (HMAC).
 # • Deterministic clock yields identical output & signature across runs.
 # • References:
