@@ -4,8 +4,19 @@
 Eco-Route Insight — Compact, EYE-compatible demonstrator
 ========================================================
 
-Author: Jos De Roo
-License: MIT
+STORY
+-----
+Jamal pulls out of Depot X with the first run of the morning. The tablet on his dash already knows the basics for this drop: today’s payload, the distance to go, and how hilly the route is. It does a tiny, local calculation—**fuel index = distance × (payloadKg/1000) × gradient factor**—no cloud, no GPS stream. A gentle banner appears: **“Eco opportunity. Lower-fuel route available.”** One tap shows an alternative that shaves the fuel index without messing up timing. Jamal checks traffic and company rules—clear—and takes it. The banner disappears. What leaves the cab isn’t his trace or driving behavior, just a signed **insight slip**: who it’s for (Depot X), what it allows (show an eco nudge), when it expires, plus a couple of compact assertions—current fuel index, suggested route, and the expected saving.
+
+Back at operations, the dispatcher sees a small stack of slips tied to jobs: nudges shown, alternatives accepted, fuel index reduced. No one wrangled driver telemetry or personal data; nothing to deanonymize. Later, an auditor can verify those slips in seconds—audience-scoped, purpose-bound, short-lived, and cryptographically signed. The fleet burned less fuel, hit ETAs, and kept everybody’s privacy intact.
+
+**Benefits at a glance**
+
+* **Driver (Jamal):** clear, timely nudge; low cognitive load; **you stay in control**—take it only if it’s safe and permitted.
+* **Fleet/operations:** lower fuel spend and emissions; consistent policy via a tiny, **auditable** proof (the signed envelope).
+* **IT/Security/Privacy:** data minimization by default; no continuous GPS or behavior data to store—just a small, signed insight.
+* **Customer/shipper:** stable ETAs and greener deliveries without intrusive monitoring or complex data sharing.
+* **Environment & cost:** fewer liters burned → lower CO₂ and real savings across the fleet.
 
 WHAT THIS IS
 ------------
@@ -862,4 +873,21 @@ if __name__ == "__main__":
             cli_now = argv[i + 1]
     set_fixed_now(cli_now)
     main()
+
+# =============================================================================
+# Final comments
+# =============================================================================
+# • Copy turtle_data() and n3_rules() into EYE to reproduce derivations:
+#     eye --quiet --nope /tmp/data.ttl /tmp/rules.n3 --pass-only-new
+# • Rules use ONLY triple-pattern math:* built-ins (sum, difference, product,
+#   quotient, lessThan/greaterThan/notGreaterThan/notLessThan).
+# • Envelope structure is constrained by SHACL (Turtle) and signed (HMAC).
+# • Deterministic clock yields identical output & signature across runs.
+# • References:
+#   - Insight economy (ship the decision, not the data):
+#     https://ruben.verborgh.org/blog/2025/08/12/inside-the-insight-economy/
+#   - Four spec artefacts (vocabulary, profile, interaction, implementation):
+#     https://pietercolpaert.be/interoperability/2025/09/03/four-types-specification-artefacts
+#   - EYE learning guide (N3 with math built-ins):
+#     https://raw.githubusercontent.com/eyereasoner/eye/refs/heads/master/learning/EYE-learning.md
 

@@ -4,8 +4,21 @@
 Packaging Waste Insight — Final, deterministic, EYE-compatible demonstrator
 ===========================================================================
 
-Author: Jos De Roo
-License: MIT
+STORY
+-----
+
+Lina slides a blender into a cardboard box at PackStation Z. The station’s tablet already knows the item’s dimensions and the inner size of the box she grabbed. It does a tiny, local calculation—no photos, no cloud, no item catalogue—just **waste % = ((box volume − item volume) / box volume) × 100**. A soft banner lights up: **“Packaging waste high. Tighter box available.”** One tap shows an alternative carton that still leaves safe padding. Lina checks the stack beside her—there it is—and swaps the box. The banner fades. What leaves the device isn’t the product size or order details, just a signed **insight slip**: who it’s for (PackStation Z), what it allows (show a packaging nudge), when it expires, and two compact assertions—current waste %, and the expected reduction if the tighter box is used.
+
+End of shift, the floor lead reviews a handful of slips attached to jobs: nudges shown, alternatives taken, void reduced—policy followed. No one had to collect item geometry or customer IDs; nothing to re-identify. An auditor later verifies the slips in seconds: audience-scoped, purpose-bound, short-lived, and cryptographically signed. Fewer air-filled boxes left the building, and customers still got safely packed goods—minus the unnecessary filler.
+
+**Benefits at a glance**
+
+* **Packer (Lina):** clear nudge at the right moment; less guesswork; you stay in control—only switch if it’s practical and safe.
+* **Operations:** lower material spend and DIM-weight shipping costs; consistent policy enforcement with compact, auditable evidence.
+* **Sustainability/Compliance:** measurable void reduction without collecting sensitive product/order data; easier reporting.
+* **IT/Security:** data minimization by default; only a small, signed **insight envelope** is stored—not raw dimensions or customer info.
+* **Customer:** snug, protective packaging with less filler; better unboxing experience.
+* **Environment & cost:** fewer oversized cartons and fillers → less waste, lower transport emissions, and real savings.
 
 WHAT THIS IS (high level)
 -------------------------
