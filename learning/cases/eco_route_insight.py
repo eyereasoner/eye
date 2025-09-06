@@ -127,10 +127,10 @@ def stable_json(x: Any) -> str:
     return json.dumps(x, sort_keys=True, separators=(",", ":"))
 
 # =============================================================================
-# Vocabulary — Pieter’s artefact #1
+# Vocabulary (Turtle) — Pieter’s artefact #1
 # =============================================================================
 
-def vocabulary() -> str:
+def vocabulary_turtle() -> str:
     return f"""@prefix ex:   <http://example.org/> .
 @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -228,7 +228,7 @@ ex:signature  a owl:DatatypeProperty ; rdfs:label "signature" ;
 """
 
 # =============================================================================
-# Application profile (SHACL) — Pieter’s artefact #2
+# SHACL (Turtle) — application profile for the envelope — Pieter’s artefact #2
 # =============================================================================
 
 def shacl_turtle() -> str:
@@ -285,7 +285,7 @@ ex:EnvSignatureShape sh:datatype xsd:string .
 """
 
 # =============================================================================
-# Turtle data (with @prefix) — copy/pasteable into EYE
+# Turtle data — copy/pasteable into EYE
 # =============================================================================
 
 def turtle_data() -> str:
@@ -317,7 +317,7 @@ ex:policy ex:fuelIndexThreshold 120.0 .
 """
 
 # =============================================================================
-# N3 rules (with @prefix) — triple patterns only, math:* built-ins
+# N3 rules — triple patterns only, math:* built-ins
 # =============================================================================
 
 def n3_rules() -> str:

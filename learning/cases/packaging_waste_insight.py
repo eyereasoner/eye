@@ -114,7 +114,177 @@ def stable_json(x: Any) -> str:
     return json.dumps(x, sort_keys=True, separators=(",", ":"))
 
 # =============================================================================
-# Turtle data (with @prefix) — copy/pasteable into EYE
+# Vocabulary (Turtle) — Pieter’s artefact #1
+# =============================================================================
+
+def vocabulary() -> str:
+    return """@prefix ex:   <http://example.org/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+# CLASSES
+ex:PackStation a rdfs:Class ; rdfs:label "PackStation" ; rdfs:comment "Workstation for packing." .
+ex:Item        a rdfs:Class ; rdfs:label "Item" ; rdfs:comment "Product being packed." .
+ex:Pack        a rdfs:Class ; rdfs:label "Pack" ; rdfs:comment "Box/carton used for packing." .
+ex:ScanEvent   a rdfs:Class ; rdfs:label "ScanEvent" ; rdfs:comment "Local event that triggers reasoning." .
+ex:Policy      a rdfs:Class ; rdfs:label "Policy" ; rdfs:comment "Local configuration parameters." .
+ex:Insight     a rdfs:Class ; rdfs:label "Insight" ; rdfs:comment "Derived, actionable fact." .
+ex:Envelope    a rdfs:Class ; rdfs:label "Envelope" ; rdfs:comment "Signed, audience-bound insight wrapper." .
+
+# SCAN LINKS
+ex:atStation a owl:ObjectProperty ; rdfs:label "at station" ;
+  rdfs:domain ex:ScanEvent ; rdfs:range ex:PackStation ;
+  rdfs:comment "Scan performed at given packing station." .
+
+ex:usesPack  a owl:ObjectProperty ; rdfs:label "uses pack" ;
+  rdfs:domain ex:ScanEvent ; rdfs:range ex:Pack ;
+  rdfs:comment "Box currently selected for packing." .
+
+ex:forItem   a owl:ObjectProperty ; rdfs:label "for item" ;
+  rdfs:domain ex:ScanEvent ; rdfs:range ex:Item ;
+  rdfs:comment "Item being packed at the scan." .
+
+ex:atTime    a owl:DatatypeProperty ; rdfs:label "at time" ;
+  rdfs:domain ex:ScanEvent ; rdfs:range xsd:dateTime ;
+  rdfs:comment "Timestamp of the scan." .
+
+# ITEM & PACK GEOMETRY
+ex:lengthCm a owl:DatatypeProperty ; rdfs:label "length (cm)" ;
+  rdfs:domain ex:Item ; rdfs:range xsd:decimal .
+
+ex:widthCm  a owl:DatatypeProperty ; rdfs:label "width (cm)" ;
+  rdfs:domain ex:Item ; rdfs:range xsd:decimal .
+
+ex:heightCm a owl:DatatypeProperty ; rdfs:label "height (cm)" ;
+  rdfs:domain ex:Item ; rdfs:range xsd:decimal .
+
+ex:internalLengthCm a owl:DatatypeProperty ; rdfs:label "internal length (cm)" ;
+  rdfs:domain ex:Pack ; rdfs:range xsd:decimal .
+
+ex:internalWidthCm  a owl:DatatypeProperty ; rdfs:label "internal width (cm)" ;
+  rdfs:domain ex:Pack ; rdfs:range xsd:decimal .
+
+ex:internalHeightCm a owl:DatatypeProperty ; rdfs:label "internal height (cm)" ;
+  rdfs:domain ex:Pack ; rdfs:range xsd:decimal .
+
+# DERIVED METRICS
+ex:itemVolume a owl:DatatypeProperty ; rdfs:label "item volume (cm³)" ;
+  rdfs:domain ex:Item ; rdfs:range xsd:decimal ;
+  rdfs:comment "length × width × height (item)." .
+
+ex:packVolume a owl:DatatypeProperty ; rdfs:label "pack volume (cm³)" ;
+  rdfs:domain ex:Pack ; rdfs:range xsd:decimal ;
+  rdfs:comment "internalLength × internalWidth × internalHeight." .
+
+ex:wastePct a owl:DatatypeProperty ; rdfs:label "waste (%)" ;
+  rdfs:domain ex:Pack ; rdfs:range xsd:decimal ;
+  rdfs:comment "((packVolume − itemVolume) / packVolume) × 100." .
+
+ex:protectionIndex a owl:DatatypeProperty ; rdfs:label "protection index (cm)" ;
+  rdfs:domain ex:Pack ; rdfs:range xsd:decimal ;
+  rdfs:comment "Sum of extra padding along all dimensions." .
+
+# POLICY
+ex:wasteThresholdPct a owl:DatatypeProperty ; rdfs:label "waste threshold (%)" ;
+  rdfs:domain ex:Policy ; rdfs:range xsd:decimal .
+
+# INSIGHT OUTPUT
+ex:showPackagingBanner a owl:ObjectProperty ; rdfs:label "show packaging banner" ;
+  rdfs:domain ex:Insight ; rdfs:range ex:PackStation ;
+  rdfs:comment "UI nudge audience: where to show the banner." .
+
+ex:suggestPack a owl:ObjectProperty ; rdfs:label "suggest pack" ;
+  rdfs:domain ex:Insight ; rdfs:range ex:Pack ;
+  rdfs:comment "Suggested alternative pack if better." .
+
+ex:estimatedVoidPctReduction a owl:DatatypeProperty ; rdfs:label "estimated void reduction (%)" ;
+  rdfs:domain ex:Insight ; rdfs:range xsd:decimal .
+
+# ENVELOPE FIELDS
+ex:audience   a owl:ObjectProperty ; rdfs:label "audience" ;
+  rdfs:domain ex:Envelope ; rdfs:range rdfs:Resource ;
+  rdfs:comment "IRI of who may consume this envelope." .
+
+ex:allowedUse a owl:DatatypeProperty ; rdfs:label "allowed use" ;
+  rdfs:domain ex:Envelope ; rdfs:range xsd:string ;
+  rdfs:comment "Purpose/policy tag (e.g., ui.packaging.banner)." .
+
+ex:issuedAt   a owl:DatatypeProperty ; rdfs:label "issued at" ;
+  rdfs:domain ex:Envelope ; rdfs:range xsd:dateTime .
+
+ex:expiry     a owl:DatatypeProperty ; rdfs:label "expiry" ;
+  rdfs:domain ex:Envelope ; rdfs:range xsd:dateTime .
+
+ex:assertions a owl:DatatypeProperty ; rdfs:label "assertions (JSON)" ;
+  rdfs:domain ex:Envelope ; rdfs:range xsd:string ;
+  rdfs:comment "Compact JSON string of actionable assertions." .
+
+ex:signature  a owl:DatatypeProperty ; rdfs:label "signature" ;
+  rdfs:domain ex:Envelope ; rdfs:range xsd:string ;
+  rdfs:comment "Detached/base64url signature over the envelope." .
+"""
+
+# =============================================================================
+# SHACL (Turtle) — application profile for the envelope — Pieter’s artefact #2
+# =============================================================================
+
+def shacl_turtle() -> str:
+    return """@prefix ex:  <http://example.org/> .
+@prefix sh:  <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Envelope must include audience, allowedUse, issuedAt, expiry, assertions, signature.
+ex:EnvelopeShape rdf:type sh:NodeShape .
+ex:EnvelopeShape sh:targetClass ex:Envelope .
+ex:EnvelopeShape sh:property ex:EnvAudienceShape .
+ex:EnvelopeShape sh:property ex:EnvAllowedUseShape .
+ex:EnvelopeShape sh:property ex:EnvIssuedAtShape .
+ex:EnvelopeShape sh:property ex:EnvExpiryShape .
+ex:EnvelopeShape sh:property ex:EnvAssertionsShape .
+ex:EnvelopeShape sh:property ex:EnvSignatureShape .
+
+# audience MUST be an IRI (qname here)
+ex:EnvAudienceShape rdf:type sh:PropertyShape .
+ex:EnvAudienceShape sh:path ex:audience .
+ex:EnvAudienceShape sh:minCount 1 .
+ex:EnvAudienceShape sh:nodeKind sh:IRI .
+
+# allowedUse MUST be a string
+ex:EnvAllowedUseShape rdf:type sh:PropertyShape .
+ex:EnvAllowedUseShape sh:path ex:allowedUse .
+ex:EnvAllowedUseShape sh:minCount 1 .
+ex:EnvAllowedUseShape sh:datatype xsd:string .
+
+# issuedAt MUST be xsd:dateTime
+ex:EnvIssuedAtShape rdf:type sh:PropertyShape .
+ex:EnvIssuedAtShape sh:path ex:issuedAt .
+ex:EnvIssuedAtShape sh:minCount 1 .
+ex:EnvIssuedAtShape sh:datatype xsd:dateTime .
+
+# expiry MUST be xsd:dateTime
+ex:EnvExpiryShape rdf:type sh:PropertyShape .
+ex:EnvExpiryShape sh:path ex:expiry .
+ex:EnvExpiryShape sh:minCount 1 .
+ex:EnvExpiryShape sh:datatype xsd:dateTime .
+
+# assertions is JSON (string) for portability
+ex:EnvAssertionsShape rdf:type sh:PropertyShape .
+ex:EnvAssertionsShape sh:path ex:assertions .
+ex:EnvAssertionsShape sh:minCount 1 .
+ex:EnvAssertionsShape sh:datatype xsd:string .
+
+# signature MUST be present (b64url HMAC here)
+ex:EnvSignatureShape rdf:type sh:PropertyShape .
+ex:EnvSignatureShape sh:path ex:signature .
+ex:EnvSignatureShape sh:minCount 1 .
+ex:EnvSignatureShape sh:datatype xsd:string .
+"""
+
+# =============================================================================
+# Turtle data — copy/pasteable into EYE
 # =============================================================================
 
 def turtle_data() -> str:
@@ -153,7 +323,7 @@ ex:policy ex:wasteThresholdPct 50.0 .
 """
 
 # =============================================================================
-# N3 rules (with @prefix) — triple patterns only, math:* built-ins
+# N3 rules — triple patterns only, math:* built-ins
 # =============================================================================
 
 def n3_rules() -> str:
@@ -266,63 +436,6 @@ def n3_rules() -> str:
 {
   ?P ex:protectionIndex ?padSum .
 } .
-"""
-
-# =============================================================================
-# SHACL (Turtle) — application profile for the envelope
-# =============================================================================
-
-def shacl_turtle() -> str:
-    return """@prefix ex:  <http://example.org/> .
-@prefix sh:  <http://www.w3.org/ns/shacl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-# Envelope must include audience, allowedUse, issuedAt, expiry, assertions, signature.
-ex:EnvelopeShape rdf:type sh:NodeShape .
-ex:EnvelopeShape sh:targetClass ex:Envelope .
-ex:EnvelopeShape sh:property ex:EnvAudienceShape .
-ex:EnvelopeShape sh:property ex:EnvAllowedUseShape .
-ex:EnvelopeShape sh:property ex:EnvIssuedAtShape .
-ex:EnvelopeShape sh:property ex:EnvExpiryShape .
-ex:EnvelopeShape sh:property ex:EnvAssertionsShape .
-ex:EnvelopeShape sh:property ex:EnvSignatureShape .
-
-# audience MUST be an IRI (qname here)
-ex:EnvAudienceShape rdf:type sh:PropertyShape .
-ex:EnvAudienceShape sh:path ex:audience .
-ex:EnvAudienceShape sh:minCount 1 .
-ex:EnvAudienceShape sh:nodeKind sh:IRI .
-
-# allowedUse MUST be a string
-ex:EnvAllowedUseShape rdf:type sh:PropertyShape .
-ex:EnvAllowedUseShape sh:path ex:allowedUse .
-ex:EnvAllowedUseShape sh:minCount 1 .
-ex:EnvAllowedUseShape sh:datatype xsd:string .
-
-# issuedAt MUST be xsd:dateTime
-ex:EnvIssuedAtShape rdf:type sh:PropertyShape .
-ex:EnvIssuedAtShape sh:path ex:issuedAt .
-ex:EnvIssuedAtShape sh:minCount 1 .
-ex:EnvIssuedAtShape sh:datatype xsd:dateTime .
-
-# expiry MUST be xsd:dateTime
-ex:EnvExpiryShape rdf:type sh:PropertyShape .
-ex:EnvExpiryShape sh:path ex:expiry .
-ex:EnvExpiryShape sh:minCount 1 .
-ex:EnvExpiryShape sh:datatype xsd:dateTime .
-
-# assertions is JSON (string) for portability
-ex:EnvAssertionsShape rdf:type sh:PropertyShape .
-ex:EnvAssertionsShape sh:path ex:assertions .
-ex:EnvAssertionsShape sh:minCount 1 .
-ex:EnvAssertionsShape sh:datatype xsd:string .
-
-# signature MUST be present (b64url HMAC here)
-ex:EnvSignatureShape rdf:type sh:PropertyShape .
-ex:EnvSignatureShape sh:path ex:signature .
-ex:EnvSignatureShape sh:minCount 1 .
-ex:EnvSignatureShape sh:datatype xsd:string .
 """
 
 # =============================================================================
