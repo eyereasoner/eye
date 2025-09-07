@@ -1,0 +1,60 @@
+================================================================================
+ANSWER (Actionable Insight Envelope)
+================================================================================
+{
+  "@type": "ex:Envelope",
+  "ex:allowedUse": "ui.clinic.thaw-banner",
+  "ex:assertions": "[{\"type\":\"ex:showThawBanner\",\"value\":true},{\"type\":\"ex:suggestPlan\",\"value\":\"ex:microThaw\"},{\"type\":\"ex:riskIndex\",\"value\":1.6666666666666665},{\"type\":\"ex:estimatedRiskReduction\",\"value\":1.6666666666666665}]",
+  "ex:audience": "ex:ClinicB",
+  "ex:expiry": "2025-01-01T11:00:00+00:00",
+  "ex:issuedAt": "2025-01-01T09:00:00+00:00",
+  "ex:signature": "IYS0rk0SGrCDJg0j0aXpvij8SVv45yXQ08xMah3VFQU"
+}
+
+================================================================================
+REASON (compact, human-readable)
+================================================================================
+Inputs:
+  • Audience: ex:ClinicB
+  • Current plan: thawed 40.0; expected 30.0; since thaw 60.0 min; shelf life 360.0 min
+  • Micro-thaw:   thawed 30.0; expected 30.0; since thaw 30.0 min; shelf life 360.0 min
+  • Policy: risk threshold 1.0; min ready doses 20.0
+
+Computation:
+  • riskIndex(current)  = 1.6666666666666665
+  • riskIndex(microThaw)= 0.0
+  • doseBuffer(current)  = 10.0
+  • doseBuffer(microThaw)= 0.0
+  • timeRemaining(current)  = 300.0 min
+  • timeRemaining(microThaw)= 330.0 min
+  • estimated risk reduction = 1.6666666666666665
+
+Decisions:
+  • Show thaw banner at ex:ClinicB because 1.67 > threshold 1.00.
+  • Suggest ex:microThaw because current 1.67 > microThaw 0.00 and thawed 30 ≥ min ready 20.
+  • Estimated risk reduction ≈ 1.67.
+
+Derived facts (key subset):
+  ex:currentPlan ex:doseBuffer 10.0
+  ex:currentPlan ex:timeRemainingMin 300.0
+  ex:microThaw ex:doseBuffer 0.0
+  ex:microThaw ex:timeRemainingMin 330.0
+  ex:currentPlan ex:riskIndex 1.6666666666666665
+  ex:microThaw ex:riskIndex 0.0
+  ex:insight1 rdf:type ex:Insight
+  ex:insight1 ex:showThawBanner ex:ClinicB
+  ex:insight1 ex:riskIndex 1.6666666666666665
+  ex:insight1 ex:suggestPlan ex:microThaw
+  ex:insight1 ex:estimatedRiskReduction 1.6666666666666665
+
+================================================================================
+CHECK (Self-verifying harness)
+================================================================================
+[PASS] no_sensitive: no sensitive keys
+[PASS] signature: signature verifies
+[PASS] audience: audience matches
+[PASS] expiry: expiry in future
+[PASS] suggestion_better: microThaw lower risk: 1.67 → 0.00
+[PASS] shacl: SHACL valid
+
+OVERALL: PASS
