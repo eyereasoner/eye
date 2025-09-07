@@ -1,0 +1,56 @@
+================================================================================
+ANSWER (Actionable Insight Envelope)
+================================================================================
+{
+  "@type": "ex:Envelope",
+  "ex:allowedUse": "ui.water.leak-banner",
+  "ex:assertions": "[{\"type\":\"ex:showLeakBanner\",\"value\":true},{\"type\":\"ex:suggestOperation\",\"value\":\"ex:stepTest\"},{\"type\":\"ex:lossIndex\",\"value\":1000.0},{\"type\":\"ex:estimatedLossReduction\",\"value\":650.0}]",
+  "ex:audience": "ex:DMA17",
+  "ex:expiry": "2025-01-01T12:00:00+00:00",
+  "ex:issuedAt": "2025-01-01T09:00:00+00:00",
+  "ex:signature": "QCRb4Wl0Cg3M1bC8FfSAdfrbL7qAruw027hhHve9R_k"
+}
+
+================================================================================
+REASON (compact, human-readable)
+================================================================================
+Inputs:
+  • Audience: ex:DMA17
+  • Current op: inflow 1200.0 L/min; demand 1000.0 L/min; pressure 5.0 bar
+  • Step test:  inflow 1100.0 L/min; demand 1000.0 L/min; pressure 3.5 bar
+  • Loss threshold: 600.0; min service pressure: 3.0 bar
+
+Computation:
+  • lossIndex(current) = 1000.0
+  • lossIndex(stepTest)= 350.0
+  • serviceBuffer(current) = 2.0 bar
+  • serviceBuffer(stepTest)= 0.5 bar
+  • estimated loss reduction = 650.0
+
+Decisions:
+  • Show leak banner at ex:DMA17 because 1000.00 > threshold 600.00.
+  • Suggest ex:stepTest because current 1000.00 > stepTest 350.00.
+  • Estimated loss reduction ≈ 650.00.
+
+Derived facts (key subset):
+  ex:currentOp ex:serviceBufferBar 2.0
+  ex:stepTest ex:serviceBufferBar 0.5
+  ex:currentOp ex:lossIndex 1000.0
+  ex:stepTest ex:lossIndex 350.0
+  ex:insight1 rdf:type ex:Insight
+  ex:insight1 ex:showLeakBanner ex:DMA17
+  ex:insight1 ex:lossIndex 1000.0
+  ex:insight1 ex:suggestOperation ex:stepTest
+  ex:insight1 ex:estimatedLossReduction 650.0
+
+================================================================================
+CHECK (Self-verifying harness)
+================================================================================
+[PASS] no_sensitive: no sensitive keys
+[PASS] signature: signature verifies
+[PASS] audience: audience matches
+[PASS] expiry: expiry in future
+[PASS] suggestion_better: stepTest better: 1000.00 → 350.00
+[PASS] shacl: SHACL valid
+
+OVERALL: PASS

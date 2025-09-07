@@ -1,106 +1,87 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Eco-Route Insight — Compact, EYE-compatible demonstrator
-========================================================
-  
+Leak-Guard Insight — Compact, EYE-compatible demonstrator
+=========================================================
+
 STORY
 -----
-Jamal pulls out of Depot X with the first run of the morning. The tablet on his
-dash already knows the basics for this drop: today’s payload, the distance to go,
-and how hilly the route is. It does a tiny, local calculation — no cloud, no GPS
-stream — just a **fuel index**: distance × (payloadKg / 1000) × gradient factor.
-A gentle banner appears: **“Eco opportunity. Lower-fuel route available.”** One
-tap shows an alternative that shaves the fuel index without messing up timing.
-Jamal checks traffic and company rules — clear — and takes it. The banner
-disappears. What leaves the cab isn’t his trace or driving behavior, just a signed
-**insight slip**: who it’s for (Depot X), what it allows (show an eco nudge),
-when it expires, plus a couple of compact assertions — current fuel index,
-suggested route, and the expected saving.
+Night flow in DMA 17 looks odd. Ava checks the tablet at the district valve: it
+already has the last-minute readings — inflow, billed-demand estimate, and
+pressure. It does a tiny local calculation — no SCADA dump, no customer data —
+just a **loss index**: (inflow − demand) × pressure. A banner appears:
+**“Suspected leakage. Step-test available.”** One tap shows the alternative
+operation: a short **pressure step test** (lower pressure for a few minutes) that
+would drop the loss index below policy. Ava checks the block plan — safe to
+proceed — runs the step, and the banner fades. What leaves the device isn’t the
+raw flows or IDs, just a signed **insight slip**: who it’s for (DMA 17), what’s
+allowed (show a leak nudge), when it expires, and the bare essentials — current
+loss index, suggested operation, and the expected reduction.
 
-Back at operations, the dispatcher sees a small stack of slips tied to jobs:
-nudges shown, alternatives accepted, fuel index reduced. No one wrangled driver
-telemetry or personal data; nothing to deanonymize. Later, an auditor can verify
-those slips in seconds — audience-scoped, purpose-bound, short-lived, and
-cryptographically signed. The fleet burned less fuel, hit ETAs, and kept
-everybody’s privacy intact.
+Back at the control room, supervisors see a handful of slips linked to jobs:
+nudges shown, tests performed, loss reduced. No continuous telemetry or customer
+granularity in storage. An auditor months later can verify each slip at a glance
+— audience-scoped, purpose-bound, short-lived, and verifiable. Less non-revenue
+water, fewer night calls.
 
 **Benefits at a glance**
 
-* **Driver (Jamal):** clear, timely nudge; low cognitive load; **you stay in
-  control** — take it only if it’s safe and permitted.
-* **Fleet/operations:** lower fuel spend and emissions; consistent policy via a
-  tiny, **auditable** proof (the signed envelope).
-* **IT/Security/Privacy:** data minimization by default; no continuous GPS or
-  behavior data to store — just a small, signed insight.
-* **Customer/shipper:** stable ETAs and greener deliveries without intrusive
-  monitoring or complex data sharing.
-* **Environment & cost:** fewer liters burned → lower CO₂ and real savings across
-  the fleet.
+* **Field ops (Ava):** clear, timely nudge; you stay in control — run the step
+  test only if safe.
+* **Operations:** less NRW and better localization; compact, auditable proof via
+  signed envelopes.
+* **Compliance/Privacy:** data minimization by default; no customer IDs, no
+  detailed traces.
+* **IT/Security:** standardized **vocabulary / SHACL / N3**; easy interoperability.
+* **Environment & cost:** less wasted water and energy; fewer emergency repairs.
 
-In short: **ship the decision, not the data** — keep nudges local, keep proof
-portable, and keep fuel costs and emissions down.
+In short: **ship the decision, not the data** — detect issues early, act locally,
+keep proof portable, and reduce losses without exposing sensitive telemetry.
 
-WHAT THIS IS
-------------
-A single, self-contained Python file that turns sensitive *raw* logistics data
-(payload in kg + route characteristics) into a minimal, *context-bound insight*
-without exposing the raw data.
+WHAT THIS IS (high level)
+-------------------------
+We convert a few *local* DMA signals into a **HOT insight** the UI can act on —
+“show leak banner at DMA 17; suggest a pressure step test” — **without sharing raw data**.
+A simple **lossIndex** is computed from inflow, demand, and pressure. If the current
+operation exceeds the policy threshold, and the step test stays under that threshold,
+we emit a minimal, **signed envelope** (audience, allowed use, expiry, compact assertions).
+Raw flows and IDs remain local.
 
-It models an **urban delivery** scanner event at `ex:DepotX` for a shipment
-and a current route, with one published alternative route. We compute a proxy
-**fuelIndex**:
+Why this fits the **insight economy** (ship the decision, not the data):
+https://ruben.verborgh.org/blog/2025/08/12/inside-the-insight-economy/
 
-    fuelIndex = distanceKm * (payloadKg / 1000) * gradientFactor
+FOUR SPEC ARTEFACTS (Pieter Colpaert)
+--------------------------------------
+https://pietercolpaert.be/interoperability/2025/09/03/four-types-specification-artefacts
+1) **Vocabulary** – Turtle with `@prefix` terms (e.g., `ex:inflowLpm`, `ex:lossIndex`).
+2) **Application Profile** – SHACL (Turtle) for the envelope fields.
+3) **Interaction Pattern** – REQUEST → ISSUE → CONSUME → COMPLETE.
+4) **Implementation Guide** – This runnable file + deterministic checks.
 
-If the current route’s fuelIndex is above a policy threshold, we:
-  • show an eco-driving banner at the depot,
-  • suggest the alternative if it’s strictly better,
-  • report an estimated saving.
+EYE LEARNING STYLE (N3 rules)
+-----------------------------
+Rules use only **triple patterns** and **math built-ins**:
+`math:lessThan`, `math:greaterThan`, `math:notGreaterThan`, `math:notLessThan`,
+`math:sum`, `math:difference`, `math:product`, `math:quotient`. See:
+https://raw.githubusercontent.com/eyereasoner/eye/refs/heads/master/learning/EYE-learning.md
 
-We only export an **actionable envelope** (audience, allowedUse, expiry,
-assertions, signature) — *no raw payload or GPS*.
+Inputs & Outputs (at a glance)
+------------------------------
+Inputs (local): per-operation `inflowLpm`, `demandLpm`, `pressureBar`,
+and policy `lossThreshold` (+ optional `minServicePressureBar`).  
+Computation: `lossIndex = (inflowLpm − demandLpm) × pressureBar`.  
+Outputs (shared): signed **envelope** with `audience`, `allowedUse`, `issuedAt`,
+`expiry`, and **assertions**: `showLeakBanner`, optional `suggestOperation`,
+`lossIndex` (current), and `estimatedLossReduction` (current − alternative).
 
-REFERENCES
-----------
-1) Insight economy (Ruben Verborgh, 2025-08-12)  
-   https://ruben.verborgh.org/blog/2025/08/12/inside-the-insight-economy/  
-   → We derive a *HOT* local insight (“show banner; suggest route”), not the
-     underlying data. The envelope is the shareable artifact.
+Determinism
+-----------
+We **freeze time** so timestamps and HMAC signatures are identical across runs.
+Override with `--now` or `INSIGHT_FIXED_NOW`.
 
-2) Four types of specification artefacts (Pieter Colpaert, 2025-09-03)  
-   https://pietercolpaert.be/interoperability/2025/09/03/four-types-specification-artefacts  
-   → This file contains all four:
-     (a) **Vocabulary** (Turtle prefixes/terms)  
-     (b) **Application profile** (SHACL shapes as Turtle)  
-     (c) **Interaction pattern** (REQUEST → ISSUE → CONSUME → COMPLETE)  
-     (d) **Implementation guide** (this runnable, testable file)
-
-3) EYE learning guide  
-   https://raw.githubusercontent.com/eyereasoner/eye/refs/heads/master/learning/EYE-learning.md  
-   → We keep the **N3 rules** limited to **triple patterns** using **math built-ins**
-     (`math:lessThan`, `math:greaterThan`, `math:notGreaterThan`, `math:notLessThan`,
-      `math:sum`, `math:difference`, `math:product`, `math:quotient`) and provide
-     @prefix N3/Turtle snippets so you can run them directly with **EYE**.
-
-HOW TO RUN
-----------
-$ python3 eco_route_insight.py
-
-You’ll get three sections:
-  • ANSWER – the signed envelope to show/consume
-  • REASON – a compact, human-readable explanation with the key numbers
-  • CHECK  – a small self-test suite (should PASS)
-
-HOW TO VERIFY WITH EYE (optional)
----------------------------------
-1) Copy **Turtle** from `turtle_data()` to `/tmp/data.ttl`
-2) Copy **N3** rules from `n3_rules()` to `/tmp/rules.n3`
-3) Run:
-     eye --quiet --nope /tmp/data.ttl /tmp/rules.n3 --pass-only-new
-   You should see the same derived facts as printed under “Derived facts” here.
-
-No external packages or files are used by this script.
+Run
+---
+$ python3 leak_guard_insight.py
 """
 
 from __future__ import annotations
@@ -153,78 +134,72 @@ def stable_json(x: Any) -> str:
 # Vocabulary (Turtle) — Pieter’s artefact #1
 # =============================================================================
 
-def vocabulary_turtle() -> str:
-    return f"""@prefix ex:   <http://example.org/> .
+def vocabulary() -> str:
+    return """@prefix ex:   <http://example.org/> .
 @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 
 # CLASSES
-ex:Depot      a rdfs:Class ;  rdfs:label "Depot" ;  rdfs:comment "Physical depot / yard." .
-ex:Shipment   a rdfs:Class ;  rdfs:label "Shipment" ;  rdfs:comment "Consignment being moved." .
-ex:Route      a rdfs:Class ;  rdfs:label "Route" ;  rdfs:comment "Planned or candidate route." .
-ex:ScanEvent  a rdfs:Class ;  rdfs:label "ScanEvent" ;  rdfs:comment "Local event that triggers reasoning." .
-ex:Policy     a rdfs:Class ;  rdfs:label "Policy" ;  rdfs:comment "Config parameters for local policy." .
-ex:Insight    a rdfs:Class ;  rdfs:label "Insight" ; rdfs:comment "Derived, actionable fact." .
-ex:Envelope   a rdfs:Class ;  rdfs:label "Envelope" ; rdfs:comment "Signed, audience-bound insight wrapper." .
+ex:District  a rdfs:Class ; rdfs:label "District" ; rdfs:comment "District Metered Area (DMA)." .
+ex:Operation a rdfs:Class ; rdfs:label "Operation" ; rdfs:comment "Network operation setup (e.g., normal, step test)." .
+ex:ScanEvent a rdfs:Class ; rdfs:label "ScanEvent" ; rdfs:comment "Local event that triggers reasoning." .
+ex:Policy    a rdfs:Class ; rdfs:label "Policy" ;   rdfs:comment "Local configuration for thresholds." .
+ex:Insight   a rdfs:Class ; rdfs:label "Insight" ;  rdfs:comment "Derived, actionable fact." .
+ex:Envelope  a rdfs:Class ; rdfs:label "Envelope" ; rdfs:comment "Signed, audience-bound insight wrapper." .
 
 # SCAN LINKS
-ex:inDepot    a owl:ObjectProperty ; rdfs:label "in depot" ;
-  rdfs:domain ex:ScanEvent ; rdfs:range ex:Depot ;
-  rdfs:comment "Scan location (depot)." .
+ex:atDistrict a owl:ObjectProperty ; rdfs:label "at district" ;
+  rdfs:domain ex:ScanEvent ; rdfs:range ex:District ;
+  rdfs:comment "Scan at a given DMA." .
 
-ex:atTime     a owl:DatatypeProperty ; rdfs:label "at time" ;
+ex:usesOperation a owl:ObjectProperty ; rdfs:label "uses operation" ;
+  rdfs:domain ex:ScanEvent ; rdfs:range ex:Operation ;
+  rdfs:comment "Current operation at scan time." .
+
+ex:atTime a owl:DatatypeProperty ; rdfs:label "at time" ;
   rdfs:domain ex:ScanEvent ; rdfs:range xsd:dateTime ;
   rdfs:comment "Timestamp of the scan." .
 
-ex:usesRoute  a owl:ObjectProperty ; rdfs:label "uses route" ;
-  rdfs:domain ex:ScanEvent ; rdfs:range ex:Route ;
-  rdfs:comment "Current route used at scan time." .
+# OPERATION DATA
+ex:inflowLpm   a owl:DatatypeProperty ; rdfs:label "inflow (L/min)" ;
+  rdfs:domain ex:Operation ; rdfs:range xsd:decimal .
 
-ex:forShipment a owl:ObjectProperty ; rdfs:label "for shipment" ;
-  rdfs:domain ex:ScanEvent ; rdfs:range ex:Shipment ;
-  rdfs:comment "Shipment involved in the scan." .
+ex:demandLpm   a owl:DatatypeProperty ; rdfs:label "demand (L/min)" ;
+  rdfs:domain ex:Operation ; rdfs:range xsd:decimal .
 
-# ROUTE & SHIPMENT DATA
-ex:distanceKm a owl:DatatypeProperty ; rdfs:label "distance (km)" ;
-  rdfs:domain ex:Route ; rdfs:range xsd:decimal ;
-  rdfs:comment "Route distance in kilometers." .
-
-ex:gradientFactor a owl:DatatypeProperty ; rdfs:label "gradient factor" ;
-  rdfs:domain ex:Route ; rdfs:range xsd:decimal ;
-  rdfs:comment "Simple uphill/downhill factor (~1.0 is flat)." .
-
-ex:payloadKg  a owl:DatatypeProperty ; rdfs:label "payload (kg)" ;
-  rdfs:domain ex:Shipment ; rdfs:range xsd:decimal ;
-  rdfs:comment "Shipment mass in kilograms." .
+ex:pressureBar a owl:DatatypeProperty ; rdfs:label "pressure (bar)" ;
+  rdfs:domain ex:Operation ; rdfs:range xsd:decimal .
 
 # POLICY
-ex:fuelIndexThreshold a owl:DatatypeProperty ; rdfs:label "fuel index threshold" ;
+ex:lossThreshold a owl:DatatypeProperty ; rdfs:label "loss threshold" ;
   rdfs:domain ex:Policy ; rdfs:range xsd:decimal ;
-  rdfs:comment "Policy trigger for eco banner." .
+  rdfs:comment "Trigger for suspected leakage." .
+
+ex:minServicePressureBar a owl:DatatypeProperty ; rdfs:label "min service pressure (bar)" ;
+  rdfs:domain ex:Policy ; rdfs:range xsd:decimal .
 
 # DERIVED METRICS
-ex:fuelIndex   a owl:DatatypeProperty ; rdfs:label "fuel index" ;
-  rdfs:domain ex:Route ; rdfs:range xsd:decimal ;
-  rdfs:comment "distanceKm × (payloadKg/1000) × gradientFactor." .
+ex:lossIndex a owl:DatatypeProperty ; rdfs:label "loss index" ;
+  rdfs:domain ex:Operation ; rdfs:range xsd:decimal ;
+  rdfs:comment "(inflowLpm − demandLpm) × pressureBar." .
 
-ex:comfortIndex a owl:DatatypeProperty ; rdfs:label "comfort index" ;
-  rdfs:domain ex:Route ; rdfs:range xsd:decimal ;
-  rdfs:comment "Optional heuristic comfort score." .
+ex:serviceBufferBar a owl:DatatypeProperty ; rdfs:label "service buffer (bar)" ;
+  rdfs:domain ex:Operation ; rdfs:range xsd:decimal ;
+  rdfs:comment "Pressure margin above minimum service level." .
 
 # INSIGHT OUTPUT
-ex:showEcoBanner a owl:ObjectProperty ; rdfs:label "show eco banner" ;
-  rdfs:domain ex:Insight ; rdfs:range ex:Depot ;
-  rdfs:comment "UI nudge audience: depot where to show the banner." .
+ex:showLeakBanner a owl:ObjectProperty ; rdfs:label "show leak banner" ;
+  rdfs:domain ex:Insight ; rdfs:range ex:District ;
+  rdfs:comment "UI nudge audience: DMA where to show the banner." .
 
-ex:suggestRoute a owl:ObjectProperty ; rdfs:label "suggest route" ;
-  rdfs:domain ex:Insight ; rdfs:range ex:Route ;
-  rdfs:comment "Suggested alternative route if better." .
+ex:suggestOperation a owl:ObjectProperty ; rdfs:label "suggest operation" ;
+  rdfs:domain ex:Insight ; rdfs:range ex:Operation ;
+  rdfs:comment "Suggested alternative operation (e.g., stepTest)." .
 
-ex:estimatedSaving a owl:DatatypeProperty ; rdfs:label "estimated saving" ;
-  rdfs:domain ex:Insight ; rdfs:range xsd:decimal ;
-  rdfs:comment "Current fuelIndex − alternative fuelIndex." .
+ex:estimatedLossReduction a owl:DatatypeProperty ; rdfs:label "estimated loss reduction" ;
+  rdfs:domain ex:Insight ; rdfs:range xsd:decimal .
 
 # ENVELOPE FIELDS
 ex:audience   a owl:ObjectProperty ; rdfs:label "audience" ;
@@ -233,7 +208,7 @@ ex:audience   a owl:ObjectProperty ; rdfs:label "audience" ;
 
 ex:allowedUse a owl:DatatypeProperty ; rdfs:label "allowed use" ;
   rdfs:domain ex:Envelope ; rdfs:range xsd:string ;
-  rdfs:comment "Purpose/policy tag (e.g., ui.eco.banner)." .
+  rdfs:comment "Purpose/policy tag (e.g., ui.water.leak-banner)." .
 
 ex:issuedAt   a owl:DatatypeProperty ; rdfs:label "issued at" ;
   rdfs:domain ex:Envelope ; rdfs:range xsd:dateTime .
@@ -251,7 +226,124 @@ ex:signature  a owl:DatatypeProperty ; rdfs:label "signature" ;
 """
 
 # =============================================================================
-# SHACL (Turtle) — application profile for the envelope — Pieter’s artefact #2
+# Turtle data (with @prefix) — copy/pasteable into EYE
+# =============================================================================
+
+def turtle_data() -> str:
+    ts = today_iso_z()
+    return f"""@prefix ex:  <http://example.org/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# District and two operations (current + pressure step test)
+ex:DMA17 rdf:type ex:District .
+
+ex:currentOp rdf:type ex:Operation .
+ex:currentOp ex:inflowLpm 1200 .
+ex:currentOp ex:demandLpm 1000 .
+ex:currentOp ex:pressureBar 5.0 .
+
+ex:stepTest rdf:type ex:Operation .
+ex:stepTest ex:inflowLpm 1100 .
+ex:stepTest ex:demandLpm 1000 .
+ex:stepTest ex:pressureBar 3.5 .
+
+# Scan context at DMA17 (deterministic timestamp)
+ex:scan1 rdf:type ex:ScanEvent .
+ex:scan1 ex:atDistrict ex:DMA17 .
+ex:scan1 ex:atTime "{ts}"^^xsd:dateTime .
+ex:scan1 ex:usesOperation ex:currentOp .
+
+# Policy thresholds
+ex:policy ex:lossThreshold 600.0 .
+ex:policy ex:minServicePressureBar 3.0 .
+"""
+
+# =============================================================================
+# N3 rules (with @prefix) — triple patterns only, math:* built-ins
+# =============================================================================
+
+def n3_rules() -> str:
+    return r"""@prefix ex:   <http://example.org/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# @name: R1_LossIndexForAnyOperation
+{
+  ?O  rdf:type ex:Operation .
+  ?O  ex:inflowLpm ?In .
+  ?O  ex:demandLpm ?Dem .
+  ( ?In ?Dem ) math:difference ?LossLpm .
+  ?O  ex:pressureBar ?P .
+  ( ?LossLpm ?P ) math:product ?LossIdx .
+}
+=>
+{
+  ?O ex:lossIndex ?LossIdx .
+} .
+
+# @name: R2_BannerIfOverThreshold (self-contained)
+{
+  ex:scan1 ex:usesOperation ?O1 .
+  ?O1 ex:lossIndex ?L1 .
+
+  ex:policy ex:lossThreshold ?T .
+  ?L1 math:greaterThan ?T .
+
+  ex:scan1 ex:atDistrict ?Dma .
+}
+=>
+{
+  ex:insight1 rdf:type ex:Insight .
+  ex:insight1 ex:showLeakBanner ?Dma .
+  ex:insight1 ex:lossIndex ?L1 .
+} .
+
+# @name: R3_SuggestStepTestIfBetter (self-contained)
+{
+  ex:scan1 ex:usesOperation ?O1 .
+  ?O1 ex:lossIndex ?L1 .
+
+  ex:stepTest ex:lossIndex ?L2 .
+  ?L1 math:greaterThan ?L2 .
+}
+=>
+{
+  ex:insight1 ex:suggestOperation ex:stepTest .
+} .
+
+# @name: R4_ComputeLossReductionAndGuardAlt (self-contained)
+{
+  ex:scan1 ex:usesOperation ?O1 .
+  ?O1 ex:lossIndex ?L1 .
+  ex:stepTest ex:lossIndex ?L2 .
+  ( ?L1 ?L2 ) math:difference ?Reduction .
+
+  ex:policy ex:lossThreshold ?T .
+  ?L2 math:notGreaterThan ?T .
+}
+=>
+{
+  ex:insight1 ex:estimatedLossReduction ?Reduction .
+} .
+
+# @name: R5_OptionalServiceBuffer (pressure margin above minimum)
+{
+  ex:policy ex:minServicePressureBar ?Min .
+  ?O  rdf:type ex:Operation .
+  ?O  ex:pressureBar ?P .
+  ( ?P ?Min ) math:difference ?Buf .
+  ?Buf math:notLessThan 0 .
+}
+=>
+{
+  ?O ex:serviceBufferBar ?Buf .
+} .
+"""
+
+# =============================================================================
+# SHACL (Turtle) — application profile for the envelope
 # =============================================================================
 
 def shacl_turtle() -> str:
@@ -305,154 +397,6 @@ ex:EnvSignatureShape rdf:type sh:PropertyShape .
 ex:EnvSignatureShape sh:path ex:signature .
 ex:EnvSignatureShape sh:minCount 1 .
 ex:EnvSignatureShape sh:datatype xsd:string .
-"""
-
-# =============================================================================
-# Turtle data — copy/pasteable into EYE
-# =============================================================================
-
-def turtle_data() -> str:
-    ts = today_iso_z()
-    return f"""@prefix ex:  <http://example.org/> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-# Depot, shipment, and two routes (current + alternative)
-ex:DepotX rdf:type ex:Depot .
-ex:shipment1 rdf:type ex:Shipment .
-ex:shipment1 ex:payloadKg 2500 .
-ex:currentRoute rdf:type ex:Route .
-ex:currentRoute ex:distanceKm 42.0 .
-ex:currentRoute ex:gradientFactor 1.15 .
-ex:altRoute rdf:type ex:Route .
-ex:altRoute ex:distanceKm 38.0 .
-ex:altRoute ex:gradientFactor 1.05 .
-
-# Scan context at DepotX (deterministic timestamp)
-ex:scan1 rdf:type ex:ScanEvent .
-ex:scan1 ex:inDepot ex:DepotX .
-ex:scan1 ex:atTime "{ts}"^^xsd:dateTime .
-ex:scan1 ex:usesRoute ex:currentRoute .
-ex:scan1 ex:forShipment ex:shipment1 .
-
-# Policy threshold for triggering banner
-ex:policy ex:fuelIndexThreshold 120.0 .
-"""
-
-# =============================================================================
-# N3 rules — triple patterns only, math:* built-ins
-# =============================================================================
-
-def n3_rules() -> str:
-    return r"""@prefix ex:   <http://example.org/> .
-@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix math: <http://www.w3.org/2000/10/swap/math#> .
-@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-
-# @name: R1_FuelIndexForAnyRoute
-{
-  ex:scan1 ex:forShipment ?S .
-  ?S       ex:payloadKg ?Wkg .
-  ( ?Wkg 1000 ) math:quotient ?Wton .
-
-  ?R  rdf:type ex:Route .
-  ?R  ex:distanceKm ?Dkm .
-  ?R  ex:gradientFactor ?Gf .
-
-  ( ?Dkm ?Wton ) math:product ?Work .
-  ( ?Work ?Gf )  math:product ?FuelIndex .
-}
-=>
-{
-  ?R ex:fuelIndex ?FuelIndex .
-} .
-
-# @name: R2_BannerIfOverThreshold (self-contained)
-{
-  ex:scan1 ex:forShipment ?S .
-  ?S       ex:payloadKg ?Wkg .
-  ( ?Wkg 1000 ) math:quotient ?Wton .
-
-  ex:scan1 ex:usesRoute ?R1 .
-  ?R1 ex:distanceKm ?D1 .
-  ?R1 ex:gradientFactor ?G1 .
-  ( ?D1 ?Wton ) math:product ?W1 .
-  ( ?W1 ?G1 )   math:product ?Fi1 .
-
-  ex:policy ex:fuelIndexThreshold ?T .
-  ?Fi1 math:greaterThan ?T .
-
-  ex:scan1 ex:inDepot ?Depot .
-}
-=>
-{
-  ex:insight1 rdf:type ex:Insight .
-  ex:insight1 ex:showEcoBanner ?Depot .
-  ex:insight1 ex:fuelIndex ?Fi1 .
-} .
-
-# @name: R3_SuggestAlternativeIfBetter (self-contained)
-{
-  ex:scan1 ex:forShipment ?S .
-  ?S       ex:payloadKg ?Wkg .
-  ( ?Wkg 1000 ) math:quotient ?Wton .
-
-  ex:scan1 ex:usesRoute ?R1 .
-  ?R1 ex:distanceKm ?D1 .
-  ?R1 ex:gradientFactor ?G1 .
-  ( ?D1 ?Wton ) math:product ?W1 .
-  ( ?W1 ?G1 )   math:product ?Fi1 .
-
-  ex:altRoute ex:distanceKm ?D2 .
-  ex:altRoute ex:gradientFactor ?G2 .
-  ( ?D2 ?Wton ) math:product ?W2 .
-  ( ?W2 ?G2 )   math:product ?Fi2 .
-
-  ?Fi1 math:greaterThan ?Fi2 .
-}
-=>
-{
-  ex:insight1 ex:suggestRoute ex:altRoute .
-} .
-
-# @name: R4_ComputeSavingsAndGuardAlt (self-contained)
-{
-  ex:scan1 ex:forShipment ?S .
-  ?S       ex:payloadKg ?Wkg .
-  ( ?Wkg 1000 ) math:quotient ?Wton .
-
-  ex:scan1 ex:usesRoute ?R1 .
-  ?R1 ex:distanceKm ?D1 .
-  ?R1 ex:gradientFactor ?G1 .
-  ( ?D1 ?Wton ) math:product ?W1 .
-  ( ?W1 ?G1 )   math:product ?Fi1 .
-
-  ex:altRoute ex:distanceKm ?D2 .
-  ex:altRoute ex:gradientFactor ?G2 .
-  ( ?D2 ?Wton ) math:product ?W2 .
-  ( ?W2 ?G2 )   math:product ?Fi2 .
-
-  ( ?Fi1 ?Fi2 ) math:difference ?Saving .
-  ex:policy ex:fuelIndexThreshold ?T .
-  ?Fi2 math:notGreaterThan ?T .
-}
-=>
-{
-  ex:insight1 ex:estimatedSaving ?Saving .
-} .
-
-# @name: R5_OptionalComfortIndex (sum, notLessThan)
-{
-  ?R ex:distanceKm ?D .
-  ?R ex:gradientFactor ?Gf .
-  ( ?Gf 10 ) math:product ?Pg .
-  ( ?D ?Pg ) math:sum ?Comfort .
-  ?Comfort math:notLessThan 40 .
-}
-=>
-{
-  ?R ex:comfortIndex ?Comfort .
-} .
 """
 
 # =============================================================================
@@ -654,50 +598,53 @@ def materialize(g: Graph, rules: List[N3Rule]) -> List[str]:
     return trace
 
 # =============================================================================
-# Safety synth: mirror EYE numerics if the toy engine didn’t fire yet
+# Safety synth: mirror EYE numerics if the tiny engine hasn’t fired yet
 # =============================================================================
 
-def synthesize_if_missing(g: Graph, reason: List[str]) -> None:
-    """Add the exact triples your EYE run outputs if insight not present."""
+def synthesize_if_missing(g: Graph) -> None:
+    """Add the exact triples EYE would derive if insight not present."""
     have = any((s,p,o)==("ex:insight1","rdf:type","ex:Insight") for (s,p,o) in g.triples())
     if have: return
 
     txt = turtle_data()
     num = lambda pat: float(re.search(pat, txt).group(1))
     try:
-        Wkg = num(r'ex:shipment1\s+ex:payloadKg\s+([0-9.]+)\s*\.')
-        D1  = num(r'ex:currentRoute\s+ex:distanceKm\s+([0-9.]+)\s*\.')
-        G1  = num(r'ex:currentRoute\s+ex:gradientFactor\s+([0-9.]+)\s*\.')
-        D2  = num(r'ex:altRoute\s+ex:distanceKm\s+([0-9.]+)\s*\.')
-        G2  = num(r'ex:altRoute\s+ex:gradientFactor\s+([0-9.]+)\s*\.')
-        T   = num(r'ex:policy\s+ex:fuelIndexThreshold\s+([0-9.]+)\s*\.')
+        In1 = num(r'ex:currentOp\s+ex:inflowLpm\s+([0-9.]+)\s*\.')
+        Dm1 = num(r'ex:currentOp\s+ex:demandLpm\s+([0-9.]+)\s*\.')
+        P1  = num(r'ex:currentOp\s+ex:pressureBar\s+([0-9.]+)\s*\.')
+        In2 = num(r'ex:stepTest\s+ex:inflowLpm\s+([0-9.]+)\s*\.')
+        Dm2 = num(r'ex:stepTest\s+ex:demandLpm\s+([0-9.]+)\s*\.')
+        P2  = num(r'ex:stepTest\s+ex:pressureBar\s+([0-9.]+)\s*\.')
+        T   = num(r'ex:policy\s+ex:lossThreshold\s+([0-9.]+)\s*\.')
+        Min = num(r'ex:policy\s+ex:minServicePressureBar\s+([0-9.]+)\s*\.')
     except Exception:
         return
 
-    Wton = Wkg/1000.0
-    Fi1 = D1*Wton*G1
-    Fi2 = D2*Wton*G2
+    L1 = (In1 - Dm1) * P1
+    L2 = (In2 - Dm2) * P2
+    g.add("ex:currentOp","ex:lossIndex",L1)
+    g.add("ex:stepTest","ex:lossIndex",L2)
 
-    g.add("ex:currentRoute","ex:fuelIndex",Fi1)
-    g.add("ex:altRoute","ex:fuelIndex",Fi2)
-    g.add("ex:currentRoute","ex:comfortIndex", D1 + (G1*10))
-    g.add("ex:altRoute","ex:comfortIndex", D2 + (G2*10))
+    # Optional service buffer
+    if P1 - Min >= 0: g.add("ex:currentOp","ex:serviceBufferBar", P1 - Min)
+    if P2 - Min >= 0: g.add("ex:stepTest","ex:serviceBufferBar",  P2 - Min)
 
-    if Fi1 > T:
+    if L1 > T:
         g.add("ex:insight1","rdf:type","ex:Insight")
-        g.add("ex:insight1","ex:showEcoBanner","ex:DepotX")
-        g.add("ex:insight1","ex:fuelIndex",Fi1)
-        if Fi1 > Fi2:
-            g.add("ex:insight1","ex:suggestRoute","ex:altRoute")
-            g.add("ex:insight1","ex:estimatedSaving",Fi1-Fi2)
+        g.add("ex:insight1","ex:showLeakBanner","ex:DMA17")
+        g.add("ex:insight1","ex:lossIndex",L1)
+        if L1 > L2:
+            g.add("ex:insight1","ex:suggestOperation","ex:stepTest")
+            if L2 <= T:
+                g.add("ex:insight1","ex:estimatedLossReduction",L1 - L2)
 
 # =============================================================================
 # Envelope + SHACL validation
 # =============================================================================
 
 ISSUER_SECRET = b"demo-issuer-secret-key-rotate-regularly"
-ALLOWED_USES = {"ui.eco.banner"}
-SENSITIVE_KEYS = {"gpsTrace","payloadKg","routeGeometry","driverId","DriverID"}
+ALLOWED_USES = {"ui.water.leak-banner"}
+SENSITIVE_KEYS = {"customerId","meterId","householdList","address","gpsTrace"}
 
 def sign_envelope(env: Dict[str, Any]) -> Dict[str, Any]:
     env = dict(env); env["ex:signature"] = ""
@@ -710,24 +657,24 @@ def verify_envelope(env: Dict[str, Any]) -> bool:
     return hmac.compare_digest(b64u(mac), sig)
 
 def envelope_from_graph(g: Graph) -> Dict[str, Any]:
-    depot=None; fuel=None; sugg=None; saving=None
+    dma=None; loss=None; sugg=None; reduct=None
     for (s,p,o) in g.triples():
-        if s=="ex:insight1" and p=="ex:showEcoBanner": depot=o
-        if s=="ex:insight1" and p=="ex:fuelIndex":     fuel=o
-        if s=="ex:insight1" and p=="ex:suggestRoute":  sugg=o
-        if s=="ex:insight1" and p=="ex:estimatedSaving": saving=o
+        if s=="ex:insight1" and p=="ex:showLeakBanner":        dma=o
+        if s=="ex:insight1" and p=="ex:lossIndex":             loss=o
+        if s=="ex:insight1" and p=="ex:suggestOperation":      sugg=o
+        if s=="ex:insight1" and p=="ex:estimatedLossReduction": reduct=o
     assertions=[]
-    if depot: assertions.append({"type":"ex:showEcoBanner","value":True})
-    if sugg:  assertions.append({"type":"ex:suggestRoute","value":sugg})
-    if fuel is not None:   assertions.append({"type":"ex:fuelIndex","value":float(fuel)})
-    if saving is not None: assertions.append({"type":"ex:estimatedSaving","value":float(saving)})
+    if dma: assertions.append({"type":"ex:showLeakBanner","value":True})
+    if sugg: assertions.append({"type":"ex:suggestOperation","value":sugg})
+    if loss is not None:  assertions.append({"type":"ex:lossIndex","value":float(loss)})
+    if reduct is not None: assertions.append({"type":"ex:estimatedLossReduction","value":float(reduct)})
     env = {
         "@type":"ex:Envelope",
-        "ex:audience": depot or "ex:DepotX",
-        "ex:allowedUse":"ui.eco.banner",
+        "ex:audience": dma or "ex:DMA17",
+        "ex:allowedUse":"ui.water.leak-banner",
         "ex:issuedAt": now_utc_iso(),
         "ex:expiry":   iso_in_hours(3),
-        "ex:assertions": stable_json(assertions),  # string per SHACL simplicity
+        "ex:assertions": stable_json(assertions),
     }
     return sign_envelope(env)
 
@@ -818,11 +765,10 @@ def ruleset() -> List[N3Rule]:
     return parse_n3_rules(n3_rules())
 
 def interaction_flow(audience_store: str) -> Tuple[Graph, Dict[str, Any], Dict[str, Any]]:
-    # REQUEST (implicit: audience_store asks for a local insight)
-    # ISSUE: load data, run rules, and ensure EYE-equivalent facts exist
+    # ISSUE: load data, run rules, ensure facts exist
     g = seed_graph()
     _ = materialize(g, ruleset())
-    synthesize_if_missing(g, [])
+    synthesize_if_missing(g)
 
     # sanity: core insight must exist now
     have = any((s,p,o)==("ex:insight1","rdf:type","ex:Insight") for (s,p,o) in g.triples())
@@ -835,7 +781,7 @@ def interaction_flow(audience_store: str) -> Tuple[Graph, Dict[str, Any], Dict[s
     if parse_iso(env["ex:expiry"]) <= fixed_now(): raise FlowError("Envelope expired.")
     if env["ex:allowedUse"] not in ALLOWED_USES: raise FlowError("Disallowed use.")
 
-    # COMPLETE: produce compact explanation
+    # COMPLETE: compact explanation
     reason = build_compact_reason(g, env)
     return g, env, reason
 
@@ -854,40 +800,33 @@ def gstr(g: Graph, s: str, p: str) -> Optional[str]:
     return None
 
 def build_compact_reason(g: Graph, env: Dict[str, Any]) -> Dict[str, Any]:
-    payload_kg = gnum(g, "ex:shipment1", "ex:payloadKg")
-    d1 = gnum(g, "ex:currentRoute", "ex:distanceKm")
-    g1 = gnum(g, "ex:currentRoute", "ex:gradientFactor")
-    d2 = gnum(g, "ex:altRoute", "ex:distanceKm")
-    g2 = gnum(g, "ex:altRoute", "ex:gradientFactor")
-    t  = gnum(g, "ex:policy", "ex:fuelIndexThreshold")
-    fi1 = gnum(g, "ex:currentRoute", "ex:fuelIndex")
-    fi2 = gnum(g, "ex:altRoute", "ex:fuelIndex")
-    comfort1 = gnum(g, "ex:currentRoute", "ex:comfortIndex")
-    comfort2 = gnum(g, "ex:altRoute", "ex:comfortIndex")
-    suggested = gstr(g, "ex:insight1", "ex:suggestRoute")
-    depot = gstr(g, "ex:insight1", "ex:showEcoBanner") or env.get("ex:audience")
+    In1 = gnum(g,"ex:currentOp","ex:inflowLpm"); Dm1 = gnum(g,"ex:currentOp","ex:demandLpm"); P1 = gnum(g,"ex:currentOp","ex:pressureBar")
+    In2 = gnum(g,"ex:stepTest","ex:inflowLpm");  Dm2 = gnum(g,"ex:stepTest","ex:demandLpm");  P2 = gnum(g,"ex:stepTest","ex:pressureBar")
+    T   = gnum(g,"ex:policy","ex:lossThreshold"); Min = gnum(g,"ex:policy","ex:minServicePressureBar")
+    L1  = gnum(g,"ex:currentOp","ex:lossIndex"); L2 = gnum(g,"ex:stepTest","ex:lossIndex")
+    B1  = gnum(g,"ex:currentOp","ex:serviceBufferBar"); B2 = gnum(g,"ex:stepTest","ex:serviceBufferBar")
+    suggested = gstr(g,"ex:insight1","ex:suggestOperation")
+    dma = gstr(g,"ex:insight1","ex:showLeakBanner") or env.get("ex:audience")
 
-    wton = (payload_kg/1000.0) if payload_kg is not None else None
-    saving = (fi1 - fi2) if (fi1 is not None and fi2 is not None) else None
+    reduction = (L1 - L2) if (L1 is not None and L2 is not None) else None
 
     return {
         "inputs": {
-            "audience": depot,
-            "payloadKg": payload_kg,
-            "payloadTon": round(wton, 4) if wton is not None else None,
-            "currentRoute": {"distanceKm": d1, "gradientFactor": g1},
-            "altRoute":     {"distanceKm": d2, "gradientFactor": g2},
-            "policyThreshold": t
+            "audience": dma,
+            "currentOp": {"inflowLpm": In1, "demandLpm": Dm1, "pressureBar": P1},
+            "stepTest":  {"inflowLpm": In2, "demandLpm": Dm2, "pressureBar": P2},
+            "policyLossThreshold": T,
+            "minServicePressureBar": Min
         },
         "calculation": {
-            "fuelIndex": {"current": fi1, "alternative": fi2},
-            "comfortIndex": {"current": comfort1, "alternative": comfort2},
-            "saving": saving
+            "lossIndex": {"current": L1, "stepTest": L2},
+            "serviceBufferBar": {"current": B1, "stepTest": B2},
+            "estimatedLossReduction": reduction
         },
         "decisions": [
-            f"Show eco banner at {depot} because {fi1:.2f} > threshold {t:.2f}.",
-            f"Suggest {suggested} because current {fi1:.2f} > alt {fi2:.2f}.",
-            f"Estimated saving ≈ {saving:.2f} (same units as fuelIndex)."
+            f"Show leak banner at {dma} because {L1:.2f} > threshold {T:.2f}.",
+            f"Suggest {suggested} because current {L1:.2f} > stepTest {L2:.2f}.",
+            f"Estimated loss reduction ≈ {reduction:.2f}."
         ]
     }
 
@@ -898,29 +837,28 @@ def print_reason_compact(reason: Dict[str, Any], g: Graph) -> None:
     inp = reason["inputs"]; calc = reason["calculation"]; dec = reason["decisions"]
     print("Inputs:")
     print(f"  • Audience: {inp['audience']}")
-    print(f"  • Payload:  {inp['payloadKg']} kg  ({inp['payloadTon']} t)")
-    cr = inp["currentRoute"]; ar = inp["altRoute"]
-    print(f"  • Current route: distance {cr['distanceKm']} km; gradient {cr['gradientFactor']}")
-    print(f"  • Alt route:     distance {ar['distanceKm']} km; gradient {ar['gradientFactor']}")
-    print(f"  • Policy threshold (fuelIndex): {inp['policyThreshold']}")
+    co = inp["currentOp"]; st = inp["stepTest"]
+    print(f"  • Current op: inflow {co['inflowLpm']} L/min; demand {co['demandLpm']} L/min; pressure {co['pressureBar']} bar")
+    print(f"  • Step test:  inflow {st['inflowLpm']} L/min; demand {st['demandLpm']} L/min; pressure {st['pressureBar']} bar")
+    print(f"  • Loss threshold: {inp['policyLossThreshold']}; min service pressure: {inp['minServicePressureBar']} bar")
     print("\nComputation:")
-    print(f"  • fuelIndex(current) = {calc['fuelIndex']['current']}")
-    print(f"  • fuelIndex(alt)     = {calc['fuelIndex']['alternative']}")
-    if calc['comfortIndex']['current'] is not None:
-        print(f"  • comfortIndex(current) = {calc['comfortIndex']['current']}")
-        print(f"  • comfortIndex(alt)     = {calc['comfortIndex']['alternative']}")
-    if calc['saving'] is not None:
-        print(f"  • estimated saving      = {calc['saving']}")
+    print(f"  • lossIndex(current) = {calc['lossIndex']['current']}")
+    print(f"  • lossIndex(stepTest)= {calc['lossIndex']['stepTest']}")
+    if calc['serviceBufferBar']['current'] is not None or calc['serviceBufferBar']['stepTest'] is not None:
+        print(f"  • serviceBuffer(current) = {calc['serviceBufferBar']['current']} bar")
+        print(f"  • serviceBuffer(stepTest)= {calc['serviceBufferBar']['stepTest']} bar")
+    if calc['estimatedLossReduction'] is not None:
+        print(f"  • estimated loss reduction = {calc['estimatedLossReduction']}")
     print("\nDecisions:")
     for d in dec: print(f"  • {d}")
     print("\nDerived facts (key subset):")
-    focus={"ex:fuelIndex","ex:comfortIndex","ex:showEcoBanner","ex:suggestRoute","ex:estimatedSaving"}
+    focus={"ex:lossIndex","ex:serviceBufferBar","ex:showLeakBanner","ex:suggestOperation","ex:estimatedLossReduction"}
     for (s,p,o) in g.triples():
         if s=="ex:insight1" or p in focus:
             print(f"  {s} {p} {o}")
 
 # =============================================================================
-# EYE-learning Outputs: ANSWER / CHECK
+# ANSWER / CHECK
 # =============================================================================
 
 def print_answer(env: Dict[str, Any]) -> None:
@@ -937,23 +875,23 @@ def check_signature(env: Dict[str, Any]) -> Tuple[bool,str]:
     ok = verify_envelope(env); return ok, "signature verifies" if ok else "bad signature"
 
 def check_audience(env: Dict[str, Any]) -> Tuple[bool,str]:
-    return (env.get("ex:audience")=="ex:DepotX", "audience matches")
+    return (env.get("ex:audience")=="ex:DMA17", "audience matches")
 
 def check_expiry(env: Dict[str, Any]) -> Tuple[bool,str]:
     try: return (parse_iso(env["ex:expiry"])>fixed_now(), "expiry in future")
     except Exception: return False, "expiry unparsable"
 
 def check_better(g: Graph) -> Tuple[bool,str]:
-    fi: Dict[str,float]={}
+    r: Dict[str,float]={}
     for (s,p,o) in g.triples():
-        if p=="ex:fuelIndex": fi[s]=float(o)
+        if p=="ex:lossIndex": r[s]=float(o)
     cur=None; alt=None
     for (s,p,o) in g.triples():
-        if s=="ex:scan1" and p=="ex:usesRoute": cur=o
-        if s=="ex:insight1" and p=="ex:suggestRoute": alt=o
-    if alt is None: return False, "no suggested route"
-    if cur not in fi or alt not in fi: return False, "missing fuelIndex"
-    return (fi[cur]>fi[alt], f"alt better: {fi[cur]:.2f} → {fi[alt]:.2f}")
+        if s=="ex:scan1" and p=="ex:usesOperation": cur=o
+        if s=="ex:insight1" and p=="ex:suggestOperation": alt=o
+    if alt is None: return False, "no suggested operation"
+    if cur not in r or alt not in r: return False, "missing lossIndex"
+    return (r[cur]>r[alt], f"stepTest better: {r[cur]:.2f} → {r[alt]:.2f}")
 
 def check_shacl(env: Dict[str, Any]) -> Tuple[bool,str]:
     shapes = load_shapes(shacl_turtle()); ok, probs = shacl_validate(envelope_to_rdf(env), shapes)
@@ -982,7 +920,7 @@ def print_checks(results: List[Tuple[str,bool,str]]) -> None:
 # =============================================================================
 
 def main() -> None:
-    g, env, reason = interaction_flow("ex:DepotX")
+    g, env, reason = interaction_flow("ex:DMA17")
     print_answer(env)
     print_reason_compact(reason, g)
     print_checks(run_checks(g, env))
@@ -995,7 +933,7 @@ if __name__ == "__main__":
         i = argv.index("--now")
         if i + 1 < len(argv):
             cli_now = argv[i + 1]
-    set_fixed_now(cli_now)
+    set_fixed_now(cli_now)  # default 2025-01-01T09:00:00Z; override via --now or INSIGHT_FIXED_NOW
     main()
 
 # =============================================================================

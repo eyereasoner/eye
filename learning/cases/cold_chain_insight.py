@@ -1,25 +1,46 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Cold-Chain Insight — Final, deterministic, EYE-compatible demonstrator
-======================================================================
+Cold-Chain Insight — Compact, EYE-compatible demonstrator
+=========================================================
 
 STORY
 -----
-Maya wheels a pallet of vaccines into Facility Y just as the yard doors hiss shut. The tablet clipped to her trolley already knows today’s setpoint (4 °C) and, from the last few minutes, how warm the intake bay is and how long the pallet has been there. It does a tiny bit of math—no cloud, no data dump—just a quick **risk score**: (ambient − setpoint) × minutes. A yellow banner pops up: **“Cold-chain risk rising. Fast-track available.”** One tap reveals the suggestion: a cooler lane that cuts exposure time. Maya checks the aisle—clear—and moves. The banner disappears. What leaves the device isn’t the raw temperatures or a second-by-second trace, just a signed **“insight slip”**: who it’s for (Facility Y), what it allows (show a warning), when it expires, and the two bare essentials—current risk, and the expected reduction if the fast-track is used.
+Maya wheels a pallet of vaccines into Facility Y just as the yard doors hiss shut.
+The tablet clipped to her trolley already knows today’s setpoint (4 °C) and, from
+the last few minutes, how warm the intake bay is and how long the pallet has been
+there. It does a tiny bit of math — no cloud, no data dump — just a quick **risk
+score**: (ambient − setpoint) × minutes. A yellow banner pops up:
+**“Cold-chain risk rising. Fast-track available.”** One tap reveals the suggestion:
+a cooler lane that cuts exposure time. Maya checks the aisle — clear — and moves.
+The banner disappears. What leaves the device isn’t the raw temperatures or a
+second-by-second trace, just a signed **insight slip**: who it’s for (Facility Y),
+what it allows (show a warning), when it expires, and the two bare essentials —
+current risk, and the expected reduction if the fast-track is used.
 
-Later, reporting is painless. The dispatcher sees the slip attached to the job: decision taken, risk reduced, within policy. No one negotiated access to Maya’s telemetry; nothing to deanonymize. An auditor spot-checks the same slip months later and finds it valid by design: audience-scoped, purpose-bound, short-lived, and verifiable. The pallet kept its cool, and everyone kept their privacy.
+Later, reporting is painless. The dispatcher sees the slip attached to the job:
+decision taken, risk reduced, within policy. No one negotiated access to Maya’s
+telemetry; nothing to deanonymize. An auditor spot-checks the same slip months
+later and finds it valid by design: audience-scoped, purpose-bound, short-lived,
+and verifiable. The pallet kept its cool, and everyone kept their privacy.
 
 **Benefits at a glance**
 
-* **Front-line worker (Maya):** clear, timely nudge; less cognitive load; you stay in control—act only if safe and practical.
-* **Operations/dispatch:** lower spoilage risk and rework; consistent policy enforcement with compact, auditable evidence.
-* **Quality & compliance:** data-minimization by default; short-lived, signed insight envelopes simplify audits and DPIAs.
-* **IT/Security:** fewer sensitive datasets to store or breach; standardized vocab/SHACL/N3 means easy interoperability.
-* **Customer/patient:** better product integrity and fewer delays—without intrusive monitoring.
-* **Environment & cost:** less waste from temperature excursions; fewer emergency re-packs and rush replacements.
+* **Front-line worker (Maya):** clear, timely nudge; less cognitive load; you stay
+  in control — act only if safe and practical.
+* **Operations/dispatch:** lower spoilage risk and rework; consistent policy
+  enforcement with compact, auditable evidence.
+* **Quality & compliance:** data minimization by default; short-lived, signed
+  insight envelopes simplify audits and DPIAs.
+* **IT/Security:** fewer sensitive datasets to store or breach; standardized
+  vocab/SHACL/N3 means easy interoperability.
+* **Customer/patient:** better product integrity and fewer delays — without
+  intrusive monitoring.
+* **Environment & cost:** less waste from temperature excursions; fewer emergency
+  re-packs and rush replacements.
 
-In short: **ship the decision, not the data**—keep action fast at the edge, keep proof portable, and keep everyone’s risk low.
+In short: **ship the decision, not the data** — keep action fast at the edge, keep
+proof portable, and keep everyone’s risk low.
 
 WHAT THIS IS (high level)
 -------------------------
