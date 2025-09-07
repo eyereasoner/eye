@@ -1,0 +1,56 @@
+================================================================================
+ANSWER (Actionable Insight Envelope)
+================================================================================
+{
+  "@type": "ex:Envelope",
+  "ex:allowedUse": "ui.clinic.queue-banner",
+  "ex:assertions": "[{\"type\":\"ex:showQueueBanner\",\"value\":true},{\"type\":\"ex:suggestPlan\",\"value\":\"ex:overflowPlan\"},{\"type\":\"ex:waitIndex\",\"value\":120.0},{\"type\":\"ex:estimatedWaitReduction\",\"value\":41.25}]",
+  "ex:audience": "ex:ClinicA",
+  "ex:expiry": "2025-01-01T11:00:00+00:00",
+  "ex:issuedAt": "2025-01-01T09:00:00+00:00",
+  "ex:signature": "0XWdHMaXANhFu-GS7RLRkpcMabsW8ATZfnNNDH3uF1I"
+}
+
+================================================================================
+REASON (compact, human-readable)
+================================================================================
+Inputs:
+  • Audience: ex:ClinicA
+  • Current plan: queue 45.0; service 8.0 min; stations 3.0
+  • Overflow plan: queue 45.0; service 7.0 min; stations 4.0
+  • Policy: max wait 90.0 min; max stations 4.0
+
+Computation:
+  • waitIndex(current)  = 120.0
+  • waitIndex(overflow) = 78.75
+  • throughputPerHour(current)  = 22.5
+  • throughputPerHour(overflow) = 34.285714285714285
+  • estimated wait reduction = 41.25
+
+Decisions:
+  • Show queue banner at ex:ClinicA because 120.00 min > threshold 90.00 min.
+  • Suggest ex:overflowPlan because current 120.00 > overflow 78.75 and stations 4 ≤ cap 4.
+  • Estimated wait reduction ≈ 41.25 minutes.
+
+Derived facts (key subset):
+  ex:currentPlan ex:throughputPerHour 22.5
+  ex:overflowPlan ex:throughputPerHour 34.285714285714285
+  ex:currentPlan ex:waitIndex 120.0
+  ex:overflowPlan ex:waitIndex 78.75
+  ex:insight1 rdf:type ex:Insight
+  ex:insight1 ex:showQueueBanner ex:ClinicA
+  ex:insight1 ex:waitIndex 120.0
+  ex:insight1 ex:suggestPlan ex:overflowPlan
+  ex:insight1 ex:estimatedWaitReduction 41.25
+
+================================================================================
+CHECK (Self-verifying harness)
+================================================================================
+[PASS] no_sensitive: no sensitive keys
+[PASS] signature: signature verifies
+[PASS] audience: audience matches
+[PASS] expiry: expiry in future
+[PASS] suggestion_better: overflow lower wait: 120.00 → 78.75
+[PASS] shacl: SHACL valid
+
+OVERALL: PASS
