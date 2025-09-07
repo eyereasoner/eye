@@ -226,6 +226,63 @@ ex:signature  a owl:DatatypeProperty ; rdfs:label "signature" ;
 """
 
 # =============================================================================
+# SHACL (Turtle) — application profile for the envelope — Pieter’s artefact #2
+# =============================================================================
+
+def shacl_turtle() -> str:
+    return """@prefix ex:  <http://example.org/> .
+@prefix sh:  <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Envelope must include audience, allowedUse, issuedAt, expiry, assertions, signature.
+ex:EnvelopeShape rdf:type sh:NodeShape .
+ex:EnvelopeShape sh:targetClass ex:Envelope .
+ex:EnvelopeShape sh:property ex:EnvAudienceShape .
+ex:EnvelopeShape sh:property ex:EnvAllowedUseShape .
+ex:EnvelopeShape sh:property ex:EnvIssuedAtShape .
+ex:EnvelopeShape sh:property ex:EnvExpiryShape .
+ex:EnvelopeShape sh:property ex:EnvAssertionsShape .
+ex:EnvelopeShape sh:property ex:EnvSignatureShape .
+
+# audience MUST be an IRI (qname here)
+ex:EnvAudienceShape rdf:type sh:PropertyShape .
+ex:EnvAudienceShape sh:path ex:audience .
+ex:EnvAudienceShape sh:minCount 1 .
+ex:EnvAudienceShape sh:nodeKind sh:IRI .
+
+# allowedUse MUST be a string
+ex:EnvAllowedUseShape rdf:type sh:PropertyShape .
+ex:EnvAllowedUseShape sh:path ex:allowedUse .
+ex:EnvAllowedUseShape sh:minCount 1 .
+ex:EnvAllowedUseShape sh:datatype xsd:string .
+
+# issuedAt MUST be xsd:dateTime
+ex:EnvIssuedAtShape rdf:type sh:PropertyShape .
+ex:EnvIssuedAtShape sh:path ex:issuedAt .
+ex:EnvIssuedAtShape sh:minCount 1 .
+ex:EnvIssuedAtShape sh:datatype xsd:dateTime .
+
+# expiry MUST be xsd:dateTime
+ex:EnvExpiryShape rdf:type sh:PropertyShape .
+ex:EnvExpiryShape sh:path ex:expiry .
+ex:EnvExpiryShape sh:minCount 1 .
+ex:EnvExpiryShape sh:datatype xsd:dateTime .
+
+# assertions is JSON (string) for portability
+ex:EnvAssertionsShape rdf:type sh:PropertyShape .
+ex:EnvAssertionsShape sh:path ex:assertions .
+ex:EnvAssertionsShape sh:minCount 1 .
+ex:EnvAssertionsShape sh:datatype xsd:string .
+
+# signature MUST be present (b64url HMAC here)
+ex:EnvSignatureShape rdf:type sh:PropertyShape .
+ex:EnvSignatureShape sh:path ex:signature .
+ex:EnvSignatureShape sh:minCount 1 .
+ex:EnvSignatureShape sh:datatype xsd:string .
+"""
+
+# =============================================================================
 # Turtle data (with @prefix) — copy/pasteable into EYE
 # =============================================================================
 
@@ -340,63 +397,6 @@ def n3_rules() -> str:
 {
   ?O ex:serviceBufferBar ?Buf .
 } .
-"""
-
-# =============================================================================
-# SHACL (Turtle) — application profile for the envelope
-# =============================================================================
-
-def shacl_turtle() -> str:
-    return """@prefix ex:  <http://example.org/> .
-@prefix sh:  <http://www.w3.org/ns/shacl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-# Envelope must include audience, allowedUse, issuedAt, expiry, assertions, signature.
-ex:EnvelopeShape rdf:type sh:NodeShape .
-ex:EnvelopeShape sh:targetClass ex:Envelope .
-ex:EnvelopeShape sh:property ex:EnvAudienceShape .
-ex:EnvelopeShape sh:property ex:EnvAllowedUseShape .
-ex:EnvelopeShape sh:property ex:EnvIssuedAtShape .
-ex:EnvelopeShape sh:property ex:EnvExpiryShape .
-ex:EnvelopeShape sh:property ex:EnvAssertionsShape .
-ex:EnvelopeShape sh:property ex:EnvSignatureShape .
-
-# audience MUST be an IRI (qname here)
-ex:EnvAudienceShape rdf:type sh:PropertyShape .
-ex:EnvAudienceShape sh:path ex:audience .
-ex:EnvAudienceShape sh:minCount 1 .
-ex:EnvAudienceShape sh:nodeKind sh:IRI .
-
-# allowedUse MUST be a string
-ex:EnvAllowedUseShape rdf:type sh:PropertyShape .
-ex:EnvAllowedUseShape sh:path ex:allowedUse .
-ex:EnvAllowedUseShape sh:minCount 1 .
-ex:EnvAllowedUseShape sh:datatype xsd:string .
-
-# issuedAt MUST be xsd:dateTime
-ex:EnvIssuedAtShape rdf:type sh:PropertyShape .
-ex:EnvIssuedAtShape sh:path ex:issuedAt .
-ex:EnvIssuedAtShape sh:minCount 1 .
-ex:EnvIssuedAtShape sh:datatype xsd:dateTime .
-
-# expiry MUST be xsd:dateTime
-ex:EnvExpiryShape rdf:type sh:PropertyShape .
-ex:EnvExpiryShape sh:path ex:expiry .
-ex:EnvExpiryShape sh:minCount 1 .
-ex:EnvExpiryShape sh:datatype xsd:dateTime .
-
-# assertions is JSON (string) for portability
-ex:EnvAssertionsShape rdf:type sh:PropertyShape .
-ex:EnvAssertionsShape sh:path ex:assertions .
-ex:EnvAssertionsShape sh:minCount 1 .
-ex:EnvAssertionsShape sh:datatype xsd:string .
-
-# signature MUST be present (b64url HMAC here)
-ex:EnvSignatureShape rdf:type sh:PropertyShape .
-ex:EnvSignatureShape sh:path ex:signature .
-ex:EnvSignatureShape sh:minCount 1 .
-ex:EnvSignatureShape sh:datatype xsd:string .
 """
 
 # =============================================================================
