@@ -237,7 +237,7 @@ ex:EnvSignatureShape sh:datatype xsd:string .
 """
 
 # =============================================================================
-# Turtle data (with @prefix) — copy/pasteable into EYE
+# Turtle data — copy/pasteable into EYE
 # =============================================================================
 
 def turtle_data() -> str:
@@ -273,7 +273,7 @@ ex:policy ex:minReadyDoses 20 .
 """
 
 # =============================================================================
-# N3 rules (with @prefix) — triple patterns only, math:* built-ins
+# N3 rules — triple patterns only, math:* built-ins
 # =============================================================================
 
 def n3_rules() -> str:
