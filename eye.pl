@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.20.9 (2025-08-27)').
+version_info('EYE v11.20.10 (2025-09-08)').
 
 license_info('MIT License
 
@@ -7950,6 +7950,99 @@ userInput(A, B) :-
 '<http://www.w3.org/2000/10/swap/log#equalTo>'(X, Y) :-
     unify(X, Y).
 
+'<http://www.w3.org/2000/10/swap/log#forAllIn>'(B, A) :-
+    \+flag(restricted),
+    nonvar(A),
+    A \= [_, _],
+    !,
+    when(
+        (   nonvar(B)
+        ),
+        (   reset_gensym,
+            tmp_file(Tmp1),
+            open(Tmp1, write, Ws1, [encoding(utf8)]),
+            tell(Ws1),
+            (   flag('no-qnames')
+            ->  true
+            ;   forall(
+                    pfx(C, D),
+                    format("@prefix ~w ~w.~n", [C, D])
+                ),
+                nl
+            ),
+            labelvars(A, 0, _),
+            wt(A),
+            write('.'),
+            nl,
+            told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
+            tmp_file(Tmp2),
+            open(Tmp2, write, Ws2, [encoding(utf8)]),
+            tell(Ws2),
+            (   flag('no-qnames')
+            ->  true
+            ;   forall(
+                    pfx(E, F),
+                    format("@prefix ~w ~w.~n", [E, F])
+                ),
+                nl
+            ),
+            write('{'),
+            wt('<http://www.w3.org/2000/10/swap/log#forAllIn>'(B, _)),
+            write('} => {'),
+            wt('<http://www.w3.org/2000/10/swap/log#forAllIn>'(B, _)),
+            write('}.'),
+            nl,
+            told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
+            tmp_file(Tmp3),
+            !,
+            (   current_prolog_flag(windows, true)
+            ->  A1 = ['cmd.exe', '/C']
+            ;   A1 = []
+            ),
+            (   current_prolog_flag(argv, Argv),
+                append(Argu, ['--'|_], Argv)
+            ->  append(Argu, ['--'], A2)
+            ;   A2 = ['eye']
+            ),
+            (   flag(quiet)
+            ->  Quiet = '--quiet'
+            ;   Quiet = ''
+            ),
+            append([A1, A2, ['--nope', Quiet, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            findall([G, ' '],
+                (   member(G, A4)
+                ),
+                H
+            ),
+            flatten(H, I),
+            atomic_list_concat(I, J),
+            (   catch(exec(J, _), _, fail)
+            ->  n3_n3p(Tmp3, semantics),
+                absolute_uri(Tmp3, Tmp),
+                atomic_list_concat(['<', Tmp, '>'], Res),
+                semantics(Res, L),
+                conj_list(K, L),
+                labelvars(K, 0, _),
+                B = [_, _],
+                K = '<http://www.w3.org/2000/10/swap/log#forAllIn>'([_, _], _),
+                delete_file(Tmp1),
+                delete_file(Tmp2),
+                delete_file(Tmp3)
+            ;   delete_file(Tmp1),
+                delete_file(Tmp2),
+                delete_file(Tmp3),
+                fail
+            )
+        )
+    ).
 '<http://www.w3.org/2000/10/swap/log#forAllIn>'([A, B], Sc) :-
     within_scope(Sc),
     when(
