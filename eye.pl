@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.20.10 (2025-09-08)').
+version_info('EYE v11.20.11 (2025-09-09)').
 
 license_info('MIT License
 
@@ -7474,10 +7474,12 @@ prepare_builtins :-
             nonvar(B)
         ),
         (   getlist(A, D),
-            selectchk(B, D, E),
-            (   \+member(B, E)
-            ->  C = E
-            ;   '<http://www.w3.org/2000/10/swap/list#remove>'([E, B], C)
+            (   selectchk(B, D, E)
+            ->  (   \+member(B, E)
+                ->  C = E
+                ;   '<http://www.w3.org/2000/10/swap/list#remove>'([E, B], C)
+                )
+            ;   C = A
             )
         )
     ).
