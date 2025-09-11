@@ -1,0 +1,35 @@
+Answer
+------
+Feigenbaum δ (delta) ≈ 4.669201905193
+
+Reason Why
+----------
+We compute the main-cascade superstable parameters s_n by solving
+f_r^{(2^n)}(1/2) = 1/2 in a tight interval right after s_{n-1}.
+Each candidate root is validated to ensure its *minimal* period is exactly 2^n;
+spurious roots from other windows are rejected. Then δ follows from
+(s_n − s_{n−1}) / (s_{n+1} − s_n) with the last few values averaged.
+
+Check (harness)
+---------------
+Monotonic s_n increasing: PASS
+Gaps shrinking: PASS
+Last 3 δ_n spread: 2.833e-06
+Convergence: WARN
+
+s_n (last 6) and δ_n
+s_ 6 = 3.569795293749960
+   δ_06 = 4.669157182729
+s_ 7 = 3.569913465422333
+   δ_07 = 4.669191001773
+s_ 8 = 3.569938774233287
+   δ_08 = 4.669199454875
+s_ 9 = 3.569944194608064
+   δ_09 = 4.669201221269
+s_10 = 3.569945355486450
+   δ_10 = 4.669200830447
+s_11 = 3.569945604111092
+   δ_11 = 4.669203663862
+s_12 = 3.569945657358853
+
+Result: OK (with warnings)
