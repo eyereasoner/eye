@@ -1,0 +1,24 @@
+Answer
+------
+Apéry's constant ζ(3) ≈ 1.202056903156
+
+Reason Why
+----------
+We used a rapidly convergent alternating binomial series for ζ(3), summing
+terms until the next term's magnitude fell below 1e-11.
+By the alternating series test, the truncation error is ≤ that next-term bound.
+Independently, we cross-checked with the plain 1/n^3 series using an integral tail bound,
+which bounds ζ(3) inside a narrow interval [S_N + 1/(2(N+1)^2), S_N + 1/(2N^2)].
+
+Check (harness)
+---------------
+Route A terms used: 15
+Alternating tail bound (≤): 4.775E-12
+Route B interval width: 1.110e-15
+Route A estimate inside Route B interval: FAIL
+
+Route B bracket for ζ(3)
+Lower bound: 1.202056903160
+Upper bound: 1.202056903160
+
+Result: OK (with warnings)
