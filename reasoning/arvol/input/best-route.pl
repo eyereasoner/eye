@@ -9,7 +9,7 @@ def score(route):
 |}).
 
 % best route
-best(Candidates, Best) :-
+best_route(Candidates, Best) :-
     findall(Cost-Route,
         (   member(Route, Candidates),
             py_call(pyhelpers:score(Route), Cost)
@@ -19,4 +19,4 @@ best(Candidates, Best) :-
     keysort(Pairs, [Best|_]).
 
 % query
-true :+ best([[1,3,4],[1,2,4],[1,4,2]], _Best).
+true :+ best_route([[1,3,4],[1,2,4],[1,4,2]], _Best).
