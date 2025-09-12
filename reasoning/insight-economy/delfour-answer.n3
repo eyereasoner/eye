@@ -1,0 +1,70 @@
+PREFIX ex:  <http://example.org/ie#>
+PREFIX ui:  <http://example.org/ui#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ex:privateNote  ex:reason  "Household requires low-sugar guidance. You are starting a self-scanner session at Delfour right now. The envelope minimizes data and is limited to this session." .
+
+[ a                     ex:InsightEnvelope;
+  ex:payload            [ ui:metric     ex:sugar_g_per_serving;
+                          ui:operator   ">=";
+                          ui:strategy   "lower_metric_first_higher_price_ok";
+                          ui:threshold  10.0;
+                          ui:title      "Track sugar per serving while you scan"
+                        ];
+  ex:provenance         [ ex:created_at         "2025-08-12T12:52:50Z"^^xsd:dateTime;
+                          ex:data_minimization  true;
+                          ex:generator          "private_insight_refiner_v1"
+                        ];
+  ex:recipient          "Delfour";
+  ex:scope              [ ex:device          "self-scanner";
+                          ex:event           "pick_up_scanner";
+                          ex:expires_within  "PT2H";
+                          ex:retailer_store  "store-42";
+                          ex:valid_for       "this_session"
+                        ];
+  ex:thresholdForSugar  10.0
+] .
+
+ex:scan1  a             ex:Scan;
+        ex:context      ex:ctx1;
+        ex:product      ex:CHOC-050;
+        ex:useEnvelope  []  .
+
+ex:CHOC-150  a                  ex:Product;
+        ex:name                 "85% Dark Chocolate";
+        ex:price_eur            2.20;
+        ex:sku                  "CHOC-150";
+        ex:sugar_g_per_serving  6.0;
+        ex:worseThanFor         ( ex:CHOC-050 ex:BIS-101 ) .
+
+ex:CHOC-050  a                  ex:Product;
+        ex:candidateAlt         ex:CHOC-150 , ex:BIS-101 , ex:BIS-001;
+        ex:name                 "Milk Chocolate Bar";
+        ex:price_eur            1.80;
+        ex:selectedAlt          ex:BIS-101;
+        ex:sku                  "CHOC-050";
+        ex:sugar_g_per_serving  15.0 .
+
+ex:BIS-101  a                   ex:Product;
+        ex:name                 "Low-Sugar Tea Biscuits";
+        ex:price_eur            2.60;
+        ex:sku                  "BIS-101";
+        ex:sugar_g_per_serving  3.0 .
+
+ex:BIS-001  a                   ex:Product;
+        ex:name                 "Classic Tea Biscuits";
+        ex:price_eur            2.10;
+        ex:sku                  "BIS-001";
+        ex:sugar_g_per_serving  12.0;
+        ex:worseThanFor         ( ex:CHOC-050 ex:CHOC-150 );
+        ex:worseThanFor         ( ex:CHOC-050 ex:BIS-101 ) .
+
+ex:ctx1  a            ex:ShoppingContext;
+        ex:device     "self-scanner";
+        ex:event      "pick_up_scanner";
+        ex:location   "store-42";
+        ex:retailer   "Delfour";
+        ex:timestamp  "2025-08-12T12:52:50Z"^^xsd:dateTime .
+
+ex:me   ex:householdCondition  "diabetes";
+        ex:subjectPseudonym    "user-12345-rotating" .

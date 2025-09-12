@@ -1,0 +1,192 @@
+@prefix ex:   <http://example.org/ie#> .
+@prefix ui:   <http://example.org/ui#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+
+################################################################################
+# INPUT DATA (private + public)
+################################################################################
+
+# PRIVATE — never leaves the private side; only used on the LHS of derivation
+ex:me  ex:subjectPseudonym       "user-12345-rotating" ;
+      ex:householdCondition      "diabetes" .
+
+# PUBLIC session context (OK to share)
+ex:ctx1 a ex:ShoppingContext ;
+  ex:retailer        "Delfour" ;
+  ex:device          "self-scanner" ;
+  ex:event           "pick_up_scanner" ;
+  ex:timestamp       "2025-08-12T12:52:50Z"^^xsd:dateTime ;
+  ex:location        "store-42" .
+
+# PUBLIC catalog
+ex:BIS-001 a ex:Product ;
+  ex:sku "BIS-001" ; ex:name "Classic Tea Biscuits" ;
+  ex:sugar_g_per_serving  "12.0"^^xsd:decimal ;
+  ex:price_eur            "2.10"^^xsd:decimal .
+
+ex:BIS-101 a ex:Product ;
+  ex:sku "BIS-101" ; ex:name "Low-Sugar Tea Biscuits" ;
+  ex:sugar_g_per_serving  "3.0"^^xsd:decimal ;
+  ex:price_eur            "2.60"^^xsd:decimal .
+
+ex:CHOC-050 a ex:Product ;
+  ex:sku "CHOC-050" ; ex:name "Milk Chocolate Bar" ;
+  ex:sugar_g_per_serving  "15.0"^^xsd:decimal ;
+  ex:price_eur            "1.80"^^xsd:decimal .
+
+ex:CHOC-150 a ex:Product ;
+  ex:sku "CHOC-150" ; ex:name "85% Dark Chocolate" ;
+  ex:sugar_g_per_serving  "6.0"^^xsd:decimal ;
+  ex:price_eur            "2.20"^^xsd:decimal .
+
+################################################################################
+# DERIVATION: private → insight envelope (no sensitive terms leak)
+################################################################################
+
+# If (private) household has "diabetes" AND (public) we start a scan session at
+# Delfour, emit a *public, minimised* envelope. Note the envelope payload talks
+# only about a metric + threshold, not the condition.
+{
+  ex:me   ex:householdCondition "diabetes" .
+  ex:ctx1 ex:retailer "Delfour" ;
+          ex:device   "self-scanner" ;
+          ex:event    "pick_up_scanner" ;
+          ex:timestamp ?ts ;
+          ex:location ?store .
+}
+=>
+{
+  _:env a ex:InsightEnvelope ;
+    ex:recipient "Delfour" ;
+    ex:scope [
+      ex:device         "self-scanner" ;
+      ex:event          "pick_up_scanner" ;
+      ex:valid_for      "this_session" ;
+      ex:retailer_store ?store ;
+      # To avoid time builtins, encode the time-box as a duration:
+      ex:expires_within "PT2H"            # ISO 8601 duration (2 hours)
+    ] ;
+    ex:payload [
+      ui:title    "Track sugar per serving while you scan" ;
+      ui:metric   ex:sugar_g_per_serving ;
+      ui:operator ">=" ;
+      ui:threshold "10.0"^^xsd:decimal ;
+      ui:strategy "lower_metric_first_higher_price_ok"
+    ] ;
+    ex:provenance [
+      ex:created_at ?ts ;
+      ex:generator  "private_insight_refiner_v1" ;
+      ex:data_minimization "true"^^xsd:boolean
+    ] .
+} .
+
+################################################################################
+# ACTIVATION: device uses the envelope during a scan
+################################################################################
+
+# A scan event that *uses* whatever envelope was derived.
+# (You can switch the product to try different behaviours.)
+ex:scan1 a ex:Scan ;
+  ex:context ex:ctx1 ;
+  ex:product ex:CHOC-050 ;      # high-sugar product scanned
+  ex:useEnvelope _:env .
+
+# Helper: look up threshold from an envelope
+{
+  ?env a ex:InsightEnvelope ;
+       ex:payload [ ui:metric ex:sugar_g_per_serving ; ui:threshold ?T ] .
+} => { ?env ex:thresholdForSugar ?T . } .
+
+# Flag high-sugar at runtime (no medical talk, only metrics)
+{
+  ?scan a ex:Scan ; ex:product ?P ; ex:useEnvelope ?env .
+  ?env  ex:thresholdForSugar ?T .
+  ?P    ex:sugar_g_per_serving ?S .
+  ?S    math:notLessThan ?T .
+}
+=>
+{
+  _:banner a ex:Banner ;
+    ex:headline "Track sugar per serving while you scan" ;
+    ex:product  ?P ;
+    ex:sugar_g_per_serving ?S ;
+    ex:note [ ex:kind "HighSugar" ; ex:threshold ?T ] .
+} .
+
+################################################################################
+# SUGGESTION: pick the “best” lower-sugar alternative
+#  - strictly lower sugar than the scanned product
+#  - among those, choose the one with *lowest sugar*
+#  - tie-break on *higher price*
+################################################################################
+
+# Mark all candidates with strictly lower sugar
+{
+  ?scan a ex:Scan ; ex:product ?P .
+  ?P    ex:sugar_g_per_serving ?S .
+  ?Alt  a ex:Product ; ex:sugar_g_per_serving ?SA .
+  ?SA   math:lessThan ?S .
+}
+=> { ?P ex:candidateAlt ?Alt . } .
+
+# Define a strict “worse than” ordering (so we can choose a maximal element)
+# X is worse than Y for the scanned product P if:
+#  - Y has strictly lower sugar than X; OR
+#  - equal sugar but higher price than X (since we *prefer* higher price)
+{
+  ?P ex:candidateAlt ?X, ?Y .
+  ?X ex:sugar_g_per_serving ?SX ; ex:price_eur ?PX .
+  ?Y ex:sugar_g_per_serving ?SY ; ex:price_eur ?PY .
+  ?SY math:lessThan ?SX .
+}
+=> { ?X ex:worseThanFor (?P ?Y) . } .
+
+{
+  ?P ex:candidateAlt ?X, ?Y .
+  ?X ex:sugar_g_per_serving ?SX ; ex:price_eur ?PX .
+  ?Y ex:sugar_g_per_serving ?SY ; ex:price_eur ?PY .
+  ?SY = ?SX .
+  ?PY math:greaterThan ?PX .
+}
+=> { ?X ex:worseThanFor (?P ?Y) . } .
+
+# Select the candidate with **no strictly better competitor** (i.e., a maximal element)
+{
+  ?P  ex:candidateAlt ?Alt .
+  ?SCOPE log:notIncludes { ?Alt ex:worseThanFor (?P ?Better) . }
+}
+=> { ?P ex:selectedAlt ?Alt . } .
+
+# If there is a selected alternative, include it in the banner
+{
+  ?scan a ex:Scan ; ex:product ?P ; ex:useEnvelope ?env .
+  ?env  ex:thresholdForSugar ?T .
+  ?P    ex:sugar_g_per_serving ?S ; ex:selectedAlt ?Alt .
+  ?S    math:notLessThan ?T .
+}
+=>
+{
+  _:banner2 a ex:Banner ;
+    ex:headline "Track sugar per serving while you scan" ;
+    ex:product  ?P ;
+    ex:sugar_g_per_serving ?S ;
+    ex:note [ ex:kind "HighSugar" ; ex:threshold ?T ] ;
+    ex:suggested_alternative ?Alt .
+} .
+
+################################################################################
+# OPTIONAL: private-side explanation (never sent to retailer)
+################################################################################
+
+{
+  ex:me   ex:householdCondition "diabetes" .
+  ex:ctx1 ex:retailer "Delfour" ; ex:device "self-scanner" ; ex:event "pick_up_scanner" .
+}
+=>
+{
+  ex:privateNote
+    ex:reason "Household requires low-sugar guidance. You are starting a self-scanner session at Delfour right now. The envelope minimizes data and is limited to this session." .
+} .
+
