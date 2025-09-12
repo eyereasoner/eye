@@ -1,0 +1,1181 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix ex: <http://example.org/eco#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix ui: <http://example.org/ui#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:component skolem:lemma6;
+    r:component skolem:lemma7;
+    r:component skolem:lemma8;
+    r:component skolem:lemma9;
+    r:component skolem:lemma10;
+    r:component skolem:lemma11;
+    r:component skolem:lemma12;
+    r:component skolem:lemma13;
+    r:component skolem:lemma14;
+    r:component skolem:lemma15;
+    r:component skolem:lemma16;
+    r:component skolem:lemma17;
+    r:component skolem:lemma18;
+    r:component skolem:lemma19;
+    r:component skolem:lemma20;
+    r:component skolem:lemma21;
+    r:component skolem:lemma22;
+    r:component skolem:lemma23;
+    r:component skolem:lemma24;
+    r:component skolem:lemma25;
+    r:component skolem:lemma26;
+    r:component skolem:lemma27;
+    r:component skolem:lemma28;
+    r:component skolem:lemma29;
+    r:component skolem:lemma30;
+    r:component skolem:lemma31;
+    r:component skolem:lemma32;
+    r:component skolem:lemma33;
+    r:component skolem:lemma34;
+    r:component skolem:lemma35;
+    r:component skolem:lemma36;
+    r:component skolem:lemma37;
+    r:component skolem:lemma38;
+    r:component skolem:lemma39;
+    r:component skolem:lemma40;
+    r:component skolem:lemma41;
+    r:component skolem:lemma42;
+    r:component skolem:lemma43;
+    r:component skolem:lemma44;
+    r:component skolem:lemma45;
+    r:component skolem:lemma46;
+    r:component skolem:lemma47;
+    r:gives {
+        ex:DepotX a ex:Depot.
+        ex:shipment1 a ex:Shipment.
+        ex:currentRoute a ex:Route.
+        ex:altRoute a ex:Route.
+        ex:scan1 a ex:ScanEvent.
+        _:sk_0 a ex:InsightEnvelope.
+        _:sk_8 a ex:Banner.
+        ex:shipment1 ex:payloadKg 2500 .
+        ex:currentRoute ex:distanceKm 42.0 .
+        ex:altRoute ex:distanceKm 38.0 .
+        ex:currentRoute ex:gradientFactor 1.15 .
+        ex:altRoute ex:gradientFactor 1.05 .
+        ex:scan1 ex:inDepot ex:DepotX.
+        ex:scan1 ex:atTime "2025-01-01T09:00:00Z"^^xsd:dateTime.
+        ex:scan1 ex:usesRoute ex:currentRoute.
+        ex:scan1 ex:forShipment ex:shipment1.
+        ex:policy ex:fuelIndexThreshold 120.0 .
+        ex:currentRoute ex:fuelIndex 120.74999999999999 .
+        ex:altRoute ex:fuelIndex 99.75 .
+        _:sk_8 ex:fuelIndex 120.74999999999999 .
+        _:sk_0 ex:recipient ex:DepotX.
+        _:sk_0 ex:scope _:sk_1.
+        _:sk_1 ex:device "depot-tablet".
+        _:sk_1 ex:event "scan_start".
+        _:sk_1 ex:valid_for "this_run".
+        _:sk_1 ex:expires_within "PT2H".
+        _:sk_0 ex:payload _:sk_2.
+        _:sk_2 ui:title "Eco opportunity. Lower-fuel route available.".
+        _:sk_2 ui:metric ex:fuelIndex.
+        _:sk_2 ui:operator ">=".
+        _:sk_2 ui:threshold 120.0 .
+        _:sk_2 ui:strategy "lower_metric_first".
+        _:sk_0 ex:assert _:sk_3.
+        _:sk_3 ex:currentRoute ex:currentRoute.
+        _:sk_3 ex:currentFuelIndex 120.74999999999999 .
+        _:sk_0 ex:provenance _:sk_4.
+        _:sk_4 ex:created_at _:sk_5.
+        _:sk_6 ex:suggestRoute ex:altRoute.
+        _:sk_7 ex:estimatedSaving 20.999999999999986 .
+        _:sk_8 ex:headline "Eco opportunity. Lower-fuel route available.".
+        _:sk_8 ex:route ex:currentRoute.
+        _:sk_8 ex:note _:sk_9.
+        _:sk_9 ex:kind "HighFuelIndex".
+        _:sk_9 ex:threshold 120.0 .
+        _:sk_8 ex:suggested_alternative ex:altRoute.
+        ex:currentRoute ex:comfortIndex 53.5 .
+        ex:altRoute ex:comfortIndex 48.5 .
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        ex:DepotX a ex:Depot.
+    };
+    r:evidence (
+        skolem:lemma48
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#DepotX"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#Depot"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        ex:shipment1 a ex:Shipment.
+    };
+    r:evidence (
+        skolem:lemma50
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#shipment1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#Shipment"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        ex:currentRoute a ex:Route.
+    };
+    r:evidence (
+        skolem:lemma51
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#Route"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        ex:altRoute a ex:Route.
+    };
+    r:evidence (
+        skolem:lemma52
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#altRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#Route"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        ex:scan1 a ex:ScanEvent.
+    };
+    r:evidence (
+        skolem:lemma53
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#scan1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#ScanEvent"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        _:sk_0 a ex:InsightEnvelope.
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#InsightEnvelope"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        _:sk_8 a ex:Banner.
+    };
+    r:evidence (
+        skolem:lemma55
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#Banner"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        ex:shipment1 ex:payloadKg 2500 .
+    };
+    r:evidence (
+        skolem:lemma56
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#payloadKg"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#shipment1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 2500];
+    r:rule skolem:lemma49.
+
+skolem:lemma9 a r:Inference;
+    r:gives {
+        ex:currentRoute ex:distanceKm 42.0 .
+    };
+    r:evidence (
+        skolem:lemma57
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#distanceKm"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 42.0];
+    r:rule skolem:lemma49.
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        ex:altRoute ex:distanceKm 38.0 .
+    };
+    r:evidence (
+        skolem:lemma58
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#distanceKm"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#altRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 38.0];
+    r:rule skolem:lemma49.
+
+skolem:lemma11 a r:Inference;
+    r:gives {
+        ex:currentRoute ex:gradientFactor 1.15 .
+    };
+    r:evidence (
+        skolem:lemma59
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#gradientFactor"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1.15];
+    r:rule skolem:lemma49.
+
+skolem:lemma12 a r:Inference;
+    r:gives {
+        ex:altRoute ex:gradientFactor 1.05 .
+    };
+    r:evidence (
+        skolem:lemma60
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#gradientFactor"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#altRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1.05];
+    r:rule skolem:lemma49.
+
+skolem:lemma13 a r:Inference;
+    r:gives {
+        ex:scan1 ex:inDepot ex:DepotX.
+    };
+    r:evidence (
+        skolem:lemma61
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#inDepot"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#scan1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#DepotX"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma14 a r:Inference;
+    r:gives {
+        ex:scan1 ex:atTime "2025-01-01T09:00:00Z"^^xsd:dateTime.
+    };
+    r:evidence (
+        skolem:lemma62
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#atTime"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#scan1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "2025-01-01T09:00:00Z"^^xsd:dateTime];
+    r:rule skolem:lemma49.
+
+skolem:lemma15 a r:Inference;
+    r:gives {
+        ex:scan1 ex:usesRoute ex:currentRoute.
+    };
+    r:evidence (
+        skolem:lemma63
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#usesRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#scan1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma16 a r:Inference;
+    r:gives {
+        ex:scan1 ex:forShipment ex:shipment1.
+    };
+    r:evidence (
+        skolem:lemma64
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#forShipment"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#scan1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#shipment1"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma17 a r:Inference;
+    r:gives {
+        ex:policy ex:fuelIndexThreshold 120.0 .
+    };
+    r:evidence (
+        skolem:lemma65
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#fuelIndexThreshold"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#policy"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 120.0];
+    r:rule skolem:lemma49.
+
+skolem:lemma18 a r:Inference;
+    r:gives {
+        ex:currentRoute ex:fuelIndex 120.74999999999999 .
+    };
+    r:evidence (
+        skolem:lemma66
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#fuelIndex"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 120.74999999999999];
+    r:rule skolem:lemma49.
+
+skolem:lemma19 a r:Inference;
+    r:gives {
+        ex:altRoute ex:fuelIndex 99.75 .
+    };
+    r:evidence (
+        skolem:lemma67
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#fuelIndex"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#altRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 99.75];
+    r:rule skolem:lemma49.
+
+skolem:lemma20 a r:Inference;
+    r:gives {
+        _:sk_8 ex:fuelIndex 120.74999999999999 .
+    };
+    r:evidence (
+        skolem:lemma55
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#fuelIndex"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 120.74999999999999];
+    r:rule skolem:lemma49.
+
+skolem:lemma21 a r:Inference;
+    r:gives {
+        _:sk_0 ex:recipient ex:DepotX.
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#recipient"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#DepotX"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma22 a r:Inference;
+    r:gives {
+        _:sk_0 ex:scope _:sk_1.
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#scope"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma23 a r:Inference;
+    r:gives {
+        _:sk_1 ex:device "depot-tablet".
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#device"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "depot-tablet"];
+    r:rule skolem:lemma49.
+
+skolem:lemma24 a r:Inference;
+    r:gives {
+        _:sk_1 ex:event "scan_start".
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#event"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "scan_start"];
+    r:rule skolem:lemma49.
+
+skolem:lemma25 a r:Inference;
+    r:gives {
+        _:sk_1 ex:valid_for "this_run".
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#valid_for"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "this_run"];
+    r:rule skolem:lemma49.
+
+skolem:lemma26 a r:Inference;
+    r:gives {
+        _:sk_1 ex:expires_within "PT2H".
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#expires_within"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "PT2H"];
+    r:rule skolem:lemma49.
+
+skolem:lemma27 a r:Inference;
+    r:gives {
+        _:sk_0 ex:payload _:sk_2.
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#payload"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma28 a r:Inference;
+    r:gives {
+        _:sk_2 ui:title "Eco opportunity. Lower-fuel route available.".
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ui#title"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "Eco opportunity. Lower-fuel route available."];
+    r:rule skolem:lemma49.
+
+skolem:lemma29 a r:Inference;
+    r:gives {
+        _:sk_2 ui:metric ex:fuelIndex.
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ui#metric"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#fuelIndex"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma30 a r:Inference;
+    r:gives {
+        _:sk_2 ui:operator ">=".
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ui#operator"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ">="];
+    r:rule skolem:lemma49.
+
+skolem:lemma31 a r:Inference;
+    r:gives {
+        _:sk_2 ui:threshold 120.0 .
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ui#threshold"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 120.0];
+    r:rule skolem:lemma49.
+
+skolem:lemma32 a r:Inference;
+    r:gives {
+        _:sk_2 ui:strategy "lower_metric_first".
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ui#strategy"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "lower_metric_first"];
+    r:rule skolem:lemma49.
+
+skolem:lemma33 a r:Inference;
+    r:gives {
+        _:sk_0 ex:assert _:sk_3.
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#assert"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma34 a r:Inference;
+    r:gives {
+        _:sk_3 ex:currentRoute ex:currentRoute.
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma35 a r:Inference;
+    r:gives {
+        _:sk_3 ex:currentFuelIndex 120.74999999999999 .
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#currentFuelIndex"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 120.74999999999999];
+    r:rule skolem:lemma49.
+
+skolem:lemma36 a r:Inference;
+    r:gives {
+        _:sk_0 ex:provenance _:sk_4.
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#provenance"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma37 a r:Inference;
+    r:gives {
+        _:sk_4 ex:created_at _:sk_5.
+    };
+    r:evidence (
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#created_at"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma38 a r:Inference;
+    r:gives {
+        _:sk_6 ex:suggestRoute ex:altRoute.
+    };
+    r:evidence (
+        skolem:lemma68
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#suggestRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#altRoute"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma39 a r:Inference;
+    r:gives {
+        _:sk_7 ex:estimatedSaving 20.999999999999986 .
+    };
+    r:evidence (
+        skolem:lemma69
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#estimatedSaving"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 20.999999999999986];
+    r:rule skolem:lemma49.
+
+skolem:lemma40 a r:Inference;
+    r:gives {
+        _:sk_8 ex:headline "Eco opportunity. Lower-fuel route available.".
+    };
+    r:evidence (
+        skolem:lemma55
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#headline"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "Eco opportunity. Lower-fuel route available."];
+    r:rule skolem:lemma49.
+
+skolem:lemma41 a r:Inference;
+    r:gives {
+        _:sk_8 ex:route ex:currentRoute.
+    };
+    r:evidence (
+        skolem:lemma55
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#route"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma42 a r:Inference;
+    r:gives {
+        _:sk_8 ex:note _:sk_9.
+    };
+    r:evidence (
+        skolem:lemma55
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#note"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma43 a r:Inference;
+    r:gives {
+        _:sk_9 ex:kind "HighFuelIndex".
+    };
+    r:evidence (
+        skolem:lemma55
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#kind"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "HighFuelIndex"];
+    r:rule skolem:lemma49.
+
+skolem:lemma44 a r:Inference;
+    r:gives {
+        _:sk_9 ex:threshold 120.0 .
+    };
+    r:evidence (
+        skolem:lemma55
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#threshold"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 120.0];
+    r:rule skolem:lemma49.
+
+skolem:lemma45 a r:Inference;
+    r:gives {
+        _:sk_8 ex:suggested_alternative ex:altRoute.
+    };
+    r:evidence (
+        skolem:lemma70
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#suggested_alternative"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/eco#altRoute"]];
+    r:rule skolem:lemma49.
+
+skolem:lemma46 a r:Inference;
+    r:gives {
+        ex:currentRoute ex:comfortIndex 53.5 .
+    };
+    r:evidence (
+        skolem:lemma71
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#comfortIndex"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 53.5];
+    r:rule skolem:lemma49.
+
+skolem:lemma47 a r:Inference;
+    r:gives {
+        ex:altRoute ex:comfortIndex 48.5 .
+    };
+    r:evidence (
+        skolem:lemma72
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#comfortIndex"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#altRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 48.5];
+    r:rule skolem:lemma49.
+
+skolem:lemma48 a r:Extraction;
+    r:gives {
+        ex:DepotX a ex:Depot.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma49 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            var:x_1 var:x_0 var:x_2.
+        } => {
+            var:x_1 var:x_0 var:x_2.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
+
+skolem:lemma50 a r:Extraction;
+    r:gives {
+        ex:shipment1 a ex:Shipment.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma51 a r:Extraction;
+    r:gives {
+        ex:currentRoute a ex:Route.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma52 a r:Extraction;
+    r:gives {
+        ex:altRoute a ex:Route.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma53 a r:Extraction;
+    r:gives {
+        ex:scan1 a ex:ScanEvent.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma54 a r:Inference;
+    r:gives {
+        _:sk_0 a ex:InsightEnvelope.
+        _:sk_0 ex:recipient ex:DepotX.
+        _:sk_0 ex:scope _:sk_1.
+        _:sk_1 ex:device "depot-tablet".
+        _:sk_1 ex:event "scan_start".
+        _:sk_1 ex:valid_for "this_run".
+        _:sk_1 ex:expires_within "PT2H".
+        _:sk_0 ex:payload _:sk_2.
+        _:sk_2 ui:title "Eco opportunity. Lower-fuel route available.".
+        _:sk_2 ui:metric ex:fuelIndex.
+        _:sk_2 ui:operator ">=".
+        _:sk_2 ui:threshold 120.0 .
+        _:sk_2 ui:strategy "lower_metric_first".
+        _:sk_0 ex:assert _:sk_3.
+        _:sk_3 ex:currentRoute ex:currentRoute.
+        _:sk_3 ex:currentFuelIndex 120.74999999999999 .
+        _:sk_0 ex:provenance _:sk_4.
+        _:sk_4 ex:created_at _:sk_5.
+    };
+    r:evidence (
+        skolem:lemma64
+        skolem:lemma56
+        [ a r:Fact; r:gives {(2500 1000) math:quotient 2.5}]
+        skolem:lemma63
+        skolem:lemma57
+        skolem:lemma59
+        [ a r:Fact; r:gives {(42.0 2.5) math:product 105.0}]
+        [ a r:Fact; r:gives {(105.0 1.15) math:product 120.74999999999999}]
+        skolem:lemma65
+        [ a r:Fact; r:gives {120.74999999999999 math:greaterThan 120.0}]
+        skolem:lemma61
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#shipment1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 2500];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 2.5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 42.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 1.15];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo 105.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 120.74999999999999];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 120.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo [ n3:uri "http://example.org/eco#DepotX"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_11"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_12"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_13"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_14"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_15"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+    r:rule skolem:lemma73.
+
+skolem:lemma55 a r:Inference;
+    r:gives {
+        _:sk_8 a ex:Banner.
+        _:sk_8 ex:headline "Eco opportunity. Lower-fuel route available.".
+        _:sk_8 ex:route ex:currentRoute.
+        _:sk_8 ex:fuelIndex 120.74999999999999 .
+        _:sk_8 ex:note _:sk_9.
+        _:sk_9 ex:kind "HighFuelIndex".
+        _:sk_9 ex:threshold 120.0 .
+    };
+    r:evidence (
+        skolem:lemma63
+        skolem:lemma61
+        skolem:lemma66
+        skolem:lemma54
+        skolem:lemma54
+        skolem:lemma54
+        skolem:lemma54
+        [ a r:Fact; r:gives {120.74999999999999 math:notLessThan 120.0}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#DepotX"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 120.74999999999999];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 120.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+    r:rule skolem:lemma74.
+
+skolem:lemma56 a r:Extraction;
+    r:gives {
+        ex:shipment1 ex:payloadKg 2500 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma57 a r:Extraction;
+    r:gives {
+        ex:currentRoute ex:distanceKm 42.0 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma58 a r:Extraction;
+    r:gives {
+        ex:altRoute ex:distanceKm 38.0 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma59 a r:Extraction;
+    r:gives {
+        ex:currentRoute ex:gradientFactor 1.15 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma60 a r:Extraction;
+    r:gives {
+        ex:altRoute ex:gradientFactor 1.05 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma61 a r:Extraction;
+    r:gives {
+        ex:scan1 ex:inDepot ex:DepotX.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma62 a r:Extraction;
+    r:gives {
+        ex:scan1 ex:atTime "2025-01-01T09:00:00Z"^^xsd:dateTime.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma63 a r:Extraction;
+    r:gives {
+        ex:scan1 ex:usesRoute ex:currentRoute.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma64 a r:Extraction;
+    r:gives {
+        ex:scan1 ex:forShipment ex:shipment1.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma65 a r:Extraction;
+    r:gives {
+        ex:policy ex:fuelIndexThreshold 120.0 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma66 a r:Inference;
+    r:gives {
+        ex:currentRoute ex:fuelIndex 120.74999999999999 .
+    };
+    r:evidence (
+        skolem:lemma64
+        skolem:lemma56
+        [ a r:Fact; r:gives {(2500 1000) math:quotient 2.5}]
+        skolem:lemma51
+        skolem:lemma57
+        skolem:lemma59
+        [ a r:Fact; r:gives {(42.0 2.5) math:product 105.0}]
+        [ a r:Fact; r:gives {(105.0 1.15) math:product 120.74999999999999}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#shipment1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 2500];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 2.5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 42.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 1.15];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo 105.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 120.74999999999999];
+    r:rule skolem:lemma75.
+
+skolem:lemma67 a r:Inference;
+    r:gives {
+        ex:altRoute ex:fuelIndex 99.75 .
+    };
+    r:evidence (
+        skolem:lemma64
+        skolem:lemma56
+        [ a r:Fact; r:gives {(2500 1000) math:quotient 2.5}]
+        skolem:lemma52
+        skolem:lemma58
+        skolem:lemma60
+        [ a r:Fact; r:gives {(38.0 2.5) math:product 95.0}]
+        [ a r:Fact; r:gives {(95.0 1.05) math:product 99.75}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#shipment1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 2500];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 2.5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/eco#altRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 38.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 1.05];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo 95.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 99.75];
+    r:rule skolem:lemma75.
+
+skolem:lemma68 a r:Inference;
+    r:gives {
+        _:sk_6 ex:suggestRoute ex:altRoute.
+    };
+    r:evidence (
+        skolem:lemma64
+        skolem:lemma56
+        [ a r:Fact; r:gives {(2500 1000) math:quotient 2.5}]
+        skolem:lemma63
+        skolem:lemma57
+        skolem:lemma59
+        [ a r:Fact; r:gives {(42.0 2.5) math:product 105.0}]
+        [ a r:Fact; r:gives {(105.0 1.15) math:product 120.74999999999999}]
+        skolem:lemma58
+        skolem:lemma60
+        [ a r:Fact; r:gives {(38.0 2.5) math:product 95.0}]
+        [ a r:Fact; r:gives {(95.0 1.05) math:product 99.75}]
+        [ a r:Fact; r:gives {120.74999999999999 math:greaterThan 99.75}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#shipment1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 2500];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 2.5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 42.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 1.15];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo 105.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 120.74999999999999];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 38.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo 1.05];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo 95.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_11"]; r:boundTo 99.75];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_12"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+    r:rule skolem:lemma76.
+
+skolem:lemma69 a r:Inference;
+    r:gives {
+        _:sk_7 ex:estimatedSaving 20.999999999999986 .
+    };
+    r:evidence (
+        skolem:lemma64
+        skolem:lemma56
+        [ a r:Fact; r:gives {(2500 1000) math:quotient 2.5}]
+        skolem:lemma63
+        skolem:lemma57
+        skolem:lemma59
+        [ a r:Fact; r:gives {(42.0 2.5) math:product 105.0}]
+        [ a r:Fact; r:gives {(105.0 1.15) math:product 120.74999999999999}]
+        skolem:lemma58
+        skolem:lemma60
+        [ a r:Fact; r:gives {(38.0 2.5) math:product 95.0}]
+        [ a r:Fact; r:gives {(95.0 1.05) math:product 99.75}]
+        [ a r:Fact; r:gives {(120.74999999999999 99.75) math:difference 20.999999999999986}]
+        skolem:lemma65
+        [ a r:Fact; r:gives {99.75 math:notGreaterThan 120.0}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#shipment1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 2500];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 2.5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 42.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 1.15];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo 105.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 120.74999999999999];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 38.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo 1.05];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo 95.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_11"]; r:boundTo 99.75];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_12"]; r:boundTo 20.999999999999986];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_13"]; r:boundTo 120.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_14"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+    r:rule skolem:lemma77.
+
+skolem:lemma70 a r:Inference;
+    r:gives {
+        _:sk_8 ex:suggested_alternative ex:altRoute.
+    };
+    r:evidence (
+        skolem:lemma68
+        skolem:lemma67
+        skolem:lemma55
+        skolem:lemma55
+        skolem:lemma55
+        skolem:lemma55
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/eco#altRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 99.75];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+    r:rule skolem:lemma78.
+
+skolem:lemma71 a r:Inference;
+    r:gives {
+        ex:currentRoute ex:comfortIndex 53.5 .
+    };
+    r:evidence (
+        skolem:lemma57
+        skolem:lemma59
+        [ a r:Fact; r:gives {(1.15 10) math:product 11.5}]
+        [ a r:Fact; r:gives {(42.0 11.5) math:sum 53.5}]
+        [ a r:Fact; r:gives {53.5 math:notLessThan 40}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#currentRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 42.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1.15];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 11.5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 53.5];
+    r:rule skolem:lemma79.
+
+skolem:lemma72 a r:Inference;
+    r:gives {
+        ex:altRoute ex:comfortIndex 48.5 .
+    };
+    r:evidence (
+        skolem:lemma58
+        skolem:lemma60
+        [ a r:Fact; r:gives {(1.05 10) math:product 10.5}]
+        [ a r:Fact; r:gives {(38.0 10.5) math:sum 48.5}]
+        [ a r:Fact; r:gives {48.5 math:notLessThan 40}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/eco#altRoute"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 38.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1.05];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 10.5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 48.5];
+    r:rule skolem:lemma79.
+
+skolem:lemma73 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. @forSome var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15. {
+            ex:scan1 ex:forShipment var:x_0.
+            var:x_0 ex:payloadKg var:x_1.
+            (var:x_1 1000) math:quotient var:x_2.
+            ex:scan1 ex:usesRoute var:x_3.
+            var:x_3 ex:distanceKm var:x_4.
+            var:x_3 ex:gradientFactor var:x_5.
+            (var:x_4 var:x_2) math:product var:x_6.
+            (var:x_6 var:x_5) math:product var:x_7.
+            ex:policy ex:fuelIndexThreshold var:x_8.
+            var:x_7 math:greaterThan var:x_8.
+            ex:scan1 ex:inDepot var:x_9.
+        } => {
+            var:x_10 a ex:InsightEnvelope.
+            var:x_10 ex:recipient var:x_9.
+            var:x_10 ex:scope var:x_11.
+            var:x_11 ex:device "depot-tablet".
+            var:x_11 ex:event "scan_start".
+            var:x_11 ex:valid_for "this_run".
+            var:x_11 ex:expires_within "PT2H".
+            var:x_10 ex:payload var:x_12.
+            var:x_12 ui:title "Eco opportunity. Lower-fuel route available.".
+            var:x_12 ui:metric ex:fuelIndex.
+            var:x_12 ui:operator ">=".
+            var:x_12 ui:threshold var:x_8.
+            var:x_12 ui:strategy "lower_metric_first".
+            var:x_10 ex:assert var:x_13.
+            var:x_13 ex:currentRoute var:x_3.
+            var:x_13 ex:currentFuelIndex var:x_7.
+            var:x_10 ex:provenance var:x_14.
+            var:x_14 ex:created_at var:x_15.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma74 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+            ex:scan1 ex:usesRoute var:x_0.
+            ex:scan1 ex:inDepot var:x_1.
+            var:x_0 ex:fuelIndex var:x_2.
+            var:x_3 ex:payload var:x_4.
+            var:x_4 ui:metric ex:fuelIndex.
+            var:x_4 ui:threshold var:x_5.
+            var:x_3 ex:recipient var:x_1.
+            var:x_2 math:notLessThan var:x_5.
+        } => {
+            var:x_6 a ex:Banner.
+            var:x_6 ex:headline "Eco opportunity. Lower-fuel route available.".
+            var:x_6 ex:route var:x_0.
+            var:x_6 ex:fuelIndex var:x_2.
+            var:x_6 ex:note var:x_7.
+            var:x_7 ex:kind "HighFuelIndex".
+            var:x_7 ex:threshold var:x_5.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma75 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+            ex:scan1 ex:forShipment var:x_0.
+            var:x_0 ex:payloadKg var:x_1.
+            (var:x_1 1000) math:quotient var:x_2.
+            var:x_3 a ex:Route.
+            var:x_3 ex:distanceKm var:x_4.
+            var:x_3 ex:gradientFactor var:x_5.
+            (var:x_4 var:x_2) math:product var:x_6.
+            (var:x_6 var:x_5) math:product var:x_7.
+        } => {
+            var:x_3 ex:fuelIndex var:x_7.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma76 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11. @forSome var:x_12. {
+            ex:scan1 ex:forShipment var:x_0.
+            var:x_0 ex:payloadKg var:x_1.
+            (var:x_1 1000) math:quotient var:x_2.
+            ex:scan1 ex:usesRoute var:x_3.
+            var:x_3 ex:distanceKm var:x_4.
+            var:x_3 ex:gradientFactor var:x_5.
+            (var:x_4 var:x_2) math:product var:x_6.
+            (var:x_6 var:x_5) math:product var:x_7.
+            ex:altRoute ex:distanceKm var:x_8.
+            ex:altRoute ex:gradientFactor var:x_9.
+            (var:x_8 var:x_2) math:product var:x_10.
+            (var:x_10 var:x_9) math:product var:x_11.
+            var:x_7 math:greaterThan var:x_11.
+        } => {
+            var:x_12 ex:suggestRoute ex:altRoute.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma77 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13. @forSome var:x_14. {
+            ex:scan1 ex:forShipment var:x_0.
+            var:x_0 ex:payloadKg var:x_1.
+            (var:x_1 1000) math:quotient var:x_2.
+            ex:scan1 ex:usesRoute var:x_3.
+            var:x_3 ex:distanceKm var:x_4.
+            var:x_3 ex:gradientFactor var:x_5.
+            (var:x_4 var:x_2) math:product var:x_6.
+            (var:x_6 var:x_5) math:product var:x_7.
+            ex:altRoute ex:distanceKm var:x_8.
+            ex:altRoute ex:gradientFactor var:x_9.
+            (var:x_8 var:x_2) math:product var:x_10.
+            (var:x_10 var:x_9) math:product var:x_11.
+            (var:x_7 var:x_11) math:difference var:x_12.
+            ex:policy ex:fuelIndexThreshold var:x_13.
+            var:x_11 math:notGreaterThan var:x_13.
+        } => {
+            var:x_14 ex:estimatedSaving var:x_12.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma78 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
+            var:x_0 ex:suggestRoute var:x_1.
+            var:x_1 ex:fuelIndex var:x_2.
+            var:x_3 a ex:Banner.
+            var:x_3 ex:route var:x_4.
+            var:x_3 ex:note var:x_5.
+            var:x_5 ex:kind "HighFuelIndex".
+        } => {
+            var:x_3 ex:suggested_alternative var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+
+skolem:lemma79 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+            var:x_0 ex:distanceKm var:x_1.
+            var:x_0 ex:gradientFactor var:x_2.
+            (var:x_2 10) math:product var:x_3.
+            (var:x_1 var:x_3) math:sum var:x_4.
+            var:x_4 math:notLessThan 40.
+        } => {
+            var:x_0 ex:comfortIndex var:x_4.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/eco-route/eco-route.n3>].
+

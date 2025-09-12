@@ -1,0 +1,195 @@
+@prefix ex:   <http://example.org/eco#> .
+@prefix ui:   <http://example.org/ui#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+
+################################################################################
+# INPUT DATA (public context + policy + routes) — no raw telemetry, no IDs
+################################################################################
+
+# Depot, shipment, and two routes (current + one alternative)
+ex:DepotX       a ex:Depot .
+ex:shipment1    a ex:Shipment ; ex:payloadKg 2500 .
+
+ex:currentRoute a ex:Route ;
+  ex:distanceKm 42.0 ;           # kilometers
+  ex:gradientFactor 1.15 .       # simple terrain factor (~1.0 = flat)
+
+ex:altRoute     a ex:Route ;
+  ex:distanceKm 38.0 ;
+  ex:gradientFactor 1.05 .
+
+# Scan/plan context at the depot (deterministic timestamp for reproducibility)
+ex:scan1 a ex:ScanEvent ;
+  ex:inDepot  ex:DepotX ;
+  ex:atTime   "2025-01-01T09:00:00Z"^^xsd:dateTime ;
+  ex:usesRoute ex:currentRoute ;
+  ex:forShipment ex:shipment1 .
+
+# Policy threshold for triggering the eco banner (fuel-index trigger)
+ex:policy ex:fuelIndexThreshold 120.0 .
+
+################################################################################
+# VOCAB HINTS (lightweight, informal)
+################################################################################
+# ex:fuelIndex = distanceKm × (payloadKg / 1000) × gradientFactor
+# envelope payload tracks ex:fuelIndex and suggests an alternative if strictly better
+# time-boxing expressed as an ISO 8601 duration to avoid date arithmetics
+
+################################################################################
+# DERIVATION: compute fuel index for any route in this context
+################################################################################
+
+# R1 — compute a fuelIndex for each Route using the shipment’s payload
+{
+  ex:scan1 ex:forShipment ?S .
+  ?S       ex:payloadKg ?Wkg .
+  ( ?Wkg 1000 ) math:quotient ?Wton .
+
+  ?R a ex:Route ;
+     ex:distanceKm     ?Dkm ;
+     ex:gradientFactor ?Gf .
+
+  ( ?Dkm ?Wton ) math:product ?Work .
+  ( ?Work ?Gf )  math:product ?FuelIndex .
+}
+=>
+{ ?R ex:fuelIndex ?FuelIndex . } .
+
+################################################################################
+# ENVELOPE: emit a minimal, audience-scoped instruction (no private data)
+################################################################################
+
+# R2 — if current route’s fuelIndex exceeds threshold, instruct depot UI to nudge
+{
+  ex:scan1 ex:forShipment ?S .
+  ?S       ex:payloadKg ?Wkg .
+  ( ?Wkg 1000 ) math:quotient ?Wton .
+
+  ex:scan1 ex:usesRoute ?R1 .
+  ?R1      ex:distanceKm ?D1 ; ex:gradientFactor ?G1 .
+  ( ?D1 ?Wton ) math:product ?W1 .
+  ( ?W1 ?G1 )   math:product ?Fi1 .
+
+  ex:policy ex:fuelIndexThreshold ?T .
+  ?Fi1 math:greaterThan ?T .
+
+  ex:scan1 ex:inDepot ?Depot .
+}
+=>
+{
+  _:env a ex:InsightEnvelope ;
+    ex:recipient      ?Depot ;
+    ex:scope [
+      ex:device        "depot-tablet" ;
+      ex:event         "scan_start" ;
+      ex:valid_for     "this_run" ;
+      ex:expires_within "PT2H"          # 2 hours (duration literal)
+    ] ;
+    ex:payload [
+      ui:title     "Eco opportunity. Lower-fuel route available." ;
+      ui:metric    ex:fuelIndex ;
+      ui:operator  ">=" ;
+      ui:threshold ?T ;
+      ui:strategy  "lower_metric_first"
+    ] ;
+    ex:assert [
+      ex:currentRoute ?R1 ;
+      ex:currentFuelIndex ?Fi1
+    ] ;
+    ex:provenance [
+      ex:created_at ?now    # optional: can be filled by a pre-step if desired
+    ] .
+} .
+
+################################################################################
+# SUGGESTION: propose alternative if strictly better on fuel index
+################################################################################
+
+# R3 — mark alt as suggested if its fuelIndex is strictly lower than current
+{
+  ex:scan1 ex:forShipment ?S .
+  ?S       ex:payloadKg ?Wkg .
+  ( ?Wkg 1000 ) math:quotient ?Wton .
+
+  ex:scan1 ex:usesRoute ?R1 .
+  ?R1      ex:distanceKm ?D1 ; ex:gradientFactor ?G1 .
+  ( ?D1 ?Wton ) math:product ?W1 .
+  ( ?W1 ?G1 )   math:product ?Fi1 .
+
+  ex:altRoute ex:distanceKm ?D2 ; ex:gradientFactor ?G2 .
+  ( ?D2 ?Wton ) math:product ?W2 .
+  ( ?W2 ?G2 )   math:product ?Fi2 .
+
+  ?Fi1 math:greaterThan ?Fi2 .
+}
+=>
+{ _:env ex:suggestRoute ex:altRoute . } .
+
+# R4 — compute estimated saving (current − alternative), and ensure alt stays under threshold
+{
+  ex:scan1 ex:forShipment ?S .
+  ?S       ex:payloadKg ?Wkg .
+  ( ?Wkg 1000 ) math:quotient ?Wton .
+
+  ex:scan1 ex:usesRoute ?R1 .
+  ?R1      ex:distanceKm ?D1 ; ex:gradientFactor ?G1 .
+  ( ?D1 ?Wton ) math:product ?W1 .
+  ( ?W1 ?G1 )   math:product ?Fi1 .
+
+  ex:altRoute ex:distanceKm ?D2 ; ex:gradientFactor ?G2 .
+  ( ?D2 ?Wton ) math:product ?W2 .
+  ( ?W2 ?G2 )   math:product ?Fi2 .
+
+  ( ?Fi1 ?Fi2 ) math:difference ?Saving .
+
+  ex:policy ex:fuelIndexThreshold ?T .
+  ?Fi2 math:notGreaterThan ?T .
+}
+=>
+{ _:env ex:estimatedSaving ?Saving . } .
+
+################################################################################
+# RUNTIME BANNER: what the device shows locally (no profiles, just metrics)
+################################################################################
+
+# R5 — when the envelope is active and threshold is crossed, show a banner
+{
+  ex:scan1 ex:usesRoute ?R1 ; ex:inDepot ?Depot .
+  ?R1      ex:fuelIndex ?Fi1 .
+  _:env    ex:payload [ ui:metric ex:fuelIndex ; ui:threshold ?T ] ;
+           ex:recipient ?Depot .
+  ?Fi1     math:notLessThan ?T .
+}
+=>
+{
+  _:banner a ex:Banner ;
+    ex:headline "Eco opportunity. Lower-fuel route available." ;
+    ex:route    ?R1 ;
+    ex:fuelIndex ?Fi1 ;
+    ex:note [ ex:kind "HighFuelIndex" ; ex:threshold ?T ] .
+} .
+
+# R6 — if a suggestion exists, include it in the banner preview
+{
+  _:env ex:suggestRoute ?Alt .
+  ?Alt   ex:fuelIndex ?Fi2 .
+  _:banner a ex:Banner ; ex:route ?R1 ; ex:note [ ex:kind "HighFuelIndex" ] .
+}
+=>
+{ _:banner ex:suggested_alternative ?Alt . } .
+
+################################################################################
+# OPTIONAL: derived comfort index (illustrative extra metric)
+################################################################################
+# Comfort = distanceKm + (gradientFactor × 10); only attach if ≥ 40
+{
+  ?R ex:distanceKm ?D ; ex:gradientFactor ?Gf .
+  ( ?Gf 10 ) math:product ?Pg .
+  ( ?D ?Pg ) math:sum ?Comfort .
+  ?Comfort math:notLessThan 40 .
+}
+=>
+{ ?R ex:comfortIndex ?Comfort . } .
+
