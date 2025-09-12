@@ -1,0 +1,191 @@
+@prefix ex:   <http://example.org/bike#> .
+@prefix ui:   <http://example.org/ui#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+
+################################################################################
+# INPUT DATA (private + public)
+################################################################################
+
+# PRIVATE — never leaves the private side; only used on the LHS of derivation
+ex:me  ex:riderCondition "knee_pain" .
+
+# PUBLIC planning context (OK to share)
+ex:ctx1 a ex:PlanningContext ;
+  ex:provider   "CyclaRoute" ;
+  ex:device     "mobile" ;
+  ex:event      "start_planning" ;
+  ex:timestamp  "2025-09-12T08:00:00Z"^^xsd:dateTime ;
+  ex:location   "be-ghent" .
+
+# PUBLIC route candidates known to the planner
+# - We model both max grade (%) and ETA (min) so we can define a tie-break rule.
+ex:R-current a ex:Route ;
+  ex:name "Current Proposal" ;
+  ex:max_grade_percent "10.0"^^xsd:decimal ;
+  ex:total_ascent_m "180"^^xsd:decimal ;
+  ex:eta_min "36"^^xsd:integer .
+
+ex:R-A a ex:Route ;
+  ex:name "Alt A (river path)" ;
+  ex:max_grade_percent "6.0"^^xsd:decimal ;
+  ex:total_ascent_m "120"^^xsd:decimal ;
+  ex:eta_min "40"^^xsd:integer .
+
+ex:R-B a ex:Route ;
+  ex:name "Alt B (quiet streets)" ;
+  ex:max_grade_percent "6.0"^^xsd:decimal ;
+  ex:total_ascent_m "140"^^xsd:decimal ;
+  ex:eta_min "38"^^xsd:integer .
+
+################################################################################
+# DERIVATION: private → insight envelope (no sensitive terms leak)
+################################################################################
+
+# If the rider has knee pain AND we’re starting a planning session at CyclaRoute,
+# emit a public, minimised envelope instructing the UI to track the steepest grade
+# and suggest a flatter alternative when a threshold is exceeded.
+{
+  ex:me   ex:riderCondition "knee_pain" .
+  ex:ctx1 ex:provider "CyclaRoute" ;
+         ex:device   "mobile" ;
+         ex:event    "start_planning" ;
+         ex:timestamp ?ts ;
+         ex:location ?loc .
+}
+=>
+{
+  _:env a ex:InsightEnvelope ;
+    ex:recipient "CyclaRoute" ;
+    ex:scope [
+      ex:device        "mobile" ;
+      ex:event         "start_planning" ;
+      ex:valid_for     "this_session" ;
+      ex:planning_area ?loc ;
+      # Time-boxing expressed as a duration (to avoid date math builtins)
+      ex:expires_within "PT1H"
+    ] ;
+    ex:payload [
+      ui:title     "Track gradient % while planning" ;
+      ui:metric    ex:max_grade_percent ;
+      ui:operator  ">=" ;
+      ui:threshold "8.0"^^xsd:decimal ;
+      ui:strategy  "lower_metric_first_shorter_eta_ok"
+    ] ;
+    ex:provenance [
+      ex:created_at ?ts ;
+      ex:generator  "private_insight_refiner_v1" ;
+      ex:data_minimization "true"^^xsd:boolean
+    ] .
+} .
+
+################################################################################
+# ACTIVATION: planner uses the envelope during a planning session
+################################################################################
+
+# A planning session that uses the derived envelope.
+ex:plan1 a ex:Plan ;
+  ex:context       ex:ctx1 ;
+  ex:proposedRoute ex:R-current ;
+  ex:considerRoute ex:R-A, ex:R-B ;
+  ex:useEnvelope   _:env .
+
+# Helper: look up threshold from an envelope
+{
+  ?env a ex:InsightEnvelope ;
+       ex:payload [ ui:metric ex:max_grade_percent ; ui:threshold ?T ] .
+}
+=> { ?env ex:thresholdForGrade ?T . } .
+
+# Flag “too steep” if the proposed route exceeds the threshold (no medical talk)
+{
+  ?plan a ex:Plan ; ex:proposedRoute ?R ; ex:useEnvelope ?env .
+  ?env  ex:thresholdForGrade ?T .
+  ?R    ex:max_grade_percent ?G .
+  ?G    math:notLessThan ?T .
+}
+=>
+{
+  _:banner a ex:Banner ;
+    ex:headline "Track gradient % while planning" ;
+    ex:route    ?R ;
+    ex:max_grade_percent ?G ;
+    ex:note [ ex:kind "TooSteep" ; ex:threshold ?T ] .
+} .
+
+################################################################################
+# SUGGESTION: pick the “best” flatter alternative
+#  - strictly lower max grade than the proposed route
+#  - among those, choose the one with *lowest max grade*
+#  - tie-break on *shorter ETA* (since we prefer faster among equally flat)
+################################################################################
+
+# Mark all candidates with strictly lower max grade than the proposed route
+{
+  ?plan a ex:Plan ; ex:proposedRoute ?R ; ex:considerRoute ?Alt .
+  ?R   ex:max_grade_percent ?G .
+  ?Alt ex:max_grade_percent ?GA .
+  ?GA  math:lessThan ?G .
+}
+=> { ?R ex:candidateAlt ?Alt . } .
+
+# Define “worse than” for the current proposed route:
+# X is worse than Y if:
+#  - Y has strictly lower max grade than X; OR
+#  - equal max grade but *shorter* ETA than X (we prefer faster)
+{
+  ?R ex:candidateAlt ?X, ?Y .
+  ?X ex:max_grade_percent ?GX ; ex:eta_min ?EX .
+  ?Y ex:max_grade_percent ?GY ; ex:eta_min ?EY .
+  ?GY math:lessThan ?GX .
+}
+=> { ?X ex:worseThanFor (?R ?Y) . } .
+
+{
+  ?R ex:candidateAlt ?X, ?Y .
+  ?X ex:max_grade_percent ?GX ; ex:eta_min ?EX .
+  ?Y ex:max_grade_percent ?GY ; ex:eta_min ?EY .
+  ?GY = ?GX .
+  ?EY math:lessThan ?EX .
+}
+=> { ?X ex:worseThanFor (?R ?Y) . } .
+
+# Select the candidate with no strictly better competitor (a maximal element)
+{
+  ?R  ex:candidateAlt ?Alt .
+  ?S  log:notIncludes { ?Alt ex:worseThanFor (?R ?Better) . } .
+}
+=> { ?R ex:selectedAlt ?Alt . } .
+
+# If there is a selected alternative and the route is too steep, include suggestion
+{
+  ?plan a ex:Plan ; ex:proposedRoute ?R ; ex:useEnvelope ?env .
+  ?env  ex:thresholdForGrade ?T .
+  ?R    ex:max_grade_percent ?G ; ex:selectedAlt ?Alt .
+  ?G    math:notLessThan ?T .
+}
+=>
+{
+  _:banner2 a ex:Banner ;
+    ex:headline "Track gradient % while planning" ;
+    ex:route    ?R ;
+    ex:max_grade_percent ?G ;
+    ex:note [ ex:kind "TooSteep" ; ex:threshold ?T ] ;
+    ex:suggested_alternative ?Alt .
+} .
+
+################################################################################
+# OPTIONAL: private-side explanation (never sent to provider)
+################################################################################
+
+{
+  ex:me   ex:riderCondition "knee_pain" .
+  ex:ctx1 ex:provider "CyclaRoute" ; ex:device "mobile" ; ex:event "start_planning" .
+}
+=>
+{
+  ex:privateNote
+    ex:reason "Knee-friendly guidance enabled. You are starting a route planning session at CyclaRoute. The envelope minimizes data and is limited to this session." .
+} .
+

@@ -1,0 +1,61 @@
+PREFIX ex:  <http://example.org/bike#>
+PREFIX ui:  <http://example.org/ui#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+ex:privateNote  ex:reason  "Knee-friendly guidance enabled. You are starting a route planning session at CyclaRoute. The envelope minimizes data and is limited to this session." .
+
+[ a                     ex:InsightEnvelope;
+  ex:payload            [ ui:metric     ex:max_grade_percent;
+                          ui:operator   ">=";
+                          ui:strategy   "lower_metric_first_shorter_eta_ok";
+                          ui:threshold  8.0;
+                          ui:title      "Track gradient % while planning"
+                        ];
+  ex:provenance         [ ex:created_at         "2025-09-12T08:00:00Z"^^xsd:dateTime;
+                          ex:data_minimization  true;
+                          ex:generator          "private_insight_refiner_v1"
+                        ];
+  ex:recipient          "CyclaRoute";
+  ex:scope              [ ex:device          "mobile";
+                          ex:event           "start_planning";
+                          ex:expires_within  "PT1H";
+                          ex:planning_area   "be-ghent";
+                          ex:valid_for       "this_session"
+                        ];
+  ex:thresholdForGrade  8.0
+] .
+
+ex:plan1  a               ex:Plan;
+        ex:considerRoute  ex:R-B , ex:R-A;
+        ex:context        ex:ctx1;
+        ex:proposedRoute  ex:R-current;
+        ex:useEnvelope    []  .
+
+ex:R-B  a                     ex:Route;
+        ex:eta_min            38;
+        ex:max_grade_percent  6.0;
+        ex:name               "Alt B (quiet streets)";
+        ex:total_ascent_m     "140"^^xsd:decimal .
+
+ex:R-A  a                     ex:Route;
+        ex:eta_min            40;
+        ex:max_grade_percent  6.0;
+        ex:name               "Alt A (river path)";
+        ex:total_ascent_m     "120"^^xsd:decimal .
+
+ex:R-current  a               ex:Route;
+        ex:candidateAlt       ex:R-B , ex:R-A;
+        ex:eta_min            36;
+        ex:max_grade_percent  10.0;
+        ex:name               "Current Proposal";
+        ex:selectedAlt        ex:R-B , ex:R-A;
+        ex:total_ascent_m     "180"^^xsd:decimal .
+
+ex:ctx1  a            ex:PlanningContext;
+        ex:device     "mobile";
+        ex:event      "start_planning";
+        ex:location   "be-ghent";
+        ex:provider   "CyclaRoute";
+        ex:timestamp  "2025-09-12T08:00:00Z"^^xsd:dateTime .
+
+ex:me   ex:riderCondition  "knee_pain" .
