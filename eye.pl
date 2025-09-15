@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.20.11 (2025-09-09)').
+version_info('EYE v11.21.0 (2025-09-15)').
 
 license_info('MIT License
 
@@ -108,8 +108,9 @@ eye
     --pass                          output deductive closure
     --pass-all                      output deductive closure plus rules
     --pass-all-ground               ground the rules and run --pass-all
+    --pass-derived                  output only derived triples
     --pass-merged                   output merged data without deductive closure
-    --pass-only-new                 output only new derived triples
+    --pass-only-new                 output only new derived triples and rules
     --query <query>                 output filtered with filter rules
     --sparql-query <query>          output answer of sparql query').
 
@@ -168,6 +169,7 @@ eye
 :- dynamic(pass_only_new/1).
 :- dynamic(pfx/2).
 :- dynamic(pred/1).
+:- dynamic(pre_eam/1).
 :- dynamic(prfstep/7).              % prfstep(Conclusion_triple, Premise, Premise_index, Conclusion, Rule, Chaining, Source)
 :- dynamic(pverb/1).
 :- dynamic(qevar/3).
@@ -481,8 +483,16 @@ gre(Argus) :-
     ->  format(Out, "flag(quantify, '~w').~n", [Sns])
     ;   true
     ),
+    (   flag('pass-derived')
+    ->  nb_setval(pre_eam, true)
+    ;   nb_setval(pre_eam, false)
+    ),
     args(Args),
     prepare_builtins,
+    (   flag('pass-derived')
+    ->  nb_setval(pre_eam, false)
+    ;   true
+    ),
     (   implies(_, Conc, _),
          (   var(Conc)
          ;   Conc \= answer(_, _, _),
@@ -819,6 +829,11 @@ opts(['--pass-merged'|Argus], Args) :-
     retractall(flag('pass-merged')),
     assertz(flag('pass-merged')),
     opts(['--pass-all'|Argus], Args).
+opts(['--pass-derived'|Argus], Args) :-
+    !,
+    retractall(flag('pass-derived')),
+    assertz(flag('pass-derived')),
+    opts(['--pass'|Argus], Args).
 opts(['--pass-only-new'|Argus], Args) :-
     !,
     retractall(flag('pass-only-new')),
@@ -1064,6 +1079,9 @@ args(['--pass-all'|Args]) :-
     ;   true
     ),
     args(Args).
+args(['--pass-derived'|Args]) :-
+    !,
+    args(['--pass'|Args]).
 args(['--prolog', Argument|Args]) :-
     !,
     cnt(doc_nr),
@@ -3857,6 +3875,7 @@ w3 :-
     (   answer(B1, B2, B3),
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
+        \+pre_eam(C),
         indent,
         labelvars(C, 0, _, avar),
         (   C = '<http://www.w3.org/2000/10/swap/graph#statement>'(X, Y)
@@ -3890,7 +3909,6 @@ w3 :-
         )
     ;   true
     ).
-
 w3 :-
     (   prfstep(answer(_, _, _), _, _, _, _, _, _),
         !,
@@ -3914,6 +3932,7 @@ w3 :-
             djiti_answer(answer(O), O1),
             Rule =.. [P, S, O],
             djiti_answer(answer(C), Cn),
+            \+pre_eam(C),
             nb_setval(empty_gives, C),
             \+got_wi(A, B, Pnd, C, Rule),
             assertz(got_wi(A, B, Pnd, C, Rule)),
@@ -3940,6 +3959,7 @@ w3 :-
             (   prfstep(answer(B1, B2, B3), _, _, _, _, _, _),
                 relabel([B1, B2, B3], [C1, C2, C3]),
                 djiti_answer(answer(C), answer(C1, C2, C3)),
+                \+pre_eam(C),
                 nl,
                 indent,
                 getvars(C, D),
@@ -5781,7 +5801,11 @@ djiti_fact(A, A).
 
 djiti_assertz(A) :-
     djiti_fact(A, B),
-    assertz(B).
+    assertz(B),
+    (   nb_getval(pre_eam, true)
+    ->  assertz(pre_eam(B))
+    ;   true
+    ).
 
 %
 % Built-ins

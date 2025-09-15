@@ -1,12 +1,15 @@
-PREFIX ex:  <http://example.org/eco#>
-PREFIX ui:  <http://example.org/ui#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ex: <http://example.org/eco#>
+PREFIX ui: <http://example.org/ui#>
 
 [ ex:estimatedSaving  20.999999999999986 ] .
 
 [ ex:suggestRoute  ex:altRoute ] .
 
-ex:policy  ex:fuelIndexThreshold  120.0 .
+ex:altRoute  ex:comfortIndex  48.5;
+        ex:fuelIndex     99.75 .
+
+ex:currentRoute  ex:comfortIndex  53.5;
+        ex:fuelIndex     120.74999999999999 .
 
 [ a                         ex:Banner;
   ex:fuelIndex              120.74999999999999;
@@ -37,26 +40,3 @@ ex:policy  ex:fuelIndexThreshold  120.0 .
                    ex:valid_for       "this_run"
                  ]
 ] .
-
-ex:scan1  a             ex:ScanEvent;
-        ex:atTime       "2025-01-01T09:00:00Z"^^xsd:dateTime;
-        ex:forShipment  ex:shipment1;
-        ex:inDepot      ex:DepotX;
-        ex:usesRoute    ex:currentRoute .
-
-ex:altRoute  a             ex:Route;
-        ex:comfortIndex    48.5;
-        ex:distanceKm      38.0;
-        ex:fuelIndex       99.75;
-        ex:gradientFactor  1.05 .
-
-ex:currentRoute  a         ex:Route;
-        ex:comfortIndex    53.5;
-        ex:distanceKm      42.0;
-        ex:fuelIndex       120.74999999999999;
-        ex:gradientFactor  1.15 .
-
-ex:shipment1  a       ex:Shipment;
-        ex:payloadKg  2500 .
-
-ex:DepotX  a    ex:Depot .
