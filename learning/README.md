@@ -6,11 +6,7 @@ EYE learning is a practical method for transforming **Data** (like RDF graphs), 
 2.  An explanation of the **Reason Why**.
 3.  An independent **Check (harness)** that validates the result, guarding against errors and hallucinations.
 
-## Rationale for EYE learning
-
-See the [EYE learning write up](https://github.com/eyereasoner/eye/blob/master/learning/EYE-learning.md).
-
-## Running the EYE learning cases
+See [A Guide to EYE Learning](https://github.com/eyereasoner/eye/blob/master/learning/EYE-learning.md).
 
 Run the [EYE learning cases](https://github.com/eyereasoner/eye/tree/master/learning/cases) to get the [answer, reason why and check (harness)](https://github.com/eyereasoner/eye/tree/master/learning/cases/output)
    ```bash
