@@ -50,7 +50,7 @@ The conceptual pipeline is straightforward. The inputs are fed into an LLM, whic
 
 ![EYE learning](EYE-learning.png)
 
-For more demanding tasks involving complex logic or large datasets, the Python program can delegate the core reasoning step to the high-performance **EYE reasoner**. This allows it to generate formal proofs at scale while the LLM-generated code handles the orchestration and verification. This architecture is built on two principles: (1) runtime **verification is mandatory**, and (2) the primary output is a **portable program** that is easy to manage, version, and execute anywhere.
+This architecture is built on two principles: (1) runtime **verification is mandatory**, and (2) the primary output is a **portable program** that is easy to manage, version, and execute anywhere.
 
 -----
 
