@@ -1,0 +1,67 @@
+# Answer
+Yes — Green Bowl at 12:15 (finish by 12:57; total 42 min; €14.50/person).
+
+—— Context ——
+Participants: Alice (vegetarian, €20.00) & Bob (omnivore, €18.00).
+Breaks: Alice 12:00–13:00, Bob 12:15–13:15.
+Constraints: price ≤ min(budgets); walk ≤ 10; wait ≤ 10; diet coverage required; fit within shared window AND opening hours.
+Objective: minimize total time = 2*walk + wait + service; tie-break by earlier start, then by name.
+Shared window: 12:15–13:00 (45 min).
+Shared budget ceiling: €18.00.
+
+# Reason Why
+✗ Pasta Place: hard limits violated (walk 8 min / wait 12 min; limits are 10/10).
+✗ Sushi Go: price €22.00 exceeds shared budget €18.00.
+✓ Recommended: Green Bowl — minimal total time 42 min; start 12:15; price €14.50 ≤ €18.00; walk 6 min, wait 5 min within limits; menu covers diets; open 11:30–14:30; earliest start 12:15; total 42 min fits.
+
+# Check (harness) — descriptive scenarios
+
+— Scenario: Base case → should recommend Green Bowl
+  Expected: FEASIBLE | Restaurant: Green Bowl
+  Observed: FEASIBLE
+  ⇒ Choice: Green Bowl at 12:15 (finish 12:57; total 42 min)
+  Result: PASS
+
+— Scenario: Budget tightened to €12 → infeasible
+  Expected: INFEASIBLE | Restaurant: n/a
+  Observed: INFEASIBLE
+  ⇒ No recommendation
+  Result: PASS
+
+— Scenario: Overlap shrunk to 20 min → infeasible
+  Expected: INFEASIBLE | Restaurant: n/a
+  Observed: INFEASIBLE
+  ⇒ No recommendation
+  Result: PASS
+
+— Scenario: Add 'Quick Bites' (no veg) → still not chosen
+  Expected: FEASIBLE | Restaurant: Green Bowl
+  Observed: FEASIBLE
+  ⇒ Choice: Green Bowl at 12:15 (finish 12:57; total 42 min)
+  Result: PASS
+
+— Scenario: Equality on hard limits; faster total → new winner
+  Expected: FEASIBLE | Restaurant: Edge Diner
+  Observed: FEASIBLE
+  ⇒ Choice: Edge Diner at 12:15 (finish 12:45; total 30 min)
+  Result: PASS
+
+— Scenario: Tie on total; earlier start breaks tie
+  Expected: FEASIBLE | Restaurant: Tie A
+  Observed: FEASIBLE
+  ⇒ Choice: Tie A at 12:15 (finish 12:50; total 35 min)
+  Result: PASS
+
+— Scenario: Tie on total & start; alphabetical by name
+  Expected: FEASIBLE | Restaurant: Cafe One
+  Observed: FEASIBLE
+  ⇒ Choice: Cafe One at 12:15 (finish 12:50; total 35 min)
+  Result: PASS
+
+— Scenario: Finish exactly at window & closing time
+  Expected: FEASIBLE | Restaurant: Boundary Cafe
+  Observed: FEASIBLE
+  ⇒ Choice: Boundary Cafe at 12:15 (finish 13:00; total 45 min)
+  Result: PASS
+
+Harness summary: PASS (all scenarios)
