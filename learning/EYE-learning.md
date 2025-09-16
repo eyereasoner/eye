@@ -45,10 +45,10 @@ The conceptual pipeline is straightforward: **Data + Rules + Goal** are fed into
 ```
 ┌───────────────────┐                           ┌──────────────────────┐
 │  Data (e.g. RDF)  │                           │  self-contained      │
-|   +               |   ┌───────────────────┐   |  Python program      |   ┌──────────────────────┐
+|         +         |   ┌───────────────────┐   |  Python program      |   ┌──────────────────────┐
 │  Rules (e.g. N3)  │──>│  LLM synthesizer  │──>│  1. Answer           │──>│  actionable insight  │
-|   +               |   └───────────────────┘   │  2. Reason why       │   └──────────────────────┘
-│  Goal             │                           │  3. Check (harness)  │
+|         +         |   └───────────────────┘   │  2. Reason why       │   └──────────────────────┘
+│        Goal       │                           │  3. Check (harness)  │
 └───────────────────┘                           └──────────────────────┘
 ```
 
