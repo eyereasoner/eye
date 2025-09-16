@@ -75,7 +75,6 @@ Adopting EYE Learning is a straightforward, iterative process:
 3.  **Synthesize the Program:** Use a prompt to instruct the LLM to generate the single Python program that produces the answer, reason, and check.
 4.  **Execute and Validate:** Run the generated program. Confirm that the outputs are correct and that the self-verification harness passes. The repository's `./test` command automates this for all examples.
 5.  **Iterate and Harden:** As your data and logic evolve, simply re-run the synthesis step to create an updated, validated artifact.
-6.  **(Optional) Integrate with EYE:** For complex reasoning at scale, modify the program to call the native EYE engine for its core logic while retaining the LLM-generated harness for orchestration and verification.
 
 -----
 
@@ -86,6 +85,6 @@ Adopting EYE Learning is a straightforward, iterative process:
   * **Lower Maintenance Overhead:** Because the system's intelligence is maintained as declarative logic, you don't need to refactor complex code to change business policies. You simply update the logic and regenerate the program.
   * **Democratized Expertise:** This pattern allows subject matter experts to define operational logic in a high-level format, while the LLM handles the complex task of translating that logic into efficient, verifiable code.
 
-[^1]: R. Verborgh and J. De Roo, "Drawing Conclusions from Linked Data on the Web: The EYE Reasoner," in IEEE Software, vol. 32, no. 3, pp. 23-27, May-June 2015, doi: 10.1109/MS.2015.63.
+[^1]: R. Verborgh and J. De Roo. Drawing Conclusions from Linked Data on the Web: The EYE Reasoner. IEEE Software, vol. 32, no. 3, pp. 23-27, May-June 2015, doi: 10.1109/MS.2015.63.
 [^2]: Ershov, A. P. (1982). Mixed Computation: Potential Applications and Problems for Study. Theoretical Computer Science, 18, 41–67.
 
