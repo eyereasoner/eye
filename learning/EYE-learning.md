@@ -56,7 +56,7 @@ For more demanding tasks involving complex logic or large datasets, the Python p
 
 ## Advanced Pattern: Mixed Computation
 
-For performance-critical applications, EYE learning supports an advanced pattern that separates stable **Logic** from dynamic **Data**. This **"mixed-computation"** approach, inspired by foundational computer science principles, treats your stable policies (the "how") as static code and your live inputs (the "what") as dynamic data.
+For performance-critical applications, EYE learning supports an advanced pattern that separates stable **Logic** from dynamic **Data**. This **"mixed-computation"** approach, inspired by foundational computer science principles [^1], treats your stable policies (the "how") as static code and your live inputs (the "what") as dynamic data.
 
 The LLM-guided synthesis step acts as a "specializer," converting the declarative **Logic** into a compact, highly efficient **Driver** function in Python.
 
@@ -85,3 +85,6 @@ Adopting EYE Learning is a straightforward, iterative process:
   * **Extreme Automation:** By producing a self-contained executable, EYE Learning is a perfect fit for modern DevOps and MLOps pipelines. The generated programs can be versioned in Git, tested in CI, and deployed anywhere.
   * **Lower Maintenance Overhead:** Because the system's intelligence is maintained as declarative logic, you don't need to refactor complex code to change business policies. You simply update the logic and regenerate the program.
   * **Democratized Expertise:** This pattern allows subject matter experts to define operational logic in a high-level format, while the LLM handles the complex task of translating that logic into efficient, verifiable code.
+
+[^1]: Ershov, A. P. (1982). Mixed Computation: Potential Applications and Problems for Study. Theoretical Computer Science, 18, 41–67.
+
