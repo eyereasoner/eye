@@ -87,7 +87,5 @@ Adopting EYE Learning is a straightforward, iterative process:
   * **Democratized Expertise:** This pattern allows subject matter experts to define operational logic in a high-level format, while the LLM handles the complex task of translating that logic into efficient, verifiable code.
 
 [^1]: R. Verborgh and J. De Roo, "Drawing Conclusions from Linked Data on the Web: The EYE Reasoner," in IEEE Software, vol. 32, no. 3, pp. 23-27, May-June 2015, doi: 10.1109/MS.2015.63.
-keywords: {Software;Cognition;Resource description framework;Engines;Uniform resource locators;Hardware;EYE;Semantic Web;software engineering;software development;reasoning;linked data},
-
 [^2]: Ershov, A. P. (1982). Mixed Computation: Potential Applications and Problems for Study. Theoretical Computer Science, 18, 41–67.
 
