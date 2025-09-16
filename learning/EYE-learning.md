@@ -20,7 +20,7 @@ At its heart, EYE learning is a pattern for **goal-directed program synthesis**.
 2.  You provide the necessary **Data** (RDF) and **Rules** (N3).
 3.  You instruct the LLM to generate **one Python file** that automatically ingests the inputs and produces the complete "answer, reason, check" output.
 
-The key deliverable is a **self-contained and self-verifying script**. It's not just a code snippet; it's a trustworthy and auditable artifact you can run in a CI/CD pipeline and share with confidence.
+The key deliverable is a **self-contained and self-verifying program**. It's not just a code snippet; it's a trustworthy and auditable artifact you can run in a CI/CD pipeline and share with confidence.
 
 -----
 
@@ -28,35 +28,31 @@ The key deliverable is a **self-contained and self-verifying script**. It's not 
 
 EYE learning stands out by combining the flexibility of generative AI with the rigor of symbolic systems.
 
-  * **Self-Contained, Self-Checking Outputs:** The LLM's output is a single, runnable Python script with its own built-in test harness. Every run produces both a result and a verification, which builds trust and reliability.
+  * **Self-Contained, Self-Checking Outputs:** The LLM's output is a single, runnable Python program with its own built-in test harness. Every run produces both a result and a verification, which builds trust and reliability.
 
   * **Bridge Between Symbolic and Generative AI:** It uses the LLM for what it does best—synthesizing code and structure—while relying on formal N3 rules for logic and explainability. This hybrid approach lets teams innovate quickly without sacrificing rigor.
 
   * **Explainability by Design:** The generated program is explicitly required to explain its reasoning. This aligns with EYE's core principle of providing transparent derivations instead of black-box answers.
 
-  * **Goal-First Engineering:** By starting with a clear goal, the LLM learns a concrete, repeatable procedure to achieve it. The resulting script is a durable asset perfect for automation, compliance, and reproducible research.
+  * **Goal-First Engineering:** By starting with a clear goal, the LLM learns a concrete, repeatable procedure to achieve it. The resulting program is a durable asset perfect for automation, compliance, and reproducible research.
 
 -----
 
 ## Architecture at a Glance
 
-The conceptual pipeline is straightforward: **Data + Rules + Goal** are fed into an **LLM synthesizer**, which produces a **self-contained Python script**. This script delivers **actionable insight** by computing the answer, explaining the reasoning, and running a verification check.
+The conceptual pipeline is straightforward: **Data + Rules + Goal** are fed into an **LLM synthesizer**, which produces a **self-contained Python program**. This program delivers **actionable insight** by computing the answer, explaining the reasoning, and running a verification check.
 
 ```
-┌──────────────┐
-│  Data (RDF)  │───┐
-└──────────────┘   │
-                   │
-┌──────────────┐   │   ┌───────────────────┐   ┌────────────────────┐   ┌─────────────────────┐
-│  Rules (N3)  │───┼──>│  LLM Synthesizer  │──>│    Python Code     │──>│ Actionable Insight  │
-└──────────────┘   │   └───────────────────┘   │ ◦ Answer           │   └─────────────────────┘
-                   │                           │ ◦ Reason Why       │
-┌──────────────┐   │                           │ ◦ Check (Harness)  │
-│     Goal     │───┘                           └────────────────────┘
-└──────────────┘
+┌───────────────────┐                           ┌──────────────────────┐
+│  Data (e.g. RDF)  │                           │  self-contained      │
+|   +               |   ┌───────────────────┐   |  Python program      |   ┌──────────────────────┐
+│  Rules (e.g. N3)  │──>│  LLM synthesizer  │──>│  1. Answer           │──>│  actionable insight  │
+|   +               |   └───────────────────┘   │  2. Reason why       │   └──────────────────────┘
+│  Goal             │                           │  3. Check (harness)  │
+└───────────────────┘                           └──────────────────────┘
 ```
 
-For more demanding tasks involving complex logic or large datasets, the Python script can optionally hand off the core reasoning step to the high-performance **EYE reasoner** to generate formal proofs at scale. This architecture is built on two core principles: (1) runtime **verification is mandatory**, and (2) the primary output is a **portable script** that is easy to manage, version, and execute anywhere.
+For more demanding tasks involving complex logic or large datasets, the Python program can optionally hand off the core reasoning step to the high-performance **EYE reasoner** to generate formal proofs at scale. This architecture is built on two core principles: (1) runtime **verification is mandatory**, and (2) the primary output is a **portable program** that is easy to manage, version, and execute anywhere.
 
 -----
 
@@ -76,7 +72,7 @@ The LLM-guided synthesis step acts as a "specializer," converting the N3 ruleboo
 
 1.  **Define the Goal:** Clearly state the decision or conclusion you need to reach.
 2.  **Assemble Inputs:** Gather the relevant RDF data and N3 rule files.
-3.  **Synthesize the Script:** Prompt the LLM to generate the single Python script that produces the answer, reason, and check.
-4.  **Execute and Validate:** Run the script to confirm the outputs and see the harness pass. The repository's `./test` command automates this for all cases.
-5.  **Iterate and Harden:** As your data and rules evolve, simply regenerate the script to create an updated, validated artifact.
-6.  **(Optional) Integrate with EYE:** For complex reasoning at scale, modify the script to call the EYE engine for its core logic while retaining the LLM-generated harness for verification.
+3.  **Synthesize the Program:** Prompt the LLM to generate the single Python program that produces the answer, reason, and check.
+4.  **Execute and Validate:** Run the program to confirm the outputs and see the harness pass. The repository's `./test` command automates this for all cases.
+5.  **Iterate and Harden:** As your data and rules evolve, simply regenerate the program to create an updated, validated artifact.
+6.  **(Optional) Integrate with EYE:** For complex reasoning at scale, modify the program to call the EYE engine for its core logic while retaining the LLM-generated harness for verification.
