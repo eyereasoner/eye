@@ -38,7 +38,7 @@ EYE learning stands out by combining the creative flexibility of generative AI w
 
   * **A Bridge Between Symbolic and Generative AI:** It uses the LLM for what it does best—understanding intent and synthesizing code structure—while relying on formal **Logic** for explainability. This overcomes the brittleness of pure symbolic systems and the opacity of pure neural networks.
 
-  * **Explainability by Design:** The generated program is explicitly required to explain its reasoning. This aligns with the core philosophy of the EYE reasoner, which provides transparent logical derivations instead of just answers. You don't just know *what* the answer is; you know *why* it's the answer.
+  * **Explainability by Design:** The generated program is explicitly required to explain its reasoning. This aligns with the core philosophy of the EYE reasoner [^1], which provides transparent logical derivations instead of just answers. You don't just know *what* the answer is; you know *why* it's the answer.
 
   * **Goal-First Engineering:** By starting with a clear business or research goal, the LLM learns a concrete, repeatable procedure to achieve it. The resulting program becomes a durable asset—perfect for automation, compliance checks, and reproducible research.
 
@@ -56,7 +56,7 @@ This architecture is built on two principles: (1) runtime **verification is mand
 
 ## Advanced Pattern: Mixed Computation
 
-For performance-critical applications, EYE learning supports an advanced pattern that separates stable **Logic** from dynamic **Data**. This **"mixed-computation"** approach, inspired by foundational computer science principles [^1], treats your stable policies (the "how") as static code and your live inputs (the "what") as dynamic data.
+For performance-critical applications, EYE learning supports an advanced pattern that separates stable **Logic** from dynamic **Data**. This **"mixed-computation"** approach, inspired by foundational computer science principles [^2], treats your stable policies (the "how") as static code and your live inputs (the "what") as dynamic data.
 
 The LLM-guided synthesis step acts as a "specializer," converting the declarative **Logic** into a compact, highly efficient **Driver** function in Python.
 
@@ -86,5 +86,8 @@ Adopting EYE Learning is a straightforward, iterative process:
   * **Lower Maintenance Overhead:** Because the system's intelligence is maintained as declarative logic, you don't need to refactor complex code to change business policies. You simply update the logic and regenerate the program.
   * **Democratized Expertise:** This pattern allows subject matter experts to define operational logic in a high-level format, while the LLM handles the complex task of translating that logic into efficient, verifiable code.
 
-[^1]: Ershov, A. P. (1982). Mixed Computation: Potential Applications and Problems for Study. Theoretical Computer Science, 18, 41–67.
+[^1]: R. Verborgh and J. De Roo, "Drawing Conclusions from Linked Data on the Web: The EYE Reasoner," in IEEE Software, vol. 32, no. 3, pp. 23-27, May-June 2015, doi: 10.1109/MS.2015.63.
+keywords: {Software;Cognition;Resource description framework;Engines;Uniform resource locators;Hardware;EYE;Semantic Web;software engineering;software development;reasoning;linked data},
+
+[^2]: Ershov, A. P. (1982). Mixed Computation: Potential Applications and Problems for Study. Theoretical Computer Science, 18, 41–67.
 
