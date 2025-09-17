@@ -1,0 +1,25 @@
+# Answer
+{'n': 1729, 'factors': [7, 13, 19], 'unique_prime_factors': [7, 13, 19], 'is_sphenic': True, 'is_carmichael': True, 'cube_sum_reps': [(1, 12), (9, 10)], 'is_taxicab2_minimal': True, 'is_harshad_base10': True, 'base12': '1001', 'base12_palindrome': True}
+
+# Reason Why
+Prime factorization: [7, 13, 19] so 1729 = 7 × 13 × 19.
+Sphenic: product of three distinct primes -> True.
+Carmichael: square-free and for p∈{7,13,19}, (p−1) divides 1728; therefore Korselt's criterion holds.
+Sum of two positive cubes in two distinct ways: 1^3+12^3, 9^3+10^3 = 1729.
+Minimality (Taxicab number Ta(2)): verified by exhaustive search that no m<1729 has two cube-sum representations.
+Harshad in base 10: digit sum is 19 and 1729 ÷ 19 = 91.
+Base-12 representation: 1001 (palindrome = True).
+
+# Check (harness)
+Check Report
+------------
+factorization is [7,13,19] and sphenic                PASS  (0.0000s)
+Carmichael (Korselt's criterion)                      PASS  (0.0000s)
+Two cube-sum representations                          PASS  (0.0000s)
+Minimal for having ≥2 cube-sum reps (Taxicab Ta(2))   PASS  (0.0000s)
+Harshad (base 10)                                     PASS  (0.0000s)
+Base-12 representation is palindromic 1001            PASS  (0.0000s)
+Unique prime factors are {7,13,19}                    PASS  (0.0000s)
+------------
+Summary: 7/7 checks passed in 0.0001s
+All checks passed.
