@@ -1,0 +1,30 @@
+# Answer
+{'n': 17, 'is_prime': True, 'is_fermat_prime': True, 'is_proth_prime': True, 'sum_of_first_4_primes': [2, 3, 5, 7], 'sum_of_two_squares': (1, 4), 'difference_of_two_squares': (9, 8), 'pythagorean_triple': (8, 15, 17), 'num_unordered_prime_partitions': 17, 'rectangles_perimeter_equals_area': [(3, 6, 18), (4, 4, 16)]}
+
+# Reason Why
+17 is prime: True.
+17 is a Fermat prime: 17 = 2^(2^2) + 1 (k=2).
+17 is a Proth prime: 17 = 1*2^4 + 1, with 1 odd and 1 < 2^4.
+17 equals the sum of the first four primes [2, 3, 5, 7] = 17.
+17 is a sum of two squares: 1^2 + 4^2 = 1 + 16 = 17.
+17 is a difference of two squares: 9^2 - 8^2 = 81 - 64 = 17.
+8^2 + 15^2 = 64 + 225 = 289 = 17^2, so (8,15,17) is a Pythagorean triple.
+There are 17 unordered partitions of 17 into primes; examples: 2+2+2+2+2+2+2+3, 2+2+2+2+2+2+5, 2+2+2+2+2+7, 2+2+2+2+3+3+3, 2+2+2+3+3+5...
+Rectangles with integer sides where perimeter equals area are (4x4) with area 16 and (3x6) with area 18; 17 lies between these areas.
+External known facts (not recomputed here): (i) 17 is the minimum number of clues for a 9x9 Sudoku with a unique solution; (ii) there are exactly 17 wallpaper (plane) symmetry groups.
+
+# Check (harness)
+Check Report
+------------
+17 is prime                                  PASS  (0.0000s)
+17 is Fermat prime (2^(2^k)+1)               PASS  (0.0000s)
+17 is Proth prime (k*2^m+1)                  PASS  (0.0000s)
+2+3+5+7 = 17                                 PASS  (0.0000s)
+17 = a^2 + b^2                               PASS  (0.0000s)
+17 = A^2 - B^2                               PASS  (0.0000s)
+(8,15,17) is Pythagorean                     PASS  (0.0000s)
+Count of unordered prime partitions is 17    PASS  (0.0000s)
+Perimeter==Area rectangles: {4x4, 3x6}       PASS  (0.0002s)
+------------
+Summary: 9/9 checks passed in 0.0002s
+All checks passed.
