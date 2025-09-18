@@ -1,24 +1,11 @@
 
 #!/usr/bin/env python3
 """
-EYE Learning — Support Logistics Calculator (Cycling)
+EYE Learning — Program 2: Support Logistics Calculator (Cycling)
 
-Short story:
+Short story (header):
   The organizer plans support for the hill climb. Using the eligibility list
   and a fixed route, they estimate ride times and supplies, then verify totals.
-
-Goal:
-  Consume the *Answer* JSON emitted by bike_event_eligibility.py as this program's input *Data*,
-  combine it with route parameters and supply formulas, and produce:
-    1) Answer — per-rider ETA and supplies; aggregate totals for the support crew.
-    2) Reason — a clear description of formulas and sample traces.
-    3) Check  — a harness that validates results and invariants.
-
-Input:
-  - The JSON file produced by bike_event_eligibility.py (default: "./resources/eligible_riders.json").
-
-Run:
-  python bike_support_logistics.py --in ./resources/eligible_riders.json --route_km 85 --elev_m 1500
 """
 from __future__ import annotations
 
@@ -26,15 +13,14 @@ import argparse
 import dataclasses
 import json
 from typing import Dict, Any, List
+from collections import Counter
 
+### DATA
 # -----------------------------
 # Route & Supply model
 # -----------------------------
 DEFAULT_ROUTE_KM = 85.0
 DEFAULT_ELEV_M = 1500
-# Speed tiers by W/kg (simple heuristic):
-#   >= 3.5 → 29 km/h, 3.0–3.49 → 26, 2.5–2.99 → 23
-# Hydration: 0.5 L per hour; Calories: 250 kcal per hour (conservative group-ride pacing).
 
 def speed_from_wkg(wkg: float) -> float:
     if wkg >= 3.5: return 29.0
@@ -50,15 +36,15 @@ def supplies_for_hours(hours: float) -> Dict[str, float]:
 # -----------------------------
 # Data classes
 # -----------------------------
+### DATA
 @dataclasses.dataclass(frozen=True)
 class Eligible:
     id: str
     name: str
     wkg: float
 
-# -----------------------------
-# Core computation
-# -----------------------------
+### LOGIC
+# Core logic: build per-rider plan (ETA/supplies) and totals from eligibility.
 def compute_plan(eligibility_json: Dict[str, Any], route_km: float, elev_m: int) -> Dict[str, Any]:
     elig = [Eligible(e["id"], e["name"], float(e["wkg"])) for e in eligibility_json["eligible"]]
 
@@ -67,7 +53,6 @@ def compute_plan(eligibility_json: Dict[str, Any], route_km: float, elev_m: int)
 
     for e in sorted(elig, key=lambda x: -x.wkg):
         flat_speed = speed_from_wkg(e.wkg)
-        # Climbing penalty: +10% time for each 1000 m of elevation
         time_hours = (route_km / flat_speed) * (1 + (elev_m / 1000.0) * 0.10)
         supply = supplies_for_hours(time_hours)
         per_rider.append({
@@ -108,9 +93,8 @@ def compute_plan(eligibility_json: Dict[str, Any], route_km: float, elev_m: int)
         "reference_date_from_p1": eligibility_json.get("reference_date", "N/A")
     }
 
-# -----------------------------
-# Check (harness)
-# -----------------------------
+### CHECK
+# Test harness: verifies invariants and prints detailed diagnostics.
 def run_harness(eligibility_json: Dict[str, Any], plan: Dict[str, Any]) -> None:
     print("Check 1 — No ineligible riders included:")
     eligible_ids = {e["id"] for e in eligibility_json["eligible"]}
@@ -140,7 +124,7 @@ def run_harness(eligibility_json: Dict[str, Any], plan: Dict[str, Any]) -> None:
 def main():
     parser = argparse.ArgumentParser(description="Compute support logistics for eligible cyclists.")
     parser.add_argument("--in", dest="infile", default="./resources/eligible_riders.json",
-                        help="Input JSON path from bike_event_eligibility.py")
+                        help="Input JSON path from Program 1")
     parser.add_argument("--route_km", type=float, default=DEFAULT_ROUTE_KM, help="Route distance (km)")
     parser.add_argument("--elev_m", type=int, default=DEFAULT_ELEV_M, help="Elevation gain (m)")
     args = parser.parse_args()

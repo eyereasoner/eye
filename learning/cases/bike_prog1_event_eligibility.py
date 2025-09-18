@@ -1,25 +1,12 @@
 
 #!/usr/bin/env python3
 """
-EYE Learning — Hill Climb Event Eligibility (Cycling)
+EYE Learning — Program 1: Hill Climb Event Eligibility (Cycling)
 
-Short story:
+Short story (header):
   A ride organizer reviews a shortlist for a hill climb. The note is simple:
   “Eligible riders must meet training, power, and safety requirements.”
   The task is to decide who qualifies and record clear reasons.
-
-Goal:
-  From a small dataset of rider metrics ("Data") and policy rules ("Logic"),
-  produce:
-    1) Answer — who is eligible to join the hill-climb event as of a reference date.
-    2) Reason — a natural-language explanation for each decision.
-    3) Check  — a harness that verifies correctness and edge cases.
-
-Output:
-  Writes a JSON file "./resources/eligible_riders.json" (by default) that bike_support_logistics.py will read.
-
-Run:
-  python bike_prog1_event_eligibility.py --out ./resources/eligible_riders.json --asof 2025-09-18
 """
 from __future__ import annotations
 
@@ -29,7 +16,7 @@ import datetime as dt
 import json
 from typing import List, Dict, Any
 
-
+### DATA
 # -----------------------------
 # Data (embedded)
 # -----------------------------
@@ -38,7 +25,7 @@ class Rider:
     id: str
     name: str
     weight_kg: float
-    best_20min_power_w: int   # best 20-min power (W)
+    best_20min_power_w: int
     recent_4wk_distance_km: float
     safety_course_passed: bool
     medical_form_on_file: bool
@@ -53,9 +40,7 @@ RIDERS: List[Rider] = [
     Rider("r7", "Gilles Laurent", 74.0, 260,  800.0, True,  True),
 ]
 
-# -----------------------------
-# Logic (policy)
-# -----------------------------
+### LOGIC
 ASOF_DEFAULT = "2025-09-18"
 MIN_4WK_DISTANCE_KM = 200.0
 MIN_POWER_WKG = 2.5
@@ -79,64 +64,45 @@ def is_eligible(r: Rider) -> (bool, Dict[str, Any]):
     }
     return ok, details
 
-
-# -----------------------------
-# Driver
-# -----------------------------
+# Primary driver: produces the Answer JSON used by downstream steps.
 def solve(asof: dt.date) -> Dict[str, Any]:
     eligible, ineligible, reasons = [], [], []
-
     for r in RIDERS:
         ok, d = is_eligible(r)
-        rec = {
-            "id": r.id,
-            "name": r.name,
-            "wkg": d["wkg"],
-            "recent_4wk_distance_km": round(d["recent_4wk_distance_km"], 1)
-        }
+        rec = {"id": r.id, "name": r.name, "wkg": d["wkg"], "recent_4wk_distance_km": round(d["recent_4wk_distance_km"], 1)}
         (eligible if ok else ineligible).append(rec)
         reasons.append(
             f"{r.name}: {d['wkg']} W/kg, {d['recent_4wk_distance_km']} km in 4 weeks, "
-            f"safety={d['safety_course_passed']}, medical={d['medical_form_on_file']} "
-            f"→ {'eligible' if ok else 'not eligible'} "
-            f"(requires ≥{MIN_POWER_WKG} W/kg, ≥{MIN_4WK_DISTANCE_KM} km, safety & medical)."
+            f"safety={d['safety_course_passed']}, medical={d['medical_form_on_file']} → "
+            f"{'eligible' if ok else 'not eligible'} (requires ≥{MIN_POWER_WKG} W/kg, ≥{MIN_4WK_DISTANCE_KM} km, safety & medical)."
         )
-
     return {
         "reference_date": asof.isoformat(),
-        "policy": {
-            "min_4wk_distance_km": MIN_4WK_DISTANCE_KM,
-            "min_power_wkg": MIN_POWER_WKG
-        },
+        "policy": {"min_4wk_distance_km": MIN_4WK_DISTANCE_KM, "min_power_wkg": MIN_POWER_WKG},
         "eligible": sorted(eligible, key=lambda x: x["name"]),
         "ineligible": sorted(ineligible, key=lambda x: x["name"]),
         "reasons": reasons
     }
 
-
-# -----------------------------
-# Check (harness)
-# -----------------------------
+### CHECK
+# Test harness: verifies invariants and prints detailed diagnostics.
 def run_harness(result: Dict[str, Any]) -> None:
     print("Check 1 — Policy gating:")
     for r in RIDERS:
         ok, d = is_eligible(r)
         in_list = any(e["id"] == r.id for e in result["eligible"])
-        print(f"  - {r.id} {r.name}: wkg={d['wkg']}, dist={d['recent_4wk_distance_km']}, "
-              f"safety={d['safety_course_passed']}, medical={d['medical_form_on_file']} → ok={ok}, in_list={in_list}")
-        assert ok == in_list, f"{r.name} gating mismatch"
+        print(f"  - {r.id} {r.name}: wkg={d['wkg']}, dist={d['recent_4wk_distance_km']}, safety={d['safety_course_passed']}, medical={d['medical_form_on_file']} → ok={ok}, in_list={in_list}")
+        assert ok == in_list
 
     print("Check 2 — Threshold edges:")
-    # Construct synthetic near-threshold checks
     near = Rider("tmp", "Near Threshold", 60.0, int(2.5*60), 200.0, True, True)
     ok, d = is_eligible(near)
     print(f"  - Near-threshold: wkg={d['wkg']} (>=2.5), distance={d['recent_4wk_distance_km']} (>=200) → ok={ok}")
-    assert ok, "Near-threshold rider should be eligible at exact thresholds"
-
+    assert ok
     below = Rider("tmp2", "Below Threshold", 60.0, int(2.49*60), 199.9, True, True)
     ok2, d2 = is_eligible(below)
     print(f"  - Below-threshold: wkg={d2['wkg']} (<2.5) or distance={d2['recent_4wk_distance_km']} (<200) → ok={ok2}")
-    assert not ok2, "Below-threshold rider should be ineligible"
+    assert not ok2
 
     print("Check 3 — Output schema contains required fields:")
     for field in ("reference_date", "policy", "eligible"):
