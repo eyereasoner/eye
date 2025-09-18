@@ -1,0 +1,58 @@
+{
+  "verdicts": [
+    {
+      "id": "c1",
+      "type": "divisibility_transitive",
+      "ok": true,
+      "trace": [
+        "b == a*k ? 20 == 4*5 \u2192 True",
+        "c == b*l ? 100 == 20*5 \u2192 True"
+      ]
+    },
+    {
+      "id": "c2",
+      "type": "even_plus_even_is_even",
+      "ok": true,
+      "trace": [
+        "x==2p ? 14==2*7 \u2192 True",
+        "y==2q ? 28==2*14 \u2192 True",
+        "x+y even? True"
+      ]
+    },
+    {
+      "id": "c3",
+      "type": "gcd_linear_combination",
+      "ok": true,
+      "trace": [
+        "g==gcd(a,b) ? 6==6",
+        "s*a + t*b == g ? 6 == 6"
+      ]
+    },
+    {
+      "id": "c4",
+      "type": "coprime_product_divides_implies_divides_factor",
+      "ok": true,
+      "trace": [
+        "gcd(a,b)==1 ? 1",
+        "a|(b*c) ? remainder 0"
+      ]
+    },
+    {
+      "id": "c5",
+      "type": "mod_addition_compatible",
+      "ok": true,
+      "trace": [
+        "a\u2212a'==m*r ? 24==12*2 \u2192 True",
+        "b\u2212b'==m*s ? 48==12*4 \u2192 True",
+        "(a+b)\u2212(a'+b') divisible by m? remainder 0"
+      ]
+    }
+  ],
+  "reasons": [
+    "c1: OK",
+    "c2: OK",
+    "c3: OK",
+    "c4: OK",
+    "c5: OK"
+  ]
+}
