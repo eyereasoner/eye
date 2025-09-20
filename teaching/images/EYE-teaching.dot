@@ -1,19 +1,17 @@
 digraph {
 	bgcolor=white fontname=Helvetica rankdir=TB
-	Data [color=navy fillcolor=white shape=ellipse style="rounded,filled"]
-	Logic [color=navy fillcolor=white shape=ellipse style="rounded,filled"]
-	Goal [color=navy fillcolor=white shape=ellipse style="rounded,filled"]
-	Prompt [color=navy fillcolor=white shape=ellipse style="rounded,filled"]
-	LLM [label="LLM-Based Code Generator
-📝" color=navy fillcolor=white shape=box style="rounded,filled"]
-	PythonProgram [label="Python Program
-🐍" color=navy fillcolor=white shape=box style="rounded,filled"]
-	Insights [label="Insights Output" color=navy fillcolor=white shape=box style="rounded,filled"]
-	Answer [label=Answer color=navy fillcolor=white shape=box style=rounded]
+	Data [label=Data color=navy fillcolor="#F7FAFF" shape=box style="rounded,filled"]
+	Logic [label=Logic color=navy fillcolor="#F7FAFF" shape=box style="rounded,filled"]
+	Goal [label=Goal color=navy fillcolor="#F7FAFF" shape=box style="rounded,filled"]
+	Prompt [label=Prompt color=navy fillcolor="#F7FAFF" shape=box style="rounded,filled"]
+	LLM [label="LLM-Based Code Generator" color=navy fillcolor="#F7FAFF" shape=box style="rounded,filled"]
+	PythonProgram [label="Python Program" color=navy fillcolor="#F7FAFF" shape=box style="rounded,filled"]
+	Insights [label="Insights Output" color=navy fillcolor="#F7FAFF" shape=box style="rounded,filled"]
+	Answer [label=Answer color=navy fillcolor="#F7FAFF" shape=box style="rounded,filled"]
 	Insights -> Answer
-	Reasoning [label=Reasoning color=navy fillcolor=white shape=box style=rounded]
+	Reasoning [label=Reasoning color=navy fillcolor="#F7FAFF" shape=box style="rounded,filled"]
 	Insights -> Reasoning
-	Check [label=Check color=navy fillcolor=white shape=box style=rounded]
+	Check [label=Check color=navy fillcolor="#F7FAFF" shape=box style="rounded,filled"]
 	Insights -> Check
 	Data -> LLM
 	Logic -> LLM
