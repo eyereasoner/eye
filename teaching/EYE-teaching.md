@@ -47,7 +47,7 @@ EYE teaching stands out by combining the creative flexibility of generative AI w
 
 ## Architecture at a Glance
 
-The conceptual pipeline is straightforward. The inputs (**Prompt**, **Data**, **Logic**, **Goal**) are fed into an LLM, which is taught to act as a synthesizer. Its sole job is to produce the final, executable program—the only artifact needed to generate actionable insight.
+The conceptual pipeline is straightforward. The inputs (**Data**, **Logic**, **Goal**, **Prompt**) are fed into an LLM, which is taught to act as a synthesizer. Its sole job is to produce the final, executable program—the only artifact needed to generate actionable insight.
 
 ![EYE teaching](./images/EYE-teaching.svg)
 
