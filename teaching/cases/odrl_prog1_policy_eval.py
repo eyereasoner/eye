@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python3
 """
-EYE teaching — Program 1: ODRL-style Policy Evaluation for Personal Data Processing
+EYE Teaching — Program 1: ODRL-style Policy Evaluation for Personal Data Processing
 
 Short story (header):
   A data steward receives several processing requests. The note is concise:

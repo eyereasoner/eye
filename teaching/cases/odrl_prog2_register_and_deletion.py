@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python3
 """
-EYE teaching — Program 2: Processing Register & Deletion Schedule (ODRL-style)
+EYE Teaching — Program 2: Processing Register & Deletion Schedule (ODRL-style)
 
 Short story (header):
   The data steward prepares the register. Using the permitted list from Program 1,

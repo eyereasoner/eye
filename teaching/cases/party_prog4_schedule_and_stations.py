@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 4: Event Timeline & Activity Stations (ICS-lite)
+EYE Teaching — Program 4: Event Timeline & Activity Stations (ICS-lite)
 
 Short story (header):
   Build a simple run-of-show: arrivals, icebreaker, food, games, cake, wrap-up.

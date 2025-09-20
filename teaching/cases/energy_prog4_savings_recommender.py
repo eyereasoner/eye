@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 4: Savings Recommender (Shifts & Upgrades)
+EYE Teaching — Program 4: Savings Recommender (Shifts & Upgrades)
 
 Short story:
   Now suggest practical changes: shift when possible and consider simple

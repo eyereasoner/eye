@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 3: Van Size & Trip Estimator
+EYE Teaching — Program 3: Van Size & Trip Estimator
 
 Short story (header):
   Now decide how big a van you need and how many trips it’ll take. The program

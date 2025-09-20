@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 5: Reminders & Printables
+EYE Teaching — Program 5: Reminders & Printables
 
 Short story (header):
   Generate simple action reminders (order pizza, pick up cupcakes, set up stations)

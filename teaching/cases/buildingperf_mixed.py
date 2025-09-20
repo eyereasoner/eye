@@ -20,7 +20,7 @@
 #   values from your code base. See paper context. 
 #   (EN 12354-3 + Belgian comfort levels referenced in Pauwels et al. 2011.)
 #
-# Contract with EYE teaching:
+# Contract with EYE Teaching:
 # - All arithmetic/relations in RULES_N3 use math:* built-ins only.
 # - Everything is inline (no external file writes).
 # - One file produces Answer • Reason why • Check.

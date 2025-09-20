@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 3: Shopping List & Vendor Split
+EYE Teaching — Program 3: Shopping List & Vendor Split
 
 Short story (header):
   Turn menu quantities into a clear shopping list and suggest where to get what

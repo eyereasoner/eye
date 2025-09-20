@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python3
 """
-EYE teaching — Program 2: Agency Budget Projection (Outlays vs Contributions)
+EYE Teaching — Program 2: Agency Budget Projection (Outlays vs Contributions)
 
 Short story (header):
   The agency needs a quick forecast: if all eligible people certify weekly,

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-EYE teaching — Self-contained, self-checking script (Lie groups)
+EYE Teaching — Self-contained, self-checking script (Lie groups)
 Case: One-parameter subgroups via the matrix exponential
 
 Puzzle / Claim

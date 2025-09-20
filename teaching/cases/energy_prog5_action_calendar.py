@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 5: Action Calendar (Reminders & ICS-lite)
+EYE Teaching — Program 5: Action Calendar (Reminders & ICS-lite)
 
 Short story:
   Turn the plan into simple reminders: run washer/dryer/dishwasher off-peak, and

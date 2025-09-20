@@ -11,7 +11,7 @@
 #   2) Reason why (trace lines that mirror math:* steps / comparisons),
 #   3) Check (harness that re-validates totals, caps, and product choice).
 #
-# Contract with EYE teaching:
+# Contract with EYE Teaching:
 # - All rule arithmetic/relations appear as math:* built-ins only in N3.
 # - Everything is inline (no external file writes).
 # - One file produces Answer • Reason why • Check.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 1: Transaction Categorizer & Monthly Summary (Personal Finance)
+EYE Teaching — Program 1: Transaction Categorizer & Monthly Summary (Personal Finance)
 
 Short story (header):
   You export bank transactions to a JSON file. The task is to auto-categorize

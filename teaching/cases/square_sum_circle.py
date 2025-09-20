@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-EYE teaching — Self-contained, self-checking script (puzzle domain)
+EYE Teaching — Self-contained, self-checking script (puzzle domain)
 Case: Square-Sum Circle for numbers 1..N (default N=32)
 
 Goal

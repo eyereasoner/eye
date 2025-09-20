@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 1: Guest Roster & Dietary Counts
+EYE Teaching — Program 1: Guest Roster & Dietary Counts
 
 Short story (header):
   You’ve got a simple JSON with event details and an invite list. The task is to

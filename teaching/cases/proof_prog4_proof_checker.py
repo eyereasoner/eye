@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 4: Mechanical Proof Checker (Model-check by computation)
+EYE Teaching — Program 4: Mechanical Proof Checker (Model-check by computation)
 
 Short story (header):
   Verify each proof sketch step-by-step using definitions and arithmetic.

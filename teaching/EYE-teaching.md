@@ -1,10 +1,10 @@
-# A Guide to EYE teaching
+# A Guide to EYE Teaching
 
 ## The Challenge: From Raw Data to Trusted Insight
 
 In an era of powerful AI, the path from raw **Data** to trusted, actionable insight remains a significant challenge. How can we be sure an answer is correct? How can we audit the reasoning behind it? And how can we automate this process reliably?
 
-This is a challenge of instruction. It's about teaching a Large Language Model (LLM) how to perform a specific, rigorous task. **EYE teaching** offers a practical and robust solution for this. It is a method for transforming raw inputs—**Data**, **Logic**, a specific **Goal**—into a single, self-contained Python program. The LLM, acting as a student programmer, learns from these inputs to generate a program that is fully autonomous.
+This is a challenge of instruction. It's about teaching a Large Language Model (LLM) how to perform a specific, rigorous task. **EYE Teaching** offers a practical and robust solution for this. It is a method for transforming raw inputs—**Data**, **Logic**, a specific **Goal**—into a single, self-contained Python program. The LLM, acting as a student programmer, learns from these inputs to generate a program that is fully autonomous.
 
 Most importantly, this program is required to deliver three key outputs, creating a "triad of trust":
 
@@ -16,9 +16,9 @@ A [public repository](https://github.com/eyereasoner/eye/tree/master/teaching) p
 
 -----
 
-## What EYE teaching Is: Goal-Directed Program Synthesis
+## What EYE Teaching Is: Goal-Directed Program Synthesis
 
-At its core, EYE teaching is a pattern for **goal-directed program synthesis**. Think of it as teaching a brilliant, lightning-fast programmer a new skill by providing a complete lesson plan. You give it a task and all the materials needed, and you expect it to produce a specific, well-structured deliverable.
+At its core, EYE Teaching is a pattern for **goal-directed program synthesis**. Think of it as teaching a brilliant, lightning-fast programmer a new skill by providing a complete lesson plan. You give it a task and all the materials needed, and you expect it to produce a specific, well-structured deliverable.
 
 The process is simple yet powerful:
 
@@ -33,7 +33,7 @@ The key deliverable is a **self-contained and self-verifying program**. It's not
 
 ## What Makes It Different: A Hybrid Approach
 
-EYE teaching stands out by combining the creative flexibility of generative AI with the formal rigor of symbolic systems. This hybrid approach offers several unique advantages.
+EYE Teaching stands out by combining the creative flexibility of generative AI with the formal rigor of symbolic systems. This hybrid approach offers several unique advantages.
 
   * **Self-Contained, Self-Checking Outputs:** The LLM's primary output is a single, runnable Python program with its own built-in test harness (**Check**). Every execution produces both a result (**Answer**) and an independent verification. This builds immense trust and reliability, moving beyond the "black box" paradigm.
 
@@ -49,7 +49,7 @@ EYE teaching stands out by combining the creative flexibility of generative AI w
 
 The conceptual pipeline is straightforward. The inputs (**Data**, **Logic**, and **Goal**) are fed into an LLM, which is taught to act as a synthesizer. Its sole job is to produce the final, executable program—the only artifact needed to generate actionable insight (**Answer**, **Reason**, and **Check**).
 
-![EYE teaching](./images/EYE-teaching.svg)
+![EYE Teaching](./images/EYE-teaching.svg)
 
 This architecture is built on two principles: (1) runtime **verification is mandatory** (the **Check**), and (2) the primary output is a **portable program** that is easy to manage, version, and execute anywhere.
 
@@ -57,7 +57,7 @@ This architecture is built on two principles: (1) runtime **verification is mand
 
 ## Advanced Pattern: Mixed Computation
 
-For performance-critical applications, EYE teaching supports an advanced pattern that separates stable **Logic** from dynamic **Data**. This **"mixed-computation"** approach, inspired by foundational computer science principles [^2], teaches the LLM a more sophisticated compilation strategy. It learns to treat your stable policies (the "how") as static code and your live inputs (the "what") as dynamic data.
+For performance-critical applications, EYE Teaching supports an advanced pattern that separates stable **Logic** from dynamic **Data**. This **"mixed-computation"** approach, inspired by foundational computer science principles [^2], teaches the LLM a more sophisticated compilation strategy. It learns to treat your stable policies (the "how") as static code and your live inputs (the "what") as dynamic data.
 
 The LLM-guided synthesis step acts as a "specializer," converting the declarative **Logic** into a compact, highly efficient **Driver** function in Python.
 
@@ -69,7 +69,7 @@ The LLM-guided synthesis step acts as a "specializer," converting the declarativ
 
 ## Getting Started: A Typical Workflow
 
-Adopting EYE teaching is a straightforward, iterative process:
+Adopting EYE Teaching is a straightforward, iterative process:
 
 1.  **Define the Goal:** Start by clearly stating the decision, conclusion, or question you need to answer.
 2.  **Assemble Inputs:** Gather the relevant **Data** files, the **Logic** that defines your operational constraints, and craft a **Prompt** that clearly explains the task to the LLM.
@@ -82,7 +82,7 @@ Adopting EYE teaching is a straightforward, iterative process:
 ## Why This Matters: The Practical Benefits
 
   * **Trust and Auditability:** The "answer, reason, check" triad provides a robust framework for building trust in AI-driven systems. Every result is verifiable and explainable, making it suitable for regulatory and compliance-driven environments.
-  * **Extreme Automation:** By producing a self-contained executable, EYE teaching is a perfect fit for modern DevOps and MLOps pipelines. The generated programs can be versioned in Git, tested in CI, and deployed anywhere.
+  * **Extreme Automation:** By producing a self-contained executable, EYE Teaching is a perfect fit for modern DevOps and MLOps pipelines. The generated programs can be versioned in Git, tested in CI, and deployed anywhere.
   * **Lower Maintenance Overhead:** Because the system's intelligence is maintained as declarative logic, you don't need to refactor complex code to change business policies. You simply update the logic and regenerate the program.
   * **Democratized Expertise:** This pattern allows subject matter experts to define operational logic in a high-level format, while the LLM handles the complex task of translating that logic into efficient, verifiable code.
 

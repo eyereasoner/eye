@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 5: Budget Summary & Address-Change Admin List
+EYE Teaching — Program 5: Budget Summary & Address-Change Admin List
 
 Short story (header):
   Last, you want to know the total cost and who to notify after the move.

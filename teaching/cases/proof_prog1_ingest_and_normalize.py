@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 1: Ingest & Normalize Claims (Elementary Number Theory)
+EYE Teaching — Program 1: Ingest & Normalize Claims (Elementary Number Theory)
 
 Short story (header):
   You provide a JSON file of simple proof goals (divisibility, parity, gcd, mod).

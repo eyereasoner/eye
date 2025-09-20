@@ -76,7 +76,7 @@ REFERENCES
      (c) **Interaction pattern** (REQUEST → ISSUE → CONSUME → COMPLETE)  
      (d) **Implementation guide** (this runnable, testable file)
 
-3) EYE teaching guide  
+3) EYE Teaching guide  
    https://raw.githubusercontent.com/eyereasoner/eye/refs/heads/master/teaching/EYE-teaching.md  
    → We keep the **N3 rules** limited to **triple patterns** using **math built-ins**
      (`math:lessThan`, `math:greaterThan`, `math:notGreaterThan`, `math:notLessThan`,
@@ -1012,6 +1012,6 @@ if __name__ == "__main__":
 #     https://ruben.verborgh.org/blog/2025/08/12/inside-the-insight-economy/
 #   - Four spec artefacts (vocabulary, profile, interaction, implementation):
 #     https://pietercolpaert.be/interoperability/2025/09/03/four-types-specification-artefacts
-#   - EYE teaching guide (N3 with math built-ins):
+#   - EYE Teaching guide (N3 with math built-ins):
 #     https://raw.githubusercontent.com/eyereasoner/eye/refs/heads/master/teaching/EYE-teaching.md
 

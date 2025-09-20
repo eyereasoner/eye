@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 2: Cashflow Forecast (Next 30 Days)
+EYE Teaching — Program 2: Cashflow Forecast (Next 30 Days)
 
 Short story (header):
   After summarizing the month, the next concern is runway. The task is to

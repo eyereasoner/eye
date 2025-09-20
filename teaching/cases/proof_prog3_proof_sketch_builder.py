@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 3: Proof Sketch Builder (witnesses & steps)
+EYE Teaching — Program 3: Proof Sketch Builder (witnesses & steps)
 
 Short story (header):
   Using normalized claims + lemma facts, build a small step list per claim,

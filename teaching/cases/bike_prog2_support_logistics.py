@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python3
 """
-EYE teaching — Program 2: Support Logistics Calculator (Cycling)
+EYE Teaching — Program 2: Support Logistics Calculator (Cycling)
 
 Short story (header):
   The organizer plans support for the hill climb. Using the eligibility list

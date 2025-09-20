@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 2: Lemma Library (Facts the proofs will use)
+EYE Teaching — Program 2: Lemma Library (Facts the proofs will use)
 
 Short story (header):
   Collect the tiny facts needed for each claim type (definitions + standard lemmas).

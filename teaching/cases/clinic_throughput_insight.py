@@ -51,7 +51,7 @@ https://pietercolpaert.be/interoperability/2025/09/03/four-types-specification-a
 3) **Interaction Pattern** – REQUEST → ISSUE → CONSUME → COMPLETE.
 4) **Implementation Guide** – This runnable file + deterministic checks.
 
-EYE teaching style (N3 rules)
+EYE Teaching style (N3 rules)
 -----------------------------
 Rules use only **triple patterns** and **math built-ins**:
 `math:lessThan`, `math:greaterThan`, `math:notGreaterThan`, `math:notLessThan`,
@@ -926,6 +926,6 @@ if __name__ == "__main__":
 #     https://ruben.verborgh.org/blog/2025/08/12/inside-the-insight-economy/
 #   - Four spec artefacts (vocabulary, profile, interaction, implementation):
 #     https://pietercolpaert.be/interoperability/2025/09/03/four-types-specification-artefacts
-#   - EYE teaching guide (N3 with math built-ins):
+#   - EYE Teaching guide (N3 with math built-ins):
 #     https://raw.githubusercontent.com/eyereasoner/eye/refs/heads/master/teaching/EYE-teaching.md
 

@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python3
 """
-EYE teaching — Program 1: Unemployment Eligibility & Weekly Benefit Amount (WBA)
+EYE Teaching — Program 1: Unemployment Eligibility & Weekly Benefit Amount (WBA)
 
 Short story (header):
   People lose jobs; the agency must decide who qualifies and how much to pay,

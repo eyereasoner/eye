@@ -14,7 +14,7 @@
 #   3) Check (harness) — revalidates score math, conservation/caps, block rules,
 #      pheromone update, and two monotonicity probes.
 #
-# Contract with EYE teaching:
+# Contract with EYE Teaching:
 # - All arithmetic/relations in RULES_N3 use math:* built-ins only.
 # - Everything is inline (no external file writes).
 # - One file produces Answer • Reason why • Check.

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 6: Final Report & CSV Summary
+EYE Teaching — Program 6: Final Report & CSV Summary
 
 Short story (header):
   Pull everything together—headcount, menu, shopping list—and produce a compact

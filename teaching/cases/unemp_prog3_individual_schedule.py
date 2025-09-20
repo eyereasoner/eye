@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python3
 """
-EYE teaching — Program 3: Individual Payment Schedule & Compliance Checklist
+EYE Teaching — Program 3: Individual Payment Schedule & Compliance Checklist
 
 Short story (header):
   Individuals need clarity: when will payments arrive and what must they do weekly?

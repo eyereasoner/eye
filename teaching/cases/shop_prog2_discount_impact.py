@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python3
 """
-EYE teaching — Program 2: Discount Impact Calculator
+EYE Teaching — Program 2: Discount Impact Calculator
 
 Short story (header):
   Later, the totals are reviewed. Using the eligibility list from Program 1

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 3: Savings Goals Planner
+EYE Teaching — Program 3: Savings Goals Planner
 
 Short story (header):
   If cashflow allows, where should surplus go first? The task is to allocate

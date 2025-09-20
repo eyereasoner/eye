@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Feigenbaum δ via *superstable* parameters only (fast & robust) — EYE teaching style
+Feigenbaum δ via *superstable* parameters only (fast & robust) — EYE Teaching style
 
 What this does
 --------------

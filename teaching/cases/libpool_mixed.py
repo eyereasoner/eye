@@ -17,7 +17,7 @@
 #      between molarity and volume (for unclipped samples), and a monotonicity
 #      probe (raising total target should not reduce any volume).
 #
-# Contract with EYE teaching:
+# Contract with EYE Teaching:
 # - All arithmetic/relations in RULES_N3 use math:* built-ins only.
 # - Everything is inline (no external file writes).
 # - One file produces Answer • Reason why • Check.

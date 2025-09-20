@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 2: Menu & Budget Planner
+EYE Teaching — Program 2: Menu & Budget Planner
 
 Short story (header):
   With headcount and diets known, decide quantities for pizza, cupcakes, and

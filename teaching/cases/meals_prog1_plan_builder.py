@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python3
 """
-EYE teaching — Program 1: Weekly Dinner Plan Builder
+EYE Teaching — Program 1: Weekly Dinner Plan Builder
 
 Short story (header):
   A family wants five simple dinners this week. They’d like to use what’s in the pantry,

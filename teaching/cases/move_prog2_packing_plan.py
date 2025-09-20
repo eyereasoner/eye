@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 2: Packing Plan (Boxes & Materials)
+EYE Teaching — Program 2: Packing Plan (Boxes & Materials)
 
 Short story (header):
   With decisions made, the next task is packing. The program plans box counts,

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-EYE teaching — Self-contained, self-checking script (number theory)
+EYE Teaching — Self-contained, self-checking script (number theory)
 Case: Square-Sum Divisibility
 
 Problem

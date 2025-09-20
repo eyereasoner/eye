@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Feigenbaum α (alpha) via validated *main-cascade superstable* points — EYE teaching style
+Feigenbaum α (alpha) via validated *main-cascade superstable* points — EYE Teaching style
 
 Goal
 ----

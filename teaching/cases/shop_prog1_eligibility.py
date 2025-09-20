@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python3
 """
-EYE teaching — Program 1: Senior Discount Eligibility
+EYE Teaching — Program 1: Senior Discount Eligibility
 
 Short story (header):
   In a small shop, a clerk prepares the day’s ledger. A note reads:

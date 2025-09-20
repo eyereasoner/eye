@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 4: Move-Day Timeline & Checklist (ICS-lite)
+EYE Teaching — Program 4: Move-Day Timeline & Checklist (ICS-lite)
 
 Short story (header):
   It’s move day: load, drive, unload. This program turns van/trip info into a

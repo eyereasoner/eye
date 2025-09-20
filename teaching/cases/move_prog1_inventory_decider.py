@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 1: Inventory Decider (Keep / Donate / Dispose)
+EYE Teaching — Program 1: Inventory Decider (Keep / Donate / Dispose)
 
 Short story (header):
   Before moving, you list household items in a JSON file. The task is to decide

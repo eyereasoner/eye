@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 4: Reminders & Calendar Export (Text/ICS-lite)
+EYE Teaching — Program 4: Reminders & Calendar Export (Text/ICS-lite)
 
 Short story (header):
   With the forecast and goals in place, the last step is to create reminders:

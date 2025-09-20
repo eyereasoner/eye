@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python3
 """
-EYE teaching — Program 3: Nutrition Summary & Simple Cooking Schedule
+EYE Teaching — Program 3: Nutrition Summary & Simple Cooking Schedule
 
 Short story (header):
   With the list in hand, the family wants to check that the plan is balanced and doable.

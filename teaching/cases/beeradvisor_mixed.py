@@ -12,7 +12,7 @@
 #   2) Reason why (trace lines that mirror math:* steps),
 #   3) Check (a harness that re-validates feasibility, scoring, and sorting).
 #
-# Contract with EYE teaching:
+# Contract with EYE Teaching:
 # - All rule arithmetic/relations appear as math:* built-ins only in N3.
 # - Everything is inline (no external file writes).
 # - One file produces Answer • Reason why • Check.

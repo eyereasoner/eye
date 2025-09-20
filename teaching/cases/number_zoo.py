@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Number Zoo — EYE teaching Artifact
+Number Zoo — EYE Teaching Artifact
 ==================================
 Title:   "A curated set of remarkable integers"
 
 Overview
 --------
-This program demonstrates the EYE teaching triad — Answer, Reason, Check —
+This program demonstrates the EYE Teaching triad — Answer, Reason, Check —
 on a small zoo of famous numbers. It is completely self-contained:
 no external input, no files, no randomness.
 

@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python3
 """
-EYE teaching — Program 2: Grocery List & Cost Estimator
+EYE Teaching — Program 2: Grocery List & Cost Estimator
 
 Short story (header):
   With the dinners picked, the family needs a shopping list. The task is to figure

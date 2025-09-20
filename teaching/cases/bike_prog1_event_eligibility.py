@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python3
 """
-EYE teaching — Program 1: Hill Climb Event Eligibility (Cycling)
+EYE Teaching — Program 1: Hill Climb Event Eligibility (Cycling)
 
 Short story (header):
   A ride organizer reviews a shortlist for a hill climb. The note is simple:

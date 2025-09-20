@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 1: Ingest & Baseline (kWh/day)
+EYE Teaching — Program 1: Ingest & Baseline (kWh/day)
 
 Short story:
   You export a small JSON of appliances and tariffs. The task is to compute a

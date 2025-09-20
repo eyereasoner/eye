@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-EYE teaching — Self-contained, self-checking script (group theory)
+EYE Teaching — Self-contained, self-checking script (group theory)
 Case: Parity of involutions
 
 Puzzle / Claim

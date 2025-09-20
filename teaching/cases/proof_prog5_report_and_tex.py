@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 5: Final Report & TeX-ish Summary
+EYE Teaching — Program 5: Final Report & TeX-ish Summary
 
 Short story (header):
   Summarize which claims were proved, show short human sentences, and emit a

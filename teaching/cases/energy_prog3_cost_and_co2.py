@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 3: Cost & CO₂ Calculator (with TOU multipliers)
+EYE Teaching — Program 3: Cost & CO₂ Calculator (with TOU multipliers)
 
 Short story:
   Apply tariff and TOU multipliers to peak/off-peak energy to get daily cost and

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 2: Time-of-Use Split (Peak vs Off-peak)
+EYE Teaching — Program 2: Time-of-Use Split (Peak vs Off-peak)
 
 Short story:
   With a daily baseline, split usage into peak and off-peak portions using a

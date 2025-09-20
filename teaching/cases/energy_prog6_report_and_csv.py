@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-EYE teaching — Program 6: Final Report & CSV Export
+EYE Teaching — Program 6: Final Report & CSV Export
 
 Short story:
   Last step: put it all together—baseline, TOU split, costs, and savings—so you
