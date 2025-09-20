@@ -4,7 +4,7 @@
 
 In an era of powerful AI, the path from raw **Data** to trusted, actionable insight remains a significant challenge. How can we be sure an answer is correct? How can we audit the reasoning behind it? And how can we automate this process reliably?
 
-This is a challenge of instruction. It's about teaching a Large Language Model (LLM) how to perform a specific, rigorous task. **EYE teaching** offers a practical and robust solution for this. It is a method for transforming raw inputs—**Data**, **Logic**, a specific **Goal**, and a guiding **Prompt**—into a single, self-contained Python program. The LLM, acting as a student programmer, learns from these inputs to generate a program that is fully autonomous.
+This is a challenge of instruction. It's about teaching a Large Language Model (LLM) how to perform a specific, rigorous task. **EYE teaching** offers a practical and robust solution for this. It is a method for transforming raw inputs—**Data**, **Logic**, a specific **Goal**—into a single, self-contained Python program. The LLM, acting as a student programmer, learns from these inputs to generate a program that is fully autonomous.
 
 Most importantly, this program is required to deliver three key outputs, creating a "triad of trust":
 
@@ -47,7 +47,7 @@ EYE teaching stands out by combining the creative flexibility of generative AI w
 
 ## Architecture at a Glance
 
-The conceptual pipeline is straightforward. The inputs (**Data**, **Logic**, **Goal**, **Prompt**) are fed into an LLM, which is taught to act as a synthesizer. Its sole job is to produce the final, executable program—the only artifact needed to generate actionable insight.
+The conceptual pipeline is straightforward. The inputs (**Data**, **Logic**, and **Goal**) are fed into an LLM, which is taught to act as a synthesizer. Its sole job is to produce the final, executable program—the only artifact needed to generate actionable insight (**Answer**, **Reason**, and **Check**).
 
 ![EYE teaching](./images/EYE-teaching.svg)
 
@@ -75,7 +75,7 @@ Adopting EYE teaching is a straightforward, iterative process:
 2.  **Assemble Inputs:** Gather the relevant **Data** files, the **Logic** that defines your operational constraints, and craft a **Prompt** that clearly explains the task to the LLM.
 3.  **Synthesize the Program:** Use the **Prompt** to teach the LLM how to generate the single Python program that produces the **Answer**, **Reason Why**, and **Check (harness)**.
 4.  **Execute and Validate:** Run the generated program. Confirm that the outputs are correct and that the self-verification harness passes. The repository's `./test` command automates this for all examples.
-5.  **Iterate and Harden:** As your data and logic evolve, you can refine your prompt or inputs and simply re-run the synthesis step to create an updated, validated artifact.
+5.  **Iterate and Harden:** As your data and logic evolve, you can refine your **Prompt** or inputs and simply re-run the synthesis step to create an updated, validated artifact.
 
 -----
 
