@@ -1,0 +1,24 @@
+digraph {
+	bgcolor=white fontname=Helvetica rankdir=TB
+	Data [color=navy fillcolor=white shape=ellipse style="rounded,filled"]
+	Logic [color=navy fillcolor=white shape=ellipse style="rounded,filled"]
+	Goal [color=navy fillcolor=white shape=ellipse style="rounded,filled"]
+	Prompt [color=navy fillcolor=white shape=ellipse style="rounded,filled"]
+	LLM [label="LLM-Based Code Generator
+📝" color=navy fillcolor=white shape=box style="rounded,filled"]
+	PythonProgram [label="Python Program
+🐍" color=navy fillcolor=white shape=box style="rounded,filled"]
+	Insights [label="Insights Output" color=navy fillcolor=white shape=box style="rounded,filled"]
+	Answer [label=Answer color=navy fillcolor=white shape=box style=rounded]
+	Insights -> Answer
+	Reasoning [label=Reasoning color=navy fillcolor=white shape=box style=rounded]
+	Insights -> Reasoning
+	Check [label=Check color=navy fillcolor=white shape=box style=rounded]
+	Insights -> Check
+	Data -> LLM
+	Logic -> LLM
+	Goal -> LLM
+	Prompt -> LLM
+	LLM -> PythonProgram [label="Synthesizes code" fontsize=10]
+	PythonProgram -> Insights
+}

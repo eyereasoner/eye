@@ -49,7 +49,7 @@ EYE teaching stands out by combining the creative flexibility of generative AI w
 
 The conceptual pipeline is straightforward. The inputs (**Prompt**, **Data**, **Logic**, **Goal**) are fed into an LLM, which is taught to act as a synthesizer. Its sole job is to produce the final, executable program—the only artifact needed to generate actionable insight.
 
-![EYE teaching](EYE-teaching.png)
+![EYE teaching](EYE-teaching.svg)
 
 This architecture is built on two principles: (1) runtime **verification is mandatory** (the **Check**), and (2) the primary output is a **portable program** that is easy to manage, version, and execute anywhere.
 
