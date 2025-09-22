@@ -3,6 +3,10 @@
 """
 EYE Teaching — Mixed Computation “Hello”
 
+A tiny teaching example where facts about a person and the current hour are fed
+to a single N3 backward rule that infers the right greeting, then reports the
+result with a brief explanation and a small set of sanity checks.
+
 WHAT THIS DOES
 --------------
 This program demonstrates the EYE “Answer • Reason • Check” pattern:

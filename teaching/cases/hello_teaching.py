@@ -3,6 +3,10 @@
 """
 EYE Teaching style — Pure Python + JSON data
 
+A self-contained script that reads simple JSON data, applies clear time-of-day
+rules to produce a greeting, and outputs the result alongside a short explanation
+and a few validation checks to keep the example trustworthy.
+
 GOAL
 -----
 Emit a small, portable artifact that always produces:
