@@ -1,4 +1,4 @@
-# A Guide to EYE Teaching
+# A Guide to EYE Teaching ARC (**Answer**, **Reason**, and **Check**)
 
 ## The Challenge: From Raw Data to Trusted Insight
 
