@@ -1,4 +1,4 @@
-# P3 — Prompt → Program → Proof
+# P3: Prompt → Program → Proof
 
 See [A Guide to P3](https://github.com/eyereasoner/eye/blob/master/p3/P3.md).
 
