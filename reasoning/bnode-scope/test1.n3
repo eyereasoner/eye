@@ -1,0 +1,10 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix : <http://example.org/> .
+
+
+
+:s :p :o.
+:s :p2 :o2.
+
+{?x :p :o. (?y {?x :p2 ?y.} ?list) log:collectAllIn _:x}
+                       =>{{(?z {:a :b ?k.} ?list) log:collectAllIn _:x}=>{:a :n :m}}.

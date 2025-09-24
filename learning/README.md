@@ -1,1 +1,1 @@
-See [**EYE teaching**](../teaching/)
+See [EYE teaching](../teaching/)
