@@ -101,9 +101,6 @@ DATA_N3 = """@prefix : <http://example.org/astro#> .
 
 # ──────────────────────────────────────────────────────────────────────────────
 # GOAL — FILTER RULES describing which patterns to return
-# Why filter rules?
-#   EYE accepts goals as rules that copy matched triples to the query output.
-#   Using a separate rule per pattern is portable and clear.
 # ──────────────────────────────────────────────────────────────────────────────
 GOAL_N3 = """@prefix : <http://example.org/astro#> .
 { ?x :obsEq ?y . }         => { ?x :obsEq ?y . } .
