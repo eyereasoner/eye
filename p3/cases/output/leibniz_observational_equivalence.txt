@@ -1,0 +1,36 @@
+@prefix : <http://example.org/astro#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Answer — derived obsEq pairs and propagated facts of interest
+:Answer :is {
+  :s1 :obsEq :s1 .
+  :s1 :obsEq :s2 .
+  :s2 :obsEq :s1 .
+  :s2 :obsEq :s2 .
+  :s3 :obsEq :s3 .
+  :s2 :inCluster :M67 .
+  :s2 :hasType :G .
+} .
+
+:Reason :is "We treat :obsEq as an observational equivalence built from the finite signature (:colorIndex, :spectrumLine, :apparentMag). It is symmetric and transitive, and we also assert reflexive pairs for any entity that bears at least one observable. Only predicates declared :substitutable true (here :inCluster, :hasType) are allowed to substitute across :obsEq; administrative IDs and unrelated relations do not propagate." .
+
+# Check — five tests as :Test nodes
+:Check :is {
+  :test1 a :Test .
+  :test1 :name "obsEq_s1_s2" .
+  :test1 :ok true .
+  :test2 a :Test .
+  :test2 :name "no_cross_obsEq_with_s3" .
+  :test2 :ok true .
+  :test3 a :Test .
+  :test3 :name "subject_guarded_inCluster" .
+  :test3 :ok true .
+  :test4 a :Test .
+  :test4 :name "subject_guarded_hasType" .
+  :test4 :ok true .
+  :test5 a :Test .
+  :test5 :name "non_substitutable_blocked" .
+  :test5 :ok true .
+  :summary :passed "5" .
+  :summary :total "5" .
+} .
