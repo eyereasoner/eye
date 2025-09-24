@@ -1,1 +1,1 @@
-See [EYE teaching](../teaching/)
+See [P3](../p3/)
