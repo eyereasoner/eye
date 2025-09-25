@@ -21,6 +21,7 @@ A tiny, reproducible demo of **privacy-preserving retail insights** built as a *
 ## Directory layout
 
 ```
+.
 ├── data
 │   ├── retailer
 │   │   ├── catalog.ttl                  # sample products
