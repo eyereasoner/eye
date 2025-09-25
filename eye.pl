@@ -5702,10 +5702,7 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     !,
     (   retwist(A, B, Z)
     ->  true
-    ;   (   flag('pass-derived')
-        ->  Z = _
-        ;   Z = '<>'
-        )
+    ;   Z = '<>'
     ),
     makevars(implies(A, B, Z), C, zeta).
 djiti_fact(':-'(A, B), ':-'(C, D)) :-
