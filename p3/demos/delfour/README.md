@@ -21,7 +21,6 @@ A tiny, reproducible demo of **privacy-preserving retail insights** built as a *
 ## Directory layout
 
 ```
-delfour/
 ├── data
 │   ├── retailer
 │   │   ├── catalog.ttl                  # sample products
@@ -43,7 +42,7 @@ delfour/
     └── shopping_suggest_alternative.n3
 ```
 
-During a run, a working “bus” folder `delfour/data/bus/` is created for inter-program files.
+During a run, a working “bus” folder `data/bus/` is created for inter-program files.
 
 ---
 
@@ -62,7 +61,7 @@ During a run, a working “bus” folder `delfour/data/bus/` is created for inte
 1. (Optional) Inspect/edit the **private** POD file (sensitive term appears here only):
 
 ```turtle
-# delfour/data/solid/profile.ttl
+# data/solid/profile.ttl
 @prefix : <https://example.org/person#> .
 @prefix health: <https://example.org/health#> .
 :me  health:householdCondition  health:Diabetes .
@@ -71,7 +70,7 @@ During a run, a working “bus” folder `delfour/data/bus/` is created for inte
 2. Run the pipeline:
 
 ```bash
-python delfour/insight_economy_pipeline.py
+python insight_economy_pipeline.py
 ```
 
 You’ll see:
@@ -133,7 +132,7 @@ Overall: 6/6 checks passed.
 
 ## How it works (step by step)
 
-Each step is a small program with minimal screen output and a log entry (`delfour/data/bus/timeline.log`).
+Each step is a small program with minimal screen output and a log entry (`data/bus/timeline.log`).
 
 1. **Pick up scanner** → writes session context (`context.ttl`) and event.
 2. **Agent dialog** → copies public `delfour_capabilities.ttl` into bus.
@@ -181,18 +180,18 @@ You’ll see this in:
 Run:
 
 ```bash
-python delfour/insight_economy_pipeline.py
+python insight_economy_pipeline.py
 ```
 
 Peek at the bus:
 
 ```bash
 # created during the run
-ls -1 delfour/data/bus
-cat delfour/data/bus/need.ttl
-cat delfour/data/bus/insight.ttl
-cat delfour/data/bus/runtime_out.json
-cat delfour/data/bus/timeline.log
+ls -1 data/bus
+cat data/bus/need.ttl
+cat data/bus/insight.ttl
+cat data/bus/runtime_out.json
+cat data/bus/timeline.log
 ```
 
 Re-run safely any time; the timeline is reset at start.
