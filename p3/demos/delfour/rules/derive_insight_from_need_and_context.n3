@@ -1,0 +1,26 @@
+@prefix need: <https://example.org/need#> .
+@prefix ctx:  <https://example.org/context#> .
+@prefix ins:  <https://example.org/insight#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# If person needs low sugar, and context is Delfour self-scanner pickup,
+# emit a neutral INSIGHT payload as RDF (no medical terms).
+{
+  ?p need:needsLowSugar true.
+  ?c ctx:retailer "Delfour";
+     ctx:device   "self-scanner";
+     ctx:event    "pick_up_scanner";
+     ctx:expiresAt ?exp.
+}
+=>
+{
+  _:ins a ins:Insight ;
+    ins:metric           "sugar_g_per_serving" ;
+    ins:threshold        "10.0"^^xsd:decimal ;
+    ins:suggestionPolicy "lower_metric_first_higher_price_ok" ;
+    ins:scopeDevice      "self-scanner" ;
+    ins:scopeEvent       "pick_up_scanner" ;
+    ins:retailer         "Delfour" ;
+    ins:expiresAt        ?exp .
+}.
+

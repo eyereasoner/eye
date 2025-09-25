@@ -1,0 +1,27 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix ins:   <https://example.org/insight#> .
+@prefix schema:<http://schema.org/> .
+@prefix shop:  <https://example.org/shop#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+# Given an Insight and a scanned product, if sugar >= threshold,
+# suggest a lower-sugar alternative (tie-break: higher price ok).
+{
+  ?ins a ins:Insight;
+       ins:metric "sugar_g_per_serving";
+       ins:threshold ?thr.
+
+  ?scan shop:scannedProduct ?p.
+  ?p schema:name ?name; schema:sugarContent ?sug.
+
+  ?sug math:notLessThan ?thr.
+
+  ?alt schema:name ?an ; schema:sugarContent ?as ; schema:price ?ap .
+  ?as math:lessThan ?sug.
+}
+=>
+{
+  ?scan shop:note "High sugar" ;
+        shop:suggestedAlternative ?alt .
+}.
+

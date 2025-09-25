@@ -3,10 +3,10 @@
 @prefix ex: <https://w3id.org/insight-economy/example#>.
 @prefix ui: <https://w3id.org/insight-economy/ui#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -72,6 +72,9 @@ skolem:lemma1 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
@@ -84,6 +87,9 @@ skolem:lemma2 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:device log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#device"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
@@ -96,6 +102,9 @@ skolem:lemma3 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:event log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#event"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
@@ -108,6 +117,9 @@ skolem:lemma4 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:recipient log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#recipient"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
@@ -120,6 +132,9 @@ skolem:lemma5 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:scope log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#scope"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
@@ -132,6 +147,9 @@ skolem:lemma6 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:valid_for log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#valid_for"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
@@ -144,6 +162,9 @@ skolem:lemma7 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:retailer_store log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#retailer_store"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
@@ -156,6 +177,9 @@ skolem:lemma8 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:expires_within log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#expires_within"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
@@ -168,6 +192,9 @@ skolem:lemma9 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:payload log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#payload"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
@@ -180,6 +207,9 @@ skolem:lemma10 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ui:title log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/ui#title"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
@@ -192,6 +222,9 @@ skolem:lemma11 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ui:metric log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/ui#metric"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
@@ -204,6 +237,9 @@ skolem:lemma12 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ui:operator log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/ui#operator"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
@@ -216,6 +252,9 @@ skolem:lemma13 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ui:threshold log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/ui#threshold"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
@@ -228,6 +267,9 @@ skolem:lemma14 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ui:strategy log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/ui#strategy"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
@@ -240,6 +282,9 @@ skolem:lemma15 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:provenance log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#provenance"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
@@ -252,6 +297,9 @@ skolem:lemma16 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:created_at log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#created_at"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
@@ -264,6 +312,9 @@ skolem:lemma17 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:generator log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#generator"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
@@ -276,6 +327,9 @@ skolem:lemma18 a r:Inference;
     };
     r:evidence (
         skolem:lemma28
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:data_minimization log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#data_minimization"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
@@ -288,6 +342,9 @@ skolem:lemma19 a r:Inference;
     };
     r:evidence (
         skolem:lemma30
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:thresholdForSugar log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#thresholdForSugar"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
@@ -300,6 +357,9 @@ skolem:lemma20 a r:Inference;
     };
     r:evidence (
         skolem:lemma31
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:candidateAlt log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#candidateAlt"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-050"]];
@@ -312,6 +372,9 @@ skolem:lemma21 a r:Inference;
     };
     r:evidence (
         skolem:lemma32
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:candidateAlt log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#candidateAlt"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-050"]];
@@ -324,6 +387,9 @@ skolem:lemma22 a r:Inference;
     };
     r:evidence (
         skolem:lemma33
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:candidateAlt log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#candidateAlt"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-050"]];
@@ -336,6 +402,9 @@ skolem:lemma23 a r:Inference;
     };
     r:evidence (
         skolem:lemma34
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:worseThanFor log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#worseThanFor"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#BIS-001"]];
@@ -348,6 +417,9 @@ skolem:lemma24 a r:Inference;
     };
     r:evidence (
         skolem:lemma35
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:worseThanFor log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#worseThanFor"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#BIS-001"]];
@@ -360,6 +432,9 @@ skolem:lemma25 a r:Inference;
     };
     r:evidence (
         skolem:lemma36
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:worseThanFor log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#worseThanFor"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-150"]];
@@ -372,6 +447,9 @@ skolem:lemma26 a r:Inference;
     };
     r:evidence (
         skolem:lemma37
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:reason log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#reason"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#privateNote"]];
@@ -384,6 +462,9 @@ skolem:lemma27 a r:Inference;
     };
     r:evidence (
         skolem:lemma38
+        [ a r:Fact; r:gives {(| "\+" {
+            ex:selectedAlt log:equalTo log:implies.
+        } |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#selectedAlt"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-050"]];
@@ -431,11 +512,14 @@ skolem:lemma29 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
             var:x_1 var:x_0 var:x_2.
+            (| "\+" {
+                var:x_0 log:equalTo log:implies.
+            } |).
         } => {
             var:x_1 var:x_0 var:x_2.
         }.
     };
-    r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
+    r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass-all>].
 
 skolem:lemma30 a r:Inference;
     r:gives {
@@ -594,13 +678,13 @@ skolem:lemma38 a r:Inference;
     r:evidence (
         skolem:lemma32
         [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>) 1) log:notIncludes {
-            ex:BIS-101 ex:worseThanFor (ex:CHOC-050 _:sk_4).
+            ex:BIS-101 ex:worseThanFor (ex:CHOC-050 _:sk_51).
         }}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-050"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#BIS-101"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>) 1)];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_51"]];
     r:rule skolem:lemma62.
 
 skolem:lemma39 a r:Extraction;

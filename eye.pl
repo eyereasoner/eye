@@ -833,7 +833,7 @@ opts(['--pass-derived'|Argus], Args) :-
     !,
     retractall(flag('pass-derived')),
     assertz(flag('pass-derived')),
-    opts(['--pass'|Argus], Args).
+    opts(['--pass-all'|Argus], Args).
 opts(['--pass-only-new'|Argus], Args) :-
     !,
     retractall(flag('pass-only-new')),
@@ -1081,7 +1081,7 @@ args(['--pass-all'|Args]) :-
     args(Args).
 args(['--pass-derived'|Args]) :-
     !,
-    args(['--pass'|Args]).
+    args(['--pass-all'|Args]).
 args(['--prolog', Argument|Args]) :-
     !,
     cnt(doc_nr),
@@ -3875,7 +3875,8 @@ w3 :-
     (   answer(B1, B2, B3),
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
-        \+pre_eam(C),
+        djiti_fact(C, Cd),
+        \+pre_eam(Cd),
         indent,
         labelvars(C, 0, _, avar),
         (   C = '<http://www.w3.org/2000/10/swap/graph#statement>'(X, Y)
@@ -3932,7 +3933,8 @@ w3 :-
             djiti_answer(answer(O), O1),
             Rule =.. [P, S, O],
             djiti_answer(answer(C), Cn),
-            \+pre_eam(C),
+            djiti_fact(C, Cd),
+            \+pre_eam(Cd),
             nb_setval(empty_gives, C),
             \+got_wi(A, B, Pnd, C, Rule),
             assertz(got_wi(A, B, Pnd, C, Rule)),
@@ -3959,7 +3961,8 @@ w3 :-
             (   prfstep(answer(B1, B2, B3), _, _, _, _, _, _),
                 relabel([B1, B2, B3], [C1, C2, C3]),
                 djiti_answer(answer(C), answer(C1, C2, C3)),
-                \+pre_eam(C),
+                djiti_fact(C, Cd),
+                \+pre_eam(Cd),
                 nl,
                 indent,
                 getvars(C, D),
@@ -5699,7 +5702,10 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     !,
     (   retwist(A, B, Z)
     ->  true
-    ;   Z = '<>'
+    ;   (   flag('pass-derived')
+        ->  Z = _
+        ;   Z = '<>'
+        )
     ),
     makevars(implies(A, B, Z), C, zeta).
 djiti_fact(':-'(A, B), ':-'(C, D)) :-
