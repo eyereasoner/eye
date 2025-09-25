@@ -5806,7 +5806,10 @@ djiti_assertz(A) :-
     djiti_fact(A, B),
     assertz(B),
     (   nb_getval(pre_eam, true)
-    ->  assertz(pre_eam(B))
+    ->  (   B = implies(D, E, _)
+        ->  assertz(pre_eam(implies(D, E, _)))
+        ;   assertz(pre_eam(B))
+        )
     ;   true
     ).
 
