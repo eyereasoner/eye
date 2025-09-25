@@ -82,29 +82,31 @@ You’ll see:
 * **REASON WHY** (private summary)
 * **CHECKS** (verifications; should all PASS)
 
-### Example output (abridged)
+### Example output
 
 ```
 === TIMELINE ===
-2025-09-25T13:23:05Z  PICKUP           scanner="self-scanner" retailer="Delfour"
-2025-09-25T13:23:05Z  AGENT-DIALOG     capabilities received from Delfour
-2025-09-25T13:23:05Z  DESENSITIZE      need=needsLowSugar written
-2025-09-25T13:23:05Z  INSIGHT          neutral low-sugar envelope emitted
-2025-09-25T13:23:05Z  SCAN             product="Classic Tea Biscuits" → suggest="Low-Sugar Tea Biscuits"
-2025-09-25T13:23:05Z  RUNTIME          banner written
-2025-09-25T13:23:05Z  DROP             scanner returned; session closed
+2025-09-25T19:26:08.665507+00:00  PICKUP            scanner="self-scanner" retailer="Delfour"
+2025-09-25T19:26:08.697592+00:00  AGENT-DIALOG      capabilities received from Delfour
+2025-09-25T19:26:08.829310+00:00  DESENSITIZE       need=needsLowSugar written
+2025-09-25T19:26:08.916533+00:00  INSIGHT           neutral low-sugar envelope emitted
+2025-09-25T19:26:09.031472+00:00  SCAN              product="Classic Tea Biscuits" → suggest="Low-Sugar Tea Biscuits"
+2025-09-25T19:26:09.031574+00:00  RUNTIME           banner written
+2025-09-25T19:26:09.051002+00:00  DROP              scanner returned; session closed
 
 === ANSWER — INSIGHT (to retailer) ===
 @prefix ins: <https://example.org/insight#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-_:sk_0 a ins:Insight ;
-      ins:metric "sugar_g_per_serving" ;
-      ins:threshold "10.0"^^xsd:decimal ;
-      ins:suggestionPolicy "lower_metric_first_higher_price_ok" ;
-      ins:scopeDevice "self-scanner" ;
-      ins:scopeEvent "pick_up_scanner" ;
-      ins:retailer "Delfour" ;
-      ins:expiresAt "2025-09-25T15:23:05Z" .
+
+_:sk_0 a ins:Insight.
+_:sk_0 ins:metric "sugar_g_per_serving".
+_:sk_0 ins:threshold "10.0"^^xsd:decimal.
+_:sk_0 ins:suggestionPolicy "lower_metric_first_higher_price_ok".
+_:sk_0 ins:scopeDevice "self-scanner".
+_:sk_0 ins:scopeEvent "pick_up_scanner".
+_:sk_0 ins:retailer "Delfour".
+_:sk_0 ins:expiresAt "2025-09-25T21:26:08.664591+00:00".
+
 
 === ANSWER — RUNTIME PREVIEW (device banner) ===
 {
@@ -114,8 +116,17 @@ _:sk_0 a ins:Insight ;
   "suggested_alternative": "Low-Sugar Tea Biscuits"
 }
 
+=== REASON WHY (private) ===
+Household requires low-sugar guidance (diabetes in POD). You are starting a self-scanner session at Delfour right now. Envelope is minimized and limited to this session.
+
 === CHECKS ===
-PASS ... (6/6 checks passed)
+PASS - insight_file_exists: bus/insight.ttl present
+PASS - minimization_no_sensitive_terms: insight.ttl is neutral
+PASS - scope_has_device_event_expiry: derived insight includes scope
+PASS - runtime_banner_exists: bus/runtime_out.json present
+PASS - behavior_suggests_on_high_sugar: suggestion was present
+PASS - events_have_pickup_and_drop: start and end recorded
+Overall: 6/6 checks passed.
 ```
 
 ---
@@ -198,21 +209,6 @@ Re-run safely any time; the timeline is reset at start.
 
 ---
 
-## Troubleshooting
-
-* **`eye: command not found`**
-  Install EYE or set `EYE` env var:
-  `export EYE=/absolute/path/to/eye`
-  (The scripts respect `os.environ["EYE"]`.)
-* **Checks fail: “minimization_no_sensitive_terms”**
-  Ensure steps 03/04/05 use `--pass-only-new`. If you see “Diabetes” in `insight.ttl`, a step echoed inputs.
-* **No suggestion appears**
-  Verify `rules/shopping_suggest_alternative.n3` declares `@prefix xsd:` and catalog sugar values are strings parsable as decimals.
-* **Regex error in 05_shopping_runtime.py**
-  Make sure the `name_for()` helper uses the fixed pattern with `re.escape(qname)` and `re.DOTALL`.
-
----
-
 ## Conceptual mapping (privacy story)
 
 * Sensitive POD fact (**private**): `:me health:householdCondition health:Diabetes .`
@@ -221,10 +217,4 @@ Re-run safely any time; the timeline is reset at start.
 * **Behavior**: only during session & only when needed (scan event), suggest lower-sugar alternatives.
 
 This separation lets retailers improve UX **without** handling medical data.
-
----
-
-## License / attribution
-
-This demo is designed to slot alongside the EYE/P3 examples. Adapt as needed for your own experiments and add a license file appropriate to your project.
 

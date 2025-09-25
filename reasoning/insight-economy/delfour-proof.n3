@@ -3,10 +3,10 @@
 @prefix ex: <https://w3id.org/insight-economy/example#>.
 @prefix ui: <https://w3id.org/insight-economy/ui#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
-@prefix math: <http://www.w3.org/2000/10/swap/math#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -36,6 +36,15 @@ skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma25;
     r:component skolem:lemma26;
     r:component skolem:lemma27;
+    r:component skolem:lemma28;
+    r:component skolem:lemma29;
+    r:component skolem:lemma30;
+    r:component skolem:lemma31;
+    r:component skolem:lemma32;
+    r:component skolem:lemma33;
+    r:component skolem:lemma34;
+    r:component skolem:lemma35;
+    r:component skolem:lemma36;
     r:gives {
         _:sk_0 a ex:InsightEnvelope.
         _:sk_1 ex:device "self-scanner".
@@ -63,6 +72,124 @@ skolem:proof a r:Proof, r:Conjunction;
         ex:BIS-001 ex:worseThanFor (ex:CHOC-050 ex:CHOC-150).
         ex:CHOC-150 ex:worseThanFor (ex:CHOC-050 ex:BIS-101).
         ex:privateNote ex:reason "Household requires low-sugar guidance. You are starting a self-scanner session at Delfour right now.\nThe envelope minimizes data and is limited to this session.".
+        {
+            ex:me ex:householdCondition "diabetes".
+            ex:ctx1 ex:retailer "Delfour".
+            ex:ctx1 ex:device "self-scanner".
+            ex:ctx1 ex:event "pick_up_scanner".
+            ex:ctx1 ex:timestamp ?U_4.
+            ex:ctx1 ex:location ?U_5.
+        } => {
+            _:sk_6 a ex:InsightEnvelope.
+            _:sk_6 ex:recipient "Delfour".
+            _:sk_6 ex:scope _:sk_7.
+            _:sk_7 ex:device "self-scanner".
+            _:sk_7 ex:event "pick_up_scanner".
+            _:sk_7 ex:valid_for "this_session".
+            _:sk_7 ex:retailer_store ?U_5.
+            _:sk_7 ex:expires_within "PT2H".
+            _:sk_6 ex:payload _:sk_8.
+            _:sk_8 ui:title "Track sugar per serving while you scan".
+            _:sk_8 ui:metric ex:sugar_g_per_serving.
+            _:sk_8 ui:operator ">=".
+            _:sk_8 ui:threshold "10.0"^^xsd:decimal.
+            _:sk_8 ui:strategy "lower_metric_first_higher_price_ok".
+            _:sk_6 ex:provenance _:sk_9.
+            _:sk_9 ex:created_at ?U_4.
+            _:sk_9 ex:generator "private_insight_refiner_v1".
+            _:sk_9 ex:data_minimization true.
+        }.
+        {
+            ?U_10 a ex:InsightEnvelope.
+            ?U_10 ex:payload ?U_11.
+            ?U_11 ui:metric ex:sugar_g_per_serving.
+            ?U_11 ui:threshold ?U_12.
+        } => {
+            ?U_10 ex:thresholdForSugar ?U_12.
+        }.
+        {
+            ?U_13 a ex:Scan.
+            ?U_13 ex:product ?U_14.
+            ?U_13 ex:useEnvelope ?U_15.
+            ?U_15 ex:thresholdForSugar ?U_16.
+            ?U_14 ex:sugar_g_per_serving ?U_17.
+            ?U_17 math:notLessThan ?U_16.
+        } => {
+            _:sk_18 a ex:Banner.
+            _:sk_18 ex:headline "Track sugar per serving while you scan".
+            _:sk_18 ex:product ?U_14.
+            _:sk_18 ex:sugar_g_per_serving ?U_17.
+            _:sk_18 ex:note _:sk_19.
+            _:sk_19 ex:kind "HighSugar".
+            _:sk_19 ex:threshold ?U_16.
+        }.
+        {
+            ?U_20 a ex:Scan.
+            ?U_20 ex:product ?U_21.
+            ?U_21 ex:sugar_g_per_serving ?U_22.
+            ?U_23 a ex:Product.
+            ?U_23 ex:sugar_g_per_serving ?U_24.
+            ?U_24 math:lessThan ?U_22.
+        } => {
+            ?U_21 ex:candidateAlt ?U_23.
+        }.
+        {
+            ?U_25 ex:candidateAlt ?U_26.
+            ?U_25 ex:candidateAlt ?U_27.
+            ?U_26 ex:sugar_g_per_serving ?U_28.
+            ?U_26 ex:price_eur ?U_29.
+            ?U_27 ex:sugar_g_per_serving ?U_30.
+            ?U_27 ex:price_eur ?U_31.
+            ?U_30 math:lessThan ?U_28.
+        } => {
+            ?U_26 ex:worseThanFor (?U_25 ?U_27).
+        }.
+        {
+            ?U_32 ex:candidateAlt ?U_33.
+            ?U_32 ex:candidateAlt ?U_34.
+            ?U_33 ex:sugar_g_per_serving ?U_35.
+            ?U_33 ex:price_eur ?U_36.
+            ?U_34 ex:sugar_g_per_serving ?U_37.
+            ?U_34 ex:price_eur ?U_38.
+            ?U_37 <http://www.w3.org/2002/07/owl#sameAs> ?U_35.
+            ?U_38 math:greaterThan ?U_36.
+        } => {
+            ?U_33 ex:worseThanFor (?U_32 ?U_34).
+        }.
+        {
+            ?U_39 ex:candidateAlt ?U_40.
+            ?U_41 log:notIncludes {
+                ?U_40 ex:worseThanFor (?U_39 ?U_42).
+            }.
+        } => {
+            ?U_39 ex:selectedAlt ?U_40.
+        }.
+        {
+            ?U_43 a ex:Scan.
+            ?U_43 ex:product ?U_44.
+            ?U_43 ex:useEnvelope ?U_45.
+            ?U_45 ex:thresholdForSugar ?U_46.
+            ?U_44 ex:sugar_g_per_serving ?U_47.
+            ?U_44 ex:selectedAlt ?U_48.
+            ?U_47 math:notLessThan ?U_46.
+        } => {
+            _:sk_49 a ex:Banner.
+            _:sk_49 ex:headline "Track sugar per serving while you scan".
+            _:sk_49 ex:product ?U_44.
+            _:sk_49 ex:sugar_g_per_serving ?U_47.
+            _:sk_49 ex:note _:sk_50.
+            _:sk_50 ex:kind "HighSugar".
+            _:sk_50 ex:threshold ?U_46.
+            _:sk_49 ex:suggested_alternative ?U_48.
+        }.
+        {
+            ex:me ex:householdCondition "diabetes".
+            ex:ctx1 ex:retailer "Delfour".
+            ex:ctx1 ex:device "self-scanner".
+            ex:ctx1 ex:event "pick_up_scanner".
+        } => {
+            ex:privateNote ex:reason "Household requires low-sugar guidance. You are starting a self-scanner session at Delfour right now.\nThe envelope minimizes data and is limited to this session.".
+        }.
         ex:CHOC-050 ex:selectedAlt ex:BIS-101.
     }.
 
@@ -71,7 +198,7 @@ skolem:lemma1 a r:Inference;
         _:sk_0 a ex:InsightEnvelope.
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> log:equalTo log:implies.
         } |)}]
@@ -79,14 +206,14 @@ skolem:lemma1 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#InsightEnvelope"]];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma2 a r:Inference;
     r:gives {
         _:sk_1 ex:device "self-scanner".
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ex:device log:equalTo log:implies.
         } |)}]
@@ -94,14 +221,14 @@ skolem:lemma2 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#device"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "self-scanner"];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma3 a r:Inference;
     r:gives {
         _:sk_1 ex:event "pick_up_scanner".
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ex:event log:equalTo log:implies.
         } |)}]
@@ -109,14 +236,14 @@ skolem:lemma3 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#event"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "pick_up_scanner"];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma4 a r:Inference;
     r:gives {
         _:sk_0 ex:recipient "Delfour".
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ex:recipient log:equalTo log:implies.
         } |)}]
@@ -124,14 +251,14 @@ skolem:lemma4 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#recipient"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "Delfour"];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma5 a r:Inference;
     r:gives {
         _:sk_0 ex:scope _:sk_1.
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ex:scope log:equalTo log:implies.
         } |)}]
@@ -139,14 +266,14 @@ skolem:lemma5 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#scope"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma6 a r:Inference;
     r:gives {
         _:sk_1 ex:valid_for "this_session".
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ex:valid_for log:equalTo log:implies.
         } |)}]
@@ -154,14 +281,14 @@ skolem:lemma6 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#valid_for"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "this_session"];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma7 a r:Inference;
     r:gives {
         _:sk_1 ex:retailer_store "store-42".
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ex:retailer_store log:equalTo log:implies.
         } |)}]
@@ -169,14 +296,14 @@ skolem:lemma7 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#retailer_store"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "store-42"];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma8 a r:Inference;
     r:gives {
         _:sk_1 ex:expires_within "PT2H".
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ex:expires_within log:equalTo log:implies.
         } |)}]
@@ -184,14 +311,14 @@ skolem:lemma8 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#expires_within"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "PT2H"];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma9 a r:Inference;
     r:gives {
         _:sk_0 ex:payload _:sk_2.
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ex:payload log:equalTo log:implies.
         } |)}]
@@ -199,14 +326,14 @@ skolem:lemma9 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#payload"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma10 a r:Inference;
     r:gives {
         _:sk_2 ui:title "Track sugar per serving while you scan".
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ui:title log:equalTo log:implies.
         } |)}]
@@ -214,14 +341,14 @@ skolem:lemma10 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/ui#title"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "Track sugar per serving while you scan"];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma11 a r:Inference;
     r:gives {
         _:sk_2 ui:metric ex:sugar_g_per_serving.
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ui:metric log:equalTo log:implies.
         } |)}]
@@ -229,14 +356,14 @@ skolem:lemma11 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/ui#metric"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#sugar_g_per_serving"]];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma12 a r:Inference;
     r:gives {
         _:sk_2 ui:operator ">=".
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ui:operator log:equalTo log:implies.
         } |)}]
@@ -244,14 +371,14 @@ skolem:lemma12 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/ui#operator"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ">="];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma13 a r:Inference;
     r:gives {
         _:sk_2 ui:threshold "10.0"^^xsd:decimal.
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ui:threshold log:equalTo log:implies.
         } |)}]
@@ -259,14 +386,14 @@ skolem:lemma13 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/ui#threshold"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "10.0"^^xsd:decimal];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma14 a r:Inference;
     r:gives {
         _:sk_2 ui:strategy "lower_metric_first_higher_price_ok".
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ui:strategy log:equalTo log:implies.
         } |)}]
@@ -274,14 +401,14 @@ skolem:lemma14 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/ui#strategy"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "lower_metric_first_higher_price_ok"];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma15 a r:Inference;
     r:gives {
         _:sk_0 ex:provenance _:sk_3.
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ex:provenance log:equalTo log:implies.
         } |)}]
@@ -289,14 +416,14 @@ skolem:lemma15 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#provenance"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma16 a r:Inference;
     r:gives {
         _:sk_3 ex:created_at "2025-08-12T12:52:50Z"^^xsd:dateTime.
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ex:created_at log:equalTo log:implies.
         } |)}]
@@ -304,14 +431,14 @@ skolem:lemma16 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#created_at"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "2025-08-12T12:52:50Z"^^xsd:dateTime];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma17 a r:Inference;
     r:gives {
         _:sk_3 ex:generator "private_insight_refiner_v1".
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ex:generator log:equalTo log:implies.
         } |)}]
@@ -319,14 +446,14 @@ skolem:lemma17 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#generator"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "private_insight_refiner_v1"];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma18 a r:Inference;
     r:gives {
         _:sk_3 ex:data_minimization true.
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma37
         [ a r:Fact; r:gives {(| "\+" {
             ex:data_minimization log:equalTo log:implies.
         } |)}]
@@ -334,14 +461,14 @@ skolem:lemma18 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#data_minimization"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo true];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma19 a r:Inference;
     r:gives {
         _:sk_0 ex:thresholdForSugar "10.0"^^xsd:decimal.
     };
     r:evidence (
-        skolem:lemma30
+        skolem:lemma39
         [ a r:Fact; r:gives {(| "\+" {
             ex:thresholdForSugar log:equalTo log:implies.
         } |)}]
@@ -349,14 +476,14 @@ skolem:lemma19 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#thresholdForSugar"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "10.0"^^xsd:decimal];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma20 a r:Inference;
     r:gives {
         ex:CHOC-050 ex:candidateAlt ex:BIS-001.
     };
     r:evidence (
-        skolem:lemma31
+        skolem:lemma40
         [ a r:Fact; r:gives {(| "\+" {
             ex:candidateAlt log:equalTo log:implies.
         } |)}]
@@ -364,14 +491,14 @@ skolem:lemma20 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#candidateAlt"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-050"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#BIS-001"]];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma21 a r:Inference;
     r:gives {
         ex:CHOC-050 ex:candidateAlt ex:BIS-101.
     };
     r:evidence (
-        skolem:lemma32
+        skolem:lemma41
         [ a r:Fact; r:gives {(| "\+" {
             ex:candidateAlt log:equalTo log:implies.
         } |)}]
@@ -379,14 +506,14 @@ skolem:lemma21 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#candidateAlt"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-050"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#BIS-101"]];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma22 a r:Inference;
     r:gives {
         ex:CHOC-050 ex:candidateAlt ex:CHOC-150.
     };
     r:evidence (
-        skolem:lemma33
+        skolem:lemma42
         [ a r:Fact; r:gives {(| "\+" {
             ex:candidateAlt log:equalTo log:implies.
         } |)}]
@@ -394,14 +521,14 @@ skolem:lemma22 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#candidateAlt"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-050"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-150"]];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma23 a r:Inference;
     r:gives {
         ex:BIS-001 ex:worseThanFor (ex:CHOC-050 ex:BIS-101).
     };
     r:evidence (
-        skolem:lemma34
+        skolem:lemma43
         [ a r:Fact; r:gives {(| "\+" {
             ex:worseThanFor log:equalTo log:implies.
         } |)}]
@@ -409,14 +536,14 @@ skolem:lemma23 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#worseThanFor"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#BIS-001"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (ex:CHOC-050 ex:BIS-101)];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma24 a r:Inference;
     r:gives {
         ex:BIS-001 ex:worseThanFor (ex:CHOC-050 ex:CHOC-150).
     };
     r:evidence (
-        skolem:lemma35
+        skolem:lemma44
         [ a r:Fact; r:gives {(| "\+" {
             ex:worseThanFor log:equalTo log:implies.
         } |)}]
@@ -424,14 +551,14 @@ skolem:lemma24 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#worseThanFor"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#BIS-001"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (ex:CHOC-050 ex:CHOC-150)];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma25 a r:Inference;
     r:gives {
         ex:CHOC-150 ex:worseThanFor (ex:CHOC-050 ex:BIS-101).
     };
     r:evidence (
-        skolem:lemma36
+        skolem:lemma45
         [ a r:Fact; r:gives {(| "\+" {
             ex:worseThanFor log:equalTo log:implies.
         } |)}]
@@ -439,14 +566,14 @@ skolem:lemma25 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#worseThanFor"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-150"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (ex:CHOC-050 ex:BIS-101)];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma26 a r:Inference;
     r:gives {
         ex:privateNote ex:reason "Household requires low-sugar guidance. You are starting a self-scanner session at Delfour right now.\nThe envelope minimizes data and is limited to this session.".
     };
     r:evidence (
-        skolem:lemma37
+        skolem:lemma46
         [ a r:Fact; r:gives {(| "\+" {
             ex:reason log:equalTo log:implies.
         } |)}]
@@ -454,14 +581,528 @@ skolem:lemma26 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#reason"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#privateNote"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "Household requires low-sugar guidance. You are starting a self-scanner session at Delfour right now.\nThe envelope minimizes data and is limited to this session."];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
 skolem:lemma27 a r:Inference;
+    r:gives {
+        {
+            ex:me ex:householdCondition "diabetes".
+            ex:ctx1 ex:retailer "Delfour".
+            ex:ctx1 ex:device "self-scanner".
+            ex:ctx1 ex:event "pick_up_scanner".
+            ex:ctx1 ex:timestamp ?U_4.
+            ex:ctx1 ex:location ?U_5.
+        } => {
+            _:sk_6 a ex:InsightEnvelope.
+            _:sk_6 ex:recipient "Delfour".
+            _:sk_6 ex:scope _:sk_7.
+            _:sk_7 ex:device "self-scanner".
+            _:sk_7 ex:event "pick_up_scanner".
+            _:sk_7 ex:valid_for "this_session".
+            _:sk_7 ex:retailer_store ?U_5.
+            _:sk_7 ex:expires_within "PT2H".
+            _:sk_6 ex:payload _:sk_8.
+            _:sk_8 ui:title "Track sugar per serving while you scan".
+            _:sk_8 ui:metric ex:sugar_g_per_serving.
+            _:sk_8 ui:operator ">=".
+            _:sk_8 ui:threshold "10.0"^^xsd:decimal.
+            _:sk_8 ui:strategy "lower_metric_first_higher_price_ok".
+            _:sk_6 ex:provenance _:sk_9.
+            _:sk_9 ex:created_at ?U_4.
+            _:sk_9 ex:generator "private_insight_refiner_v1".
+            _:sk_9 ex:data_minimization true.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            ex:me ex:householdCondition "diabetes".
+            ex:ctx1 ex:retailer "Delfour".
+            ex:ctx1 ex:device "self-scanner".
+            ex:ctx1 ex:event "pick_up_scanner".
+            ex:ctx1 ex:timestamp ?U_4.
+            ex:ctx1 ex:location ?U_5.
+        } => {
+            _:sk_6 a ex:InsightEnvelope.
+            _:sk_6 ex:recipient "Delfour".
+            _:sk_6 ex:scope _:sk_7.
+            _:sk_7 ex:device "self-scanner".
+            _:sk_7 ex:event "pick_up_scanner".
+            _:sk_7 ex:valid_for "this_session".
+            _:sk_7 ex:retailer_store ?U_5.
+            _:sk_7 ex:expires_within "PT2H".
+            _:sk_6 ex:payload _:sk_8.
+            _:sk_8 ui:title "Track sugar per serving while you scan".
+            _:sk_8 ui:metric ex:sugar_g_per_serving.
+            _:sk_8 ui:operator ">=".
+            _:sk_8 ui:threshold "10.0"^^xsd:decimal.
+            _:sk_8 ui:strategy "lower_metric_first_higher_price_ok".
+            _:sk_6 ex:provenance _:sk_9.
+            _:sk_9 ex:created_at ?U_4.
+            _:sk_9 ex:generator "private_insight_refiner_v1".
+            _:sk_9 ex:data_minimization true.
+        }}]
+        [ a r:Fact; r:gives {(| "\+" {
+            {
+                ex:me ex:householdCondition "diabetes".
+                ex:ctx1 ex:retailer "Delfour".
+                ex:ctx1 ex:device "self-scanner".
+                ex:ctx1 ex:event "pick_up_scanner".
+                ex:ctx1 ex:timestamp _:sk_4.
+                ex:ctx1 ex:location _:sk_5.
+            } log:equalTo true.
+        } |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        ex:me ex:householdCondition "diabetes".
+        ex:ctx1 ex:retailer "Delfour".
+        ex:ctx1 ex:device "self-scanner".
+        ex:ctx1 ex:event "pick_up_scanner".
+        ex:ctx1 ex:timestamp _:sk_4.
+        ex:ctx1 ex:location _:sk_5.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        _:sk_6 a ex:InsightEnvelope.
+        _:sk_6 ex:recipient "Delfour".
+        _:sk_6 ex:scope _:sk_7.
+        _:sk_7 ex:device "self-scanner".
+        _:sk_7 ex:event "pick_up_scanner".
+        _:sk_7 ex:valid_for "this_session".
+        _:sk_7 ex:retailer_store _:sk_5.
+        _:sk_7 ex:expires_within "PT2H".
+        _:sk_6 ex:payload _:sk_8.
+        _:sk_8 ui:title "Track sugar per serving while you scan".
+        _:sk_8 ui:metric ex:sugar_g_per_serving.
+        _:sk_8 ui:operator ">=".
+        _:sk_8 ui:threshold "10.0"^^xsd:decimal.
+        _:sk_8 ui:strategy "lower_metric_first_higher_price_ok".
+        _:sk_6 ex:provenance _:sk_9.
+        _:sk_9 ex:created_at _:sk_4.
+        _:sk_9 ex:generator "private_insight_refiner_v1".
+        _:sk_9 ex:data_minimization true.
+    }];
+    r:rule skolem:lemma47.
+
+skolem:lemma28 a r:Inference;
+    r:gives {
+        {
+            ?U_10 a ex:InsightEnvelope.
+            ?U_10 ex:payload ?U_11.
+            ?U_11 ui:metric ex:sugar_g_per_serving.
+            ?U_11 ui:threshold ?U_12.
+        } => {
+            ?U_10 ex:thresholdForSugar ?U_12.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            ?U_10 a ex:InsightEnvelope.
+            ?U_10 ex:payload ?U_11.
+            ?U_11 ui:metric ex:sugar_g_per_serving.
+            ?U_11 ui:threshold ?U_12.
+        } => {
+            ?U_10 ex:thresholdForSugar ?U_12.
+        }}]
+        [ a r:Fact; r:gives {(| "\+" {
+            {
+                _:sk_10 a ex:InsightEnvelope.
+                _:sk_10 ex:payload _:sk_11.
+                _:sk_11 ui:metric ex:sugar_g_per_serving.
+                _:sk_11 ui:threshold _:sk_12.
+            } log:equalTo true.
+        } |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        _:sk_10 a ex:InsightEnvelope.
+        _:sk_10 ex:payload _:sk_11.
+        _:sk_11 ui:metric ex:sugar_g_per_serving.
+        _:sk_11 ui:threshold _:sk_12.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        _:sk_10 ex:thresholdForSugar _:sk_12.
+    }];
+    r:rule skolem:lemma47.
+
+skolem:lemma29 a r:Inference;
+    r:gives {
+        {
+            ?U_13 a ex:Scan.
+            ?U_13 ex:product ?U_14.
+            ?U_13 ex:useEnvelope ?U_15.
+            ?U_15 ex:thresholdForSugar ?U_16.
+            ?U_14 ex:sugar_g_per_serving ?U_17.
+            ?U_17 math:notLessThan ?U_16.
+        } => {
+            _:sk_18 a ex:Banner.
+            _:sk_18 ex:headline "Track sugar per serving while you scan".
+            _:sk_18 ex:product ?U_14.
+            _:sk_18 ex:sugar_g_per_serving ?U_17.
+            _:sk_18 ex:note _:sk_19.
+            _:sk_19 ex:kind "HighSugar".
+            _:sk_19 ex:threshold ?U_16.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            ?U_13 a ex:Scan.
+            ?U_13 ex:product ?U_14.
+            ?U_13 ex:useEnvelope ?U_15.
+            ?U_15 ex:thresholdForSugar ?U_16.
+            ?U_14 ex:sugar_g_per_serving ?U_17.
+            ?U_17 math:notLessThan ?U_16.
+        } => {
+            _:sk_18 a ex:Banner.
+            _:sk_18 ex:headline "Track sugar per serving while you scan".
+            _:sk_18 ex:product ?U_14.
+            _:sk_18 ex:sugar_g_per_serving ?U_17.
+            _:sk_18 ex:note _:sk_19.
+            _:sk_19 ex:kind "HighSugar".
+            _:sk_19 ex:threshold ?U_16.
+        }}]
+        [ a r:Fact; r:gives {(| "\+" {
+            {
+                _:sk_13 a ex:Scan.
+                _:sk_13 ex:product _:sk_14.
+                _:sk_13 ex:useEnvelope _:sk_15.
+                _:sk_15 ex:thresholdForSugar _:sk_16.
+                _:sk_14 ex:sugar_g_per_serving _:sk_17.
+                _:sk_17 math:notLessThan _:sk_16.
+            } log:equalTo true.
+        } |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        _:sk_13 a ex:Scan.
+        _:sk_13 ex:product _:sk_14.
+        _:sk_13 ex:useEnvelope _:sk_15.
+        _:sk_15 ex:thresholdForSugar _:sk_16.
+        _:sk_14 ex:sugar_g_per_serving _:sk_17.
+        _:sk_17 math:notLessThan _:sk_16.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        _:sk_18 a ex:Banner.
+        _:sk_18 ex:headline "Track sugar per serving while you scan".
+        _:sk_18 ex:product _:sk_14.
+        _:sk_18 ex:sugar_g_per_serving _:sk_17.
+        _:sk_18 ex:note _:sk_19.
+        _:sk_19 ex:kind "HighSugar".
+        _:sk_19 ex:threshold _:sk_16.
+    }];
+    r:rule skolem:lemma47.
+
+skolem:lemma30 a r:Inference;
+    r:gives {
+        {
+            ?U_20 a ex:Scan.
+            ?U_20 ex:product ?U_21.
+            ?U_21 ex:sugar_g_per_serving ?U_22.
+            ?U_23 a ex:Product.
+            ?U_23 ex:sugar_g_per_serving ?U_24.
+            ?U_24 math:lessThan ?U_22.
+        } => {
+            ?U_21 ex:candidateAlt ?U_23.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            ?U_20 a ex:Scan.
+            ?U_20 ex:product ?U_21.
+            ?U_21 ex:sugar_g_per_serving ?U_22.
+            ?U_23 a ex:Product.
+            ?U_23 ex:sugar_g_per_serving ?U_24.
+            ?U_24 math:lessThan ?U_22.
+        } => {
+            ?U_21 ex:candidateAlt ?U_23.
+        }}]
+        [ a r:Fact; r:gives {(| "\+" {
+            {
+                _:sk_20 a ex:Scan.
+                _:sk_20 ex:product _:sk_21.
+                _:sk_21 ex:sugar_g_per_serving _:sk_22.
+                _:sk_23 a ex:Product.
+                _:sk_23 ex:sugar_g_per_serving _:sk_24.
+                _:sk_24 math:lessThan _:sk_22.
+            } log:equalTo true.
+        } |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        _:sk_20 a ex:Scan.
+        _:sk_20 ex:product _:sk_21.
+        _:sk_21 ex:sugar_g_per_serving _:sk_22.
+        _:sk_23 a ex:Product.
+        _:sk_23 ex:sugar_g_per_serving _:sk_24.
+        _:sk_24 math:lessThan _:sk_22.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        _:sk_21 ex:candidateAlt _:sk_23.
+    }];
+    r:rule skolem:lemma47.
+
+skolem:lemma31 a r:Inference;
+    r:gives {
+        {
+            ?U_25 ex:candidateAlt ?U_26.
+            ?U_25 ex:candidateAlt ?U_27.
+            ?U_26 ex:sugar_g_per_serving ?U_28.
+            ?U_26 ex:price_eur ?U_29.
+            ?U_27 ex:sugar_g_per_serving ?U_30.
+            ?U_27 ex:price_eur ?U_31.
+            ?U_30 math:lessThan ?U_28.
+        } => {
+            ?U_26 ex:worseThanFor (?U_25 ?U_27).
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            ?U_25 ex:candidateAlt ?U_26.
+            ?U_25 ex:candidateAlt ?U_27.
+            ?U_26 ex:sugar_g_per_serving ?U_28.
+            ?U_26 ex:price_eur ?U_29.
+            ?U_27 ex:sugar_g_per_serving ?U_30.
+            ?U_27 ex:price_eur ?U_31.
+            ?U_30 math:lessThan ?U_28.
+        } => {
+            ?U_26 ex:worseThanFor (?U_25 ?U_27).
+        }}]
+        [ a r:Fact; r:gives {(| "\+" {
+            {
+                _:sk_25 ex:candidateAlt _:sk_26.
+                _:sk_25 ex:candidateAlt _:sk_27.
+                _:sk_26 ex:sugar_g_per_serving _:sk_28.
+                _:sk_26 ex:price_eur _:sk_29.
+                _:sk_27 ex:sugar_g_per_serving _:sk_30.
+                _:sk_27 ex:price_eur _:sk_31.
+                _:sk_30 math:lessThan _:sk_28.
+            } log:equalTo true.
+        } |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        _:sk_25 ex:candidateAlt _:sk_26.
+        _:sk_25 ex:candidateAlt _:sk_27.
+        _:sk_26 ex:sugar_g_per_serving _:sk_28.
+        _:sk_26 ex:price_eur _:sk_29.
+        _:sk_27 ex:sugar_g_per_serving _:sk_30.
+        _:sk_27 ex:price_eur _:sk_31.
+        _:sk_30 math:lessThan _:sk_28.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        _:sk_26 ex:worseThanFor (_:sk_25 _:sk_27).
+    }];
+    r:rule skolem:lemma47.
+
+skolem:lemma32 a r:Inference;
+    r:gives {
+        {
+            ?U_32 ex:candidateAlt ?U_33.
+            ?U_32 ex:candidateAlt ?U_34.
+            ?U_33 ex:sugar_g_per_serving ?U_35.
+            ?U_33 ex:price_eur ?U_36.
+            ?U_34 ex:sugar_g_per_serving ?U_37.
+            ?U_34 ex:price_eur ?U_38.
+            ?U_37 <http://www.w3.org/2002/07/owl#sameAs> ?U_35.
+            ?U_38 math:greaterThan ?U_36.
+        } => {
+            ?U_33 ex:worseThanFor (?U_32 ?U_34).
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            ?U_32 ex:candidateAlt ?U_33.
+            ?U_32 ex:candidateAlt ?U_34.
+            ?U_33 ex:sugar_g_per_serving ?U_35.
+            ?U_33 ex:price_eur ?U_36.
+            ?U_34 ex:sugar_g_per_serving ?U_37.
+            ?U_34 ex:price_eur ?U_38.
+            ?U_37 <http://www.w3.org/2002/07/owl#sameAs> ?U_35.
+            ?U_38 math:greaterThan ?U_36.
+        } => {
+            ?U_33 ex:worseThanFor (?U_32 ?U_34).
+        }}]
+        [ a r:Fact; r:gives {(| "\+" {
+            {
+                _:sk_32 ex:candidateAlt _:sk_33.
+                _:sk_32 ex:candidateAlt _:sk_34.
+                _:sk_33 ex:sugar_g_per_serving _:sk_35.
+                _:sk_33 ex:price_eur _:sk_36.
+                _:sk_34 ex:sugar_g_per_serving _:sk_37.
+                _:sk_34 ex:price_eur _:sk_38.
+                _:sk_37 <http://www.w3.org/2002/07/owl#sameAs> _:sk_35.
+                _:sk_38 math:greaterThan _:sk_36.
+            } log:equalTo true.
+        } |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        _:sk_32 ex:candidateAlt _:sk_33.
+        _:sk_32 ex:candidateAlt _:sk_34.
+        _:sk_33 ex:sugar_g_per_serving _:sk_35.
+        _:sk_33 ex:price_eur _:sk_36.
+        _:sk_34 ex:sugar_g_per_serving _:sk_37.
+        _:sk_34 ex:price_eur _:sk_38.
+        _:sk_37 <http://www.w3.org/2002/07/owl#sameAs> _:sk_35.
+        _:sk_38 math:greaterThan _:sk_36.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        _:sk_33 ex:worseThanFor (_:sk_32 _:sk_34).
+    }];
+    r:rule skolem:lemma47.
+
+skolem:lemma33 a r:Inference;
+    r:gives {
+        {
+            ?U_39 ex:candidateAlt ?U_40.
+            ?U_41 log:notIncludes {
+                ?U_40 ex:worseThanFor (?U_39 ?U_42).
+            }.
+        } => {
+            ?U_39 ex:selectedAlt ?U_40.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            ?U_39 ex:candidateAlt ?U_40.
+            ?U_41 log:notIncludes {
+                ?U_40 ex:worseThanFor (?U_39 ?U_42).
+            }.
+        } => {
+            ?U_39 ex:selectedAlt ?U_40.
+        }}]
+        [ a r:Fact; r:gives {(| "\+" {
+            {
+                _:sk_39 ex:candidateAlt _:sk_40.
+                _:sk_41 log:notIncludes {
+                    _:sk_40 ex:worseThanFor (_:sk_39 _:sk_42).
+                }.
+            } log:equalTo true.
+        } |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        _:sk_39 ex:candidateAlt _:sk_40.
+        _:sk_41 log:notIncludes {
+            _:sk_40 ex:worseThanFor (_:sk_39 _:sk_42).
+        }.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        _:sk_39 ex:selectedAlt _:sk_40.
+    }];
+    r:rule skolem:lemma47.
+
+skolem:lemma34 a r:Inference;
+    r:gives {
+        {
+            ?U_43 a ex:Scan.
+            ?U_43 ex:product ?U_44.
+            ?U_43 ex:useEnvelope ?U_45.
+            ?U_45 ex:thresholdForSugar ?U_46.
+            ?U_44 ex:sugar_g_per_serving ?U_47.
+            ?U_44 ex:selectedAlt ?U_48.
+            ?U_47 math:notLessThan ?U_46.
+        } => {
+            _:sk_49 a ex:Banner.
+            _:sk_49 ex:headline "Track sugar per serving while you scan".
+            _:sk_49 ex:product ?U_44.
+            _:sk_49 ex:sugar_g_per_serving ?U_47.
+            _:sk_49 ex:note _:sk_50.
+            _:sk_50 ex:kind "HighSugar".
+            _:sk_50 ex:threshold ?U_46.
+            _:sk_49 ex:suggested_alternative ?U_48.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            ?U_43 a ex:Scan.
+            ?U_43 ex:product ?U_44.
+            ?U_43 ex:useEnvelope ?U_45.
+            ?U_45 ex:thresholdForSugar ?U_46.
+            ?U_44 ex:sugar_g_per_serving ?U_47.
+            ?U_44 ex:selectedAlt ?U_48.
+            ?U_47 math:notLessThan ?U_46.
+        } => {
+            _:sk_49 a ex:Banner.
+            _:sk_49 ex:headline "Track sugar per serving while you scan".
+            _:sk_49 ex:product ?U_44.
+            _:sk_49 ex:sugar_g_per_serving ?U_47.
+            _:sk_49 ex:note _:sk_50.
+            _:sk_50 ex:kind "HighSugar".
+            _:sk_50 ex:threshold ?U_46.
+            _:sk_49 ex:suggested_alternative ?U_48.
+        }}]
+        [ a r:Fact; r:gives {(| "\+" {
+            {
+                _:sk_43 a ex:Scan.
+                _:sk_43 ex:product _:sk_44.
+                _:sk_43 ex:useEnvelope _:sk_45.
+                _:sk_45 ex:thresholdForSugar _:sk_46.
+                _:sk_44 ex:sugar_g_per_serving _:sk_47.
+                _:sk_44 ex:selectedAlt _:sk_48.
+                _:sk_47 math:notLessThan _:sk_46.
+            } log:equalTo true.
+        } |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        _:sk_43 a ex:Scan.
+        _:sk_43 ex:product _:sk_44.
+        _:sk_43 ex:useEnvelope _:sk_45.
+        _:sk_45 ex:thresholdForSugar _:sk_46.
+        _:sk_44 ex:sugar_g_per_serving _:sk_47.
+        _:sk_44 ex:selectedAlt _:sk_48.
+        _:sk_47 math:notLessThan _:sk_46.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        _:sk_49 a ex:Banner.
+        _:sk_49 ex:headline "Track sugar per serving while you scan".
+        _:sk_49 ex:product _:sk_44.
+        _:sk_49 ex:sugar_g_per_serving _:sk_47.
+        _:sk_49 ex:note _:sk_50.
+        _:sk_50 ex:kind "HighSugar".
+        _:sk_50 ex:threshold _:sk_46.
+        _:sk_49 ex:suggested_alternative _:sk_48.
+    }];
+    r:rule skolem:lemma47.
+
+skolem:lemma35 a r:Inference;
+    r:gives {
+        {
+            ex:me ex:householdCondition "diabetes".
+            ex:ctx1 ex:retailer "Delfour".
+            ex:ctx1 ex:device "self-scanner".
+            ex:ctx1 ex:event "pick_up_scanner".
+        } => {
+            ex:privateNote ex:reason "Household requires low-sugar guidance. You are starting a self-scanner session at Delfour right now.\nThe envelope minimizes data and is limited to this session.".
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            ex:me ex:householdCondition "diabetes".
+            ex:ctx1 ex:retailer "Delfour".
+            ex:ctx1 ex:device "self-scanner".
+            ex:ctx1 ex:event "pick_up_scanner".
+        } => {
+            ex:privateNote ex:reason "Household requires low-sugar guidance. You are starting a self-scanner session at Delfour right now.\nThe envelope minimizes data and is limited to this session.".
+        }}]
+        [ a r:Fact; r:gives {(| "\+" {
+            {
+                ex:me ex:householdCondition "diabetes".
+                ex:ctx1 ex:retailer "Delfour".
+                ex:ctx1 ex:device "self-scanner".
+                ex:ctx1 ex:event "pick_up_scanner".
+            } log:equalTo true.
+        } |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        ex:me ex:householdCondition "diabetes".
+        ex:ctx1 ex:retailer "Delfour".
+        ex:ctx1 ex:device "self-scanner".
+        ex:ctx1 ex:event "pick_up_scanner".
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        ex:privateNote ex:reason "Household requires low-sugar guidance. You are starting a self-scanner session at Delfour right now.\nThe envelope minimizes data and is limited to this session.".
+    }];
+    r:rule skolem:lemma47.
+
+skolem:lemma36 a r:Inference;
     r:gives {
         ex:CHOC-050 ex:selectedAlt ex:BIS-101.
     };
     r:evidence (
-        skolem:lemma38
+        skolem:lemma48
         [ a r:Fact; r:gives {(| "\+" {
             ex:selectedAlt log:equalTo log:implies.
         } |)}]
@@ -469,9 +1110,9 @@ skolem:lemma27 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#selectedAlt"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-050"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#BIS-101"]];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma38.
 
-skolem:lemma28 a r:Inference;
+skolem:lemma37 a r:Inference;
     r:gives {
         _:sk_0 a ex:InsightEnvelope.
         _:sk_0 ex:recipient "Delfour".
@@ -493,12 +1134,12 @@ skolem:lemma28 a r:Inference;
         _:sk_3 ex:data_minimization true.
     };
     r:evidence (
-        skolem:lemma39
-        skolem:lemma40
-        skolem:lemma41
-        skolem:lemma42
-        skolem:lemma43
-        skolem:lemma44
+        skolem:lemma49
+        skolem:lemma50
+        skolem:lemma51
+        skolem:lemma52
+        skolem:lemma53
+        skolem:lemma54
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo "2025-08-12T12:52:50Z"^^xsd:dateTime];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "store-42"];
@@ -506,9 +1147,9 @@ skolem:lemma28 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
-    r:rule skolem:lemma45.
+    r:rule skolem:lemma55.
 
-skolem:lemma29 a r:Extraction;
+skolem:lemma38 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
             var:x_1 var:x_0 var:x_2.
@@ -521,31 +1162,31 @@ skolem:lemma29 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass-all>].
 
-skolem:lemma30 a r:Inference;
+skolem:lemma39 a r:Inference;
     r:gives {
         _:sk_0 ex:thresholdForSugar "10.0"^^xsd:decimal.
     };
     r:evidence (
-        skolem:lemma28
-        skolem:lemma28
-        skolem:lemma28
-        skolem:lemma28
+        skolem:lemma37
+        skolem:lemma37
+        skolem:lemma37
+        skolem:lemma37
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "10.0"^^xsd:decimal];
-    r:rule skolem:lemma46.
+    r:rule skolem:lemma56.
 
-skolem:lemma31 a r:Inference;
+skolem:lemma40 a r:Inference;
     r:gives {
         ex:CHOC-050 ex:candidateAlt ex:BIS-001.
     };
     r:evidence (
-        skolem:lemma47
-        skolem:lemma48
-        skolem:lemma49
-        skolem:lemma50
-        skolem:lemma51
+        skolem:lemma57
+        skolem:lemma58
+        skolem:lemma59
+        skolem:lemma60
+        skolem:lemma61
         [ a r:Fact; r:gives {"12.0"^^xsd:decimal math:lessThan "15.0"^^xsd:decimal}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#scan1"]];
@@ -553,18 +1194,18 @@ skolem:lemma31 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "15.0"^^xsd:decimal];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#BIS-001"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo "12.0"^^xsd:decimal];
-    r:rule skolem:lemma52.
+    r:rule skolem:lemma62.
 
-skolem:lemma32 a r:Inference;
+skolem:lemma41 a r:Inference;
     r:gives {
         ex:CHOC-050 ex:candidateAlt ex:BIS-101.
     };
     r:evidence (
-        skolem:lemma47
-        skolem:lemma48
-        skolem:lemma49
-        skolem:lemma53
-        skolem:lemma54
+        skolem:lemma57
+        skolem:lemma58
+        skolem:lemma59
+        skolem:lemma63
+        skolem:lemma64
         [ a r:Fact; r:gives {"3.0"^^xsd:decimal math:lessThan "15.0"^^xsd:decimal}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#scan1"]];
@@ -572,18 +1213,18 @@ skolem:lemma32 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "15.0"^^xsd:decimal];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#BIS-101"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo "3.0"^^xsd:decimal];
-    r:rule skolem:lemma52.
+    r:rule skolem:lemma62.
 
-skolem:lemma33 a r:Inference;
+skolem:lemma42 a r:Inference;
     r:gives {
         ex:CHOC-050 ex:candidateAlt ex:CHOC-150.
     };
     r:evidence (
-        skolem:lemma47
-        skolem:lemma48
-        skolem:lemma49
-        skolem:lemma55
-        skolem:lemma56
+        skolem:lemma57
+        skolem:lemma58
+        skolem:lemma59
+        skolem:lemma65
+        skolem:lemma66
         [ a r:Fact; r:gives {"6.0"^^xsd:decimal math:lessThan "15.0"^^xsd:decimal}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#scan1"]];
@@ -591,19 +1232,19 @@ skolem:lemma33 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "15.0"^^xsd:decimal];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-150"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo "6.0"^^xsd:decimal];
-    r:rule skolem:lemma52.
+    r:rule skolem:lemma62.
 
-skolem:lemma34 a r:Inference;
+skolem:lemma43 a r:Inference;
     r:gives {
         ex:BIS-001 ex:worseThanFor (ex:CHOC-050 ex:BIS-101).
     };
     r:evidence (
-        skolem:lemma31
-        skolem:lemma32
-        skolem:lemma51
-        skolem:lemma57
-        skolem:lemma54
-        skolem:lemma58
+        skolem:lemma40
+        skolem:lemma41
+        skolem:lemma61
+        skolem:lemma67
+        skolem:lemma64
+        skolem:lemma68
         [ a r:Fact; r:gives {"3.0"^^xsd:decimal math:lessThan "12.0"^^xsd:decimal}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-050"]];
@@ -613,19 +1254,19 @@ skolem:lemma34 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo "2.10"^^xsd:decimal];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo "3.0"^^xsd:decimal];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo "2.60"^^xsd:decimal];
-    r:rule skolem:lemma59.
+    r:rule skolem:lemma69.
 
-skolem:lemma35 a r:Inference;
+skolem:lemma44 a r:Inference;
     r:gives {
         ex:BIS-001 ex:worseThanFor (ex:CHOC-050 ex:CHOC-150).
     };
     r:evidence (
-        skolem:lemma31
-        skolem:lemma33
-        skolem:lemma51
-        skolem:lemma57
-        skolem:lemma56
-        skolem:lemma60
+        skolem:lemma40
+        skolem:lemma42
+        skolem:lemma61
+        skolem:lemma67
+        skolem:lemma66
+        skolem:lemma70
         [ a r:Fact; r:gives {"6.0"^^xsd:decimal math:lessThan "12.0"^^xsd:decimal}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-050"]];
@@ -635,19 +1276,19 @@ skolem:lemma35 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo "2.10"^^xsd:decimal];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo "6.0"^^xsd:decimal];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo "2.20"^^xsd:decimal];
-    r:rule skolem:lemma59.
+    r:rule skolem:lemma69.
 
-skolem:lemma36 a r:Inference;
+skolem:lemma45 a r:Inference;
     r:gives {
         ex:CHOC-150 ex:worseThanFor (ex:CHOC-050 ex:BIS-101).
     };
     r:evidence (
-        skolem:lemma33
-        skolem:lemma32
-        skolem:lemma56
-        skolem:lemma60
-        skolem:lemma54
-        skolem:lemma58
+        skolem:lemma42
+        skolem:lemma41
+        skolem:lemma66
+        skolem:lemma70
+        skolem:lemma64
+        skolem:lemma68
         [ a r:Fact; r:gives {"3.0"^^xsd:decimal math:lessThan "6.0"^^xsd:decimal}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#CHOC-050"]];
@@ -657,26 +1298,39 @@ skolem:lemma36 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo "2.20"^^xsd:decimal];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo "3.0"^^xsd:decimal];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo "2.60"^^xsd:decimal];
-    r:rule skolem:lemma59.
+    r:rule skolem:lemma69.
 
-skolem:lemma37 a r:Inference;
+skolem:lemma46 a r:Inference;
     r:gives {
         ex:privateNote ex:reason "Household requires low-sugar guidance. You are starting a self-scanner session at Delfour right now.\nThe envelope minimizes data and is limited to this session.".
     };
     r:evidence (
-        skolem:lemma39
-        skolem:lemma40
-        skolem:lemma41
-        skolem:lemma42
+        skolem:lemma49
+        skolem:lemma50
+        skolem:lemma51
+        skolem:lemma52
     );
-    r:rule skolem:lemma61.
+    r:rule skolem:lemma71.
 
-skolem:lemma38 a r:Inference;
+skolem:lemma47 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 => var:x_1.
+            (| "\+" {
+                var:x_0 log:equalTo true.
+            } |).
+        } => {
+            var:x_0 => var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass-all>].
+
+skolem:lemma48 a r:Inference;
     r:gives {
         ex:CHOC-050 ex:selectedAlt ex:BIS-101.
     };
     r:evidence (
-        skolem:lemma32
+        skolem:lemma41
         [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>) 1) log:notIncludes {
             ex:BIS-101 ex:worseThanFor (ex:CHOC-050 _:sk_51).
         }}]
@@ -685,45 +1339,45 @@ skolem:lemma38 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://w3id.org/insight-economy/example#BIS-101"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>) 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_51"]];
-    r:rule skolem:lemma62.
+    r:rule skolem:lemma72.
 
-skolem:lemma39 a r:Extraction;
+skolem:lemma49 a r:Extraction;
     r:gives {
         ex:me ex:householdCondition "diabetes".
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma40 a r:Extraction;
+skolem:lemma50 a r:Extraction;
     r:gives {
         ex:ctx1 ex:retailer "Delfour".
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma41 a r:Extraction;
+skolem:lemma51 a r:Extraction;
     r:gives {
         ex:ctx1 ex:device "self-scanner".
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma42 a r:Extraction;
+skolem:lemma52 a r:Extraction;
     r:gives {
         ex:ctx1 ex:event "pick_up_scanner".
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma43 a r:Extraction;
+skolem:lemma53 a r:Extraction;
     r:gives {
         ex:ctx1 ex:timestamp "2025-08-12T12:52:50Z"^^xsd:dateTime.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma44 a r:Extraction;
+skolem:lemma54 a r:Extraction;
     r:gives {
         ex:ctx1 ex:location "store-42".
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma45 a r:Extraction;
+skolem:lemma55 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. @forSome var:x_2, var:x_3, var:x_4, var:x_5. {
             ex:me ex:householdCondition "diabetes".
@@ -755,7 +1409,7 @@ skolem:lemma45 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma46 a r:Extraction;
+skolem:lemma56 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
             var:x_0 a ex:InsightEnvelope.
@@ -768,37 +1422,37 @@ skolem:lemma46 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma47 a r:Extraction;
+skolem:lemma57 a r:Extraction;
     r:gives {
         ex:scan1 a ex:Scan.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma48 a r:Extraction;
+skolem:lemma58 a r:Extraction;
     r:gives {
         ex:scan1 ex:product ex:CHOC-050.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma49 a r:Extraction;
+skolem:lemma59 a r:Extraction;
     r:gives {
         ex:CHOC-050 ex:sugar_g_per_serving "15.0"^^xsd:decimal.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma50 a r:Extraction;
+skolem:lemma60 a r:Extraction;
     r:gives {
         ex:BIS-001 a ex:Product.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma51 a r:Extraction;
+skolem:lemma61 a r:Extraction;
     r:gives {
         ex:BIS-001 ex:sugar_g_per_serving "12.0"^^xsd:decimal.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma52 a r:Extraction;
+skolem:lemma62 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
             var:x_0 a ex:Scan.
@@ -813,43 +1467,43 @@ skolem:lemma52 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma53 a r:Extraction;
+skolem:lemma63 a r:Extraction;
     r:gives {
         ex:BIS-101 a ex:Product.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma54 a r:Extraction;
+skolem:lemma64 a r:Extraction;
     r:gives {
         ex:BIS-101 ex:sugar_g_per_serving "3.0"^^xsd:decimal.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma55 a r:Extraction;
+skolem:lemma65 a r:Extraction;
     r:gives {
         ex:CHOC-150 a ex:Product.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma56 a r:Extraction;
+skolem:lemma66 a r:Extraction;
     r:gives {
         ex:CHOC-150 ex:sugar_g_per_serving "6.0"^^xsd:decimal.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma57 a r:Extraction;
+skolem:lemma67 a r:Extraction;
     r:gives {
         ex:BIS-001 ex:price_eur "2.10"^^xsd:decimal.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma58 a r:Extraction;
+skolem:lemma68 a r:Extraction;
     r:gives {
         ex:BIS-101 ex:price_eur "2.60"^^xsd:decimal.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma59 a r:Extraction;
+skolem:lemma69 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. {
             var:x_0 ex:candidateAlt var:x_1.
@@ -865,13 +1519,13 @@ skolem:lemma59 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma60 a r:Extraction;
+skolem:lemma70 a r:Extraction;
     r:gives {
         ex:CHOC-150 ex:price_eur "2.20"^^xsd:decimal.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma61 a r:Extraction;
+skolem:lemma71 a r:Extraction;
     r:gives {
         {
             ex:me ex:householdCondition "diabetes".
@@ -884,7 +1538,7 @@ skolem:lemma61 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/insight-economy/delfour.n3>].
 
-skolem:lemma62 a r:Extraction;
+skolem:lemma72 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
             var:x_0 ex:candidateAlt var:x_1.
