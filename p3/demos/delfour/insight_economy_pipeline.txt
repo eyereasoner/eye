@@ -1,0 +1,42 @@
+=== TIMELINE ===
+2025-09-27T10:44:45.460950+00:00  PICKUP            scanner="self-scanner" retailer="Delfour"
+2025-09-27T10:44:45.496554+00:00  AGENT-DIALOG      capabilities received from Delfour
+2025-09-27T10:44:45.583865+00:00  DESENSITIZE       need=needsLowSugar written
+2025-09-27T10:44:45.669677+00:00  INSIGHT           neutral low-sugar envelope emitted
+2025-09-27T10:44:45.757729+00:00  SCAN              product="Classic Tea Biscuits" → suggest="Low-Sugar Tea Biscuits"
+2025-09-27T10:44:45.757790+00:00  RUNTIME           banner written
+2025-09-27T10:44:45.775940+00:00  DROP              scanner returned; session closed
+
+=== ANSWER — INSIGHT (to retailer) ===
+@prefix ins: <https://example.org/insight#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+_:sk_4 a ins:Insight.
+_:sk_4 ins:metric "sugar_g_per_serving".
+_:sk_4 ins:threshold "10.0"^^xsd:decimal.
+_:sk_4 ins:suggestionPolicy "lower_metric_first_higher_price_ok".
+_:sk_4 ins:scopeDevice "self-scanner".
+_:sk_4 ins:scopeEvent "pick_up_scanner".
+_:sk_4 ins:retailer "Delfour".
+_:sk_4 ins:expiresAt "2025-09-27T12:44:45.460173+00:00".
+
+
+=== ANSWER — RUNTIME PREVIEW (device banner) ===
+{
+  "headline": "Track sugar per serving while you scan",
+  "product_name": "Classic Tea Biscuits",
+  "note": "High sugar",
+  "suggested_alternative": "Low-Sugar Tea Biscuits"
+}
+
+=== REASON WHY (private) ===
+Household requires low-sugar guidance (diabetes in POD). You are starting a self-scanner session at Delfour right now. Envelope is minimized and limited to this session.
+
+=== CHECKS ===
+PASS - insight_file_exists: bus/insight.ttl present
+PASS - minimization_no_sensitive_terms: insight.ttl is neutral
+PASS - scope_has_device_event_expiry: derived insight includes scope
+PASS - runtime_banner_exists: bus/runtime_out.json present
+PASS - behavior_suggests_on_high_sugar: suggestion was present
+PASS - events_have_pickup_and_drop: start and end recorded
+Overall: 6/6 checks passed.
