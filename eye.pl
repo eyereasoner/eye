@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.21.0 (2025-09-15)').
+version_info('EYE v11.22.0 (2025-09-27)').
 
 license_info('MIT License
 
@@ -108,7 +108,6 @@ eye
     --pass                          output deductive closure
     --pass-all                      output deductive closure plus rules
     --pass-all-ground               ground the rules and run --pass-all
-    --pass-derived                  output only derived triples
     --pass-merged                   output merged data without deductive closure
     --pass-only-new                 output only new derived triples and rules
     --query <query>                 output filtered with filter rules
@@ -483,13 +482,13 @@ gre(Argus) :-
     ->  format(Out, "flag(quantify, '~w').~n", [Sns])
     ;   true
     ),
-    (   flag('pass-derived')
+    (   flag('pass-only-new')
     ->  nb_setval(pre_eam, true)
     ;   nb_setval(pre_eam, false)
     ),
     args(Args),
     prepare_builtins,
-    (   flag('pass-derived')
+    (   flag('pass-only-new')
     ->  nb_setval(pre_eam, false)
     ;   true
     ),
@@ -594,25 +593,6 @@ gre(Argus) :-
                 )
             )
         )
-    ),
-    (   flag('pass-only-new')
-    ->  open_null_stream(Ws),
-        tell(Ws),
-        w2,
-        retractall(pfx(_, _)),
-        retractall(wpfx(_)),
-        nb_setval(lemma_cursor, 0),
-        forall(
-            apfx(Pfx, Uri),
-            assertz(pfx(Pfx, Uri))
-        ),
-        told,
-        (   flag('output', Output)
-        ->  tell(Output)
-        ;   true
-        ),
-        w2
-    ;   true
     ),
     (   flag(strings)
     ->  wst
@@ -829,16 +809,11 @@ opts(['--pass-merged'|Argus], Args) :-
     retractall(flag('pass-merged')),
     assertz(flag('pass-merged')),
     opts(['--pass-all'|Argus], Args).
-opts(['--pass-derived'|Argus], Args) :-
-    !,
-    retractall(flag('pass-derived')),
-    assertz(flag('pass-derived')),
-    opts(['--pass-all'|Argus], Args).
 opts(['--pass-only-new'|Argus], Args) :-
     !,
     retractall(flag('pass-only-new')),
     assertz(flag('pass-only-new')),
-    opts(Argus, Args).
+    opts(['--pass-all'|Argus], Args).
 opts(['--profile'|Argus], Args) :-
     !,
     retractall(flag(profile)),
@@ -1063,8 +1038,8 @@ args(['--pass-all'|Args]) :-
             answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-    assertz(implies(':-'(C, A),
-            answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
+    assertz(implies((pass_only_new(C), C =.. [Pn, Sn, On]),
+            answer(Pn, Sn, On), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     assertz(implies('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(A, C),
             answer('<http://www.w3.org/2000/10/swap/log#impliesAnswer>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     (   flag(intermediate, Out)
@@ -1072,14 +1047,14 @@ args(['--pass-all'|Args]) :-
             answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
         portray_clause(Out, implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-        portray_clause(Out, implies((':-'(C, A), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
-            answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
+        portray_clause(Out, implies((pass_only_new(C), C =.. [Pn, Sn, On]),
+            answer(Pn, Sn, On), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
         portray_clause(Out, implies('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(A, C),
             answer('<http://www.w3.org/2000/10/swap/log#impliesAnswer>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
     ;   true
     ),
     args(Args).
-args(['--pass-derived'|Args]) :-
+args(['--pass-only-new'|Args]) :-
     !,
     args(['--pass-all'|Args]).
 args(['--prolog', Argument|Args]) :-
@@ -3755,30 +3730,9 @@ wh :-
                 nb_setval(wpfx, true)
             )
         ),
-        (   \+ (flag('pass-only-new'), flag(nope)),
-            nb_getval(wpfx, true)
+        (   nb_getval(wpfx, true)
         ->  nl
         ;   true
-        )
-    ).
-
-w2 :-
-    wh,
-    nl,
-    forall(
-        pass_only_new(Zn),
-        (   indent,
-            relabel(Zn, Zr),
-            wt(Zr),
-            ws(Zr),
-            write('.'),
-            nl,
-            (   (   Zr = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
-                )
-            ->  nl
-            ;   true
-            ),
-            cnt(output_statements)
         )
     ).
 
@@ -5470,10 +5424,7 @@ eam(Recursion) :-
             eam(R)
         ;   (   flag(strings)
             ->  true
-            ;   (   flag('pass-only-new')
-                ->  true
-                ;   w4
-                )
+            ;   w4
             )
         ;   true
         ),
