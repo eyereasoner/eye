@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.22.1 (2025-09-29)').
+version_info('EYE v11.22.2 (2025-09-29)').
 
 license_info('MIT License
 
@@ -5489,7 +5489,6 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             ->  true
             ;   djiti_assertz(Cn),
                 (   flag('pass-only-new'),
-                    \+flag(rdfsurfaces),
                     Cn \= answer(_, _, _),
                     (   Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(K, _),
                         conj_list(K, L)
