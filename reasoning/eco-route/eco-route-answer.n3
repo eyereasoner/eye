@@ -1,16 +1,6 @@
 PREFIX ex: <https://w3id.org/insight-economy/example#>
 PREFIX ui: <https://w3id.org/insight-economy/ui#>
 
-[ ex:estimatedSaving  20.999999999999986 ] .
-
-[ ex:suggestRoute  ex:altRoute ] .
-
-ex:altRoute  ex:comfortIndex  48.5;
-        ex:fuelIndex     99.75 .
-
-ex:currentRoute  ex:comfortIndex  53.5;
-        ex:fuelIndex     120.74999999999999 .
-
 [ a                         ex:Banner;
   ex:fuelIndex              120.74999999999999;
   ex:headline               "Eco opportunity. Lower-fuel route available.";
@@ -20,6 +10,10 @@ ex:currentRoute  ex:comfortIndex  53.5;
   ex:route                  ex:currentRoute;
   ex:suggested_alternative  ex:altRoute
 ] .
+
+[ ex:estimatedSaving  20.999999999999986 ] .
+
+[ ex:suggestRoute  ex:altRoute ] .
 
 [ a              ex:InsightEnvelope;
   ex:assert      [ ex:currentFuelIndex  120.74999999999999;
@@ -40,3 +34,9 @@ ex:currentRoute  ex:comfortIndex  53.5;
                    ex:valid_for       "this_run"
                  ]
 ] .
+
+ex:altRoute  ex:comfortIndex  48.5;
+        ex:fuelIndex     99.75 .
+
+ex:currentRoute  ex:comfortIndex  53.5;
+        ex:fuelIndex     120.74999999999999 .

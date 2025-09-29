@@ -1,59 +1,14 @@
 @prefix : <http://example.org/socrates#>.
-@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 
 :Socrates a :Human.
 :Socrates a :Mortal.
-_:lemma4 r:gives {
-    {
-        :Socrates a ?U_18.
-    } => {
-        :Socrates a ?U_18.
-    }.
-}.
-_:lemma7 r:gives {
-    {
-        ?U_19 rdfs:subClassOf ?U_20.
-        ?U_21 a ?U_19.
-    } => {
-        ?U_21 a ?U_20.
-    }.
+{
+    :Socrates a ?U_0.
+} => {
+    :Socrates a ?U_0.
 }.
 :Human rdfs:subClassOf :Mortal.
-{
-    ?U_4 a r:Inference.
-    ?U_4 r:gives ?U_5.
-    ?U_5 <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {
-        ?U_7 ?U_6 ?U_8.
-    }.
-} => {
-    ?U_7 ?U_6 ?U_8.
-}.
-{
-    ?U_9 a r:Extraction.
-    ?U_9 r:gives ?U_10.
-    ?U_10 <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {
-        ?U_12 ?U_11 ?U_13.
-    }.
-} => {
-    ?U_12 ?U_11 ?U_13.
-}.
-{
-    :Socrates a ?U_14.
-} => {
-    :Socrates a ?U_14.
-}.
-{
-    ?U_15 rdfs:subClassOf ?U_16.
-    ?U_17 a ?U_15.
-} => {
-    ?U_17 a ?U_16.
-}.
-{
-    :Socrates a ?U_0.
-} => {
-    :Socrates a ?U_0.
-}.
 {
     ?U_1 rdfs:subClassOf ?U_2.
     ?U_3 a ?U_1.
