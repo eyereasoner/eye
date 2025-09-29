@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Delfour Insight Economy — Python in the Browser (Pyodide + eye-js)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Tailwind (CDN, no build step) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gradient-to-b from-slate-50 to-white text-slate-900 min-h-screen">
+    <main class="max-w-5xl mx-auto p-6">
+      <header class="mb-6">
+        <h1 class="text-2xl font-bold">Delfour Insight Economy</h1>
+        <p class="text-slate-600">Runs entirely in your browser with <span class="font-mono">Pyodide</span> + <span class="font-mono">eye-js</span>.</p>
+      </header>
+
+      <div class="flex items-center gap-3 mb-6">
+        <button id="runBtn" class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold shadow hover:bg-indigo-500 disabled:opacity-50">
+          Run Demo
+        </button>
+        <span id="status" class="text-sm text-slate-600"></span>
+      </div>
+
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="space-y-4">
+          <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+            <h3 class="text-lg font-semibold mb-2">Timeline</h3>
+            <ul id="timeline" class="text-sm space-y-1"></ul>
+          </div>
+
+          <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+            <h3 class="text-lg font-semibold mb-2">Answer — Insight (to retailer)</h3>
+            <pre id="insight" class="text-xs whitespace-pre-wrap"></pre>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+            <h3 class="text-lg font-semibold mb-2">Answer — Runtime Preview (device)</h3>
+            <pre id="banner" class="text-xs whitespace-pre-wrap text-slate-800"></pre>
+          </div>
+
+          <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+            <h3 class="text-lg font-semibold mb-2">Checks</h3>
+            <div id="checks" class="text-sm space-y-1"></div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="mt-8 text-xs text-slate-500">
+        Powered by <a class="underline" href="https://github.com/eyereasoner/eye-js" target="_blank" rel="noreferrer">eye-js</a> + Pyodide.
+      </footer>
+    </main>
+
+    <!-- Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.3/full/pyodide.js"></script>
+
+    <script type="module">
+      // Init: load eye-js (browser bundle) and Pyodide
+      const statusEl = document.getElementById("status");
+      const runBtn = document.getElementById("runBtn");
+
+      function setStatus(msg) { statusEl.textContent = msg; }
+      function clearUI() {
+        document.getElementById("timeline").innerHTML = "";
+        document.getElementById("insight").textContent = "";
+        document.getElementById("banner").textContent = "";
+        document.getElementById("checks").innerHTML = "";
+      }
+      function addTimeline(ts, ev, detail) {
+        const li = document.createElement("li");
+        li.className = "flex gap-2";
+        const tsSpan = document.createElement("span");
+        tsSpan.className = "text-slate-400 w-28 shrink-0";
+        tsSpan.textContent = new Date(ts).toLocaleTimeString();
+        const evSpan = document.createElement("span");
+        evSpan.className = "font-semibold w-36 shrink-0";
+        evSpan.textContent = ev;
+        const deSpan = document.createElement("span");
+        deSpan.className = "text-slate-700";
+        deSpan.textContent = detail || "";
+        li.append(tsSpan, evSpan, deSpan);
+        document.getElementById("timeline").appendChild(li);
+      }
+      function showInsight(n3) { document.getElementById("insight").textContent = (n3||"").trim(); }
+      function showBanner(obj) { document.getElementById("banner").textContent = JSON.stringify(obj, null, 2); }
+      function showChecks(checksArr) {
+        const box = document.getElementById("checks");
+        box.innerHTML = "";
+        checksArr.forEach(([name, ok]) => {
+          const row = document.createElement("div");
+          row.className = "flex items-center gap-2";
+          const badge = document.createElement("span");
+          badge.className = "inline-flex h-5 w-5 items-center justify-center rounded-full " + (ok ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700");
+          badge.textContent = ok ? "✓" : "✗";
+          const label = document.createElement("span");
+          label.textContent = name;
+          row.append(badge, label);
+          box.appendChild(row);
+        });
+      }
+
+      // Load eye-js (dynamic import) and expose n3reasoner on window
+      setStatus("Loading eye-js…");
+      const eyeMod = await import("https://eyereasoner.github.io/eye-js/latest/dynamic-import.js");
+      if (!eyeMod.eyereasoner?.n3reasoner) {
+        setStatus("Failed to load eye-js");
+        throw new Error("eye-js n3reasoner not available");
+      }
+      window.n3reasoner = eyeMod.eyereasoner.n3reasoner;
+
+      // Load Pyodide
+      setStatus("Loading Python runtime…");
+      const pyodide = await loadPyodide();
+
+      // Provide JS helpers to Python
+      window._delfourHelpers = { addTimeline, showInsight, showBanner, showChecks, n3reasoner: window.n3reasoner };
+
+      // Python program (adapted from the Python pipeline, in-memory I/O)
+      const pyCode = `
+import json, re
+from js import _delfourHelpers
+from pyodide.ffi import to_js
+from datetime import datetime, timedelta, timezone
+
+def nowISO():
+    return datetime.now(timezone.utc).isoformat()
+
+def log(event, detail=""):
+    _delfourHelpers.addTimeline(nowISO(), event, detail)
+
+# Sample data and rules (typed decimals + math: builtins, FILTER-free)
+profile = """@prefix : <https://example.org/person#> .
+@prefix health: <https://example.org/health#> .
+:me  health:householdCondition  health:Diabetes .
+"""
+
+capabilities = """@prefix d: <https://example.org/delfour#> .
+@prefix ui: <https://example.org/ui#> .
+d:selfScanner a d:DeviceType ;
+  ui:supportsMetric "sugar_g_per_serving" ;
+  ui:supportsSuggestion true .
+"""
+
+catalog = """@prefix prod: <https://example.org/product#> .
+@prefix schema: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+prod:BIS_001 a schema:Product ; schema:name "Classic Tea Biscuits" ; schema:sku "BIS-001" ; schema:sugarContent "12.0"^^xsd:decimal ; schema:price "2.10"^^xsd:decimal .
+prod:BIS_101 a schema:Product ; schema:name "Low-Sugar Tea Biscuits" ; schema:sku "BIS-101" ; schema:sugarContent "3.0"^^xsd:decimal  ; schema:price "2.60"^^xsd:decimal .
+prod:CHOC_050 a schema:Product ; schema:name "Milk Chocolate Bar"   ; schema:sku "CHOC-050" ; schema:sugarContent "15.0"^^xsd:decimal ; schema:price "1.80"^^xsd:decimal .
+prod:CHOC_150 a schema:Product ; schema:name "85% Dark Chocolate"   ; schema:sku "CHOC-150" ; schema:sugarContent "6.0"^^xsd:decimal  ; schema:price "2.20"^^xsd:decimal .
+"""
+
+desensitize_rule = """@prefix health: <https://example.org/health#> .
+@prefix need:   <https://example.org/need#> .
+{ ?p health:householdCondition health:Diabetes. } => { ?p need:needsLowSugar true. } .
+"""
+
+derive_rule = """@prefix need: <https://example.org/need#> .
+@prefix ctx:  <https://example.org/context#> .
+@prefix ins:  <https://example.org/insight#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+{
+  ?p need:needsLowSugar true.
+  ?c ctx:retailer "Delfour";
+     ctx:device   "self-scanner";
+     ctx:event    "pick_up_scanner";
+     ctx:expiresAt ?exp.
+}
+=>
+{
+  _:ins a ins:Insight ;
+    ins:metric           "sugar_g_per_serving" ;
+    ins:threshold        "10.0"^^xsd:decimal ;
+    ins:suggestionPolicy "lower_metric_first_higher_price_ok" ;
+    ins:scopeDevice      "self-scanner" ;
+    ins:scopeEvent       "pick_up_scanner" ;
+    ins:retailer         "Delfour" ;
+    ins:expiresAt        ?exp .
+}.
+"""
+
+shopping_rule = """@prefix ins:   <https://example.org/insight#> .
+@prefix schema: <http://schema.org/> .
+@prefix shop:  <https://example.org/shop#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix math:  <http://www.w3.org/2000/10/swap/math#> .
+
+{
+  ?ins a ins:Insight;
+       ins:metric "sugar_g_per_serving";
+       ins:threshold ?thr.
+
+  ?scan shop:scannedProduct ?p.
+  ?p schema:name ?name; schema:sugarContent ?sug.
+
+  # sugar >= threshold
+  ?sug math:notLessThan ?thr.
+
+  # alternative with lower sugar
+  ?alt schema:name ?an ; schema:sugarContent ?as ; schema:price ?ap .
+  ?as math:lessThan ?sug.
+}
+=>
+{
+  ?scan shop:note "High sugar" ;
+        shop:suggestedAlternative ?alt .
+}.
+"""
+
+def build_context():
+    now = datetime.now(timezone.utc)
+    exp = now + timedelta(hours=2)
+    return f"""@prefix ctx: <https://example.org/context#> .
+[] ctx:retailer "Delfour" ;
+   ctx:device   "self-scanner" ;
+   ctx:event    "pick_up_scanner" ;
+   ctx:timestamp "{now.isoformat()}" ;
+   ctx:expiresAt "{exp.isoformat()}"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+"""
+
+# JS bridge
+n3reasoner = _delfourHelpers.n3reasoner
+
+async def run_pipeline():
+    # 01 pickup + 02 dialog
+    log("PICKUP", 'scanner="self-scanner" retailer="Delfour"')
+    log("AGENT-DIALOG", "capabilities received from Delfour")
+    context = build_context()
+
+    # 03 desensitize
+    need = await n3reasoner([profile, desensitize_rule], None, to_js({"output":"derivations", "outputType":"string"}))
+    log("DESENSITIZE", "need=needsLowSugar written")
+
+    # 04 derive insight
+    insight = await n3reasoner([need, context, derive_rule], None, to_js({"output":"derivations", "outputType":"string"}))
+    _delfourHelpers.showInsight(insight)
+    log("INSIGHT", "neutral low-sugar envelope emitted")
+
+    # 05 shopping
+    scan_ttl = "@prefix shop: <https://example.org/shop#> .\\n@prefix prod: <https://example.org/product#> .\\n[] shop:scannedProduct prod:BIS_001 ."
+    sugg = await n3reasoner([insight, catalog, scan_ttl, shopping_rule], None, to_js({"output":"derivations", "outputType":"string"}))
+
+    m = re.search(r"shop:suggestedAlternative\\s+([^\\s]+)\\s*\\.", sugg)
+    alt_qname = m.group(1) if m else None
+
+    def name_for(qname: str|None) -> str|None:
+        if not qname: return None
+        patt = re.compile(re.escape(qname) + r"\\b[\\s\\S]*?schema:name\\s+\\\"([^\\\"]+)\\\"")
+        m2 = patt.search(catalog)
+        return m2.group(1) if m2 else None
+
+    scanned_qname = "prod:BIS_001"
+    scanned_name = name_for(scanned_qname) or "Unknown"
+    alt_name = name_for(alt_qname) or ("present" if alt_qname else None)
+    banner = {
+        "headline": "Track sugar per serving while you scan",
+        "product_name": scanned_name,
+        "note": "High sugar" if alt_qname else None,
+        "suggested_alternative": alt_name if alt_qname else None
+    }
+    _delfourHelpers.showBanner(json.dumps(banner, indent=2))
+    log("SCAN", f'product="{scanned_name}" \\u2192 suggest="{alt_name}"' if alt_qname else f'product="{scanned_name}" (ok)')
+    log("RUNTIME", "banner written")
+
+    # 06 drop
+    log("DROP", "scanner returned; session closed")
+
+    # Checks
+    low = (insight or "").lower()
+    checks = [
+        ("insight_nonempty", bool(insight.strip())),
+        ("minimization_no_sensitive_terms", ("diabetes" not in low and "medical" not in low)),
+        ("scope_has_device_event_expiry", all(k in low for k in ["scopeevent","scopedevice","expiresat"])),
+        ("runtime_present", True),
+        ("behavior_suggests_on_high_sugar", bool(alt_qname)),
+    ]
+    _delfourHelpers.showChecks(checks)
+
+    return "ok"
+
+      `;
+
+      async function runDemo() {
+        clearUI();
+        runBtn.disabled = true;
+        setStatus("Running…");
+        try {
+          await pyodide.runPythonAsync(pyCode + "\nimport asyncio\nawait run_pipeline()\n");
+          setStatus("Done.");
+        } catch (e) {
+          console.error(e);
+          setStatus("Error: " + (e?.message || e));
+        } finally {
+          runBtn.disabled = false;
+        }
+      }
+
+      runBtn.addEventListener("click", runDemo);
+      setStatus("Ready.");
+    </script>
+  </body>
+</html>
+

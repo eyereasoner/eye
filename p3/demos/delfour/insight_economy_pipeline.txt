@@ -1,24 +1,24 @@
 === TIMELINE ===
-2025-09-27T10:44:45.460950+00:00  PICKUP            scanner="self-scanner" retailer="Delfour"
-2025-09-27T10:44:45.496554+00:00  AGENT-DIALOG      capabilities received from Delfour
-2025-09-27T10:44:45.583865+00:00  DESENSITIZE       need=needsLowSugar written
-2025-09-27T10:44:45.669677+00:00  INSIGHT           neutral low-sugar envelope emitted
-2025-09-27T10:44:45.757729+00:00  SCAN              product="Classic Tea Biscuits" → suggest="Low-Sugar Tea Biscuits"
-2025-09-27T10:44:45.757790+00:00  RUNTIME           banner written
-2025-09-27T10:44:45.775940+00:00  DROP              scanner returned; session closed
+2025-09-29T12:51:39.561990+00:00  PICKUP            scanner="self-scanner" retailer="Delfour"
+2025-09-29T12:51:39.593049+00:00  AGENT-DIALOG      capabilities received from Delfour
+2025-09-29T12:51:39.684619+00:00  DESENSITIZE       need=needsLowSugar written
+2025-09-29T12:51:39.762001+00:00  INSIGHT           neutral low-sugar envelope emitted
+2025-09-29T12:51:39.869272+00:00  SCAN              product="Classic Tea Biscuits" → suggest="Low-Sugar Tea Biscuits"
+2025-09-29T12:51:39.869334+00:00  RUNTIME           banner written
+2025-09-29T12:51:39.886897+00:00  DROP              scanner returned; session closed
 
 === ANSWER — INSIGHT (to retailer) ===
 @prefix ins: <https://example.org/insight#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 
-_:sk_4 a ins:Insight.
-_:sk_4 ins:metric "sugar_g_per_serving".
-_:sk_4 ins:threshold "10.0"^^xsd:decimal.
-_:sk_4 ins:suggestionPolicy "lower_metric_first_higher_price_ok".
-_:sk_4 ins:scopeDevice "self-scanner".
-_:sk_4 ins:scopeEvent "pick_up_scanner".
-_:sk_4 ins:retailer "Delfour".
-_:sk_4 ins:expiresAt "2025-09-27T12:44:45.460173+00:00".
+_:sk_0 a ins:Insight.
+_:sk_0 ins:metric "sugar_g_per_serving".
+_:sk_0 ins:threshold "10.0"^^xsd:decimal.
+_:sk_0 ins:suggestionPolicy "lower_metric_first_higher_price_ok".
+_:sk_0 ins:scopeDevice "self-scanner".
+_:sk_0 ins:scopeEvent "pick_up_scanner".
+_:sk_0 ins:retailer "Delfour".
+_:sk_0 ins:expiresAt "2025-09-29T14:51:39.561432+00:00".
 
 
 === ANSWER — RUNTIME PREVIEW (device banner) ===
