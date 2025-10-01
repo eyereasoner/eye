@@ -7,7 +7,7 @@ Reasoning runs in your browser via **eye-js** (EYE in WebAssembly); orchestratio
 
 ## Quick start
 
-1. Open [demo.html](https://potr-knows.github.io/Delfour-Insight-Economy/demo.html) in a modern browser (Chromium, Firefox, Safari).
+1. Open [demo.html](https://eyereasoner.github.io/eye/p3/demos/delfour/demo.html) in a modern browser (Chromium, Firefox, Safari).
 2. Click **Run Demo**.
 3. Watch the **Timeline**, **Insight**, **Runtime**, **Reason Why**, **Checks**, and **Audit** panels populate.
 

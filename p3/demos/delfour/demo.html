@@ -160,9 +160,10 @@ def nowISO():
 def log(event, detail=""):
     _delfourHelpers.addTimeline(nowISO(), event, detail)
 
-# -------- Sample data & rules (typed decimals; FILTER-free) --------
+# -------- Sample data & rules --------
 profile = """@prefix : <https://example.org/person#> .
 @prefix health: <https://example.org/health#> .
+
 :me  health:householdCondition  health:Diabetes .
 """
 
@@ -178,6 +179,7 @@ prod:CHOC_150 a schema:Product ; schema:name "85% Dark Chocolate"   ; schema:sku
 
 desensitize_rule = """@prefix health: <https://example.org/health#> .
 @prefix need:   <https://example.org/need#> .
+
 { ?p health:householdCondition health:Diabetes. } => { ?p need:needsLowSugar true. } .
 """
 
@@ -185,6 +187,7 @@ derive_rule = """@prefix need: <https://example.org/need#> .
 @prefix ctx:  <https://example.org/context#> .
 @prefix ins:  <https://example.org/insight#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
 {
   ?p need:needsLowSugar true.
   ?c ctx:retailer "Delfour";
@@ -209,6 +212,7 @@ derive_rule = """@prefix need: <https://example.org/need#> .
 odrl_from_insight = """@prefix ins:  <https://example.org/insight#> .
 @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
 {
   ?ins a ins:Insight ;
        ins:expiresAt ?exp ;
@@ -249,7 +253,7 @@ odrl_from_insight = """@prefix ins:  <https://example.org/insight#> .
 }.
 """
 
-# Pure-rule enforcement + expiry guard + audit + fallback
+# Pure-rule enforcement + expiry guard + audit
 odrl_enforce = """@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
 @prefix ins:  <https://example.org/insight#> .
 @prefix ex:   <https://example.org/enforce#> .
@@ -282,6 +286,7 @@ odrl_enforce = """@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
 expiry_guard = """@prefix ins:  <https://example.org/insight#> .
 @prefix ex:   <https://example.org/enforce#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
+
 # Mark Expired when exp < now (typed xsd:dateTime comparison)
 {
   ?ins a ins:Insight ; ins:expiresAt ?exp .
@@ -305,24 +310,12 @@ audit_rules = """@prefix ex:   <https://example.org/enforce#> .
 => { _:a a act:Duty ; act:type "delete_due" ; act:at ?now ; act:target ?ins . } .
 """
 
-audit_fallback = """@prefix log: <http://www.w3.org/2000/10/swap/log#> .
-@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
-@prefix act:  <https://example.org/activity#> .
-@prefix ex:   <https://example.org/enforce#> .
-{
-  {} log:semantics ?KB .
-  ?R odrl:action odrl:use .
-  ?KB log:notIncludes { ?R a act:Decision } .
-  [] ex:now ?now .
-}
-=> { _:a a act:Decision ; act:at ?now ; act:request ?R ; act:outcome "Blocked" ; act:reason "no_decision" } .
-"""
-
 shopping_rule = """@prefix ins:   <https://example.org/insight#> .
 @prefix schema: <http://schema.org/> .
 @prefix shop:  <https://example.org/shop#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix math:  <http://www.w3.org/2000/10/swap/math#> .
+
 {
   ?ins a ins:Insight; ins:metric "sugar_g_per_serving"; ins:threshold ?thr.
   ?scan shop:scannedProduct ?p.
@@ -340,6 +333,7 @@ def build_context():
     exp = now + timedelta(hours=2)
     return f"""@prefix ctx: <https://example.org/context#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
 [] ctx:retailer "Delfour" ;
    ctx:device   "self-scanner" ;
    ctx:event    "pick_up_scanner" ;
@@ -368,7 +362,7 @@ async def run_pipeline():
     policy_preview = await n3reasoner([insight, odrl_from_insight], None, to_js({"output":"derivations", "outputType":"string"}))
     log("POLICY", "ODRL policy emitted (use@shopping_assist; share@marketing prohibited)")
 
-    # 05 auth: now + request + expiry guard + enforcement + audit (+policy rule inline) + fallback
+    # 05 auth: now + request + expiry guard + enforcement + audit (+policy rule inline)
     now = nowISO()
     now_ttl = (
         '@prefix ex: <https://example.org/enforce#> .\\n'
@@ -377,7 +371,7 @@ async def run_pipeline():
     )
     req_ttl = '@prefix odrl: <http://www.w3.org/ns/odrl/2/> .\\n@prefix req: <https://example.org/request#> .\\nreq:r1 odrl:action odrl:use ; odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:rightOperand "shopping_assist" ] .\\n'
     auth_out = await n3reasoner(
-        [insight, odrl_from_insight, now_ttl, req_ttl, expiry_guard, odrl_enforce, audit_rules, audit_fallback],
+        [insight, odrl_from_insight, now_ttl, req_ttl, expiry_guard, odrl_enforce, audit_rules],
         None,
         to_js({"output":"derivations", "outputType":"string"})
     )
