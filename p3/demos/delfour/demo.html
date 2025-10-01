@@ -2,26 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Delfour Insight Economy — Python in the Browser (Pyodide + eye-js)</title>
+    <title>Delfour Insight Economy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Tailwind (CDN, no build step) -->
+    <!-- Tailwind (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="color-scheme" content="light" />
+    <style>
+      html, body { height: 100%; }
+      pre { white-space: pre-wrap; word-break: break-word; }
+    </style>
   </head>
   <body class="bg-gradient-to-b from-slate-50 to-white text-slate-900 min-h-screen">
-    <main class="max-w-5xl mx-auto p-6">
+    <main class="max-w-6xl mx-auto p-6">
       <header class="mb-6">
         <h1 class="text-2xl font-bold">Delfour Insight Economy</h1>
-        <p class="text-slate-600">Runs entirely in your browser with <span class="font-mono">Pyodide</span> + <span class="font-mono">eye-js</span>.</p>
+        <p class="text-slate-600">
+          Runs fully client-side. Reasoning by <span class="font-mono">eye-js</span>; orchestration in Python (Pyodide).
+        </p>
       </header>
 
       <div class="flex items-center gap-3 mb-6">
-        <button id="runBtn" class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold shadow hover:bg-indigo-500 disabled:opacity-50">
+        <button id="runBtn"
+                class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold shadow hover:bg-indigo-500 disabled:opacity-50">
           Run Demo
         </button>
         <span id="status" class="text-sm text-slate-600"></span>
       </div>
 
       <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Left column -->
         <div class="space-y-4">
           <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
             <h3 class="text-lg font-semibold mb-2">Timeline</h3>
@@ -30,19 +39,30 @@
 
           <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
             <h3 class="text-lg font-semibold mb-2">Answer — Insight (to retailer)</h3>
-            <pre id="insight" class="text-xs whitespace-pre-wrap"></pre>
+            <pre id="insight" class="text-xs"></pre>
+          </div>
+
+          <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+            <h3 class="text-lg font-semibold mb-2">Reason Why (private)</h3>
+            <pre id="reason" class="text-sm text-slate-800"></pre>
           </div>
         </div>
 
+        <!-- Right column -->
         <div class="space-y-4">
           <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
             <h3 class="text-lg font-semibold mb-2">Answer — Runtime Preview (device)</h3>
-            <pre id="banner" class="text-xs whitespace-pre-wrap text-slate-800"></pre>
+            <pre id="banner" class="text-xs text-slate-800"></pre>
           </div>
 
           <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
             <h3 class="text-lg font-semibold mb-2">Checks</h3>
             <div id="checks" class="text-sm space-y-1"></div>
+          </div>
+
+          <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+            <h3 class="text-lg font-semibold mb-2">Audit (derived)</h3>
+            <pre id="audit" class="text-xs text-slate-800"></pre>
           </div>
         </div>
       </section>
@@ -56,16 +76,19 @@
     <script src="https://cdn.jsdelivr.net/pyodide/v0.26.3/full/pyodide.js"></script>
 
     <script type="module">
-      // Init: load eye-js (browser bundle) and Pyodide
+      // ---------- Minimal UI helpers ----------
       const statusEl = document.getElementById("status");
-      const runBtn = document.getElementById("runBtn");
+      const runBtn   = document.getElementById("runBtn");
+      const auditEl  = document.getElementById("audit");
 
       function setStatus(msg) { statusEl.textContent = msg; }
       function clearUI() {
         document.getElementById("timeline").innerHTML = "";
         document.getElementById("insight").textContent = "";
         document.getElementById("banner").textContent = "";
+        document.getElementById("reason").textContent = "";
         document.getElementById("checks").innerHTML = "";
+        if (auditEl) auditEl.textContent = "";
       }
       function addTimeline(ts, ev, detail) {
         const li = document.createElement("li");
@@ -84,6 +107,7 @@
       }
       function showInsight(n3) { document.getElementById("insight").textContent = (n3||"").trim(); }
       function showBanner(obj) { document.getElementById("banner").textContent = JSON.stringify(obj, null, 2); }
+      function showReason(txt) { document.getElementById("reason").textContent = txt || ""; }
       function showChecks(checksArr) {
         const box = document.getElementById("checks");
         box.innerHTML = "";
@@ -100,7 +124,7 @@
         });
       }
 
-      // Load eye-js (dynamic import) and expose n3reasoner on window
+      // Load eye-js (browser bundle) and Pyodide
       setStatus("Loading eye-js…");
       const eyeMod = await import("https://eyereasoner.github.io/eye-js/latest/dynamic-import.js");
       if (!eyeMod.eyereasoner?.n3reasoner) {
@@ -109,14 +133,21 @@
       }
       window.n3reasoner = eyeMod.eyereasoner.n3reasoner;
 
-      // Load Pyodide
       setStatus("Loading Python runtime…");
       const pyodide = await loadPyodide();
 
-      // Provide JS helpers to Python
-      window._delfourHelpers = { addTimeline, showInsight, showBanner, showChecks, n3reasoner: window.n3reasoner };
+      // Expose JS helpers to Python
+      window._delfourHelpers = {
+        addTimeline,
+        showInsight,
+        showBanner,
+        showChecks,
+        showReason,
+        setAudit: (txt) => { if (auditEl) auditEl.textContent = txt || ""; },
+        n3reasoner: window.n3reasoner
+      };
 
-      // Python program (adapted from the Python pipeline, in-memory I/O)
+      // ---------- Python program (Pyodide) ----------
       const pyCode = `
 import json, re
 from js import _delfourHelpers
@@ -129,17 +160,10 @@ def nowISO():
 def log(event, detail=""):
     _delfourHelpers.addTimeline(nowISO(), event, detail)
 
-# Sample data and rules (typed decimals + math: builtins, FILTER-free)
+# -------- Sample data & rules (typed decimals; FILTER-free) --------
 profile = """@prefix : <https://example.org/person#> .
 @prefix health: <https://example.org/health#> .
 :me  health:householdCondition  health:Diabetes .
-"""
-
-capabilities = """@prefix d: <https://example.org/delfour#> .
-@prefix ui: <https://example.org/ui#> .
-d:selfScanner a d:DeviceType ;
-  ui:supportsMetric "sugar_g_per_serving" ;
-  ui:supportsSuggestion true .
 """
 
 catalog = """@prefix prod: <https://example.org/product#> .
@@ -181,46 +205,148 @@ derive_rule = """@prefix need: <https://example.org/need#> .
 }.
 """
 
+# ODRL policy from insight
+odrl_from_insight = """@prefix ins:  <https://example.org/insight#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+{
+  ?ins a ins:Insight ;
+       ins:expiresAt ?exp ;
+       ins:retailer "Delfour" ;
+       ins:scopeDevice "self-scanner" ;
+       ins:scopeEvent  "pick_up_scanner" .
+}
+=>
+{
+  _:pol a odrl:Policy ;
+        odrl:profile "Delfour-Insight-Policy" ;
+        odrl:permission [
+          odrl:action odrl:use ;
+          odrl:target ?ins ;
+          odrl:constraint [
+            odrl:leftOperand odrl:purpose ;
+            odrl:operator    odrl:eq ;
+            odrl:rightOperand "shopping_assist"
+          ]
+        ] ;
+        odrl:prohibition [
+          odrl:action odrl:share ;
+          odrl:target ?ins ;
+          odrl:constraint [
+            odrl:leftOperand odrl:purpose ;
+            odrl:operator    odrl:eq ;
+            odrl:rightOperand "marketing"
+          ]
+        ] ;
+        odrl:duty [
+          odrl:action odrl:delete ;
+          odrl:constraint [
+            odrl:leftOperand odrl:dateTime ;
+            odrl:operator    odrl:eq ;
+            odrl:rightOperand ?exp
+          ]
+        ] .
+}.
+"""
+
+# Pure-rule enforcement + expiry guard + audit + fallback
+odrl_enforce = """@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix ins:  <https://example.org/insight#> .
+@prefix ex:   <https://example.org/enforce#> .
+@prefix act:  <https://example.org/activity#> .
+
+# Allowed if permission matches (use@shopping_assist) over some Insight target
+{
+  ?pol a odrl:Policy ;
+       odrl:permission [
+         odrl:action odrl:use ;
+         odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:operator odrl:eq ; odrl:rightOperand "shopping_assist" ] ;
+         odrl:target ?ins
+       ] .
+  ?ins a ins:Insight .
+  ?req odrl:action odrl:use ;
+       odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:rightOperand "shopping_assist" ] .
+}
+=>
+{ ?req a ex:Allowed ; ex:target ?ins . } .
+
+# Block if target expired (expiry is derived elsewhere)
+{
+  ?req a ex:Allowed ; ex:target ?ins .
+  ?ins a ex:Expired .
+}
+=>
+{ ?req a ex:Blocked ; ex:reason "expired" . } .
+"""
+
+expiry_guard = """@prefix ins:  <https://example.org/insight#> .
+@prefix ex:   <https://example.org/enforce#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+# Mark Expired when exp < now (typed xsd:dateTime comparison)
+{
+  ?ins a ins:Insight ; ins:expiresAt ?exp .
+  []   ex:now ?now .
+  ?exp math:lessThan ?now .
+}
+=> { ?ins a ex:Expired . } .
+"""
+
+audit_rules = """@prefix ex:   <https://example.org/enforce#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix act:  <https://example.org/activity#> .
+
+{ ?req a ex:Allowed . [] ex:now ?now . }
+=> { _:a a act:Decision ; act:at ?now ; act:request ?req ; act:outcome "Allowed" . } .
+
+{ ?req a ex:Blocked ; ex:reason ?r . [] ex:now ?now . }
+=> { _:a a act:Decision ; act:at ?now ; act:request ?req ; act:outcome "Blocked" ; act:reason ?r . } .
+
+{ ?ins a ex:Expired . [] ex:now ?now . }
+=> { _:a a act:Duty ; act:type "delete_due" ; act:at ?now ; act:target ?ins . } .
+"""
+
+audit_fallback = """@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix act:  <https://example.org/activity#> .
+@prefix ex:   <https://example.org/enforce#> .
+{
+  {} log:semantics ?KB .
+  ?R odrl:action odrl:use .
+  ?KB log:notIncludes { ?R a act:Decision } .
+  [] ex:now ?now .
+}
+=> { _:a a act:Decision ; act:at ?now ; act:request ?R ; act:outcome "Blocked" ; act:reason "no_decision" } .
+"""
+
 shopping_rule = """@prefix ins:   <https://example.org/insight#> .
 @prefix schema: <http://schema.org/> .
 @prefix shop:  <https://example.org/shop#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix math:  <http://www.w3.org/2000/10/swap/math#> .
-
 {
-  ?ins a ins:Insight;
-       ins:metric "sugar_g_per_serving";
-       ins:threshold ?thr.
-
+  ?ins a ins:Insight; ins:metric "sugar_g_per_serving"; ins:threshold ?thr.
   ?scan shop:scannedProduct ?p.
   ?p schema:name ?name; schema:sugarContent ?sug.
-
-  # sugar >= threshold
   ?sug math:notLessThan ?thr.
-
-  # alternative with lower sugar
   ?alt schema:name ?an ; schema:sugarContent ?as ; schema:price ?ap .
   ?as math:lessThan ?sug.
 }
-=>
-{
-  ?scan shop:note "High sugar" ;
-        shop:suggestedAlternative ?alt .
-}.
+=> { ?scan shop:note "High sugar" ; shop:suggestedAlternative ?alt . } .
 """
 
+# -------- Helpers --------
 def build_context():
     now = datetime.now(timezone.utc)
     exp = now + timedelta(hours=2)
     return f"""@prefix ctx: <https://example.org/context#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 [] ctx:retailer "Delfour" ;
    ctx:device   "self-scanner" ;
    ctx:event    "pick_up_scanner" ;
-   ctx:timestamp "{now.isoformat()}" ;
-   ctx:expiresAt "{exp.isoformat()}"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+   ctx:timestamp "{now.isoformat()}"^^xsd:dateTime ;
+   ctx:expiresAt "{exp.isoformat()}"^^xsd:dateTime .
 """
 
-# JS bridge
 n3reasoner = _delfourHelpers.n3reasoner
 
 async def run_pipeline():
@@ -238,10 +364,70 @@ async def run_pipeline():
     _delfourHelpers.showInsight(insight)
     log("INSIGHT", "neutral low-sugar envelope emitted")
 
-    # 05 shopping
+    # 04b (optional) derive policy alone (for display/logging if you want)
+    policy_preview = await n3reasoner([insight, odrl_from_insight], None, to_js({"output":"derivations", "outputType":"string"}))
+    log("POLICY", "ODRL policy emitted (use@shopping_assist; share@marketing prohibited)")
+
+    # 05 auth: now + request + expiry guard + enforcement + audit (+policy rule inline) + fallback
+    now = nowISO()
+    now_ttl = (
+        '@prefix ex: <https://example.org/enforce#> .\\n'
+        '@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n'
+        f'[] ex:now "{now}"^^xsd:dateTime .\\n'
+    )
+    req_ttl = '@prefix odrl: <http://www.w3.org/ns/odrl/2/> .\\n@prefix req: <https://example.org/request#> .\\nreq:r1 odrl:action odrl:use ; odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:rightOperand "shopping_assist" ] .\\n'
+    auth_out = await n3reasoner(
+        [insight, odrl_from_insight, now_ttl, req_ttl, expiry_guard, odrl_enforce, audit_rules, audit_fallback],
+        None,
+        to_js({"output":"derivations", "outputType":"string"})
+    )
+
+    # EXPIRY + AUTH timeline breadcrumbs
+    expired = ("ex:Expired" in auth_out)
+    if expired: log("EXPIRY", "insight expired at now()")
+
+    has_decision = ("activity#Decision" in auth_out) or ("act:Decision" in auth_out)
+    allowed = has_decision and ("Allowed" in auth_out) and not ("Blocked" in auth_out)
+    blocked = has_decision and ("Blocked" in auth_out)
+    if allowed:
+        log("AUTH", "Allowed (use@shopping_assist)")
+    elif blocked:
+        reason = "expired" if "expired" in auth_out else ("prohibited" if "prohibited" in auth_out else "no_decision")
+        log("AUTH", f"Blocked ({reason})")
+    else:
+        log("AUTH", "No explicit decision (check policy/request)")
+
+    # Pretty audit text
+    _delfourHelpers.setAudit(auth_out)
+    log("AUDIT", "authorization decision recorded")
+
+    # 05 shopping — only if not blocked
+    if blocked and not allowed:
+        banner = {
+            "headline": "Policy blocked action",
+            "product_name": None,
+            "note": "Expired or prohibited",
+            "suggested_alternative": None
+        }
+        _delfourHelpers.showBanner(json.dumps(banner, indent=2))
+        # Checks + Reason + exit
+        reason = "Household requires low-sugar guidance (diabetes in POD). You are starting a self-scanner session at Delfour right now. Envelope is minimized and limited to this session."
+        _delfourHelpers.showReason(reason)
+        txt = (insight or "").lower()
+        checks = [
+            ("insight_nonempty", bool(insight.strip())),
+            ("minimization_no_sensitive_terms", ("diabetes" not in txt and "medical" not in txt)),
+            ("scope_has_device_event_expiry", all(k in txt for k in ["scopedevice","scopeevent","expiresat"])),
+            ("runtime_present", True),
+            ("behavior_suggests_on_high_sugar", False),
+            ("audit_has_decision", has_decision)
+        ]
+        _delfourHelpers.showChecks(checks)
+        return
+
+    # If Allowed, simulate scan & suggestion
     scan_ttl = "@prefix shop: <https://example.org/shop#> .\\n@prefix prod: <https://example.org/product#> .\\n[] shop:scannedProduct prod:BIS_001 ."
     sugg = await n3reasoner([insight, catalog, scan_ttl, shopping_rule], None, to_js({"output":"derivations", "outputType":"string"}))
-
     m = re.search(r"shop:suggestedAlternative\\s+([^\\s]+)\\s*\\.", sugg)
     alt_qname = m.group(1) if m else None
 
@@ -261,26 +447,41 @@ async def run_pipeline():
         "suggested_alternative": alt_name if alt_qname else None
     }
     _delfourHelpers.showBanner(json.dumps(banner, indent=2))
-    log("SCAN", f'product="{scanned_name}" \\u2192 suggest="{alt_name}"' if alt_qname else f'product="{scanned_name}" (ok)')
+    if alt_qname:
+        log("SCAN", f'product="{scanned_name}" \\u2192 suggest="{alt_name}"')
+    else:
+        log("SCAN", f'product="{scanned_name}" (ok)')
     log("RUNTIME", "banner written")
 
-    # 06 drop
+    # 06 drop + close-out duty audit (reuse audit_rules + expiry_guard with new now)
     log("DROP", "scanner returned; session closed")
+    now2 = nowISO()
+    close_now = (
+        '@prefix ex: <https://example.org/enforce#> .\\n'
+        '@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n'
+        f'[] ex:now "{now2}"^^xsd:dateTime .\\n'
+    )
+    close_out = await n3reasoner([insight, close_now, expiry_guard, audit_rules], None, to_js({"output":"derivations", "outputType":"string"}))
+    if close_out.strip():
+        _delfourHelpers.setAudit(auth_out.strip() + "\\n" + close_out.strip())
+        log("AUDIT", "close-out appended" + (" (delete_due)" if ("act:Duty" in close_out and 'act:type "delete_due"' in close_out) else ""))
 
-    # Checks
-    low = (insight or "").lower()
+    # Reason & Checks
+    reason = "Household requires low-sugar guidance (diabetes in POD). You are starting a self-scanner session at Delfour right now. Envelope is minimized and limited to this session."
+    _delfourHelpers.showReason(reason)
+    txt = (insight or "").lower()
     checks = [
         ("insight_nonempty", bool(insight.strip())),
-        ("minimization_no_sensitive_terms", ("diabetes" not in low and "medical" not in low)),
-        ("scope_has_device_event_expiry", all(k in low for k in ["scopeevent","scopedevice","expiresat"])),
+        ("minimization_no_sensitive_terms", ("diabetes" not in txt and "medical" not in txt)),
+        ("scope_has_device_event_expiry", all(k in txt for k in ["scopedevice","scopeevent","expiresat"])),
         ("runtime_present", True),
         ("behavior_suggests_on_high_sugar", bool(alt_qname)),
+        ("audit_has_decision", True if (("activity#Decision" in auth_out) or ("act:Decision" in auth_out)) else False),
     ]
     _delfourHelpers.showChecks(checks)
 
     return "ok"
-
-      `;
+`;
 
       async function runDemo() {
         clearUI();
