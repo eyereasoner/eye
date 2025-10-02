@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Delfour Insight Economy</title>
+    <title>Delfour Insight Economy — Pyodide + eye-js (self-contained)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Tailwind (CDN) -->
+    <!-- Tailwind (purely for visuals; safe to remove if you prefer) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <meta name="color-scheme" content="light" />
     <style>
@@ -17,7 +17,11 @@
       <header class="mb-6">
         <h1 class="text-2xl font-bold">Delfour Insight Economy</h1>
         <p class="text-slate-600">
-          Runs fully client-side. Reasoning by <span class="font-mono">eye-js</span>; orchestration in Python (Pyodide).
+          Fully client-side. Reasoning by <span class="font-mono">eye-js</span>; orchestration in Python (Pyodide).
+        </p>
+        <p class="text-xs text-slate-500 mt-2">
+          Pipeline: DESENSITIZE → INSIGHT → POLICY → AUTH(+AUDIT) → SHOPPING → CLOSE-OUT.
+          Each Turtle/N3 piece is self-prefixed and commented.
         </p>
       </header>
 
@@ -72,7 +76,7 @@
       </footer>
     </main>
 
-    <!-- Pyodide -->
+    <!-- Pyodide runtime -->
     <script src="https://cdn.jsdelivr.net/pyodide/v0.26.3/full/pyodide.js"></script>
 
     <script type="module">
@@ -136,7 +140,7 @@
       setStatus("Loading Python runtime…");
       const pyodide = await loadPyodide();
 
-      // Expose JS helpers to Python
+      // Expose JS helpers (UI + reasoner) to Python
       window._delfourHelpers = {
         addTimeline,
         showInsight,
@@ -147,12 +151,32 @@
         n3reasoner: window.n3reasoner
       };
 
-      // ---------- Python program (Pyodide) ----------
+      // ---------- The Python program (from demo.py, with extra comments) ----------
       const pyCode = `
-import json, re
+# Delfour Insight Economy — console-to-browser port (Pyodide + eye-js)
+#
+# Pipeline (high level)
+# 1) DESENSITIZE   : profile + rule -> neutral "need" graph (no sensitive term leak)
+# 2) INSIGHT       : need + context -> Insight envelope (device/event/retailer/expiry)
+# 3) POLICY        : Insight -> ODRL policy (allow use@shopping_assist, prohibit share@marketing, duty delete@expiry)
+# 4) AUTH          : {policy, request, now, expiry-guard, enforce} -> Allowed/Blocked + audit events
+# 5) SHOPPING      : scan + Insight + product catalog -> suggestion if sugar ≥ threshold
+# 6) CLOSE-OUT     : new "now" + expiry-guard + audit rules -> delete_due duty if expired
+#
+# Console output (sections in the UI)
+# - Timeline
+# - Answer — Insight (to retailer)          : the Insight envelope (N3, emitted by eye-js)
+# - Answer — Runtime Preview (device)       : banner JSON shown to the shopper
+# - Reason Why (private)                    : operator-facing explanation
+# - Checks                                  : quick “green ticks” for sanity
+# - Audit (derived)                         : decisions/duties derived (prefix lines removed for readability)
+
+import json, re, asyncio
 from js import _delfourHelpers
 from pyodide.ffi import to_js
 from datetime import datetime, timedelta, timezone
+
+n3reasoner = _delfourHelpers.n3reasoner
 
 def nowISO():
     return datetime.now(timezone.utc).isoformat()
@@ -160,242 +184,176 @@ def nowISO():
 def log(event, detail=""):
     _delfourHelpers.addTimeline(nowISO(), event, detail)
 
-# -------- Sample data & rules --------
-profile = """@prefix : <https://example.org/person#> .
+def strip_prefixes(n3: str) -> str:
+    \"\"\"Remove @prefix lines (cosmetic for the Audit section).\"\"\"
+    if not n3: return n3
+    return "\\n".join(ln for ln in n3.splitlines() if not ln.lstrip().startswith("@prefix")).strip()
+
+# -------- Data & rules (self-prefixed, commented) --------
+PROFILE = \"\"\"# POD/household profile (private)
+@prefix :       <https://example.org/person#> .
 @prefix health: <https://example.org/health#> .
-
 :me  health:householdCondition  health:Diabetes .
-"""
+\"\"\"
 
-catalog = """@prefix prod: <https://example.org/product#> .
+CATALOG = \"\"\"# Tiny product catalog
+@prefix prod:   <https://example.org/product#> .
 @prefix schema: <http://schema.org/> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 prod:BIS_001 a schema:Product ; schema:name "Classic Tea Biscuits" ; schema:sku "BIS-001" ; schema:sugarContent "12.0"^^xsd:decimal ; schema:price "2.10"^^xsd:decimal .
 prod:BIS_101 a schema:Product ; schema:name "Low-Sugar Tea Biscuits" ; schema:sku "BIS-101" ; schema:sugarContent "3.0"^^xsd:decimal  ; schema:price "2.60"^^xsd:decimal .
 prod:CHOC_050 a schema:Product ; schema:name "Milk Chocolate Bar"   ; schema:sku "CHOC-050" ; schema:sugarContent "15.0"^^xsd:decimal ; schema:price "1.80"^^xsd:decimal .
 prod:CHOC_150 a schema:Product ; schema:name "85% Dark Chocolate"   ; schema:sku "CHOC-150" ; schema:sugarContent "6.0"^^xsd:decimal  ; schema:price "2.20"^^xsd:decimal .
-"""
+\"\"\"
 
-desensitize_rule = """@prefix health: <https://example.org/health#> .
+DESENSITIZE_RULE = \"\"\"# Desensitization: sensitive -> neutral need
+@prefix health: <https://example.org/health#> .
 @prefix need:   <https://example.org/need#> .
-
 { ?p health:householdCondition health:Diabetes. } => { ?p need:needsLowSugar true. } .
-"""
+\"\"\"
 
-derive_rule = """@prefix need: <https://example.org/need#> .
+DERIVE_RULE = \"\"\"# Derive the Insight envelope from need + context
+@prefix need: <https://example.org/need#> .
 @prefix ctx:  <https://example.org/context#> .
 @prefix ins:  <https://example.org/insight#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-
 {
   ?p need:needsLowSugar true.
-  ?c ctx:retailer "Delfour";
-     ctx:device   "self-scanner";
-     ctx:event    "pick_up_scanner";
-     ctx:expiresAt ?exp.
+  ?c ctx:retailer "Delfour"; ctx:device "self-scanner"; ctx:event "pick_up_scanner"; ctx:expiresAt ?exp.
 }
 =>
-{
-  _:ins a ins:Insight ;
-    ins:metric           "sugar_g_per_serving" ;
-    ins:threshold        "10.0"^^xsd:decimal ;
-    ins:suggestionPolicy "lower_metric_first_higher_price_ok" ;
-    ins:scopeDevice      "self-scanner" ;
-    ins:scopeEvent       "pick_up_scanner" ;
-    ins:retailer         "Delfour" ;
-    ins:expiresAt        ?exp .
-}.
-"""
+{ _:ins a ins:Insight ;
+  ins:metric "sugar_g_per_serving" ;
+  ins:threshold "10.0"^^xsd:decimal ;
+  ins:suggestionPolicy "lower_metric_first_higher_price_ok" ;
+  ins:scopeDevice "self-scanner" ;
+  ins:scopeEvent "pick_up_scanner" ;
+  ins:retailer "Delfour" ;
+  ins:expiresAt ?exp . } .
+\"\"\"
 
-# ODRL policy from insight
-odrl_from_insight = """@prefix ins:  <https://example.org/insight#> .
+ODRL_FROM_INSIGHT = \"\"\"# ODRL policy derived from Insight
+@prefix ins:  <https://example.org/insight#> .
 @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-
-{
-  ?ins a ins:Insight ;
-       ins:expiresAt ?exp ;
-       ins:retailer "Delfour" ;
-       ins:scopeDevice "self-scanner" ;
-       ins:scopeEvent  "pick_up_scanner" .
-}
+{ ?ins a ins:Insight ; ins:expiresAt ?exp ; ins:retailer "Delfour" ; ins:scopeDevice "self-scanner" ; ins:scopeEvent "pick_up_scanner" . }
 =>
-{
-  _:pol a odrl:Policy ;
+{ _:pol a odrl:Policy ;
         odrl:profile "Delfour-Insight-Policy" ;
-        odrl:permission [
-          odrl:action odrl:use ;
-          odrl:target ?ins ;
-          odrl:constraint [
-            odrl:leftOperand odrl:purpose ;
-            odrl:operator    odrl:eq ;
-            odrl:rightOperand "shopping_assist"
-          ]
-        ] ;
-        odrl:prohibition [
-          odrl:action odrl:share ;
-          odrl:target ?ins ;
-          odrl:constraint [
-            odrl:leftOperand odrl:purpose ;
-            odrl:operator    odrl:eq ;
-            odrl:rightOperand "marketing"
-          ]
-        ] ;
-        odrl:duty [
-          odrl:action odrl:delete ;
-          odrl:constraint [
-            odrl:leftOperand odrl:dateTime ;
-            odrl:operator    odrl:eq ;
-            odrl:rightOperand ?exp
-          ]
-        ] .
-}.
-"""
+        odrl:permission [ odrl:action odrl:use ; odrl:target ?ins ;
+          odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:operator odrl:eq ; odrl:rightOperand "shopping_assist" ] ] ;
+        odrl:prohibition [ odrl:action odrl:share ; odrl:target ?ins ;
+          odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:operator odrl:eq ; odrl:rightOperand "marketing" ] ] ;
+        odrl:duty [ odrl:action odrl:delete ;
+          odrl:constraint [ odrl:leftOperand odrl:dateTime ; odrl:operator odrl:eq ; odrl:rightOperand ?exp ] ] . } .
+\"\"\"
 
-# Pure-rule enforcement + expiry guard + audit
-odrl_enforce = """@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+ODRL_ENFORCE = \"\"\"# Enforcement: policy + request -> Allowed / Blocked
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
 @prefix ins:  <https://example.org/insight#> .
 @prefix ex:   <https://example.org/enforce#> .
-@prefix act:  <https://example.org/activity#> .
-
-# Allowed if permission matches (use@shopping_assist) over some Insight target
-{
-  ?pol a odrl:Policy ;
-       odrl:permission [
-         odrl:action odrl:use ;
-         odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:operator odrl:eq ; odrl:rightOperand "shopping_assist" ] ;
-         odrl:target ?ins
-       ] .
+{ ?pol a odrl:Policy ; odrl:permission [ odrl:action odrl:use ;
+     odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:operator odrl:eq ; odrl:rightOperand "shopping_assist" ] ; odrl:target ?ins ] .
   ?ins a ins:Insight .
-  ?req odrl:action odrl:use ;
-       odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:rightOperand "shopping_assist" ] .
-}
-=>
-{ ?req a ex:Allowed ; ex:target ?ins . } .
+  ?req odrl:action odrl:use ; odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:rightOperand "shopping_assist" ] . }
+=> { ?req a ex:Allowed ; ex:target ?ins . } .
+{ ?req a ex:Allowed ; ex:target ?ins . ?ins a ex:Expired . }
+=> { ?req a ex:Blocked ; ex:reason "expired" . } .
+\"\"\"
 
-# Block if target expired (expiry is derived elsewhere)
-{
-  ?req a ex:Allowed ; ex:target ?ins .
-  ?ins a ex:Expired .
-}
-=>
-{ ?req a ex:Blocked ; ex:reason "expired" . } .
-"""
-
-expiry_guard = """@prefix ins:  <https://example.org/insight#> .
+EXPIRY_GUARD = \"\"\"# Expiry guard: mark Insight as ex:Expired when exp < now
+@prefix ins:  <https://example.org/insight#> .
 @prefix ex:   <https://example.org/enforce#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
-
-# Mark Expired when exp < now (typed xsd:dateTime comparison)
-{
-  ?ins a ins:Insight ; ins:expiresAt ?exp .
-  []   ex:now ?now .
-  ?exp math:lessThan ?now .
-}
+{ ?ins a ins:Insight ; ins:expiresAt ?exp . [] ex:now ?now . ?exp math:lessThan ?now . }
 => { ?ins a ex:Expired . } .
-"""
+\"\"\"
 
-audit_rules = """@prefix ex:   <https://example.org/enforce#> .
-@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+AUDIT_RULES = \"\"\"# Audit trail: record decisions and duties
+@prefix ex:   <https://example.org/enforce#> .
 @prefix act:  <https://example.org/activity#> .
+{ ?req a ex:Allowed . [] ex:now ?now . } => { _:a a act:Decision ; act:at ?now ; act:request ?req ; act:outcome "Allowed" . } .
+{ ?req a ex:Blocked ; ex:reason ?r . [] ex:now ?now . } => { _:a a act:Decision ; act:at ?now ; act:request ?req ; act:outcome "Blocked" ; act:reason ?r . } .
+{ ?ins a ex:Expired . [] ex:now ?now . } => { _:a a act:Duty ; act:type "delete_due" ; act:at ?now ; act:target ?ins . } .
+\"\"\"
 
-{ ?req a ex:Allowed . [] ex:now ?now . }
-=> { _:a a act:Decision ; act:at ?now ; act:request ?req ; act:outcome "Allowed" . } .
-
-{ ?req a ex:Blocked ; ex:reason ?r . [] ex:now ?now . }
-=> { _:a a act:Decision ; act:at ?now ; act:request ?req ; act:outcome "Blocked" ; act:reason ?r . } .
-
-{ ?ins a ex:Expired . [] ex:now ?now . }
-=> { _:a a act:Duty ; act:type "delete_due" ; act:at ?now ; act:target ?ins . } .
-"""
-
-shopping_rule = """@prefix ins:   <https://example.org/insight#> .
+SHOPPING_RULE = \"\"\"# Shopping-time suggestion based on Insight threshold
+@prefix ins:   <https://example.org/insight#> .
 @prefix schema: <http://schema.org/> .
 @prefix shop:  <https://example.org/shop#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix math:  <http://www.w3.org/2000/10/swap/math#> .
-
-{
-  ?ins a ins:Insight; ins:metric "sugar_g_per_serving"; ins:threshold ?thr.
-  ?scan shop:scannedProduct ?p.
-  ?p schema:name ?name; schema:sugarContent ?sug.
-  ?sug math:notLessThan ?thr.
-  ?alt schema:name ?an ; schema:sugarContent ?as ; schema:price ?ap .
-  ?as math:lessThan ?sug.
-}
+{ ?ins a ins:Insight; ins:metric "sugar_g_per_serving"; ins:threshold ?thr.
+  ?scan shop:scannedProduct ?p. ?p schema:name ?name; schema:sugarContent ?sug.
+  ?sug math:notLessThan ?thr. ?alt schema:name ?an ; schema:sugarContent ?as ; schema:price ?ap . ?as math:lessThan ?sug. }
 => { ?scan shop:note "High sugar" ; shop:suggestedAlternative ?alt . } .
-"""
+\"\"\"
 
-# -------- Helpers --------
-def build_context():
+def build_context() -> str:
+    \"\"\"Session context — device/event/retailer and a 2-hour expiry window.\"\"\"
     now = datetime.now(timezone.utc)
     exp = now + timedelta(hours=2)
-    return f"""@prefix ctx: <https://example.org/context#> .
+    return f\"\"\"@prefix ctx: <https://example.org/context#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+[] ctx:retailer "Delfour" ; ctx:device "self-scanner" ; ctx:event "pick_up_scanner" ;
+   ctx:timestamp "{now.isoformat()}"^^xsd:dateTime ; ctx:expiresAt "{exp.isoformat()}"^^xsd:dateTime .
+\"\"\"
 
-[] ctx:retailer "Delfour" ;
-   ctx:device   "self-scanner" ;
-   ctx:event    "pick_up_scanner" ;
-   ctx:timestamp "{now.isoformat()}"^^xsd:dateTime ;
-   ctx:expiresAt "{exp.isoformat()}"^^xsd:dateTime .
-"""
+def build_now(ts: str) -> str:
+    return f\"\"\"@prefix ex:  <https://example.org/enforce#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+[] ex:now "{ts}"^^xsd:dateTime .
+\"\"\"
 
-n3reasoner = _delfourHelpers.n3reasoner
+REQUEST_USE = \"\"\"@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix req:  <https://example.org/request#> .
+req:r1 odrl:action odrl:use ; odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:rightOperand "shopping_assist" ] .
+\"\"\"
+
+SCAN = \"\"\"@prefix shop: <https://example.org/shop#> .
+@prefix prod: <https://example.org/product#> .
+[] shop:scannedProduct prod:BIS_001 .
+\"\"\"
 
 async def run_pipeline():
     # 01 pickup + 02 dialog
     log("PICKUP", 'scanner="self-scanner" retailer="Delfour"')
     log("AGENT-DIALOG", "capabilities received from Delfour")
-    context = build_context()
 
-    # 03 desensitize
-    need = await n3reasoner([profile, desensitize_rule], None, to_js({"output":"derivations", "outputType":"string"}))
+    # 03 DESENSITIZE — profile + rule -> neutral need
+    need = await n3reasoner([PROFILE, DESENSITIZE_RULE], None, to_js({"output": "derivations", "outputType": "string"}))
     log("DESENSITIZE", "need=needsLowSugar written")
 
-    # 04 derive insight
-    insight = await n3reasoner([need, context, derive_rule], None, to_js({"output":"derivations", "outputType":"string"}))
+    # 04 INSIGHT — ensure a chunk with xsd: is included (context has it)
+    context = build_context()
+    # place context first (safe order for strict prefix handling)
+    insight = await n3reasoner([context, need, DERIVE_RULE], None, to_js({"output": "derivations", "outputType": "string"}))
     _delfourHelpers.showInsight(insight)
-    log("INSIGHT", "neutral low-sugar envelope emitted")
+    log("INSIGHT", "neutral low-sugar envelope emitted" if insight.strip() else "no insight emitted")
 
-    # 04b (optional) derive policy alone (for display/logging if you want)
-    policy_preview = await n3reasoner([insight, odrl_from_insight], None, to_js({"output":"derivations", "outputType":"string"}))
+    # 04b POLICY — pass the rule (with prefixes) first, then the derived graph
+    _ = await n3reasoner([ODRL_FROM_INSIGHT, insight], None, to_js({"output": "derivations", "outputType": "string"}))
     log("POLICY", "ODRL policy emitted (use@shopping_assist; share@marketing prohibited)")
 
-    # 05 auth: now + request + expiry guard + enforcement + audit (+policy rule inline)
-    now = nowISO()
-    now_ttl = (
-        '@prefix ex: <https://example.org/enforce#> .\\n'
-        '@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n'
-        f'[] ex:now "{now}"^^xsd:dateTime .\\n'
-    )
-    req_ttl = '@prefix odrl: <http://www.w3.org/ns/odrl/2/> .\\n@prefix req: <https://example.org/request#> .\\nreq:r1 odrl:action odrl:use ; odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:rightOperand "shopping_assist" ] .\\n'
+    # 05 AUTH (+ AUDIT)
+    now1 = nowISO()
     auth_out = await n3reasoner(
-        [insight, odrl_from_insight, now_ttl, req_ttl, expiry_guard, odrl_enforce, audit_rules],
+        [ODRL_FROM_INSIGHT, insight, build_now(now1), EXPIRY_GUARD, ODRL_ENFORCE, AUDIT_RULES, REQUEST_USE],
         None,
-        to_js({"output":"derivations", "outputType":"string"})
+        to_js({"output": "derivations", "outputType": "string"})
     )
 
-    # EXPIRY + AUTH timeline breadcrumbs
-    expired = ("ex:Expired" in auth_out)
-    if expired: log("EXPIRY", "insight expired at now()")
-
+    expired      = ("ex:Expired" in auth_out)
     has_decision = ("activity#Decision" in auth_out) or ("act:Decision" in auth_out)
-    allowed = has_decision and ("Allowed" in auth_out) and not ("Blocked" in auth_out)
-    blocked = has_decision and ("Blocked" in auth_out)
-    if allowed:
-        log("AUTH", "Allowed (use@shopping_assist)")
-    elif blocked:
-        reason = "expired" if "expired" in auth_out else ("prohibited" if "prohibited" in auth_out else "no_decision")
-        log("AUTH", f"Blocked ({reason})")
-    else:
-        log("AUTH", "No explicit decision (check policy/request)")
+    allowed      = has_decision and ("Allowed" in auth_out) and not ("Blocked" in auth_out)
+    blocked      = has_decision and ("Blocked" in auth_out)
 
-    # Pretty audit text
-    _delfourHelpers.setAudit(auth_out)
-    log("AUDIT", "authorization decision recorded")
+    if expired: log("EXPIRY", "insight expired at now()")
+    if allowed: log("AUTH", "Allowed (use@shopping_assist)")
+    elif blocked: log("AUTH", "Blocked (expired)" if "expired" in auth_out else "Blocked (prohibited)")
+    else: log("AUTH", "No explicit decision (check policy/request)")
 
-    # 05 shopping — only if not blocked
+    # 05b SHOPPING — suggest lower-sugar alternative when needed
     if blocked and not allowed:
         banner = {
             "headline": "Policy blocked action",
@@ -403,62 +361,49 @@ async def run_pipeline():
             "note": "Expired or prohibited",
             "suggested_alternative": None
         }
-        _delfourHelpers.showBanner(json.dumps(banner, indent=2))
-        # Checks + Reason + exit
-        reason = "Household requires low-sugar guidance (diabetes in POD). You are starting a self-scanner session at Delfour right now. Envelope is minimized and limited to this session."
-        _delfourHelpers.showReason(reason)
-        txt = (insight or "").lower()
-        checks = [
-            ("insight_nonempty", bool(insight.strip())),
-            ("minimization_no_sensitive_terms", ("diabetes" not in txt and "medical" not in txt)),
-            ("scope_has_device_event_expiry", all(k in txt for k in ["scopedevice","scopeevent","expiresat"])),
-            ("runtime_present", True),
-            ("behavior_suggests_on_high_sugar", False),
-            ("audit_has_decision", has_decision)
-        ]
-        _delfourHelpers.showChecks(checks)
-        return
-
-    # If Allowed, simulate scan & suggestion
-    scan_ttl = "@prefix shop: <https://example.org/shop#> .\\n@prefix prod: <https://example.org/product#> .\\n[] shop:scannedProduct prod:BIS_001 ."
-    sugg = await n3reasoner([insight, catalog, scan_ttl, shopping_rule], None, to_js({"output":"derivations", "outputType":"string"}))
-    m = re.search(r"shop:suggestedAlternative\\s+([^\\s]+)\\s*\\.", sugg)
-    alt_qname = m.group(1) if m else None
-
-    def name_for(qname: str|None) -> str|None:
-        if not qname: return None
-        patt = re.compile(re.escape(qname) + r"\\b[\\s\\S]*?schema:name\\s+\\\"([^\\\"]+)\\\"")
-        m2 = patt.search(catalog)
-        return m2.group(1) if m2 else None
-
-    scanned_qname = "prod:BIS_001"
-    scanned_name = name_for(scanned_qname) or "Unknown"
-    alt_name = name_for(alt_qname) or ("present" if alt_qname else None)
-    banner = {
-        "headline": "Track sugar per serving while you scan",
-        "product_name": scanned_name,
-        "note": "High sugar" if alt_qname else None,
-        "suggested_alternative": alt_name if alt_qname else None
-    }
-    _delfourHelpers.showBanner(json.dumps(banner, indent=2))
-    if alt_qname:
-        log("SCAN", f'product="{scanned_name}" \\u2192 suggest="{alt_name}"')
     else:
-        log("SCAN", f'product="{scanned_name}" (ok)')
-    log("RUNTIME", "banner written")
+        # Put the rule (with prefixes) up front to avoid any per-chunk prefix strictness
+        sugg = await n3reasoner([SHOPPING_RULE, insight, CATALOG, SCAN], None, to_js({"output": "derivations", "outputType": "string"}))
+        m = re.search(r"shop:suggestedAlternative\\s+([^\\s]+)\\s*\\.", sugg)
+        alt_qname = m.group(1) if m else None
 
-    # 06 drop + close-out duty audit (reuse audit_rules + expiry_guard with new now)
+        def name_for(qname: str|None) -> str|None:
+            if not qname: return None
+            patt = re.compile(re.escape(qname) + r"\\b[\\s\\S]*?schema:name\\s+\\\"([^\\\"]+)\\\"")
+            m2 = patt.search(CATALOG)
+            return m2.group(1) if m2 else None
+
+        scanned_qname = "prod:BIS_001"
+        scanned_name  = name_for(scanned_qname) or "Unknown"
+        alt_name      = name_for(alt_qname) if alt_qname else None
+        banner = {
+            "headline": "Track sugar per serving while you scan",
+            "product_name": scanned_name,
+            "note": "High sugar" if alt_qname else None,
+            "suggested_alternative": alt_name if alt_qname else None
+        }
+        if alt_qname:
+            log("SCAN", f'product="{scanned_name}" \\u2192 suggest="{alt_name}"')
+        else:
+            log("SCAN", f'product="{scanned_name}" (ok)')
+        log("RUNTIME", "banner written")
+
+    _delfourHelpers.showBanner(json.dumps(banner, indent=2))
+
+    # 06 CLOSE-OUT — derive optional delete_due duty
     log("DROP", "scanner returned; session closed")
     now2 = nowISO()
-    close_now = (
-        '@prefix ex: <https://example.org/enforce#> .\\n'
-        '@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n'
-        f'[] ex:now "{now2}"^^xsd:dateTime .\\n'
-    )
-    close_out = await n3reasoner([insight, close_now, expiry_guard, audit_rules], None, to_js({"output":"derivations", "outputType":"string"}))
-    if close_out.strip():
-        _delfourHelpers.setAudit(auth_out.strip() + "\\n" + close_out.strip())
-        log("AUDIT", "close-out appended" + (" (delete_due)" if ("act:Duty" in close_out and 'act:type "delete_due"' in close_out) else ""))
+    close_out = await n3reasoner([build_now(now2), insight, EXPIRY_GUARD, AUDIT_RULES], None, to_js({"output": "derivations", "outputType": "string"}))
+
+    # Pretty audit text (strip prefix lines for readability)
+    audit_txt = (auth_out.strip() + ("\\n" + close_out.strip() if close_out.strip() else "")).strip()
+    _delfourHelpers.setAudit(strip_prefixes(audit_txt))
+    if ("act:Duty" in close_out and 'act:type "delete_due"' in close_out):
+        log("AUDIT", "close-out appended (delete_due)")
+    elif close_out.strip():
+        log("AUDIT", "close-out appended")
+    else:
+        log("AUDIT", "authorization decision recorded")
 
     # Reason & Checks
     reason = "Household requires low-sugar guidance (diabetes in POD). You are starting a self-scanner session at Delfour right now. Envelope is minimized and limited to this session."
@@ -469,8 +414,8 @@ async def run_pipeline():
         ("minimization_no_sensitive_terms", ("diabetes" not in txt and "medical" not in txt)),
         ("scope_has_device_event_expiry", all(k in txt for k in ["scopedevice","scopeevent","expiresat"])),
         ("runtime_present", True),
-        ("behavior_suggests_on_high_sugar", bool(alt_qname)),
-        ("audit_has_decision", True if (("activity#Decision" in auth_out) or ("act:Decision" in auth_out)) else False),
+        ("behavior_suggests_on_high_sugar", banner.get("suggested_alternative") is not None),
+        ("audit_has_decision", has_decision),
     ]
     _delfourHelpers.showChecks(checks)
 

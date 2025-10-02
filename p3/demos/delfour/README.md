@@ -1,154 +1,224 @@
-# Delfour Insight Economy
+# Delfour Insight Economy — Demo
 
-A **fully client-side** prototype of the Delfour “insight economy” pipeline.
-Reasoning runs in your browser via **eye-js** (EYE in WebAssembly); orchestration is written in **Python** running in **Pyodide**. No servers, no build.
+This [demo](https://eyereasoner.github.io/eye/p3/demos/delfour/demo.html) shows how a **privacy-preserving, policy-governed “insight”** can be derived from sensitive household data, used **only** for a scoped retail session, and then audited/expired — all with **logic rules** you can read and tweak.
 
----
+You get two runtimes:
 
-## Quick start
+* **`demo.py`** — Console app that calls the local **EYE** reasoner (CLI).
+* **`demo.html`** — Fully client-side browser app that runs the same Python orchestration in **Pyodide** and calls **eye-js** for reasoning.
 
-1. Open [demo.html](https://eyereasoner.github.io/eye/p3/demos/delfour/demo.html) in a modern browser (Chromium, Firefox, Safari).
-2. Click **Run Demo**.
-3. Watch the **Timeline**, **Insight**, **Runtime**, **Reason Why**, **Checks**, and **Audit** panels populate.
+Both produce the same sections:
 
----
-
-## What this demo shows
-
-* **Desensitization:** POD fact (e.g., Diabetes) → neutral **need** (low sugar) via N3 rule.
-* **Neutral INSIGHT envelope:** metric/threshold/scope/expiry with **no medical terms**.
-* **ODRL policy derivation:** permission `use@shopping_assist`, prohibition `share@marketing`, duty `delete@expiresAt`.
-* **Pure-rule authorization:** Given a request (`use@shopping_assist`) + policy + “now”, rules derive **Allowed/Blocked**; **expiry** is enforced.
-* **Audit trail:** Rules emit `act:Decision` (Allowed/Blocked) and a close-out `act:Duty "delete_due"` when expired.
-* **Runtime behavior:** If Allowed, a rule suggests a lower-sugar alternative for the scanned product.
+* **Timeline** — high-level events (pickup, insight derivation, policy, auth, scan, close-out).
+* **Answer — Insight (to retailer)** — the neutral “insight envelope” (as N3).
+* **Answer — Runtime Preview (device)** — the banner JSON a shopper could see.
+* **Reason Why (private)** — short operator-facing rationale.
+* **Checks** — quick sanity ticks (minimization, scope, behavior, audit).
+* **Audit (derived)** — decisions/duties derived by the rules (Allowed/Blocked, delete_due).
 
 ---
 
-## Architecture
+## What this demonstrates
 
-### Components in the browser
-
-* **eye-js** — evaluates N3 rules and RDF data; returns **derivations only** (like EYE `--pass-only-new`).
-* **Pyodide** — runs a small Python orchestrator (the “programs”/pipeline) entirely in the page.
-* **UI** — simple Tailwind UI rendering the current state.
-
-### The “bus” (integration contract)
-
-The original Python pipeline uses a file bus (`data/bus/`). In this browser demo, we mimic the same contract **in memory** as strings passed to `eye-js`. Conceptually, the bus “files” are:
-
-| “Bus file” (concept) | Purpose                                                                       |
-| -------------------- | ----------------------------------------------------------------------------- |
-| `events.ttl`         | Human-readable timeline events (pickup, auth, scan, audit, drop).             |
-| `insight.ttl`        | The **retailer-facing** neutral INSIGHT envelope.                             |
-| `odrl.ttl`           | Policy derived from the INSIGHT (shown via Timeline; not physically written). |
-| `now.ttl`            | `[] ex:now "…ISO…" .` — string time fact for rule comparisons.                |
-| `request.ttl`        | `req:r1 odrl:action odrl:use; … purpose "shopping_assist".`                   |
-| `scan.ttl`           | The simulated scanned product `[] shop:scannedProduct prod:… .`               |
-| `runtime_out.json`   | Device banner JSON (headline, note, suggested alternative).                   |
-| `audit.ttl`          | Derived `act:Decision` and close-out `act:Duty` entries.                      |
-
-> In the browser we don’t write files; we compose these strings and feed them to `eye-js` runs. The UI shows their content (Insight, Audit, Banner).
-
-### Pipeline (steps inside `demo.html`)
-
-1. **PICKUP** — Build `ctx:` context (retailer, device, event, timestamp, **expiresAt**).
-2. **AGENT-DIALOG** — Stub capability exchange.
-3. **DESENSITIZE** — Rule: `health:Diabetes ⇒ need:needsLowSugar true.`
-4. **DERIVE INSIGHT** — From need + context → `ins:Insight` (metric/threshold/scope/expiry).
-5. **POLICY** — Derive ODRL from the Insight (permission/prohibition/duty).
-6. **AUTHORIZATION BUNDLE** — Single `eye-js` run combining:
-
-   * the **Insight**
-   * the **policy-from-insight rule** (policy is derived inside the same run)
-   * **now** (`ex:now`)
-   * **request** (`use@shopping_assist`)
-   * **expiry guard** (marks `ex:Expired` when `expiresAt < now`)
-   * **enforcement rules** (Allowed/Blocked)
-   * **audit rules** (emit `act:Decision`, and at close `act:Duty "delete_due"`)
-7. **SHOPPING** — If Allowed, rule suggests an alternative with lower sugar (`math:` built-ins; typed decimals).
-8. **DROP & CLOSE-OUT** — Re-evaluate expiry at the end and append a `delete_due` duty to the audit if applicable.
+* **Desensitization:** from a sensitive fact (`health:Diabetes`) to a neutral need (`need:needsLowSugar true`).
+* **Scoped Insight:** the need + live context → an `ins:Insight` that is bound to **device**, **event**, **retailer**, and **expiry**.
+* **Policy from Insight:** derive an **ODRL policy** that permits only `use@shopping_assist`, prohibits `share@marketing`, and imposes a **delete duty** at expiry.
+* **Authorization & Audit:** evaluate a request under the policy + expiry guard, record decisions/duties.
+* **Runtime Behavior:** when scanning a product, suggest a **lower-sugar** alternative if above threshold.
 
 ---
 
-## Data & rules inside the page
-
-* **Profile:** a tiny Turtle with `health:householdCondition health:Diabetes` (never shown to retailer).
-* **Catalog:** a few `schema:Product` items with `schema:sugarContent` and `schema:price` typed as `xsd:decimal`.
-* **Rules:**
-
-  * `desensitize` → `need:needsLowSugar true`
-  * `derive_insight` → neutral `ins:Insight` with `ins:expiresAt`
-  * `policy_from_insight` → ODRL permission/prohibition/duty targeting the Insight
-  * `expiry_guard` → mark `ex:Expired` if `expiresAt < now` (uses `math:lessThan`)
-  * `odrl_enforce` → `ex:Allowed` / `ex:Blocked` from policy + request (+ expired)
-  * `audit_rules` → `act:Decision` and close-out `act:Duty "delete_due"`
-  * `shopping_rule` → when Allowed and scanned product’s sugar ≥ threshold, attach note and alternative
-
-**Prefix map** used throughout:
+## Repo layout
 
 ```
-ins:    https://example.org/insight#
-ctx:    https://example.org/context#
-need:   https://example.org/need#
-health: https://example.org/health#
-shop:   https://example.org/shop#
-ex:     https://example.org/enforce#
-act:    https://example.org/activity#
-odrl:   http://www.w3.org/ns/odrl/2/
-math:   http://www.w3.org/2000/10/swap/math#
-str:    http://www.w3.org/2000/10/swap/string#
-xsd:    http://www.w3.org/2001/XMLSchema#
-schema: http://schema.org/
+demo.py        # Console version (EYE CLI)
+demo.html      # Browser version (Pyodide + eye-js)
 ```
 
----
-
-## Panels (what to expect)
-
-* **Timeline** — `PICKUP`, `POLICY`, `AUTH (Allowed/Blocked)`, `EXPIRY` (if any), `SCAN`, `RUNTIME`, `AUDIT`, `DROP`.
-* **Answer — Insight** — Minimal N3/Turtle (neutral; scope + expiry).
-* **Answer — Runtime Preview** — Banner JSON (headline, product, note, suggestion).
-* **Reason Why (private)** — Human explanation (never shown to retailer).
-* **Checks** — Quick pass/fail sanity assertions (neutrality, scope, runtime present, suggestion present, audit decision present).
-* **Audit (derived)** — `act:Decision` and (on close-out) `act:Duty "delete_due"` entries.
+> All Turtle/N3 pieces are **self-prefixed** and heavily commented inside both files for readability.
 
 ---
 
-## Customize the demo
+## Quick start — Python (EYE CLI)
 
-* **Change the scanned product**
-  In the Python code string near the end, change:
+### Prerequisites
 
-  ```py
-  scan_ttl = "... [] shop:scannedProduct prod:BIS_001 ."
+* Python 3.9+
+* [EYE](https://github.com/eyereasoner/eye) installed and `eye` on your `PATH`
+
+  * If `eye` is named differently or not on PATH, set `EYE_CMD`, e.g. `EYE_CMD=/usr/local/bin/eye`.
+
+### Run
+
+```bash
+python demo.py
+```
+
+You’ll see the sections printed to the console. The **Audit** block contains the derived decisions/duties; the script removes `@prefix` lines for readability.
+
+### Flags
+
+The script invokes EYE with a **fixed, safe** set of flags:
+
+```
+--quiet --nope --pass-only-new
+```
+
+That means: don’t print input facts, only **new derivations**.
+
+---
+
+## Quick start — Browser (Pyodide + eye-js)
+
+### How to run
+
+* Open **`demo.html`** in a modern browser (Chrome/Edge/Firefox/Safari).
+* Click **Run Demo**.
+
+Everything runs **client-side**:
+
+* Python orchestrates the pipeline in Pyodide.
+* Reasoning is done by **eye-js** (the browser build of EYE).
+
+> No servers, no data leaves your machine.
+
+---
+
+## How it works (logic pipeline)
+
+1. **DESENSITIZE**
+
+   * Rule: `health:householdCondition health:Diabetes` ⇒ `need:needsLowSugar true`.
+   * Result is neutral (no medical term) → safe to share with the retailer.
+
+2. **INSIGHT** (need + context → envelope)
+
+   * Context records: `retailer=Delfour`, `device=self-scanner`, `event=pick_up_scanner`, `expiresAt`.
+   * Derived `ins:Insight` carries: metric (`sugar_g_per_serving`), threshold (`10.0`), suggestion policy, device/event/retailer, expiry.
+
+3. **POLICY** (ODRL from Insight)
+
+   * Permit: `use` **only** for `purpose=shopping_assist` targeting the Insight.
+   * Prohibit: `share` for `purpose=marketing`.
+   * Duty: `delete` at `expiresAt`.
+
+4. **AUTH** (+ **AUDIO/EXPIRY**)
+
+   * Add a `now` fact; guard marks an Insight `ex:Expired` if `expiresAt < now`.
+   * Enforcement rules map (policy + request) to **Allowed** or **Blocked**.
+   * Audit rules emit `act:Decision` and `act:Duty`.
+
+5. **SHOPPING** (behavior)
+
+   * On scan, if product sugar ≥ threshold, annotate “High sugar” and propose any alternative with strictly lower sugar (price may be higher; policy allows it).
+
+6. **CLOSE-OUT**
+
+   * New `now` triggers a `delete_due` duty if the Insight is expired at close.
+
+---
+
+## Data & rules (included, self-prefixed)
+
+* **Profile (POD)** — minimal, contains a sensitive health condition.
+* **Desensitization rule** — maps to `need:needsLowSugar true`.
+* **Context** — session info with ISO timestamps (`xsd:dateTime`).
+* **Insight rule** — creates the envelope from need+context.
+* **Policy rule** — derives ODRL permissions/prohibitions/duty.
+* **Enforcement** — Allowed/Blocked mapping based on policy and request.
+* **Expiry guard** — marks `ex:Expired` when `exp < now`.
+* **Audit rules** — write decisions and duties.
+* **Catalog** — tiny product set with sugar and price.
+* **Shopping rule** — emits alternative suggestions when appropriate.
+
+---
+
+## Expected output (abbreviated)
+
+* **Timeline** shows events like:
+
   ```
-* **Adjust the threshold**
-  In `derive_insight`, set `ins:threshold` to another `xsd:decimal`.
-* **Test expiry**
-  In `build_context()`, change `expiresAt` to `now + timedelta(seconds=5)`; rerun after a few seconds to see `AUTH: Blocked (expired)` and a `delete_due` duty on close.
-* **Policy semantics**
-  Edit `policy_from_insight` to tweak actions (`odrl:use`, `odrl:share`), purposes, or duties.
+  …  PICKUP            scanner="self-scanner" retailer="Delfour"
+  …  DESENSITIZE       need=needsLowSugar written
+  …  INSIGHT           neutral low-sugar envelope emitted
+  …  POLICY            ODRL policy emitted (use@shopping_assist; share@marketing prohibited)
+  …  AUTH              Allowed (use@shopping_assist)
+  …  SCAN              product="Classic Tea Biscuits" → suggest="Low-Sugar Tea Biscuits"
+  …  RUNTIME           banner written
+  …  DROP              scanner returned; session closed
+  …  AUDIT             close-out appended (delete_due)
+  ```
 
----
+* **Answer — Insight** is a compact N3 block with the `ins:Insight` blank node.
 
-## How to host it
+* **Runtime Preview** resembles:
 
-* **Open from disk** — Works offline once loaded (Pyodide and eye-js are fetched on first load).
-* **GitHub Pages** — Put `demo.html` anywhere inside your Pages-served branch; link to it directly.
-* **Any static host** — No build step; the page loads everything via CDNs.
+  ```json
+  {
+    "headline": "Track sugar per serving while you scan",
+    "product_name": "Classic Tea Biscuits",
+    "note": "High sugar",
+    "suggested_alternative": "Low-Sugar Tea Biscuits"
+  }
+  ```
+
+* **Checks**: all green when the pipeline succeeds.
+
+* **Audit (derived)**: `act:Decision`(Allowed/Blocked) and optionally `act:Duty`(`"delete_due"`).
 
 ---
 
 ## Troubleshooting
 
-* **Blank page** — Ensure network access for the Pyodide and eye-js CDNs; open DevTools Console for errors.
-* **`illegal_token` parsing errors** — Usually a prefix typo (ensure `@prefix schema: <…> .` has a space) or SPARQL `FILTER` (not used here; we rely on `math:`/`str:` built-ins).
+* **`eye: command not found` (Python mode):**
+  Install EYE or set `EYE_CMD` to its path:
+
+  ```bash
+  EYE_CMD=/path/to/eye python demo.py
+  ```
+
+* **`no_prefix_directive(xsd, …)`**
+  Your EYE/eye-js build is strict about seeing `@prefix xsd:` **before** any typed literal.
+  This demo keeps each piece **self-prefixed** and orders chunks so a block with `xsd:` appears first when needed. If you’ve modified the pieces, make sure:
+
+  * Every chunk that uses `xsd:` (incl. `^^xsd:…`) declares `@prefix xsd: …`.
+  * The first chunk in each run declares `@prefix xsd:` when typed literals appear.
+
+* **Empty “Insight”**
+  Check that `DESENSITIZE` emitted `need:needsLowSugar true` and that `build_context` creates a valid `expiresAt` in the future.
+
+* **No suggestion at scan**
+  The suggestion appears only if the scanned product’s sugar is **≥ threshold** and there exists a catalog item with **strictly lower** sugar.
 
 ---
 
-## Why neutrality matters (privacy)
+## Design notes
 
-Retailer sees **only** the neutral INSIGHT and its ODRL policy.
-The “Reason Why” (diabetes → needs low sugar) remains private for the user/agent UI.
-ODRL constrains purpose (`shopping_assist`), prohibits sharing for `marketing`, and requires deletion at expiry.
+* **Minimization by construction:** the **retailer-facing insight** contains only neutral terms (e.g., no “Diabetes” string). Checks assert this.
+* **Rule transparency:** all rules are short N3/Turtle blocks you can read and edit.
+* **Deterministic behavior:** both runtimes share the **same rules and data**, differing only in the reasoner binding (EYE CLI vs eye-js).
+* **Client-side browser:** the HTML version uses Pyodide and eye-js in the page; no networking is required after load.
+
+---
+
+## Customize
+
+* **Threshold:** change `ins:threshold "10.0"^^xsd:decimal`.
+* **Scope:** modify `ctx:device`, `ctx:event`, `ctx:retailer`, time window.
+* **Policy:** adjust ODRL permission/prohibition/duty to fit your governance.
+* **Catalog:** add products; suggestion rule keeps working (lower sugar, any price).
+* **Additional safeguards:** extend `ODRL_ENFORCE` with more constraints (e.g., location, role).
+
+---
+
+## FAQ
+
+**Is this production code?**
+It’s an educational demo that shows the *shape* of a privacy-preserving, policy-governed pipeline using explicit logic rules.
+
+**Why not call an LLM for suggestions?**
+We use **declarative rules** on structured facts so that behavior is **auditable**, **deterministic**, and easy to reason about.
+
+**Does the browser version send data anywhere?**
+No. After loading the page assets, all computation is client-side (Pyodide + eye-js).
 
