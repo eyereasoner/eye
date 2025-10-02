@@ -2,7 +2,7 @@
 
 This repo contains **two runnable demos** of the same privacy-first idea:
 
-1. **Browser demo (`[demo.html](https://eyereasoner.github.io/eye/p3/demos/delfour/demo.html))** — everything runs client-side:
+1. **Browser [demo.html](https://eyereasoner.github.io/eye/p3/demos/delfour/demo.html)** — everything runs client-side:
 
    * Orchestration in **Python (Pyodide)**
    * Reasoning by **eye-js**
