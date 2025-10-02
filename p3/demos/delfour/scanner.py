@@ -3,16 +3,14 @@
 
 """
 scanner.py — retailer scanner (privacy-first)
-- verifies signature of (insight.ttl + policy.ttl) using envelope.sig.json
-- if OK: authorizes request, runs shopping rule, writes audit/banner
+- verifies signature of (insight.ttl + policy.ttl)
+- authorizes runtime request, runs shopping rule
+- writes audit.ttl, banner.json
+- writes checks.json (harness) with pass/fail booleans
 
 Usage:
   python scanner.py --init --session S123
   python scanner.py --session S123
-  python scanner.py --bus ./mybus --session S123
-
-Env:
-  EYE_CMD=/path/to/eye  (optional; default: 'eye')
 """
 
 from __future__ import annotations
@@ -137,7 +135,7 @@ EXPIRY_GUARD = """@prefix ins:  <https://example.org/insight#> .
 => { ?ins a ex:Expired . } .
 """
 
-# Audit only typed requests
+# Audit only typed requests (Option B)
 AUDIT_RULES = """@prefix ex:   <https://example.org/enforce#> .
 @prefix act:  <https://example.org/activity#> .
 @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
@@ -170,6 +168,7 @@ SHOPPING_RULE = """@prefix ins:   <https://example.org/insight#> .
 => { ?scan shop:note "High sugar" ; shop:suggestedAlternative ?alt . } .
 """
 
+# Typed runtime request
 REQUEST_USE = """@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
 @prefix req:  <https://example.org/request#> .
 
@@ -257,6 +256,7 @@ def run_session(session_dir: str):
 
     # --- Shopping step (simulate one scan)
     banner = {"headline": None, "product_name": None, "note": None, "suggested_alternative": None}
+    alt_qn = None
     if blocked and not allowed:
         banner["headline"] = "Policy blocked action"
     else:
@@ -284,7 +284,21 @@ def run_session(session_dir: str):
     with open(os.path.join(session_dir, "banner.json"), "w") as f:
         json.dump(banner, f, indent=2)
 
-    print(f"[scanner] Wrote {session_dir}/audit.ttl and {session_dir}/banner.json")
+    # --- Checks (harness)
+    insight_lc = (insight or "").lower()
+    audit_txt = strip_prefixes((auth_out.strip() + ("\n" + close_out.strip() if close_out.strip() else "")).strip())
+    checks = [
+        ["insight_nonempty", bool(insight.strip())],
+        ["minimization_no_sensitive_terms", ("diabetes" not in insight_lc and "medical" not in insight_lc)],
+        ["scope_has_device_event_expiry", all(k in insight_lc for k in ["scopedevice", "scopeevent", "expiresat"])],
+        ["runtime_present", True],  # we always write a banner (Allowed or Blocked)
+        ["behavior_suggests_on_high_sugar", bool(alt_qn)],
+        ["audit_has_decision", ("activity#Decision" in audit_txt) or ("act:Decision" in audit_txt)],
+    ]
+    with open(os.path.join(session_dir, "checks.json"), "w") as f:
+        json.dump(checks, f, indent=2)
+
+    print(f"[scanner] Wrote {session_dir}/audit.ttl, banner.json, checks.json")
 
 def main():
     a = parse_args()

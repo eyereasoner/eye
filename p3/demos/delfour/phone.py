@@ -6,7 +6,7 @@ phone.py — shopper device (privacy-first)
 - derives neutral Insight + ODRL policy
 - writes .ttl files to BUS/SESSION
 - signs (Ed25519) the canonicalized content of insight.ttl + policy.ttl
-  -> writes envelope.sig.json for the scanner to verify
+- writes a human "Reason Why" as reason.txt  (demo-only; keep on device in prod)
 
 Usage:
   python phone.py --session S123
@@ -72,20 +72,12 @@ def run_eye(chunks: list[str]) -> str:
     return proc.stdout.strip()
 
 def canonicalize_ttl(text: str) -> str:
-    """
-    Demo-grade canonicalization:
-      - drop @prefix lines
-      - trim lines, collapse multiple spaces, drop empties
-      - sort lines
-    (Stable across writer/reader; not URDNA2015. OK because scanner verifies
-     the exact files produced by the phone.)
-    """
+    """Demo-grade canonicalization: drop @prefix, trim/collapse spaces, sort lines."""
     lines = []
     for ln in text.splitlines():
         s = ln.strip()
         if not s or s.startswith("@prefix"):
             continue
-        # collapse runs of whitespace inside line
         s = " ".join(s.split())
         lines.append(s)
     lines.sort()
@@ -192,7 +184,6 @@ def build_context(retailer: str, device: str, event: str, ttl_hours: float) -> s
 def insight_iri(session_id: str) -> str:
     return f"<https://example.org/insight/{session_id}>"
 
-# ---- keys ----
 def load_or_create_signing_key(keydir: str|None) -> SigningKey:
     if not keydir:
         return SigningKey.generate()
@@ -262,6 +253,13 @@ def main():
     }
     with open(os.path.join(session_dir, "envelope.sig.json"), "w") as f:
         json.dump(sig_obj, f, indent=2)
+
+    # 6) write Reason Why (demo-only; would remain local in production)
+    reason = ("Household requires low-sugar guidance (diabetes in POD). "
+              "A neutral Insight is derived and scoped to this device & event at "
+              f"{a.retailer}, expiring soon; the policy confines use to shopping assistance.")
+    with open(os.path.join(session_dir, "reason.txt"), "w") as f:
+        f.write(reason + "\n")
 
     print(f"[phone] Wrote and signed envelope in {session_dir}/")
 

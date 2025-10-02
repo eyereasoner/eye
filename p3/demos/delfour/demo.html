@@ -63,8 +63,20 @@
         </div>
 
         <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
-          <h3 class="text-lg font-semibold mb-2">audit.ttl</h3>
+          <h3 class="text-lg font-semibold mb-2">Audit (derived)</h3>
           <pre id="auditBox" class="text-xs"></pre>
+        </div>
+
+        <!-- NEW: Reason Why -->
+        <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+          <h3 class="text-lg font-semibold mb-2">Reason Why (private)</h3>
+          <pre id="reasonBox" class="text-sm text-slate-800"></pre>
+        </div>
+
+        <!-- NEW: Checks harness -->
+        <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+          <h3 class="text-lg font-semibold mb-2">Checks (harness)</h3>
+          <div id="checksBox" class="text-sm space-y-1"></div>
         </div>
       </div>
     </section>
@@ -94,13 +106,26 @@
     }
     function resetUI(){
       phoneTL.innerHTML = ""; scanTL.innerHTML = "";
-      $("insightBox").textContent = "";
-      $("policyBox").textContent = "";
-      $("sigBox").textContent = "";
-      $("bannerBox").textContent = "";
-      $("auditBox").textContent = "";
+      ["insightBox","policyBox","sigBox","bannerBox","auditBox","reasonBox"].forEach(id => $(id).textContent = "");
+      $("checksBox").innerHTML = "";
     }
     function setStatus(s){ statusEl.textContent = s; }
+
+    function renderChecks(arr) {
+      const box = $("checksBox");
+      box.innerHTML = "";
+      (arr || []).forEach(([name, ok]) => {
+        const row = document.createElement("div");
+        row.className = "flex items-center gap-2";
+        const badge = document.createElement("span");
+        badge.className = "inline-flex h-5 w-5 items-center justify-center rounded-full " + (ok ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700");
+        badge.textContent = ok ? "✓" : "✗";
+        const label = document.createElement("span");
+        label.textContent = name;
+        row.append(badge, label);
+        box.appendChild(row);
+      });
+    }
 
     // ---- Load eye-js
     setStatus("Loading eye-js…");
@@ -116,7 +141,6 @@
     const encoder = new TextEncoder();
     const keypair = nacl.sign.keyPair(); // ephemeral for demo
 
-    // FIX 1: make signPayload async (we use await crypto.subtle)
     async function signPayload(payloadStr) {
       const bytes = encoder.encode(payloadStr);
       const sig = nacl.sign.detached(bytes, keypair.secretKey);
@@ -134,7 +158,6 @@
 
     async function verifyPayload(payloadStr, sigObj){
       const bytes = encoder.encode(payloadStr);
-      // Coerce proxied values to plain JS strings and strip whitespace/newlines
       const pkB64  = String(sigObj.publicKeyBase64 ?? "").replace(/\s+/g, "");
       const sigB64 = String(sigObj.signatureBase64 ?? "").replace(/\s+/g, "");
       if (!pkB64 || !sigB64) return false;
@@ -142,7 +165,7 @@
       const sig = Uint8Array.from(atob(sigB64), c => c.charCodeAt(0));
       const hashBuf = await crypto.subtle.digest("SHA-256", bytes);
       const hashHex = [...new Uint8Array(hashBuf)].map(b=>b.toString(16).padStart(2,"0")).join("");
-      if (hashHex.toLowerCase() !== sigObj.payloadHashSHA256.toLowerCase()) return false;
+      if (hashHex.toLowerCase() !== String(sigObj.payloadHashSHA256 ?? "").toLowerCase()) return false;
       return nacl.sign.detached.verify(bytes, sig, pk);
     }
 
@@ -152,6 +175,7 @@
       addPhoneTL: (e,d)=>addTL(phoneTL, e, d),
       addScanTL:  (e,d)=>addTL(scanTL, e, d),
       setTxt: (id, txt)=>($(id).textContent = txt || ""),
+      setChecks: (arr)=>renderChecks(arr),
       signPayload: (payload) => signPayload(payload),
       verifyPayload: async (payload, sig) => await verifyPayload(payload, sig)
     };
@@ -306,7 +330,7 @@ async def run_phone_and_scanner(session_id:str):
     _bridge.addPhoneTL("POLICY", "ODRL policy emitted")
     _bridge.setTxt("policyBox", policy.strip())
 
-    # FIX 2: await signPayload (returns a Promise), and convert JS object -> Python dict for pretty-print
+    # sign canonicalized (insight + policy)
     sig_obj = await _bridge.signPayload(canonicalize_ttl(insight) + canonicalize_ttl(policy))
     _bridge.setTxt("sigBox", json.dumps(sig_obj.to_py(), indent=2))
 
@@ -325,8 +349,16 @@ async def run_phone_and_scanner(session_id:str):
     _bridge.addScanTL("VERIFY", "signature OK" if ok else "signature FAILED")
     if not ok:
         _bridge.setTxt("auditBox", "Signature verification failed. Aborting.")
+        _bridge.setTxt("reasonBox", "Verification failed, so nothing is processed on the scanner.")
+        _bridge.setChecks([["insight_nonempty", bool(insight.strip())],
+                           ["minimization_no_sensitive_terms", False],
+                           ["scope_has_device_event_expiry", False],
+                           ["runtime_present", False],
+                           ["behavior_suggests_on_high_sugar", False],
+                           ["audit_has_decision", False]])
         return
 
+    # authorization + audit
     now1 = datetime.now(timezone.utc).isoformat()
     auth_out = await n3reasoner([pol, ins,
                                  f'@prefix ex: <https://example.org/enforce#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n[] ex:now "{now1}"^^xsd:dateTime .',
@@ -336,6 +368,8 @@ async def run_phone_and_scanner(session_id:str):
     allowed = ("Allowed" in auth_out) and ("Blocked" not in auth_out)
     _bridge.addScanTL("AUTH", "Allowed" if allowed else "Blocked")
 
+    # shopping
+    alt_qn = None
     if allowed:
         scan = """@prefix shop: <https://example.org/shop#> .
 @prefix prod: <https://example.org/product#> .
@@ -359,6 +393,7 @@ async def run_phone_and_scanner(session_id:str):
 
     _bridge.setTxt("bannerBox", json.dumps(banner, indent=2))
 
+    # close-out duty + audit print
     now2 = datetime.now(timezone.utc).isoformat()
     close_out = await n3reasoner([ins,
                                   f'@prefix ex: <https://example.org/enforce#> .\\n@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .\\n[] ex:now "{now2}"^^xsd:dateTime .',
@@ -366,6 +401,24 @@ async def run_phone_and_scanner(session_id:str):
                                  None, to_js({"output":"derivations","outputType":"string"}))
     audit_txt = (auth_out.strip() + ("\\n" + close_out.strip() if close_out.strip() else "")).strip()
     _bridge.setTxt("auditBox", strip_prefixes(audit_txt))
+
+    # ----- Reason Why + Checks (harness)
+    reason = ("Household requires low-sugar guidance (diabetes in POD). "
+              "You are starting a self-scanner session at Delfour right now. "
+              "The neutral Insight is scoped to this device & event and expires soon; "
+              "the policy confines use to shopping assistance.")
+    _bridge.setTxt("reasonBox", reason)
+
+    insight_txt_lc = (insight or "").lower()
+    checks = [
+        ["insight_nonempty", bool(insight.strip())],
+        ["minimization_no_sensitive_terms", ("diabetes" not in insight_txt_lc and "medical" not in insight_txt_lc)],
+        ["scope_has_device_event_expiry", all(k in insight_txt_lc for k in ["scopedevice", "scopeevent", "expiresat"])],
+        ["runtime_present", True],  # we always render a banner (Allowed or Blocked)
+        ["behavior_suggests_on_high_sugar", bool(alt_qn)],
+        ["audit_has_decision", ("activity#Decision" in audit_txt) or ("act:Decision" in audit_txt)],
+    ]
+    _bridge.setChecks(to_js(checks))
 
 async def run_demo(session_id:str):
     _bridge.addPhoneTL("READY", f"session={session_id}")
