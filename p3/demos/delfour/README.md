@@ -35,8 +35,6 @@ demo.py        # Console version (EYE CLI)
 demo.html      # Browser version (Pyodide + eye-js)
 ```
 
-> All Turtle/N3 pieces are **self-prefixed** and heavily commented inside both files for readability.
-
 ---
 
 ## Quick start — Python (EYE CLI)
