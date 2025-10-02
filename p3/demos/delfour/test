@@ -1,0 +1,17 @@
+# 1) Init the session’s catalog on the scanner side
+python scanner.py --init --session S1
+
+# 2) Produce the neutral Insight + ODRL policy on the phone
+python phone.py --session S1
+
+# 3) Authorize + run shopping + write audit/banner on the scanner
+python scanner.py --session S1
+
+# Files (under ./bus/S1/)
+#   insight.n3
+#   policy.n3
+#   envelope.n3
+#   catalog.ttl
+#   audit.n3
+#   banner.json
+

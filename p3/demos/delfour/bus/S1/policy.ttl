@@ -1,0 +1,25 @@
+@prefix odrl: <http://www.w3.org/ns/odrl/2/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+_:sk_0 a odrl:Policy.
+_:sk_0 odrl:profile "Delfour-Insight-Policy".
+_:sk_0 odrl:permission _:sk_1.
+_:sk_1 odrl:action odrl:use.
+_:sk_1 odrl:target <https://example.org/insight/S1>.
+_:sk_1 odrl:constraint _:sk_2.
+_:sk_2 odrl:leftOperand odrl:purpose.
+_:sk_2 odrl:operator odrl:eq.
+_:sk_2 odrl:rightOperand "shopping_assist".
+_:sk_0 odrl:prohibition _:sk_3.
+_:sk_3 odrl:action odrl:share.
+_:sk_3 odrl:target <https://example.org/insight/S1>.
+_:sk_3 odrl:constraint _:sk_4.
+_:sk_4 odrl:leftOperand odrl:purpose.
+_:sk_4 odrl:operator odrl:eq.
+_:sk_4 odrl:rightOperand "marketing".
+_:sk_0 odrl:duty _:sk_5.
+_:sk_5 odrl:action odrl:delete.
+_:sk_5 odrl:constraint _:sk_6.
+_:sk_6 odrl:leftOperand odrl:dateTime.
+_:sk_6 odrl:operator odrl:eq.
+_:sk_6 odrl:rightOperand "2025-10-03T00:18:04.287638+00:00"^^xsd:dateTime.
