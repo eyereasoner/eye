@@ -1,0 +1,124 @@
+# =====================================================================
+# Delfour — PHONE side
+# Inputs:
+#   - profile graph (may contain sensitive facts)
+#   - session context (retailer/device/event + created/expiry timestamps)
+# Outputs (pass-only-new):
+#   - a neutral ins:Insight (no sensitive terms)
+#   - an ODRL policy envelope derived from the insight
+# =====================================================================
+
+@prefix :        <https://example.org/person#> .
+@prefix health:  <https://example.org/health#> .
+@prefix need:    <https://example.org/need#> .
+@prefix ctx:     <https://example.org/context#> .
+@prefix ins:     <https://example.org/insight#> .
+@prefix odrl:    <http://www.w3.org/ns/odrl/2/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+# ---------------------------------------------------------------------
+# 1) Desensitization: private health -> neutral need
+#    (kept on device; only the neutral need leaves the POD)
+# ---------------------------------------------------------------------
+{ ?p health:householdCondition health:Diabetes. }
+=>
+{ ?p need:needsLowSugar true. } .
+
+# ---------------------------------------------------------------------
+# 2) Derive a neutral Insight "envelope" for this concrete session
+#    The envelope is scoped by device/event/retailer and limited in time.
+#    Note: here we mint a blank insight _:ins; in practice you may prefer a stable IRI.
+# ---------------------------------------------------------------------
+{
+  ?p need:needsLowSugar true.
+
+  # concrete session context is provided as data (see sample below)
+  ?c  ctx:retailer   ?ret ;
+      ctx:device     ?dev ;
+      ctx:event      ?ev ;
+      ctx:createdAt  ?ts  ;
+      ctx:expiresAt  ?exp .
+}
+=>
+{
+  _:ins a                 ins:Insight ;
+        ins:metric        "sugar_g_per_serving" ;
+        ins:threshold     "10.0"^^xsd:decimal ;
+        ins:suggestionPolicy "lower_metric_first_higher_price_ok" ;
+        ins:scopeDevice   ?dev ;
+        ins:scopeEvent    ?ev ;
+        ins:retailer      ?ret ;
+        ins:createdAt     ?ts ;
+        ins:expiresAt     ?exp .
+} .
+
+# ---------------------------------------------------------------------
+# 3) From the Insight, emit an ODRL policy with:
+#    - permission: use@shopping_assist (targeting the insight)
+#    - prohibition: share@marketing
+#    - duty: delete at expiresAt
+# ---------------------------------------------------------------------
+{
+  ?ins a ins:Insight ;
+       ins:retailer     ?ret ;
+       ins:scopeDevice  ?dev ;
+       ins:scopeEvent   ?ev ;
+       ins:expiresAt    ?exp .
+}
+=>
+{
+  _:pol a odrl:Policy ;
+        odrl:profile    "Delfour-Insight-Policy" ;
+
+        odrl:permission [
+          odrl:action      odrl:use ;
+          odrl:target      ?ins ;
+          odrl:constraint [
+            odrl:leftOperand  odrl:purpose ;
+            odrl:operator     odrl:eq ;
+            odrl:rightOperand "shopping_assist"
+          ]
+        ] ;
+
+        odrl:prohibition [
+          odrl:action      odrl:share ;
+          odrl:target      ?ins ;
+          odrl:constraint [
+            odrl:leftOperand  odrl:purpose ;
+            odrl:operator     odrl:eq ;
+            odrl:rightOperand "marketing"
+          ]
+        ] ;
+
+        odrl:duty [
+          odrl:action      odrl:delete ;
+          odrl:constraint [
+            odrl:leftOperand  odrl:dateTime ;
+            odrl:operator     odrl:eq ;
+            odrl:rightOperand ?exp
+          ]
+        ] .
+} .
+
+# =====================================================================
+# SAMPLE INPUT (put this in separate files and load with EYE together
+# with phone.n3; shown here only for clarity)
+#
+# profile.ttl:
+#   @prefix : <https://example.org/person#> .
+#   @prefix health: <https://example.org/health#> .
+#   :me  health:householdCondition  health:Diabetes .
+#
+# context.ttl:
+#   @prefix ctx: <https://example.org/context#> .
+#   @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+#   [] ctx:retailer "Delfour" ;
+#      ctx:device   "self-scanner" ;
+#      ctx:event    "pick_up_scanner" ;
+#      ctx:createdAt "2025-10-04T10:00:00Z"^^xsd:dateTime ;
+#      ctx:expiresAt "2025-10-04T12:00:00Z"^^xsd:dateTime .
+#
+# RUN (emit only the derived insight + policy):
+#   eye --quiet --nope --pass-only-new profile.ttl context.ttl phone.n3
+# =====================================================================
+
