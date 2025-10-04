@@ -33,7 +33,7 @@
 </head>
 <body>
   <h1>Delfour Insight Economy — eye-js</h1>
-  <div class="muted">Fully client-side N3 reasoning (phone → scanner). One column for easier reading on small screens.</div>
+  <div class="muted">Fully client-side N3 reasoning (phone → scanner).</div>
 
   <div class="row">
     <button id="runBtn" class="btn primary">Run Demo</button>
@@ -61,15 +61,9 @@
   <div class="stephdr"><span class="step">4</span><div><b>SCANNER — Derived</b><div class="trail">scanner.n3 ⇒ auth + audit + suggestion</div></div></div>
   <div class="card"><h3><span class="file">scanner_out.n3</span> <span class="tag">derived</span></h3><pre id="scanOutBox"></pre></div>
 
-  <!-- STEP 5: Summary + Log -->
-  <div class="stephdr"><span class="step">5</span><div><b>Summary</b><div class="trail">Decision & Suggested Alternative</div></div></div>
-  <div class="card"><h3><span class="file">summary.json</span> <span class="tag">extracted</span></h3><pre id="summaryBox"></pre></div>
-  <div class="card"><h3><span class="file">log.txt</span> <span class="tag">runtime</span></h3><pre id="logBox"></pre></div>
-
 <script type="module">
 /* ------------ tiny UI helpers ------------ */
 const $ = (id)=>document.getElementById(id);
-const log = (s)=>{ $('logBox').textContent += s + "\\n"; };
 const setStatus = (s)=>{ $('status').textContent = s||''; };
 
 /* ------------ time helpers ------------ */
@@ -313,7 +307,6 @@ async function runDemo(){
     const parsed   = parseDecisionAndSuggestion(scanOut);
     const altName  = nameForQname(parsed.suggestionQname, catalogTTL);
     const summary  = { decision: parsed.decision, expired: parsed.expired, suggestedAlternative: altName };
-    $('summaryBox').textContent  = JSON.stringify(summary, null, 2);
 
     setStatus("Done.");
   }catch(e){
