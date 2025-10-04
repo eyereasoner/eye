@@ -3,7 +3,7 @@
 Two equivalent demos of the Delfour case:
 
 1. **CLI (bash + EYE)** — runs the phone → scanner pipeline on your machine.
-2. **Browser (eye-js)** — runs the same N3 rules *entirely client-side* in your browser.
+2. [**Browser (eye-js)** — runs the same N3 rules *entirely client-side* in your browser](https://eyereasoner.github.io/eye/reasoning/delfour/demo.html).
 
 Both produce a **neutral insight + ODRL policy**, then **authorize** a use request and (when applicable) **suggest** a lower-sugar alternative. They also show an **audit decision** trail.
 
@@ -77,36 +77,13 @@ _:a a <https://example.org/activity#Decision> ;
 
 If an alternative is found, it’s because the scanned item’s sugar is ≥ the threshold and there exists an item with a smaller `schema:sugarContent`.
 
-### Troubleshooting (CLI)
-
-* `eye: command not found`
-  Install EYE and ensure it’s on your `PATH`.
-
-* `** ERROR ** ... no_prefix_directive(xsd,after_line(...))`
-  The rule packs are **self-contained** (local prefixes) and tested with current EYE.
-  If you edited files, verify each Turtle/N3 block begins with its `@prefix` lines.
-
-* “No explicit outcome found” in the summary
-  Check `now.ttl` vs `context.ttl` expiry; if `ex:now` is beyond `ins:expiresAt`, the request will be **Blocked** due to expiry.
-
 ---
 
 ## 2) Browser demo (eye-js)
 
 ### What it is
 
-`demo.html` runs the **same** logic inside your browser via **eye-js** (EYE compiled to WASM). It shows the six input TTL “files”, the derived outputs for each phase, and a small JSON summary (decision + suggested alternative name).
-
-### Run it
-
-Use any static web server (so the browser can import the eye-js module):
-
-```bash
-# from the folder containing demo.html
-npx http-server .   # or python3 -m http.server 8080
-```
-
-Open the printed URL (e.g., `http://127.0.0.1:8080/`) and click **Run Demo**.
+[demo.html](https://eyereasoner.github.io/eye/reasoning/delfour/demo.html) runs the **same** logic inside your browser via **eye-js** (EYE compiled to WASM). It shows the six input TTL “files”, the derived outputs for each phase, and a small JSON summary (decision + suggested alternative name).
 
 ### What you’ll see
 
@@ -117,21 +94,4 @@ Open the printed URL (e.g., `http://127.0.0.1:8080/`) and click **Run Demo**.
 * **Step 5 — Summary:** decision (Allowed/Blocked), whether the insight is marked expired, and the friendly name of the suggested alternative (if any)
 
 All reasoning happens locally in the page; no network calls are made beyond fetching the **eye-js** module.
-
-### Troubleshooting (browser)
-
-* **Blank outputs / import errors**
-  Make sure you’re serving the file (not opening `file://`). Use a local server like `http-server` or `python -m http.server`.
-
-* **“eye-js n3reasoner not available”**
-  Your browser failed to load the dynamic import. Check the console; if you’re offline, you can vendor the module (ask if you want a self-hosted variant).
-
----
-
-## How it maps (parity between CLI and browser)
-
-| Phase              | CLI (EYE native)                                                                                              | Browser (eye-js)                                                     |
-| ------------------ | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| PHONE derivation   | `eye --pass-only-new profile.ttl context.ttl phone.n3 > insight_policy.ttl`                                   | `n3reasoner([profile, context, PHONE_RULES])`                        |
-| SCANNER derivation | `eye --pass-only-new insight_policy.ttl now.ttl request.ttl catalog.ttl scan.ttl scanner.n3 > scanner_out.n3` | `n3reasoner([phoneOut, now, request, catalog, scan, SCANNER_RULES])` |
 
