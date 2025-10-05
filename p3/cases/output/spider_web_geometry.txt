@@ -1,13 +1,13 @@
 # Answer
-The most efficient geometric pattern is **logarithmic**, yielding the best ratio of web area to silk used.
+The most efficient pattern is **logarithmic** when we normalize to r(N)=R and reward uniform coverage.
 
-# Reason Why (Deterministic geometric efficiency test)
-- logarithmic: area=3.1416, silk=16.4413, efficiency=0.191080
--  quadratic: area=3.1416, silk=45.0819, efficiency=0.069686
--     linear: area=3.1416, silk=65.9734, efficiency=0.047619
-Ranking (higher efficiency is better): logarithmic > quadratic > linear
+# Reason Why (Deterministic normalized geometry with uniformity)
+- logarithmic: silk=16.4413, spoke=1.0000, CV_gaps=1.9292, U=0.3414, score=0.064255
+-      linear: silk=65.9734, spoke=1.0000, CV_gaps=0.0000, U=1.0000, score=0.047439
+-   quadratic: silk=45.0819, spoke=1.0000, CV_gaps=0.5766, U=0.6343, score=0.043956
+Ranking (higher score is better): logarithmic > linear > quadratic
 
 # Check (Recompute deterministically to confirm stability)
--     linear: recheck efficiency=0.047619
--  quadratic: recheck efficiency=0.069686
-- logarithmic: recheck efficiency=0.191080
+-      linear: recheck score=0.047439
+-   quadratic: recheck score=0.043956
+- logarithmic: recheck score=0.064255

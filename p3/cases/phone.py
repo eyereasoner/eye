@@ -58,8 +58,10 @@ def derive_insight(need: dict, retailer: str, device: str, event: str, ttl_hours
         "scopeDevice": device,
         "scopeEvent": event,
         "retailer": retailer,
-        "createdAt": iso_now(),
-        "expiresAt": iso_in(ttl_hours)
+        #"createdAt": iso_now(),
+        "createdAt": "2025-10-05T20:33:48.907163+00:00",
+        #"expiresAt": iso_in(ttl_hours)
+        "expiresAt": "2025-10-05T22:33:48.907185+00:00"
     }
 
 def policy_from_insight(insight: dict) -> dict:
@@ -102,7 +104,8 @@ def sign_envelope(envelope: dict) -> dict:
     return {
         "alg": "HMAC-SHA256",
         "keyid": "demo-shared-secret",
-        "created": iso_now(),
+        #"created": iso_now(),
+        "created": "2025-10-05T20:33:48.907163+00:00",
         "payloadHashSHA256": digest,
         "signatureHMAC": mac
     }

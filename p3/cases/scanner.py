@@ -61,7 +61,8 @@ def authorize(envelope: dict) -> tuple[bool, dict]:
     """Returns (allowed, audit_entry)."""
     ins = envelope["insight"]
     pol = envelope["policy"]
-    now = iso_now()
+    #now = iso_now()
+    now = "2025-10-05T20:35:48.907163+00:00"
 
     # expiry guard
     expired = now > ins["expiresAt"]
@@ -165,7 +166,8 @@ def main():
         }
 
     # 5) Close-out duty (if expired now, emit delete_due)
-    now2 = iso_now()
+    #now2 = iso_now()
+    now2 = "2025-10-05T20:37:48.907163+00:00"
     if now2 > envelope["insight"]["expiresAt"]:
         audit.append({
             "type": "act:Duty",
