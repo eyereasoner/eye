@@ -5,57 +5,55 @@ P3 — Prompt → Program → Proof  (Deterministic, Self-Contained, Optimized)
 
 SCENARIO
 --------
-Periodical cicadas emerge every C years. Several predator populations follow
-short periodic cycles with period P years; their phases (offsets) can differ
-by region/species.
+Bamboo species mast (flower & seed) every C years. Rodent populations can have
+periodic "boom" years that recur every P years, but their phases (offsets) may
+differ between regions and species.
 
-Question: Do *prime* cicada cycles reduce coincidence with predators compared
-to a similarly sized *composite* cycle?
+Question: Do *prime* mast cycles reduce the chance that a mast year coincides
+with any rodent boom, compared with a similarly sized *composite* cycle?
 
-In this case study we compare cicada cycles:
+In this case study we compare candidate bamboo cycles:
   - Composite: 12 years
-  - Primes  : 13, 17 years
-against predator periods:
-  P ∈ {2, 3, 4, 6} years
+  - Primes  : 13, 17, 19 years
+against rodent boom periods:
+  P ∈ {2, 3, 5, 6} years
 
 DEFINITIONS
 -----------
-- Cicada emergence years for cycle C: {k*C | k ≥ 1}.
-- Predator with period P and phase offset o: {o + k*P | k ≥ 0}.
-- We count *union-overlap years* within a finite horizon: years when a cicada
-  emergence coincides with at least one predator emergence (a year is counted
-  once even if multiple predators coincide).
+- Mast years for cycle C: {k*C | k ≥ 1}.
+- A rodent boom with period P and phase offset o: {o + k*P | k ≥ 0}.
+- We count *union-overlap years* within a finite horizon: years when masting and
+  at least one boom coincide (year counted once even if multiple booms coincide).
 
 METHOD (deterministic)
 ----------------------
 1) EXACT comparison over horizon H = lcm(all periods and candidates). For
-   aligned predators (offsets = 0), report each candidate's overlap count & rate.
+   aligned booms (offsets = 0), report each candidate's overlap count and rate.
 2) INDEPENDENT CHECK by **exhaustively enumerating all phase combinations** for
-   every predator period (no randomness). For each candidate, compute mean,
-   stdev, min, max overlap rate across all phase tuples.
+   every boom period (no randomness). For each candidate, compute mean, stdev,
+   min, max overlap rate across all phase tuples.
 
 OPTIMIZATION (what makes this fast)
 -----------------------------------
-Instead of scanning year-by-year, we work in the *emergence-index* domain:
-- The k-th cicada emergence occurs at year y = k*C.
-- Coincidence with a predator (period P, phase o) requires C*k ≡ o (mod P).
+Instead of scanning individual years, we work in the *mast index space*:
+- A mast at index k happens at year y = k*C.
+- Coincidence with a boom (period P, phase o) requires C*k ≡ o (mod P).
 - Let g = gcd(C, P). A solution exists iff o ≡ 0 (mod g).
-- Reduce to C' = C/g, P' = P/g, r = (o/g) with gcd(C', P') = 1.
+- Reduce to C' = C/g, P' = P/g, r = (o/g)  (now gcd(C', P') = 1).
 - Solve for k ≡ r * inv(C' mod P') (mod P').
-This yields an arithmetic progression of k’s; we union-mark these indices
-using a compact bytearray. Complexity is roughly O(Σ n/P') instead of O(H),
-where n = H/C. This is much faster for larger H.
+This gives an arithmetic progression of k’s to mark; we take the union across
+booms using a compact bytearray. Complexity is O(Σ n/P') operations instead of
+O(H), where n = H/C. This is much faster for large H.
 
 WHY PRIMES HELP (intuition)
 ---------------------------
-If C is prime and larger than P, then lcm(C,P) = C*P, so overlaps with that
-predator occur only every C*P years → density 1/P relative to cicada emergences.
-Composite C that shares factors with P (e.g., C=12 with P∈{2,3,4,6}) creates
-more frequent coincidences.
+If C is prime and larger than P, lcm(C,P) = C*P, so overlaps with that boom
+happen only every C*P years → density 1/P relative to masts. Composite C that
+shares factors with P will overlap more often (higher density) with that boom.
 
 HOW TO RUN
 ----------
-$ python3 cicadas.py
+$ python3 bamboo.py
 
 OUTPUT
 ------
@@ -65,9 +63,9 @@ OUTPUT
 
 SCOPE / LIMITS
 --------------
-This is a number-theory toy model; real ecosystems include variable survival,
-spatial heterogeneity, and non-integer timing. The goal is to demonstrate the
-combinatorial advantage of prime intervals.
+This is a number-theory toy model; real ecosystems are richer (non-integer
+timing, variable intensities, spatial structure). The goal is to demonstrate
+the combinatorial advantage of prime intervals.
 """
 
 from math import gcd
@@ -89,6 +87,7 @@ def egcd_inv(a: int, m: int) -> int:
     Multiplicative inverse of a modulo m (m >= 1), assuming gcd(a, m) == 1.
     Uses extended Euclid; returns value in [0, m-1].
     """
+    # Extended Euclidean Algorithm
     t, new_t = 0, 1
     r, new_r = m, a % m
     while new_r != 0:
@@ -99,45 +98,46 @@ def egcd_inv(a: int, m: int) -> int:
         raise ValueError("No modular inverse exists")
     return t % m
 
-# ---------- Fast overlap counter in emergence-index space ----------
+# ---------- Fast overlap counter in mast-index space ----------
 
-def prepare_index_maps(C: int, predator_periods):
+def prepare_index_maps(C: int, boom_periods):
     """
-    Precompute per-predator constants for a given cicada cycle C to speed up
-    repeated overlap counts with different offsets.
+    Precompute per-boom constants for a given mast cycle C to speed up repeated
+    overlap counts with different offsets.
 
-    For each predator period P, compute:
+    For each boom period P, compute:
       g   = gcd(C, P)
       P'  = P // g
       C'  = C // g
       inv = inverse of C' modulo P'  (only used when an offset o is divisible by g)
     """
     maps = []
-    for P in predator_periods:
+    for P in boom_periods:
         g = gcd(C, P)
         Pprime = P // g
         Cprime = C // g
+        # invCprime exists because gcd(C', P') == 1 by construction
         invCprime = egcd_inv(Cprime % Pprime, Pprime) if Pprime > 1 else 0  # mod 1 is degenerate
         maps.append((P, g, Pprime, invCprime))
     return maps
 
-def union_overlap_count_fast(C: int, predator_periods, H: int, offsets, precomp):
+def union_overlap_count_fast(C: int, boom_periods, H: int, offsets, precomp):
     """
-    Fast union-overlap count using arithmetic progressions over cicada-emergence indices.
-    - C: cicada cycle
-    - predator_periods: list of P
+    Fast union-overlap count using arithmetic progressions over mast indices.
+    - C: mast cycle
+    - boom_periods: list of P
     - H: horizon (inclusive)
-    - offsets: list of o for each predator
-    - precomp: output of prepare_index_maps(C, predator_periods)
+    - offsets: list of o for each boom
+    - precomp: output of prepare_index_maps(C, boom_periods)
     """
-    n = H // C                   # number of cicada emergences within [1..H]
-    marked = bytearray(n)        # marked[i] == 1 means emergence index (i+1) overlaps some predator
+    n = H // C                   # number of mast events within [1..H]
+    marked = bytearray(n)        # marked[i] == 1 means mast index (i+1) overlaps some boom
     for (P, g, Pprime, invCprime), o in zip(precomp, offsets):
         o_mod = o % P
         if o_mod % g != 0:
             continue  # no solution to C*k ≡ o (mod P)
         if Pprime == 1:
-            # Every emergence index k is a solution (period divides C and offset aligns)
+            # Every mast index k is a solution (period divides C and offset aligns)
             for i in range(n):
                 marked[i] = 1
             continue
@@ -154,23 +154,23 @@ def union_overlap_count_fast(C: int, predator_periods, H: int, offsets, precomp)
     return sum(marked)
 
 # ---------- Inputs (this case) ----------
-predator_periods = [2, 3, 4, 6]   # predator cycles
-candidates       = [12, 13, 17]   # cicada cycles (composite vs primes)
+boom_periods = [2, 3, 5, 6]          # rodent boom cycles
+candidates   = [12, 13, 17, 19]      # bamboo mast candidates (composite vs primes)
 
 # Exact horizon for fair comparison
-H = lcm_many(predator_periods + candidates)
+H = lcm_many(boom_periods + candidates)
 
 # ---------- Precompute per-candidate maps (speeds up both stages) ----------
-precomputed = {C: prepare_index_maps(C, predator_periods) for C in candidates}
+precomputed = {C: prepare_index_maps(C, boom_periods) for C in candidates}
 
 # ---------- Exact calculation (Reason Why) ----------
 exact_results = {}
 for C in candidates:
     count0 = union_overlap_count_fast(
         C,
-        predator_periods,
+        boom_periods,
         H,
-        offsets=[0]*len(predator_periods),
+        offsets=[0]*len(boom_periods),
         precomp=precomputed[C],
     )
     exact_results[C] = {
@@ -185,19 +185,20 @@ ties_exact = [c for c in candidates
               if abs(exact_results[c]["overlap_rate"] - exact_results[best_exact]["overlap_rate"]) < 1e-12]
 
 # ---------- Deterministic independent CHECK ----------
-# Enumerate all predator phase combinations: offsets in [0..P-1] for each P.
+# Enumerate all boom phase combinations: offsets in [0..P-1] for each P.
 def exhaustive_stats(C):
-    """Return mean/stdev/min/max overlap rates over all predator phases (deterministic, fast)."""
+    """Return mean/stdev/min/max overlap rates over all boom phases (deterministic, fast)."""
     n_cases = 1
-    for P in predator_periods:
+    for P in boom_periods:  # product of moduli sizes
         n_cases *= P
     total = 0.0
     total_sq = 0.0
     min_rate = 1.0
     max_rate = 0.0
 
-    for offs in product(*[range(P) for P in predator_periods]):
-        count = union_overlap_count_fast(C, predator_periods, H, offsets=offs, precomp=precomputed[C])
+    # Iterate directly over the cartesian product (no big list allocation)
+    for offs in product(*[range(P) for P in boom_periods]):
+        count = union_overlap_count_fast(C, boom_periods, H, offsets=offs, precomp=precomputed[C])
         rate = count / H
         total += rate
         total_sq += rate * rate
@@ -225,23 +226,23 @@ ties_check = [c for c in candidates
 # ---------- Emit the P3 triad ----------
 print("# Answer")
 if len(ties_exact) == 1:
-    print(f"The best cicada cycle against predators {predator_periods} is **{best_exact} years**.")
+    print(f"The best mast cycle against rodent booms {boom_periods} is **{best_exact} years**.")
 else:
-    print("The best cicada cycles are:", ", ".join(map(str, ties_exact)), "years.")
+    print("The best mast cycles are:", ", ".join(map(str, ties_exact)), "years.")
 
 print("\n# Reason Why (Exact, union-overlap over a full horizon)")
-print(f"Horizon H = lcm({predator_periods + candidates}) = {H} years.\n")
+print(f"Horizon H = lcm({boom_periods + candidates}) = {H} years.\n")
 for C in candidates:
     r = exact_results[C]
-    print(f"- Cicada {C:>2}y: {r['overlap_years']} overlap years out of {r['horizon_years']} "
+    print(f"- Mast {C:>2}y: {r['overlap_years']} overlap years out of {r['horizon_years']} "
           f"({r['overlap_rate']*100:.4f}%).")
 print("Ranking (lower is better):", " < ".join(map(str, rank_exact)))
 
-print("\n# Check (Deterministic: all predator phases enumerated)")
+print("\n# Check (Deterministic: all boom phases enumerated)")
 for C in candidates:
     m = check_results[C]
     print(
-        f"- Cicada {C:>2}y: mean={m['mean_rate']*100:.4f}%  "
+        f"- Mast {C:>2}y: mean={m['mean_rate']*100:.4f}%  "
         f"stdev={m['stdev_rate']*100:.4f}%  "
         f"min={m['min_rate']*100:.4f}%  max={m['max_rate']*100:.4f}%  "
         f"(cases={m['cases']})"
@@ -249,7 +250,7 @@ for C in candidates:
 print("Check ranking (lower mean is better):", " < ".join(map(str, rank_check)))
 
 # Exit nonzero if primes don't beat 12y in both exact and check rankings.
-ok = (best_exact in (13, 17)) and (best_check in (13, 17))
+ok = (best_exact in (13, 17, 19)) and (best_check in (13, 17, 19))
 if not ok:
     raise SystemExit(1)
 
