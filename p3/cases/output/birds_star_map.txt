@@ -1,0 +1,15 @@
+# Answer
+The better celestial-pole estimator is **Multi-star motion (A)** (median center error: A=0.018°, B=14.035°).
+
+# Reason Why (Deterministic geometric inference from star motion)
+S = number of stars used; Δφ = sky rotation between two views.
+- S= 3, Δφ=15.0°  A(center,heading)=0.145°, 149.939°   B(center,heading)=14.035°, 16.650°
+- S= 5, Δφ=15.0°  A(center,heading)=0.066°, 160.178°   B(center,heading)=14.035°, 16.650°
+- S= 8, Δφ=15.0°  A(center,heading)=0.018°, 70.091°   B(center,heading)=14.035°, 16.650°
+- S=12, Δφ=15.0°  A(center,heading)=0.010°, 103.633°   B(center,heading)=14.035°, 16.650°
+- S=20, Δφ=15.0°  A(center,heading)=0.018°, 62.993°   B(center,heading)=14.035°, 16.650°
+
+# Check (Deterministic sanity tests)
+- Multi-star center error nonincreasing with S: False
+- Degenerate case Δφ=0 returns near-origin center for A: True
+- Larger Δφ improves A's center accuracy: True (5°→0.021°, 25°→0.015°)
