@@ -1,0 +1,44 @@
+{
+  "insight": {
+    "id": "https://example.org/insight/S1",
+    "type": "ins:Insight",
+    "metric": "sugar_g_per_serving",
+    "threshold": 10.0,
+    "suggestionPolicy": "lower_metric_first_higher_price_ok",
+    "scopeDevice": "self-scanner",
+    "scopeEvent": "pick_up_scanner",
+    "retailer": "Delfour",
+    "createdAt": "2025-10-05T19:18:06.374929+00:00",
+    "expiresAt": "2025-10-05T21:18:06.374964+00:00"
+  },
+  "policy": {
+    "type": "odrl:Policy",
+    "profile": "Delfour-Insight-Policy",
+    "permission": {
+      "action": "odrl:use",
+      "target": "https://example.org/insight/S1",
+      "constraint": {
+        "leftOperand": "odrl:purpose",
+        "operator": "odrl:eq",
+        "rightOperand": "shopping_assist"
+      }
+    },
+    "prohibition": {
+      "action": "odrl:share",
+      "target": "https://example.org/insight/S1",
+      "constraint": {
+        "leftOperand": "odrl:purpose",
+        "operator": "odrl:eq",
+        "rightOperand": "marketing"
+      }
+    },
+    "duty": {
+      "action": "odrl:delete",
+      "constraint": {
+        "leftOperand": "odrl:dateTime",
+        "operator": "odrl:eq",
+        "rightOperand": "2025-10-05T21:18:06.374964+00:00"
+      }
+    }
+  }
+}
