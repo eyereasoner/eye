@@ -8,12 +8,12 @@ Short story (header):
   out what’s missing from the pantry, estimate the cost, and show the math.
 
 Overview:
-  Consume ./resources/meal_plan.json, compare with pantry and a simple price list, and generate
+  Consume ./bus/meal_plan.json, compare with pantry and a simple price list, and generate
   a deduplicated grocery list with totals. Prints Answer/Reason/Check and writes
-  ./resources/grocery_list.json for Program 3.
+  ./bus/grocery_list.json for Program 3.
 
 Run:
-  python meals_prog2_grocery_cost.py --in ./resources/meal_plan.json --out ./resources/grocery_list.json
+  python meals_prog2_grocery_cost.py --in ./bus/meal_plan.json --out ./bus/grocery_list.json
 """
 from __future__ import annotations
 
@@ -76,8 +76,8 @@ def run_harness(required: Dict[str,float], result: Dict[str,Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Build grocery list and estimate cost.")
-    ap.add_argument("--in", dest="infile", default="./resources/meal_plan.json")
-    ap.add_argument("--out", default="./resources/grocery_list.json")
+    ap.add_argument("--in", dest="infile", default="./bus/meal_plan.json")
+    ap.add_argument("--out", default="./bus/grocery_list.json")
     args = ap.parse_args()
 
     with open(args.infile,"r",encoding="utf-8") as f:

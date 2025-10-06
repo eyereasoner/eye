@@ -7,9 +7,9 @@ Short story (header):
   For each claim we produce a verdict and a trace.
 
 Overview:
-  - Reads './resources/proof_sketches.json'.
+  - Reads './bus/proof_sketches.json'.
   - Checks witnesses and equalities by computation; recomputes gcd and mod conditions.
-  - Prints Answer/Reason/Check; writes './resources/proof_verdicts.json' for Program 5.
+  - Prints Answer/Reason/Check; writes './bus/proof_verdicts.json' for Program 5.
 """
 from __future__ import annotations
 import argparse, json, math
@@ -70,8 +70,8 @@ def run_harness(res: Dict[str,Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Mechanically check proof sketches.")
-    ap.add_argument("--infile", default="./resources/proof_sketches.json")
-    ap.add_argument("--out", default="./resources/proof_verdicts.json")
+    ap.add_argument("--infile", default="./bus/proof_sketches.json")
+    ap.add_argument("--out", default="./bus/proof_verdicts.json")
     args = ap.parse_args()
 
     sketches = json.load(open(args.infile,"r",encoding="utf-8"))

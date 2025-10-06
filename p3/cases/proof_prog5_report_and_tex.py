@@ -7,8 +7,8 @@ Short story (header):
   tiny TeX-ish file you could paste into a note.
 
 Overview:
-  - Reads './resources/normalized_claims.json' + './resources/proof_verdicts.json'.
-  - Emits './resources/proof_report.json' and './resources/proof_report.tex.txt'.
+  - Reads './bus/normalized_claims.json' + './bus/proof_verdicts.json'.
+  - Emits './bus/proof_report.json' and './bus/proof_report.tex.txt'.
   - Prints Answer/Reason/Check.
 """
 from __future__ import annotations
@@ -52,8 +52,8 @@ def run_harness(rep):
 
 def main():
     ap = argparse.ArgumentParser(description="Summarize proof results and emit TeX-ish note.")
-    ap.add_argument("--in_norm", default="./resources/normalized_claims.json")
-    ap.add_argument("--in_ver",  default="./resources/proof_verdicts.json")
+    ap.add_argument("--in_norm", default="./bus/normalized_claims.json")
+    ap.add_argument("--in_ver",  default="./bus/proof_verdicts.json")
     args = ap.parse_args()
 
     norm = json.load(open(args.in_norm,"r",encoding="utf-8"))
@@ -64,9 +64,9 @@ def main():
     print("# ANSWER"); print(json.dumps({"ok_total": sum(1 for i in rep["items"] if i["ok"]), "total": len(rep["items"])}, indent=2))
     print("\n# REASONS"); [print("-", f"{i['id']}: {'OK' if i['ok'] else 'FAIL'}") for i in rep["items"]]
 
-    json.dump(rep, open("./resources/proof_report.json","w",encoding="utf-8"), indent=2)
-    open("./resources/proof_report.tex.txt","w",encoding="utf-8").write(tex)
-    print("\nWrote ./resources/proof_report.json and ./resources/proof_report.tex.txt")
+    json.dump(rep, open("./bus/proof_report.json","w",encoding="utf-8"), indent=2)
+    open("./bus/proof_report.tex.txt","w",encoding="utf-8").write(tex)
+    print("\nWrote ./bus/proof_report.json and ./bus/proof_report.tex.txt")
 
     print("\n# CHECK"); run_harness(rep); print("✔ All checks passed.")
 

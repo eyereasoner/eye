@@ -7,9 +7,9 @@ Short story:
   CO₂. This reveals savings from shifting load.
 
 Overview:
-  - Reads './resources/tou_split.json'.
+  - Reads './bus/tou_split.json'.
   - Applies multipliers: cost = kWh × tariff × (peak|off-peak multiplier).
-  - Prints Answer/Reasons/Check; writes './resources/bill_breakdown.json' for Program 4.
+  - Prints Answer/Reasons/Check; writes './bus/bill_breakdown.json' for Program 4.
 """
 from __future__ import annotations
 import argparse, json
@@ -34,8 +34,8 @@ def run_harness(b):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--in", default="./resources/tou_split.json")
-    ap.add_argument("--out", default="./resources/bill_breakdown.json")
+    ap.add_argument("--in", default="./bus/tou_split.json")
+    ap.add_argument("--out", default="./bus/bill_breakdown.json")
     args = ap.parse_args()
 
     in_path = getattr(args, "in")  # <-- fix

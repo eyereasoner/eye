@@ -122,7 +122,7 @@ def run_harness(asof: dt.date, result: Dict[str, Any]) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="Compute senior discount eligibility.")
-    parser.add_argument("--out", default="./resources/eligible_customers.json", help="Output JSON path")
+    parser.add_argument("--out", default="./bus/eligible_customers.json", help="Output JSON path")
     parser.add_argument("--asof", default="2025-09-18", help="Reference date (YYYY-MM-DD)")
     args = parser.parse_args()
 

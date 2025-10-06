@@ -155,7 +155,7 @@ def run_harness(result: Dict[str, Any]) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="Evaluate ODRL-style personal data processing requests.")
-    parser.add_argument("--out", default="./resources/permitted_processing.json", help="Output JSON path")
+    parser.add_argument("--out", default="./bus/permitted_processing.json", help="Output JSON path")
     parser.add_argument("--asof", default="2025-09-18", help="Reference date (YYYY-MM-DD)")
     args = parser.parse_args()
 

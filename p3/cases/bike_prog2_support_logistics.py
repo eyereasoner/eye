@@ -123,7 +123,7 @@ def run_harness(eligibility_json: Dict[str, Any], plan: Dict[str, Any]) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="Compute support logistics for eligible cyclists.")
-    parser.add_argument("--in", dest="infile", default="./resources/eligible_riders.json",
+    parser.add_argument("--in", dest="infile", default="./bus/eligible_riders.json",
                         help="Input JSON path from Program 1")
     parser.add_argument("--route_km", type=float, default=DEFAULT_ROUTE_KM, help="Route distance (km)")
     parser.add_argument("--elev_m", type=int, default=DEFAULT_ELEV_M, help="Elevation gain (m)")

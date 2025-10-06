@@ -7,9 +7,9 @@ Short story (header):
   toward goals by priority (emergency fund → vacation → extra debt payment).
 
 Overview:
-  - Reads './resources/forecast_30d.json' and './resources/summary_month.json'.
+  - Reads './bus/forecast_30d.json' and './bus/summary_month.json'.
   - Estimates monthly surplus and allocates by a simple priority rule.
-  - Prints Answer/Reason/Check and writes './resources/goals_plan.json' for Program 4.
+  - Prints Answer/Reason/Check and writes './bus/goals_plan.json' for Program 4.
 """
 from __future__ import annotations
 
@@ -50,9 +50,9 @@ def run_harness(plan: Dict[str,Any]) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="Allocate monthly surplus to savings goals.")
-    parser.add_argument("--in_forecast", default="./resources/forecast_30d.json")
-    parser.add_argument("--in_summary", default="./resources/summary_month.json")
-    parser.add_argument("--out", default="./resources/goals_plan.json")
+    parser.add_argument("--in_forecast", default="./bus/forecast_30d.json")
+    parser.add_argument("--in_summary", default="./bus/summary_month.json")
+    parser.add_argument("--out", default="./bus/goals_plan.json")
     args = parser.parse_args()
 
     with open(args.in_summary,"r",encoding="utf-8") as f: summary = json.load(f)

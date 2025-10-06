@@ -7,10 +7,10 @@ Short story (header):
   forecast the next 30 days using a simple model of paydays and bills.
 
 Overview (matches the chat explanation):
-  - Reads './resources/summary_month.json' from Program 1.
+  - Reads './bus/summary_month.json' from Program 1.
   - Applies a simple rule for upcoming paydays (1st and 15th, from recent income).
   - Projects weekly bills from fixed categories and flags low-balance risks.
-  - Prints Answer/Reason/Check and writes './resources/forecast_30d.json' for Program 3.
+  - Prints Answer/Reason/Check and writes './bus/forecast_30d.json' for Program 3.
 
 Sections map: DATA / LOGIC / CHECK
 """
@@ -76,8 +76,8 @@ def run_harness(summary: Dict[str,Any], fc: Dict[str,Any]) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="Forecast cashflow for 30 days.")
-    parser.add_argument("--in", dest="infile", default="./resources/summary_month.json")
-    parser.add_argument("--out", default="./resources/forecast_30d.json")
+    parser.add_argument("--in", dest="infile", default="./bus/summary_month.json")
+    parser.add_argument("--out", default="./bus/forecast_30d.json")
     parser.add_argument("--start_balance", type=float, default=DEFAULT_START_BALANCE)
     parser.add_argument("--asof", default="2025-09-18")
     args = parser.parse_args()

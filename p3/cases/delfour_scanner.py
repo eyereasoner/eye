@@ -130,7 +130,7 @@ def compute_checks(envelope: dict, banner: dict, audit: list[dict]) -> list[list
 def parse_args():
     ap = argparse.ArgumentParser()
     ap.add_argument("--bus", default="./bus")
-    ap.add_argument("--session", default="S1")
+    ap.add_argument("--session", default="")
     return ap.parse_args()
 
 def main():

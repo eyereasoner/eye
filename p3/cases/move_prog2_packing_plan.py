@@ -7,10 +7,10 @@ Short story (header):
   labels, and packing materials based on what you kept.
 
 Overview:
-  - Reads './resources/inventory_decisions.json' from Program 1.
+  - Reads './bus/inventory_decisions.json' from Program 1.
   - Assigns box sizes and counts by category and rough density.
   - Estimates tape/labels/wrap and produces per-room labels.
-  - Prints Answer/Reason/Check and writes './resources/packing_plan.json'.
+  - Prints Answer/Reason/Check and writes './bus/packing_plan.json'.
 """
 from __future__ import annotations
 import argparse, json, math
@@ -55,8 +55,8 @@ def run_harness(plan: Dict[str,Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Create packing plan from kept inventory.")
-    ap.add_argument("--in", dest="infile", default="./resources/inventory_decisions.json")
-    ap.add_argument("--out", default="./resources/packing_plan.json")
+    ap.add_argument("--in", dest="infile", default="./bus/inventory_decisions.json")
+    ap.add_argument("--out", default="./bus/packing_plan.json")
     args = ap.parse_args()
 
     with open(args.infile,"r",encoding="utf-8") as f: inv = json.load(f)

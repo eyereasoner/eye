@@ -111,7 +111,7 @@ def run_harness(result: Dict[str, Any]) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="Compute cycling hill-climb eligibility.")
-    parser.add_argument("--out", default="./resources/eligible_riders.json", help="Output JSON path")
+    parser.add_argument("--out", default="./bus/eligible_riders.json", help="Output JSON path")
     parser.add_argument("--asof", default=ASOF_DEFAULT, help="Reference date (YYYY-MM-DD)")
     args = parser.parse_args()
 

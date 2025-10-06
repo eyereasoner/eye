@@ -114,7 +114,7 @@ def sign_envelope(envelope: dict) -> dict:
 def parse_args():
     ap = argparse.ArgumentParser()
     ap.add_argument("--bus", default="./bus")
-    ap.add_argument("--session", default="S1")
+    ap.add_argument("--session", default="")
     ap.add_argument("--retailer", default="Delfour")
     ap.add_argument("--device", default="self-scanner")
     ap.add_argument("--event", default="pick_up_scanner")

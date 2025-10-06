@@ -7,10 +7,10 @@ Short story (header):
   This program tallies costs and emits an address-change checklist.
 
 Overview:
-  - Reads './resources/van_plan.json' and './resources/packing_plan.json'.
+  - Reads './bus/van_plan.json' and './bus/packing_plan.json'.
   - Sums estimated van cost and basic packing materials cost.
   - Emits a simple list of admin tasks (utilities, internet, bank, employer, insurance).
-  - Prints Answer/Reason/Check and writes './resources/move_budget_and_admin.json'.
+  - Prints Answer/Reason/Check and writes './bus/move_budget_and_admin.json'.
 """
 from __future__ import annotations
 import argparse, json, math
@@ -48,9 +48,9 @@ def run_harness(res):
 
 def main():
     ap = argparse.ArgumentParser(description="Summarize budget and address-change tasks.")
-    ap.add_argument("--in_van", default="./resources/van_plan.json")
-    ap.add_argument("--in_packing", default="./resources/packing_plan.json")
-    ap.add_argument("--out", default="./resources/move_budget_and_admin.json")
+    ap.add_argument("--in_van", default="./bus/van_plan.json")
+    ap.add_argument("--in_packing", default="./bus/packing_plan.json")
+    ap.add_argument("--out", default="./bus/move_budget_and_admin.json")
     args = ap.parse_args()
 
     with open(args.in_van,"r",encoding="utf-8") as f: van_plan = json.load(f)

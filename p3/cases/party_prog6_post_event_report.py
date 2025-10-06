@@ -75,9 +75,9 @@ def run_harness(report, shopping):
 
 def main():
     ap = argparse.ArgumentParser(description="Compose final party report & CSV.")
-    ap.add_argument("--in_roster", default="./resources/guest_roster.json")
-    ap.add_argument("--in_menu", default="./resources/menu_plan.json")
-    ap.add_argument("--in_shop", default="./resources/shopping_list.json")
+    ap.add_argument("--in_roster", default="./bus/guest_roster.json")
+    ap.add_argument("--in_menu", default="./bus/menu_plan.json")
+    ap.add_argument("--in_shop", default="./bus/shopping_list.json")
     args = ap.parse_args()
 
     roster = json.load(open(args.in_roster, "r", encoding="utf-8"))
@@ -92,9 +92,9 @@ def main():
     for r in reasons:
         print("-", r)
 
-    json.dump(report, open("./resources/party_report.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-    write_csv(report, "./resources/party_report.csv")
-    print("\nWrote ./resources/party_report.json and ./resources/party_report.csv")
+    json.dump(report, open("./bus/party_report.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+    write_csv(report, "./bus/party_report.csv")
+    print("\nWrote ./bus/party_report.json and ./bus/party_report.csv")
 
     print("\n# CHECK (harness) — detailed")
     run_harness(report, shop)

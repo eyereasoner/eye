@@ -10,10 +10,10 @@ Short story (header):
 
 Overview:
   Build a 5‑dinner plan from a small recipe set, honoring constraints and using pantry items.
-  Prints Answer/Reason/Check and writes ./resources/meal_plan.json for Program 2.
+  Prints Answer/Reason/Check and writes ./bus/meal_plan.json for Program 2.
 
 Run:
-  python meals_prog1_plan_builder.py --out ./resources/meal_plan.json --asof 2025-09-18
+  python meals_prog1_plan_builder.py --out ./bus/meal_plan.json --asof 2025-09-18
 """
 from __future__ import annotations
 
@@ -151,7 +151,7 @@ def run_harness(result: Dict[str,Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Build a 5‑dinner weekly plan.")
-    ap.add_argument("--out", default="./resources/meal_plan.json")
+    ap.add_argument("--out", default="./bus/meal_plan.json")
     ap.add_argument("--asof", default="2025-09-18")
     args = ap.parse_args()
 
