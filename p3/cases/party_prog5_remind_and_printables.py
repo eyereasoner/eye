@@ -68,7 +68,7 @@ def run_harness(roster, rem):
 def main():
     import argparse, json
     ap = argparse.ArgumentParser(description="Create reminders and printable name tags.")
-    ap.add_argument("--in_roster", default="./bus/guest_roster.json")
+    ap.add_argument("--in_roster", default="./bus/party/guest_roster.json")
     args = ap.parse_args()
 
     roster = json.load(open(args.in_roster, "r", encoding="utf-8"))
@@ -80,9 +80,9 @@ def main():
     for r in rem["reasons"]:
         print("-", r)
 
-    json.dump({"items": rem["items"]}, open("./bus/reminders.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-    open("./bus/name_tags.txt", "w", encoding="utf-8").write(rem["name_tags_text"])
-    print("\nWrote ./bus/reminders.json and ./bus/name_tags.txt")
+    json.dump({"items": rem["items"]}, open("./bus/party/reminders.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+    open("./bus/party/name_tags.txt", "w", encoding="utf-8").write(rem["name_tags_text"])
+    print("\nWrote ./bus/party/reminders.json and ./bus/party/name_tags.txt")
 
     print("\n# CHECK (harness) — detailed")
     run_harness(roster, rem)

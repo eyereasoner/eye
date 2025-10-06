@@ -8,10 +8,10 @@ Short story (header):
   The task is to outline a week-by-week schedule and the compliance checklist.
 
 Overview:
-  Consume ./bus/eligible_claims.json and ./bus/budget_projection.json. For each eligible person,
+  Consume ./bus/unemp/eligible_claims.json and ./bus/unemp/budget_projection.json. For each eligible person,
   generate a weekly payment plan with a waiting week, and list required weekly actions
   (e.g., certification, job search entries). Print Answer/Reason/Check; write
-  ./bus/individual_schedules.json.
+  ./bus/unemp/individual_schedules.json.
 """
 from __future__ import annotations
 
@@ -74,8 +74,8 @@ def run_harness(claims_json: Dict[str,Any], sched: Dict[str,Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Produce individual schedules & compliance checklist.")
-    ap.add_argument("--in_claims", default="./bus/eligible_claims.json")
-    ap.add_argument("--in_budget", default="./bus/budget_projection.json")
+    ap.add_argument("--in_claims", default="./bus/unemp/eligible_claims.json")
+    ap.add_argument("--in_budget", default="./bus/unemp/budget_projection.json")
     ap.add_argument("--asof", default="2025-09-18")
     args = ap.parse_args()
 
@@ -94,9 +94,9 @@ def main():
     for r in sched["reasons"]:
         print("-", r)
 
-    with open("./bus/individual_schedules.json","w",encoding="utf-8") as f:
+    with open("./bus/unemp/individual_schedules.json","w",encoding="utf-8") as f:
         json.dump(sched, f, indent=2, ensure_ascii=False)
-    print("\nWrote ./bus/individual_schedules.json")
+    print("\nWrote ./bus/unemp/individual_schedules.json")
 
     print("\n# CHECK (harness) — detailed")
     run_harness(claims, sched)

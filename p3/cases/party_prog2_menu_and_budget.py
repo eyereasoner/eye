@@ -117,8 +117,8 @@ def run_harness(roster: Dict[str, Any], plan: Dict[str, Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Menu & Budget Planner.")
-    ap.add_argument("--infile", default="./bus/guest_roster.json")
-    ap.add_argument("--out", default="./bus/menu_plan.json")
+    ap.add_argument("--infile", default="./bus/party/guest_roster.json")
+    ap.add_argument("--out", default="./bus/party/menu_plan.json")
     args = ap.parse_args()
 
     roster = json.load(open(args.infile, "r", encoding="utf-8"))

@@ -7,9 +7,9 @@ Short story (header):
   The task is to normalize each claim into a clear, machine-checkable shape.
 
 Overview (what this file does, mirrored from this chat):
-  - Reads './bus/proof_claims_sample.json' (or your file via --infile).
+  - Reads './bus/proof/proof_claims_sample.json' (or your file via --infile).
   - Validates schema and normalizes numeric types.
-  - Emits './bus/normalized_claims.json' for downstream steps.
+  - Emits './bus/proof/normalized_claims.json' for downstream steps.
   - Prints Answer/Reason/Check in the EYE pattern.
 
 Sections map:
@@ -55,8 +55,8 @@ def run_harness(out: Dict[str,Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Normalize proof claims JSON.")
-    ap.add_argument("--infile", default="./bus/proof_claims_sample.json")
-    ap.add_argument("--out", default="./bus/normalized_claims.json")
+    ap.add_argument("--infile", default="./bus/proof/proof_claims_sample.json")
+    ap.add_argument("--out", default="./bus/proof/normalized_claims.json")
     args = ap.parse_args()
 
     inp = json.load(open(args.infile,"r",encoding="utf-8"))

@@ -7,9 +7,9 @@ Short story:
   efficiency upgrades; show the estimated daily € and CO₂ savings.
 
 Overview:
-  - Reads './bus/baseline_daily.json' + './bus/tou_split.json' + './bus/bill_breakdown.json'.
+  - Reads './bus/energy/baseline_daily.json' + './bus/energy/tou_split.json' + './bus/energy/bill_breakdown.json'.
   - Suggests: (a) shift all shiftable loads to off-peak; (b) 10% efficiency for fridge/TV.
-  - Prints Answer/Reasons/Check; writes './bus/savings_plan.json' for Program 5.
+  - Prints Answer/Reasons/Check; writes './bus/energy/savings_plan.json' for Program 5.
 """
 from __future__ import annotations
 import argparse, json
@@ -46,10 +46,10 @@ def run_harness(plan):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--in_base", default="./bus/baseline_daily.json")
-    ap.add_argument("--in_split", default="./bus/tou_split.json")
-    ap.add_argument("--in_bill", default="./bus/bill_breakdown.json")
-    ap.add_argument("--out", default="./bus/savings_plan.json")
+    ap.add_argument("--in_base", default="./bus/energy/baseline_daily.json")
+    ap.add_argument("--in_split", default="./bus/energy/tou_split.json")
+    ap.add_argument("--in_bill", default="./bus/energy/bill_breakdown.json")
+    ap.add_argument("--out", default="./bus/energy/savings_plan.json")
     args = ap.parse_args()
 
     base = json.load(open(args.in_base,"r",encoding="utf-8"))

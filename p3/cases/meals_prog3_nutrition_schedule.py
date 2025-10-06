@@ -8,12 +8,12 @@ Short story (header):
   The task is to summarize nutrition per person and outline a quick prep schedule.
 
 Overview:
-  Consume meal_./bus/plan.json and ./bus/grocery_list.json; compute per-day calories/macros from recipe
+  Consume meal_./bus/meal/plan.json and ./bus/meal/grocery_list.json; compute per-day calories/macros from recipe
   nutrition and confirm ingredients are covered by pantry + purchases. Also output a simple
-  cooking order. Prints Answer/Reason/Check and writes ./bus/final_week_plan.json.
+  cooking order. Prints Answer/Reason/Check and writes ./bus/meal/final_week_plan.json.
 
 Run:
-  python meals_prog3_nutrition_schedule.py --plan ./bus/meal_plan.json --groceries ./bus/grocery_list.json
+  python meals_prog3_nutrition_schedule.py --plan ./bus/meal/meal_plan.json --groceries ./bus/meal/grocery_list.json
 """
 from __future__ import annotations
 
@@ -90,8 +90,8 @@ def run_harness(plan: Dict[str,Any], groceries: Dict[str,Any], summary: Dict[str
 
 def main():
     ap = argparse.ArgumentParser(description="Summarize nutrition and produce a simple cooking schedule.")
-    ap.add_argument("--plan", default="./bus/meal_plan.json")
-    ap.add_argument("--groceries", default="./bus/grocery_list.json")
+    ap.add_argument("--plan", default="./bus/meal/meal_plan.json")
+    ap.add_argument("--groceries", default="./bus/meal/grocery_list.json")
     args = ap.parse_args()
 
     with open(args.plan,"r",encoding="utf-8") as f: plan = json.load(f)
@@ -111,9 +111,9 @@ def main():
     for r in summary["reasons"]:
         print("-", r)
 
-    with open("./bus/final_week_plan.json","w",encoding="utf-8") as f:
+    with open("./bus/meal/final_week_plan.json","w",encoding="utf-8") as f:
         json.dump({"summary": summary, "schedule": schedule}, f, indent=2, ensure_ascii=False)
-    print("\nWrote ./bus/final_week_plan.json")
+    print("\nWrote ./bus/meal/final_week_plan.json")
 
     print("\n# CHECK (harness) — detailed")
     run_harness(plan, groceries, summary, schedule)

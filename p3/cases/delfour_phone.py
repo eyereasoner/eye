@@ -10,8 +10,8 @@ Flow:
   -> writes: envelope.json, envelope.sig.json, reason.txt
 
 Usage:
-  python phone.py --session S1
-  python phone.py --session S1 --bus ./bus --retailer Delfour --device self-scanner --event pick_up_scanner --ttl-hours 2
+  python phone.py --session delfour
+  python phone.py --session delfour --bus ./bus --retailer Delfour --device self-scanner --event pick_up_scanner --ttl-hours 2
 """
 
 from __future__ import annotations
@@ -114,7 +114,7 @@ def sign_envelope(envelope: dict) -> dict:
 def parse_args():
     ap = argparse.ArgumentParser()
     ap.add_argument("--bus", default="./bus")
-    ap.add_argument("--session", default="")
+    ap.add_argument("--session", default="delfour")
     ap.add_argument("--retailer", default="Delfour")
     ap.add_argument("--device", default="self-scanner")
     ap.add_argument("--event", default="pick_up_scanner")

@@ -7,8 +7,8 @@ Short story:
   can share a simple CSV and a compact JSON report.
 
 Overview:
-  - Reads './bus/baseline_daily.json' + './bus/tou_split.json' + './bus/bill_breakdown.json' + './bus/savings_plan.json'.
-  - Emits './bus/energy_report.json' and './bus/energy_report.csv'.
+  - Reads './bus/energy/baseline_daily.json' + './bus/energy/tou_split.json' + './bus/energy/bill_breakdown.json' + './bus/energy/savings_plan.json'.
+  - Emits './bus/energy/energy_report.json' and './bus/energy/energy_report.csv'.
   - Prints Answer/Reasons/Check.
 """
 from __future__ import annotations
@@ -43,10 +43,10 @@ def run_harness(report):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--in_base", default="./bus/baseline_daily.json")
-    ap.add_argument("--in_split", default="./bus/tou_split.json")
-    ap.add_argument("--in_bill", default="./bus/bill_breakdown.json")
-    ap.add_argument("--in_plan", default="./bus/savings_plan.json")
+    ap.add_argument("--in_base", default="./bus/energy/baseline_daily.json")
+    ap.add_argument("--in_split", default="./bus/energy/tou_split.json")
+    ap.add_argument("--in_bill", default="./bus/energy/bill_breakdown.json")
+    ap.add_argument("--in_plan", default="./bus/energy/savings_plan.json")
     args = ap.parse_args()
 
     base  = json.load(open(args.in_base,"r",encoding="utf-8"))
@@ -59,9 +59,9 @@ def main():
     print("# ANSWER"); print(json.dumps({k:report[k] for k in ["daily_cost_eur","savings_daily_eur"]}, indent=2))
     print("\n# REASONS"); [print("-", r) for r in reasons]
 
-    json.dump(report, open("./bus/energy_report.json","w",encoding="utf-8"), indent=2)
-    write_csv(report, "./bus/energy_report.csv")
-    print("\nWrote ./bus/energy_report.json and ./bus/energy_report.csv")
+    json.dump(report, open("./bus/energy/energy_report.json","w",encoding="utf-8"), indent=2)
+    write_csv(report, "./bus/energy/energy_report.csv")
+    print("\nWrote ./bus/energy/energy_report.json and ./bus/energy/energy_report.csv")
 
     print("\n# CHECK"); run_harness(report); print("✔ All checks passed.")
 

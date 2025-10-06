@@ -7,7 +7,7 @@ Short story (header):
   what to keep vs. not keep, estimate the moved volume/weight, and explain why.
 
 Overview (what this file does, mirrored from this chat):
-  - Reads items from a JSON file you provide (see ./bus/inventory_sample.json).
+  - Reads items from a JSON file you provide (see ./bus/move/inventory_sample.json).
   - Applies simple, transparent rules to tag non-kept items as Donate or Dispose.
   - Sums volume and weight for kept items; writes a clean artifact for Program 2.
   - Prints Answer/Reason/Check using the EYE pattern.
@@ -71,8 +71,8 @@ def run_harness(raw: List[Dict[str,Any]], result: Dict[str,Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Decide keep/donate/dispose from inventory JSON.")
-    ap.add_argument("--in", dest="infile", default="./bus/inventory_sample.json")
-    ap.add_argument("--out", default="./bus/inventory_decisions.json")
+    ap.add_argument("--in", dest="infile", default="./bus/move/inventory_sample.json")
+    ap.add_argument("--out", default="./bus/move/inventory_decisions.json")
     args = ap.parse_args()
 
     with open(args.infile,"r",encoding="utf-8") as f: items = json.load(f)

@@ -7,10 +7,10 @@ Short story (header):
   uses total volume and distance to propose a sensible option and estimate time/cost.
 
 Overview:
-  - Reads './bus/inventory_decisions.json' and uses kept volume/weight.
+  - Reads './bus/move/inventory_decisions.json' and uses kept volume/weight.
   - Chooses van class by capacity; estimates trips = ceil(total_volume / van_capacity).
   - Estimates fuel and time from a simple distance and speed assumption.
-  - Prints Answer/Reason/Check and writes './bus/van_plan.json'.
+  - Prints Answer/Reason/Check and writes './bus/move/van_plan.json'.
 """
 from __future__ import annotations
 import argparse, json, math
@@ -58,9 +58,9 @@ def run_harness(inv: Dict[str,Any], plan: Dict[str,Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Estimate van size, trips, time and cost.")
-    ap.add_argument("--in", dest="infile", default="./bus/inventory_decisions.json")
+    ap.add_argument("--in", dest="infile", default="./bus/move/inventory_decisions.json")
     ap.add_argument("--distance_km", type=float, default=12.0, help="one-way km between homes")
-    ap.add_argument("--out", default="./bus/van_plan.json")
+    ap.add_argument("--out", default="./bus/move/van_plan.json")
     args = ap.parse_args()
 
     with open(args.infile,"r",encoding="utf-8") as f: inv = json.load(f)

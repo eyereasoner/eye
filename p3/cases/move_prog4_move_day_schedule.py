@@ -7,9 +7,9 @@ Short story (header):
   simple timeline and a checklist with reminders.
 
 Overview:
-  - Reads './bus/van_plan.json' and './bus/packing_plan.json'.
+  - Reads './bus/move/van_plan.json' and './bus/move/packing_plan.json'.
   - Creates a day timeline: load → drive → unload per trip.
-  - Emits a minimal ICS-like text plus a JSON artifact './bus/move_schedule.json'.
+  - Emits a minimal ICS-like text plus a JSON artifact './bus/move/move_schedule.json'.
   - Prints Answer/Reason/Check in EYE format.
 """
 from __future__ import annotations
@@ -54,9 +54,9 @@ def run_harness(van_plan, sched):
 
 def main():
     ap = argparse.ArgumentParser(description="Build move-day schedule and ICS-like export.")
-    ap.add_argument("--in_van", default="./bus/van_plan.json")
-    ap.add_argument("--in_packing", default="./bus/packing_plan.json")
-    ap.add_argument("--out", default="./bus/move_schedule.json")
+    ap.add_argument("--in_van", default="./bus/move/van_plan.json")
+    ap.add_argument("--in_packing", default="./bus/move/packing_plan.json")
+    ap.add_argument("--out", default="./bus/move/move_schedule.json")
     args = ap.parse_args()
 
     with open(args.in_van,"r",encoding="utf-8") as f: van_plan = json.load(f)
@@ -70,8 +70,8 @@ def main():
     for r in sched["reasons"]: print("-", r)
 
     with open(args.out,"w",encoding="utf-8") as f: json.dump({"events":sched["events"]}, f, indent=2, ensure_ascii=False)
-    with open("./bus/move_schedule.ics.txt","w",encoding="utf-8") as f: f.write(sched["ics_text"])
-    print("\nWrote ./bus/move_schedule.json and ./bus/move_schedule.ics.txt")
+    with open("./bus/move/move_schedule.ics.txt","w",encoding="utf-8") as f: f.write(sched["ics_text"])
+    print("\nWrote ./bus/move/move_schedule.json and ./bus/move/move_schedule.ics.txt")
 
     print("\n# CHECK (harness) — detailed")
     run_harness(van_plan, sched)

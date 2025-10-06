@@ -7,9 +7,9 @@ Short story (header):
   paydays, weekly bill checks, and a savings transfer.
 
 Overview:
-  - Reads './bus/forecast_30d.json' and './bus/goals_plan.json'.
+  - Reads './bus/finance/forecast_30d.json' and './bus/finance/goals_plan.json'.
   - Emits a small reminders list and a minimal .ics-like text file.
-  - Prints Answer/Reason/Check and writes './bus/reminders.json' and './bus/reminders.ics.txt'.
+  - Prints Answer/Reason/Check and writes './bus/finance/reminders.json' and './bus/finance/reminders.ics.txt'.
 """
 from __future__ import annotations
 
@@ -58,8 +58,8 @@ def run_harness(rem: Dict[str,Any]) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="Build reminders and ICS-like export.")
-    parser.add_argument("--in_forecast", default="./bus/forecast_30d.json")
-    parser.add_argument("--in_goals", default="./bus/goals_plan.json")
+    parser.add_argument("--in_forecast", default="./bus/finance/forecast_30d.json")
+    parser.add_argument("--in_goals", default="./bus/finance/goals_plan.json")
     args = parser.parse_args()
 
     with open(args.in_forecast,"r",encoding="utf-8") as f: fc = json.load(f)
@@ -73,12 +73,12 @@ def main():
     for r in rem["reasons"]:
         print("-", r)
 
-    with open("./bus/reminders.json","w",encoding="utf-8") as f:
+    with open("./bus/finance/reminders.json","w",encoding="utf-8") as f:
         json.dump(rem, f, indent=2, ensure_ascii=False)
     ics = write_ics_like(rem["items"])
-    with open("./bus/reminders.ics.txt","w",encoding="utf-8") as f:
+    with open("./bus/finance/reminders.ics.txt","w",encoding="utf-8") as f:
         f.write(ics)
-    print("\nWrote ./bus/reminders.json and ./bus/reminders.ics.txt")
+    print("\nWrote ./bus/finance/reminders.json and ./bus/finance/reminders.ics.txt")
 
     print("\n# CHECK (harness) — detailed")
     run_harness(rem)

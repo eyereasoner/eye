@@ -91,8 +91,8 @@ def run_harness(roster: Dict[str, Any], sched: Dict[str, Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Build party run-of-show and stations.")
-    ap.add_argument("--infile", default="./bus/guest_roster.json")
-    ap.add_argument("--out", default="./bus/run_of_show.json")
+    ap.add_argument("--infile", default="./bus/party/guest_roster.json")
+    ap.add_argument("--out", default="./bus/party/run_of_show.json")
     args = ap.parse_args()
 
     roster = json.load(open(args.infile, "r", encoding="utf-8"))
@@ -105,8 +105,8 @@ def main():
         print("-", r)
 
     json.dump({"events": sched["events"], "stations": sched["stations"]}, open(args.out, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-    open("./bus/party_schedule.ics.txt", "w", encoding="utf-8").write(sched["ics_text"])
-    print("\nWrote ./bus/run_of_show.json and ./bus/party_schedule.ics.txt")
+    open("./bus/party/party_schedule.ics.txt", "w", encoding="utf-8").write(sched["ics_text"])
+    print("\nWrote ./bus/party/run_of_show.json and ./bus/party/party_schedule.ics.txt")
 
     print("\n# CHECK (harness) — detailed")
     run_harness(roster, sched)

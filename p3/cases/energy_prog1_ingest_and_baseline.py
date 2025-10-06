@@ -7,10 +7,10 @@ Short story:
   clear daily baseline in kWh and cost, and pass it to later steps.
 
 Overview (matches this chat):
-  - Reads './bus/house_usage_sample.json' (or your file via --in).
+  - Reads './bus/energy/house_usage_sample.json' (or your file via --in).
   - Normalizes per-appliance usage to kWh/day.
   - Computes daily cost and daily CO₂.
-  - Prints Answer/Reasons/Check; writes './bus/baseline_daily.json' for Program 2.
+  - Prints Answer/Reasons/Check; writes './bus/energy/baseline_daily.json' for Program 2.
 
 Sections map:
   ### DATA  – input schema & TOU params
@@ -68,8 +68,8 @@ def run_harness(b: Dict[str,Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--in", dest="infile", default="./bus/house_usage_sample.json")
-    ap.add_argument("--out", default="./bus/baseline_daily.json")
+    ap.add_argument("--in", dest="infile", default="./bus/energy/house_usage_sample.json")
+    ap.add_argument("--out", default="./bus/energy/baseline_daily.json")
     args = ap.parse_args()
 
     cfg = json.load(open(args.infile, "r", encoding="utf-8"))

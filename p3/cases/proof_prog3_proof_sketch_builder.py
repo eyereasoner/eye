@@ -7,9 +7,9 @@ Short story (header):
   producing witnesses (k,ℓ,p,q,s,t,…) where needed.
 
 Overview:
-  - Reads './bus/normalized_claims.json' + './bus/lemma_library.json'.
+  - Reads './bus/proof/normalized_claims.json' + './bus/proof/lemma_library.json'.
   - For each claim, constructs a proof sketch with concrete witnesses.
-  - Prints Answer/Reason/Check; writes './bus/proof_sketches.json' for Program 4.
+  - Prints Answer/Reason/Check; writes './bus/proof/proof_sketches.json' for Program 4.
 """
 from __future__ import annotations
 import argparse, json, math
@@ -75,9 +75,9 @@ def run_harness(sk: Dict[str,Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Build proof sketches with witnesses.")
-    ap.add_argument("--in_norm", default="./bus/normalized_claims.json")
-    ap.add_argument("--in_lib",  default="./bus/lemma_library.json")
-    ap.add_argument("--out",     default="./bus/proof_sketches.json")
+    ap.add_argument("--in_norm", default="./bus/proof/normalized_claims.json")
+    ap.add_argument("--in_lib",  default="./bus/proof/lemma_library.json")
+    ap.add_argument("--out",     default="./bus/proof/proof_sketches.json")
     args = ap.parse_args()
 
     norm = json.load(open(args.in_norm,"r",encoding="utf-8"))
