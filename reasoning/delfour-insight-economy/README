@@ -4,9 +4,28 @@ Delfour Insight Economy
 
 See https://ruben.verborgh.org/blog/2025/08/12/inside-the-insight-economy/
 
-# on the phone: derive neutral Insight + ODRL policy
-eye --quiet --nope profile.ttl context.ttl phone.n3 --pass-only-new --output insight_policy.ttl
+=====================================================================
+Delfour — PHONE side
+Inputs:
+  - profile graph (may contain sensitive facts)
+  - session context (retailer/device/event + created/expiry timestamps)
+Outputs (pass-only-new):
+  - a neutral ins:Insight (no sensitive terms)
+  - an ODRL policy envelope derived from the insight
+=====================================================================
 
-# on the scanner: derive auth + audit + suggestion
-eye --quiet --nope insight_policy.ttl now.ttl request.ttl catalog.ttl scan.ttl scanner.n3 --pass-only-new --output scanner_out.ttl
+=====================================================================
+Delfour — SCANNER side
+Inputs:
+  - an ins:Insight (neutral envelope)
+  - the ODRL policy (derived from the insight)
+  - a request to use the insight with purpose=shopping_assist
+  - "now" as xsd:dateTime (for expiry guard)
+  - a small product catalog + a scan event (scanned product)
+Outputs (pass-only-new):
+  - authorization marking (Allowed / Blocked with reason)
+  - derived expiry flag (ex:Expired) when past expiresAt
+  - an audit trail (act:Decision, optionally a delete_due Duty)
+  - a runtime suggestion banner (shop:suggestedAlternative)
+=====================================================================
 
