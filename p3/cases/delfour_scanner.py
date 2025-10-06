@@ -13,7 +13,7 @@ Flow:
 
 Usage:
   python scanner.py --session delfour
-  python scanner.py --session delfour --bus ./bus
+  python scanner.py --session delfour --bus ./cases/bus
 """
 
 from __future__ import annotations
@@ -129,7 +129,7 @@ def compute_checks(envelope: dict, banner: dict, audit: list[dict]) -> list[list
 # ---------------- CLI ----------------
 def parse_args():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--bus", default="./bus")
+    ap.add_argument("--bus", default="./cases/bus")
     ap.add_argument("--session", default="delfour")
     return ap.parse_args()
 

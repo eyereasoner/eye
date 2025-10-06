@@ -7,9 +7,9 @@ Short story:
   simple hour model (typical_hour and shiftability).
 
 Overview:
-  - Reads './bus/energy/baseline_daily.json'.
+  - Reads './cases/bus/energy/baseline_daily.json'.
   - Splits kWh/day into peak vs off-peak by each appliance.
-  - Prints Answer/Reasons/Check; writes './bus/energy/tou_split.json' for Program 3.
+  - Prints Answer/Reasons/Check; writes './cases/bus/energy/tou_split.json' for Program 3.
 """
 from __future__ import annotations
 import argparse, json
@@ -47,8 +47,8 @@ def run_harness(t: Dict[str,Any], base: Dict[str,Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--in", default="./bus/energy/baseline_daily.json")
-    ap.add_argument("--out", default="./bus/energy/tou_split.json")
+    ap.add_argument("--in", default="./cases/bus/energy/baseline_daily.json")
+    ap.add_argument("--out", default="./cases/bus/energy/tou_split.json")
     args = ap.parse_args()
 
     in_path = getattr(args, "in")  # <-- fix

@@ -110,7 +110,7 @@ def run_harness(eligibility_json: Dict[str, Any], result: Dict[str, Any]) -> Non
 
 def main():
     parser = argparse.ArgumentParser(description="Compute discount impact from eligibility JSON.")
-    parser.add_argument("--in", dest="infile", default="./bus/shop/eligible_customers.json",
+    parser.add_argument("--in", dest="infile", default="./cases/bus/shop/eligible_customers.json",
                         help="Input JSON path from Program 1")
     parser.add_argument("--rate", type=float, default=DEFAULT_RATE, help="Discount rate (0..1)")
     args = parser.parse_args()

@@ -87,7 +87,7 @@ def run_harness(permitted_json: Dict[str, Any], register: Dict[str, Any], asof: 
 def main():
     ### DATA — input from Program 1
     parser = argparse.ArgumentParser(description="Build processing register & deletion schedule from permitted set.")
-    parser.add_argument("--in", dest="infile", default="./bus/odrl/permitted_processing.json",
+    parser.add_argument("--in", dest="infile", default="./cases/bus/odrl/permitted_processing.json",
                         help="Input JSON path from Program 1")
     parser.add_argument("--asof", default="2025-09-18", help="Reference date (YYYY-MM-DD)")
     args = parser.parse_args()

@@ -7,9 +7,9 @@ Short story:
   note a one-off task to buy efficient models when feasible.
 
 Overview:
-  - Reads './bus/energy/baseline_daily.json' + './bus/energy/savings_plan.json'.
+  - Reads './cases/bus/energy/baseline_daily.json' + './cases/bus/energy/savings_plan.json'.
   - Emits JSON reminders and an ICS-like text.
-  - Prints Answer/Reasons/Check; writes './bus/energy/actions.json' + './bus/energy/actions.ics.txt'.
+  - Prints Answer/Reasons/Check; writes './cases/bus/energy/actions.json' + './cases/bus/energy/actions.ics.txt'.
 """
 from __future__ import annotations
 import argparse, json, datetime as dt
@@ -41,8 +41,8 @@ def run_harness(a):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--in_base", default="./bus/energy/baseline_daily.json")
-    ap.add_argument("--in_plan", default="./bus/energy/savings_plan.json")
+    ap.add_argument("--in_base", default="./cases/bus/energy/baseline_daily.json")
+    ap.add_argument("--in_plan", default="./cases/bus/energy/savings_plan.json")
     args = ap.parse_args()
 
     base = json.load(open(args.in_base,"r",encoding="utf-8"))
@@ -52,9 +52,9 @@ def main():
     print("# ANSWER"); print(json.dumps({"n_reminders": len(a["items"])}, indent=2))
     print("\n# REASONS"); [print("-", r) for r in a["reasons"]]
 
-    json.dump({"items":a["items"]}, open("./bus/energy/actions.json","w",encoding="utf-8"), indent=2)
-    open("./bus/energy/actions.ics.txt","w",encoding="utf-8").write(a["ics_text"])
-    print("\nWrote ./bus/energy/actions.json and ./bus/energy/actions.ics.txt")
+    json.dump({"items":a["items"]}, open("./cases/bus/energy/actions.json","w",encoding="utf-8"), indent=2)
+    open("./cases/bus/energy/actions.ics.txt","w",encoding="utf-8").write(a["ics_text"])
+    print("\nWrote ./cases/bus/energy/actions.json and ./cases/bus/energy/actions.ics.txt")
 
     print("\n# CHECK"); run_harness(a); print("✔ All checks passed.")
 

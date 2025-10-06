@@ -8,8 +8,8 @@ Short story (header):
   what would the benefit outlay be, and how does that compare to contributions?
 
 Overview:
-  Consume ./bus/unemp/eligible_claims.json. Project weekly and total outlays; compare with
-  a simple contribution model. Print Answer/Reason/Check; write ./bus/unemp/budget_projection.json.
+  Consume ./cases/bus/unemp/eligible_claims.json. Project weekly and total outlays; compare with
+  a simple contribution model. Print Answer/Reason/Check; write ./cases/bus/unemp/budget_projection.json.
 """
 from __future__ import annotations
 
@@ -70,8 +70,8 @@ def run_harness(claims_json: Dict[str,Any], budget: Dict[str,Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Project unemployment agency budget.")
-    ap.add_argument("--in", dest="infile", default="./bus/unemp/eligible_claims.json")
-    ap.add_argument("--out", default="./bus/unemp/budget_projection.json")
+    ap.add_argument("--in", dest="infile", default="./cases/bus/unemp/eligible_claims.json")
+    ap.add_argument("--out", default="./cases/bus/unemp/budget_projection.json")
     args = ap.parse_args()
 
     with open(args.infile,"r",encoding="utf-8") as f:

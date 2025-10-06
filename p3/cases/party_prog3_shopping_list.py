@@ -89,8 +89,8 @@ def run_harness(menu: Dict[str, Any], lst: Dict[str, Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Create shopping list & vendor split.")
-    ap.add_argument("--infile", default="./bus/party/menu_plan.json")
-    ap.add_argument("--out", default="./bus/party/shopping_list.json")
+    ap.add_argument("--infile", default="./cases/bus/party/menu_plan.json")
+    ap.add_argument("--out", default="./cases/bus/party/shopping_list.json")
     args = ap.parse_args()
 
     menu = json.load(open(args.infile, "r", encoding="utf-8"))

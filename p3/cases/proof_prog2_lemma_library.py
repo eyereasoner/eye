@@ -6,9 +6,9 @@ Short story (header):
   Collect the tiny facts needed for each claim type (definitions + standard lemmas).
 
 Overview:
-  - Reads './bus/proof/normalized_claims.json'.
+  - Reads './cases/bus/proof/normalized_claims.json'.
   - Emits a minimal library of facts keyed by claim type.
-  - Prints Answer/Reason/Check; writes './bus/proof/lemma_library.json' for Program 3.
+  - Prints Answer/Reason/Check; writes './cases/bus/proof/lemma_library.json' for Program 3.
 
 Facts included (informal):
   - Divisibility: a|b ⇔ ∃k, b = a·k ; transitivity if a|b & b|c ⇒ a|c
@@ -53,8 +53,8 @@ def run_harness(lib: Dict[str,Any], norm: Dict[str,Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Produce lemma library for claims.")
-    ap.add_argument("--infile", default="./bus/proof/normalized_claims.json")
-    ap.add_argument("--out", default="./bus/proof/lemma_library.json")
+    ap.add_argument("--infile", default="./cases/bus/proof/normalized_claims.json")
+    ap.add_argument("--out", default="./cases/bus/proof/lemma_library.json")
     args = ap.parse_args()
 
     norm = json.load(open(args.infile,"r",encoding="utf-8"))

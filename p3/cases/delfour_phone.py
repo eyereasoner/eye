@@ -11,7 +11,7 @@ Flow:
 
 Usage:
   python phone.py --session delfour
-  python phone.py --session delfour --bus ./bus --retailer Delfour --device self-scanner --event pick_up_scanner --ttl-hours 2
+  python phone.py --session delfour --bus ./cases/bus --retailer Delfour --device self-scanner --event pick_up_scanner --ttl-hours 2
 """
 
 from __future__ import annotations
@@ -113,7 +113,7 @@ def sign_envelope(envelope: dict) -> dict:
 # ---------------- CLI ----------------
 def parse_args():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--bus", default="./bus")
+    ap.add_argument("--bus", default="./cases/bus")
     ap.add_argument("--session", default="delfour")
     ap.add_argument("--retailer", default="Delfour")
     ap.add_argument("--device", default="self-scanner")

@@ -10,7 +10,7 @@ Overview (what this file does, matching the chat explanation):
   - Reads transactions from a JSON file (you provide it).
   - Categorizes each line by simple, transparent keyword rules.
   - Computes a monthly summary (income, fixed bills, and discretionary spend).
-  - Prints Answer/Reason/Check and writes './bus/finance/summary_month.json' for Program 2.
+  - Prints Answer/Reason/Check and writes './cases/bus/finance/summary_month.json' for Program 2.
 
 Sections map:
   ### DATA  – input file schema, keyword rules, and parameters
@@ -25,7 +25,7 @@ from typing import Dict, Any, List
 ### DATA
 # Input JSON schema (per transaction):
 #   { "date": "YYYY-MM-DD", "description": "str", "amount": float }  # amount >0 income, <0 expense
-# Provide the file via --in ./bus/finance/transactions.json
+# Provide the file via --in ./cases/bus/finance/transactions.json
 CATEGORY_RULES = {
     "Income": ["payroll", "salary", "paycheque", "acme"],
     "Rent": ["rent"],
@@ -95,8 +95,8 @@ def run_harness(transactions: List[Dict[str,Any]], result: Dict[str,Any]) -> Non
 
 def main():
     parser = argparse.ArgumentParser(description="Categorize transactions and summarize a month.")
-    parser.add_argument("--in", dest="infile", default="./bus/finance/transactions_sample.json", help="Path to transactions JSON")
-    parser.add_argument("--out", default="./bus/finance/summary_month.json")
+    parser.add_argument("--in", dest="infile", default="./cases/bus/finance/transactions_sample.json", help="Path to transactions JSON")
+    parser.add_argument("--out", default="./cases/bus/finance/summary_month.json")
     args = parser.parse_args()
 
     with open(args.infile,"r",encoding="utf-8") as f:

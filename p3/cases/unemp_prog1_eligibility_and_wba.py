@@ -10,7 +10,7 @@ Short story (header):
 
 Overview:
   Evaluate a small roster under a simplified policy. Print Answer/Reason/Check; write
-  ./bus/unemp/eligible_claims.json for Program 2.
+  ./cases/bus/unemp/eligible_claims.json for Program 2.
 """
 from __future__ import annotations
 
@@ -120,7 +120,7 @@ def run_harness(result: Dict[str,Any]) -> None:
 
 def main():
     ap = argparse.ArgumentParser(description="Determine unemployment eligibility & WBA.")
-    ap.add_argument("--out", default="./bus/unemp/eligible_claims.json")
+    ap.add_argument("--out", default="./cases/bus/unemp/eligible_claims.json")
     ap.add_argument("--asof", default=AS_OF_DEFAULT)
     args = ap.parse_args()
 
