@@ -79,7 +79,7 @@ def policy_from_insight(insight: dict) -> dict:
             }
         },
         "prohibition": {
-            "action": "odrl:share",
+            "action": "odrl:distribute",
             "target": ins_id,
             "constraint": {
                 "leftOperand": "odrl:purpose",
