@@ -8,13 +8,14 @@
 #   - an ODRL policy envelope derived from the insight
 # =====================================================================
 
-@prefix :        <https://example.org/person#> .
 @prefix health:  <https://example.org/health#> .
 @prefix need:    <https://example.org/need#> .
 @prefix ctx:     <https://example.org/context#> .
 @prefix ins:     <https://example.org/insight#> .
 @prefix odrl:    <http://www.w3.org/ns/odrl/2/> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix vocab:   <https://example.org/vocab/> .
+@prefix profile: <https://example.org/profile/> .
 
 # ---------------------------------------------------------------------
 # 1) Desensitization: private health -> neutral need
@@ -68,31 +69,37 @@
 =>
 {
   _:pol a odrl:Policy ;
-        odrl:profile    "Delfour-Insight-Policy" ;
+        odrl:profile profile:Delfour-Insight-Policy ;
 
         odrl:permission [
-          odrl:action      odrl:use ;
-          odrl:target      ?ins ;
+          a odrl:Permission ;
+          odrl:action  odrl:use ;
+          odrl:target  ?ins ;
           odrl:constraint [
+            a odrl:Constraint ;
             odrl:leftOperand  odrl:purpose ;
             odrl:operator     odrl:eq ;
-            odrl:rightOperand "shopping_assist"
+            odrl:rightOperand vocab:shopping_assist
           ]
         ] ;
 
         odrl:prohibition [
-          odrl:action      odrl:share ;
-          odrl:target      ?ins ;
+          a odrl:Prohibition ;
+          odrl:action  odrl:distribute ;
+          odrl:target  ?ins ;
           odrl:constraint [
+            a odrl:Constraint ;
             odrl:leftOperand  odrl:purpose ;
             odrl:operator     odrl:eq ;
-            odrl:rightOperand "marketing"
+            odrl:rightOperand vocab:marketing
           ]
         ] ;
 
         odrl:duty [
-          odrl:action      odrl:delete ;
+          a odrl:Duty ;
+          odrl:action  odrl:delete ;
           odrl:constraint [
+            a odrl:Constraint ;
             odrl:leftOperand  odrl:dateTime ;
             odrl:operator     odrl:eq ;
             odrl:rightOperand ?exp

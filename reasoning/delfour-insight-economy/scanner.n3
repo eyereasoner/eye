@@ -21,6 +21,7 @@
 @prefix schema:<http://schema.org/> .
 @prefix math:  <http://www.w3.org/2000/10/swap/math#> .
 @prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix vocab: <https://example.org/vocab/> .
 
 # ---------------------------------------------------------------------
 # 1) Expiry guard: mark an Insight as ex:Expired if expiresAt < now
@@ -48,12 +49,12 @@
          odrl:constraint [
            odrl:leftOperand  odrl:purpose ;
            odrl:operator     odrl:eq ;
-           odrl:rightOperand "shopping_assist"
+           odrl:rightOperand vocab:shopping_assist
          ]
        ] .
   ?ins a ins:Insight .
   ?req odrl:action odrl:use ;
-       odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:rightOperand "shopping_assist" ] .
+       odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:rightOperand vocab:shopping_assist ] .
 }
 =>
 { ?req a ex:Allowed ; ex:target ?ins . } .
