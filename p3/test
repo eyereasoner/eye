@@ -42,7 +42,7 @@ done
 end=$(($(date +%s)))
 echo ""
 
-git diff bus
+git diff cases/bus
 
 echo -e "${YELLOW}`expr $end - $begin` s${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${DIFF} DIFF${NORMAL}"
 if [[ ${DIFF} -eq 0 ]]; then
