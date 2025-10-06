@@ -1,0 +1,6 @@
+#!/bin/bash
+# PHONE: derive neutral Insight + ODRL policy
+eye --quiet --nope profile.ttl context.ttl phone.n3 --pass-only-new --output insight_policy.ttl
+# SCANNER: auth + audit + suggestion
+eye --quiet --nope insight_policy.ttl now.ttl request.ttl catalog.ttl scan.ttl scanner.n3 --pass-only-new --output scanner_out.ttl
+

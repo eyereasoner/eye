@@ -1,0 +1,5 @@
+-----------------------
+Delfour Insight Economy
+-----------------------
+
+See https://ruben.verborgh.org/blog/2025/08/12/inside-the-insight-economy/

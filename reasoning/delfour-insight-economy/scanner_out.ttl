@@ -1,0 +1,22 @@
+@prefix ex: <https://example.org/enforce#>.
+@prefix req: <https://example.org/request#>.
+@prefix act: <https://example.org/activity#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix shop: <https://example.org/shop#>.
+@prefix prod: <https://example.org/product#>.
+
+_:e_sk_2_1 a ex:Allowed.
+_:e_sk_2_1 ex:target _:e_sk_0_1.
+req:r1 a ex:Allowed.
+req:r1 ex:target _:e_sk_0_1.
+_:sk_0 a act:Decision.
+_:sk_0 act:at "2025-10-04T16:51:53Z"^^xsd:dateTime.
+_:sk_0 act:request _:e_sk_2_1.
+_:sk_0 act:outcome "Allowed".
+_:sk_1 a act:Decision.
+_:sk_1 act:at "2025-10-04T16:51:53Z"^^xsd:dateTime.
+_:sk_1 act:request req:r1.
+_:sk_1 act:outcome "Allowed".
+_:e_4 shop:note "High sugar".
+_:e_4 shop:suggestedAlternative prod:BIS_101.
+_:e_4 shop:suggestedAlternative prod:CHOC_150.

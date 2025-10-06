@@ -1,0 +1,113 @@
+# =====================================================================
+# Delfour — SCANNER side
+# Inputs:
+#   - an ins:Insight (neutral envelope)
+#   - the ODRL policy (derived from the insight)
+#   - a request to use the insight with purpose=shopping_assist
+#   - "now" as xsd:dateTime (for expiry guard)
+#   - a small product catalog + a scan event (scanned product)
+# Outputs (pass-only-new):
+#   - authorization marking (Allowed / Blocked with reason)
+#   - derived expiry flag (ex:Expired) when past expiresAt
+#   - an audit trail (act:Decision, optionally a delete_due Duty)
+#   - a runtime suggestion banner (shop:suggestedAlternative)
+# =====================================================================
+
+@prefix ins:   <https://example.org/insight#> .
+@prefix odrl:  <http://www.w3.org/ns/odrl/2/> .
+@prefix ex:    <https://example.org/enforce#> .
+@prefix act:   <https://example.org/activity#> .
+@prefix shop:  <https://example.org/shop#> .
+@prefix schema:<http://schema.org/> .
+@prefix math:  <http://www.w3.org/2000/10/swap/math#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+# ---------------------------------------------------------------------
+# 1) Expiry guard: mark an Insight as ex:Expired if expiresAt < now
+#    (Provide "now" using the helper triple shown below in SAMPLE INPUT.)
+# ---------------------------------------------------------------------
+{
+  ?ins a ins:Insight ; ins:expiresAt ?exp .
+  []   ex:now ?now .
+  ?exp math:lessThan ?now .
+}
+=>
+{ ?ins a ex:Expired . } .
+
+# ---------------------------------------------------------------------
+# 2) Enforcement:
+#    - Allowed if request matches the policy use@shopping_assist on the same target
+#    - Blocked if Allowed target is expired
+# ---------------------------------------------------------------------
+# Allowed
+{
+  ?pol a odrl:Policy ;
+       odrl:permission [
+         odrl:action      odrl:use ;
+         odrl:target      ?ins ;
+         odrl:constraint [
+           odrl:leftOperand  odrl:purpose ;
+           odrl:operator     odrl:eq ;
+           odrl:rightOperand "shopping_assist"
+         ]
+       ] .
+  ?ins a ins:Insight .
+  ?req odrl:action odrl:use ;
+       odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:rightOperand "shopping_assist" ] .
+}
+=>
+{ ?req a ex:Allowed ; ex:target ?ins . } .
+
+# Block on expiry
+{
+  ?req a ex:Allowed ; ex:target ?ins .
+  ?ins a ex:Expired .
+}
+=>
+{ ?req a ex:Blocked ; ex:reason "expired" . } .
+
+# ---------------------------------------------------------------------
+# 3) Audit trail: record a Decision; also record Duty when at/after expiry.
+# ---------------------------------------------------------------------
+{ ?req a ex:Allowed . [] ex:now ?now . }
+=>
+{ _:a a act:Decision ; act:at ?now ; act:request ?req ; act:outcome "Allowed" . } .
+
+{ ?req a ex:Blocked ; ex:reason ?r . [] ex:now ?now . }
+=>
+{ _:a a act:Decision ; act:at ?now ; act:request ?req ; act:outcome "Blocked" ; act:reason ?r . } .
+
+{ ?ins a ex:Expired . [] ex:now ?now . }
+=>
+{ _:d a act:Duty ; act:type "delete_due" ; act:at ?now ; act:target ?ins . } .
+
+# ---------------------------------------------------------------------
+# 4) Shopping suggestion:
+#    If Allowed and scanned product sugar >= threshold, suggest an alternative
+#    with strictly lower sugarContent.
+# ---------------------------------------------------------------------
+{
+  ?req a ex:Allowed ; ex:target ?ins .
+  ?ins a ins:Insight ;
+       ins:metric       "sugar_g_per_serving" ;
+       ins:threshold    ?thr .
+
+  # A scan event points to some product
+  ?scan shop:scannedProduct ?p .
+
+  # Product under scan
+  ?p schema:name ?name ;
+     schema:sugarContent ?sug .
+
+  # Candidate alternative (any other product with lower sugar)
+  ?alt schema:name ?an ;
+       schema:sugarContent ?as .
+  ?as math:lessThan ?sug .
+  ?sug math:notLessThan ?thr .
+}
+=>
+{
+  ?scan shop:note "High sugar" ;
+        shop:suggestedAlternative ?alt .
+} .
+
