@@ -9,16 +9,35 @@ Implements:
   - tfn:bindDefaultTimezone
 
 Supported literal datatypes:
-  * xsd:gYear
-  * xsd:gYearMonth
-  * xsd:date
-  * xsd:dateTime
+  * xsd:gYear            -> YYYY
+  * xsd:gYearMonth       -> YYYY-MM
+  * xsd:date             -> YYYY-MM-DD   (optionally floating)
+  * xsd:dateTime         -> YYYY-MM-DDThh:mm:ss(.fff)?(Z|±HH:MM)? (floating allowed)
 
 Design choices:
-  * Period bounds interpret the calendar span as floating local time, then:
-      - Lower bounds use +14:00 (earliest global instant)
-      - Upper bounds use -14:00 (latest global instant)
-  * Inclusive/exclusive are separated by 1 ms.
+  * For period bounds, we interpret the *calendar* period in local time (floating),
+    then choose the *earliest possible instant on Earth* for the lower bound by
+    using UTC offset +14:00, and the *latest possible instant* for the upper bound
+    by using UTC offset -14:00 (the extreme legal time offsets).
+  * Inclusive lower bound:   start-of-period at +14:00
+    Inclusive upper bound:   end-of-period (ms precision) at -14:00
+  * Exclusive lower bound:   1 millisecond *before* the inclusive lower bound (still +14:00)
+  * Exclusive upper bound:   1 millisecond *after*  the inclusive upper bound (still -14:00)
+  * Millisecond precision in outputs (".fff"); internal arithmetic uses microseconds.
+
+P3 Triad:
+  - Answer: prints the function outputs for the provided literal.
+  - Reason Why: explains how boundaries were derived.
+  - Check: explicit PASS/FAIL checks (month length, leap year, offset logic, etc).
+
+CLI:
+  python tfn_periods.py
+  python tfn_periods.py '"2025-08"^^xsd:gYearMonth'
+  python tfn_periods.py '"2025-02"^^xsd:gYearMonth'
+  python tfn_periods.py '"2024-02"^^xsd:gYearMonth'
+  python tfn_periods.py '"2025-10-07T07:00:00"^^xsd:dateTime' --bind "+02:00"
+
+If --bind is supplied, the program will also demonstrate tfn:bindDefaultTimezone.
 """
 
 from __future__ import annotations
