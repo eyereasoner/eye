@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Insight Economy — P3 Triad Demo</title>
+<style>
+  :root {
+    --bg: #0f1220; --panel: #161a2b; --ink: #e6e9f7; --muted:#a6accd;
+    --green:#23d18b; --red:#ff5c7c; --amber:#ffd166; --blue:#4ea1ff;
+  }
+  html,body {background: var(--bg); color: var(--ink); font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin:0; padding:0;}
+  .wrap {max-width: 1100px; margin: 32px auto; padding: 0 16px;}
+  h1,h2,h3 {line-height:1.2; margin: 1.2rem 0 .6rem}
+  h1 {font-size: 1.6rem}
+  h2 {font-size: 1.25rem; color: var(--blue)}
+  h3 {font-size: 1rem; color: var(--muted)}
+  .panel {background: var(--panel); border-radius: 12px; padding: 16px 18px; margin: 14px 0; border: 1px solid #212643;}
+  .scoreboard table {width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums;}
+  .scoreboard th, .scoreboard td {padding: 10px 8px; border-bottom: 1px solid #242a4a;}
+  .scoreboard th {text-align: left; color: var(--muted); font-weight: 600; letter-spacing:.02em;}
+  .pill {display:inline-block; padding:2px 8px; border-radius:999px; font-size: .8rem; border:1px solid #2a315c; color: var(--muted)}
+  .pill.pass {color: var(--green); border-color: rgba(35,209,139,.35)}
+  .pill.fail {color: var(--red); border-color: rgba(255,92,124,.35)}
+  .muted {color: var(--muted)}
+  pre {white-space: pre-wrap; background:#0b0e1a; padding:12px 14px; border-radius:10px; border:1px solid #1b2040; overflow:auto;}
+  .checks .row {display:flex; align-items:flex-start; gap:8px; padding:6px 0; border-bottom:1px dashed #23284b;}
+  .checks .code {min-width: 54px; text-align:center; font-weight:700; color:#8aa1ff;}
+  .checks .msg {flex:1}
+  .checks .status {min-width: 64px; text-align:center;}
+  .summary {display:flex; gap:18px; flex-wrap: wrap; margin-top:8px}
+  .summary .box {background:#0b0f1f; padding:10px 12px; border-radius: 10px; border:1px solid #20264a}
+  .row:last-child {border-bottom:none}
+  .foot {color: var(--muted); font-size:.9rem; margin-top:10px}
+  .tag {background:#0b0f1f; border:1px solid #24305a; color:#c6caf1; padding:2px 6px; border-radius:8px; font-size:.78rem; display:inline-block; margin: 2px 4px 0 0}
+  .ok {color: var(--green)}
+  .bad {color: var(--red)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>“Inside the Insight Economy” — P3 Triad Demo</h1>
+  <div class="panel">
+    <p>
+      This page models the “insight economy” idea: instead of hoarding raw data, compute a focused <em>insight where the data lives</em>,
+      share only that answer, and align technology, legal, and business incentives.
+      Each scenario is scored on five elements (0..1): <strong>Derivation</strong>, <strong>Minimization</strong>, <strong>Activation</strong>, <strong>Equilibrium</strong>, and <strong>Copy-Resistance</strong>.
+      A scenario is <span class="pill">infinite-minded</span> if <code>avg ≥ 0.60</code>, at least <code>3</code> pillars are strong (≥ 0.60), and <code>penalty &lt; 0.25</code>.
+    </p>
+  </div>
+
+  <h2>Under the hood</h2>
+  <div class="panel">
+    <details open>
+      <summary style="cursor:pointer; font-weight:600; margin-bottom:8px">Short version</summary>
+      <ul>
+        <li><strong>Inputs</strong>: each scenario has simple <em>traits</em> (sliders from 0..1 for tech/legal/business/copy-resistance) and a few <em>decisions</em> tagged with plain words like <code>zero_copy</code>, <code>purpose_limited</code>, or <code>raw_export</code>.</li>
+        <li><strong>Scoring</strong>: we turn those into five pillar scores (0..1). Helpful tags give small boosts; harmful tags trim a bit. Scores are clamped between 0 and 1.</li>
+        <li><strong>Balance matters</strong>: the <em>Equilibrium</em> pillar rewards balance across tech/legal/business (like a 3-legged stool). If one leg is short, the stool wobbles and the score drops.</li>
+        <li><strong>Flags → Penalty</strong>: certain red-flag behaviors (e.g., broad consent, raw exports) add <code>0.15</code> penalty each (up to three categories). Too many flags flips the result to finite-minded.</li>
+        <li><strong>Final label</strong>: “infinite-minded” if the average score ≥ 0.60, at least 3 pillars are ≥ 0.60, and penalty &lt; 0.25. Otherwise “finite-minded”.</li>
+        <li><strong>Proof harness</strong>: a checklist of invariants (always-true properties) and unit tests (edge examples). Each shows PASS/FAIL so you can trust the outcome.</li>
+        <li><strong>Privacy</strong>: everything runs in your browser — no network calls, no data sent anywhere.</li>
+      </ul>
+    </details>
+    <details style="margin-top:10px">
+      <summary style="cursor:pointer; font-weight:600">A tiny peek at the math (optional)</summary>
+      <p class="muted" style="margin:.4rem 0 .6rem">You don’t need this to use the demo; it’s here for the curious.</p>
+      <ul>
+        <li><strong>Pillar scores</strong> combine a baseline from the matching trait with capped boosts from helpful tags:
+          <pre>Derivation ≈ 0.6 × tech_maturity  +  min(0.35, 0.18 × helpful_tags)</pre>
+          Similar patterns apply to Minimization and Activation (with their own helpful/harmful tags).
+        </li>
+        <li><strong>Equilibrium</strong> measures balance across the three “Trinity” pillars using variance:
+          <pre>Equilibrium = clamp( 0.2 + 0.8 × ( 1 − variance / worst_possible_variance ) )</pre>
+        </li>
+        <li><strong>Copy-Resistance</strong> gets a boost from contracts/expiry/rate-limits and is <em>multiplied by 0.6</em> if a <code>raw_export</code> tag appears (copying raw data undermines insight value).</li>
+        <li><strong>Penalty</strong> is the sum of distinct flag buckets (each 0.15):
+          <code>[Broad/profiling without minimization, Data-hoarding business model, Raw data exports]</code>.
+        </li>
+        <li><strong>Classification</strong> requires: <code>avg ≥ 0.60</code>, <code>strong_pillars ≥ 3</code>, <code>penalty &lt; 0.25</code>.</li>
+      </ul>
+    </details>
+    <details style="margin-top:10px">
+      <summary style="cursor:pointer; font-weight:600">What the checks guarantee</summary>
+      <ul>
+        <li><strong>Invariants</strong> (16): math is consistent (averages, ranges, counts), labels match rules, penalty math is exact, and equilibrium behaves sensibly when things get lopsided.</li>
+        <li><strong>Unit tests</strong> (10): realistic edge cases — e.g., “all high” passes, “all low” fails, a single flag doesn’t sink a great setup, two flags do, removing <code>raw_export</code> helps Copy-Resistance, etc.</li>
+      </ul>
+    </details>
+  </div>
+
+  <h2>Answer</h2>
+  <div id="answer" class="panel scoreboard"></div>
+
+  <h2>Reason Why</h2>
+  <div id="reasons" class="panel"></div>
+
+  <h2>Check</h2>
+  <div id="checks" class="panel"></div>
+
+  <div class="foot">Everything runs locally in your browser. No network calls. Source is embedded below.</div>
+</div>
+
+<script>
+/* ===========================
+   Data (same as Python demo)
+   =========================== */
+const DATA = [
+  {
+    name: "Delfour ↔ Community Pharmacy (insight request)",
+    context: "Supermarket asks pharmacy for a fit-for-purpose insight about likely sugar-sensitive purchases; compute near data.",
+    traits: {tech_maturity:0.80, legal_maturity:0.78, biz_maturity:0.76, copy_resistance:0.85},
+    decisions: [
+      {year:2025, description:"Derive prediction at pharmacy; send only a yes/no + confidence", tags:["on_site_derivation","zero_copy","data_minimized"]},
+      {year:2025, description:"Contract governs the insight (not data), revocable and auditable", tags:["insight_contract","expiry","auditability","purpose_limited"]},
+      {year:2025, description:"Per-insight pricing with shared upside if conversion occurs", tags:["pay_per_insight","mutual_value"]},
+    ],
+  },
+  {
+    name: "Mobility Pass ↔ City Parking (dynamic pricing via insights)",
+    context: "Driver keeps telemetry; parking operator requests a congestion/availability insight to set dynamic rates—no raw movement data leaves.",
+    traits:{tech_maturity:0.77, legal_maturity:0.80, biz_maturity:0.74, copy_resistance:0.82},
+    decisions: [
+      {year:2024, description:"Federated compute of congestion index from user devices", tags:["federated_compute","on_site_derivation","zero_copy"]},
+      {year:2024, description:"Purpose-limited, legitimate-interest assessment for traffic management", tags:["purpose_limited","legitimate_interest","data_minimized"]},
+      {year:2025, description:"Pay-per-insight with rate limits & short-lived tokens", tags:["pay_per_insight","rate_limited","expiry"]},
+    ],
+  },
+  {
+    name: "Clinical Research Board ↔ EHR Network (trial feasibility)",
+    context:"Hospitals compute cohort counts locally; the broker receives only k-anonymized counts and eligibility flags.",
+    traits:{tech_maturity:0.81, legal_maturity:0.83, biz_maturity:0.70, copy_resistance:0.80},
+    decisions: [
+      {year:2023, description:"k-anon cohort counts; no row-level exports", tags:["on_site_derivation","zero_copy","data_minimized"]},
+      {year:2023, description:"Ethics & legal review confirm minimization suffices", tags:["purpose_limited","legitimate_interest"]},
+      {year:2024, description:"Per-site incentives tied to use of the insight, not data volume", tags:["mutual_value","pay_per_insight"]},
+    ],
+  },
+  {
+    name:"AdTech Broker (warehouse the web)",
+    context:"Collects raw browsing and app telemetry into a central lake; derives value mainly from copying & reselling profiles.",
+    traits:{tech_maturity:0.62, legal_maturity:0.25, biz_maturity:0.65, copy_resistance:0.20},
+    decisions:[
+      {year:2022, description:"Raw event export from SDKs into central warehouse", tags:["raw_export","warehouse_merge"]},
+      {year:2023, description:"Broad consents; profiling without minimization", tags:["broad_consent","profiling_no_min"]},
+      {year:2025, description:"Claims 'ownership' of user data, resale to partners", tags:["data_ownership_claims"]},
+    ],
+  },
+  {
+    name:"Insurer Bulk EHR Import (risk scoring)",
+    context:"Seeks bulk EHR copies for risk models; aims to keep a permanent lake.",
+    traits:{tech_maturity:0.55, legal_maturity:0.35, biz_maturity:0.60, copy_resistance:0.30},
+    decisions:[
+      {year:2024, description:"Requests CSV exports of medical records", tags:["raw_export"]},
+      {year:2024, description:"Broad, evergreen consents", tags:["broad_consent"]},
+      {year:2025, description:"Central model training without minimization", tags:["profiling_no_min","warehouse_merge"]},
+    ],
+  },
+];
+
+/* ===========================
+   Scoring utilities
+   =========================== */
+const THRESH_AVG = 0.60;
+const THRESH_STRONG = 0.60;
+
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const roundPct = x => `${Math.round(x*100)}%`;
+const uniq = arr => [...new Set(arr)];
+
+function scoreDerivation(s){
+  const base = 0.6 * (s.traits.tech_maturity ?? 0.5);
+  const boosts = s.decisions.filter(d => d.tags.some(t => ["on_site_derivation","federated_compute","zero_copy"].includes(t))).length;
+  let score = base + Math.min(0.35, boosts * 0.18);
+  const reasons = boosts ? ["Derives insights near data (zero-copy/federated)."] : [];
+  return {score: clamp01(score), reasons};
+}
+
+function scoreMinimization(s){
+  const base = 0.6 * (s.traits.legal_maturity ?? 0.5);
+  const good = s.decisions.filter(d => d.tags.some(t => ["data_minimized","purpose_limited","legitimate_interest","expiry","auditability"].includes(t))).length;
+  const bad  = s.decisions.filter(d => d.tags.some(t => ["broad_consent","profiling_no_min"].includes(t))).length;
+  let score = base + Math.min(0.35, good * 0.17) - Math.min(0.35, bad * 0.20);
+  const reasons = good ? ["Minimizes data with purpose limits & safeguards."] : [];
+  const flags = bad ? ["Broad/profiling without minimization."] : [];
+  return {score: clamp01(score), reasons, flags};
+}
+
+function scoreActivation(s){
+  const base = 0.6 * (s.traits.biz_maturity ?? 0.5);
+  const pro = s.decisions.filter(d => d.tags.some(t => ["insight_contract","pay_per_insight","mutual_value","rate_limited"].includes(t))).length;
+  const bad = s.decisions.filter(d => d.tags.some(t => ["warehouse_merge","data_ownership_claims"].includes(t))).length;
+  let score = base + Math.min(0.35, pro * 0.16) - Math.min(0.35, bad * 0.18);
+  const reasons = pro ? ["Value via insight contracts / pay-per-insight / mutual gain."] : [];
+  const flags = bad ? ["Data-hoarding business model."] : [];
+  return {score: clamp01(score), reasons, flags};
+}
+
+function scoreEquilibrium(der, minz, act){
+  const vals = [der,minz,act];
+  const mu = (der+minz+act)/3;
+  const variance = vals.reduce((a,v)=>a+Math.pow(v-mu,2),0)/3;
+  const maxVar = (Math.pow(1-1/3,2) + Math.pow(0-1/3,2) + Math.pow(0-1/3,2))/3;
+  const balance = 1 - (variance/maxVar);
+  const score = clamp01(0.2 + 0.8 * balance);
+  const reasons = [balance >= 0.7 ? "Balanced Trinity across tech/legal/business." : "Trinity slightly imbalanced."];
+  return {score, reasons};
+}
+
+function scoreCopyResistance(s){
+  const base = 0.6 * (s.traits.copy_resistance ?? 0.5);
+  const supports = s.decisions.filter(d => d.tags.some(t => ["rate_limited","expiry","insight_contract"].includes(t))).length;
+  let score = base + Math.min(0.35, supports * 0.16);
+  const reasons = supports ? ["Copy-resistant via contract/expiry/rate limits."] : [];
+  let flags = [];
+  if (s.decisions.some(d => d.tags.includes("raw_export"))) {
+    score *= 0.6;
+    flags.push("Raw data exports undermine copy-resistance.");
+  }
+  return {score: clamp01(score), reasons, flags};
+}
+
+function evaluateScenario(s){
+  const d = scoreDerivation(s);
+  const m = scoreMinimization(s);
+  const a = scoreActivation(s);
+  const e = scoreEquilibrium(d.score, m.score, a.score);
+  const c = scoreCopyResistance(s);
+
+  const pillars = {
+    "Derivation": d.score,
+    "Minimization": m.score,
+    "Activation": a.score,
+    "Equilibrium": e.score,
+    "Copy-Resistance": c.score,
+  };
+  const reasonsMap = {
+    "Derivation": d.reasons,
+    "Minimization": m.reasons,
+    "Activation": a.reasons,
+    "Equilibrium": e.reasons,
+    "Copy-Resistance": c.reasons,
+  };
+  const flags = uniq([...(m.flags||[]), ...(a.flags||[]), ...(c.flags||[])]);
+  const avg = (Object.values(pillars).reduce((x,y)=>x+y,0))/5;
+  const strong = Object.values(pillars).filter(v => v >= THRESH_STRONG).length;
+
+  let penalty = 0.0;
+  if (flags.includes("Broad/profiling without minimization.")) penalty += 0.15;
+  if (flags.includes("Data-hoarding business model."))        penalty += 0.15;
+  if (flags.includes("Raw data exports undermine copy-resistance.")) penalty += 0.15;
+
+  const infinite = (avg >= THRESH_AVG && strong >= 3 && penalty < 0.25);
+  const classification = infinite ? "infinite-minded" : "finite-minded";
+
+  let reason = `Avg ${roundPct(avg)} with ${strong}/5 elements ≥${Math.round(THRESH_STRONG*100)}%. ` +
+               `Classification: ${classification.toUpperCase()}.`;
+  const brief = [];
+  for (const [k, lst] of Object.entries(reasonsMap)) if (lst.length) brief.push(`${k}: ${lst.join(", ")}`);
+  if (flags.length) brief.push("Red flags: " + flags.join("; "));
+  if (brief.length) reason += " " + brief.join(" ");
+
+  return { name: s.name, classification, pillars, average: avg, strong, reason_text: reason,
+           flags, penalty, context: s.context, reasons_map: reasonsMap };
+}
+
+/* ===========================
+   Check catalog
+   =========================== */
+const INVARIANT_INFO = {
+  I1:"average equals mean of pillars",
+  I2:"each pillar within [0,1]",
+  I3:"strong_count matches pillars ≥ 0.60",
+  I4:"if infinite-minded then (avg/strong/penalty) preconditions hold",
+  I5:"if penalty ≥ 0.25 then must be finite-minded",
+  I6:"narrative includes canonical label",
+  I7:"reasons_map keys match pillar keys",
+  I8:"average between min and max pillar values",
+  I9:"deterministic: re-evaluation matches",
+  I10:"zero flags + thresholds ⇒ infinite-minded",
+  I11:"all pillars ≥ 0.70 ⇒ infinite-minded",
+  I12:"raw_export present ⇒ narrative includes raw-export flag",
+  I13:"thresholds met & penalty < 0.25 ⇒ infinite-minded (contrapositive)",
+  I14:"penalty equals 0.15 × distinct flag buckets",
+  I15:"very imbalanced Trinity ⇒ low Equilibrium",
+  I16:"near-equal Trinity ⇒ high Equilibrium",
+};
+
+const UNIT_INFO = {
+  U1:"All-High-Insight ⇒ infinite-minded",
+  U2:"All-Low-DataLake ⇒ finite-minded",
+  U3:"Near-But-Avg-Below (avg below) ⇒ finite-minded",
+  U4:"Avg-High-But-Flagged (penalty ≥0.25) ⇒ finite-minded",
+  U5:"Imbalanced-Trinity doesn’t sneak through on average alone",
+  U6:"Finite wording alone doesn’t block if Trinity holds",
+  U7:"Monotonicity: adding supportive tag doesn’t reduce Derivation",
+  U8:"One flag (0.15) with high pillars can still be infinite-minded",
+  U9:"Two flags (0.30) force finite-minded",
+  U10:"Removing raw_export raises Copy-Resistance",
+};
+
+/* ===========================
+   Invariants & unit tests
+   =========================== */
+function runInvariants(results) {
+  const out = {}; Object.keys(INVARIANT_INFO).forEach(k => out[k]=[]);
+  const nameToObj = Object.fromEntries(DATA.map(s => [s.name, s]));
+
+  // I1..I8 basics
+  for (const r of results) {
+    // I1
+    const expected = Object.values(r.pillars).reduce((x,y)=>x+y,0)/5;
+    if (Math.abs(r.average - expected) > 1e-9)
+      out.I1.push(`${r.name}: average mismatch (${r.average.toFixed(3)} vs ${expected.toFixed(3)})`);
+
+    // I2
+    for (const [k,v] of Object.entries(r.pillars))
+      if (!(v >= -1e-9 && v <= 1+1e-9))
+        out.I2.push(`${r.name}: pillar '${k}'=${v.toFixed(3)} out of [0,1]`);
+
+    // I3
+    const strongCount = Object.values(r.pillars).filter(v => v >= THRESH_STRONG).length;
+    if (strongCount !== r.strong)
+      out.I3.push(`${r.name}: strong_count ${r.strong} vs ${strongCount}`);
+
+    // I4
+    if (r.classification === "infinite-minded") {
+      if (!(r.average >= THRESH_AVG && r.strong >= 3 && r.penalty < 0.25))
+        out.I4.push(`${r.name}: infinite-minded but rule not satisfied`);
+    }
+
+    // I5
+    if (r.penalty >= 0.25 && r.classification !== "finite-minded")
+      out.I5.push(`${r.name}: penalty ${r.penalty.toFixed(2)} but not finite-minded`);
+
+    // I6
+    const needed = r.classification === "infinite-minded" ? "Classification: INFINITE-MINDED." : "Classification: FINITE-MINDED.";
+    if (!r.reason_text.includes(needed))
+      out.I6.push(`${r.name}: missing canonical label in narrative`);
+
+    // I7
+    if (Object.keys(r.reasons_map).sort().join("|") !== Object.keys(r.pillars).sort().join("|"))
+      out.I7.push(`${r.name}: reasons keys mismatch pillars`);
+
+    // I8
+    const vals = Object.values(r.pillars);
+    if (!(Math.min(...vals)-1e-9 <= r.average && r.average <= Math.max(...vals)+1e-9))
+      out.I8.push(`${r.name}: average not between min/max pillars`);
+  }
+
+  // I9 determinism (evaluate again from source)
+  for (const r of results) {
+    const src = nameToObj[r.name];
+    if (!src) { out.I9.push(`${r.name}: missing source for determinism`); continue; }
+    const r2 = evaluateScenario(src);
+    if (Math.abs(r2.average - r.average) > 1e-9 || r2.classification !== r.classification || r2.strong !== r.strong)
+      out.I9.push(`${r.name}: non-deterministic evaluation`);
+  }
+
+  // I10 zero flags + thresholds ⇒ infinite-minded
+  for (const r of results) {
+    if (r.flags.length===0 && r.average >= THRESH_AVG && r.strong >= 3 && r.classification !== "infinite-minded")
+      out.I10.push(`${r.name}: thresholds met w/o flags but not infinite-minded`);
+  }
+
+  // I11 all pillars strong ⇒ infinite-minded
+  for (const r of results) {
+    if (Object.values(r.pillars).every(v => v >= 0.70) && r.classification !== "infinite-minded")
+      out.I11.push(`${r.name}: all pillars strong but not infinite-minded`);
+  }
+
+  // I12 raw_export ⇒ narrative has explicit flag
+  for (const r of results) {
+    const src = nameToObj[r.name];
+    const hasRaw = src?.decisions?.some(d => d.tags.includes("raw_export"));
+    if (hasRaw && !r.reason_text.includes("Raw data exports undermine copy-resistance."))
+      out.I12.push(`${r.name}: raw_export present but narrative lacks explicit flag`);
+  }
+
+  // I13 thresholds met + penalty<0.25 ⇒ infinite-minded
+  for (const r of results) {
+    if (r.average >= THRESH_AVG && r.strong >= 3 && r.penalty < 0.25 && r.classification !== "infinite-minded")
+      out.I13.push(`${r.name}: thresholds met but classification not infinite-minded`);
+  }
+
+  // I14 penalty math
+  for (const r of results) {
+    let expected = 0.0;
+    if (r.flags.includes("Broad/profiling without minimization.")) expected += 0.15;
+    if (r.flags.includes("Data-hoarding business model.")) expected += 0.15;
+    if (r.flags.includes("Raw data exports undermine copy-resistance.")) expected += 0.15;
+    if (Math.abs(expected - r.penalty) > 1e-9)
+      out.I14.push(`${r.name}: expected ${expected.toFixed(2)}, got ${r.penalty.toFixed(2)}`);
+  }
+
+  // I15 very imbalanced Trinity ⇒ low Equilibrium
+  for (const r of results) {
+    const d=r.pillars["Derivation"], m=r.pillars["Minimization"], a=r.pillars["Activation"];
+    const mu=(d+m+a)/3, std=Math.sqrt(((mu-d)**2+(mu-m)**2+(mu-a)**2)/3);
+    if (std>=0.45 && !(r.pillars["Equilibrium"] <= 0.40+1e-9))
+      out.I15.push(`${r.name}: high imbalance (std=${std.toFixed(2)}) but Equilibrium=${r.pillars["Equilibrium"].toFixed(2)} not low`);
+  }
+
+  // I16 near-equal Trinity ⇒ high Equilibrium
+  for (const r of results) {
+    const d=r.pillars["Derivation"], m=r.pillars["Minimization"], a=r.pillars["Activation"];
+    if (Math.max(d,m,a) - Math.min(d,m,a) <= 0.05 && r.pillars["Equilibrium"] < 0.85-1e-9)
+      out.I16.push(`${r.name}: near-equal Trinity but Equilibrium=${r.pillars["Equilibrium"].toFixed(2)} not high`);
+  }
+  return out;
+}
+
+function runUnitTests() {
+  const out = {}; Object.keys(UNIT_INFO).forEach(k => out[k]=[]);
+
+  // U1: All-High-Insight → infinite-minded
+  let s = {name:"All-High-Insight", context:"Synthetic", traits:{tech_maturity:0.9,legal_maturity:0.9,biz_maturity:0.9,copy_resistance:0.9},
+           decisions:[{year:2025,description:"good",tags:["on_site_derivation","zero_copy","data_minimized","purpose_limited","insight_contract","pay_per_insight","rate_limited","expiry"]}]};
+  let r = evaluateScenario(s);
+  if (r.classification!=="infinite-minded") out.U1.push("Expected infinite-minded");
+
+  // U2: All-Low-DataLake → finite-minded
+  s = {name:"All-Low-DataLake", context:"Synthetic", traits:{tech_maturity:0.2,legal_maturity:0.2,biz_maturity:0.2,copy_resistance:0.2},
+       decisions:[{year:2025,description:"bad",tags:["raw_export","warehouse_merge","broad_consent","profiling_no_min","data_ownership_claims"]}]};
+  r = evaluateScenario(s);
+  if (r.classification!=="finite-minded") out.U2.push("Expected finite-minded");
+
+  // U3: Avg definitively below threshold → finite-minded (uses 0.55 baselines)
+  s = {name:"Near-But-Avg-Below", context:"Synthetic", traits:{tech_maturity:0.55,legal_maturity:0.55,biz_maturity:0.55,copy_resistance:0.55},
+       decisions:[{year:2025,description:"mostly good",tags:["on_site_derivation","data_minimized","insight_contract"]}]};
+  r = evaluateScenario(s);
+  if (r.average >= THRESH_AVG || r.classification!=="finite-minded") out.U3.push("Should be finite-minded with avg below threshold");
+
+  // U4: Avg above threshold but penalty ≥ 0.25 → finite-minded
+  s = {name:"Avg-High-But-Flagged", context:"Synthetic", traits:{tech_maturity:0.75,legal_maturity:0.75,biz_maturity:0.75,copy_resistance:0.75},
+       decisions:[{year:2025,description:"good+bad",tags:["on_site_derivation","data_minimized","insight_contract","raw_export","warehouse_merge"]}]};
+  r = evaluateScenario(s);
+  if (!(r.average >= THRESH_AVG && r.penalty >= 0.25 && r.classification==="finite-minded"))
+    out.U4.push("Penalty ≥0.25 should force finite-minded");
+
+  // U5: Imbalanced Trinity shouldn't pass just on avg/strong
+  s = {name:"Imbalanced-Trinity", context:"Synthetic", traits:{tech_maturity:0.9,legal_maturity:0.9,biz_maturity:0.35,copy_resistance:0.7},
+       decisions:[{year:2025,description:"mixed",tags:["on_site_derivation","data_minimized"]}]};
+  r = evaluateScenario(s);
+  if (r.average >= THRESH_AVG && r.strong >= 3 && r.classification==="infinite-minded")
+    out.U5.push("Imbalance should prevent easy pass");
+
+  // U6: Finite wording alone shouldn't block if trinity holds (0.72 baselines)
+  s = {name:"Finite-Sounding-But-OK", context:"Synthetic", traits:{tech_maturity:0.72,legal_maturity:0.72,biz_maturity:0.72,copy_resistance:0.72},
+       decisions:[{year:2025,description:"good",tags:["on_site_derivation","data_minimized","insight_contract","rate_limited","expiry"]}]};
+  r = evaluateScenario(s);
+  if (r.classification!=="infinite-minded") out.U6.push("Finite wording alone should not block");
+
+  // U7: Monotonicity — adding supportive tag increases (or preserves) Derivation
+  const base = {name:"Mono-Base", context:"Synthetic", traits:{tech_maturity:0.6,legal_maturity:0.6,biz_maturity:0.6,copy_resistance:0.6},
+                decisions:[{year:2025,description:"",tags:[]}]};
+  const more = {name:"Mono-More", context:"Synthetic", traits:base.traits,
+                decisions:[{year:2025,description:"",tags:["on_site_derivation"]}]};
+  const rA = evaluateScenario(base), rB = evaluateScenario(more);
+  if (rB.pillars["Derivation"] < rA.pillars["Derivation"] - 1e-9)
+    out.U7.push("Supportive tag should not reduce Derivation");
+
+  // U8: One flag at 0.15 with high pillars → still infinite-minded
+  s = {name:"One-Flag-High", context:"Synthetic", traits:{tech_maturity:0.9,legal_maturity:0.9,biz_maturity:0.9,copy_resistance:0.9},
+       decisions:[{year:2025,description:"",tags:["on_site_derivation","data_minimized","insight_contract","rate_limited","expiry","raw_export"]}]};
+  r = evaluateScenario(s);
+  if (!(Math.abs(r.penalty - 0.15)<1e-9 && r.classification==="infinite-minded"))
+    out.U8.push("One flag shouldn’t flip classification if avg/strong hold");
+
+  // U9: Two flags (0.30) force finite-minded
+  s = {name:"Two-Flags-High", context:"Synthetic", traits:{tech_maturity:0.9,legal_maturity:0.9,biz_maturity:0.9,copy_resistance:0.9},
+       decisions:[{year:2025,description:"",tags:["on_site_derivation","data_minimized","insight_contract","rate_limited","expiry","raw_export","warehouse_merge"]}]};
+  r = evaluateScenario(s);
+  if (!(Math.abs(r.penalty - 0.30)<1e-9 && r.classification==="finite-minded"))
+    out.U9.push("Two flags should force finite-minded");
+
+  // U10: Removing raw_export raises Copy-Resistance
+  const withExp = {name:"CR-With-Export", context:"Synthetic", traits:{tech_maturity:0.7,legal_maturity:0.7,biz_maturity:0.7,copy_resistance:0.7},
+                   decisions:[{year:2025,description:"",tags:["on_site_derivation","insight_contract","raw_export"]}]};
+  const noExp   = {name:"CR-No-Export", context:"Synthetic", traits:withExp.traits,
+                   decisions:[{year:2025,description:"",tags:["on_site_derivation","insight_contract"]}]};
+  const r1 = evaluateScenario(withExp), r2 = evaluateScenario(noExp);
+  if (!(r2.pillars["Copy-Resistance"] > r1.pillars["Copy-Resistance"] - 1e-9))
+    out.U10.push("Removing raw_export should raise Copy-Resistance");
+
+  return out;
+}
+
+/* ===========================
+   Renderers
+   =========================== */
+function renderAnswer(results) {
+  const root = document.getElementById("answer");
+  const map = Object.fromEntries(results.map(r => [r.name, r.classification]));
+  const rows = results.map(r => {
+    const cls = r.classification;
+    return `<tr>
+      <td>${r.name}</td>
+      <td>${roundPct(r.average)}</td>
+      <td>${r.strong}/5</td>
+      <td>${r.penalty.toFixed(2)}</td>
+      <td><span class="pill ${cls==='infinite-minded'?'pass':'fail'}">${cls}</span></td>
+    </tr>`;
+  }).join("");
+  root.innerHTML = `
+    <div class="muted" style="margin-bottom:8px">SCOREBOARD — (higher avg & strong pillars = more infinite-minded)</div>
+    <table>
+      <thead><tr>
+        <th>Org / Scenario</th><th>Avg</th><th>Strong ≥60%</th><th>Penalty</th><th>Classification</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <h3 style="margin-top:16px">JSON</h3>
+    <pre>${JSON.stringify(map, null, 2)}</pre>
+  `;
+}
+
+function renderReasons(results) {
+  const root = document.getElementById("reasons");
+  root.innerHTML = results.map(r => `
+    <div style="margin:10px 0">
+      <div style="font-weight:600">${r.name}</div>
+      <div class="muted" style="margin:4px 0 6px">${r.context}</div>
+      <div>${r.reason_text}</div>
+      ${r.flags.length ? `<div style="margin-top:6px">${r.flags.map(f=>`<span class="tag">${f}</span>`).join("")}</div>` : ""}
+    </div>
+  `).join("<hr style='border:0;border-top:1px dashed #2a2f52;margin:10px 0'>");
+}
+
+function renderChecks(invIssues, unitIssues) {
+  const root = document.getElementById("checks");
+  const invPassCount = Object.keys(INVARIANT_INFO).filter(k => !invIssues[k]?.length).length;
+  const unitPassCount = Object.keys(UNIT_INFO).filter(k => !unitIssues[k]?.length).length;
+  const allOk = invPassCount === Object.keys(INVARIANT_INFO).length &&
+                unitPassCount === Object.keys(UNIT_INFO).length;
+
+  const invRows = Object.keys(INVARIANT_INFO).sort((a,b)=>+a.slice(1)-+b.slice(1)).map(code => {
+    const passed = !(invIssues[code]?.length);
+    const msgs = (invIssues[code]||[]).map(m => `<div class="msg">• ${m}</div>`).join("");
+    return `<div class="row">
+      <div class="code">${code}</div>
+      <div class="msg"><strong>${INVARIANT_INFO[code]}</strong>${msgs?'<div style="margin-top:4px"></div>':''}${msgs}</div>
+      <div class="status"><span class="pill ${passed?'pass':'fail'}">${passed?'PASS':'FAIL'}</span></div>
+    </div>`;
+  }).join("");
+
+  const unitRows = Object.keys(UNIT_INFO).sort((a,b)=>+a.slice(1)-+b.slice(1)).map(code => {
+    const passed = !(unitIssues[code]?.length);
+    const msgs = (unitIssues[code]||[]).map(m => `<div class="msg">• ${m}</div>`).join("");
+    return `<div class="row">
+      <div class="code">${code}</div>
+      <div class="msg"><strong>${UNIT_INFO[code]}</strong>${msgs?'<div style="margin-top:4px"></div>':''}${msgs}</div>
+      <div class="status"><span class="pill ${passed?'pass':'fail'}">${passed?'PASS':'FAIL'}</span></div>
+    </div>`;
+  }).join("");
+
+  root.innerHTML = `
+    <div>Checks run: ${Object.keys(INVARIANT_INFO).length} invariants + ${Object.keys(UNIT_INFO).length} unit tests = <strong>${Object.keys(INVARIANT_INFO).length + Object.keys(UNIT_INFO).length}</strong> total</div>
+    <h3>Invariants</h3>
+    <div class="checks">${invRows}</div>
+    <h3 style="margin-top:10px">Unit Tests</h3>
+    <div class="checks">${unitRows}</div>
+    <div class="summary">
+      <div class="box">Invariants: <strong>${invPassCount}/${Object.keys(INVARIANT_INFO).length}</strong> PASS</div>
+      <div class="box">Unit tests: <strong>${unitPassCount}/${Object.keys(UNIT_INFO).length}</strong> PASS</div>
+      <div class="box">OVERALL: <strong class="${allOk?'ok':'bad'}">${allOk?'PASS':'FAIL'}</strong></div>
+    </div>
+  `;
+}
+
+/* ===========================
+   Run
+   =========================== */
+(function main(){
+  const results = DATA.map(evaluateScenario);
+  const invIssues = runInvariants(results);
+  const unitIssues = runUnitTests();
+
+  renderAnswer(results);
+  renderReasons(results);
+  renderChecks(invIssues, unitIssues);
+})();
+</script>
+</body>
+</html>
+
