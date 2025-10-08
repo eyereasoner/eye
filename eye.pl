@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.22.2 (2025-09-29)').
+version_info('EYE v11.22.3 (2025-10-08)').
 
 license_info('MIT License
 
@@ -14043,10 +14043,7 @@ absolute_uri(A, B) :-
     ->  B = A
     ;   absolute_file_name(A, C),
         prolog_to_os_filename(D, C),
-        atom_codes(D, E),
-        subst([[[0x20], [0'%, 0'2, 0'0]]], E, F),
-        atom_codes(G, F),
-        atomic_list_concat(['file://', G], B)
+        atomic_list_concat(['file://', D], B)
     ).
 
 resolve_uri(A, _, A) :-
