@@ -3,91 +3,63 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Insight Economy — P3 Triad Demo</title>
+<title>Insight Economy — P3 Triad Demo (Friendly Version)</title>
 <style>
-  :root {
-    --bg: #0f1220; --panel: #161a2b; --ink: #e6e9f7; --muted:#a6accd;
-    --green:#23d18b; --red:#ff5c7c; --amber:#ffd166; --blue:#4ea1ff;
+  :root{
+    --bg:#ffffff; --ink:#1e2430; --muted:#5d6b82; --panel:#f7f9fc; --border:#e3e8f1;
+    --green:#0a7f3f; --red:#c62828; --blue:#1f6feb; --amber:#b26a00;
+    --pillbg:#eef2f8;
   }
-  html,body {background: var(--bg); color: var(--ink); font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin:0; padding:0;}
-  .wrap {max-width: 1100px; margin: 32px auto; padding: 0 16px;}
-  h1,h2,h3 {line-height:1.2; margin: 1.2rem 0 .6rem}
-  h1 {font-size: 1.6rem}
-  h2 {font-size: 1.25rem; color: var(--blue)}
-  h3 {font-size: 1rem; color: var(--muted)}
-  .panel {background: var(--panel); border-radius: 12px; padding: 16px 18px; margin: 14px 0; border: 1px solid #212643;}
-  .scoreboard table {width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums;}
-  .scoreboard th, .scoreboard td {padding: 10px 8px; border-bottom: 1px solid #242a4a;}
-  .scoreboard th {text-align: left; color: var(--muted); font-weight: 600; letter-spacing:.02em;}
-  .pill {display:inline-block; padding:2px 8px; border-radius:999px; font-size: .8rem; border:1px solid #2a315c; color: var(--muted)}
-  .pill.pass {color: var(--green); border-color: rgba(35,209,139,.35)}
-  .pill.fail {color: var(--red); border-color: rgba(255,92,124,.35)}
-  .muted {color: var(--muted)}
-  pre {white-space: pre-wrap; background:#0b0e1a; padding:12px 14px; border-radius:10px; border:1px solid #1b2040; overflow:auto;}
-  .checks .row {display:flex; align-items:flex-start; gap:8px; padding:6px 0; border-bottom:1px dashed #23284b;}
-  .checks .code {min-width: 54px; text-align:center; font-weight:700; color:#8aa1ff;}
-  .checks .msg {flex:1}
-  .checks .status {min-width: 64px; text-align:center;}
-  .summary {display:flex; gap:18px; flex-wrap: wrap; margin-top:8px}
-  .summary .box {background:#0b0f1f; padding:10px 12px; border-radius: 10px; border:1px solid #20264a}
-  .row:last-child {border-bottom:none}
-  .foot {color: var(--muted); font-size:.9rem; margin-top:10px}
-  .tag {background:#0b0f1f; border:1px solid #24305a; color:#c6caf1; padding:2px 6px; border-radius:8px; font-size:.78rem; display:inline-block; margin: 2px 4px 0 0}
-  .ok {color: var(--green)}
-  .bad {color: var(--red)}
+  html,body{background:var(--bg); color:var(--ink); font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Helvetica,Arial,sans-serif; margin:0;padding:0}
+  .wrap{max-width:1000px; margin:28px auto; padding:0 16px}
+  h1{font-size:1.7rem; margin:.4rem 0 1rem}
+  h2{font-size:1.3rem; margin:1.2rem 0 .6rem; color:var(--blue)}
+  h3{font-size:1.05rem; margin:1rem 0 .4rem; color:var(--muted)}
+  p{margin:.5rem 0}
+  .panel{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin:12px 0}
+  .muted{color:var(--muted)}
+  .pill{display:inline-flex; align-items:center; gap:.35rem; padding:2px 10px; border-radius:999px; background:var(--pillbg); color:var(--muted); border:1px solid var(--border); font-size:.9rem}
+  .pill.pass{color:var(--green); border-color:#bfe6cf; background:#e9f7ef}
+  .pill.fail{color:var(--red); border-color:#f5c2c7; background:#fdecee}
+  .pill.info{color:var(--blue); border-color:#c7dcff; background:#eef4ff}
+  .scoreboard table{width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums}
+  .scoreboard th,.scoreboard td{padding:10px 8px; border-bottom:1px solid var(--border); vertical-align:top}
+  .scoreboard th{text-align:left; color:var(--muted); font-weight:600; letter-spacing:.02em}
+  pre{white-space:pre-wrap; background:#f1f4fa; padding:10px 12px; border-radius:10px; border:1px solid var(--border); overflow:auto; font-size:.9rem}
+  .checks .row{display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px dashed var(--border)}
+  .checks .code{min-width:54px; text-align:center; font-weight:700; color:var(--blue)}
+  .checks .msg{flex:1}
+  .checks .status{min-width:76px; text-align:center}
+  .tag{background:#eef2f8; border:1px solid var(--border); color:#334155; padding:2px 8px; border-radius:8px; font-size:.82rem; display:inline-block; margin:2px 4px 0 0}
+  .summary{display:flex; gap:12px; flex-wrap:wrap; margin-top:10px}
+  .summary .box{background:#f1f4fa; padding:10px 12px; border-radius:10px; border:1px solid var(--border)}
+  a.help{color:var(--blue); text-decoration:none; border-bottom:1px dotted var(--blue)}
+  .hl{background:#fff7e6; border:1px solid #ffe0a3; padding:2px 6px; border-radius:6px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>“Inside the Insight Economy” — P3 Triad Demo</h1>
+  <h1>“Inside the Insight Economy” — Try it in Your Browser</h1>
+
   <div class="panel">
-    <p>
-      This page models the “insight economy” idea: instead of hoarding raw data, compute a focused <em>insight where the data lives</em>,
-      share only that answer, and align technology, legal, and business incentives.
-      Each scenario is scored on five elements (0..1): <strong>Derivation</strong>, <strong>Minimization</strong>, <strong>Activation</strong>, <strong>Equilibrium</strong>, and <strong>Copy-Resistance</strong>.
-      A scenario is <span class="pill">infinite-minded</span> if <code>avg ≥ 0.60</code>, at least <code>3</code> pillars are strong (≥ 0.60), and <code>penalty &lt; 0.25</code>.
-    </p>
+    <p><strong>Plain-English idea:</strong> instead of copying and storing people’s raw data, compute a small, useful <em>answer</em> right where the data lives, and share just that answer. Align technology, legal rules, and business incentives so this stays respectful and useful over time.</p>
+    <p>We evaluate each scenario on five simple things:</p>
+    <ul>
+      <li><strong>Derivation</strong> — Do you compute the answer <em>near the data</em> (e.g., zero-copy, on-site, federated)?</li>
+      <li><strong>Minimization</strong> — Do you use the <em>least data</em> needed, with a clear purpose and safeguards?</li>
+      <li><strong>Activation</strong> — Do you create value from the <em>answer</em> (not from owning raw data)?</li>
+      <li><strong>Equilibrium</strong> — Are technology, legal, and business well balanced? (A three-legged stool.)</li>
+      <li><strong>Copy-Resistance</strong> — Is the answer less useful if copied around (short-lived, rate-limited, contractual)?</li>
+    </ul>
+    <p><span class="pill info">Rule to pass</span> A scenario is <strong>infinite-minded</strong> if its average score is <span class="hl">≥ 0.60</span>, at least <span class="hl">3</span> pillars score <span class="hl">≥ 0.60</span>, and the <em>penalty</em> from red flags is <span class="hl">&lt; 0.25</span>. Otherwise it’s <strong>finite-minded</strong>.</p>
   </div>
 
-  <h2>Under the hood</h2>
+  <h2>Under the hood — what’s happening</h2>
   <div class="panel">
-    <details open>
-      <summary style="cursor:pointer; font-weight:600; margin-bottom:8px">Short version</summary>
-      <ul>
-        <li><strong>Inputs</strong>: each scenario has simple <em>traits</em> (sliders from 0..1 for tech/legal/business/copy-resistance) and a few <em>decisions</em> tagged with plain words like <code>zero_copy</code>, <code>purpose_limited</code>, or <code>raw_export</code>.</li>
-        <li><strong>Scoring</strong>: we turn those into five pillar scores (0..1). Helpful tags give small boosts; harmful tags trim a bit. Scores are clamped between 0 and 1.</li>
-        <li><strong>Balance matters</strong>: the <em>Equilibrium</em> pillar rewards balance across tech/legal/business (like a 3-legged stool). If one leg is short, the stool wobbles and the score drops.</li>
-        <li><strong>Flags → Penalty</strong>: certain red-flag behaviors (e.g., broad consent, raw exports) add <code>0.15</code> penalty each (up to three categories). Too many flags flips the result to finite-minded.</li>
-        <li><strong>Final label</strong>: “infinite-minded” if the average score ≥ 0.60, at least 3 pillars are ≥ 0.60, and penalty &lt; 0.25. Otherwise “finite-minded”.</li>
-        <li><strong>Proof harness</strong>: a checklist of invariants (always-true properties) and unit tests (edge examples). Each shows PASS/FAIL so you can trust the outcome.</li>
-        <li><strong>Privacy</strong>: everything runs in your browser — no network calls, no data sent anywhere.</li>
-      </ul>
-    </details>
-    <details style="margin-top:10px">
-      <summary style="cursor:pointer; font-weight:600">A tiny peek at the math (optional)</summary>
-      <p class="muted" style="margin:.4rem 0 .6rem">You don’t need this to use the demo; it’s here for the curious.</p>
-      <ul>
-        <li><strong>Pillar scores</strong> combine a baseline from the matching trait with capped boosts from helpful tags:
-          <pre>Derivation ≈ 0.6 × tech_maturity  +  min(0.35, 0.18 × helpful_tags)</pre>
-          Similar patterns apply to Minimization and Activation (with their own helpful/harmful tags).
-        </li>
-        <li><strong>Equilibrium</strong> measures balance across the three “Trinity” pillars using variance:
-          <pre>Equilibrium = clamp( 0.2 + 0.8 × ( 1 − variance / worst_possible_variance ) )</pre>
-        </li>
-        <li><strong>Copy-Resistance</strong> gets a boost from contracts/expiry/rate-limits and is <em>multiplied by 0.6</em> if a <code>raw_export</code> tag appears (copying raw data undermines insight value).</li>
-        <li><strong>Penalty</strong> is the sum of distinct flag buckets (each 0.15):
-          <code>[Broad/profiling without minimization, Data-hoarding business model, Raw data exports]</code>.
-        </li>
-        <li><strong>Classification</strong> requires: <code>avg ≥ 0.60</code>, <code>strong_pillars ≥ 3</code>, <code>penalty &lt; 0.25</code>.</li>
-      </ul>
-    </details>
-    <details style="margin-top:10px">
-      <summary style="cursor:pointer; font-weight:600">What the checks guarantee</summary>
-      <ul>
-        <li><strong>Invariants</strong> (16): math is consistent (averages, ranges, counts), labels match rules, penalty math is exact, and equilibrium behaves sensibly when things get lopsided.</li>
-        <li><strong>Unit tests</strong> (10): realistic edge cases — e.g., “all high” passes, “all low” fails, a single flag doesn’t sink a great setup, two flags do, removing <code>raw_export</code> helps Copy-Resistance, etc.</li>
-      </ul>
-    </details>
+    <p><strong>Inputs.</strong> Each scenario has a few <em>traits</em> (sliders from 0..1 for tech/legal/business/copy-resistance) and a few <em>decisions</em> tagged with everyday words like <code>zero_copy</code>, <code>purpose_limited</code>, or <code>raw_export</code>.</p>
+    <p><strong>Scoring.</strong> Helpful tags nudge a pillar up a little, harmful tags push it down a little. We keep every score between 0 and 1. <em>Equilibrium</em> rewards balance across tech/legal/business — if one leg of the stool is short, the balance score drops.</p>
+    <p><strong>Penalties.</strong> Certain red-flag behaviors add <code>0.15</code> each to a penalty total: <em>raw data exports</em>, <em>data-hoarding business models</em>, and <em>broad consent/profiling without minimization</em>. Too many flags → finite-minded.</p>
+    <p><strong>Checks for trust.</strong> A built-in test harness runs <em>in this page</em>. It checks the math, threshold rules, and common edge cases. You’ll see a clear PASS/FAIL for each check below.</p>
   </div>
 
   <h2>Answer</h2>
@@ -99,12 +71,12 @@
   <h2>Check</h2>
   <div id="checks" class="panel"></div>
 
-  <div class="foot">Everything runs locally in your browser. No network calls. Source is embedded below.</div>
+  <p class="muted">Everything runs locally in your browser. No network calls. You can view the source to see exactly how it works.</p>
 </div>
 
 <script>
 /* ===========================
-   Data (same as Python demo)
+   Data (same scenarios as the Python version)
    =========================== */
 const DATA = [
   {
@@ -495,23 +467,27 @@ function renderAnswer(results) {
   const map = Object.fromEntries(results.map(r => [r.name, r.classification]));
   const rows = results.map(r => {
     const cls = r.classification;
+    const label = cls==='infinite-minded' ? '✓ infinite-minded' : '✗ finite-minded';
     return `<tr>
-      <td>${r.name}</td>
+      <td><strong>${r.name}</strong><div class="muted" style="font-size:.9rem">${r.context}</div></td>
       <td>${roundPct(r.average)}</td>
       <td>${r.strong}/5</td>
       <td>${r.penalty.toFixed(2)}</td>
-      <td><span class="pill ${cls==='infinite-minded'?'pass':'fail'}">${cls}</span></td>
+      <td><span class="pill ${cls==='infinite-minded'?'pass':'fail'}">${label}</span></td>
     </tr>`;
   }).join("");
   root.innerHTML = `
-    <div class="muted" style="margin-bottom:8px">SCOREBOARD — (higher avg & strong pillars = more infinite-minded)</div>
+    <div class="muted" style="margin-bottom:8px">
+      Higher average and more strong pillars (≥ 60%) mean more infinite-minded.
+      Penalty comes from red flags; if it reaches 0.25 or more, the scenario fails.
+    </div>
     <table>
       <thead><tr>
-        <th>Org / Scenario</th><th>Avg</th><th>Strong ≥60%</th><th>Penalty</th><th>Classification</th>
+        <th>Scenario</th><th>Average</th><th>Strong Pillars</th><th>Penalty</th><th>Result</th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table>
-    <h3 style="margin-top:16px">JSON</h3>
+    <h3>Answer (as JSON)</h3>
     <pre>${JSON.stringify(map, null, 2)}</pre>
   `;
 }
@@ -521,19 +497,21 @@ function renderReasons(results) {
   root.innerHTML = results.map(r => `
     <div style="margin:10px 0">
       <div style="font-weight:600">${r.name}</div>
-      <div class="muted" style="margin:4px 0 6px">${r.context}</div>
       <div>${r.reason_text}</div>
       ${r.flags.length ? `<div style="margin-top:6px">${r.flags.map(f=>`<span class="tag">${f}</span>`).join("")}</div>` : ""}
     </div>
-  `).join("<hr style='border:0;border-top:1px dashed #2a2f52;margin:10px 0'>");
+  `).join("<hr style='border:0;border-top:1px dashed var(--border);margin:10px 0'>");
 }
+
+function yesno(b){ return b ? `<span class="pill pass">✓ PASS</span>` : `<span class="pill fail">✗ FAIL</span>` }
 
 function renderChecks(invIssues, unitIssues) {
   const root = document.getElementById("checks");
+  const invTotal = Object.keys(INVARIANT_INFO).length;
+  const unitTotal = Object.keys(UNIT_INFO).length;
   const invPassCount = Object.keys(INVARIANT_INFO).filter(k => !invIssues[k]?.length).length;
   const unitPassCount = Object.keys(UNIT_INFO).filter(k => !unitIssues[k]?.length).length;
-  const allOk = invPassCount === Object.keys(INVARIANT_INFO).length &&
-                unitPassCount === Object.keys(UNIT_INFO).length;
+  const allOk = invPassCount === invTotal && unitPassCount === unitTotal;
 
   const invRows = Object.keys(INVARIANT_INFO).sort((a,b)=>+a.slice(1)-+b.slice(1)).map(code => {
     const passed = !(invIssues[code]?.length);
@@ -541,7 +519,7 @@ function renderChecks(invIssues, unitIssues) {
     return `<div class="row">
       <div class="code">${code}</div>
       <div class="msg"><strong>${INVARIANT_INFO[code]}</strong>${msgs?'<div style="margin-top:4px"></div>':''}${msgs}</div>
-      <div class="status"><span class="pill ${passed?'pass':'fail'}">${passed?'PASS':'FAIL'}</span></div>
+      <div class="status">${yesno(passed)}</div>
     </div>`;
   }).join("");
 
@@ -551,20 +529,20 @@ function renderChecks(invIssues, unitIssues) {
     return `<div class="row">
       <div class="code">${code}</div>
       <div class="msg"><strong>${UNIT_INFO[code]}</strong>${msgs?'<div style="margin-top:4px"></div>':''}${msgs}</div>
-      <div class="status"><span class="pill ${passed?'pass':'fail'}">${passed?'PASS':'FAIL'}</span></div>
+      <div class="status">${yesno(passed)}</div>
     </div>`;
   }).join("");
 
   root.innerHTML = `
-    <div>Checks run: ${Object.keys(INVARIANT_INFO).length} invariants + ${Object.keys(UNIT_INFO).length} unit tests = <strong>${Object.keys(INVARIANT_INFO).length + Object.keys(UNIT_INFO).length}</strong> total</div>
-    <h3>Invariants</h3>
+    <div>Checks run: ${invTotal} invariants + ${unitTotal} unit tests = <strong>${invTotal + unitTotal}</strong> total</div>
+    <h3>Invariants (always-true properties)</h3>
     <div class="checks">${invRows}</div>
-    <h3 style="margin-top:10px">Unit Tests</h3>
+    <h3 style="margin-top:10px">Unit Tests (edge examples)</h3>
     <div class="checks">${unitRows}</div>
     <div class="summary">
-      <div class="box">Invariants: <strong>${invPassCount}/${Object.keys(INVARIANT_INFO).length}</strong> PASS</div>
-      <div class="box">Unit tests: <strong>${unitPassCount}/${Object.keys(UNIT_INFO).length}</strong> PASS</div>
-      <div class="box">OVERALL: <strong class="${allOk?'ok':'bad'}">${allOk?'PASS':'FAIL'}</strong></div>
+      <div class="box">Invariants: <strong>${invPassCount}/${invTotal}</strong> PASS</div>
+      <div class="box">Unit tests: <strong>${unitPassCount}/${unitTotal}</strong> PASS</div>
+      <div class="box">OVERALL: <strong style="color:${allOk?'var(--green)':'var(--red)'}">${allOk?'PASS':'FAIL'}</strong></div>
     </div>
   `;
 }
