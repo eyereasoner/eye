@@ -446,7 +446,7 @@ def run_unit_tests() -> Dict[str, List[str]]:
     near = Scenario(
         name="Near-But-Avg-Below",
         context="Synthetic: misses by average.",
-        traits={"tech_maturity": 0.60, "legal_maturity": 0.60, "biz_maturity": 0.60, "copy_resistance": 0.58},
+        traits={"tech_maturity": 0.55, "legal_maturity": 0.55, "biz_maturity": 0.55, "copy_resistance": 0.55},
         decisions=[Decision(2025, "Mostly good", ["on_site_derivation","data_minimized","insight_contract"])]
     )
     r3 = evaluate(near)
@@ -479,7 +479,7 @@ def run_unit_tests() -> Dict[str, List[str]]:
     phrasing = Scenario(
         name="Finite-Sounding-But-OK",
         context="Synthetic: wording mentions quarter, but patterns are sound.",
-        traits={"tech_maturity": 0.7, "legal_maturity": 0.7, "biz_maturity": 0.7, "copy_resistance": 0.7},
+        traits={"tech_maturity": 0.72, "legal_maturity": 0.72, "biz_maturity": 0.72, "copy_resistance": 0.72},
         decisions=[Decision(2025, "All good patterns", ["on_site_derivation","data_minimized","insight_contract","rate_limited","expiry"])]
     )
     r6 = evaluate(phrasing)
