@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Insight Economy — P3 Triad Demo (Friendly Version)</title>
+<title>The Infite Game of the Insight Economy — P3 Triad Demo</title>
 <style>
   :root{
     --bg:#ffffff; --ink:#1e2430; --muted:#5d6b82; --panel:#f7f9fc; --border:#e3e8f1;
@@ -35,14 +35,29 @@
   .summary .box{background:#f1f4fa; padding:10px 12px; border-radius:10px; border:1px solid var(--border)}
   a.help{color:var(--blue); text-decoration:none; border-bottom:1px dotted var(--blue)}
   .hl{background:#fff7e6; border:1px solid #ffe0a3; padding:2px 6px; border-radius:6px}
+
+  /* Raw data tables + bars */
+  .rawgrid{display:grid; grid-template-columns: 1fr; gap:14px}
+  @media (min-width: 880px){ .rawgrid{grid-template-columns: 1fr 1fr} }
+  .card{background:#fff; border:1px solid var(--border); border-radius:12px; padding:12px 14px}
+  .kv{display:grid; grid-template-columns: 160px 1fr; gap:8px; margin:4px 0}
+  .bar{height:10px; background:#edf1f7; border:1px solid var(--border); border-radius:12px; overflow:hidden}
+  .bar > div{height:100%}
+  .bar.derivation > div{background:#cbe8ff}
+  .bar.minimization > div{background:#d5ffe3}
+  .bar.activation > div{background:#ffe6cc}
+  .bar.equilibrium > div{background:#e2dcff}
+  .bar.copy > div{background:#ffd6e0}
+  .mini{font-size:.9rem; color:var(--muted)}
+  details summary{cursor:pointer; user-select:none}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Inside the Insight Economy</h1>
+  <h1>“The Infite Game of the Insight Economy“ — P3 Triad Demo</h1>
 
   <div class="panel">
-    <p><Instead of copying and storing people’s raw data, compute a small, useful <em>answer</em> right where the data lives, and share just that answer. Align technology, legal rules, and business incentives so this stays respectful and useful over time.</p>
+    <p>Instead of copying and storing people’s raw data, compute a small, useful <em>answer</em> right where the data lives, and share just that answer. Align technology, legal rules, and business incentives so this stays respectful and useful over time.</p>
     <p>We evaluate each scenario on five simple things:</p>
     <ul>
       <li><strong>Derivation</strong> — Do you compute the answer <em>near the data</em> (e.g., zero-copy, on-site, federated)?</li>
@@ -67,6 +82,9 @@
 
   <h2>Reason Why</h2>
   <div id="reasons" class="panel"></div>
+
+  <h2>Raw inputs & derived scores</h2>
+  <div id="raw" class="panel"></div>
 
   <h2>Check</h2>
   <div id="checks" class="panel"></div>
@@ -139,6 +157,7 @@ const THRESH_STRONG = 0.60;
 
 const clamp01 = x => Math.max(0, Math.min(1, x));
 const roundPct = x => `${Math.round(x*100)}%`;
+const toPctNum = x => Math.round(x*100);
 const uniq = arr => [...new Set(arr)];
 
 function scoreDerivation(s){
@@ -146,7 +165,7 @@ function scoreDerivation(s){
   const boosts = s.decisions.filter(d => d.tags.some(t => ["on_site_derivation","federated_compute","zero_copy"].includes(t))).length;
   let score = base + Math.min(0.35, boosts * 0.18);
   const reasons = boosts ? ["Derives insights near data (zero-copy/federated)."] : [];
-  return {score: clamp01(score), reasons};
+  return {score: clamp01(score), reasons, meta:{base, boosts}};
 }
 
 function scoreMinimization(s){
@@ -156,7 +175,7 @@ function scoreMinimization(s){
   let score = base + Math.min(0.35, good * 0.17) - Math.min(0.35, bad * 0.20);
   const reasons = good ? ["Minimizes data with purpose limits & safeguards."] : [];
   const flags = bad ? ["Broad/profiling without minimization."] : [];
-  return {score: clamp01(score), reasons, flags};
+  return {score: clamp01(score), reasons, flags, meta:{base, good, bad}};
 }
 
 function scoreActivation(s){
@@ -166,7 +185,7 @@ function scoreActivation(s){
   let score = base + Math.min(0.35, pro * 0.16) - Math.min(0.35, bad * 0.18);
   const reasons = pro ? ["Value via insight contracts / pay-per-insight / mutual gain."] : [];
   const flags = bad ? ["Data-hoarding business model."] : [];
-  return {score: clamp01(score), reasons, flags};
+  return {score: clamp01(score), reasons, flags, meta:{base, pro, bad}};
 }
 
 function scoreEquilibrium(der, minz, act){
@@ -177,7 +196,7 @@ function scoreEquilibrium(der, minz, act){
   const balance = 1 - (variance/maxVar);
   const score = clamp01(0.2 + 0.8 * balance);
   const reasons = [balance >= 0.7 ? "Balanced Trinity across tech/legal/business." : "Trinity slightly imbalanced."];
-  return {score, reasons};
+  return {score, reasons, meta:{balance}};
 }
 
 function scoreCopyResistance(s){
@@ -186,11 +205,13 @@ function scoreCopyResistance(s){
   let score = base + Math.min(0.35, supports * 0.16);
   const reasons = supports ? ["Copy-resistant via contract/expiry/rate limits."] : [];
   let flags = [];
+  let multiplied = false;
   if (s.decisions.some(d => d.tags.includes("raw_export"))) {
     score *= 0.6;
     flags.push("Raw data exports undermine copy-resistance.");
+    multiplied = true;
   }
-  return {score: clamp01(score), reasons, flags};
+  return {score: clamp01(score), reasons, flags, meta:{base, supports, multiplied}};
 }
 
 function evaluateScenario(s){
@@ -234,7 +255,8 @@ function evaluateScenario(s){
   if (brief.length) reason += " " + brief.join(" ");
 
   return { name: s.name, classification, pillars, average: avg, strong, reason_text: reason,
-           flags, penalty, context: s.context, reasons_map: reasonsMap };
+           flags, penalty, context: s.context, reasons_map: reasonsMap,
+           meta:{d,m,a,e,c} };
 }
 
 /* ===========================
@@ -503,6 +525,68 @@ function renderReasons(results) {
   `).join("<hr style='border:0;border-top:1px dashed var(--border);margin:10px 0'>");
 }
 
+/* Bars + raw inputs per scenario */
+function barRow(label, value, cls){
+  const pct = Math.round(value*100);
+  return `
+    <div class="kv">
+      <div><span class="mini">${label}</span></div>
+      <div>
+        <div class="bar ${cls}"><div style="width:${pct}%"></div></div>
+        <div class="mini" style="margin-top:2px">${pct}%</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderRaw(results){
+  const root = document.getElementById("raw");
+  const blocks = results.map((r, idx) => {
+    const s = DATA[idx]; // original inputs
+    const traits = Object.entries(s.traits).map(([k,v]) => `<div class="kv"><div class="mini">${k}</div><div>${v.toFixed(2)}</div></div>`).join("");
+    const decisions = s.decisions.map(d => `
+      <div class="kv">
+        <div class="mini">${d.year}</div>
+        <div>${d.description}<div style="margin-top:4px">${d.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div></div>
+      </div>
+    `).join("");
+
+    const bars = [
+      barRow("Derivation", r.pillars["Derivation"], "derivation"),
+      barRow("Minimization", r.pillars["Minimization"], "minimization"),
+      barRow("Activation", r.pillars["Activation"], "activation"),
+      barRow("Equilibrium", r.pillars["Equilibrium"], "equilibrium"),
+      barRow("Copy-Resistance", r.pillars["Copy-Resistance"], "copy"),
+    ].join("");
+
+    const flags = r.flags.length ? r.flags.map(f=>`<span class="tag">${f}</span>`).join("") : "<span class='mini'>None</span>";
+
+    return `
+      <details class="card" ${idx<2 ? "open": ""}>
+        <summary><strong>${r.name}</strong> — inputs & scores</summary>
+        <div class="rawgrid" style="margin-top:10px">
+          <div>
+            <h3>Traits</h3>
+            ${traits}
+            <h3 style="margin-top:10px">Decisions</h3>
+            ${decisions}
+          </div>
+          <div>
+            <h3>Derived pillar scores</h3>
+            ${bars}
+            <div class="kv"><div class="mini"><strong>Average</strong></div><div><strong>${toPctNum(r.average)}%</strong></div></div>
+            <div class="kv"><div class="mini"><strong>Strong pillars</strong></div><div><strong>${r.strong}/5</strong></div></div>
+            <div class="kv"><div class="mini"><strong>Penalty</strong></div><div><strong>${r.penalty.toFixed(2)}</strong></div></div>
+            <div class="kv"><div class="mini"><strong>Flags</strong></div><div>${flags}</div></div>
+          </div>
+        </div>
+      </details>
+    `;
+  }).join("");
+
+  root.innerHTML = blocks;
+}
+
 function yesno(b){ return b ? `<span class="pill pass">✓ PASS</span>` : `<span class="pill fail">✗ FAIL</span>` }
 
 function renderChecks(invIssues, unitIssues) {
@@ -557,6 +641,7 @@ function renderChecks(invIssues, unitIssues) {
 
   renderAnswer(results);
   renderReasons(results);
+  renderRaw(results);
   renderChecks(invIssues, unitIssues);
 })();
 </script>
