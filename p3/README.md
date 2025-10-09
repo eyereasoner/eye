@@ -8,3 +8,6 @@ Run the [P3 cases](https://github.com/eyereasoner/eye/tree/master/p3/cases) to g
    ./test
    ```
 
+See also
+- [Delfour Insight Economy — Phone ↔ Scanner](https://potr-knows.github.io/Delfour-Insight-Economy/demo.html)
+- [The Infite Game of the Insight Economy — P3 Triad Demo](https://eyereasoner.github.io/eye/p3/cases/temp/infinite_game_insight_economy.html)
