@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mathematics — WHAT & WHY • P3 Demo (thorough-capable)</title>
+  <style>
+    :root { --bg:#ffffff; --card:#ffffff; --ink:#111827; --muted:#6b7280; --accent:#3b82f6; --ok:#16a34a; --warn:#d97706; --bad:#dc2626; --border:#e5e7eb; --surface:#f8fafc; }
+    html,body{ margin:0; padding:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif; }
+    .wrap{ max-width:1100px; margin:32px auto; padding:0 20px; }
+    .hero h1{ margin:0 0 8px; font-size:32px; }
+    .hero p{ margin:6px 0; color:var(--muted); }
+    .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+    .card{ background:var(--card); border-radius:14px; box-shadow: 0 6px 20px rgba(0,0,0,.06); padding:16px; border:1px solid var(--border); }
+    label{ display:block; margin:10px 0 4px; color:var(--muted); font-size:13px; }
+    input[type="number"], select{ width:100%; background:#fff; color:var(--ink); border:1px solid var(--border); border-radius:10px; padding:10px; }
+    .row{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .btn{ background:var(--accent); color:#fff; border:0; padding:10px 14px; border-radius:10px; font-weight:600; cursor:pointer; transition: filter .15s ease, opacity .15s ease; }
+    .btn:disabled, .btn.busy{ opacity:.6; cursor:not-allowed; filter: grayscale(1) brightness(.95); }
+    .btn.busy::after{ content:""; width:14px; height:14px; border:2px solid rgba(255,255,255,.6); border-top-color: #fff; border-radius:50%; display:inline-block; margin-left:8px; vertical-align:-2px; animation:spin .9s linear infinite; }
+    @keyframes spin{ to{ transform: rotate(360deg); } }
+    .kpi{ display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:12px; margin-top:12px; }
+    .kpi .item{ background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px; }
+    .kpi b{ display:block; font-size:20px; margin-bottom:4px; color:#111; }
+    pre{ background:var(--surface); color:#111827; border:1px solid var(--border); border-radius:12px; padding:12px; overflow:auto; max-height:360px; }
+    .ok{ color:var(--ok); } .warn{ color:var(--warn); } .bad{ color:var(--bad); }
+    details{ border:1px solid var(--border); border-radius:12px; padding:10px 12px; background:#fff; }
+    summary{ cursor:pointer; font-weight:700; }
+    code{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1>Mathematics — the WHAT & the WHY • P3 Demo</h1>
+      <p>This interactive page mirrors the P3 idea: <b>Answer → Reason → Check</b>. It explores sequences of adopting axioms (the "library") to see which mathematical concepts emerge (the "path"), then verifies the result.</p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Controls</h2>
+        <div class="row">
+          <label for="mode">Mode</label>
+          <select id="mode">
+            <option value="thorough" selected>Thorough (order-distinct, expand after success, all axioms)</option>
+            <option value="fast">Fast (dedupe by state, stop after success, only needed axioms)</option>
+          </select>
+        </div>
+        <div class="row">
+          <div style="flex:1">
+            <label for="maxDepth">Max Depth</label>
+            <input id="maxDepth" type="number" min="0" max="20" value="8" />
+          </div>
+          <div style="flex:1">
+            <label for="capPaths">Cap Paths</label>
+            <input id="capPaths" type="number" min="1000" step="1000" value="120000" />
+          </div>
+        </div>
+        <div class="row">
+          <div style="flex:1">
+            <label for="permTrials">Permutation Trials (in Check)</label>
+            <input id="permTrials" type="number" min="0" max="10" value="1" />
+          </div>
+          <div style="flex:1">
+            <label for="runBtn">&nbsp;</label>
+            <button id="runBtn" class="btn">▶ Run</button>
+          </div>
+        </div>
+        <details style="margin-top:10px">
+          <summary>Show axioms, concepts, observations</summary>
+          <div id="dataDump" style="margin-top:10px"></div>
+        </details>
+      </div>
+
+      <div class="card">
+        <h2>Status</h2>
+        <div class="kpi">
+          <div class="item"><b id="kEnumerated">–</b><span>Enumerated nodes</span></div>
+          <div class="item"><b id="kConsistent">–</b><span>Consistent endpoints</span></div>
+          <div class="item"><b id="kTime">–</b><span>Total time (ms)</span></div>
+          <div class="item"><b id="kMode">–</b><span>Mode</span></div>
+        </div>
+        <p id="note" class="warn" style="margin-top:10px"></p>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:16px">
+      <div class="card">
+        <h2>Answer</h2>
+        <pre id="answer"></pre>
+      </div>
+      <div class="card">
+        <h2>Reason</h2>
+        <pre id="reason"></pre>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>Check</h2>
+      <pre id="check"></pre>
+    </div>
+  </div>
+
+<script>
+(function(){
+  // ====== Data (Math WHAT & WHY) ======
+  const AX = [
+    "classical-logic",
+    "set-existence",
+    "function-formation",
+    "natural-induction",
+    "algebra-operations",
+    "order-completeness",
+    "topology-axioms",
+    "symmetry-axioms"
+  ];
+
+  const PR = {
+    // Foundations
+    "proofs": new Set(["classical-logic"]),
+    "sets": new Set(["set-existence"]),
+    "functions": new Set(["sets", "function-formation"]),
+
+    // Arithmetic & algebra
+    "naturals": new Set(["sets", "natural-induction"]),
+    "arithmetic": new Set(["naturals"]),
+    "rings": new Set(["sets", "algebra-operations"]),
+    "fields": new Set(["rings"]),
+
+    // Analysis & geometry
+    "reals": new Set(["fields", "order-completeness"]),
+    "topology": new Set(["sets", "topology-axioms"]),
+    "analysis": new Set(["reals", "proofs"]),
+    "geometry": new Set(["reals", "symmetry-axioms"]),
+    "calculus": new Set(["analysis"]),
+
+    // Higher viewpoints
+    "category-theory": new Set(["functions", "proofs"]),
+    "invariants": new Set(["proofs", "groups", "topology"]),
+
+    // Algebraic structures
+    "groups": new Set(["sets", "symmetry-axioms"]),
+
+    // WHY targets
+    "transfer-principle": new Set(["category-theory", "proofs"]),
+    "explanatory-power": new Set(["invariants", "transfer-principle"])
+  };
+
+  const OBS = new Set([
+    // WHAT
+    "arithmetic", "topology", "geometry", "calculus", "category-theory",
+    // WHY
+    "invariants", "transfer-principle", "explanatory-power"
+  ]);
+
+  // ====== Helpers ======
+  const cloneSet = s => new Set(s);
+  const union = (a,b)=>{ const r=new Set(a); for(const x of b) r.add(x); return r; };
+  const subset = (small, big)=>{ for(const x of small) if(!big.has(x)) return false; return true; };
+  const toKey = s => Array.from(s).sort().join("|");
+  const shuffle = arr => { for(let i=arr.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } };
+
+  function inferConcepts(axioms){
+    // memoization cache local to a run (Map key=string)
+    if(!inferConcepts.cache) inferConcepts.cache = new Map();
+    const k = toKey(axioms);
+    if(inferConcepts.cache.has(k)) return new Set(inferConcepts.cache.get(k));
+    const concepts = new Set();
+    let changed = true;
+    while(changed){
+      changed = false;
+      for(const [c, reqs] of Object.entries(PR)){
+        if(!concepts.has(c)){
+          const unionSet = union(axioms, concepts);
+          if(subset(reqs, unionSet)){
+            concepts.add(c);
+            changed = true;
+          }
+        }
+      }
+    }
+    inferConcepts.cache.set(k, new Set(concepts));
+    return new Set(concepts);
+  }
+
+  function neededAxioms(){
+    const need = new Set(); const stack = Array.from(OBS); const seen = new Set();
+    while(stack.length){
+      const x = stack.pop();
+      if(seen.has(x)) continue; seen.add(x);
+      const reqs = PR[x]; if(!reqs) continue;
+      for(const r of reqs){
+        if(PR[r]) stack.push(r); else need.add(r);
+      }
+    }
+    return need;
+  }
+
+  function expand(axioms, allowed){
+    const nxt=[]; const sorted = Array.from(allowed).sort();
+    for(const ax of sorted){ if(!axioms.has(ax)){ const ns = cloneSet(axioms); ns.add(ax); nxt.push([ax, ns]); } }
+    return nxt;
+  }
+
+  function enumeratePaths({maxDepth, capPaths, thorough}){
+    // reset memo cache
+    inferConcepts.cache = new Map();
+
+    const useAll = thorough ? true : false;
+    const allowed = useAll ? new Set(AX) : (neededAxioms().size ? neededAxioms() : new Set(AX));
+    const dedupe = thorough ? null : new Set([toKey(new Set())]);
+    const stopAfterSuccess = thorough ? false : true;
+
+    const initial = [new Set(), []]; // [axiomsSet, steps]
+    const queue = [initial];
+
+    const paths = []; let enumerated = 0;
+
+    while(queue.length){
+      const [axSet, steps] = queue.shift();
+      const concepts = inferConcepts(axSet);
+      enumerated++;
+      paths.push({ path: steps, final_axioms: new Set(axSet), final_concepts: concepts });
+
+      const success = subset(OBS, concepts);
+      if(stopAfterSuccess && success) continue;
+      if(steps.length >= maxDepth) continue;
+
+      for(const [ax, newSet] of expand(axSet, allowed)){
+        const newConcepts = inferConcepts(newSet);
+        const delta = Array.from(newConcepts).filter(c => !concepts.has(c)).sort();
+        const newStep = { action: `adopt ${ax}`, added_axiom: ax, enabled_concepts: delta };
+        const child = [newSet, [...steps, newStep]];
+        if(dedupe){ const k = toKey(newSet); if(dedupe.has(k)) continue; dedupe.add(k); }
+        queue.push(child);
+      }
+      if(paths.length >= capPaths) break;
+    }
+    return { paths, enumerated };
+  }
+
+  function filterConsistent(paths){ return paths.filter(p => subset(OBS, p.final_concepts)); }
+  function choosePath(cands){ if(!cands.length) return null; return cands.sort((a,b)=> a.path.length - b.path.length || a.path.map(s=>s.action).join("\u0000").localeCompare(b.path.map(s=>s.action).join("\u0000")) )[0]; }
+
+  function explain(chosen, totalNodes, consistentCount, maxDepth){
+    const lines=[];
+    lines.push("Goal: demonstrate the WHAT and the WHY of mathematics.");
+    lines.push("Target observations: " + Array.from(OBS).sort().join(", ") + ".");
+    lines.push(`Enumerated ${totalNodes} candidate states/paths (depth ≤ ${maxDepth}).`);
+    lines.push(`Top-down selection filtered these to ${consistentCount} consistent endpoints.`);
+    lines.push("We chose the shortest path achieving the goal; ties broken lexicographically.");
+    lines.push("Selected steps:");
+    chosen.path.forEach((st,i)=>{
+      lines.push(`  ${i+1}. ${st.action} → newly enabled concepts: ${st.enabled_concepts.length? st.enabled_concepts.join(", ") : "—"}`);
+    });
+    lines.push("Final axioms: " + Array.from(chosen.final_axioms).sort().join(", ") + ".");
+    lines.push("Final concepts: " + Array.from(chosen.final_concepts).sort().join(", ") + ".");
+    return lines.join("\n");
+  }
+
+  function check(chosen, permTrials){
+    // recompute concepts
+    const recomputed = inferConcepts(chosen.final_axioms);
+    const c1 = toKey(recomputed) === toKey(chosen.final_concepts);
+    const c2 = subset(OBS, recomputed);
+
+    // (A) Monotonicity + enabled delta consistency
+    let axProg = new Set(); let prevConcepts = new Set();
+    let monotonic = true; let enabledOK = true; let seen = new Set();
+    for(const st of chosen.path){
+      if(!st.added_axiom || seen.has(st.added_axiom)){ monotonic = false; break; }
+      seen.add(st.added_axiom);
+      axProg.add(st.added_axiom);
+      const now = inferConcepts(axProg);
+      // prev ⊆ now
+      for(const x of prevConcepts){ if(!now.has(x)){ monotonic = false; break; } }
+      const delta = Array.from(now).filter(x=>!prevConcepts.has(x)).sort();
+      if(delta.join("|") !== st.enabled_concepts.join("|")) enabledOK = false;
+      prevConcepts = now;
+    }
+
+    // (B) Minimal axioms
+    const disp = [];
+    for(const ax of chosen.final_axioms){
+      const alt = new Set(chosen.final_axioms); alt.delete(ax);
+      if(subset(OBS, inferConcepts(alt))) disp.push(ax);
+    }
+    const minimalAxioms = disp.length === 0;
+
+    // (C) No shorter path exists
+    let shorter = [];
+    if(chosen.path.length>0){
+      const {paths: shortPaths} = enumeratePaths({maxDepth: chosen.path.length-1, capPaths: 200000, thorough: true});
+      const consShort = filterConsistent(shortPaths);
+      if(consShort.length){ shorter = consShort[0].path.map(s=>s.action); }
+    }
+    const minimalSteps = shorter.length === 0;
+
+    // (D) Acyclic dependencies among concepts
+    function hasCycle(){
+      const graph = {}; Object.keys(PR).forEach(k=>graph[k]=new Set());
+      for(const [c, reqs] of Object.entries(PR)){
+        for(const r of reqs){ if(PR[r]) graph[c].add(r); }
+      }
+      const visited = new Set(); const stack = new Set();
+      function dfs(u){ visited.add(u); stack.add(u); for(const v of graph[u]){ if(!visited.has(v) && dfs(v)) return true; if(stack.has(v)) return true; } stack.delete(u); return false; }
+      for(const node of Object.keys(graph)){ if(!visited.has(node) && dfs(node)) return true; }
+      return false;
+    }
+    const acyclic = !hasCycle();
+
+    // (E) Invariance under permutations of candidate axioms
+    const baseAxioms = toKey(chosen.final_axioms); const baseLen = chosen.path.length;
+    let mismatches=[];
+    for(let i=0;i<permTrials;i++){
+      const perm = AX.slice(); shuffle(perm); if(perm.join("|")===AX.join("|")) shuffle(perm);
+      // swap global order for this trial only
+      const saved = AX.slice(); AX.length=0; perm.forEach(x=>AX.push(x));
+      const {paths:p2} = enumeratePaths({maxDepth: 8, capPaths: 120000, thorough: true});
+      const cons2 = filterConsistent(p2);
+      // restore
+      AX.length=0; saved.forEach(x=>AX.push(x));
+      if(!cons2.length){ mismatches.push({trial:i+1, issue:"no_path_under_permutation"}); }
+      else{
+        const ch2 = choosePath(cons2);
+        const eqA = baseAxioms === toKey(ch2.final_axioms);
+        const eqL = baseLen === ch2.path.length;
+        if(!(eqA && eqL)) mismatches.push({trial:i+1, final_axioms_equal:eqA, path_length_equal:eqL});
+      }
+    }
+    const permInv = mismatches.length===0;
+
+    const passed = c1 && c2 && monotonic && enabledOK && minimalAxioms && minimalSteps && acyclic && permInv;
+
+    return {
+      recomputed_concepts_match: c1,
+      observations_satisfied: c2,
+      monotonic_along_path: monotonic,
+      enabled_records_consistent: enabledOK,
+      axiom_minimality: minimalAxioms,
+      dispensable_axioms: disp.sort(),
+      minimal_steps: minimalSteps,
+      shorter_path_example: shorter,
+      acyclic_concept_dependencies: acyclic,
+      permutation_invariant: permInv,
+      permutation_mismatches: mismatches,
+      passed
+    };
+  }
+
+  // ====== Wire up UI ======
+  const els = {
+    mode: document.getElementById('mode'),
+    maxDepth: document.getElementById('maxDepth'),
+    capPaths: document.getElementById('capPaths'),
+    permTrials: document.getElementById('permTrials'),
+    runBtn: document.getElementById('runBtn'),
+    answer: document.getElementById('answer'),
+    reason: document.getElementById('reason'),
+    check: document.getElementById('check'),
+    kEnumerated: document.getElementById('kEnumerated'),
+    kConsistent: document.getElementById('kConsistent'),
+    kTime: document.getElementById('kTime'),
+    kMode: document.getElementById('kMode'),
+    note: document.getElementById('note'),
+    dataDump: document.getElementById('dataDump')
+  };
+
+  function dumpData(){
+    const axioms = '<b>Axioms</b><br>'+AX.map(a=>'• '+a).join('<br>');
+    const obs = '<br><b>Target observations</b><br>'+Array.from(OBS).map(o=>'• '+o).join('<br>');
+    const deps = '<br><b>Concept dependencies</b><br>'+Object.entries(PR).map(([k,v])=>`• <code>${k}</code> ← ${Array.from(v).join(', ')}`).join('<br>');
+    els.dataDump.innerHTML = axioms+obs+deps;
+  }
+  dumpData();
+
+  els.runBtn.addEventListener('click', ()=>{
+    // Grey out & spinner, then let UI paint before heavy work
+    els.runBtn.disabled = true;
+    els.runBtn.classList.add('busy');
+    els.runBtn.dataset.prev = els.runBtn.textContent;
+    els.runBtn.textContent = 'Running…';
+
+    els.note.textContent = '';
+    els.answer.textContent = els.reason.textContent = els.check.textContent = '';
+    els.kEnumerated.textContent = '…'; els.kConsistent.textContent='…'; els.kTime.textContent='…'; els.kMode.textContent = els.mode.value;
+
+    const thorough = els.mode.value === 'thorough';
+    const maxDepth = parseInt(els.maxDepth.value,10)||8;
+    const capPaths = parseInt(els.capPaths.value,10)||120000;
+    const permTrials = parseInt(els.permTrials.value,10)||1;
+
+    const finish = () => {
+      els.runBtn.classList.remove('busy');
+      els.runBtn.textContent = els.runBtn.dataset.prev || '▶ Run';
+      els.runBtn.disabled = false;
+    };
+
+    requestAnimationFrame(()=>{
+      const t0 = performance.now();
+      const {paths, enumerated} = enumeratePaths({maxDepth, capPaths, thorough});
+      const consistent = filterConsistent(paths);
+      const chosen = choosePath(consistent);
+      const t1 = performance.now();
+
+      els.kEnumerated.textContent = enumerated.toLocaleString();
+      els.kConsistent.textContent = consistent.length.toLocaleString();
+      els.kTime.textContent = Math.round(t1 - t0).toLocaleString();
+
+      if(!chosen){
+        els.answer.textContent = JSON.stringify({selected_path:null, final_state:null}, null, 2);
+        els.reason.textContent = 'No consistent path found under current depth and logic.';
+        els.check.textContent = JSON.stringify({passed:false}, null, 2);
+        els.note.textContent = 'Tip: Increase Max Depth (try 8) and raise Cap Paths for thorough mode.';
+        finish();
+        return;
+      }
+
+      const answer = {
+        selected_path: chosen.path.map(s=>s.action),
+        final_state: {
+          axioms: Array.from(chosen.final_axioms).sort(),
+          concepts: Array.from(chosen.final_concepts).sort()
+        }
+      };
+      els.answer.textContent = JSON.stringify(answer, null, 2);
+
+      const reason = explain(chosen, enumerated, consistent.length, maxDepth);
+      els.reason.textContent = reason;
+
+      const chk = check(chosen, permTrials);
+      els.check.textContent = JSON.stringify(chk, null, 2);
+
+      if(!chk.passed){ els.note.textContent = 'Some checks failed. See details above.'; els.note.className='bad'; }
+      else { els.note.textContent = 'All checks passed.'; els.note.className='ok'; }
+
+      finish();
+    });
+  });
+})();
+</script>
+</body>
+</html>
