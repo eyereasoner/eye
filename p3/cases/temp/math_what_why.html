@@ -27,6 +27,8 @@
     summary{ cursor:pointer; font-weight:700; }
     .ok{ color:var(--ok) } .warn{ color:var(--warn) } .bad{ color:var(--bad) }
     .log{ font-size:12px; color:var(--muted); margin-top:6px; }
+    .prose p{ margin:8px 0; } .prose ul{ margin:8px 0 8px 1.1rem; } .prose li{ margin:4px 0; }
+    .muted{ color:var(--muted); }
   </style>
 </head>
 <body>
@@ -34,6 +36,22 @@
     <header class='section'>
       <h1>Mathematics — the WHAT & the WHY • P3 Demo</h1>
       <p class='lead'>Answer -> Reason -> Check. We adopt axioms (the library) and see which mathematical concepts and purposes emerge (the path), then verify. Everything runs in your browser.</p>
+      <div class='prose'>
+        <p><strong>What this is.</strong> A tiny, self-contained demo that tells two stories about mathematics: the <em>WHAT</em> (which ideas appear when we adopt certain axioms) and the <em>WHY</em> (what those ideas are for: invariants, transfer, explanation). It follows the P3 pattern: <em>Answer → Reason → Check</em>.</p>
+        <p><strong>How it works.</strong></p>
+        <ul>
+          <li><b>Library (axioms).</b> A small set of axioms you can think of as dials we may turn on.</li>
+          <li><b>Path.</b> A sequence of “adopt AXIOM” steps. As we adopt axioms, concepts become available by dependency (e.g., fields → reals → analysis).</li>
+          <li><b>Goal.</b> A target list of observations (both WHAT and WHY items) that we want to see emerge.</li>
+          <li><b>Search.</b> We enumerate candidate paths with BFS up to a depth limit. <em>Thorough</em> explores orderings and continues after success; <em>Fast</em> dedupes by state and stops once a success appears.</li>
+          <li><b>Top‑down choice.</b> From all consistent endpoints, we pick the shortest path (ties broken deterministically by action strings).</li>
+          <li><b>Checks.</b> Independent validations: recompute closure; confirm observations; monotone growth; minimality of axioms and steps; acyclic dependencies; and permutation‑invariance spot checks.</li>
+        </ul>
+        <p><strong>How to use.</strong> Pick a mode, adjust <em>Max Depth</em> and <em>Cap Paths</em>, set a few <em>Permutation Trials</em>, then click <em>Run</em>. The <em>Status</em> panel shows how much was searched; the three boxes below show the selected answer, the reasoning narrative, and the checks.</p>
+        <p><strong>What to expect.</strong> You’ll typically see arithmetic and algebra unlock analysis and geometry, while the WHY track highlights invariants and transfer principles that make results portable across domains. Exact paths can differ with settings.</p>
+        <p><strong>What this is not.</strong> Not a proof assistant or a canonical foundation; dependencies are illustrative. Edit the code to reflect your own view of mathematics.</p>
+        <p class='muted'><em>Determinism.</em> Ties are resolved lexicographically on the action strings, so repeated runs with the same settings select the same path.</p>
+      </div>
     </header>
 
     <section class='section' id='controls'>
