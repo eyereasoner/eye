@@ -1,444 +1,341 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Library & The Path • P3 Demo</title>
+  <meta charset='utf-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1' />
+  <title>The Library & The Path • P3 Demo (one-column, robust)</title>
   <style>
-    :root { --bg:#ffffff; --card:#ffffff; --ink:#111827; --muted:#6b7280; --accent:#3b82f6; --ok:#16a34a; --warn:#d97706; --bad:#dc2626; --border:#e5e7eb; --surface:#f8fafc; }
-    html,body{ margin:0; padding:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif; }
-    .wrap{ max-width:1100px; margin:32px auto; padding:0 20px; }
-    .hero h1{ margin:0 0 8px; font-size:32px; }
-    .hero p{ margin:6px 0; color:var(--muted); }
-    .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
-    .card{ background:var(--card); border-radius:14px; box-shadow: 0 6px 20px rgba(0,0,0,.06); padding:16px; border:1px solid var(--border); }
+    :root{ --bg:#ffffff; --ink:#111827; --muted:#6b7280; --accent:#2563eb; --ok:#16a34a; --warn:#d97706; --bad:#dc2626; --border:#e5e7eb; --surface:#f8fafc; }
+    html,body{ margin:0; padding:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,sans-serif; }
+    .wrap{ max-width:900px; margin:28px auto 80px; padding:0 18px; }
+    h1{ font-size:28px; margin:0 0 6px; }
+    p.lead{ color:var(--muted); margin:6px 0 18px; }
+    .section{ background:#fff; border:1px solid var(--border); border-radius:14px; padding:16px; box-shadow:0 6px 20px rgba(0,0,0,.06); margin:14px 0; }
     label{ display:block; margin:10px 0 4px; color:var(--muted); font-size:13px; }
-    input[type="number"], select{ width:100%; background:#fff; color:var(--ink); border:1px solid var(--border); border-radius:10px; padding:10px; }
-    .row{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
-    .btn{ background:var(--accent); color:#fff; border:0; padding:10px 14px; border-radius:10px; font-weight:600; cursor:pointer; transition: filter .15s ease, opacity .15s ease; }
-    .btn:disabled, .btn.busy{ opacity:.6; cursor:not-allowed; filter: grayscale(1) brightness(.95); }
-    .btn.busy::after{ content:""; width:14px; height:14px; border:2px solid rgba(255,255,255,.6); border-top-color: #fff; border-radius:50%; display:inline-block; margin-left:8px; vertical-align:-2px; animation:spin .9s linear infinite; }
-    @keyframes spin{ to{ transform: rotate(360deg); } }
-    .kpi{ display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:12px; margin-top:12px; }
-    .kpi .item{ background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px; }
-    .kpi b{ display:block; font-size:20px; margin-bottom:4px; color:#111; }
-    pre{ background:var(--surface); color:#111827; border:1px solid var(--border); border-radius:12px; padding:12px; overflow:auto; max-height:360px; }
-    .ok{ color:var(--ok); } .warn{ color:var(--warn); } .bad{ color:var(--bad); }
+    input[type='number'], select{ width:100%; background:#fff; color:var(--ink); border:1px solid var(--border); border-radius:10px; padding:10px; }
+    .row{ display:flex; gap:12px; flex-wrap:wrap; }
+    .col{ flex:1 1 220px; }
+    .btn{ background:var(--accent); color:#fff; border:0; padding:10px 14px; border-radius:10px; font-weight:600; cursor:pointer; transition:opacity .15s ease, filter .15s ease; }
+    .btn:disabled, .btn.busy{ opacity:.6; cursor:not-allowed; filter:grayscale(1) brightness(.95); }
+    .btn.busy::after{ content:''; width:14px; height:14px; border:2px solid rgba(255,255,255,.6); border-top-color:#fff; border-radius:50%; display:inline-block; margin-left:8px; vertical-align:-2px; animation:spin .9s linear infinite; }
+    @keyframes spin{ to{ transform:rotate(360deg) } }
+    .kpi{ display:flex; gap:12px; flex-wrap:wrap; margin-top:10px; }
+    .kpi .item{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:8px 10px; min-width:160px; }
+    .kpi b{ display:block; font-size:18px; margin-bottom:2px; color:#111; }
+    pre{ background:var(--surface); color:#111827; border:1px solid var(--border); border-radius:12px; padding:12px; white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; max-height:50vh; overflow:auto; }
     details{ border:1px solid var(--border); border-radius:12px; padding:10px 12px; background:#fff; }
     summary{ cursor:pointer; font-weight:700; }
-    code{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
-    @media (max-width: 900px){ .grid{ grid-template-columns: 1fr; } pre{ max-height: 50vh; } }
+    .ok{ color:var(--ok) } .warn{ color:var(--warn) } .bad{ color:var(--bad) }
+    .log{ font-size:12px; color:var(--muted); margin-top:6px; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="hero">
+  <div class='wrap'>
+    <header class='section'>
       <h1>The Library & the Path • P3 Demo</h1>
-      <p>This mirrors the P3 idea: <b>Answer -> Reason -> Check</b>. We explore sequences of stabilizing laws (the Library) and see which features emerge (the Path), then verify the result.</p>
-    </div>
+      <p class='lead'>Answer -> Reason -> Check. Explore sequences of stabilizing laws (the library) to see which features emerge (the path), then verify the result. Everything runs in your browser.</p>
+    </header>
 
-    <div class="grid">
-      <div class="card">
-        <h2>Controls</h2>
-        <div class="row">
-          <label for="mode">Mode</label>
-          <select id="mode">
-            <option value="thorough" selected>Thorough (order-distinct, expand after success, all laws)</option>
-            <option value="fast">Fast (dedupe by state, stop after success, only needed laws)</option>
+    <section class='section' id='controls'>
+      <h2>Controls</h2>
+      <div class='row'>
+        <div class='col'>
+          <label for='mode'>Mode</label>
+          <select id='mode'>
+            <option value='thorough' selected>Thorough (order-distinct, expand after success, all laws)</option>
+            <option value='fast'>Fast (dedupe by state, stop after success, only needed laws)</option>
           </select>
         </div>
-        <div class="row">
-          <div style="flex:1">
-            <label for="maxDepth">Max Depth</label>
-            <input id="maxDepth" type="number" min="0" max="20" value="6" />
-          </div>
-          <div style="flex:1">
-            <label for="capPaths">Cap Paths</label>
-            <input id="capPaths" type="number" min="1000" step="1000" value="120000" />
-          </div>
+        <div class='col'>
+          <label for='maxDepth'>Max Depth</label>
+          <input id='maxDepth' type='number' min='0' max='20' value='6' />
         </div>
-        <div class="row">
-          <div style="flex:1">
-            <label for="permTrials">Permutation Trials (in Check)</label>
-            <input id="permTrials" type="number" min="0" max="10" value="1" />
-          </div>
-          <div style="flex:1">
-            <label for="runBtn">&nbsp;</label>
-            <button id="runBtn" class="btn">Run</button>
-          </div>
+        <div class='col'>
+          <label for='capPaths'>Cap Paths</label>
+          <input id='capPaths' type='number' min='1000' step='1000' value='80000' />
         </div>
-        <details style="margin-top:10px">
-          <summary>Show laws, features, observations</summary>
-          <div id="dataDump" style="margin-top:10px"></div>
-        </details>
-      </div>
-
-      <div class="card">
-        <h2>Status</h2>
-        <div class="kpi">
-          <div class="item"><b id="kEnumerated">-</b><span>Enumerated nodes</span></div>
-          <div class="item"><b id="kConsistent">-</b><span>Consistent endpoints</span></div>
-          <div class="item"><b id="kTime">-</b><span>Total time (ms)</span></div>
-          <div class="item"><b id="kMode">-</b><span>Mode</span></div>
+        <div class='col'>
+          <label for='permTrials'>Permutation Trials (in Check)</label>
+          <input id='permTrials' type='number' min='0' max='10' value='1' />
         </div>
-        <p id="note" class="warn" style="margin-top:10px"></p>
       </div>
-    </div>
+      <div class='row' style='align-items:flex-end; margin-top:8px'>
+        <button id='runBtn' class='btn'>Run</button>
+        <span id='note' class='warn' style='margin-left:8px'></span>
+      </div>
+      <div class='kpi'>
+        <div class='item'><b id='kEnumerated'>-</b><span>Enumerated nodes</span></div>
+        <div class='item'><b id='kConsistent'>-</b><span>Consistent endpoints</span></div>
+        <div class='item'><b id='kTime'>-</b><span>Total time (ms)</span></div>
+        <div class='item'><b id='kMode'>-</b><span>Mode</span></div>
+      </div>
+      <details style='margin-top:12px'>
+        <summary>Show laws, features, observations</summary>
+        <div id='dataDump' style='margin-top:10px'></div>
+      </details>
+      <div id='log' class='log'></div>
+    </section>
 
-    <div class="grid" style="margin-top:16px">
-      <div class="card">
-        <h2>Answer</h2>
-        <pre id="answer"></pre>
-      </div>
-      <div class="card">
-        <h2>Reason</h2>
-        <pre id="reason"></pre>
-      </div>
-    </div>
+    <section class='section'>
+      <h2>Answer</h2>
+      <pre id='answer'></pre>
+    </section>
 
-    <div class="card" style="margin-top:16px">
+    <section class='section'>
+      <h2>Reason</h2>
+      <pre id='reason'></pre>
+    </section>
+
+    <section class='section'>
       <h2>Check</h2>
-      <pre id="check"></pre>
-    </div>
+      <pre id='check'></pre>
+    </section>
   </div>
 
 <script>
-(function(){
-  // ====== Data (Library & Path) ======
-  const LAWS = [
-    'gravity-stable',
-    'atoms-stable',
-    'chemistry-stable',
-    'electroweak-stable',
-    'inflationary-dynamics',
-    'magnetism-stable',
-    'communication-stable',
-    'population-dynamics'
-  ];
+window.addEventListener('DOMContentLoaded', function(){
+  const logEl = document.getElementById('log');
+  const log = (m) => { try { console.log(m); if(logEl){ logEl.textContent = String(m); } } catch(e){} };
 
-  const PR = {
-    // Cosmic structure from gravity
-    'stars': new Set(['gravity-stable']),
-    'galaxies': new Set(['gravity-stable']),
+  window.addEventListener('error', function(ev){
+    if(document.getElementById('note')){
+      document.getElementById('note').textContent = 'Script error: ' + ev.message;
+      document.getElementById('note').className = 'bad';
+    }
+    log('Error: ' + ev.message);
+  });
 
-    // Chemistry stack
-    'carbon-chemistry': new Set(['atoms-stable', 'chemistry-stable']),
+  try {
+    // Data
+    const LAWS = [
+      'gravity-stable','atoms-stable','chemistry-stable','electroweak-stable',
+      'inflationary-dynamics','magnetism-stable','communication-stable','population-dynamics'
+    ];
+    const PR = {
+      'stars': new Set(['gravity-stable']),
+      'galaxies': new Set(['gravity-stable']),
+      'carbon-chemistry': new Set(['atoms-stable','chemistry-stable']),
+      'life': new Set(['stars','carbon-chemistry']),
+      'mind': new Set(['life']),
+      'language': new Set(['mind','communication-stable']),
+      'many-minds': new Set(['mind','population-dynamics']),
+      'culture': new Set(['language','many-minds']),
+      'observers': new Set(['mind'])
+    };
+    const OBS = new Set(['galaxies','carbon-chemistry','life','mind','language','many-minds','culture']);
 
-    // Emergence ladder
-    'life': new Set(['stars', 'carbon-chemistry']),
-    'mind': new Set(['life']),
-    'language': new Set(['mind', 'communication-stable']),
-    'many-minds': new Set(['mind', 'population-dynamics']),
-    'culture': new Set(['language', 'many-minds']),
+    // Helpers
+    const cloneSet = s => new Set(s);
+    const union = (a,b)=>{ const r=new Set(a); for(const x of b) r.add(x); return r; };
+    const subset = (small,big)=>{ for(const x of small) if(!big.has(x)) return false; return true; };
+    const toKey = s => Array.from(s).sort().join('|');
+    const shuffle = arr => { for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } };
 
-    // Legacy continuity
-    'observers': new Set(['mind'])
-  };
+    function inferFeatures(laws){
+      if(!inferFeatures.cache) inferFeatures.cache = new Map();
+      const k = toKey(laws); if(inferFeatures.cache.has(k)) return new Set(inferFeatures.cache.get(k));
+      const feats = new Set(); let changed = true;
+      while(changed){ changed=false; for(const [f,reqs] of Object.entries(PR)){
+        if(!feats.has(f)){ const u=union(laws,feats); if(subset(reqs,u)){ feats.add(f); changed=true; } }
+      }}
+      inferFeatures.cache.set(k,new Set(feats)); return new Set(feats);
+    }
 
-  const OBS = new Set([
-    'galaxies',
-    'carbon-chemistry',
-    'life',
-    'mind',
-    'language',
-    'many-minds',
-    'culture'
-  ]);
+    function neededLaws(){
+      const need = new Set(); const stack = Array.from(OBS); const seen=new Set();
+      while(stack.length){ const x=stack.pop(); if(seen.has(x)) continue; seen.add(x);
+        const reqs=PR[x]; if(!reqs) continue; for(const r of reqs){ if(PR[r]) stack.push(r); else need.add(r); }
+      }
+      return need;
+    }
 
-  // ====== Helpers ======
-  const cloneSet = s => new Set(s);
-  const union = (a,b)=>{ const r=new Set(a); for(const x of b) r.add(x); return r; };
-  const subset = (small, big)=>{ for(const x of small) if(!big.has(x)) return false; return true; };
-  const toKey = s => Array.from(s).sort().join('|');
-  const shuffle = arr => { for(let i=arr.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } };
+    function expand(laws, allowed){
+      const nxt=[]; const sorted=Array.from(allowed).sort();
+      for(const ax of sorted){ if(!laws.has(ax)){ const ns=cloneSet(laws); ns.add(ax); nxt.push([ax,ns]); } }
+      return nxt;
+    }
 
-  function inferFeatures(laws){
-    if(!inferFeatures.cache) inferFeatures.cache = new Map();
-    const k = toKey(laws);
-    if(inferFeatures.cache.has(k)) return new Set(inferFeatures.cache.get(k));
-    const feats = new Set();
-    let changed = true;
-    while(changed){
-      changed = false;
-      for(const [f, reqs] of Object.entries(PR)){
-        if(!feats.has(f)){
-          const unionSet = union(laws, feats);
-          if(subset(reqs, unionSet)){
-            feats.add(f);
-            changed = true;
-          }
+    function enumeratePaths(opts){
+      const maxDepth = opts.maxDepth, capPaths = opts.capPaths, thorough = opts.thorough;
+      inferFeatures.cache = new Map();
+      const useAll = thorough ? true : false;
+      const needed = neededLaws();
+      const allowed = useAll ? new Set(LAWS) : (needed.size ? needed : new Set(LAWS));
+      const dedupe = thorough ? null : new Set([toKey(new Set())]);
+      const stopAfterSuccess = thorough ? false : true;
+      const initial=[new Set(),[]]; const queue=[initial];
+      const paths=[]; let enumerated=0;
+      while(queue.length){
+        const [lawSet,steps]=queue.shift();
+        const feats=inferFeatures(lawSet); enumerated++;
+        paths.push({path:steps, final_laws:new Set(lawSet), final_features:feats});
+        const success=subset(OBS,feats);
+        if(stopAfterSuccess && success) continue;
+        if(steps.length>=maxDepth) continue;
+        for(const [ax,newSet] of expand(lawSet,allowed)){
+          const newFeats=inferFeatures(newSet);
+          const delta=Array.from(newFeats).filter(c=>!feats.has(c)).sort();
+          const newStep={action:'stabilize '+ax, added_law:ax, enabled_features:delta};
+          const child=[newSet, steps.concat([newStep])];
+          if(dedupe){ const k=toKey(newSet); if(dedupe.has(k)) continue; dedupe.add(k); }
+          queue.push(child);
         }
+        if(paths.length>=capPaths) break;
       }
+      return {paths, enumerated};
     }
-    inferFeatures.cache.set(k, new Set(feats));
-    return new Set(feats);
-  }
 
-  function neededLaws(){
-    const need = new Set(); const stack = Array.from(OBS); const seen = new Set();
-    while(stack.length){
-      const x = stack.pop();
-      if(seen.has(x)) continue; seen.add(x);
-      const reqs = PR[x]; if(!reqs) continue;
-      for(const r of reqs){
-        if(PR[r]) stack.push(r); else need.add(r);
+    function filterConsistent(paths){ return paths.filter(p=>subset(OBS,p.final_features)); }
+    function choosePath(cands){
+      if(!cands.length) return null;
+      return cands.sort((a,b)=>{
+        const len = a.path.length - b.path.length;
+        if(len !== 0) return len;
+        const aa = a.path.map(s=>s.action).join('||');
+        const bb = b.path.map(s=>s.action).join('||');
+        return aa.localeCompare(bb);
+      })[0];
+    }
+
+    function explain(chosen,totalNodes,consistentCount,maxDepth){
+      const lines=[];
+      lines.push('Goal: find a path that yields the observations: '+Array.from(OBS).sort().join(', ') + '.');
+      lines.push('Enumerated ' + totalNodes + ' candidate states/paths (depth <= ' + maxDepth + ').');
+      lines.push('Top-down selection filtered these to ' + consistentCount + ' consistent endpoints.');
+      lines.push('We chose the shortest path achieving the goal; ties broken lexicographically.');
+      lines.push('Selected steps:');
+      chosen.path.forEach((st,i)=>{ lines.push('  ' + (i+1) + '. ' + st.action + ' -> newly enabled features: ' + (st.enabled_features.length? st.enabled_features.join(', ') : '-')); });
+      lines.push('Final laws: ' + Array.from(chosen.final_laws).sort().join(', ') + '.');
+      lines.push('Final features: ' + Array.from(chosen.final_features).sort().join(', ') + '.');
+      return lines.join('\n');
+    }
+
+    function check(chosen, permTrials){
+      const recomputed=inferFeatures(chosen.final_laws);
+      const c1 = toKey(recomputed)===toKey(chosen.final_features);
+      const c2 = subset(OBS,recomputed);
+      let lawProg=new Set(); let prevFeatures=new Set();
+      let monotonic=true; let enabledOK=true; let seen=new Set();
+      for(const st of chosen.path){
+        if(!st.added_law || seen.has(st.added_law)){ monotonic=false; break; }
+        seen.add(st.added_law); lawProg.add(st.added_law);
+        const now=inferFeatures(lawProg);
+        for(const x of prevFeatures){ if(!now.has(x)){ monotonic=false; break; } }
+        const delta=Array.from(now).filter(x=>!prevFeatures.has(x)).sort();
+        if(delta.join('|')!==st.enabled_features.join('|')) enabledOK=false;
+        prevFeatures=now;
       }
-    }
-    return need;
-  }
-
-  function expand(laws, allowed){
-    const nxt=[]; const sorted = Array.from(allowed).sort();
-    for(const ax of sorted){ if(!laws.has(ax)){ const ns = cloneSet(laws); ns.add(ax); nxt.push([ax, ns]); } }
-    return nxt;
-  }
-
-  function enumeratePaths(opts){
-    const maxDepth = opts.maxDepth, capPaths = opts.capPaths, thorough = opts.thorough;
-    inferFeatures.cache = new Map();
-
-    const useAll = thorough ? true : false;
-    const needed = neededLaws();
-    const allowed = useAll ? new Set(LAWS) : (needed.size ? needed : new Set(LAWS));
-    const dedupe = thorough ? null : new Set([toKey(new Set())]);
-    const stopAfterSuccess = thorough ? false : true;
-
-    const initial = [new Set(), []]; // [lawsSet, steps]
-    const queue = [initial];
-
-    const paths = []; let enumerated = 0;
-
-    while(queue.length){
-      const [lawSet, steps] = queue.shift();
-      const feats = inferFeatures(lawSet);
-      enumerated++;
-      paths.push({ path: steps, final_laws: new Set(lawSet), final_features: feats });
-
-      const success = subset(OBS, feats);
-      if(stopAfterSuccess && success) continue;
-      if(steps.length >= maxDepth) continue;
-
-      for(const [ax, newSet] of expand(lawSet, allowed)){
-        const newFeats = inferFeatures(newSet);
-        const delta = Array.from(newFeats).filter(c => !feats.has(c)).sort();
-        const newStep = { action: 'stabilize ' + ax, added_law: ax, enabled_features: delta };
-        const child = [newSet, steps.concat([newStep])];
-        if(dedupe){ const k = toKey(newSet); if(dedupe.has(k)) continue; dedupe.add(k); }
-        queue.push(child);
-      }
-      if(paths.length >= capPaths) break;
-    }
-    return { paths: paths, enumerated: enumerated };
-  }
-
-  function filterConsistent(paths){ return paths.filter(p => subset(OBS, p.final_features)); }
-  function choosePath(cands){
-    if(!cands.length) return null;
-    return cands.sort(function(a,b){
-      const len = a.path.length - b.path.length;
-      if(len !== 0) return len;
-      const aa = a.path.map(s=>s.action).join('\\u0000');
-      const bb = b.path.map(s=>s.action).join('\\u0000');
-      return aa.localeCompare(bb);
-    })[0];
-  }
-
-  function explain(chosen, totalNodes, consistentCount, maxDepth){
-    const lines=[];
-    lines.push('Goal: find a path that yields the observations: ' + Array.from(OBS).sort().join(', ') + '.');
-    lines.push('Enumerated ' + totalNodes + ' candidate states/paths (depth <= ' + maxDepth + ').');
-    lines.push('Top-down selection filtered these to ' + consistentCount + ' consistent endpoints.');
-    lines.push('We chose the shortest path achieving the goal; ties broken lexicographically.');
-    lines.push('Selected steps:');
-    for(var i=0;i<chosen.path.length;i++){
-      var st = chosen.path[i];
-      lines.push('  ' + (i+1) + '. ' + st.action + ' -> newly enabled features: ' + (st.enabled_features.length ? st.enabled_features.join(', ') : '-'));
-    }
-    lines.push('Final laws: ' + Array.from(chosen.final_laws).sort().join(', ') + '.');
-    lines.push('Final features: ' + Array.from(chosen.final_features).sort().join(', ') + '.');
-    return lines.join('\n');
-  }
-
-  function check(chosen, permTrials){
-    const recomputed = inferFeatures(chosen.final_laws);
-    const c1 = toKey(recomputed) === toKey(chosen.final_features);
-    const c2 = subset(OBS, recomputed);
-
-    let lawProg = new Set(); let prevFeatures = new Set();
-    let monotonic = true; let enabledOK = true; let seen = new Set();
-    for(const st of chosen.path){
-      if(!st.added_law || seen.has(st.added_law)){ monotonic = false; break; }
-      seen.add(st.added_law);
-      lawProg.add(st.added_law);
-      const now = inferFeatures(lawProg);
-      for(const x of prevFeatures){ if(!now.has(x)){ monotonic = false; break; } }
-      const delta = Array.from(now).filter(x=>!prevFeatures.has(x)).sort();
-      if(delta.join('|') !== st.enabled_features.join('|')) enabledOK = false;
-      prevFeatures = now;
-    }
-
-    const disp = [];
-    for(const ax of chosen.final_laws){
-      const alt = new Set(chosen.final_laws); alt.delete(ax);
-      if(subset(OBS, inferFeatures(alt))) disp.push(ax);
-    }
-    const minimalLaws = disp.length === 0;
-
-    let shorter = [];
-    if(chosen.path.length>0){
-      const res = enumeratePaths({maxDepth: chosen.path.length-1, capPaths: 200000, thorough: true});
-      const consShort = filterConsistent(res.paths);
-      if(consShort.length){ shorter = consShort[0].path.map(s=>s.action); }
-    }
-    const minimalSteps = shorter.length === 0;
-
-    function hasCycle(){
-      const graph = {}; Object.keys(PR).forEach(k=>graph[k]=new Set());
-      for(const [c, reqs] of Object.entries(PR)){
-        for(const r of reqs){ if(PR[r]) graph[c].add(r); }
-      }
-      const visited = new Set(); const stack = new Set();
-      function dfs(u){
-        visited.add(u); stack.add(u);
-        for(const v of graph[u]){
-          if(!visited.has(v) && dfs(v)) return true;
-          if(stack.has(v)) return true;
-        }
-        stack.delete(u);
+      const disp=[]; for(const ax of chosen.final_laws){ const alt=new Set(chosen.final_laws); alt.delete(ax); if(subset(OBS,inferFeatures(alt))) disp.push(ax); }
+      const minimalLaws = disp.length===0;
+      let shorter=[]; if(chosen.path.length>0){ const sp=enumeratePaths({maxDepth:chosen.path.length-1, capPaths:200000, thorough:true}); const consShort=filterConsistent(sp.paths); if(consShort.length){ shorter=consShort[0].path.map(s=>s.action); } }
+      const minimalSteps = shorter.length===0;
+      function hasCycle(){
+        const graph={}; Object.keys(PR).forEach(k=>graph[k]=new Set());
+        for(const [c,reqs] of Object.entries(PR)){ for(const r of reqs){ if(PR[r]) graph[c].add(r); } }
+        const visited=new Set(); const stack=new Set();
+        function dfs(u){ visited.add(u); stack.add(u); for(const v of graph[u]){ if(!visited.has(v) && dfs(v)) return true; if(stack.has(v)) return true; } stack.delete(u); return false; }
+        for(const node of Object.keys(graph)){ if(!visited.has(node) && dfs(node)) return true; }
         return false;
       }
-      for(const node of Object.keys(graph)){
-        if(!visited.has(node) && dfs(node)) return true;
+      const acyclic=!hasCycle();
+      const baseLaws=toKey(chosen.final_laws); const baseLen=chosen.path.length; let mismatches=[];
+      for(let i=0;i<permTrials;i++){
+        const perm=LAWS.slice(); shuffle(perm); if(perm.join('|')===LAWS.join('|')) shuffle(perm);
+        const saved=LAWS.slice(); LAWS.length=0; perm.forEach(x=>LAWS.push(x));
+        const p2=enumeratePaths({maxDepth:6, capPaths:80000, thorough:true});
+        const cons2=filterConsistent(p2.paths);
+        LAWS.length=0; saved.forEach(x=>LAWS.push(x));
+        if(!cons2.length){ mismatches.push({trial:i+1, issue:'no_path_under_permutation'}); }
+        else{ const ch2=choosePath(cons2); const eqA=baseLaws===toKey(ch2.final_laws); const eqL=baseLen===ch2.path.length; if(!(eqA && eqL)) mismatches.push({trial:i+1, final_laws_equal:eqA, path_length_equal:eqL}); }
       }
-      return false;
-    }
-    const acyclic = !hasCycle();
-
-    const baseLaws = toKey(chosen.final_laws); const baseLen = chosen.path.length;
-    let mismatches=[];
-    for(let i=0;i<permTrials;i++){
-      const perm = LAWS.slice(); shuffle(perm); if(perm.join('|')===LAWS.join('|')) shuffle(perm);
-      const saved = LAWS.slice(); LAWS.length=0; perm.forEach(x=>LAWS.push(x));
-      const res2 = enumeratePaths({maxDepth: 6, capPaths: 120000, thorough: true});
-      const cons2 = filterConsistent(res2.paths);
-      LAWS.length=0; saved.forEach(x=>LAWS.push(x));
-      if(!cons2.length){ mismatches.push({trial:i+1, issue:'no_path_under_permutation'}); }
-      else{
-        const ch2 = choosePath(cons2);
-        const eqA = baseLaws === toKey(ch2.final_laws);
-        const eqL = baseLen === ch2.path.length;
-        if(!(eqA && eqL)) mismatches.push({trial:i+1, final_laws_equal:eqA, path_length_equal:eqL});
-      }
-    }
-    const permInv = mismatches.length===0;
-
-    const passed = c1 && c2 && monotonic && enabledOK && minimalLaws && minimalSteps && acyclic && permInv;
-
-    return {
-      recomputed_features_match: c1,
-      observations_satisfied: c2,
-      monotonic_along_path: monotonic,
-      enabled_records_consistent: enabledOK,
-      law_minimality: minimalLaws,
-      dispensable_laws: disp.sort(),
-      minimal_steps: minimalSteps,
-      shorter_path_example: shorter,
-      acyclic_feature_dependencies: acyclic,
-      permutation_invariant: permInv,
-      permutation_mismatches: mismatches,
-      passed: passed
-    };
-  }
-
-  // ====== Wire up UI ======
-  const els = {
-    mode: document.getElementById('mode'),
-    maxDepth: document.getElementById('maxDepth'),
-    capPaths: document.getElementById('capPaths'),
-    permTrials: document.getElementById('permTrials'),
-    runBtn: document.getElementById('runBtn'),
-    answer: document.getElementById('answer'),
-    reason: document.getElementById('reason'),
-    check: document.getElementById('check'),
-    kEnumerated: document.getElementById('kEnumerated'),
-    kConsistent: document.getElementById('kConsistent'),
-    kTime: document.getElementById('kTime'),
-    kMode: document.getElementById('kMode'),
-    note: document.getElementById('note'),
-    dataDump: document.getElementById('dataDump')
-  };
-
-  function dumpData(){
-    const laws = '<b>Laws</b><br>' + LAWS.map(a=>'• '+a).join('<br>');
-    const obs = '<br><b>Target observations</b><br>' + Array.from(OBS).map(o=>'• '+o).join('<br>');
-    const deps = '<br><b>Feature dependencies</b><br>' + Object.entries(PR).map(([k,v])=>'• <code>'+k+'</code> <- ' + Array.from(v).join(', ')).join('<br>');
-    els.dataDump.innerHTML = laws+obs+deps;
-  }
-  dumpData();
-
-  els.runBtn.addEventListener('click', ()=>{
-    els.runBtn.disabled = true;
-    els.runBtn.classList.add('busy');
-    els.runBtn.dataset.prev = els.runBtn.textContent;
-    els.runBtn.textContent = 'Running...';
-
-    els.note.textContent = '';
-    els.answer.textContent = els.reason.textContent = els.check.textContent = '';
-    els.kEnumerated.textContent = '...'; els.kConsistent.textContent='...'; els.kTime.textContent='...'; els.kMode.textContent = els.mode.value;
-
-    const thorough = els.mode.value === 'thorough';
-    const maxDepth = parseInt(els.maxDepth.value,10)||6;
-    const capPaths = parseInt(els.capPaths.value,10)||120000;
-    const permTrials = parseInt(els.permTrials.value,10)||1;
-
-    const finish = () => {
-      els.runBtn.classList.remove('busy');
-      els.runBtn.textContent = els.runBtn.dataset.prev || 'Run';
-      els.runBtn.disabled = false;
-    };
-
-    requestAnimationFrame(()=>{
-      const t0 = performance.now();
-      const res = enumeratePaths({maxDepth:maxDepth, capPaths:capPaths, thorough:thorough});
-      const consistent = filterConsistent(res.paths);
-      const chosen = choosePath(consistent);
-      const t1 = performance.now();
-
-      els.kEnumerated.textContent = res.enumerated.toLocaleString();
-      els.kConsistent.textContent = consistent.length.toLocaleString();
-      els.kTime.textContent = Math.round(t1 - t0).toLocaleString();
-
-      if(!chosen){
-        els.answer.textContent = JSON.stringify({selected_path:null, final_state:null}, null, 2);
-        els.reason.textContent = 'No consistent path found under current depth and logic.';
-        els.check.textContent = JSON.stringify({passed:false}, null, 2);
-        els.note.textContent = 'Tip: Thorough mode often needs Max Depth >= 5; try depth 6 and Cap Paths >= 28961.';
-        finish();
-        return;
-      }
-
-      const answer = {
-        selected_path: chosen.path.map(s=>s.action),
-        final_state: {
-          laws: Array.from(chosen.final_laws).sort(),
-          features: Array.from(chosen.final_features).sort()
-        }
+      const permInv = mismatches.length===0;
+      const passed = c1 && c2 && monotonic && enabledOK && minimalLaws && minimalSteps && acyclic && permInv;
+      return {
+        recomputed_features_match:c1, observations_satisfied:c2,
+        monotonic_along_path:monotonic, enabled_records_consistent:enabledOK,
+        law_minimality:minimalLaws, dispensable_laws:disp.sort(),
+        minimal_steps:minimalSteps, shorter_path_example:shorter,
+        acyclic_feature_dependencies:acyclic, permutation_invariant:permInv,
+        permutation_mismatches:mismatches, passed
       };
-      els.answer.textContent = JSON.stringify(answer, null, 2);
+    }
 
-      const reason = explain(chosen, res.enumerated, consistent.length, maxDepth);
-      els.reason.textContent = reason;
+    // UI wiring
+    const el = {
+      mode:document.getElementById('mode'), maxDepth:document.getElementById('maxDepth'), capPaths:document.getElementById('capPaths'), permTrials:document.getElementById('permTrials'), runBtn:document.getElementById('runBtn'),
+      answer:document.getElementById('answer'), reason:document.getElementById('reason'), check:document.getElementById('check'),
+      kEnumerated:document.getElementById('kEnumerated'), kConsistent:document.getElementById('kConsistent'), kTime:document.getElementById('kTime'), kMode:document.getElementById('kMode'), note:document.getElementById('note'), dataDump:document.getElementById('dataDump')
+    };
+    if(!el.runBtn){ log('Run button not found'); return; }
 
-      const chk = check(chosen, permTrials);
-      els.check.textContent = JSON.stringify(chk, null, 2);
+    function dumpData(){
+      const laws = '<b>Laws</b><br>' + LAWS.map(a=>'- '+a).join('<br>');
+      const obs  = '<br><b>Target observations</b><br>' + Array.from(OBS).map(o=>'- '+o).join('<br>');
+      const deps = '<br><b>Feature dependencies</b><br>' + Object.entries(PR).map(([k,v])=>' - <code>'+k+'</code> <- '+Array.from(v).join(', ')).join('<br>');
+      el.dataDump.innerHTML = laws+obs+deps;
+    }
+    dumpData();
 
-      if(!chk.passed){ els.note.textContent = 'Some checks failed. See details above.'; els.note.className='bad'; }
-      else { els.note.textContent = 'All checks passed.'; els.note.className='ok'; }
+    el.runBtn.addEventListener('click',()=>{
+      el.runBtn.disabled=true; el.runBtn.classList.add('busy'); el.runBtn.dataset.prev=el.runBtn.textContent; el.runBtn.textContent='Running...';
+      el.note.textContent=''; el.note.className='warn';
+      el.answer.textContent=el.reason.textContent=el.check.textContent='';
+      el.kEnumerated.textContent='...'; el.kConsistent.textContent='...'; el.kTime.textContent='...'; el.kMode.textContent=el.mode.value;
 
-      finish();
+      const thorough = el.mode.value==='thorough';
+      const maxDepth = parseInt(el.maxDepth.value,10)||6;
+      const capPaths = parseInt(el.capPaths.value,10)||80000;
+      const permTrials = parseInt(el.permTrials.value,10)||1;
+
+      const finish=()=>{ el.runBtn.classList.remove('busy'); el.runBtn.textContent=el.runBtn.dataset.prev||'Run'; el.runBtn.disabled=false; };
+
+      requestAnimationFrame(()=>{
+        try{
+          const t0=performance.now();
+          const {paths,enumerated}=enumeratePaths({maxDepth,capPaths,thorough});
+          const consistent=filterConsistent(paths);
+          const chosen=choosePath(consistent);
+          const t1=performance.now();
+
+          el.kEnumerated.textContent=enumerated.toLocaleString();
+          el.kConsistent.textContent=consistent.length.toLocaleString();
+          el.kTime.textContent=Math.round(t1-t0).toLocaleString();
+
+          if(!chosen){
+            el.answer.textContent=JSON.stringify({selected_path:null, final_state:null}, null, 2);
+            el.reason.textContent='No consistent path found under current depth and logic.';
+            el.check.textContent=JSON.stringify({passed:false}, null, 2);
+            el.note.textContent='Tip: try Max Depth = 6 and Cap Paths >= 28961 for thorough mode.';
+            finish(); return;
+          }
+
+          const answer={ selected_path: chosen.path.map(s=>s.action), final_state:{ laws:Array.from(chosen.final_laws).sort(), features:Array.from(chosen.final_features).sort() } };
+          el.answer.textContent=JSON.stringify(answer, null, 2);
+          el.reason.textContent=explain(chosen,enumerated,consistent.length,maxDepth);
+
+          const chk=check(chosen,permTrials);
+          el.check.textContent=JSON.stringify(chk, null, 2);
+          el.note.textContent = chk.passed ? 'All checks passed.' : 'Some checks failed. See details above.';
+          el.note.className = chk.passed ? 'ok' : 'bad';
+        } catch(err){
+          el.note.textContent = 'Runtime error: ' + err.message;
+          el.note.className = 'bad';
+          log(err && err.stack ? err.stack : err);
+        } finally {
+          finish();
+        }
+      });
     });
-  });
-})();
+
+    log('Ready.');
+  } catch(e) {
+    log('Init error: ' + e.message);
+    if(document.getElementById('note')){
+      document.getElementById('note').textContent = 'Init error: ' + e.message;
+      document.getElementById('note').className = 'bad';
+    }
+  }
+});
 </script>
 </body>
 </html>
