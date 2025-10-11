@@ -9322,27 +9322,50 @@ userInput(A, B) :-
     when(
         (   ground([X, Search, Replace])
         ),
-        (   (   atomic_list_concat(['(', Search, ')'], Se),
-                regex(Se, X, [St|_]),
-                escape_atom(S, St)
-            ->  (   sub_atom(Search, 0, 1, _, '^')
+        (   (   sub_atom(Search, 0, 1, _, '^')
+            ->  (   atomic_list_concat(['(', Search, ')'], Se),
+                    regex(Se, X, [St|_]),
+                    escape_atom(S, St)
                 ->  atom_concat(S, T, X),
                     atom_concat(Replace, T, Y)
-                ;   (   sub_atom(Search, _, 1, 0, '$')
+                ;   Y = X
+                )
+            ;   (   sub_atom(Search, _, 1, 0, '$')
+                ->  (   atomic_list_concat(['(', Search, ')'], Se),
+                        regex(Se, X, [St|_]),
+                        escape_atom(S, St)
                     ->  atom_concat(T, S, X),
                         atom_concat(T, Replace, Y)
-                    ;   atom_codes(X, XC),
-                        string_codes(S, SC),
-                        atom_codes(Replace, RC),
-                        subst([[[0'$, 0'1], SC]], RC, TC),
-                        subst([[SC, TC]], XC, YC),
-                        atom_codes(Y, YC)
+                    ;   Y = X
                     )
+                ;   % Find all matches and replace them iteratively
+                    string_replace_all_matches(X, Search, Replace, Y)
                 )
-            ;   Y = X
             )
         )
     ).
+
+% Helper predicate to replace all regex matches by finding unique matches and replacing each
+string_replace_all_matches(Input, Search, Replace, Output) :-
+    atomic_list_concat(['(', Search, ')'], Se),
+    escape_atom(Scape, Se),
+    scrape(Input, Scape, Scrape),
+    (   Scrape \= []
+    ->  list_to_set(Scrape, UniqueMatches),
+        replace_matches(Input, UniqueMatches, Replace, Output)
+    ;   Output = Input
+    ).
+
+% Replace each unique match
+replace_matches(Input, [], _, Input).
+replace_matches(Input, [Match|Rest], Replace, Output) :-
+    atom_codes(Input, InputCodes),
+    string_codes(Match, MatchCodes),
+    atom_codes(Replace, ReplaceCodes),
+    subst([[[0'$, 0'1], MatchCodes]], ReplaceCodes, SubstitutedCodes),
+    subst([[MatchCodes, SubstitutedCodes]], InputCodes, TempCodes),
+    atom_codes(Temp, TempCodes),
+    replace_matches(Temp, Rest, Replace, Output).
 
 '<http://www.w3.org/2000/10/swap/string#replaceAll>'([literal(X, _), SearchList, ReplaceList], literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     when(
