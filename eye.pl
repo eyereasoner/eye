@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.22.3 (2025-10-08)').
+version_info('EYE v11.22.4 (2025-10-11)').
 
 license_info('MIT License
 
