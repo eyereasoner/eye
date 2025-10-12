@@ -2,7 +2,7 @@
 
 ## Observership and the Infinite Game of Mathematics
 
-This exploration weaves together two profound ideas. One comes from early-universe cosmology: in the beginning, there was no single, sharp "first moment" with fixed rules, but a quantum haze of possibilities. As the universe unfolded, certain patterns became stable and self-replicating, leading to the effective laws of nature we observe today. The other idea comes from Gödel’s incompleteness theorems: **as territory**, mathematics is an inexhaustible landscape of truth, a realm so vast that no finite set of axioms can ever capture it all.
+This exploration weaves together two profound ideas. One comes from Thomas Hertog and Stephen Hawking's early-universe cosmology: in the beginning, there was no single, sharp "first moment" with fixed rules, but a quantum haze of possibilities. As the universe unfolded, certain patterns became stable and self-replicating, leading to the effective laws of nature we observe today. The other idea comes from Gödel’s incompleteness theorems: **as territory**, mathematics is an inexhaustible landscape of truth, a realm so vast that no finite set of axioms can ever capture it all.
 
 A central metaphor illuminates this connection. Imagine a timeless **Library** containing every consistent mathematical blueprint for a universe—all possible geometries, interaction rules, and even complete cosmic histories. This library is static. Now, imagine a single **Path** being traced through its shelves. That path is our world.
 
