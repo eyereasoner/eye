@@ -1,7 +1,6 @@
 # The Library and the Path — *Librath*
 
-**Librath** applies the **P3: Prompt → Program → Proof** approach to **The Library and the Path**.  
-See the concept note: [The Library and the Path — *Librath*](librath.md) and the method note: [P3: Prompt → Program → Proof](p3.md).
+**Librath** applies the [P3: Prompt → Program → Proof](p3.md) approach to [The Library and the Path — *Librath*](librath.md).
 
 ---
 
