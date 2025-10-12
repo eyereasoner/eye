@@ -2,7 +2,7 @@
 
 See the [P3 write-up](p3.md).
 
-Run the [librath cases](librath/cases) to get the [answer, reason why and check (harness)](librath/cases/output)
+Run the [librath cases](cases) to get the [answer, reason why and check (harness)](cases/output)
    ```bash
    ./test
    ```
