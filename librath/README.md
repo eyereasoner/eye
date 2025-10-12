@@ -1,17 +1,17 @@
 # The Library and the Path — *Librath*
 
-**Librath** applies the **P3: Prompt → Program → Proof** approach to “The Library and the Path”.  
+**Librath** applies the **P3: Prompt → Program → Proof** approach to **The Library and the Path**.  
 See the concept note: [The Library and the Path — *Librath*](librath.md) and the method note: [P3: Prompt → Program → Proof](p3.md).
 
 ---
 
 ## Quick start
 
-Run the Librath cases and generate the **answer**, the **why** (explanation), and the **check** (harness):
+Run the librath [cases](cases) and generate the **answer**, the **why** (explanation), and the **check** (harness):
 
 ```bash
 ./test
-````
+```
 
 Results are written to [`cases/output`](cases/output).
 
