@@ -1,6 +1,6 @@
 # The Library and the Path — *Librath*
 
-[The Library and the Path — *Librath*](librath.md) is using [P3 — *Prompt → Program → Proof*](p3.md).
+[The Library and the Path — *Librath*](librath.md) is using [Prompt → Program → Proof — *P3*](p3.md).
 
 Run the [librath cases](cases) to get the [answer, reason why and check (harness)](cases/output)
    ```bash
