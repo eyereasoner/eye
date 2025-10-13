@@ -18,12 +18,9 @@ What this is
   express permissions/prohibitions/duties for primary and secondary uses.
 - Everything is **in-memory** and **stubbed** — easy to swap for real systems.
 - Each decision returns **Answer + Reason why + Check (harness)**.
-- NEW: Single, human-friendly **reason_why** string; and a **more extensive
-  Check harness** with policy-alignment, duties-enforced, and category-scope
-  assertions.
 
-How to run (locally)
---------------------
+How to run
+----------
 $ python auroracare.py
 
 """
