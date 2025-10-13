@@ -1,0 +1,81 @@
+{
+  "ScenarioA_primary": {
+    "answer": "PERMIT",
+    "reason": [
+      "urn:policy:primary-care-001:constraint_ok:ehds:purpose:eq",
+      "urn:policy:primary-care-001:constraint_ok:ehds:assigneeRole:eq",
+      "urn:policy:primary-care-001:constraint_ok:ehds:category:isAnyOf",
+      "urn:policy:primary-care-001:permit:odrl:permission_matched",
+      "permit:primary_care_allowed"
+    ],
+    "obligations": [],
+    "policy_version": "0.2.0-odrl",
+    "decision_id": "196d7ac6c6b0583600d8d32af60ee08e344ff7f4154cfe21067f9b385ef041e4",
+    "check": {
+      "C1_prohibited_denied": "OK",
+      "C2_primary_requires_careteam": "OK",
+      "C3_secondary_requires_optin_and_policy": "SKIPPED"
+    }
+  },
+  "ScenarioB_secondary_optin": {
+    "answer": "PERMIT",
+    "reason": [
+      "ok:subject_opted_in",
+      "urn:policy:primary-care-001:constraint_failed:ehds:purpose:eq",
+      "urn:policy:primary-care-001:deny:odrl:no_permission_matched",
+      "urn:policy:HDAB-2025-001:constraint_failed:ehds:purpose:eq",
+      "urn:policy:HDAB-2025-001:constraint_ok:ehds:purpose:eq",
+      "urn:policy:HDAB-2025-001:constraint_ok:ehds:environment:eq",
+      "urn:policy:HDAB-2025-001:constraint_ok:ehds:category:isAllOf",
+      "urn:policy:HDAB-2025-001:permit:odrl:permission_matched"
+    ],
+    "obligations": [
+      "duty:ehds:requireConsent",
+      "duty:ehds:noExfiltration"
+    ],
+    "policy_version": "0.2.0-odrl",
+    "decision_id": "b0ab50f888c991743986f151a03edc0d9504b5dec7312f26b042734b9e3e3f0b",
+    "check": {
+      "C1_prohibited_denied": "OK",
+      "C2_primary_requires_careteam": "SKIPPED",
+      "C3_secondary_requires_optin_and_policy": "OK"
+    }
+  },
+  "ScenarioC_secondary_optout": {
+    "answer": "DENY",
+    "reason": [
+      "deny:subject_opted_out"
+    ],
+    "obligations": [],
+    "policy_version": "0.2.0-odrl",
+    "decision_id": "2c45c9c1d1d45edac73980e9de5ca3a9cfa50da945a98d9a8bd9ec217a7a6ed1",
+    "check": {
+      "C1_prohibited_denied": "OK",
+      "C2_primary_requires_careteam": "SKIPPED",
+      "C3_secondary_requires_optin_and_policy": "INFO"
+    }
+  },
+  "ScenarioD_prohibited": {
+    "answer": "DENY",
+    "reason": [
+      "deny:prohibited_purpose"
+    ],
+    "obligations": [],
+    "policy_version": "0.2.0-odrl",
+    "decision_id": "64b430eac0b02d7315fb6948f547565848a0f6c10ec11d8540ce0426d7d20f6d",
+    "check": {
+      "C1_prohibited_denied": "OK",
+      "C2_primary_requires_careteam": "SKIPPED",
+      "C3_secondary_requires_optin_and_policy": "SKIPPED"
+    }
+  },
+  "AnnualReport": {
+    "subject_id": "ruben",
+    "year": 2025,
+    "counts": {
+      "PRIMARY_CARE": 1,
+      "DIABETES_QI": 1
+    },
+    "note": "Stub report; extend with permit/policy refs and public outputs."
+  }
+}
