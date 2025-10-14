@@ -1,282 +1,585 @@
-# AuroraCare — “Answer / Reason why / Check” harness (C1..C10)
+# AuroraCare — runnable demo (Markdown variant)
 
-This doc describes the **10-check harness** used by AuroraCare and gives **drop‑in code** for both the Python PDP and the HTML/JS demo. It matches what you now have in `auroracare.py` and `auroracare.html` (with C9/C10 added).
+> This Markdown file embeds raw HTML + JavaScript.  
+> It **runs** when the Markdown is rendered as HTML by a site generator that allows scripts (e.g., **GitHub Pages**, **MkDocs**, **Quarto**).  
+> If you're viewing this in a Markdown preview (like GitHub README or VS Code), scripts are usually blocked.  
+> **Tip:** rename this file to `auroracare.html` and open in a browser for an instant local demo.
 
----
+<div id="auroracare-demo-root"></div>
 
-## TL;DR — What the harness does
+<style>
+  .ac-root { padding: 24px; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial; background: radial-gradient(800px 500px at 10% -10%, #ffffff 0%, #f7f9fc 60%, #eef2f7 100%); color: #0b1020; }
+  .ac-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; align-items: start; }
+  @media (max-width: 980px) { .ac-grid { grid-template-columns: 1fr; } }
+  .ac-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 16px 18px; box-shadow: 0 12px 30px rgba(2,8,23,0.06); }
+  h1 { margin: 0 0 8px; font-weight: 800; letter-spacing: -0.02em; }
+  h2 { margin: 20px 0 8px; font-weight: 700; }
+  .ac-muted { color: #5b6470; }
+  .ac-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  label { font-size: 13px; color: #5b6470; display: grid; gap: 6px; }
+  input[type="text"], select { background: #fff; color: #0b1020; border: 1px solid #e5e7eb; border-radius: 10px; padding: 10px 12px; outline: none; }
+  input[type="text"]:focus, select:focus { border-color: #bfd3ff; box-shadow: 0 0 0 4px #e7f0ff; }
+  .ac-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ac-chip { border: 1px solid #e5e7eb; border-radius: 999px; padding: 6px 10px; background: #fff; color: #0b1020; }
+  .ac-chip input { margin-right: 6px; }
+  button { background: linear-gradient(180deg, #3b82f6, #2563eb); border: none; color: white; padding: 10px 14px; border-radius: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 8px 18px rgba(37,99,235,0.35); }
+  button.ac-secondary { background: linear-gradient(180deg, #7c3aed, #6d28d9); box-shadow: 0 8px 18px rgba(124,58,237,0.25); }
+  button.ac-ghost { background: transparent; border: 1px solid #e5e7eb; color: #0b1020; box-shadow: none; }
+  .ac-result { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 8px; }
+  .ac-answer { font-size: 14px; font-weight: 800; letter-spacing: .06em; padding: 8px 12px; border-radius: 10px; width: fit-content; border: 1px solid #e5e7eb; }
+  .ac-answer.permit { background: #e9f7ef; color: #107e3e; }
+  .ac-answer.deny { background: #fdecea; color: #c62828; }
+  .ac-checks { border-top: 1px dashed #e5e7eb; padding-top: 8px; }
+  .ac-check-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #f0f2f7; }
+  .ac-ok { color: #107e3e; } .ac-fail { color: #c62828; } .ac-skip { color: #5b6470; } .ac-info { color: #b26a00; }
+  details { border: 1px solid #e5e7eb; border-radius: 10px; padding: 8px 12px; background: #fafafa; }
+  summary { cursor: pointer; }
+  pre { background: #f3f4f6; color: #111827; padding: 10px; border-radius: 10px; border: 1px solid #e5e7eb; overflow: auto; }
+  .ac-scenarios { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ac-tiny { font-size: 12px; }
+</style>
 
-Every decision returns three parts:
+<div class="ac-root">
+  <header style="margin-bottom:16px">
+    <h1>🌤️ AuroraCare (Markdown)</h1>
+    <p class="ac-muted">Purpose-based medical data exchange • ODRL-driven authorization • “Answer / Reason why / Check (C1..C10)”</p>
+  </header>
 
-- **Answer** — `PERMIT` or `DENY`  
-- **Reason why** — one human sentence aligned with the outcome  
-- **Check** — a fixed set of sanity checks (`C1..C10`) with values like `OK`, `FAIL`, `SKIPPED`, or `INFO`
+  <div class="ac-grid">
+    <section class="ac-card">
+      <h2>Request</h2>
+      <div class="ac-row">
+        <label>Requester ID<input id="ac-requesterId" type="text" value="clinician_alba" /></label>
+        <label>Role
+          <select id="ac-role">
+            <option value="clinician">CLINICIAN</option>
+            <option value="data_user">DATA_USER</option>
+          </select>
+        </label>
+        <label>Subject ID<input id="ac-subjectId" type="text" value="ruben" /></label>
+      </div>
+      <div class="ac-row">
+        <label>Purpose
+          <select id="ac-purpose">
+            <option value="primary-care">primary-care</option>
+            <option value="remote-consult">remote-consult</option>
+            <option value="diabetes-qi">diabetes-qi</option>
+            <option value="research">research</option>
+            <option value="insurance-pricing">insurance-pricing</option>
+          </select>
+        </label>
+        <label>Environment
+          <select id="ac-environment">
+            <option value="api_gateway">api_gateway</option>
+            <option value="secure_env">secure_env</option>
+          </select>
+        </label>
+      </div>
+      <div style="margin-top:8px">
+        <label>Categories</label>
+        <div id="ac-catBox" class="ac-chips"></div>
+      </div>
 
----
+      <div style="margin-top:12px" class="ac-row">
+        <button id="ac-evalBtn">Evaluate</button>
+        <button class="ac-ghost ac-tiny" id="ac-copyBtn">Copy result JSON</button>
+      </div>
 
-## The 10 checks
+      <h2 style="margin-top:22px">Consent & Care-team</h2>
+      <div class="ac-row">
+        <label>Consent (ruben → diabetes-qi)
+          <select id="ac-consentQi">
+            <option value="unset">unset</option>
+            <option value="opt_in" selected>opt-in</option>
+            <option value="opt_out">opt-out</option>
+          </select>
+        </label>
+        <label>Care-team link (clinician_alba ↔ ruben)
+          <select id="ac-careteamLink">
+            <option value="linked" selected>linked</option>
+            <option value="unlinked">unlinked</option>
+          </select>
+        </label>
+      </div>
 
-| Code | What it asserts | Applies when | OK when | Notes |
-|---|---|---|---|---|
-| **C1_prohibited_denied** | Prohibited purposes are denied | Always | Decision is `DENY` if prohibited | Short‑circuit gate |
-| **C2_primary_role** | Primary use = clinician‑only | primary-care/remote-consult | Clinician → OK, else DENY | Role rule |
-| **C3_primary_careteam** | Primary use requires care‑team link | primary-care/remote-consult | Linked+PERMIT, or Unlinked+DENY | Context rule |
-| **C4_secondary_optin_and_policy** | Secondary use needs opt‑in **and** matching policy | Secondary, non‑prohibited | PERMIT only if (opt‑in ∧ policy match) | Consent × ODRL |
-| **C5_category_scope** | Requested categories are within matched policy scope | If PERMIT & policy matched | Categories satisfy `isAnyOf`/`isAllOf` | From ODRL constraint |
-| **C6_prohibition_blocks** | Any matched prohibition forces DENY | If any prohibition matched | Decision is `DENY` | ODRL prohibition |
-| **C7_trace_consistency** | PERMIT decisions show a permission match in trace | If PERMIT | Trace has `...:permit:odrl:permission_matched` (or primary permit marker) | Sanity |
-| **C8_duties_present** | Show matched duties (informational) | If duties exist | Lists duties | INFO/ SKIPPED |
-| **C9_environment_scope** | Environment meets policy constraint | If PERMIT & policy constrains env | Requested env satisfies `eq`/`isAnyOf` | New |
-| **C10_policy_uid** | Surface matched policy UID | If policy matched | `INFO - matched policy: <uid>` | New |
+      <h2 style="margin-top:22px">Scenarios</h2>
+      <div class="ac-scenarios">
+        <button class="ac-secondary ac-tiny" data-scenario="A">A: Primary care</button>
+        <button class="ac-secondary ac-tiny" data-scenario="B">B: Secondary (opt-in)</button>
+        <button class="ac-secondary ac-tiny" data-scenario="C">C: Secondary (opt-out)</button>
+        <button class="ac-secondary ac-tiny" data-scenario="D">D: Prohibited (insurance)</button>
+      </div>
+    </section>
 
----
+    <section class="ac-card">
+      <h2>Decision</h2>
+      <div id="ac-result" class="ac-result">
+        <div class="ac-muted ac-tiny">Fill the form and click <b>Evaluate</b>.</div>
+      </div>
 
-## 🔧 Drop‑in: Python (`auroracare.py`) — `_checks` method
+      <details style="margin-top:12px">
+        <summary>Policies (ODRL-like)</summary>
+        <pre id="ac-policyDump"></pre>
+      </details>
 
-> Replace the entire `_checks` method in class `PDP` with this.  
-> **Important:** ensure all calls pass `obligations` as the 4th argument, e.g. `self._checks(req, "PERMIT", trace, obligations)`.
+      <details style="margin-top:8px">
+        <summary>Machine Trace (debug)</summary>
+        <pre id="ac-traceDump"></pre>
+      </details>
+    </section>
+  </div>
 
-```python
-def _checks(self, req: RequestContext, answer: str, trace: List[str], obligations: List[str]) -> Dict[str, str]:
-    """
-    C1..C10 harness
-    """
-    results: Dict[str, str] = {}
+  <footer style="margin-top:24px; text-align:center" class="ac-muted ac-tiny">
+    AuroraCare prototype — ODRL-inspired evaluator (eq, isAnyOf, isAllOf), “Answer / Reason why / Check (C1..C10)”. No backend required.
+  </footer>
+</div>
 
-    # Summarize policy evaluation (first match)
-    def policy_summary() -> Tuple[bool, Optional[Dict[str, Any]], List[str], bool]:
-        matched = None
-        duties: List[str] = []
-        ok_any = False
-        prohibition_hit = False
-        for pol in self.policies.all():
-            ok, tr, obl = self.odrl.match(req, pol)
-            if any(t.endswith(":deny:odrl:prohibition_matched") for t in tr):
-                prohibition_hit = True
-            if ok and not ok_any:
-                ok_any = True
-                matched = pol
-                duties = obl
-        return ok_any, matched, duties, prohibition_hit
+<script>
+(function(){
+  // ----------------------------- Data model -----------------------------
+  const EHDS = "https://example.org/odrl/ehds#";
+  const Categories = ["PATIENT_SUMMARY","LAB_RESULTS","IMAGING_REPORT","DISCHARGE_REPORT","EPRESCRIPTION"];
+  function catCheckboxes() {
+    const box = document.getElementById("ac-catBox");
+    box.innerHTML = "";
+    Categories.forEach(c => {
+      const lab = document.createElement("label");
+      lab.className = "ac-chip";
+      lab.innerHTML = `<input type="checkbox" value="${c}" ${c==="PATIENT_SUMMARY" ? "checked" : ""}/> ${c}`;
+      box.appendChild(lab);
+    });
+  }
+  catCheckboxes();
 
-    ok_perm, matched_policy, duties, prohibition_hit = policy_summary()
-    has_careteam = self.careteam.is_in_care_team(req.requester_id, req.subject_id)
-    has_optin = self.consent.get_preference(req.subject_id, req.purpose) is True
+  // Policies (ODRL-like JSON)
+  const policies = [
+    {
+      "@context": ["http://www.w3.org/ns/odrl.jsonld", {"ehds": EHDS}],
+      uid: "urn:policy:primary-care-001",
+      type: "Policy",
+      permission: [{
+        uid: "urn:rule:pc-1",
+        action: "use",
+        target: "urn:asset:ehr",
+        constraint: [
+          { leftOperand: "ehds:purpose",      operator: "eq",      rightOperand: "primary-care" },
+          { leftOperand: "ehds:assigneeRole", operator: "eq",      rightOperand: "clinician" },
+          { leftOperand: "ehds:category",     operator: "isAnyOf", rightOperand: ["PATIENT_SUMMARY"] }
+        ]
+      }]
+    },
+    {
+      "@context": ["http://www.w3.org/ns/odrl.jsonld", {"ehds": EHDS}],
+      uid: "urn:policy:HDAB-2025-001",
+      type: "Policy",
+      prohibition: [{
+        uid: "urn:rule:deny-insurance",
+        action: "use",
+        constraint: [{ leftOperand: "ehds:purpose", operator: "eq", rightOperand: "insurance-pricing" }]
+      }],
+      permission: [{
+        uid: "urn:rule:qi-1",
+        action: "use",
+        target: "urn:asset:ehr",
+        constraint: [
+          { leftOperand: "ehds:purpose",      operator: "eq",      rightOperand: "diabetes-qi" },
+          { leftOperand: "ehds:environment",  operator: "eq",      rightOperand: "secure_env" },
+          { leftOperand: "ehds:category",     operator: "isAllOf", rightOperand: ["LAB_RESULTS","PATIENT_SUMMARY"] }
+        ],
+        duty: [{ action: "ehds:requireConsent" }, { action: "ehds:noExfiltration" }]
+      }]
+    }
+  ];
+  document.getElementById("ac-policyDump").textContent = JSON.stringify(policies, null, 2);
 
-    # C1: prohibited purposes must be denied
-    if req.purpose in self.PROHIBITED_PURPOSES:
-        results["C1_prohibited_denied"] = "OK - denied prohibited purpose" if answer == "DENY" else "FAIL - prohibited purpose was not denied"
-    else:
-        results["C1_prohibited_denied"] = "SKIPPED - not a prohibited purpose"
+  // ----------------------------- Services (stubs) -----------------------------
+  const ConsentService = {
+    store: {}, // { subject: { purposeSlug: true|false } }
+    set(subject, purposeSlug, allowed) { (this.store[subject] ??= {})[purposeSlug] = allowed; },
+    get(subject, purposeSlug) { return (this.store[subject] ?? {})[purposeSlug]; }
+  };
+  const CareTeamService = {
+    links: new Set([ "clinician_alba|ruben" ]),
+    link(clinician, subject) { this.links.add(`${clinician}|${subject}`); },
+    isLinked(clinician, subject) { return this.links.has(`${clinician}|${subject}`); }
+  };
 
-    # C2/C3: primary requires clinician role + care-team link
-    if req.purpose in {Purpose.PRIMARY_CARE, Purpose.REMOTE_CONSULT}:
-        if req.requester_role != Role.CLINICIAN:
-            results["C2_primary_role"] = "OK - non-clinician denied" if answer == "DENY" else "FAIL - non-clinician permitted"
-        else:
-            results["C2_primary_role"] = "OK - clinician"
-        results["C3_primary_careteam"] = (
-            "OK - care-team linked" if has_careteam and answer == "PERMIT"
-            else ("OK - denied due to missing care-team" if (not has_careteam and answer == "DENY") else "FAIL - care-team rule inconsistent with answer")
-        )
-    else:
-        results["C2_primary_role"] = "SKIPPED"
-        results["C3_primary_careteam"] = "SKIPPED"
+  // reflect UI defaults
+  function syncConsentAndCareteamFromUI() {
+    const c = document.getElementById("ac-consentQi").value;
+    if (c === "opt_in") ConsentService.set("ruben","diabetes-qi", true);
+    else if (c === "opt_out") ConsentService.set("ruben","diabetes-qi", false);
+    else { if (ConsentService.store["ruben"]) delete ConsentService.store["ruben"]["diabetes-qi"]; }
 
-    # C4: secondary requires explicit opt-in + a matching ODRL permission
-    if req.purpose not in {Purpose.PRIMARY_CARE, Purpose.REMOTE_CONSULT} and req.purpose not in self.PROHIBITED_PURPOSES:
-        expect_permit = has_optin and ok_perm
-        if answer == "PERMIT":
-            results["C4_secondary_optin_and_policy"] = "OK - opt-in present and policy matched" if expect_permit else "FAIL - permitted without opt-in and matching policy"
-        else:
-            results["C4_secondary_optin_and_policy"] = "OK - denied because opt-in missing or no policy match" if not expect_permit else "FAIL - denied despite opt-in and policy match"
-    else:
-        results["C4_secondary_optin_and_policy"] = "SKIPPED"
+    const link = document.getElementById("ac-careteamLink").value;
+    if (link === "linked") CareTeamService.link("clinician_alba","ruben");
+    else CareTeamService.links.delete("clinician_alba|ruben");
+  }
+  syncConsentAndCareteamFromUI();
 
-    # C5: category scope (only if permitted and a policy matched)
-    if matched_policy and answer == "PERMIT":
-        perms = matched_policy.get("permission", []) or []
-        cat_ok = True
-        msg = ""
-        if perms:
-            cons = perms[0].get("constraint", [])
-            cat_cons = [c for c in cons if c.get("leftOperand") in ("ehds:category", f"{EHDS}category") ]
-            if cat_cons:
-                op = cat_cons[0].get("operator"); allowed = cat_cons[0].get("rightOperand", [])
-                req_cats = [c.name for c in req.categories]
-                if op == "isAllOf":
-                    cat_ok = set(req_cats).issubset(set(allowed))
-                elif op == "isAnyOf":
-                    cat_ok = any(c in allowed for c in req_cats)
-                msg = f"operator={op}, allowed={allowed}, requested={req_cats}"
-        results["C5_category_scope"] = ("OK - " + msg) if cat_ok else ("FAIL - out of scope: " + msg)
-    else:
-        results["C5_category_scope"] = "SKIPPED"
+  // ----------------------------- ODRL Engine -----------------------------
+  const ODRLEngine = {
+    ACTION_USE: "use",
 
-    # C6: if any prohibition matched, decision should be DENY
-    if prohibition_hit:
-        results["C6_prohibition_blocks"] = "OK - denied due to prohibition" if answer == "DENY" else "FAIL - permitted despite prohibition"
-    else:
-        results["C6_prohibition_blocks"] = "SKIPPED - no prohibition matched"
+    match(req, policy) {
+      const trace = [];
+      const obligations = [];
 
-    # C7: trace consistency for PERMIT decisions
-    if answer == "PERMIT":
-        ok_trace = any(l.endswith(":permit:odrl:permission_matched") for l in trace) or ("permit:primary_care_allowed" in trace)
-        results["C7_trace_consistency"] = "OK - trace shows matching permission" if ok_trace else "FAIL - missing permission marker in trace"
-    else:
-        results["C7_trace_consistency"] = "SKIPPED"
+      // Prohibitions
+      for (const pr of (policy.prohibition ?? [])) {
+        if (!this._actionOk(pr)) continue;
+        const [ok, tr] = this._constraintsHold(req, pr.constraint ?? []);
+        trace.push(...this._prefix(policy, tr));
+        if (ok) {
+          trace.push(`${policy.uid}:deny:odrl:prohibition_matched`);
+          return [false, trace, obligations];
+        }
+      }
+      // Permissions
+      for (const pm of (policy.permission ?? [])) {
+        if (!this._actionOk(pm)) continue;
+        const [ok, tr] = this._constraintsHold(req, pm.constraint ?? []);
+        trace.push(...this._prefix(policy, tr));
+        if (ok) {
+          for (const d of (pm.duty ?? [])) {
+            if (d.action) obligations.push(`duty:${d.action}`);
+          }
+          trace.push(`${policy.uid}:permit:odrl:permission_matched`);
+          return [true, trace, obligations];
+        }
+      }
+      trace.push(`${policy.uid}:deny:odrl:no_permission_matched`);
+      return [false, trace, obligations];
+    },
 
-    # C8: duties presence (informational)
-    results["C8_duties_present"] = ("INFO - duties attached: " + ", ".join(duties)) if duties else "SKIPPED - no matched policy or no duties"
+    _actionOk(rule) {
+      const a = (typeof rule.action === "string") ? rule.action : (rule.action?.id || rule.action?.["@id"]);
+      return a === this.ACTION_USE || a === `http://www.w3.org/ns/odrl/2/${this.ACTION_USE}`;
+    },
 
-    # C9: environment scope (if policy constrains environment)
-    if matched_policy and answer == "PERMIT":
-        perms = matched_policy.get("permission", []) or []
-        env_ok = True
-        msg = ""
-        had_env = False
-        if perms:
-            cons = perms[0].get("constraint", [])
-            env_cons = [c for c in cons if c.get("leftOperand") in ("ehds:environment", f"{EHDS}environment") ]
-            if env_cons:
-                had_env = True
-                op = env_cons[0].get("operator"); allowed = env_cons[0].get("rightOperand")
-                req_env = req.environment
-                if op == "eq":
-                    env_ok = (req_env == allowed)
-                elif op == "isAnyOf":
-                    env_ok = (req_env in allowed) if isinstance(allowed, list) else (req_env == allowed)
-                msg = f"operator={op}, allowed={allowed}, requested={req_env}"
-        results["C9_environment_scope"] = ("OK - " + msg) if (had_env and env_ok) else ("FAIL - out of scope: " + msg if had_env else "SKIPPED - policy has no environment constraint")
-    else:
-        results["C9_environment_scope"] = "SKIPPED"
+    _constraintsHold(req, constraints) {
+      const trace = [];
+      for (const c of constraints) {
+        const { ok, lhs } = this._constraintOk(req, c.leftOperand, c.operator, c.rightOperand);
+        if (!ok) {
+          trace.push(`constraint_failed:${c.leftOperand}:${c.operator}:lhs=${JSON.stringify(lhs)},rightOperand=${JSON.stringify(c.rightOperand)}`);
+          return [false, trace];
+        }
+        trace.push(`constraint_ok:${c.leftOperand}:${c.operator}:lhs=${JSON.stringify(lhs)},rightOperand=${JSON.stringify(c.rightOperand)}`);
+      }
+      return [true, trace];
+    },
 
-    # C10: surface matched policy UID for audit
-    results["C10_policy_uid"] = f"INFO - matched policy: {matched_policy.get('uid')}" if matched_policy else "SKIPPED - no matched policy"
+    _constraintOk(req, lop, op, rop) {
+      let lhs = null;
+      if (lop === "ehds:purpose" || lop === `${EHDS}purpose`) { lhs = req.purpose; return { ok: this._op(lhs, op, rop), lhs }; }
+      if (lop === "ehds:environment" || lop === `${EHDS}environment`) { lhs = req.environment; return { ok: this._op(lhs, op, rop), lhs }; }
+      if (lop === "ehds:assigneeRole" || lop === `${EHDS}assigneeRole`) { lhs = req.requester_role; return { ok: this._op(lhs, op, rop), lhs }; }
+      if (lop === "ehds:category" || lop === `${EHDS}category`) { lhs = [...req.categories]; return { ok: this._op(lhs, op, rop), lhs }; }
+      return { ok: false, lhs };
+    },
 
-    return results
-```
+    _op(lhs, op, rop) {
+      if (op === "eq") return lhs === rop;
+      if (op === "isAnyOf") {
+        if (Array.isArray(rop)) return Array.isArray(lhs) ? lhs.some(x => rop.includes(x)) : rop.includes(lhs);
+        return false;
+      }
+      if (op === "isAllOf") {
+        if (Array.isArray(lhs) && Array.isArray(rop)) return lhs.every(x => rop.includes(x));
+        return false;
+      }
+      return false;
+    },
 
----
+    _prefix(policy, lines) { return lines.map(ln => `${policy.uid}:${ln}`); }
+  };
 
-## 🔧 Drop‑in: HTML/JS (`auroracare.html`) — `_checks` function
+  // ----------------------------- PDP logic -----------------------------
+  const PDP = {
+    PROHIBITED_PURPOSES: new Set(["insurance-pricing"]),
 
-> In the `PDP` object, replace the `_checks(req, answer, trace, obligations)` function with this version.
+    decide(req) {
+      const trace = [];
+      let obligations = [];
 
-```js
-  _checks(req, answer, trace, obligations) {
-    // policy summary helper
-    const summary = () => {
-      let matched = null, duties = [], okAny = false, prohibition = false, matchedUid = null;
+      // R0: prohibited purpose
+      if (this.PROHIBITED_PURPOSES.has(req.purpose)) {
+        trace.push("deny:prohibited_purpose");
+        return this._finalize(req, "DENY", "Denied: the requested purpose (insurance pricing) is prohibited by policy.", trace, obligations);
+      }
+
+      // Primary uses
+      if (req.purpose === "primary-care" || req.purpose === "remote-consult") {
+        if (req.requester_role !== "clinician") {
+          trace.push("deny:primary_only_for_clinicians");
+          return this._finalize(req, "DENY", "Denied: primary-care access is limited to clinicians.", trace, obligations);
+        }
+        trace.push("ok:role=CLINICIAN");
+        if (!CareTeamService.isLinked(req.requester_id, req.subject_id)) {
+          trace.push("deny:not_in_care_team");
+          return this._finalize(req, "DENY", "Denied: requester is not linked to the patient's care team.", trace, obligations);
+        }
+        trace.push("ok:careteam_link");
+        // evaluate policies
+        const [ok, tr, obl] = this._evalPolicies(req);
+        trace.push(...tr); obligations.push(...obl);
+        if (ok) {
+          trace.push("permit:primary_care_allowed");
+          return this._finalize(req, "PERMIT", "Permitted: clinician in the patient's care team, and the primary-care policy matched (purpose=primary-care, category includes requested items).", trace, obligations);
+        }
+        return this._finalize(req, "DENY", "Denied: no primary-care policy matched for the requested categories/environment.", trace, obligations);
+      }
+
+      // Secondary uses
+      const pref = ConsentService.get(req.subject_id, req.purpose);
+      if (pref === false) {
+        trace.push("deny:subject_opted_out");
+        return this._finalize(req, "DENY", "Denied: the data subject has opted out of this secondary use.", trace, obligations);
+      }
+      if (pref === undefined) {
+        trace.push("deny:no_subject_opt_in");
+        return this._finalize(req, "DENY", "Denied: no explicit opt-in for this secondary use.", trace, obligations);
+      }
+      trace.push(`ok:subject_opted_in:purpose=${req.purpose}`);
+
+      const [ok, tr, obl] = this._evalPolicies(req);
+      trace.push(...tr); obligations.push(...obl);
+      if (!ok) {
+        return this._finalize(req, "DENY", "Denied: no ODRL permission matched (purpose, environment, or categories out of scope).", trace, obligations);
+      }
+      return this._finalize(req, "PERMIT", "Permitted: subject opted in and an ODRL policy matched (purpose and requested categories in a secure environment). Duties are enforced as obligations.", trace, obligations);
+    },
+
+    _evalPolicies(req) {
+      const agg = []; let obligations = [];
       for (const pol of policies) {
         const [ok, tr, obl] = ODRLEngine.match(req, pol);
-        if (tr.some(t => t.endsWith(":deny:odrl:prohibition_matched"))) prohibition = true;
-        if (ok && !okAny) { okAny = true; matched = pol; duties = obl; matchedUid = pol.uid; }
+        agg.push(...tr);
+        if (ok) { obligations.push(...obl); return [true, agg, obligations]; }
       }
-      return { okAny, matched, duties, prohibition, matchedUid };
-    };
-    const { okAny, matched, duties, prohibition, matchedUid } = summary();
-    const hasCareteam = CareTeamService.isLinked(req.requester_id, req.subject_id);
-    const hasOptin = ConsentService.get(req.subject_id, req.purpose) === true;
+      return [false, agg, obligations];
+    },
 
-    const out = {};
+    _finalize(req, answer, reason_why, trace, obligations) {
+      const check = this._checks(req, answer, trace, obligations);
+      const decision = { Answer: answer, "Reason why": reason_why, Check: check };
+      // show
+      renderDecision(decision, trace);
+      return decision;
+    },
 
-    // C1
-    if (this.PROHIBITED_PURPOSES.has(req.purpose)) out["C1_prohibited_denied"] = (answer === "DENY") ? "OK - denied prohibited purpose" : "FAIL - prohibited purpose was not denied";
-    else out["C1_prohibited_denied"] = "SKIPPED - not a prohibited purpose";
+    _checks(req, answer, trace, obligations) {
+      // policy summary helper
+      const summary = () => {
+        let matched = null, duties = [], okAny = false, prohibition = false, matchedUid = null;
+        for (const pol of policies) {
+          const [ok, tr, obl] = ODRLEngine.match(req, pol);
+          if (tr.some(t => t.endsWith(":deny:odrl:prohibition_matched"))) prohibition = true;
+          if (ok && !okAny) { okAny = true; matched = pol; duties = obl; matchedUid = pol.uid; }
+        }
+        return { okAny, matched, duties, prohibition, matchedUid };
+      };
+      const { okAny, matched, duties, prohibition, matchedUid } = summary();
+      const hasCareteam = CareTeamService.isLinked(req.requester_id, req.subject_id);
+      const hasOptin = ConsentService.get(req.subject_id, req.purpose) === true;
 
-    // C2/C3
-    if (req.purpose === "primary-care" || req.purpose === "remote-consult") {
-      out["C2_primary_role"] = (req.requester_role === "clinician") ? "OK - clinician" : ((answer === "DENY") ? "OK - non-clinician denied" : "FAIL - non-clinician permitted");
-      out["C3_primary_careteam"] = (hasCareteam && answer === "PERMIT") ? "OK - care-team linked" : ((!hasCareteam && answer === "DENY") ? "OK - denied due to missing care-team" : "FAIL - care-team rule inconsistent with answer");
-    } else {
-      out["C2_primary_role"] = "SKIPPED"; out["C3_primary_careteam"] = "SKIPPED";
+      const out = {};
+
+      // C1
+      if (this.PROHIBITED_PURPOSES.has(req.purpose)) out["C1_prohibited_denied"] = (answer === "DENY") ? "OK - denied prohibited purpose" : "FAIL - prohibited purpose was not denied";
+      else out["C1_prohibited_denied"] = "SKIPPED - not a prohibited purpose";
+
+      // C2/C3
+      if (req.purpose === "primary-care" || req.purpose === "remote-consult") {
+        out["C2_primary_role"] = (req.requester_role === "clinician") ? "OK - clinician" : ((answer === "DENY") ? "OK - non-clinician denied" : "FAIL - non-clinician permitted");
+        out["C3_primary_careteam"] = (hasCareteam && answer === "PERMIT") ? "OK - care-team linked" : ((!hasCareteam && answer === "DENY") ? "OK - denied due to missing care-team" : "FAIL - care-team rule inconsistent with answer");
+      } else {
+        out["C2_primary_role"] = "SKIPPED"; out["C3_primary_careteam"] = "SKIPPED";
+      }
+
+      // C4
+      if (!(req.purpose === "primary-care" || req.purpose === "remote-consult") && req.purpose !== "insurance-pricing") {
+        const expectPermit = hasOptin && okAny;
+        out["C4_secondary_optin_and_policy"] =
+          (answer === "PERMIT")
+            ? (expectPermit ? "OK - opt-in present and policy matched" : "FAIL - permitted without opt-in and matching policy")
+            : (!expectPermit ? "OK - denied because opt-in missing or no policy match" : "FAIL - denied despite opt-in and policy match");
+      } else out["C4_secondary_optin_and_policy"] = "SKIPPED";
+
+      // C5
+      if (matched && answer === "PERMIT") {
+        const perms = matched.permission ?? [];
+        let catOk = true, msg = "";
+        if (perms.length) {
+          const cons = perms[0].constraint ?? [];
+          const catCons = cons.filter(c => c.leftOperand === "ehds:category" || c.leftOperand === `${EHDS}category`);
+          if (catCons.length) {
+            const op = catCons[0].operator, allowed = catCons[0].rightOperand ?? [];
+            const reqCats = [...req.categories];
+            if (op === "isAllOf") catOk = reqCats.every(x => allowed.includes(x));
+            else if (op === "isAnyOf") catOk = reqCats.some(x => allowed.includes(x));
+            msg = `operator=${op}, allowed=${JSON.stringify(allowed)}, requested=${JSON.stringify(reqCats)}`;
+          }
+        }
+        out["C5_category_scope"] = catOk ? `OK - ${msg}` : `FAIL - out of scope: ${msg}`;
+      } else out["C5_category_scope"] = "SKIPPED";
+
+      // C6
+      if (prohibition) out["C6_prohibition_blocks"] = (answer === "DENY") ? "OK - denied due to prohibition" : "FAIL - permitted despite prohibition";
+      else out["C6_prohibition_blocks"] = "SKIPPED - no prohibition matched";
+
+      // C7
+      if (answer === "PERMIT") {
+        const okTrace = trace.some(l => l.endsWith(":permit:odrl:permission_matched")) || trace.includes("permit:primary_care_allowed");
+        out["C7_trace_consistency"] = okTrace ? "OK - trace shows matching permission" : "FAIL - missing permission marker in trace";
+      } else out["C7_trace_consistency"] = "SKIPPED";
+
+      // C8
+      out["C8_duties_present"] = (duties && duties.length) ? `INFO - duties attached: ${duties.join(", ")}` : "SKIPPED - no matched policy or no duties";
+
+      // C9
+      if (matched && answer === "PERMIT") {
+        const perms = matched.permission ?? [];
+        let envOk = true, msg = ""; let hadEnv = false;
+        if (perms.length) {
+          const cons = perms[0].constraint ?? [];
+          const envCons = cons.filter(c => c.leftOperand === "ehds:environment" || c.leftOperand === `${EHDS}environment`);
+          if (envCons.length) {
+            hadEnv = true;
+            const op = envCons[0].operator, allowed = envCons[0].rightOperand;
+            if (op === "eq") envOk = req.environment === allowed;
+            else if (op === "isAnyOf") envOk = Array.isArray(allowed) ? allowed.includes(req.environment) : req.environment === allowed;
+            msg = `operator=${op}, allowed=${JSON.stringify(allowed)}, requested=${JSON.stringify(req.environment)}`;
+          }
+        }
+        out["C9_environment_scope"] = hadEnv ? (envOk ? `OK - ${msg}` : `FAIL - out of scope: ${msg}`) : "SKIPPED - policy has no environment constraint";
+      } else out["C9_environment_scope"] = "SKIPPED";
+
+      // C10
+      out["C10_policy_uid"] = matched ? `INFO - matched policy: ${matchedUid}` : "SKIPPED - no matched policy";
+
+      return out;
     }
+  };
 
-    // C4
-    if (!(req.purpose === "primary-care" || req.purpose === "remote-consult") && req.purpose !== "insurance-pricing") {
-      const expectPermit = hasOptin && okAny;
-      out["C4_secondary_optin_and_policy"] =
-        (answer === "PERMIT")
-          ? (expectPermit ? "OK - opt-in present and policy matched" : "FAIL - permitted without opt-in and matching policy")
-          : (!expectPermit ? "OK - denied because opt-in missing or no policy match" : "FAIL - denied despite opt-in and policy match");
-    } else out["C4_secondary_optin_and_policy"] = "SKIPPED";
-
-    // C5
-    if (matched && answer === "PERMIT") {
-      const perms = matched.permission ?? [];
-      let catOk = true, msg = "";
-      if (perms.length) {
-        const cons = perms[0].constraint ?? [];
-        const catCons = cons.filter(c => c.leftOperand === "ehds:category" || c.leftOperand === `${EHDS}category`);
-        if (catCons.length) {
-          const op = catCons[0].operator, allowed = catCons[0].rightOperand ?? [];
-          const reqCats = [...req.categories];
-          if (op === "isAllOf") catOk = reqCats.every(x => allowed.includes(x));
-          else if (op === "isAnyOf") catOk = reqCats.some(x => allowed.includes(x));
-          msg = `operator=${op}, allowed=${JSON.stringify(allowed)}, requested=${JSON.stringify(reqCats)}`;
-        }
-      }
-      out["C5_category_scope"] = catOk ? `OK - ${msg}` : `FAIL - out of scope: ${msg}`;
-    } else out["C5_category_scope"] = "SKIPPED";
-
-    // C6
-    if (prohibition) out["C6_prohibition_blocks"] = (answer === "DENY") ? "OK - denied due to prohibition" : "FAIL - permitted despite prohibition";
-    else out["C6_prohibition_blocks"] = "SKIPPED - no prohibition matched";
-
-    // C7
-    if (answer === "PERMIT") {
-      const okTrace = trace.some(l => l.endsWith(":permit:odrl:permission_matched")) || trace.includes("permit:primary_care_allowed");
-      out["C7_trace_consistency"] = okTrace ? "OK - trace shows matching permission" : "FAIL - missing permission marker in trace";
-    } else out["C7_trace_consistency"] = "SKIPPED";
-
-    // C8
-    out["C8_duties_present"] = (duties && duties.length) ? `INFO - duties attached: ${duties.join(", ")}` : "SKIPPED - no matched policy or no duties";
-
-    // C9
-    if (matched && answer === "PERMIT") {
-      const perms = matched.permission ?? [];
-      let envOk = true, msg = ""; let hadEnv = false;
-      if (perms.length) {
-        const cons = perms[0].constraint ?? [];
-        const envCons = cons.filter(c => c.leftOperand === "ehds:environment" || c.leftOperand === `${EHDS}environment`);
-        if (envCons.length) {
-          hadEnv = true;
-          const op = envCons[0].operator, allowed = envCons[0].rightOperand;
-          if (op === "eq") envOk = req.environment === allowed;
-          else if (op === "isAnyOf") envOk = Array.isArray(allowed) ? allowed.includes(req.environment) : req.environment === allowed;
-          msg = `operator=${op}, allowed=${JSON.stringify(allowed)}, requested=${JSON.stringify(req.environment)}`;
-        }
-      }
-      out["C9_environment_scope"] = hadEnv ? (envOk ? `OK - ${msg}` : `FAIL - out of scope: ${msg}`) : "SKIPPED - policy has no environment constraint";
-    } else out["C9_environment_scope"] = "SKIPPED";
-
-    // C10
-    out["C10_policy_uid"] = matched ? `INFO - matched policy: ${matchedUid}` : "SKIPPED - no matched policy";
-
-    return out;
+  // ----------------------------- UI / glue -----------------------------
+  function readRequestFromUI() {
+    const requester_id = document.getElementById("ac-requesterId").value.trim();
+    const role = document.getElementById("ac-role").value === "clinician" ? "clinician" : "data_user";
+    const subject_id = document.getElementById("ac-subjectId").value.trim();
+    const purpose = document.getElementById("ac-purpose").value;
+    const environment = document.getElementById("ac-environment").value;
+    const categories = [...document.querySelectorAll("#ac-catBox input:checked")].map(i => i.value);
+    return {
+      request_id: (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2)),
+      requester_id,
+      requester_role: (role === "clinician" ? "clinician" : "data_user"),
+      subject_id,
+      purpose,
+      categories,
+      environment,
+      time: new Date().toISOString()
+    };
   }
-```
 
----
+  function renderDecision(decision, trace) {
+    const el = document.getElementById("ac-result");
+    el.innerHTML = "";
+    const answer = document.createElement("div");
+    answer.className = "ac-answer " + (decision.Answer === "PERMIT" ? "permit" : "deny");
+    answer.textContent = decision.Answer;
+    const reason = document.createElement("div");
+    reason.textContent = decision["Reason why"];
+    el.appendChild(answer);
+    el.appendChild(reason);
 
-## Example decision payload
+    const checks = document.createElement("div");
+    checks.className = "ac-checks";
+    for (const [k,v] of Object.entries(decision.Check)) {
+      const row = document.createElement("div"); row.className = "ac-check-item";
+      const key = document.createElement("div"); key.textContent = k;
+      const val = document.createElement("div");
+      val.textContent = v;
+      if (v.startsWith("OK")) val.className = "ac-ok";
+      else if (v.startsWith("FAIL")) val.className = "ac-fail";
+      else if (v.startsWith("SKIPPED")) val.className = "ac-skip";
+      else if (v.startsWith("INFO")) val.className = "ac-info";
+      row.appendChild(key); row.appendChild(val);
+      checks.appendChild(row);
+    }
+    el.appendChild(checks);
 
-```json
-{
-  "Answer": "PERMIT",
-  "Reason why": "Permitted: subject opted in and an ODRL policy matched (purpose and requested categories in a secure environment). Duties are enforced as obligations.",
-  "Check": {
-    "C1_prohibited_denied": "SKIPPED - not a prohibited purpose",
-    "C2_primary_role": "SKIPPED",
-    "C3_primary_careteam": "SKIPPED",
-    "C4_secondary_optin_and_policy": "OK - opt-in present and policy matched",
-    "C5_category_scope": "OK - operator=isAllOf, allowed=["LAB_RESULTS","PATIENT_SUMMARY"], requested=["LAB_RESULTS"]",
-    "C6_prohibition_blocks": "SKIPPED - no prohibition matched",
-    "C7_trace_consistency": "OK - trace shows matching permission",
-    "C8_duties_present": "INFO - duties attached: duty:ehds:requireConsent, duty:ehds:noExfiltration",
-    "C9_environment_scope": "OK - operator=eq, allowed="secure_env", requested="secure_env"",
-    "C10_policy_uid": "INFO - matched policy: urn:policy:HDAB-2025-001"
+    document.getElementById("ac-traceDump").textContent = trace.join("\n");
   }
-}
-```
+
+  document.getElementById("ac-evalBtn").addEventListener("click", () => {
+    syncConsentAndCareteamFromUI();
+    const req = readRequestFromUI();
+    PDP.decide(req);
+  });
+
+  document.getElementById("ac-copyBtn").addEventListener("click", async () => {
+    const req = readRequestFromUI();
+    const result = PDP.decide(req);
+    await navigator.clipboard.writeText(JSON.stringify(result, null, 2));
+    alert("Decision JSON copied to clipboard.");
+  });
+
+  // Scenario buttons
+  document.querySelectorAll("[data-scenario]").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      const id = e.currentTarget.getAttribute("data-scenario");
+      const roleSel = document.getElementById("ac-role");
+      const purposeSel = document.getElementById("ac-purpose");
+      const envSel = document.getElementById("ac-environment");
+      const consentSel = document.getElementById("ac-consentQi");
+      const careSel = document.getElementById("ac-careteamLink");
+      // reset categories
+      document.querySelectorAll("#ac-catBox input").forEach(i => i.checked = false);
+
+      if (id === "A") {
+        document.getElementById("ac-requesterId").value = "clinician_alba";
+        roleSel.value = "clinician";
+        document.getElementById("ac-subjectId").value = "ruben";
+        purposeSel.value = "primary-care";
+        envSel.value = "api_gateway";
+        document.querySelector("#ac-catBox input[value='PATIENT_SUMMARY']").checked = true;
+        consentSel.value = "unset"; careSel.value = "linked";
+      }
+      if (id === "B") {
+        document.getElementById("ac-requesterId").value = "data_user_qi";
+        roleSel.value = "data_user";
+        document.getElementById("ac-subjectId").value = "ruben";
+        purposeSel.value = "diabetes-qi";
+        envSel.value = "secure_env";
+        document.querySelector("#ac-catBox input[value='LAB_RESULTS']").checked = true;
+        consentSel.value = "opt_in"; careSel.value = "linked";
+      }
+      if (id === "C") {
+        document.getElementById("ac-requesterId").value = "data_user_qi";
+        roleSel.value = "data_user";
+        document.getElementById("ac-subjectId").value = "ruben";
+        purposeSel.value = "diabetes-qi";
+        envSel.value = "secure_env";
+        document.querySelector("#ac-catBox input[value='LAB_RESULTS']").checked = true;
+        consentSel.value = "opt_out"; careSel.value = "linked";
+      }
+      if (id === "D") {
+        document.getElementById("ac-requesterId").value = "insurer_bot";
+        roleSel.value = "data_user";
+        document.getElementById("ac-subjectId").value = "ruben";
+        purposeSel.value = "insurance-pricing";
+        envSel.value = "secure_env";
+        document.querySelector("#ac-catBox input[value='PATIENT_SUMMARY']").checked = true;
+        consentSel.value = "unset"; careSel.value = "unlinked";
+      }
+      // re-sync backing stores
+      syncConsentAndCareteamFromUI();
+      // auto-evaluate
+      document.getElementById("ac-evalBtn").click();
+    });
+  });
+
+})();
+</script>
