@@ -261,19 +261,19 @@ class PDP:
         if req.purpose in self.PROHIBITED_PURPOSES:
             trace.append("deny:prohibited_purpose")
             reason_why = "Denied: the requested purpose (insurance pricing) is prohibited by policy."
-            return self._finalize(req, "DENY", reason_why, trace, obligations, self._checks(req, "DENY", trace))
+            return self._finalize(req, "DENY", reason_why, trace, obligations, self._checks(req, "DENY", trace, obligations))
 
         # PRIMARY USES: clinician + care team
         if req.purpose in {Purpose.PRIMARY_CARE, Purpose.REMOTE_CONSULT}:
             if req.requester_role != Role.CLINICIAN:
                 trace.append("deny:primary_only_for_clinicians")
                 reason_why = "Denied: primary-care access is limited to clinicians."
-                return self._finalize(req, "DENY", reason_why, trace, obligations, self._checks(req, "DENY", trace))
+                return self._finalize(req, "DENY", reason_why, trace, obligations, self._checks(req, "DENY", trace, obligations))
             trace.append(f"ok:role={req.requester_role.name}")
             if not self.careteam.is_in_care_team(req.requester_id, req.subject_id):
                 trace.append("deny:not_in_care_team")
                 reason_why = "Denied: requester is not linked to the patient's care team."
-                return self._finalize(req, "DENY", reason_why, trace, obligations, self._checks(req, "DENY", trace))
+                return self._finalize(req, "DENY", reason_why, trace, obligations, self._checks(req, "DENY", trace, obligations))
             trace.append("ok:careteam_link")
             # ODRL policies (if any) for extra constraints
             ok, tr, obl = self._eval_policies(req)
@@ -282,20 +282,20 @@ class PDP:
             if ok:
                 trace.append("permit:primary_care_allowed")
                 reason_why = "Permitted: clinician in the patient's care team, and the primary-care policy matched (purpose=primary-care, category includes requested items)."
-                return self._finalize(req, "PERMIT", reason_why, trace, obligations, self._checks(req, "PERMIT", trace))
+                return self._finalize(req, "PERMIT", reason_why, trace, obligations, self._checks(req, "PERMIT", trace, obligations))
             reason_why = "Denied: no primary-care policy matched for the requested categories/environment."
-            return self._finalize(req, "DENY", reason_why, trace, obligations, self._checks(req, "DENY", trace))
+            return self._finalize(req, "DENY", reason_why, trace, obligations, self._checks(req, "DENY", trace, obligations))
 
         # SECONDARY USES: require explicit consent + ODRL permission
         pref = self.consent.get_preference(req.subject_id, req.purpose)
         if pref is False:
             trace.append("deny:subject_opted_out")
             reason_why = "Denied: the data subject has opted out of this secondary use."
-            return self._finalize(req, "DENY", reason_why, trace, obligations, self._checks(req, "DENY", trace))
+            return self._finalize(req, "DENY", reason_why, trace, obligations, self._checks(req, "DENY", trace, obligations))
         if pref is None:
             trace.append("deny:no_subject_opt_in")
             reason_why = "Denied: no explicit opt-in for this secondary use."
-            return self._finalize(req, "DENY", reason_why, trace, obligations, self._checks(req, "DENY", trace))
+            return self._finalize(req, "DENY", reason_why, trace, obligations, self._checks(req, "DENY", trace, obligations))
         trace.append(f"ok:subject_opted_in:purpose={req.purpose.name}")
 
         ok, tr, obl = self._eval_policies(req)
@@ -303,9 +303,9 @@ class PDP:
         obligations.extend(obl)
         if not ok:
             reason_why = "Denied: no ODRL permission matched (purpose, environment, or categories out of scope)."
-            return self._finalize(req, "DENY", reason_why, trace, obligations, self._checks(req, "DENY", trace))
+            return self._finalize(req, "DENY", reason_why, trace, obligations, self._checks(req, "DENY", trace, obligations))
         reason_why = "Permitted: subject opted in and an ODRL policy matched (purpose and requested categories in a secure environment). Duties are enforced as obligations."
-        return self._finalize(req, "PERMIT", reason_why, trace, obligations, self._checks(req, "PERMIT", trace))
+        return self._finalize(req, "PERMIT", reason_why, trace, obligations, self._checks(req, "PERMIT", trace, obligations))
 
     # ---- helpers ------------------------------------------------------------
     def _eval_policies(self, req: RequestContext) -> Tuple[bool, List[str], List[str]]:
@@ -338,10 +338,13 @@ class PDP:
         h.update(payload)
         return h.hexdigest()
 
-    def _checks(self, req: RequestContext, answer: str, trace: List[str]) -> Dict[str, str]:
+    def _checks(self, req: RequestContext, answer: str, trace: List[str], obligations: List[str]) -> Dict[str, str]:
+        """
+        C1..C10 harness
+        """
         results: Dict[str, str] = {}
 
-        # Helper: evaluate policies again to inspect matches/duties/categories
+        # Summarize policy evaluation (first match)
         def policy_summary() -> Tuple[bool, Optional[Dict[str, Any]], List[str], bool]:
             matched = None
             duties: List[str] = []
@@ -367,18 +370,21 @@ class PDP:
         else:
             results["C1_prohibited_denied"] = "SKIPPED - not a prohibited purpose"
 
-        # C2: primary requires clinician role + care-team link
+        # C2/C3: primary requires clinician role + care-team link
         if req.purpose in {Purpose.PRIMARY_CARE, Purpose.REMOTE_CONSULT}:
             if req.requester_role != Role.CLINICIAN:
                 results["C2_primary_role"] = "OK - non-clinician denied" if answer == "DENY" else "FAIL - non-clinician permitted"
             else:
                 results["C2_primary_role"] = "OK - clinician"
-            results["C3_primary_careteam"] = "OK - care-team linked" if has_careteam and answer == "PERMIT" else ("OK - denied due to missing care-team" if not has_careteam and answer == "DENY" else "FAIL - care-team rule inconsistent with answer")
+            results["C3_primary_careteam"] = (
+                "OK - care-team linked" if has_careteam and answer == "PERMIT"
+                else ("OK - denied due to missing care-team" if (not has_careteam and answer == "DENY") else "FAIL - care-team rule inconsistent with answer")
+            )
         else:
             results["C2_primary_role"] = "SKIPPED"
             results["C3_primary_careteam"] = "SKIPPED"
 
-        # C4: secondary requires explicit opt-in and a matching ODRL permission
+        # C4: secondary requires explicit opt-in + a matching ODRL permission
         if req.purpose not in {Purpose.PRIMARY_CARE, Purpose.REMOTE_CONSULT} and req.purpose not in self.PROHIBITED_PURPOSES:
             expect_permit = has_optin and ok_perm
             if answer == "PERMIT":
@@ -388,20 +394,8 @@ class PDP:
         else:
             results["C4_secondary_optin_and_policy"] = "SKIPPED"
 
-        # C5: obligations must include all duties from the matched policy (if any)
-        if matched_policy and duties:
-            missing = [d for d in duties if d not in [f"duty:{x.get('action')}" if isinstance(x, dict) else d for x in []]]  # already normalized in duties
-            missing = [d for d in duties if d not in [t for t in trace if t.startswith("duty:")] and d not in []]
-            # Instead, compare against obligations enforced at decision time (not trace)
-            # We'll re-check via closure on outer scope; but we don't have obligations here.
-            # So we only state INFO if duties exist. Full enforcement check is done in C8 below within finalize.
-            results["C5_duties_present"] = "INFO - duties attached: " + ", ".join(duties)
-        else:
-            results["C5_duties_present"] = "SKIPPED - no matched policy or no duties"
-
-        # C6: if a policy matched, requested categories must be within its allowed set
+        # C5: category scope (only if permitted and a policy matched)
         if matched_policy and answer == "PERMIT":
-            # assume single permission per policy (as in this stub)
             perms = matched_policy.get("permission", []) or []
             cat_ok = True
             msg = ""
@@ -416,22 +410,50 @@ class PDP:
                     elif op == "isAnyOf":
                         cat_ok = any(c in allowed for c in req_cats)
                     msg = f"operator={op}, allowed={allowed}, requested={req_cats}"
-            results["C6_category_scope"] = ("OK - " + msg) if cat_ok else ("FAIL - out of scope: " + msg)
+            results["C5_category_scope"] = ("OK - " + msg) if cat_ok else ("FAIL - out of scope: " + msg)
         else:
-            results["C6_category_scope"] = "SKIPPED"
+            results["C5_category_scope"] = "SKIPPED"
 
-        # C7: if prohibition matched anywhere, decision should be DENY
+        # C6: if any prohibition matched, decision should be DENY
         if prohibition_hit:
-            results["C7_prohibition_blocks"] = "OK - denied due to prohibition" if answer == "DENY" else "FAIL - permitted despite prohibition"
+            results["C6_prohibition_blocks"] = "OK - denied due to prohibition" if answer == "DENY" else "FAIL - permitted despite prohibition"
         else:
-            results["C7_prohibition_blocks"] = "SKIPPED - no prohibition matched"
+            results["C6_prohibition_blocks"] = "SKIPPED - no prohibition matched"
 
-        # C8: trace consistency (permit should show a permission match or primary-caretag)
+        # C7: trace consistency for PERMIT decisions
         if answer == "PERMIT":
             ok_trace = any(l.endswith(":permit:odrl:permission_matched") for l in trace) or ("permit:primary_care_allowed" in trace)
-            results["C8_trace_consistency"] = "OK - trace shows matching permission" if ok_trace else "FAIL - missing permission marker in trace"
+            results["C7_trace_consistency"] = "OK - trace shows matching permission" if ok_trace else "FAIL - missing permission marker in trace"
         else:
-            results["C8_trace_consistency"] = "SKIPPED"
+            results["C7_trace_consistency"] = "SKIPPED"
+
+        # C8: duties presence (informational)
+        results["C8_duties_present"] = ("INFO - duties attached: " + ", ".join(duties)) if duties else "SKIPPED - no matched policy or no duties"
+
+        # C9: environment scope (if policy constrains environment)
+        if matched_policy and answer == "PERMIT":
+            perms = matched_policy.get("permission", []) or []
+            env_ok = True
+            msg = ""
+            had_env = False
+            if perms:
+                cons = perms[0].get("constraint", [])
+                env_cons = [c for c in cons if c.get("leftOperand") in ("ehds:environment", f"{EHDS}environment")]
+                if env_cons:
+                    had_env = True
+                    op = env_cons[0].get("operator"); allowed = env_cons[0].get("rightOperand")
+                    req_env = req.environment
+                    if op == "eq":
+                        env_ok = (req_env == allowed)
+                    elif op == "isAnyOf":
+                        env_ok = (req_env in allowed) if isinstance(allowed, list) else (req_env == allowed)
+                    msg = f"operator={op}, allowed={allowed}, requested={req_env}"
+            results["C9_environment_scope"] = ("OK - " + msg) if (had_env and env_ok) else ("FAIL - out of scope: " + msg if had_env else "SKIPPED - policy has no environment constraint")
+        else:
+            results["C9_environment_scope"] = "SKIPPED"
+
+        # C10: surface matched policy UID for audit
+        results["C10_policy_uid"] = f"INFO - matched policy: {matched_policy.get('uid')}" if matched_policy else "SKIPPED - no matched policy"
 
         return results
 

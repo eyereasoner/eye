@@ -424,43 +424,59 @@ const PDP = {
   _checks(req, answer, trace, obligations) {
     // policy summary helper
     const summary = () => {
-      let matched = null, duties = [], okAny = false, prohibition = false;
+      let matched = null, duties = [], okAny = false, prohibition = false, matchedUid = null;
       for (const pol of policies) {
         const [ok, tr, obl] = ODRLEngine.match(req, pol);
         if (tr.some(t => t.endsWith(":deny:odrl:prohibition_matched"))) prohibition = true;
-        if (ok && !okAny) { okAny = true; matched = pol; duties = obl; }
+        if (ok && !okAny) { okAny = true; matched = pol; duties = obl; matchedUid = pol.uid; }
       }
-      return { okAny, matched, duties, prohibition };
+      return { okAny, matched, duties, prohibition, matchedUid };
     };
-    const { okAny, matched, duties, prohibition } = summary();
+    const { okAny, matched, duties, prohibition, matchedUid } = summary();
     const hasCareteam = CareTeamService.isLinked(req.requester_id, req.subject_id);
     const hasOptin = ConsentService.get(req.subject_id, req.purpose) === true;
 
     const out = {};
 
-    // C1
-    if (this.PROHIBITED_PURPOSES.has(req.purpose)) out["C1_prohibited_denied"] = (answer === "DENY") ? "OK - denied prohibited purpose" : "FAIL - prohibited purpose was not denied";
-    else out["C1_prohibited_denied"] = "SKIPPED - not a prohibited purpose";
-
-    // C2/C3
-    if (req.purpose === "primary-care" || req.purpose === "remote-consult") {
-      if (req.requester_role !== "clinician") out["C2_primary_role"] = (answer === "DENY") ? "OK - non-clinician denied" : "FAIL - non-clinician permitted";
-      else out["C2_primary_role"] = "OK - clinician";
-      out["C3_primary_careteam"] = (hasCareteam && answer === "PERMIT") ? "OK - care-team linked" : ((!hasCareteam && answer === "DENY") ? "OK - denied due to missing care-team" : "FAIL - care-team rule inconsistent with answer");
+    // C1: prohibited purposes must be denied
+    if (this.PROHIBITED_PURPOSES.has(req.purpose)) {
+      out["C1_prohibited_denied"] = (answer === "DENY")
+        ? "OK - denied prohibited purpose"
+        : "FAIL - prohibited purpose was not denied";
     } else {
-      out["C2_primary_role"] = "SKIPPED"; out["C3_primary_careteam"] = "SKIPPED";
+      out["C1_prohibited_denied"] = "SKIPPED - not a prohibited purpose";
     }
 
-    // C4
+    // C2/C3: primary requires clinician role + care-team link
+    if (req.purpose === "primary-care" || req.purpose === "remote-consult") {
+      out["C2_primary_role"] =
+        (req.requester_role === "clinician")
+          ? "OK - clinician"
+          : ((answer === "DENY") ? "OK - non-clinician denied" : "FAIL - non-clinician permitted");
+
+      out["C3_primary_careteam"] =
+        (hasCareteam && answer === "PERMIT")
+          ? "OK - care-team linked"
+          : ((!hasCareteam && answer === "DENY")
+              ? "OK - denied due to missing care-team"
+              : "FAIL - care-team rule inconsistent with answer");
+    } else {
+      out["C2_primary_role"] = "SKIPPED";
+      out["C3_primary_careteam"] = "SKIPPED";
+    }
+
+    // C4: secondary requires explicit opt-in + a matching ODRL permission
     if (!(req.purpose === "primary-care" || req.purpose === "remote-consult") && req.purpose !== "insurance-pricing") {
       const expectPermit = hasOptin && okAny;
       out["C4_secondary_optin_and_policy"] =
         (answer === "PERMIT")
           ? (expectPermit ? "OK - opt-in present and policy matched" : "FAIL - permitted without opt-in and matching policy")
           : (!expectPermit ? "OK - denied because opt-in missing or no policy match" : "FAIL - denied despite opt-in and policy match");
-    } else out["C4_secondary_optin_and_policy"] = "SKIPPED";
+    } else {
+      out["C4_secondary_optin_and_policy"] = "SKIPPED";
+    }
 
-    // C5: category scope if matched and permitted
+    // C5: category scope (if permitted and a policy matched)
     if (matched && answer === "PERMIT") {
       const perms = matched.permission ?? [];
       let catOk = true, msg = "";
@@ -476,20 +492,59 @@ const PDP = {
         }
       }
       out["C5_category_scope"] = catOk ? `OK - ${msg}` : `FAIL - out of scope: ${msg}`;
-    } else out["C5_category_scope"] = "SKIPPED";
+    } else {
+      out["C5_category_scope"] = "SKIPPED";
+    }
 
-    // C6 prohibition
-    if (prohibition) out["C6_prohibition_blocks"] = (answer === "DENY") ? "OK - denied due to prohibition" : "FAIL - permitted despite prohibition";
-    else out["C6_prohibition_blocks"] = "SKIPPED - no prohibition matched";
+    // C6: if any prohibition matched, decision must be DENY
+    if (prohibition) {
+      out["C6_prohibition_blocks"] = (answer === "DENY")
+        ? "OK - denied due to prohibition"
+        : "FAIL - permitted despite prohibition";
+    } else {
+      out["C6_prohibition_blocks"] = "SKIPPED - no prohibition matched";
+    }
 
-    // C7 trace consistency
+    // C7: trace consistency for PERMIT decisions
     if (answer === "PERMIT") {
       const okTrace = trace.some(l => l.endsWith(":permit:odrl:permission_matched")) || trace.includes("permit:primary_care_allowed");
       out["C7_trace_consistency"] = okTrace ? "OK - trace shows matching permission" : "FAIL - missing permission marker in trace";
-    } else out["C7_trace_consistency"] = "SKIPPED";
+    } else {
+      out["C7_trace_consistency"] = "SKIPPED";
+    }
 
-    // C8 duties presence (informational)
-    out["C8_duties_present"] = duties.length ? `INFO - duties attached: ${duties.join(", ")}` : "SKIPPED - no matched policy or no duties";
+    // C8: duties presence (informational)
+    out["C8_duties_present"] = (duties && duties.length)
+      ? `INFO - duties attached: ${duties.join(", ")}`
+      : "SKIPPED - no matched policy or no duties";
+
+    // C9: environment scope (if policy constrains environment)
+    if (matched && answer === "PERMIT") {
+      const perms = matched.permission ?? [];
+      let envOk = true, msg = "";
+      let hadEnvConstraint = false;
+      if (perms.length) {
+        const cons = perms[0].constraint ?? [];
+        const envCons = cons.filter(c => c.leftOperand === "ehds:environment" || c.leftOperand === `${EHDS}environment`);
+        if (envCons.length) {
+          hadEnvConstraint = true;
+          const op = envCons[0].operator, allowed = envCons[0].rightOperand;
+          if (op === "eq") envOk = req.environment === allowed;
+          else if (op === "isAnyOf") envOk = Array.isArray(allowed) ? allowed.includes(req.environment) : req.environment === allowed;
+          msg = `operator=${op}, allowed=${JSON.stringify(allowed)}, requested=${JSON.stringify(req.environment)}`;
+        }
+      }
+      out["C9_environment_scope"] = hadEnvConstraint
+        ? (envOk ? `OK - ${msg}` : `FAIL - out of scope: ${msg}`)
+        : "SKIPPED - policy has no environment constraint";
+    } else {
+      out["C9_environment_scope"] = "SKIPPED";
+    }
+
+    // C10: policy UID surfaced for audit
+    out["C10_policy_uid"] = matched
+      ? `INFO - matched policy: ${matchedUid}`
+      : "SKIPPED - no matched policy";
 
     return out;
   }
