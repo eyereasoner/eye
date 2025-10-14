@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AuroraCare — Purpose-based Medical Data Exchange (ODRL/DPV-aligned)</title>
+  <title>AuroraCare — Purpose-based Medical Data Exchange (ODRL/DPV + DPV-Health)</title>
   <style>
     :root {
       --bg: #f7f9fc; --card: #ffffff; --muted: #5b6470; --text: #0b1020; --accent: #0b5fff;
@@ -55,7 +55,7 @@
   <header style="margin-bottom:20px; display:flex; align-items:flex-end; gap:12px; flex-wrap:wrap;">
     <div>
       <h1>🌤️ AuroraCare</h1>
-      <p class="muted">ODRL/DPV-aligned authorization • “Answer / Reason why / Check” • Timeline & Insights</p>
+      <p class="muted">ODRL/DPV + DPV-Health alignment • “Answer / Reason why / Check” • Timeline & Insights</p>
     </div>
     <span id="statusBadge" class="badge">script not ready</span>
   </header>
@@ -77,12 +77,12 @@
       <div class="row">
         <label class="field">Purpose
           <select id="purpose">
-            <option value="https://w3id.org/dpv/legal/eu/ehds#PersonalisedHealthcare">primary-care (direct care)</option>
-            <option value="https://w3id.org/dpv/legal/eu/ehds#PersonalisedHealthcare">remote-consult (direct care)</option>
+            <option value="https://w3id.org/dpv/sector/health#PrimaryCareManagement">primary-care (DPV-Health)</option>
+            <option value="https://w3id.org/dpv/sector/health#PatientRemoteMonitoring">remote-consult (DPV-Health)</option>
             <option value="https://w3id.org/dpv/legal/eu/ehds#EnsureQualitySafetyHealthcare">healthcare quality & safety (QI)</option>
             <option value="https://w3id.org/dpv/legal/eu/ehds#HealthcareScientificResearch">healthcare scientific research</option>
             <option value="https://w3id.org/dpv/legal/eu/ehds#TrainTestAndEvaluateAISystemsAlgorithms">AI systems training</option>
-            <option value="insurance-pricing">insurance-pricing (business prohibition demo)</option>
+            <option value="https://w3id.org/dpv/sector/health#InsuranceManagement">insurance management (prohibition)</option>
           </select>
         </label>
         <label class="field">Environment
@@ -114,7 +114,7 @@
           </select>
         </label>
         <label class="field">
-          <span class="title">Care-team link (clinician_alba ↔ ruben)</span>
+          <span class="title">Care-team link (current requester ↔ subject)</span>
           <select id="careteamLink">
             <option value="linked" selected>linked</option>
             <option value="unlinked">unlinked</option>
@@ -140,7 +140,7 @@
       <h2 style="margin-top:22px">Scenarios</h2>
       <div class="scenario-buttons">
         <button class="secondary tiny" data-scenario="A">A: Primary care</button>
-        <button class="secondary tiny" data-scenario="B">B: Secondary (QI, opt-in)</button>
+        <button class="secondary tiny" data-scenario="B">B: Secondary (QI, in-scope)</button>
         <button class="secondary tiny" data-scenario="C">C: Secondary (QI, out-of-scope)</button>
         <button class="secondary tiny" data-scenario="D">D: Prohibited (insurance)</button>
         <button class="secondary tiny" data-scenario="E">E: GP checks latest labs</button>
@@ -171,7 +171,7 @@
       </details>
 
       <details style="margin-top:12px">
-        <summary>Policies (ODRL/DPV-aligned JSON-LD)</summary>
+        <summary>Policies (JSON-LD, ODRL/DPV + DPV-Health)</summary>
         <div class="policy"><pre id="policyDump"></pre></div>
       </details>
 
@@ -197,7 +197,7 @@
   </div>
 
   <footer style="margin-top:24px; text-align:center" class="muted tiny">
-    AuroraCare prototype — ODRL + DPV alignment (leftOperand & rightOperandReference), “Answer / Reason why / Check” output.
+    AuroraCare prototype — ODRL + DPV + DPV-Health alignment, “Answer / Reason why / Check” output.
   </footer>
 
 <script>
@@ -220,21 +220,26 @@
     try {
       setStatus(true, "ready");
 
+      // Prefix IRIs
       const ODRL = "http://www.w3.org/ns/odrl/2/";
       const DPV  = "https://w3id.org/dpv#";
       const EHDS = "https://w3id.org/dpv/legal/eu/ehds#";
+      const HLTH = "https://w3id.org/dpv/sector/health#";
       const EX   = "https://example.org/health#";
       const AC   = "https://example.org/auroracare#";
 
+      // Purposes
       const PURPOSE = {
-        PRIMARY_CARE: EHDS + "PersonalisedHealthcare",
-        REMOTE_CONSULT: EHDS + "PersonalisedHealthcare",
+        PRIMARY_CARE: HLTH + "PrimaryCareManagement",
+        REMOTE_CONSULT: HLTH + "PatientRemoteMonitoring",
         RESEARCH: EHDS + "HealthcareScientificResearch",
         QI: EHDS + "EnsureQualitySafetyHealthcare",
         AI_TRAINING: EHDS + "TrainTestAndEvaluateAISystemsAlgorithms",
+        INSURANCE: HLTH + "InsuranceManagement"
       };
       const isPrimaryPurpose = (p) => p === PURPOSE.PRIMARY_CARE || p === PURPOSE.REMOTE_CONSULT;
 
+      // Categories
       const Categories = ["PATIENT_SUMMARY","LAB_RESULTS","IMAGING_REPORT","DISCHARGE_REPORT","EPRESCRIPTION"];
       const exIri = (local) => EX + local;
 
@@ -250,9 +255,11 @@
       }
       catCheckboxes();
 
+      // Policies (JSON-LD-ish)
       const policies = [
+        // Primary care / remote consult — allow either DPV-Health purpose
         {
-          "@context": { "odrl": ODRL, "dpv": DPV, "ehds": EHDS, "ex": EX, "ac": AC },
+          "@context": { "odrl": ODRL, "dpv": DPV, "ehds": EHDS, "hlth": HLTH, "ex": EX, "ac": AC },
           "uid": "urn:policy:primary-care-001",
           "type": "odrl:Policy",
           "odrl:permission": [{
@@ -260,14 +267,19 @@
             "odrl:action": "odrl:use",
             "odrl:target": "urn:asset:ehr",
             "odrl:constraint": [
-              { "odrl:leftOperand": "dpv:hasPurpose", "odrl:operator": "odrl:eq", "odrl:rightOperandReference": "ehds:PersonalisedHealthcare" },
-              { "odrl:leftOperand": "dpv:hasRole",    "odrl:operator": "odrl:eq", "odrl:rightOperandReference": "ex:Clinician" },
-              { "odrl:leftOperand": "dpv:hasPersonalDataCategory", "odrl:operator": "odrl:isAnyOf", "odrl:rightOperandReference": ["ex:PATIENT_SUMMARY","ex:LAB_RESULTS"] }
+              { "odrl:leftOperand": "dpv:hasPurpose", "odrl:operator": "odrl:isAnyOf",
+                "odrl:rightOperandReference": ["hlth:PrimaryCareManagement","hlth:PatientRemoteMonitoring"] },
+              { "odrl:leftOperand": "dpv:hasRole",    "odrl:operator": "odrl:eq",
+                "odrl:rightOperandReference": "ex:Clinician" },
+              { "odrl:leftOperand": "dpv:hasPersonalDataCategory", "odrl:operator": "odrl:isAnyOf",
+                "odrl:rightOperandReference": ["ex:PATIENT_SUMMARY","ex:LAB_RESULTS"] }
             ]
           }]
         },
+
+        // QI: secure_env + isAllOf(LAB_RESULTS,PATIENT_SUMMARY)
         {
-          "@context": { "odrl": ODRL, "dpv": DPV, "ehds": EHDS, "ex": EX, "ac": AC },
+          "@context": { "odrl": ODRL, "dpv": DPV, "ehds": EHDS, "hlth": HLTH, "ex": EX, "ac": AC },
           "uid": "urn:policy:qi-2025-aurora",
           "type": "odrl:Policy",
           "odrl:permission": [{
@@ -275,15 +287,20 @@
             "odrl:action": "odrl:use",
             "odrl:target": "urn:asset:ehr",
             "odrl:constraint": [
-              { "odrl:leftOperand": "dpv:hasPurpose", "odrl:operator": "odrl:eq", "odrl:rightOperandReference": "ehds:EnsureQualitySafetyHealthcare" },
-              { "odrl:leftOperand": "ac:environment", "odrl:operator": "odrl:eq", "odrl:rightOperand": "secure_env" },
-              { "odrl:leftOperand": "dpv:hasPersonalDataCategory", "odrl:operator": "odrl:isAllOf", "odrl:rightOperandReference": ["ex:LAB_RESULTS","ex:PATIENT_SUMMARY"] }
+              { "odrl:leftOperand": "dpv:hasPurpose", "odrl:operator": "odrl:eq",
+                "odrl:rightOperandReference": "ehds:EnsureQualitySafetyHealthcare" },
+              { "odrl:leftOperand": "ac:environment", "odrl:operator": "odrl:eq",
+                "odrl:rightOperand": "secure_env" },
+              { "odrl:leftOperand": "dpv:hasPersonalDataCategory", "odrl:operator": "odrl:isAllOf",
+                "odrl:rightOperandReference": ["ex:LAB_RESULTS","ex:PATIENT_SUMMARY"] }
             ],
             "odrl:duty": [ { "odrl:action": "ehds:requireConsent" }, { "odrl:action": "ehds:noExfiltration" } ]
           }]
         },
+
+        // Research: secure_env + TOM Anonymisation + categories
         {
-          "@context": { "odrl": ODRL, "dpv": DPV, "ehds": EHDS, "ex": EX, "ac": AC },
+          "@context": { "odrl": ODRL, "dpv": DPV, "ehds": EHDS, "hlth": HLTH, "ex": EX, "ac": AC },
           "uid": "urn:policy:research-aurora-diabetes",
           "type": "odrl:Policy",
           "odrl:permission": [{
@@ -291,29 +308,37 @@
             "odrl:action": "odrl:use",
             "odrl:target": "urn:asset:ehr",
             "odrl:constraint": [
-              { "odrl:leftOperand": "dpv:hasPurpose", "odrl:operator": "odrl:eq", "odrl:rightOperandReference": "ehds:HealthcareScientificResearch" },
-              { "odrl:leftOperand": "ac:environment", "odrl:operator": "odrl:eq", "odrl:rightOperand": "secure_env" },
-              { "odrl:leftOperand": "dpv:hasTechnicalOrganisationalMeasure", "odrl:operator": "odrl:isAnyOf", "odrl:rightOperandReference": ["dpv:Anonymisation"] },
-              { "odrl:leftOperand": "dpv:hasPersonalDataCategory", "odrl:operator": "odrl:isAnyOf", "odrl:rightOperandReference": ["ex:LAB_RESULTS","ex:PATIENT_SUMMARY","ex:IMAGING_REPORT"] }
+              { "odrl:leftOperand": "dpv:hasPurpose", "odrl:operator": "odrl:eq",
+                "odrl:rightOperandReference": "ehds:HealthcareScientificResearch" },
+              { "odrl:leftOperand": "ac:environment", "odrl:operator": "odrl:eq",
+                "odrl:rightOperand": "secure_env" },
+              { "odrl:leftOperand": "dpv:hasTechnicalOrganisationalMeasure", "odrl:operator": "odrl:isAnyOf",
+                "odrl:rightOperandReference": ["dpv:Anonymisation"] },
+              { "odrl:leftOperand": "dpv:hasPersonalDataCategory", "odrl:operator": "odrl:isAnyOf",
+                "odrl:rightOperandReference": ["ex:LAB_RESULTS","ex:PATIENT_SUMMARY","ex:IMAGING_REPORT"] }
             ],
             "odrl:duty": [ { "odrl:action": "ehds:annualOutcomeReport" }, { "odrl:action": "ehds:noReidentification" }, { "odrl:action": "ehds:noExfiltration" } ]
           }]
         },
+
+        // Prohibition: Insurance management (DPV-Health)
         {
-          "@context": { "odrl": ODRL, "dpv": DPV, "ehds": EHDS, "ex": EX, "ac": AC },
+          "@context": { "odrl": ODRL, "dpv": DPV, "ehds": EHDS, "hlth": HLTH, "ex": EX, "ac": AC },
           "uid": "urn:policy:deny-insurance",
           "type": "odrl:Policy",
           "odrl:prohibition": [{
             "uid": "urn:rule:deny-insurance",
             "odrl:action": "odrl:use",
             "odrl:constraint": [
-              { "odrl:leftOperand": "dpv:hasPurpose", "odrl:operator": "odrl:eq", "odrl:rightOperand": "insurance-pricing" }
+              { "odrl:leftOperand": "dpv:hasPurpose", "odrl:operator": "odrl:eq",
+                "odrl:rightOperandReference": "hlth:InsuranceManagement" }
             ]
           }]
         }
       ];
       document.getElementById("policyDump").textContent = JSON.stringify(policies, null, 2);
 
+      // Services (stubs)
       const ConsentService = {
         store: {},
         set(subject, purposeIri, allowed) { (this.store[subject] ??= {})[purposeIri] = allowed; },
@@ -321,8 +346,8 @@
       };
       const CareTeamService = {
         links: new Set([ "clinician_alba|ruben" ]),
-        link(c,s){ this.links.add(`${c}|${s}`); },
-        isLinked(c,s){ return this.links.has(`${c}|${s}`); }
+        link(clinician, subject) { this.links.add(`${clinician}|${subject}`); },
+        isLinked(clinician, subject) { return this.links.has(`${clinician}|${subject}`); }
       };
       function syncConsentAndCareteamFromUI() {
         const cres = document.getElementById("consentResearch").value;
@@ -343,26 +368,25 @@
       }
       syncConsentAndCareteamFromUI();
 
+      // Engine
       const ODRLEngine = {
         ACTION_USE: "use",
-        // Expand CURIEs like "ehds:Foo" -> full IRIs using known prefixes
+
         _expandOne(s) {
           if (typeof s !== "string") return s;
           const map = [
             ["ehds:", EHDS],
             ["dpv:",  DPV],
+            ["hlth:", HLTH],
             ["ex:",   EX],
             ["ac:",   AC],
             ["odrl:", ODRL],
           ];
-          for (const [pfx, base] of map) {
-            if (s.startsWith(pfx)) return base + s.slice(pfx.length);
-          }
-          return s; // literal or already full IRI
+          for (const [pfx, base] of map) { if (s.startsWith(pfx)) return base + s.slice(pfx.length); }
+          return s;
         },
-        _expandOperand(rop) {
-          return Array.isArray(rop) ? rop.map(v => this._expandOne(v)) : this._expandOne(rop);
-        },
+        _expandOperand(rop) { return Array.isArray(rop) ? rop.map(v => this._expandOne(v)) : this._expandOne(rop); },
+
         match(req, policy) {
           const trace = [];
           const obligations = [];
@@ -385,27 +409,26 @@
           trace.push(`${policy.uid}:deny:odrl:no_permission_matched`);
           return [false, trace, obligations];
         },
+
         _actionOk(rule) {
           const a = (typeof rule["odrl:action"] === "string") ? rule["odrl:action"] : (rule["odrl:action"]?.id || rule["odrl:action"]?.["@id"]);
           return a === "odrl:use" || a === ODRL + "use" || a === this.ACTION_USE;
         },
+
         _constraintsHold(req, constraints) {
           const trace = [];
           for (const c of constraints) {
             const lop = c["odrl:leftOperand"] || c.leftOperand;
             const op  = this._opName(c["odrl:operator"] || c.operator);
             const ropRaw = (c["odrl:rightOperandReference"] ?? c.rightOperandReference ?? c["odrl:rightOperand"] ?? c.rightOperand);
-            const rop = this._expandOperand(ropRaw); // <-- expand CURIE(s) to full IRIs
-
+            const rop = this._expandOperand(ropRaw); // expand CURIEs
             const { ok, lhs } = this._constraintOk(req, lop, op, rop);
-            if (!ok) {
-              trace.push(`constraint_failed:${lop}:${op}:lhs=${JSON.stringify(lhs)},rightOperand=${JSON.stringify(rop)}`);
-              return [false, trace];
-            }
+            if (!ok) { trace.push(`constraint_failed:${lop}:${op}:lhs=${JSON.stringify(lhs)},rightOperand=${JSON.stringify(rop)}`); return [false, trace]; }
             trace.push(`constraint_ok:${lop}:${op}:lhs=${JSON.stringify(lhs)},rightOperand=${JSON.stringify(rop)}`);
           }
           return [true, trace];
         },
+
         _opName(op) {
           if (!op) return null;
           if (typeof op === "string") {
@@ -415,27 +438,26 @@
           }
           return op;
         },
+
         _constraintOk(req, lop, op, rop) {
           const short = (s) => {
             if (!s) return s;
             if (s.startsWith(DPV)) return "dpv:" + s.substring(DPV.length);
             if (s.startsWith(EHDS)) return "ehds:" + s.substring(EHDS.length);
+            if (s.startsWith(HLTH)) return "hlth:" + s.substring(HLTH.length);
             if (s.startsWith(AC)) return "ac:" + s.substring(AC.length);
             if (s.startsWith(ODRL)) return "odrl:" + s.substring(ODRL.length);
             return s;
           };
           const L = short(lop);
-          if (L === "dpv:hasPurpose")       { const lhs = req.purpose;           return { ok: this._evalOp(lhs, op, rop), lhs }; }
+          if (L === "dpv:hasPurpose")       { const lhs = req.purpose;            return { ok: this._evalOp(lhs, op, rop), lhs }; }
           if (L === "dpv:hasRole")          { const lhs = req.requester_role_iri; return { ok: this._evalOp(lhs, op, rop), lhs }; }
-          if (L === "dpv:hasPersonalDataCategory") {
-            const lhs = req.categories_iri; return { ok: this._evalOp(lhs, op, rop), lhs };
-          }
-          if (L === "dpv:hasTechnicalOrganisationalMeasure") {
-            const lhs = req.toms || [];     return { ok: this._evalOp(lhs, op, rop), lhs };
-          }
-          if (L === "ac:environment")       { const lhs = req.environment;       return { ok: this._evalOp(lhs, op, rop), lhs }; }
+          if (L === "dpv:hasPersonalDataCategory") { const lhs = req.categories_iri; return { ok: this._evalOp(lhs, op, rop), lhs }; }
+          if (L === "dpv:hasTechnicalOrganisationalMeasure") { const lhs = req.toms || []; return { ok: this._evalOp(lhs, op, rop), lhs }; }
+          if (L === "ac:environment")       { const lhs = req.environment;        return { ok: this._evalOp(lhs, op, rop), lhs }; }
           return { ok: false, lhs: null };
         },
+
         _evalOp(lhs, op, rop) {
           if (op === "eq") {
             return lhs === rop;
@@ -448,26 +470,29 @@
             return false;
           }
           if (op === "isAllOf") {
-            // Correct semantics: rightOperand (required set) must be a subset of lhs (requested set)
+            // rightOperand (required set) subset of lhs (requested set)
             if (Array.isArray(lhs) && Array.isArray(rop)) return rop.every(x => lhs.includes(x));
-            // If lhs is a single value, only match when ALL required values equal that single value (usually false)
             if (!Array.isArray(lhs) && Array.isArray(rop)) return rop.length === 1 && rop[0] === lhs;
             return false;
           }
           return false;
         },
+
         _prefix(policy, lines) { return lines.map(ln => `${policy.uid}:${ln}`); }
       };
 
+      // PDP
       const PDP = {
-        PROHIBITED_PURPOSES: new Set(["insurance-pricing"]),
+        PROHIBITED_PURPOSES: new Set([PURPOSE.INSURANCE]),
         decide(req) {
           const trace = [];
           let obligations = [];
+
           if (this.PROHIBITED_PURPOSES.has(req.purpose)) {
             trace.push("deny:prohibited_purpose");
-            return this._finalize(req, "DENY", "Denied: the requested purpose (insurance pricing) is prohibited by policy.", trace, obligations);
+            return this._finalize(req, "DENY", "Denied: the requested purpose (insurance management) is prohibited by policy.", trace, obligations);
           }
+
           if (isPrimaryPurpose(req.purpose)) {
             if (req.requester_role !== "clinician") {
               trace.push("deny:primary_only_for_clinicians");
@@ -484,18 +509,25 @@
             if (ok) { trace.push("permit:primary_care_allowed"); return this._finalize(req, "PERMIT", "Permitted: clinician in the patient's care team, and the primary-care policy matched.", trace, obligations); }
             return this._finalize(req, "DENY", "Denied: no primary-care policy matched for the requested scope.", trace, obligations);
           }
+
           if (req.purpose === PURPOSE.AI_TRAINING) {
             const aiPref = ConsentService.get(req.subject_id, PURPOSE.AI_TRAINING);
             if (aiPref === false) { trace.push("deny:subject_opted_out_ai_training"); return this._finalize(req, "DENY", "Denied: you opted out of your data being used to train AI systems.", trace, obligations); }
           }
+
           const pref = ConsentService.get(req.subject_id, req.purpose);
           if (pref === false) { trace.push("deny:subject_opted_out"); return this._finalize(req, "DENY", "Denied: the data subject has opted out of this secondary use.", trace, obligations); }
           if (pref === undefined && (req.purpose === PURPOSE.RESEARCH)) { trace.push("deny:no_subject_opt_in"); return this._finalize(req, "DENY", "Denied: no explicit opt-in for this secondary use.", trace, obligations); }
           if (pref === true) trace.push(`ok:subject_opted_in:purpose=${req.purpose}`);
+
           const [ok, tr, obl] = this._evalPolicies(req);
           trace.push(...tr); obligations.push(...obl);
           if (!ok) return this._finalize(req, "DENY", "Denied: no policy matched (purpose, environment, TOMs, or categories out of scope).", trace, obligations);
-          return this._finalize(req, "PERMIT", (req.purpose === PURPOSE.RESEARCH) ? "Permitted: subject opted in and an ODRL/DPV policy matched (anonymised dataset in secure environment)." : "Permitted: ODRL/DPV policy matched for secondary use.", trace, obligations);
+          return this._finalize(req, "PERMIT",
+            (req.purpose === PURPOSE.RESEARCH)
+              ? "Permitted: subject opted in and an ODRL/DPV policy matched (anonymised dataset in secure environment)."
+              : "Permitted: ODRL/DPV policy matched for secondary use.",
+            trace, obligations);
         },
         _evalPolicies(req) {
           const agg = []; let obligations = [];
@@ -531,7 +563,7 @@
             out["C2_primary_role"] = (req.requester_role==="clinician")?"OK - clinician":((answer==="DENY")?"OK - non-clinician denied":"FAIL - non-clinician permitted");
             out["C3_primary_careteam"] = (hasCareteam && answer==="PERMIT")?"OK - care-team linked":((!hasCareteam && answer==="DENY")?"OK - denied due to missing care-team":"FAIL - care-team rule inconsistent with answer");
           } else { out["C2_primary_role"]="SKIPPED"; out["C3_primary_careteam"]="SKIPPED"; }
-          if (!isPrimaryPurpose(req.purpose) && req.purpose !== "insurance-pricing") {
+          if (!isPrimaryPurpose(req.purpose) && req.purpose !== PURPOSE.INSURANCE) {
             const expectPermit = (hasOptin || req.purpose===PURPOSE.QI) && okAny;
             out["C4_secondary_optin_and_policy"] = (answer==="PERMIT") ? (expectPermit?"OK - opt-in present and policy matched":"FAIL - permitted without opt-in and matching policy")
                                                                        : (!expectPermit?"OK - denied because opt-in missing or no policy match":"FAIL - denied despite opt-in and policy match");
@@ -543,17 +575,10 @@
               const catCons = cons.filter(c => (c["odrl:leftOperand"]||"").endsWith("hasPersonalDataCategory"));
               if (catCons.length) {
                 const op = (c=>{const v=c["odrl:operator"]; return (typeof v==="string"&&v.includes(":"))?v.split(":").pop():v; })(catCons[0]);
-                // Expand CURIEs -> full IRIs before comparing
-                const allowedRaw = catCons[0]["odrl:rightOperandReference"] ?? [];
-                const allowed = ODRLEngine._expandOperand(allowedRaw);
+                const allowed = ODRLEngine._expandOperand(catCons[0]["odrl:rightOperandReference"] ?? []);
                 const reqCats = [...req.categories_iri];
-
-                if (op === "isAllOf") {
-                  // required categories must all be present in the request
-                  catOk = allowed.every(x => reqCats.includes(x));
-                } else if (op === "isAnyOf") {
-                  catOk = reqCats.some(x => allowed.includes(x));
-                }
+                if (op==="isAllOf") catOk = allowed.every(x => reqCats.includes(x));
+                else if (op==="isAnyOf") catOk = reqCats.some(x => allowed.includes(x));
                 msg = `operator=${op}, allowed=${JSON.stringify(allowed)}, requested=${JSON.stringify(reqCats)}`;
               }
             }
@@ -583,6 +608,7 @@
         }
       };
 
+      // UI helpers
       function readRequestFromUI() {
         const requester_id = document.getElementById("requesterId").value.trim();
         const roleSelVal = document.getElementById("role").value;
@@ -591,12 +617,24 @@
         const environment = document.getElementById("environment").value;
         const categories = [...document.querySelectorAll("#catBox input:checked")].map(i => i.value);
         const anonymised = document.getElementById("anonymised")?.checked === true;
+
         const rid = (window.crypto && typeof window.crypto.randomUUID === "function") ? window.crypto.randomUUID() : ("req_" + Math.random().toString(36).slice(2));
         const requester_role = (roleSelVal === "clinician" ? "clinician" : "data_user");
         const requester_role_iri = requester_role === "clinician" ? (EX + "Clinician") : (EX + "DataUser");
         const categories_iri = categories.map(c => EX + c);
         const toms = anonymised ? [DPV + "Anonymisation"] : [];
+
         return { request_id: rid, requester_id, requester_role, requester_role_iri, subject_id, purpose, categories, categories_iri, environment, toms, time: new Date().toISOString() };
+      }
+
+      function labelPurpose(iri) {
+        if (iri === PURPOSE.PRIMARY_CARE) return "primary-care";
+        if (iri === PURPOSE.REMOTE_CONSULT) return "remote-consult";
+        if (iri === PURPOSE.RESEARCH) return "research";
+        if (iri === PURPOSE.QI) return "quality & safety (QI)";
+        if (iri === PURPOSE.AI_TRAINING) return "AI systems training";
+        if (iri === PURPOSE.INSURANCE) return "insurance management";
+        return iri;
       }
 
       function renderDecision(decision, trace) {
@@ -609,6 +647,7 @@
         reason.textContent = decision["Reason why"];
         el.appendChild(answer);
         el.appendChild(reason);
+
         const checks = document.createElement("div");
         checks.className = "checks";
         for (const [k,v] of Object.entries(decision.Check)) {
@@ -623,6 +662,7 @@
           checks.appendChild(row);
         }
         el.appendChild(checks);
+
         const t = document.getElementById("traceDump");
         if (t) t.textContent = trace.join("\n");
       }
@@ -631,15 +671,7 @@
         events: [],
         add(ev) { this.events.unshift(ev); this.events = this.events.slice(0, 50); renderTimeline(); renderInsights(); }
       };
-      function labelPurpose(iri) {
-        if (iri === PURPOSE.PRIMARY_CARE) return "primary-care";
-        if (iri === PURPOSE.REMOTE_CONSULT) return "remote-consult";
-        if (iri === PURPOSE.RESEARCH) return "research";
-        if (iri === PURPOSE.QI) return "quality & safety (QI)";
-        if (iri === PURPOSE.AI_TRAINING) return "AI systems training";
-        if (iri === "insurance-pricing") return "insurance-pricing";
-        return iri;
-      }
+
       function renderTimeline() {
         const el = document.getElementById("timeline");
         if (!el) return;
@@ -665,6 +697,7 @@
             </tbody>
           </table>`;
       }
+
       function renderInsights() {
         const el = document.getElementById("insights");
         if (!el) return;
@@ -704,6 +737,7 @@
         };
       }
 
+      // Wire up
       document.getElementById("evalBtn").addEventListener("click", () => {
         try {
           syncConsentAndCareteamFromUI();
@@ -780,7 +814,7 @@ ${err?.stack || ""}`;
               document.getElementById("requesterId").value = "insurer_bot";
               roleSel.value = "data_user";
               document.getElementById("subjectId").value = "ruben";
-              purposeSel.value = "insurance-pricing";
+              purposeSel.value = PURPOSE.INSURANCE;
               envSel.value = "secure_env";
               document.querySelector("#catBox input[value='PATIENT_SUMMARY']").checked = true;
               consentResSel.value = "unset";
@@ -822,6 +856,7 @@ ${err?.stack || ""}`;
         });
       });
 
+      // Initial render
       renderTimeline();
       renderInsights();
     } catch (e) {
