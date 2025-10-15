@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GPS Clinical Bench (1000) — web version</title>
+  <title>GPS Clinical Bench (1000) — self‑contained JS</title>
   <style>
     :root { --fg:#101014; --bg:#ffffff; --muted:#666; --accent:#2563eb; --chip:#eef2ff; }
     @media (prefers-color-scheme: dark) {
       :root { --fg:#eaeaf0; --bg:#0b0b10; --muted:#a0a0b0; --accent:#60a5fa; --chip:#0e1a32; }
     }
     html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font: 15px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
-    main { max-width: 1000px; margin: 0 auto; padding: 28px 16px 80px; }
+    main { max-width: 1100px; margin: 0 auto; padding: 28px 16px 80px; }
     h1 { font-size: clamp(1.6rem, 2.6vw + 1rem, 2.2rem); margin: 0 0 6px; }
     header p { margin: 0; color: var(--muted); }
     section { margin: 18px 0 22px; padding: 14px 14px 16px; border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent); border-radius: 14px;
@@ -27,13 +27,11 @@
     .tbl { width:100%; border-collapse: collapse; }
     .tbl th, .tbl td { padding: 6px 8px; border-bottom: 1px dashed color-mix(in srgb, var(--fg) 18%, transparent); vertical-align: top; }
     .tbl th { text-align:left; }
-    details { border-radius: 10px; padding: 10px 12px; background: color-mix(in srgb, var(--accent) 6%, transparent); }
-    summary { cursor:pointer; font-weight:700; }
     .ok { color: #16a34a; }
-    .warn { color: #ca8a04; }
     .bad { color: #dc2626; }
     .small { font-size: 0.92em; }
     code { background: color-mix(in srgb, var(--accent) 10%, transparent); padding: .1rem .35rem; border-radius: .35rem; }
+    textarea { width: 100%; min-height: 180px; border-radius: 10px; padding: 8px; }
   </style>
 </head>
 <body>
@@ -41,24 +39,49 @@
     <header class="row">
       <div>
         <h1>GPS Clinical Bench — 1000 rules</h1>
-        <p>Web-only port that fetches the rules, runs the search in your browser, and renders the results.</p>
+        <p>Self‑contained browser version: no network calls; everything runs in JavaScript.</p>
       </div>
-      <div style="margin-left:auto">
-        <button id="run" class="btn">Run</button>
+      <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+        <button id="run" class="btn">Run with demo rules</button>
+        <button id="use-embedded" class="btn">Use embedded rules → Run</button>
       </div>
     </header>
+
+    <section>
+      <h2>What this is</h2>
+      <p>
+        This single HTML file reproduces the benchmark’s reasoning loop in plain JavaScript.
+        It parses a block of Notation3 (<code>gps:description</code>) transitions, applies
+        the embedded <em>patient filters</em> (gender/age), and performs a loop‑free breadth‑first search
+        under fixed limits. It then prints <strong>Answer</strong> (all valid paths),
+        <strong>Reason why</strong> (why certain actions are applicable), and <strong>Check</strong>
+        (a small harness that replays totals and verifies ordering).
+      </p>
+      <p class="small muted">
+        Sorting: success (higher) → cost (lower) → duration (shorter). All offline & self‑contained.
+      </p>
+    </section>
 
     <section>
       <div class="grid">
         <div>Goal state: <span class="chip mono" id="goal">state_6</span></div>
         <div>Limits: <span class="chip mono">duration ≤ 180d</span> <span class="chip mono">cost ≤ €500</span> <span class="chip mono">success ≥ 0.35</span> <span class="chip mono">comfort ≥ 0.35</span> <span class="chip mono">stagecount ≤ 10</span></div>
       </div>
-      <p class="muted small" id="src">Source: <a href="https://raw.githubusercontent.com/eyereasoner/eye/refs/heads/master/librath/cases/gps_clinical_bench_1000.py" target="_blank" rel="noopener">rules &amp; patient definition</a></p>
     </section>
 
     <section>
       <h2>Patient</h2>
       <div id="patient" class="grid"></div>
+    </section>
+
+    <section>
+      <h2>Rules block (optional — keep offline)</h2>
+      <p class="small muted">
+        This file ships with a tiny demo ruleset so it runs out of the box. To reproduce the full
+        <code>gps_clinical_bench_1000</code> dataset, paste the <em>N3 rules block</em> from the original script
+        into this textbox and click “Use embedded rules → Run”. No network is used either way.
+      </p>
+      <textarea id="rulesbox" class="mono"></textarea>
     </section>
 
     <section>
@@ -79,6 +102,9 @@
 
   <script>
   (function(){
+    // ——————————————————————————————————————————————
+    // Parameters (embedded)
+    // ——————————————————————————————————————————————
     const GOAL_STATE = "state_6";
     const MAX_DURATION_D = 180;
     const MAX_COST = 500.0;
@@ -86,51 +112,54 @@
     const MIN_COMFORT_P = 0.35;
     const MAX_STAGECOUNT = 10;
 
-    const RAW_URL = "https://raw.githubusercontent.com/eyereasoner/eye/refs/heads/master/librath/cases/gps_clinical_bench_1000.py";
+    // Patient (same fields as reference)
+    const PATIENT = {
+      uri: "data:patient_1",
+      name: "Jane Doe",
+      gender: "Female",
+      age: 14,
+      weight: 75.0,          // not used in rules
+      diagnosis: "49049000", // SNOMED
+      state: "state_2"
+    };
+
+    // Minimal demo rules (N3) just to make the page produce output offline.
+    // Format mirrors the original gps:description pattern.
+    const DEMO_N3 = `
+PREFIX math:  PREFIX xsd:  PREFIX e:  PREFIX action:  PREFIX medication:  PREFIX sct:  PREFIX care:  PREFIX gps:
+{care:Parkinson gps:description (
+  {?patient care:state care:state_2.}
+  {?patient gps:medication medication:Medication_101.}
+  {?patient care:state care:state_3.}
+  action:take_pill_Medication_101 "P1D"^^xsd:dayTimeDuration 20 0.680 0.800
+)} <= {
+  ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age.
+}.
+{care:Parkinson gps:description (
+  {?patient care:state care:state_3.}
+  {?patient gps:medication medication:Medication_202.}
+  {?patient care:state care:state_6.}
+  action:take_pill_Medication_202 "P1D"^^xsd:dayTimeDuration 10 0.700 0.900
+)} <= {
+  ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age.
+}.
+`;
 
     const $ = (id) => document.getElementById(id);
     const setHTML = (id, html) => { const el = $(id); if (el) el.innerHTML = html; };
 
-    // ——————————————————————————————————————————————
-    // Utilities
-    // ——————————————————————————————————————————————
-    const fmt = {
-      euros: (x) => "€" + x.toFixed(2),
-      prob: (x) => x.toFixed(3),
-      days: (d) => d + (d === 1 ? " day" : " days"),
-    };
+    // Show patient immediately
+    setHTML("patient", `<div>Name: <span class="chip">${PATIENT.name}</span></div>
+      <div>Gender: <span class="chip">${PATIENT.gender}</span></div>
+      <div>Age: <span class="chip">${PATIENT.age}</span></div>
+      <div>Start state: <span class="chip mono">${PATIENT.state}</span></div>`);
 
-    const cstr = (state, pathArr) => JSON.stringify([state, pathArr]); // key for visited
+    // Pre-fill textarea for convenience
+    $("rulesbox").value = DEMO_N3.trim();
 
     // ——————————————————————————————————————————————
-    // Parse helpers for the raw source
+    // Parser for N3 gps:description rules
     // ——————————————————————————————————————————————
-    function extractPatient(src) {
-      // Very tolerant parse of patient_1 = Patient(...)
-      const blockRe = /patient_1\s*=\s*Patient\s*\(([\s\S]*?)\)/m;
-      const m = src.match(blockRe);
-      if (!m) return null;
-      const block = m[1];
-      function pick(re, def=null) {
-        const mm = block.match(re);
-        return mm ? mm[1] : def;
-      }
-      const name = pick(/name\s*=\s*"([^"]+)"/);
-      const gender = pick(/gender\s*=\s*"(Male|Female)"/);
-      const age = +(pick(/age\s*=\s*(\d+)/) || 0);
-      const state = pick(/state\s*=\s*"?(state_\d+)"?/);
-      const uri = pick(/uri\s*=\s*"([^"]+)"/, "data:patient_1");
-      const diagnosis = pick(/diagnosis\s*=\s*"([^"]+)"/, "");
-      return { uri, name, gender, age, diagnosis, state };
-    }
-
-    function extractN3(src) {
-      const re = /N3_RULES\s*=\s*textwrap\.dedent\(\s*"""([\s\S]*?)"""\)\.strip\(\)/m;
-      const m = src.match(re);
-      if (!m) throw new Error("Could not find N3_RULES triple-quoted block.");
-      return m[1];
-    }
-
     function parseRules(n3) {
       const rules = [];
       const ruleRe = new RegExp(
@@ -140,7 +169,7 @@
         + String.raw`\{\?patient\s+care:state\s+care:(state_\d+)\.\}\s*` // to
         + String.raw`action:([A-Za-z0-9_]+)\s*`
         + String.raw`"P(\d+)D"\^\^xsd:dayTimeDuration\s*`
-        + String.raw`(\d+)\s*`      // cost (integer in source)
+        + String.raw`(\d+)\s*`      // cost
         + String.raw`([0-9.]+)\s*`  // success
         + String.raw`([0-9.]+)\s*`  // comfort
         + String.raw`\)\s*\}\s*<=\s*\{\s*`
@@ -169,6 +198,7 @@
 
         rules.push({
           from_state, to_state, action, duration_d, cost, success_p, comfort_p,
+          gender, minAge,
           applies(patient, cur_state) {
             const okGender = (gender === null) || (patient.gender === gender);
             const okAge = (minAge === null) || (patient.age > minAge);
@@ -180,20 +210,21 @@
     }
 
     // ——————————————————————————————————————————————
-    // Search (BFS, loop-free, same constraints)
+    // BFS search with limits (loop-free)
     // ——————————————————————————————————————————————
     function searchAll(patient, rules) {
       const start = { state: patient.state, duration: 0, cost: 0.0, succ: 1.0, comfort: 1.0, path: [] };
       const queue = [start];
       const sols = [];
-      const visited = new Set(); // key is [state, path]
+      const visited = new Set(); // key is JSON([state, path])
+
+      const key = (state, path) => JSON.stringify([state, path]);
 
       while (queue.length) {
         const cur = queue.shift();
 
         if (cur.state === GOAL_STATE) {
           sols.push(cur);
-          // do not expand beyond a solution (like the source)
           continue;
         }
         if (cur.path.length >= MAX_STAGECOUNT) continue;
@@ -207,7 +238,7 @@
           if (!(nd <= MAX_DURATION_D && nc <= MAX_COST && ns >= MIN_SUCCESS_P && nf >= MIN_COMFORT_P)) continue;
 
           const nxtPath = cur.path.concat([r.action]);
-          const sig = cstr(r.to_state, nxtPath);
+          const sig = key(r.to_state, nxtPath);
           if (visited.has(sig)) continue;
           visited.add(sig);
 
@@ -220,6 +251,11 @@
     // ——————————————————————————————————————————————
     // Pretty printing & harness
     // ——————————————————————————————————————————————
+    const fmt = {
+      euros: (x) => "€" + x.toFixed(2),
+      prob: (x) => x.toFixed(3),
+    };
+
     function sortSolutions(sols) {
       sols.sort((a,b) => {
         if (a.succ !== b.succ) return b.succ - a.succ; // higher first
@@ -265,12 +301,12 @@
     function renderReason(patient, rules) {
       const apps = applicableFromState(patient, rules, patient.state);
       if (!apps.length) {
-        return `<p>From the start state <code>${patient.state}</code>, applicable rules: 0 — start is a dead-end for these demographics.</p>`;
+        return `<p>From the start state <code>${patient.state}</code>, applicable rules: 0 — start is a dead‑end for these demographics.</p>`;
       }
       let html = `<p>From the start state <code>${patient.state}</code>, applicable rules for this patient: ${apps.length}</p>`;
       const oneStep = apps.filter(r => r.to_state === GOAL_STATE);
       if (oneStep.length) {
-        html += `<p><strong>One-step routes to the goal:</strong></p><ul class="mono small">`;
+        html += `<p><strong>One‑step routes to the goal:</strong></p><ul class="mono small">`;
         oneStep.forEach(r => {
           html += `<li>${r.action}: ${r.from_state} → ${r.to_state} (+${r.duration_d}d, +€${r.cost.toFixed(0)}, ×succ ${r.success_p.toFixed(3)}, ×comf ${r.comfort_p.toFixed(3)})</li>`;
         });
@@ -289,7 +325,7 @@
       return html;
     }
 
-    // Harness checks mirroring the source
+    // Harness checks mirroring the reference
     function approx(a, b, tol=1e-12) {
       const d = Math.abs(a - b);
       return d <= tol * Math.max(1.0, 1.0 + Math.abs(a) + Math.abs(b));
@@ -301,26 +337,8 @@
       if (b.cost < a.cost - tol) return false;
       return a.duration <= b.duration + tol;
     }
-    function replayTotals(patient, rules, actions) {
-      // build index by (from_state, action)
-      const idx = new Map();
-      for (const r of rules) {
-        const k = r.from_state + "@" + r.action;
-        if (!idx.has(k)) idx.set(k, []);
-        idx.get(k).push(r);
-      }
-      let cur = patient.state, dur=0, cost=0, succ=1, comf=1;
-      for (const a of actions) {
-        const cand = (idx.get(cur + "@" + a) || []).filter(rr => rr.applies(patient, cur));
-        if (!cand.length) throw new Error("Action not applicable from state " + cur);
-        const r = cand[0];
-        cur = r.to_state;
-        dur += r.duration_d; cost += r.cost; succ *= r.success_p; comf *= r.comfort_p;
-      }
-      return {dur, cost, succ, comf, end: cur};
-    }
     function replayRuns(patient, rules, actions) {
-      // enumerate all feasible runs that follow the action names
+      // enumerate feasible runs that follow the action names
       const idx = new Map();
       for (const r of rules) {
         const k = r.from_state + "@" + r.action;
@@ -391,54 +409,25 @@
       return `Harness: ${solutions.length} solutions verified — uniqueness, constraints, replay totals, and ordering. ✓`;
     }
 
-    async function run() {
-      const btn = $("run");
-      btn.disabled = true;
-      btn.textContent = "Running…";
-
+    function runWith(n3) {
+      const rules = parseRules(n3);
+      const solutions = searchAll(PATIENT, rules);
+      setHTML("answer", renderSolutions(solutions));
+      setHTML("reason", renderReason(PATIENT, rules));
       try {
-        const res = await fetch(RAW_URL, { cache:"no-store" });
-        if (!res.ok) throw new Error("Fetch failed: " + res.status);
-        const src = await res.text();
-
-        const patient = extractPatient(src);
-        if (!patient) throw new Error("Could not parse patient from source.");
-
-        // Show patient
-        setHTML("patient", `<div>Name: <span class="chip">${patient.name}</span></div>
-          <div>Gender: <span class="chip">${patient.gender}</span></div>
-          <div>Age: <span class="chip">${patient.age}</span></div>
-          <div>Start state: <span class="chip mono">${patient.state}</span></div>`);
-
-        const n3 = extractN3(src);
-        const rules = parseRules(n3);
-
-        // Run search
-        const solutions = searchAll(patient, rules);
-
-        // Render sections
-        setHTML("answer", renderSolutions(solutions));
-        setHTML("reason", renderReason(patient, rules));
-        let checkMsg;
-        try {
-          // Verify after sorting, like the source does before reading best
-          sortSolutions(solutions);
-          checkMsg = harness(patient, rules, solutions);
-          setHTML("check", `<p class="ok mono">${checkMsg}</p>`);
-        } catch (e) {
-          setHTML("check", `<p class="bad mono">Harness failed: ${e.message || e}</p>`);
-        }
+        sortSolutions(solutions);
+        const msg = harness(PATIENT, rules, solutions);
+        setHTML("check", `<p class="ok mono">${msg}</p>`);
       } catch (e) {
-        setHTML("answer", `<p class="bad">Error: ${e.message || e}</p>`);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "Run again";
+        setHTML("check", `<p class="bad mono">Harness failed: ${e.message || e}</p>`);
       }
     }
 
-    $("run").addEventListener("click", run);
-    // Auto-run once for convenience
-    run();
+    $("run").addEventListener("click", () => runWith(DEMO_N3));
+    $("use-embedded").addEventListener("click", () => runWith($("rulesbox").value));
+
+    // Auto-run demo once on load
+    runWith(DEMO_N3);
   })();
   </script>
 </body>
