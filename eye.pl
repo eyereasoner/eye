@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.22.4 (2025-10-11)').
+version_info('EYE v11.22.5 (2025-10-15)').
 
 license_info('MIT License
 
@@ -5434,7 +5434,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             P \= '<http://www.w3.org/2000/10/swap/log#implies>',
             P \= '<http://www.w3.org/2000/10/swap/log#callWithCleanup>',
             N = 2
-        ->  assertz(pred(P))
+        ->  asserta(pred(P))
         ;   true
         ),
         (   Dn \= '<http://www.w3.org/2000/10/swap/log#implies>'(_, _),
@@ -5480,7 +5480,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
                 P \= '<http://www.w3.org/2000/10/swap/log#callWithCleanup>',
                 P \= '<http://www.w3.org/2000/10/swap/log#implies>',
                 N = 2
-            ->  assertz(pred(P))
+            ->  asserta(pred(P))
             ;   true
             ),
             (   Cn \= '<http://www.w3.org/2000/10/swap/log#implies>'(_, _),
