@@ -8,6 +8,7 @@ Run the [librath cases](cases) to get the [answer, reason why and check (harness
    ```
 
 See also
+- https://eyereasoner.github.io/eye/librath/cases/temp/ackermann.html
 - https://eyereasoner.github.io/eye/librath/cases/temp/auroracare.html
 - https://eyereasoner.github.io/eye/librath/cases/temp/complex.html
 - https://eyereasoner.github.io/eye/librath/cases/temp/fibonacci.html
