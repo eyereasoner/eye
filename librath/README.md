@@ -16,6 +16,7 @@ See also
 - [Easter (Computus) — ARC](https://eyereasoner.github.io/eye/librath/cases/temp/easter.html)
 - [Fibonacci via Fast Doubling — ARC](https://eyereasoner.github.io/eye/librath/cases/temp/fibonacci.html)
 - [GPS Clinical Bench — ARC (Answer • Reason • Check)](https://eyereasoner.github.io/eye/librath/cases/temp/gps_clinical_bench_100.html)
+- [Group Theory — ARC (Answer • Reason • Check)](https://eyereasoner.github.io/eye/librath/cases/temp/group_theory.html)
 - [Graph — French cities (ARC)](https://eyereasoner.github.io/eye/librath/cases/temp/graph_french.html)
 - [Grass seed — molecular germination (ARC)](https://eyereasoner.github.io/eye/librath/cases/temp/grass_molecular.html)
 - [The Infite Game of the Insight Economy — P3 Triad Demo](https://eyereasoner.github.io/eye/librath/cases/temp/infinite_game_insight_economy.html)
