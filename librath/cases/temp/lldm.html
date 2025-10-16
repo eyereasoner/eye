@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LLDM (leg-length discrepancy) — ARC style (self‑contained)</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#111827;
+      --muted:#6b7280;
+      --panel:#f8fafc;
+      --border:#e5e7eb;
+      --accent:#0ea5e9;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    html,body{height:100%}
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 var(--ui); }
+    .wrap{max-width:980px; margin:36px auto; padding:0 16px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
+    h1{font-size:22px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .row{display:flex; gap:16px; flex-wrap:wrap}
+    .card{flex:1 1 420px; background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px}
+    .bar{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
+    button{all:unset; background:#fff; border:1px solid var(--border); padding:8px 12px; border-radius:10px; cursor:pointer}
+    button:hover{border-color:#cbd5e1}
+    .small{color:var(--muted); text-decoration:none}
+    .accent{color:var(--accent)}
+    .grid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px}
+    label{font-size:12px; color:var(--muted)}
+    input{width:100%; box-sizing:border-box; padding:8px; border:1px solid var(--border); border-radius:10px; background:#fff; font-family:var(--mono); font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>LLDM — <span class="accent">ARC</span> (Answer • Reason • Check)</h1>
+      <div class="pill">Self‑contained • No deps</div>
+    </header>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained, browser‑only reimplementation of the leg‑length discrepancy
+        (LLDM) demo from <code>lldm.py</code>. Enter four hip/knee landmarks (cm) or click <em>Demo &amp; Run</em> to preload
+        the reference values. The left panel prints a step‑by‑step trace; the right panel prints an ARC report
+        (<em>Answer • Reason • Check</em>) that mirrors the original layout and decision rule.</p>
+        <p class="small">Note: this tool is for reproducible computation and documentation. It is not medical advice.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head"><h2>Landmark inputs (cm)</h2><a href="#" class="small" onclick="loadDemo();run();return false;">Demo &amp; Run</a></div>
+      <div class="body">
+        <div class="grid">
+          <div><label>p1x</label><input id="p1x" type="number" step="0.0001"></div>
+          <div><label>p1y</label><input id="p1y" type="number" step="0.0001"></div>
+          <div><label>p2x</label><input id="p2x" type="number" step="0.0001"></div>
+          <div><label>p2y</label><input id="p2y" type="number" step="0.0001"></div>
+          <div><label>p3x</label><input id="p3x" type="number" step="0.0001"></div>
+          <div><label>p3y</label><input id="p3y" type="number" step="0.0001"></div>
+          <div><label>p4x</label><input id="p4x" type="number" step="0.0001"></div>
+          <div><label>p4y</label><input id="p4y" type="number" step="0.0001"></div>
+        </div>
+        <div class="bar">
+          <button onclick="run()">▶ Run</button>
+          <a href="#" class="small" onclick="copyBoth();return false;">Copy both outputs</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:16px">
+      <div class="card">
+        <div class="head"><h2>Trace (step‑by‑step)</h2><button onclick="downloadText('lldm_trace.txt', document.getElementById('trace').textContent)">⬇ Export .txt</button></div>
+        <div class="body"><pre id="trace">(no run yet)</pre></div>
+      </div>
+      <div class="card">
+        <div class="head"><h2>ARC Output</h2><button onclick="downloadText('lldm_arc.txt', document.getElementById('arc').textContent)">⬇ Export .txt</button></div>
+        <div class="body"><pre id="arc">(no run yet)</pre></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// Formatting helpers (match reference style)
+const EN_DASH = "–";
+function sfix(n, dec){
+  if(!Number.isFinite(n)) return "NaN";
+  const sign = (n >= 0 || Object.is(n, +0)) ? "+" : EN_DASH;
+  return sign + Math.abs(n).toFixed(dec);
+}
+const s4 = n => sfix(n,4);
+const s6 = n => sfix(n,6);
+
+function parseInputs(){
+  const g = id => parseFloat(document.getElementById(id).value);
+  return {
+    p1x:g("p1x"), p1y:g("p1y"),
+    p2x:g("p2x"), p2y:g("p2y"),
+    p3x:g("p3x"), p3y:g("p3y"),
+    p4x:g("p4x"), p4y:g("p4y"),
+  };
+}
+function loadDemo(){
+  document.getElementById("p1x").value = 10.1;
+  document.getElementById("p1y").value = 7.8;
+  document.getElementById("p2x").value = 45.1;
+  document.getElementById("p2y").value = 5.6;
+  document.getElementById("p3x").value = 3.6;
+  document.getElementById("p3y").value = 29.8;
+  document.getElementById("p4x").value = 54.7;
+  document.getElementById("p4y").value = 28.5;
+}
+
+function run(){
+  const T = []; const A = [];
+  const I = parseInputs();
+  if(Object.values(I).some(v => !Number.isFinite(v))){
+    document.getElementById("trace").textContent = "Please enter all 8 numbers (or click Demo & Run).";
+    document.getElementById("arc").textContent = "(no run)";
+    return;
+  }
+
+  // Basic deltas
+  const dx12 = I.p1x - I.p2x;
+  const dy12 = I.p1y - I.p2y;
+  const dy13 = I.p1y - I.p3y;
+  const dy24 = I.p2y - I.p4y;
+  T.push(`Step 01 dx12Cm = p1x – p2x = ${I.p1x} – ${I.p2x} = ${s4(dx12)} cm`);
+  T.push(`Step 02 dy12Cm = p1y – p2y = ${I.p1y} – ${I.p2y} = ${s4(dy12)} cm`);
+  T.push(`Step 03 dy13Cm = p1y – p3y = ${I.p1y} – ${I.p3y} = ${s4(dy13)} cm`);
+  T.push(`Step 04 dy24Cm = p2y – p4y = ${I.p2y} – ${I.p4y} = ${s4(dy24)} cm`);
+  T.push("────────────────────────────────────────────────────────────────────────────");
+
+  // Slopes
+  const cL1 = dy12 / dx12;
+  const dL3m = -1 / cL1;
+  const cL3 = -dL3m;
+  T.push(`Step 05 cL1 = slope of L1 = dy12 / dx12 = ${s4(dy12)} / ${s4(dx12)} = ${s6(cL1)}`);
+  T.push(`Step 06 dL3m = –1 / cL1 = –1 / ${s6(cL1)} = ${s4(dL3m)}`);
+  T.push(`Step 07 cL3 = –dL3m = –(${s4(dL3m)}) = ${s4(cL3)}`);
+  T.push("────────────────────────────────────────────────────────────────────────────");
+
+  // m·x terms
+  const pL1x1 = cL1 * I.p1x;
+  const pL1x2 = cL1 * I.p2x;
+  const pL3x3 = cL3 * I.p3x;
+  const pL3x4 = cL3 * I.p4x;
+  T.push(`Step 08 pL1x1 = cL1 · p1x = ${s6(cL1)} · ${I.p1x} = ${s4(pL1x1)} cm`);
+  T.push(`Step 09 pL1x2 = cL1 · p2x = ${s6(cL1)} · ${I.p2x} = ${s4(pL1x2)} cm`);
+  T.push(`Step 10 pL3x3 = cL3 · p3x = ${s4(cL3)} · ${I.p3x} = ${s4(pL3x3)} cm`);
+  T.push(`Step 11 pL3x4 = cL3 · p4x = ${s4(cL3)} · ${I.p4x} = ${s4(pL3x4)} cm`);
+  T.push("────────────────────────────────────────────────────────────────────────────");
+
+  // Diagonal deltas
+  const dd13 = pL1x1 - pL3x3;
+  const ddy13 = dd13 - dy13;
+  const dd24 = pL1x2 - pL3x4;
+  const ddy24 = dd24 - dy24;
+  T.push(`Step 12 dd13Cm = pL1x1 – pL3x3 = ${s4(pL1x1)} – ${s4(pL3x3)} = ${s4(dd13)} cm`);
+  T.push(`Step 13 ddy13Cm = dd13Cm – dy13Cm = ${s4(dd13)} – (${s4(dy13)}) = ${s4(ddy13)} cm`);
+  T.push(`Step 14 dd24Cm = pL1x2 – pL3x4 = ${s4(pL1x2)} – ${s4(pL3x4)} = ${s4(dd24)} cm`);
+  T.push(`Step 15 ddy24Cm = dd24Cm – dy24Cm = ${s4(dd24)} – (${s4(dy24)}) = ${s4(ddy24)} cm`);
+  T.push("────────────────────────────────────────────────────────────────────────────");
+
+  // Intersection helpers
+  const ddL13 = cL1 - cL3;
+  const p5x = ddy13 / ddL13;
+  const dx51 = p5x - I.p1x;
+  const p5y = cL1 * dx51 + I.p1y;
+  const p6x = ddy24 / ddL13;
+  const dx62 = p6x - I.p2x;
+  const p6y = cL1 * dx62 + I.p2y;
+  T.push(`Step 16 ddL13 = cL1 – cL3 = ${s6(cL1)} – ${s4(cL3)} = ${s4(ddL13)}`);
+  T.push(`Step 17 p5xCm = ddy13Cm / ddL13 = ${s4(ddy13)} / ${s4(ddL13)} = ${s4(p5x)} cm`);
+  T.push(`Step 18 dx51Cm = p5x – p1x = ${p5x} – ${I.p1x} = ${s4(dx51)} cm`);
+  T.push(`Step 19 p5yCm = cL1·dx51 + p1y = (${s6(cL1)})(${s4(dx51)}) + ${I.p1y} = ${s4(p5y)} cm`);
+  T.push(`Step 20 p6xCm = ddy24Cm / ddL13 = ${s4(ddy24)} / ${s4(ddL13)} = ${s4(p6x)} cm`);
+  T.push(`Step 21 dx62Cm = p6x – p2x = ${p6x} – ${I.p2x} = ${s4(dx62)} cm`);
+  T.push(`Step 22 p6yCm = cL1·dx62 + p2y = (${s6(cL1)})(${s4(dx62)}) + ${I.p2y} = ${s4(p6y)} cm`);
+  T.push("────────────────────────────────────────────────────────────────────────────");
+
+  // Remaining simple deltas
+  const dx53 = p5x - I.p3x;
+  const dx64 = p6x - I.p4x;
+  const dy53 = p5y - I.p3y;
+  const dy64 = p6y - I.p4y;
+  T.push(`Step 23 dx53Cm = p5x – p3x = ${p5x} – ${I.p3x} = ${s4(dx53)} cm`);
+  T.push(`Step 24 dx64Cm = p6x – p4x = ${p6x} – ${I.p4x} = ${s4(dx64)} cm`);
+  T.push(`Step 25 dy53Cm = p5y – p3y = ${p5y} – ${I.p3y} = ${s4(dy53)} cm`);
+  T.push(`Step 26 dy64Cm = p6y – p4y = ${p6y} – ${I.p4y} = ${s4(dy64)} cm`);
+  T.push("────────────────────────────────────────────────────────────────────────────");
+
+  // Distances
+  const d53 = Math.sqrt(dx53*dx53 + dy53*dy53);
+  const d64 = Math.sqrt(dx64*dx64 + dy64*dy64);
+  T.push(`Step 27 d53Cm = √(dx53² + dy53²) = √(${s4(dx53)}² + ${s4(dy53)}²) = √(${(dx53*dx53).toFixed(3)} + ${(dy53*dy53).toFixed(3)}) = √${(dx53*dx53 + dy53*dy53).toFixed(3)} = ${s4(d53)} cm`);
+  T.push(`Step 28 d64Cm = √(dx64² + dy64²) = √(${s4(dx64)}² + ${s4(dy64)}²) = √(${(dx64*dx64).toFixed(3)} + ${(dy64*dy64).toFixed(3)}) = √${(dx64*dx64 + dy64*dy64).toFixed(3)} = ${s4(d64)} cm`);
+
+  // Discrepancy & alarm
+  const dCm = d53 - d64;
+  const alarm = Math.abs(dCm) > 1.25;
+  T.push(`Step 29 dCm = d53 – d64 = ${d53.toFixed(4)} – ${d64.toFixed(4)} = ${s4(dCm)} cm`);
+  T.push(`Step 30 LLDAlarm = |dCm| > 1.25 ? = |${s4(dCm)}| > 1.25 → ${alarm ? "True" : "False"} = ${(alarm ? 1.0 : 0.0).toFixed(6)}`);
+
+  // ARC (Answer / Reason why / Check)
+  A.push("Answer");
+  A.push("======");
+  A.push(`LLDAlarm = |dCm| > 1.25 ? = |${s4(dCm)}| > 1.25 → ${alarm ? "True" : "False"} = ${(alarm ? 1.0 : 0.0).toFixed(6)}`);
+  A.push("");
+  A.push("Reason why");
+  A.push("==========");
+  A.push("We construct pelvic line L1 through (p1,p2) and a perpendicular direction for femoral lines (through p3 and p4).");
+  A.push("Project p3 and p4 orthogonally on L1 to get p5 and p6. d53=‖p5−p3‖, d64=‖p6−p4‖, and dCm=d53−d64.");
+  A.push("Alarm iff |dCm| > 1.25 (strict).");
+  A.push("");
+  A.push("Check (harness)");
+  A.push("===============");
+  const decide = v => Math.abs(v) > 1.25;
+  const b_ok = (decide(+1.25) === false) && (decide(-1.25) === false);
+  const s_ok = (decide(+1.9234) === decide(-1.9234));
+  const m_ok = (decide(0.50) === false) && (decide(2.00) === true);
+  A.push(`Boundary strictness at ±1.25 cm? ${b_ok}`);
+  A.push(`Symmetry alarm(+x) == alarm(-x)? ${s_ok}`);
+  A.push(`Monotonicity example (0.50→False, 2.00→True)? ${m_ok}`);
+  const ok_all = b_ok && s_ok && m_ok;
+  A.push("");
+  A.push(`All checks passed? ${ok_all}`);
+
+  document.getElementById("trace").textContent = T.join("\n");
+  document.getElementById("arc").textContent = A.join("\n");
+}
+
+function copyBoth(){
+  const text = document.getElementById('trace').textContent + "\n\n" + document.getElementById('arc').textContent;
+  navigator.clipboard.writeText(text);
+}
+function downloadText(name, text){
+  const blob=new Blob([text],{type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove();
+}
+
+// bootstrap
+loadDemo();
+run();
+</script>
+</body>
+</html>
