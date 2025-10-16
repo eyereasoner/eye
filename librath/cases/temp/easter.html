@@ -47,7 +47,7 @@
         <label class="muted small" for="a">Range:</label>
         <input id="a" type="number" min="1583" max="4099" step="1" value="1990" />
         <span>→</span>
-        <input id="b" type="number" min="1583" max="4099" step="1" value="2030" />
+        <input id="b" type="number" min="1583" max="4099" step="1" value="2050" />
         <button id="go" class="btn">Compute</button>
       </div>
     </header>
@@ -292,7 +292,7 @@
     function runAll(){
       const y = Math.max(1583, Math.min(4099, parseInt($('year').value || '2025', 10)));
       const a = parseInt($('a').value || '1990', 10);
-      const b = parseInt($('b').value || '2030', 10);
+      const b = parseInt($('b').value || '2050', 10);
       showOne(y);
       listRange(a,b);
       renderChecks();
