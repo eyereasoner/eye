@@ -16,18 +16,17 @@
       --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
     }
     html,body{height:100%}
-    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 var(--ui); }
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 var(--ui); }
     .wrap{max-width:980px; margin:36px auto; padding:0 16px;}
     header{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
     h1{font-size:22px; margin:0; letter-spacing:.2px}
     .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
-    .row{display:flex; gap:16px; flex-wrap:wrap}
-    .card{flex:1 1 420px; background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .row{display:flex; flex-direction:column; gap:16px}
+    .card{background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden}
     .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
     .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
     .body{padding:12px}
     pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px}
-    .bar{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
     button{all:unset; background:#fff; border:1px solid var(--border); padding:8px 12px; border-radius:10px; cursor:pointer}
     button:hover{border-color:#cbd5e1}
     .small{color:var(--muted); text-decoration:none}
@@ -35,6 +34,16 @@
     .grid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px}
     label{font-size:12px; color:var(--muted)}
     input{width:100%; box-sizing:border-box; padding:8px; border:1px solid var(--border); border-radius:10px; background:#fff; font-family:var(--mono); font-size:12px}
+    /* ARC v2 (Cards) */
+    .arc-grid{display:flex; flex-direction:column; gap:12px}
+    .arc-card{background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .arc-card .ac-head{display:flex; align-items:center; gap:8px; padding:10px 12px; border-bottom:1px solid var(--border); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+    .arc-card .ac-body{padding:12px}
+    .arc-card pre{margin:0; white-space:pre-wrap; background:#fff; border:1px solid #eef2f7; border-radius:10px; padding:10px; font-family:var(--mono); font-size:13px}
+    .arc-card.answer{border-left:4px solid #10b981}
+    .arc-card.reason{border-left:4px solid #3b82f6}
+    .arc-card.check{border-left:4px solid #f59e0b}
+    .toolbar{display:flex; gap:8px; align-items:center}
   </style>
 </head>
 <body>
@@ -44,7 +53,6 @@
       <div class="pill">Self‑contained • No deps</div>
     </header>
 
-    
     <div class="card" style="margin-bottom:16px">
       <div class="body">
         <p><strong>What this is?</strong> A self‑contained, browser‑only <em>ARC harness</em> for a toy leg‑length discrepancy (LLDM) calculation.
@@ -55,41 +63,66 @@
       </div>
     </div>
 
-
-    <div class="card">
-      <div class="head"><h2>Landmark inputs (cm)</h2><a href="#" class="small" onclick="loadDemo();run();return false;">Demo &amp; Run</a></div>
-      <div class="body">
-        <div class="grid">
-          <div><label>p1x</label><input id="p1x" type="number" step="0.0001"></div>
-          <div><label>p1y</label><input id="p1y" type="number" step="0.0001"></div>
-          <div><label>p2x</label><input id="p2x" type="number" step="0.0001"></div>
-          <div><label>p2y</label><input id="p2y" type="number" step="0.0001"></div>
-          <div><label>p3x</label><input id="p3x" type="number" step="0.0001"></div>
-          <div><label>p3y</label><input id="p3y" type="number" step="0.0001"></div>
-          <div><label>p4x</label><input id="p4x" type="number" step="0.0001"></div>
-          <div><label>p4y</label><input id="p4y" type="number" step="0.0001"></div>
-        </div>
-        <div class="bar">
-          <button onclick="run()">▶ Run</button>
-          <a href="#" class="small" onclick="copyBoth();return false;">Copy both outputs</a>
+    <div class="row">
+      <div class="card">
+        <div class="head"><h2>Landmark inputs (cm)</h2><a href="#" class="small" onclick="loadDemo();run();return false;">Demo &amp; Run</a></div>
+        <div class="body">
+          <div class="grid">
+            <div><label>p1x</label><input id="p1x" type="number" step="0.0001"></div>
+            <div><label>p1y</label><input id="p1y" type="number" step="0.0001"></div>
+            <div><label>p2x</label><input id="p2x" type="number" step="0.0001"></div>
+            <div><label>p2y</label><input id="p2y" type="number" step="0.0001"></div>
+            <div><label>p3x</label><input id="p3x" type="number" step="0.0001"></div>
+            <div><label>p3y</label><input id="p3y" type="number" step="0.0001"></div>
+            <div><label>p4x</label><input id="p4x" type="number" step="0.0001"></div>
+            <div><label>p4y</label><input id="p4y" type="number" step="0.0001"></div>
+          </div>
+          <div class="bar">
+            <button onclick="run()">▶ Run</button>
+            <a href="#" class="small" onclick="copyBoth();return false;">Copy both outputs</a>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="row" style="margin-top:16px">
       <div class="card">
-        <div class="head"><h2>Trace (step‑by‑step)</h2><button onclick="downloadText('lldm_trace.txt', document.getElementById('trace').textContent)">⬇ Export .txt</button></div>
+        <div class="head">
+          <h2>Trace</h2>
+          <button onclick="downloadText('lldm_trace.txt', document.getElementById('trace').textContent)">⬇ Export .txt</button>
+        </div>
         <div class="body"><pre id="trace">(no run yet)</pre></div>
       </div>
+
       <div class="card">
-        <div class="head"><h2>ARC Output</h2><button onclick="downloadText('lldm_arc.txt', document.getElementById('arc').textContent)">⬇ Export .txt</button></div>
-        <div class="body"><pre id="arc">(no run yet)</pre></div>
+        <div class="head">
+          <h2>ARC Output</h2>
+          <div class="toolbar">
+            <button onclick="toggleArcStyle()" id="styleBtn">Style: Cards</button>
+            <button onclick="downloadARC()">⬇ Export .txt</button>
+          </div>
+        </div>
+        <div class="body">
+          <div id="arc-cards" class="arc-grid">
+            <div class="arc-card answer">
+              <div class="ac-head">Answer</div>
+              <div class="ac-body"><pre id="arc_ans">(no run yet)</pre></div>
+            </div>
+            <div class="arc-card reason">
+              <div class="ac-head">Reason why</div>
+              <div class="ac-body"><pre id="arc_reason">(no run yet)</pre></div>
+            </div>
+            <div class="arc-card check">
+              <div class="ac-head">Check (harness)</div>
+              <div class="ac-body"><pre id="arc_check">(no run yet)</pre></div>
+            </div>
+          </div>
+          <pre id="arc" style="display:none">(no run yet)</pre>
+        </div>
       </div>
     </div>
   </div>
 
 <script>
-// Formatting helpers (match reference style)
+// Formatting helpers
 const EN_DASH = "–";
 function sfix(n, dec){
   if(!Number.isFinite(n)) return "NaN";
@@ -120,11 +153,11 @@ function loadDemo(){
 }
 
 function run(){
-  const T = []; const A = [];
+  const T=[]; const A=[]; const R=[]; const C=[];
   const I = parseInputs();
   if(Object.values(I).some(v => !Number.isFinite(v))){
     document.getElementById("trace").textContent = "Please enter all 8 numbers (or click Demo & Run).";
-    document.getElementById("arc").textContent = "(no run)";
+    ['arc','arc_ans','arc_reason','arc_check'].forEach(id => document.getElementById(id).textContent="(no run)");
     return;
   }
 
@@ -210,41 +243,59 @@ function run(){
   T.push(`Step 29 dCm = d53 – d64 = ${d53.toFixed(4)} – ${d64.toFixed(4)} = ${s4(dCm)} cm`);
   T.push(`Step 30 LLDAlarm = |dCm| > 1.25 ? = |${s4(dCm)}| > 1.25 → ${alarm ? "True" : "False"} = ${(alarm ? 1.0 : 0.0).toFixed(6)}`);
 
-  // ARC (Answer / Reason why / Check)
-  A.push("Answer");
-  A.push("======");
+  // ARC
   A.push(`LLDAlarm = |dCm| > 1.25 ? = |${s4(dCm)}| > 1.25 → ${alarm ? "True" : "False"} = ${(alarm ? 1.0 : 0.0).toFixed(6)}`);
-  A.push("");
-  A.push("Reason why");
-  A.push("==========");
-  A.push("We construct pelvic line L1 through (p1,p2) and a perpendicular direction for femoral lines (through p3 and p4).");
-  A.push("Project p3 and p4 orthogonally on L1 to get p5 and p6. d53=‖p5−p3‖, d64=‖p6−p4‖, and dCm=d53−d64.");
-  A.push("Alarm iff |dCm| > 1.25 (strict).");
-  A.push("");
-  A.push("Check (harness)");
-  A.push("===============");
+  R.push("We construct pelvic line L1 through (p1,p2) and a perpendicular direction for femoral lines (through p3 and p4).");
+  R.push("Project p3 and p4 orthogonally onto L1 to get p5 and p6. d53=‖p5−p3‖, d64=‖p6−p4‖, and dCm=d53−d64.");
+  R.push("Alarm iff |dCm| > 1.25 (strict).");
+
+  // Harness
   const decide = v => Math.abs(v) > 1.25;
   const b_ok = (decide(+1.25) === false) && (decide(-1.25) === false);
   const s_ok = (decide(+1.9234) === decide(-1.9234));
   const m_ok = (decide(0.50) === false) && (decide(2.00) === true);
-  A.push(`Boundary strictness at ±1.25 cm? ${b_ok}`);
-  A.push(`Symmetry alarm(+x) == alarm(-x)? ${s_ok}`);
-  A.push(`Monotonicity example (0.50→False, 2.00→True)? ${m_ok}`);
   const ok_all = b_ok && s_ok && m_ok;
-  A.push("");
-  A.push(`All checks passed? ${ok_all}`);
+  C.push(`Boundary strictness at ±1.25 cm? ${b_ok}`);
+  C.push(`Symmetry alarm(+x) == alarm(-x)? ${s_ok}`);
+  C.push(`Monotonicity example (0.50→False, 2.00→True)? ${m_ok}`);
+  C.push(`All checks passed? ${ok_all}`);
 
-  document.getElementById("trace").textContent = T.join("\n");
-  document.getElementById("arc").textContent = A.join("\n");
+  // Populate
+  document.getElementById("trace").textContent = T.join("\\n");
+  document.getElementById("arc_ans").textContent = A.join("\\n");
+  document.getElementById("arc_reason").textContent = R.join("\\n");
+  document.getElementById("arc_check").textContent = C.join("\\n");
+
+  const combined = ["Answer","------", ...A, "", "Reason why","----------", ...R, "", "Check (harness)","---------------", ...C].join("\\n");
+  document.getElementById("arc").textContent = combined;
 }
 
 function copyBoth(){
-  const text = document.getElementById('trace').textContent + "\n\n" + document.getElementById('arc').textContent;
+  const text = document.getElementById('trace').textContent + "\\n\\n" + document.getElementById('arc').textContent;
   navigator.clipboard.writeText(text);
 }
 function downloadText(name, text){
   const blob=new Blob([text],{type:'text/plain'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove();
+}
+function toggleArcStyle(){
+  const pre = document.getElementById('arc');
+  const cards = document.getElementById('arc-cards');
+  const btn = document.getElementById('styleBtn');
+  const showingCards = cards.style.display !== 'none';
+  if(showingCards){
+    cards.style.display = 'none';
+    pre.style.display = 'block';
+    btn.textContent = 'Style: Plain';
+  }else{
+    cards.style.display = 'block';
+    pre.style.display = 'none';
+    btn.textContent = 'Style: Cards';
+  }
+}
+function downloadARC(){
+  const text = document.getElementById('arc').textContent;
+  downloadText('lldm_arc.txt', text);
 }
 
 // bootstrap
