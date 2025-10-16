@@ -21,5 +21,6 @@ See also
 - https://eyereasoner.github.io/eye/librath/cases/temp/lee.html
 - https://eyereasoner.github.io/eye/librath/cases/temp/library_and_path.html
 - https://eyereasoner.github.io/eye/librath/cases/temp/math_what_why.html
+- https://eyereasoner.github.io/eye/librath/cases/temp/polynomial.html
 - https://eyereasoner.github.io/eye/librath/cases/temp/sudoku.html
 
