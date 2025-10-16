@@ -20,4 +20,5 @@ See also
 - https://eyereasoner.github.io/eye/librath/cases/temp/gps_clinical_bench_1000.html
 - https://eyereasoner.github.io/eye/librath/cases/temp/grass_molecular.html
 - https://eyereasoner.github.io/eye/librath/cases/temp/library_and_path.html
+- https://eyereasoner.github.io/eye/librath/cases/temp/sudoku.html
 
