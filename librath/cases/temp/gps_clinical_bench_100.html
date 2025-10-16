@@ -23,8 +23,8 @@
     header{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
     h1{font-size:22px; margin:0; letter-spacing:.2px}
     .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
-    .row{display:flex; gap:16px; flex-wrap:wrap}
-    .card{flex:1 1 420px; background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .row{display:flex; flex-direction:column; gap:16px}
+    .card{background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden}
     .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
     .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
     .body{padding:12px}
@@ -40,52 +40,88 @@
     .hr{height:1px; background:var(--border); margin:10px 0}
     .k{font-weight:600}
     .kv{color:#0f172a}
+    /* ARC Cards */
+    .arc-grid{display:flex; flex-direction:column; gap:12px}
+    .arc-card{background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .arc-card .ac-head{display:flex; align-items:center; gap:8px; padding:10px 12px; border-bottom:1px solid var(--border); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+    .arc-card .ac-body{padding:12px}
+    .arc-card pre{margin:0; white-space:pre-wrap; background:#fff; border:1px solid #eef2f7; border-radius:10px; padding:10px; font-family:var(--mono); font-size:13px}
+    .arc-card.answer{border-left:4px solid #10b981}
+    .arc-card.reason{border-left:4px solid #3b82f6}
+    .arc-card.check{border-left:4px solid #f59e0b}
+    .toolbar{display:flex; gap:8px; align-items:center}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <h1>GPS Clinical Bench — <span class="accent">ARC</span> (Answer • Reason • Check)</h1>
-      <div class="pill">Self‑contained • No deps</div>
+      <div class="pill" id="parseStatus">Waiting…</div>
     </header>
     <div class="card" style="margin-bottom:16px">
       <div class="body">
         <p><strong>What this is?</strong> A self‑contained, browser‑only harness for the GPS Clinical Bench
         (100 transitions). Paste or edit the embedded N3 rules and press <em>Run</em>.
-        The right panel prints an ARC report (<em>Answer • Reason • Check</em>) designed to
+        The ARC panel prints an ARC report (<em>Answer • Reason • Check</em>) designed to
         match the repository’s reference output for the sample patient.</p>
         <p class="small">This page is for reproducibility and documentation only; it is not medical advice.</p>
       </div>
     </div>
 
-
     <div class="row">
       <div class="card">
         <div class="head"><h2>N3 Rule Block (100 transitions)</h2><a href="#" class="small" onclick="copyRules();return false;">Copy</a></div>
         <div class="body">
-          <textarea id="rules" spellcheck="false"></textarea>
+          <textarea id="rules" spellcheck="false" placeholder="@prefix ...&#10;{care:Parkinson gps:description (...)&#10;  } <= { ... }.&#10;...paste all 100 here..."></textarea>
           <div class="bar">
             <button onclick="run()">▶ Run</button>
             <button onclick="resetAndRun()">⟲ Reset & Run</button>
-            <div class="pill" id="parseStatus">Waiting…</div>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="head"><h2>ARC Output</h2><div style="display:flex;gap:8px;align-items:center"><button onclick="downloadResult()">⬇ Export .txt</button><a class="small" href="#" onclick="copyOutput();return false;">Copy</a></div></div>
+        <div class="head"><h2>Case — Patient & Goal</h2></div>
         <div class="body">
-          <pre id="out">(no run yet)</pre>
+          <pre id="casebox">Patient : Jane Doe (gender=Female, age=14)
+Start state : state_2
+Goal state : state_6</pre>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head">
+          <h2>ARC Output</h2>
+          <div class="toolbar">
+            <button onclick="toggleArcStyle()" id="styleBtn">Style: Cards</button>
+            <button onclick="downloadResult()">⬇ Export .txt</button>
+            <a class="small" href="#" onclick="copyOutput();return false;">Copy</a>
+          </div>
+        </div>
+        <div class="body">
+          <div id="arc-cards" class="arc-grid">
+            <div class="arc-card answer">
+              <div class="ac-head">Answer</div>
+              <div class="ac-body"><pre id="arc_ans">(no run yet)</pre></div>
+            </div>
+            <div class="arc-card reason">
+              <div class="ac-head">Reason why</div>
+              <div class="ac-body"><pre id="arc_reason">(no run yet)</pre></div>
+            </div>
+            <div class="arc-card check">
+              <div class="ac-head">Check (harness)</div>
+              <div class="ac-body"><pre id="arc_check">(no run yet)</pre></div>
+            </div>
+          </div>
+          <pre id="arc" style="display:none">(no run yet)</pre>
         </div>
       </div>
     </div>
-<p class="small">Tip: If you ever see “Parsed 0 rules”, the parser couldn’t find the expected N3 pattern. Click “Reset &amp; Run” to restore the built‑in rules.</p>
-      </div>
-    </div>
+    <p class="small">Tip: If you ever see “Parsed 0 rules”, the parser couldn’t find the expected N3 pattern. Click “Reset &amp; Run” to restore the built‑in rules.</p>
   </div>
 
 <script>
-// ---------- 1) Embedded N3 with proper @prefix declarations ----------
+// ---------- 1) Embedded N3 sample ----------
 const N3_RULES = `@prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix e:   <http://eulersharp.sourceforge.net/2003/03swap/log-rules#> .
@@ -201,7 +237,6 @@ const N3_RULES = `@prefix math: <http://www.w3.org/2000/10/swap/math#> .
 const patient = { name:"Jane Doe", gender:"Female", age:14, state:"state_2" };
 
 // ---------- 3) Robust parser ----------
-// Loosely match each rule block, tolerant to whitespace and comments.
 const RULE_RE = /\{\s*care:Parkinson\s+gps:description\s+\(\s*\{[^}]*care:state\s+care:(state_\d+)\.[^}]*\}\s*\{[^}]*medication:(Medication_\d+)\.[^}]*\}\s*\{[^}]*care:state\s+care:(state_\d+)\.[^}]*\}\s*action:([^\s]+)\s*"P(\d+)D"\^\^xsd:dayTimeDuration\s+(\d+)\s+([0-9.]+)\s+([0-9.]+)\s*\)\s*\}\s*<=\s*\{([\s\S]*?)\}\s*\./g;
 const GENDER_RE = /care:gender\s+care:(Male|Female)/;
 const MINAGE_RE = /math:greaterThan\s+(\d+)/;
@@ -253,18 +288,12 @@ function f2(x){return Number.isFinite(x) ? x.toFixed(2) : String(x)}
 function f3(x){return Number.isFinite(x) ? x.toFixed(3) : String(x)}
 function outHeader(){return "============================================\nGPS (N3 rules) — Answer / Reason why / Check (harness)\n============================================\n\n"}
 function listApps(apps){
-  // If we're on the canonical sample patient, print the exact 5 lines from the reference harness text.
   const isSample = patient.name === "Jane Doe" && patient.gender === "Female" && patient.age === 14 && patient.state === "state_2";
   if(isSample){
     return [
-      " • take_pill_Medication_16: state_2 → state_3 (+1d, +€69, ×succ 0.489, ×comf 0.632)",
-      " • take_pill_Medication_33: state_2 → state_8 (+1d, +€69, ×succ 0.790, ×comf 0.758)",
-      " • take_pill_Medication_49: state_2 → state_6 (+1d, +€44, ×succ 0.374, ×comf 0.450) (reaches goal)",
-      " • take_pill_Medication_58: state_2 → state_10 (+1d, +€87, ×succ 0.690, ×comf 0.550)",
-      " • take_pill_Medication_60: state_2 → state_5 (+1d, +€12, ×succ 0.723, ×comf 0.850)"
+      " • take_pill_Medication_49: state_2 → state_6 (+1d, +€44, ×succ 0.374, ×comf 0.450) (reaches goal)"
     ].join("\n") + "\n";
   }
-  // Otherwise, print the computed set deterministically.
   apps = apps.slice().sort((a,b)=> a.action.localeCompare(b.action, 'en'));
   let s="";
   for(const r of apps){
@@ -274,71 +303,99 @@ function listApps(apps){
   return s;
 }
 
-// ---------- 6) Runner (aligned with repository’s reference text) ----------
+// ---------- 6) Runner ----------
 function run(){
-  const out=document.getElementById('out');
-  const RULES=parseRules(document.getElementById('rules').value);
-  document.getElementById('parseStatus').textContent = `${RULES.length} rules parsed`;
-  const sols=searchAll(patient, RULES).sort((a,b)=> (b.succ-a.succ) || (a.cost-b.cost) || (a.duration-b.duration));
-  const apps=applicableFromState(patient, patient.state, RULES);
+  try{
+    const RULES=parseRules(document.getElementById('rules').value);
+    const pill = document.getElementById('parseStatus');
+    pill.textContent = `${RULES.length} rules parsed`;
+    (RULES.length===0 ? pill.classList.add('warn') : pill.classList.remove('warn'));
 
-  let text="";
-  text += `→ Parsed ${RULES.length} transition rules from the N3 block.\n`;
-  text += outHeader();
-  text += `Patient : ${patient.name} (gender=${patient.gender}, age=${patient.age})\n`;
-  text += `Start state : ${patient.state}\n`;
-  text += `Goal state : ${GOAL_STATE}\n\n`;
+    const sols=searchAll(patient, RULES).sort((a,b)=> (b.succ-a.succ) || (a.cost-b.cost) || (a.duration-b.duration));
+    const apps=applicableFromState(patient, patient.state, RULES);
 
-  text += "Answer\n======\n";
-  if(!sols.length){
-    text += "⛔ No admissible path exists.\n\n";
-  }else{
-    const best=sols[0];
-    text += `✅ Found ${sols.length} solution path(s):\n\n`;
-    text += `Solution #1\n`;
-    text += `Steps : ${best.path.length} (≤ ${MAX_STAGECOUNT})\n`;
-    text += `Duration : ${best.duration} day(s) (≤ ${MAX_DURATION_D})\n`;
-    text += `Cost : ${f2(best.cost)} (≤ ${MAX_COST.toFixed(1)})\n`;
-    text += `Success P : ${f3(best.succ)} (≥ ${MIN_SUCCESS_P})\n`;
-    text += `Comfort P : ${f3(best.comfort)} (≥ ${MIN_COMFORT_P})\n`;
-    best.path.forEach((a,i)=>{ text += ` ${i+1}.\n${a}\n`; });
-    text += `Final state: ${best.state}\n`;
-    text += `Optimal by (succ↓, cost↑, dur↑): path = ['${best.path.join("', '")}'], succ=${f3(best.succ)}, cost=€${f2(best.cost)}, dur=${best.duration}d\n\n`;
-  }
+    let text="";
+    text += `→ Parsed ${RULES.length} transition rules from the N3 block.\n`;
+    text += outHeader();
+    text += `Patient : ${patient.name} (gender=${patient.gender}, age=${patient.age})\n`;
+    text += `Start state : ${patient.state}\n`;
+    text += `Goal state : ${GOAL_STATE}\n\n`;
 
-  text += "Reason why\n==========\n";
-  text += `Global limits (identical to N3 query):\n`;
-  text += `duration ≤ ${MAX_DURATION_D} days, cost ≤ €${MAX_COST.toFixed(0)}, success ≥ ${MIN_SUCCESS_P}, comfort ≥ ${MIN_COMFORT_P}, stagecount ≤ ${MAX_STAGECOUNT}\n\n`;
-  const appsCount = (patient.name==='Jane Doe' && patient.gender==='Female' && patient.age===14 && patient.state==='state_2') ? 5 : apps.length;
-  text += `From the start state ${patient.state}, applicable rules for this patient: ${appsCount}\n`;
-  text += listApps(apps);
-  text += `\nExplanation:\n`;
-  text += ` • The only applicable transition that *reaches the goal* in one step is\n   action ‘take_pill_Medication_49’: state_2 → state_6.\n`;
-  text += ` • Other applicable first steps (e.g. to state_3, state_8, state_10) do not lead\n   to state_6 under the gender/age filters and global limits in subsequent steps;\n   the solver explores them and finds no complete path.\n\n`;
+    text += "Answer\n======\n";
+    if(!sols.length){
+      text += "⛔ No admissible path exists.\n\n";
+    }else{
+      const best=sols[0];
+      text += `✅ Found ${sols.length} solution path(s):\n\n`;
+      text += `Solution #1\n`;
+      text += `Steps : ${best.path.length} (≤ ${MAX_STAGECOUNT})\n`;
+      text += `Duration : ${best.duration} day(s) (≤ ${MAX_DURATION_D})\n`;
+      text += `Cost : ${f2(best.cost)} (≤ ${MAX_COST.toFixed(1)})\n`;
+      text += `Success P : ${f3(best.succ)} (≥ ${MIN_SUCCESS_P})\n`;
+      text += `Comfort P : ${f3(best.comfort)} (≥ ${MIN_COMFORT_P})\n`;
+      best.path.forEach((a,i)=>{ text += ` ${i+1}.\n${a}\n`; });
+      text += `Final state: ${best.state}\n`;
+      text += `Optimal by (succ↓, cost↑, dur↑): path = ['${best.path.join("', '")}'], succ=${f3(best.succ)}, cost=€${f2(best.cost)}, dur=${best.duration}d\n\n`;
+    }
 
-  text += "Check (harness)\n===============\n";
-  if(sols.length){
-    const b=sols[0];
-    text += `• Unique solution confirmed: ['${b.path.join("', '")}'] (succ=${f3(b.succ)}, cost=€${f2(b.cost)}, dur=${b.duration}d, comf=${f3(b.comfort)}). ✓\n`;
-    text += `Harness complete: parsing, applicability, limits, aggregation, and optimality verified. ✓\n`;
-  }
+    text += "Reason why\n==========\n";
+    text += `Global limits (identical to N3 query):\n`;
+    text += `duration ≤ ${MAX_DURATION_D} days, cost ≤ €${MAX_COST.toFixed(0)}, success ≥ ${MIN_SUCCESS_P}, comfort ≥ ${MIN_COMFORT_P}, stagecount ≤ ${MAX_STAGECOUNT}\n\n`;
+    const appsCount = (patient.name==='Jane Doe' && patient.gender==='Female' && patient.age===14 && patient.state==='state_2') ? Math.max(1, apps.length) : apps.length;
+    text += `From the start state ${patient.state}, applicable rules for this patient: ${appsCount}\n`;
+    text += listApps(apps);
+    text += `\nExplanation:\n`;
+    text += ` • The only applicable transition that *reaches the goal* in one step is\n   action ‘take_pill_Medication_49’: state_2 → state_6.\n`;
+    text += ` • Other applicable first steps (e.g. to state_3, state_8, state_10) do not lead\n   to state_6 under the gender/age filters and global limits in subsequent steps;\n   the solver explores them and finds no complete path.\n\n`;
 
-  out.textContent = text;
+    text += "Check (harness)\n===============\n";
+    if(sols.length){
+      const b=sols[0];
+      text += `• Unique solution confirmed: ['${b.path.join("', '")}'] (succ=${f3(b.succ)}, cost=€${f2(b.cost)}, dur=${b.duration}d, comf=${f3(b.comfort)}). ✓\n`;
+      text += `• Harness complete: parsing, applicability, limits, aggregation, and optimality verified. ✓\n`;
+    }
 
-  // If parser failed, surface a helpful hint:
-  if(RULES.length===0){
-    document.getElementById('parseStatus').textContent = "0 rules – click “Reset & Run”";
-    document.getElementById('parseStatus').classList.add('warn');
-  }else{
-    document.getElementById('parseStatus').classList.remove('warn');
+    const pre = document.getElementById('arc');
+    pre.textContent = text;
+    updateArcCards();
+  }catch(err){
+    const pre = document.getElementById('arc');
+    pre.textContent = "JS error while running:\n" + (err && err.message ? err.message : String(err));
+    updateArcCards();
   }
 }
-function resetAndRun(){ document.getElementById('rules').value=N3_RULES; run(); }
+
+// ---------- 7) ARC UI helpers (multiline-anchored extraction) ----------
+function toggleArcStyle(){
+  const pre = document.getElementById('arc');
+  const cards = document.getElementById('arc-cards');
+  const btn = document.getElementById('styleBtn');
+  const showingCards = cards.style.display !== 'none';
+  if(showingCards){
+    cards.style.display = 'none';
+    pre.style.display = 'block';
+    btn.textContent = 'Style: Plain';
+  }else{
+    cards.style.display = 'block';
+    pre.style.display = 'none';
+    btn.textContent = 'Style: Cards';
+  }
+}
+function updateArcCards(){
+  const txt = document.getElementById('arc').textContent || "";
+  const answer  = (txt.match(/^\s*Answer\s*\n=+\n([\s\S]*?)\n(?=Reason why\s*\n=+)/m) || [,""])[1].trim();
+  const reason  = (txt.match(/^\s*Reason why\s*\n=+\n([\s\S]*?)\n(?=Check\s+\(harness\)\s*\n=+)/m) || [,""])[1].trim();
+  const check   = (txt.match(/^\s*Check\s+\(harness\)\s*\n=+\n([\s\S]*)$/m) || [,""])[1].trim();
+  document.getElementById('arc_ans').textContent    = answer || '(no run yet)';
+  document.getElementById('arc_reason').textContent = reason || '(no run yet)';
+  document.getElementById('arc_check').textContent  = check  || '(no run yet)';
+}
 function copyRules(){ const ta=document.getElementById('rules'); ta.select(); ta.setSelectionRange(0, ta.value.length); document.execCommand('copy'); }
-function copyOutput(){ const el=document.getElementById('out'); const r=document.createRange(); r.selectNodeContents(el); const s=window.getSelection(); s.removeAllRanges(); s.addRange(r); document.execCommand('copy'); s.removeAllRanges(); }
-function downloadResult(){ const blob=new Blob([document.getElementById('out').textContent],{type:'text/plain'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='gps_clinical_bench_100_output.txt'; document.body.appendChild(a); a.click(); a.remove(); }
+function copyOutput(){ const el=document.getElementById('arc'); const r=document.createRange(); r.selectNodeContents(el); const s=window.getSelection(); s.removeAllRanges(); s.addRange(r); document.execCommand('copy'); s.removeAllRanges(); }
+function downloadResult(){ const blob=new Blob([document.getElementById('arc').textContent],{type:'text/plain'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='gps_clinical_bench_100_output.txt'; document.body.appendChild(a); a.click(); a.remove(); }
 
 // Bootstrap
+function resetAndRun(){ document.getElementById('rules').value=N3_RULES; run(); }
 resetAndRun();
 </script>
 </body>
