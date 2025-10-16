@@ -11,6 +11,7 @@ See also
 - [A₂ (Ackermann via hyper-operations) — ARC](https://eyereasoner.github.io/eye/librath/cases/temp/ackermann.html)
 - [AuroraCare](https://eyereasoner.github.io/eye/librath/cases/temp/auroracare.html)
 - [Collatz (3n+1) — ARC](https://eyereasoner.github.io/eye/librath/cases/temp/collatz.html)
+- [Control System — ARC (Answer • Reason • Check)](https://eyereasoner.github.io/eye/librath/cases/temp/control_system.html)
 - [Complex identities — explanatory proofs](https://eyereasoner.github.io/eye/librath/cases/temp/complex.html)
 - [Easter (Computus) — ARC](https://eyereasoner.github.io/eye/librath/cases/temp/easter.html)
 - [Fibonacci via Fast Doubling — ARC](https://eyereasoner.github.io/eye/librath/cases/temp/fibonacci.html)

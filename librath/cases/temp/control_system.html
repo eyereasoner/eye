@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Control System — ARC style (self‑contained)</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#111827;
+      --muted:#6b7280;
+      --panel:#f8fafc;
+      --border:#e5e7eb;
+      --accent:#0ea5e9;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    html,body{height:100%}
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 var(--ui); }
+    .wrap{max-width:980px; margin:36px auto; padding:0 16px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
+    h1{font-size:22px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .row{display:flex; gap:16px; flex-wrap:wrap}
+    .card{flex:1 1 420px; background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px}
+    button{all:unset; background:#fff; border:1px solid var(--border); padding:8px 12px; border-radius:10px; cursor:pointer}
+    button:hover{border-color:#cbd5e1}
+    .small{color:var(--muted); text-decoration:none}
+    .accent{color:var(--accent)}
+    .facts{font-family:var(--mono); font-size:12px; background:#fff; border:1px dashed var(--border); border-radius:10px; padding:10px; white-space:pre-wrap}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Control System — <span class="accent">ARC</span> (Answer • Reason • Check)</h1>
+      <div class="pill">Self‑contained • No deps</div>
+    </header>
+
+    
+    <div class="card" style="margin-bottom:16px">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained, browser‑only <em>ARC harness</em> for a toy closed‑loop control system.
+        It embeds a small set of measurable facts and computes two actuator commands with simple control laws.
+        Everything runs on this page—no network and no external libraries.</p>
+        <p><strong>How to use it:</strong> Review the embedded facts, press <em>Run</em> to generate the analysis, and optionally export
+        the ARC report. The output is organized as <em>Answer</em> (final values), <em>Reason why</em> (step‑by‑step calculations),
+        and <em>Check</em> (a small harness that re‑derives the results and verifies identities).</p>
+        <p class="small">This page is provided for reproducibility and documentation; it is not guidance for real‑world control design.</p>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="card">
+        <div class="head"><h2>Facts (embedded)</h2><a href="#" class="small" onclick="copyFacts();return false;">Copy facts</a></div>
+        <div class="body">
+          <div id="facts" class="facts"></div>
+          <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap">
+            <button onclick="run()">▶ Run</button>
+            <a href="#" class="small" onclick="copyARC();return false;">Copy ARC</a>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="head"><h2>ARC Output</h2><button onclick="downloadText('control_system_arc.txt', document.getElementById('arc').textContent)">⬇ Export .txt</button></div>
+        <div class="body"><pre id="arc">(no run yet)</pre></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ---------------- Facts (mirroring control_system.py) ----------------
+const measurement1 = {
+  "input1": [6, 11],
+  "disturbance2": [45, 39],
+};
+const measurement2 = { "input2": true };
+const measurement3 = { "disturbance1": 35766 };
+const measurement4 = { "output2": 24 };
+const observation1 = { "state1": 80 };
+const observation2 = { "state2": false };
+const observation3 = { "state3": 22 };
+const target2 = { "output2": 29 };
+
+function measurement10(I){
+  // PND feedback control
+  const [M1, M2] = measurement1[I];
+  if (M1 < M2){
+    const M3 = M2 - M1;
+    return Math.sqrt(M3);
+  } else {
+    return M1;
+  }
+}
+
+// ---------------- Control rules ----------------
+function control1_actuator1(){
+  // control1(actuator1, C) :-
+  // measurement10(input1, M1), measurement2(input2, true),
+  // measurement3(disturbance1, D1),
+  // C1 is M1*19.6, % proportional part
+  // C2 is log(D1)/log(10), % compensation part
+  // C is C1 - C2. % simple feedforward control
+  const steps = [];
+  const M1 = measurement10("input1");
+  if (measurement2["input2"] !== true) throw new Error("input2 must be true");
+  const D1 = Number(measurement3["disturbance1"]);
+  const C1 = M1 * 19.6;
+  const C2 = Math.log(D1) / Math.log(10.0); // ≡ Math.log10(D1)
+  const C = C1 - C2;
+
+  steps.push(`M1 = measurement10(input1) = sqrt(11-6) = ${M1.toFixed(12)} (PND feedback control)`);
+  steps.push(`C1 = M1 * 19.6 = ${C1.toFixed(12)} % proportional part`);
+  steps.push(`C2 = log(D1)/log(10) = log(35766)/log(10) = ${C2.toFixed(12)} % compensation part`);
+  steps.push(`C = C1 - C2 = ${C.toFixed(12)} % simple feedforward control`);
+
+  return { actuator: "actuator1", C, steps };
+}
+
+function control1_actuator2(){
+  // control1(actuator2, C) :-
+  // observation3(state3, P3), measurement4(output2, M4), target2(output2, T2),
+  // E is T2 - M4, % error
+  // D is P3 - M4, % differential error
+  // C1 is 5.8*E, % proportional part
+  // N is 7.3/E, % nonlinear factor
+  // C2 is N*D, % nonlinear differential part
+  // C is C1 + C2.
+  const steps = [];
+  const P3 = Number(observation3["state3"]);
+  const M4 = Number(measurement4["output2"]);
+  const T2 = Number(target2["output2"]);
+  const E = T2 - M4;
+  const D = P3 - M4;
+  const C1 = 5.8 * E;
+  const N = 7.3 / E;
+  const C2 = N * D;
+  const C = C1 + C2;
+
+  steps.push(`E = T2 - M4 = ${T2.toFixed(0)} - ${M4.toFixed(0)} = ${E.toFixed(12)} % error`);
+  steps.push(`D = P3 - M4 = ${P3.toFixed(0)} - ${M4.toFixed(0)} = ${D.toFixed(12)} % differential error`);
+  steps.push(`C1 = 5.8 * E = 5.8*${E.toFixed(0)} = ${C1.toFixed(12)} % proportional part`);
+  steps.push(`N = 7.3 / E = 7.3/${E.toFixed(0)} = ${N.toFixed(12)} % nonlinear factor`);
+  steps.push(`C2 = N * D = ${N.toFixed(12)}*${D.toFixed(0)} = ${C2.toFixed(12)} % nonlinear differential part`);
+  steps.push(`C = C1 + C2 = ${C1.toFixed(12)} + ${C2.toFixed(12)} = ${C.toFixed(12)}`);
+
+  return { actuator: "actuator2", C, steps };
+}
+
+function control1_all(){ return [control1_actuator1(), control1_actuator2()]; }
+
+// ---------------- ARC printing ----------------
+function run(){
+  const sols = control1_all();
+
+  // Answer
+  const lines = [];
+  lines.push("Answer");
+  lines.push("------");
+  for(const s of sols){
+    lines.push(`control1(${s.actuator}, C) → C = ${s.C.toFixed(12)}`);
+  }
+  lines.push("");
+
+  // Reason why
+  lines.push("Reason why");
+  lines.push("----------");
+  for(const s of sols){
+    lines.push(`[${s.actuator}]`);
+    for(const line of s.steps) lines.push(" " + line);
+    lines.push("");
+  }
+
+  // Check (harness)
+  lines.push("Check (harness)");
+  lines.push("---------------");
+  try{
+    check_harness(sols);
+    lines.push("OK: derivations match the rules; identities and PND logic verified.");
+  }catch(e){
+    lines.push("FAILED: " + e.message);
+  }
+
+  document.getElementById("arc").textContent = lines.join("\n");
+}
+
+// ---------------- Harness ----------------
+function check_harness(solutions){
+  const eps = 1e-12;
+  // PND feedback control checks
+  if(Math.abs(measurement10("input1") - Math.sqrt(11-6)) >= eps) throw new Error("measurement10('input1') mismatch");
+  if(Math.abs(measurement10("disturbance2") - 45.0) >= eps) throw new Error("measurement10('disturbance2') mismatch");
+  // log identity
+  const D1 = Number(measurement3["disturbance1"]);
+  if(Math.abs((Math.log(D1)/Math.log(10.0)) - Math.log10(D1)) >= eps) throw new Error("log identity mismatch");
+  // recompute C values
+  const recomputed = {};
+  recomputed["actuator1"] = (measurement10("input1") * 19.6) - (Math.log(D1)/Math.log(10.0));
+  const E = target2["output2"] - measurement4["output2"]; // 29-24 = 5
+  const D = observation3["state3"] - measurement4["output2"]; // 22-24 = -2
+  recomputed["actuator2"] = (5.8 * E) + ((7.3 / E) * D);
+  for(const s of solutions){
+    if(Math.abs(s.C - recomputed[s.actuator]) >= eps) throw new Error(`Mismatch for ${s.actuator}`);
+  }
+}
+
+// ---------------- Pretty facts ----------------
+function showFacts(){
+  const obj = {
+    measurement1, measurement2, measurement3, measurement4,
+    observation1, observation2, observation3, target2
+  };
+  document.getElementById("facts").textContent = JSON.stringify(obj, null, 2);
+}
+
+// Utilities
+function downloadText(name, text){
+  const blob=new Blob([text],{type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove();
+}
+function copyARC(){
+  navigator.clipboard.writeText(document.getElementById('arc').textContent);
+}
+function copyFacts(){
+  navigator.clipboard.writeText(document.getElementById('facts').textContent);
+}
+
+// bootstrap
+showFacts();
+run();
+</script>
+</body>
+</html>
