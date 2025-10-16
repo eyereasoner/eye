@@ -10,6 +10,7 @@ Run the [librath cases](cases) to get the [answer, reason why and check (harness
 See also
 - [A₂ (Ackermann via hyper-operations) — ARC](https://eyereasoner.github.io/eye/librath/cases/temp/ackermann.html)
 - [AuroraCare](https://eyereasoner.github.io/eye/librath/cases/temp/auroracare.html)
+- [BMI — ARC (Answer • Reason • Check)](https://eyereasoner.github.io/eye/librath/cases/temp/bmi.html)
 - [Collatz (3n+1) — ARC](https://eyereasoner.github.io/eye/librath/cases/temp/collatz.html)
 - [Control System — ARC (Answer • Reason • Check)](https://eyereasoner.github.io/eye/librath/cases/temp/control_system.html)
 - [Complex identities — explanatory proofs](https://eyereasoner.github.io/eye/librath/cases/temp/complex.html)
