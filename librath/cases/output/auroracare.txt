@@ -1,5 +1,5 @@
-========================================================================================
-Scenario A_primary_care
+
+=== A_primary === [✓]
 {
   "Answer": "PERMIT",
   "Reason why": "Permitted: clinician in the patient's care team, and the primary-care policy matched.",
@@ -14,22 +14,13 @@ Scenario A_primary_care
     "C8_duties_present": "SKIPPED - no matched policy or no duties",
     "C9_environment_scope": "SKIPPED - policy has no environment constraint",
     "C10_policy_uid": "INFO - matched policy: urn:policy:primary-care-001"
-  },
-  "Trace": [
-    "ok:role=CLINICIAN",
-    "ok:careteam_link",
-    "urn:policy:primary-care-001:constraint_ok:dpv:hasPurpose:isAnyOf:lhs=\"https://w3id.org/dpv/sector/health#PrimaryCareManagement\",rightOperand=[\"https://w3id.org/dpv/sector/health#PrimaryCareManagement\", \"https://w3id.org/dpv/sector/health#PatientRemoteMonitoring\"]",
-    "urn:policy:primary-care-001:constraint_ok:dpv:hasRole:eq:lhs=\"https://example.org/health#Clinician\",rightOperand=\"https://example.org/health#Clinician\"",
-    "urn:policy:primary-care-001:constraint_ok:dpv:hasPersonalDataCategory:isAnyOf:lhs=[\"https://example.org/health#PATIENT_SUMMARY\"],rightOperand=[\"https://example.org/health#PATIENT_SUMMARY\", \"https://example.org/health#LAB_RESULTS\"]",
-    "urn:policy:primary-care-001:permit:odrl:permission_matched",
-    "permit:primary_care_allowed"
-  ]
+  }
 }
-========================================================================================
-Scenario B_qi_in_scope
+
+=== B_qi_in_scope === [✓]
 {
   "Answer": "PERMIT",
-  "Reason why": "Permitted: an ODRL/DPV policy matched for this secondary use.",
+  "Reason why": "Permitted: ODRL/DPV policy matched for secondary use.",
   "Check": {
     "C1_prohibited_denied": "SKIPPED - not a prohibited purpose",
     "C2_primary_role": "SKIPPED",
@@ -38,21 +29,13 @@ Scenario B_qi_in_scope
     "C5_category_scope": "OK - operator=isAllOf, allowed=[\"https://example.org/health#LAB_RESULTS\", \"https://example.org/health#PATIENT_SUMMARY\"], requested=[\"https://example.org/health#LAB_RESULTS\", \"https://example.org/health#PATIENT_SUMMARY\"]",
     "C6_prohibition_blocks": "SKIPPED - no prohibition matched",
     "C7_trace_consistency": "OK - trace shows matching permission",
-    "C8_duties_present": "INFO - duties attached: duty:ehds:requireConsent, duty:ehds:noExfiltration",
+    "C8_duties_present": "INFO - duties attached: duty:https://w3id.org/dpv/legal/eu/ehds#requireConsent, duty:https://w3id.org/dpv/legal/eu/ehds#noExfiltration",
     "C9_environment_scope": "OK - operator=eq, allowed=\"secure_env\", requested=\"secure_env\"",
     "C10_policy_uid": "INFO - matched policy: urn:policy:qi-2025-aurora"
-  },
-  "Trace": [
-    "urn:policy:primary-care-001:constraint_failed:dpv:hasPurpose:isAnyOf:lhs=\"https://w3id.org/dpv/legal/eu/ehds#EnsureQualitySafetyHealthcare\",rightOperand=[\"https://w3id.org/dpv/sector/health#PrimaryCareManagement\", \"https://w3id.org/dpv/sector/health#PatientRemoteMonitoring\"]",
-    "urn:policy:primary-care-001:deny:odrl:no_permission_matched",
-    "urn:policy:qi-2025-aurora:constraint_ok:dpv:hasPurpose:eq:lhs=\"https://w3id.org/dpv/legal/eu/ehds#EnsureQualitySafetyHealthcare\",rightOperand=\"https://w3id.org/dpv/legal/eu/ehds#EnsureQualitySafetyHealthcare\"",
-    "urn:policy:qi-2025-aurora:constraint_ok:ac:environment:eq:lhs=\"secure_env\",rightOperand=\"secure_env\"",
-    "urn:policy:qi-2025-aurora:constraint_ok:dpv:hasPersonalDataCategory:isAllOf:lhs=[\"https://example.org/health#LAB_RESULTS\", \"https://example.org/health#PATIENT_SUMMARY\"],rightOperand=[\"https://example.org/health#LAB_RESULTS\", \"https://example.org/health#PATIENT_SUMMARY\"]",
-    "urn:policy:qi-2025-aurora:permit:odrl:permission_matched"
-  ]
+  }
 }
-========================================================================================
-Scenario C_qi_out_of_scope
+
+=== C_qi_out_scope === [✓]
 {
   "Answer": "DENY",
   "Reason why": "Denied: no policy matched (purpose, environment, TOMs, or categories out of scope).",
@@ -67,22 +50,10 @@ Scenario C_qi_out_of_scope
     "C8_duties_present": "SKIPPED - no matched policy or no duties",
     "C9_environment_scope": "SKIPPED",
     "C10_policy_uid": "SKIPPED - no matched policy"
-  },
-  "Trace": [
-    "urn:policy:primary-care-001:constraint_failed:dpv:hasPurpose:isAnyOf:lhs=\"https://w3id.org/dpv/legal/eu/ehds#EnsureQualitySafetyHealthcare\",rightOperand=[\"https://w3id.org/dpv/sector/health#PrimaryCareManagement\", \"https://w3id.org/dpv/sector/health#PatientRemoteMonitoring\"]",
-    "urn:policy:primary-care-001:deny:odrl:no_permission_matched",
-    "urn:policy:qi-2025-aurora:constraint_ok:dpv:hasPurpose:eq:lhs=\"https://w3id.org/dpv/legal/eu/ehds#EnsureQualitySafetyHealthcare\",rightOperand=\"https://w3id.org/dpv/legal/eu/ehds#EnsureQualitySafetyHealthcare\"",
-    "urn:policy:qi-2025-aurora:constraint_ok:ac:environment:eq:lhs=\"secure_env\",rightOperand=\"secure_env\"",
-    "urn:policy:qi-2025-aurora:constraint_failed:dpv:hasPersonalDataCategory:isAllOf:lhs=[\"https://example.org/health#LAB_RESULTS\"],rightOperand=[\"https://example.org/health#LAB_RESULTS\", \"https://example.org/health#PATIENT_SUMMARY\"]",
-    "urn:policy:qi-2025-aurora:deny:odrl:no_permission_matched",
-    "urn:policy:research-aurora-diabetes:constraint_failed:dpv:hasPurpose:eq:lhs=\"https://w3id.org/dpv/legal/eu/ehds#EnsureQualitySafetyHealthcare\",rightOperand=\"https://w3id.org/dpv/legal/eu/ehds#HealthcareScientificResearch\"",
-    "urn:policy:research-aurora-diabetes:deny:odrl:no_permission_matched",
-    "urn:policy:deny-insurance:constraint_failed:dpv:hasPurpose:eq:lhs=\"https://w3id.org/dpv/legal/eu/ehds#EnsureQualitySafetyHealthcare\",rightOperand=\"https://w3id.org/dpv/sector/health#InsuranceManagement\"",
-    "urn:policy:deny-insurance:deny:odrl:no_permission_matched"
-  ]
+  }
 }
-========================================================================================
-Scenario D_insurance
+
+=== D_insurance_prohibited === [✓]
 {
   "Answer": "DENY",
   "Reason why": "Denied: the requested purpose (insurance management) is prohibited by policy.",
@@ -97,13 +68,10 @@ Scenario D_insurance
     "C8_duties_present": "SKIPPED - no matched policy or no duties",
     "C9_environment_scope": "SKIPPED",
     "C10_policy_uid": "SKIPPED - no matched policy"
-  },
-  "Trace": [
-    "deny:prohibited_purpose"
-  ]
+  }
 }
-========================================================================================
-Scenario E_gp_checks_labs
+
+=== E_gp_checks_labs === [✓]
 {
   "Answer": "PERMIT",
   "Reason why": "Permitted: clinician in the patient's care team, and the primary-care policy matched.",
@@ -118,19 +86,10 @@ Scenario E_gp_checks_labs
     "C8_duties_present": "SKIPPED - no matched policy or no duties",
     "C9_environment_scope": "SKIPPED - policy has no environment constraint",
     "C10_policy_uid": "INFO - matched policy: urn:policy:primary-care-001"
-  },
-  "Trace": [
-    "ok:role=CLINICIAN",
-    "ok:careteam_link",
-    "urn:policy:primary-care-001:constraint_ok:dpv:hasPurpose:isAnyOf:lhs=\"https://w3id.org/dpv/sector/health#PrimaryCareManagement\",rightOperand=[\"https://w3id.org/dpv/sector/health#PrimaryCareManagement\", \"https://w3id.org/dpv/sector/health#PatientRemoteMonitoring\"]",
-    "urn:policy:primary-care-001:constraint_ok:dpv:hasRole:eq:lhs=\"https://example.org/health#Clinician\",rightOperand=\"https://example.org/health#Clinician\"",
-    "urn:policy:primary-care-001:constraint_ok:dpv:hasPersonalDataCategory:isAnyOf:lhs=[\"https://example.org/health#LAB_RESULTS\"],rightOperand=[\"https://example.org/health#PATIENT_SUMMARY\", \"https://example.org/health#LAB_RESULTS\"]",
-    "urn:policy:primary-care-001:permit:odrl:permission_matched",
-    "permit:primary_care_allowed"
-  ]
+  }
 }
-========================================================================================
-Scenario F_research_anon
+
+=== F_research_anonymised === [✓]
 {
   "Answer": "PERMIT",
   "Reason why": "Permitted: subject opted in and an ODRL/DPV policy matched (anonymised dataset in secure environment).",
@@ -142,24 +101,13 @@ Scenario F_research_anon
     "C5_category_scope": "OK - operator=isAnyOf, allowed=[\"https://example.org/health#LAB_RESULTS\", \"https://example.org/health#PATIENT_SUMMARY\", \"https://example.org/health#IMAGING_REPORT\"], requested=[\"https://example.org/health#PATIENT_SUMMARY\", \"https://example.org/health#LAB_RESULTS\"]",
     "C6_prohibition_blocks": "SKIPPED - no prohibition matched",
     "C7_trace_consistency": "OK - trace shows matching permission",
-    "C8_duties_present": "INFO - duties attached: duty:ehds:annualOutcomeReport, duty:ehds:noReidentification, duty:ehds:noExfiltration",
+    "C8_duties_present": "INFO - duties attached: duty:https://w3id.org/dpv/legal/eu/ehds#annualOutcomeReport, duty:https://w3id.org/dpv/legal/eu/ehds#noReidentification, duty:https://w3id.org/dpv/legal/eu/ehds#noExfiltration",
     "C9_environment_scope": "OK - operator=eq, allowed=\"secure_env\", requested=\"secure_env\"",
     "C10_policy_uid": "INFO - matched policy: urn:policy:research-aurora-diabetes"
-  },
-  "Trace": [
-    "urn:policy:primary-care-001:constraint_failed:dpv:hasPurpose:isAnyOf:lhs=\"https://w3id.org/dpv/legal/eu/ehds#HealthcareScientificResearch\",rightOperand=[\"https://w3id.org/dpv/sector/health#PrimaryCareManagement\", \"https://w3id.org/dpv/sector/health#PatientRemoteMonitoring\"]",
-    "urn:policy:primary-care-001:deny:odrl:no_permission_matched",
-    "urn:policy:qi-2025-aurora:constraint_failed:dpv:hasPurpose:eq:lhs=\"https://w3id.org/dpv/legal/eu/ehds#HealthcareScientificResearch\",rightOperand=\"https://w3id.org/dpv/legal/eu/ehds#EnsureQualitySafetyHealthcare\"",
-    "urn:policy:qi-2025-aurora:deny:odrl:no_permission_matched",
-    "urn:policy:research-aurora-diabetes:constraint_ok:dpv:hasPurpose:eq:lhs=\"https://w3id.org/dpv/legal/eu/ehds#HealthcareScientificResearch\",rightOperand=\"https://w3id.org/dpv/legal/eu/ehds#HealthcareScientificResearch\"",
-    "urn:policy:research-aurora-diabetes:constraint_ok:ac:environment:eq:lhs=\"secure_env\",rightOperand=\"secure_env\"",
-    "urn:policy:research-aurora-diabetes:constraint_ok:dpv:hasTechnicalOrganisationalMeasure:isAnyOf:lhs=[\"https://w3id.org/dpv#Anonymisation\"],rightOperand=[\"https://w3id.org/dpv#Anonymisation\"]",
-    "urn:policy:research-aurora-diabetes:constraint_ok:dpv:hasPersonalDataCategory:isAnyOf:lhs=[\"https://example.org/health#PATIENT_SUMMARY\", \"https://example.org/health#LAB_RESULTS\"],rightOperand=[\"https://example.org/health#LAB_RESULTS\", \"https://example.org/health#PATIENT_SUMMARY\", \"https://example.org/health#IMAGING_REPORT\"]",
-    "urn:policy:research-aurora-diabetes:permit:odrl:permission_matched"
-  ]
+  }
 }
-========================================================================================
-Scenario G_ai_training
+
+=== G_ai_training_optout === [✓]
 {
   "Answer": "DENY",
   "Reason why": "Denied: you opted out of your data being used to train AI systems.",
@@ -174,8 +122,5 @@ Scenario G_ai_training
     "C8_duties_present": "SKIPPED - no matched policy or no duties",
     "C9_environment_scope": "SKIPPED",
     "C10_policy_uid": "SKIPPED - no matched policy"
-  },
-  "Trace": [
-    "deny:subject_opted_out_ai_training"
-  ]
+  }
 }
