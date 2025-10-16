@@ -25,6 +25,7 @@ See also
 - [The Library & the Path • P3 Demo](https://eyereasoner.github.io/eye/librath/cases/temp/library_and_path.html)
 - [LLDM — ARC (Answer • Reason • Check)](https://eyereasoner.github.io/eye/librath/cases/temp/lldm.html)
 - [Mathematics — the WHAT & the WHY • P3 Demo](https://eyereasoner.github.io/eye/librath/cases/temp/math_what_why.html)
+- [n-Queens — ARC (Answer • Reason • Check)](https://eyereasoner.github.io/eye/librath/cases/temp/n_queens.html)
 - [Polynomial roots (Durand–Kerner) — ARC](https://eyereasoner.github.io/eye/librath/cases/temp/polynomial.html)
 - [Sudoku — ARC](https://eyereasoner.github.io/eye/librath/cases/temp/sudoku.html)
 
