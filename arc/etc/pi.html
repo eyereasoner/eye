@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>π (Chudnovsky) — ARC (Answer • Reason • Check)</title>
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#111827; --muted:#6b7280; --panel:#f8fafc; --border:#e5e7eb; --accent:#0ea5e9;
+      --good:#16a34a; --cyan:#06b6d4; --indigo:#6366f1; --warn:#dc2626;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    html,body{height:100%}
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 var(--ui); }
+    .wrap{max-width:980px; margin:28px auto; padding:0 14px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px}
+    h1{font-size:20px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .card{width:100%; background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:14px}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px; margin:0}
+    input[type="number"]{width:120px; padding:8px 10px; border:1px solid var(--border); border-radius:10px; font:14px var(--ui); background:#fff}
+    button{all:unset; background:#fff; border:1px solid var(--border); padding:9px 13px; border-radius:10px; cursor:pointer}
+    button:hover{border-color:#cbd5e1}
+    .btns{display:flex; gap:8px; flex-wrap:wrap}
+    .muted{color:var(--muted)}
+
+    /* ARC boxes with thick colored left borders */
+    .arcbox{background:#fff; border:1px solid var(--border); border-radius:12px; padding:10px; margin:10px 0}
+    .arcbox.answer{border-left:10px solid var(--good)}
+    .arcbox.reason{border-left:10px solid var(--cyan)}
+    .arcbox.check{border-left:10px solid var(--indigo)}
+    .arclabel{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:6px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>π (Chudnovsky) — <span class="accent">ARC</span></h1>
+      <div class="pill" id="status">Ready</div>
+    </header>
+
+    <div class="card">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained, browser‑only demo that computes π to N digits using
+        the Chudnovsky series with big‑integer fixed‑point arithmetic — no libraries. The ARC section reports
+        <em>Answer • Reason • Check</em>.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head"><h2>Settings</h2></div>
+      <div class="body" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+        <label>Digits (max 2000): <input id="digits" type="number" min="1" max="2000" value="200"></label>
+        <div class="btns">
+          <button onclick="run()">▶ Run</button>
+          <button onclick="copyARC()">Copy ARC</button>
+          <button onclick="downloadTxt()">⬇ Export .txt</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <h2>ARC Output</h2>
+        <div class="muted">Cards with left borders</div>
+      </div>
+      <div class="body">
+        <div class="arcbox answer">
+          <div class="arclabel">Answer</div>
+          <pre id="ans">(no run yet)</pre>
+        </div>
+        <div class="arcbox reason">
+          <div class="arclabel">Reason why</div>
+          <pre id="why">(no run yet)</pre>
+        </div>
+        <div class="arcbox check">
+          <div class="arclabel">Check (harness)</div>
+          <pre id="chk">(no run yet)</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ========= Utilities =========
+function setText(id, s){ const el=document.getElementById(id); if(el) el.textContent=s; }
+function status(msg, warn=false){ const el=document.getElementById('status'); if(!el) return; el.textContent=msg; el.classList.toggle('warn', !!warn); }
+function pow10(n){ let r=1n; for(let i=0;i<n;i++) r*=10n; return r; }
+function isqrt(n){ // integer sqrt via Newton
+  if(n <= 0n) return 0n;
+  let x = n;
+  let y = (x + 1n) >> 1n;
+  while(y < x){ x = y; y = (x + n / x) >> 1n; }
+  return x;
+}
+
+// ========= π via Chudnovsky with fixed-point BigInt =========
+function computePiDigits(digits){
+  const GUARD = 20;                   // safety digits
+  const S = digits + GUARD;
+  const SCALE = pow10(S);             // 10^(digits+guard)
+  const A = 640320n;
+  const A3 = A*A*A;                   // 640320^3
+  // sqrt(10005) scaled
+  const N = 10005n * SCALE * SCALE;   // (10005 * 10^(2S))
+  const sqrt10005 = isqrt(N);         // ≈ floor( sqrt(10005) * 10^S )
+  const C = 426880n * sqrt10005;      // scaled by 10^S
+
+  // Series
+  let sum = 13591409n * SCALE;        // k=0 term (scaled)
+  let u   = 1n * SCALE;               // multiplicative factor (scaled)
+  const max_iter = Math.floor(digits/14) + 2;
+  for(let k=1; k<=max_iter; k++){
+    const K = BigInt(k);
+    const num = -24n * (6n*K - 5n) * (2n*K - 1n) * (6n*K - 1n); // integer
+    const denom = (K*K*K) * A3;                                 // integer
+    u = (u * num) / denom;                                      // stays scaled (floor)
+    const M = 545140134n*K + 13591409n;
+    const term = (u * M) / SCALE;                               // scaled
+    sum += term;
+    // Early exit if term magnitude is tiny compared to sum
+    if(term === 0n) break;
+  }
+
+  // π = C / sum ; produce rounded to 'digits' decimals using the scaling we have
+  // First compute piScaled = floor( (C * 10^S) / sum )
+  const piScaled = (C * SCALE) / sum; // scaled by 10^S
+  const drop = S - digits;
+  const roundAdder = drop>0 ? pow10(drop-1) * 5n : 0n;
+  const rounded = drop>0 ? (piScaled + roundAdder) / pow10(drop) : piScaled;
+
+  // Convert to decimal string with exactly 'digits' decimals
+  const intPart = rounded / pow10(digits);
+  let frac = (rounded % pow10(digits)).toString();
+  while(frac.length < digits) frac = "0" + frac;
+  const piStr = digits>0 ? (intPart.toString() + "." + frac) : intPart.toString();
+
+  return { piStr, iterations: max_iter, guard: GUARD };
+}
+
+function wrapDigits(piStr, group=50){
+  // Keep the "3." then wrap digits
+  const [h,t] = piStr.split(".");
+  if(!t) return piStr;
+  let out = h + ".\n";
+  for(let i=0;i<t.length;i+=group){
+    out += t.slice(i, i+group) + "\n";
+  }
+  return out.trimEnd();
+}
+
+// ========= ARC =========
+function run(){
+  const t0 = performance.now();
+  const digits = Math.min(2000, Math.max(1, Math.floor(Number(document.getElementById('digits').value)||200)));
+  const {piStr, iterations, guard} = computePiDigits(digits);
+  const t1 = performance.now();
+
+  // Answer
+  let A = "Answer\n======\n";
+  A += `π to ${digits} digits (Chudnovsky, guard ${guard}, iters ≈ ⌈N/14⌉):\n\n`;
+  A += wrapDigits(piStr, 50) + "\n\n";
+  A += `Time: ${(t1 - t0).toFixed(0)} ms\n`;
+  setText('ans', A);
+
+  // Reason
+  let R = "Reason why\n==========\n";
+  R += "We evaluate the Chudnovsky series in fixed‑point BigInt arithmetic:\n";
+  R += "  π = (426880·√10005) / Σₖ [ (6k)! (13591409 + 545140134k) / ((3k)! (k!)³ (−640320)^{3k}) ].\n";
+  R += "Using the standard recurrence for the term ratio (avoids factorials),\n";
+  R += "we accumulate k until terms round to zero at the working precision.\n";
+  R += "We compute √10005 with integer Newton iteration and round the final\n";
+  R += "quotient to the requested digits.\n";
+  setText('why', R);
+
+  // Check
+  let C = "Check (harness)\n===============\n";
+  const prefix50 = "3.14159265358979323846264338327950288419716939937510";
+  const samePrefix = piStr.slice(0, prefix50.length) === prefix50;
+  C += `First 50‑digit prefix matches known value? ${samePrefix}\n`;
+  const approx = Number(piStr.slice(0, 18)); // ~double precision
+  C += `Matches Math.PI to 15 digits? ${approx.toFixed(15) === Math.PI.toFixed(15)}\n`;
+  C += `Digits produced = ${piStr.includes(".") ? piStr.split(".")[1].length : 0}\n`;
+  C += `Iterations used ≈ ${iterations}`;
+  setText('chk', C);
+
+  status('Done');
+}
+
+function copyARC(){
+  const txt = [document.getElementById('ans').textContent,
+               document.getElementById('why').textContent,
+               document.getElementById('chk').textContent].join('\n\n');
+  navigator.clipboard?.writeText(txt).catch(()=>{});
+}
+function downloadTxt(){
+  const blob=new Blob([document.getElementById('ans').textContent, '\n\n',
+                       document.getElementById('why').textContent, '\n\n',
+                       document.getElementById('chk').textContent], {type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='pi_output.txt'; a.click();
+}
+
+// auto-run
+window.addEventListener('DOMContentLoaded', run);
+</script>
+</body>
+</html>
