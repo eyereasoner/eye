@@ -35,4 +35,5 @@ in real-world applications.
 * [Pythagorean Theorem](https://eyereasoner.github.io/eye/arc/etc/pythagorean_theorem.html)
 * [REST-path](https://eyereasoner.github.io/eye/arc/etc/restpath.html)
 * [Sudoku](https://eyereasoner.github.io/eye/arc/etc/sudoku.html)
+* [Turing Machine](https://eyereasoner.github.io/eye/arc/etc/turing.html)
 
