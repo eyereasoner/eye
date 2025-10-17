@@ -30,6 +30,7 @@ in real-world applications.
 * [Matrix basics](https://eyereasoner.github.io/eye/arc/etc/matrix.html)
 * [N-Queens](https://eyereasoner.github.io/eye/arc/etc/n_queens.html)
 * [Polynomial roots (Durand–Kerner)](https://eyereasoner.github.io/eye/arc/etc/polynomial.html)
+* [Pythagorean Theorem](https://eyereasoner.github.io/eye/arc/etc/pythagorean_theorem.html)
 * [REST-path](https://eyereasoner.github.io/eye/arc/etc/restpath.html)
 * [Sudoku](https://eyereasoner.github.io/eye/arc/etc/sudoku.html)
 
