@@ -1,549 +1,293 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Graph — French cities (ARC)</title>
+  <title>Graph reachability (French cities) — ARC</title>
   <style>
-    :root { --fg:#101014; --bg:#ffffff; --muted:#666; --accent:#2563eb; --chip:#eef2ff; --ok:#16a34a; --bad:#dc2626; --warn:#ca8a04; }
-    @media (prefers-color-scheme: dark) {
-      :root { --fg:#eaeaf0; --bg:#0b0b10; --muted:#a0a0b0; --accent:#60a5fa; --chip:#0e1a32; }
+    :root{
+      --bg:#ffffff; --ink:#111827; --muted:#6b7280; --panel:#f8fafc; --border:#e5e7eb; --accent:#0ea5e9;
+      --good:#16a34a; --cyan:#06b6d4; --indigo:#6366f1; --warn:#dc2626;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
     }
-    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font: 15px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
-    main { max-width: 1100px; margin: 0 auto; padding: 28px 16px 80px; }
-    h1 { font-size: clamp(1.6rem, 2.6vw + 1rem, 2.2rem); margin: 0 0 6px; }
-    header p { margin: 0; color: var(--muted); }
-    section { margin: 18px 0 22px; padding: 14px 14px 16px; border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent); border-radius: 14px;
-              background: color-mix(in srgb, var(--accent) 4%, transparent); }
-    section h2 { margin: 0 0 8px; font-size: 1.15rem; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:10px; }
-    .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
-    .btn { appearance:none; border:1px solid color-mix(in srgb, var(--accent) 35%, transparent); background: color-mix(in srgb, var(--accent) 8%, transparent);
-           color: var(--fg); border-radius: 10px; padding: 8px 12px; font-weight: 700; cursor: pointer; }
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
-    .muted { color: var(--muted); }
-    .small { font-size: .92em; }
-    .tbl { width:100%; border-collapse: collapse; }
-    .tbl th, .tbl td { padding: 6px 8px; border-bottom: 1px dashed color-mix(in srgb, var(--fg) 18%, transparent); vertical-align: top; }
-    .tbl th { text-align:left; }
-    .chip { display:inline-block; padding:2px 8px; border-radius:999px; background:var(--chip); font-weight:600; }
-    input[type="text"], textarea, select { border-radius: 10px; border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); padding: 8px 10px; }
-    textarea { width:100%; min-height: 140px; }
-    label { user-select:none; }
-    .ok { color: var(--ok); }
-    .bad { color: var(--bad); }
-    .warn { color: var(--warn); }
-    code { background: color-mix(in srgb, var(--accent) 10%, transparent); padding: .1rem .35rem; border-radius: .35rem; }
+    html,body{height:100%}
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 var(--ui); }
+    .wrap{max-width:980px; margin:28px auto; padding:0 14px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px}
+    h1{font-size:20px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .card{width:100%; background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:14px}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px; margin:0}
+    button{all:unset; background:#fff; border:1px solid var(--border); padding:9px 13px; border-radius:10px; cursor:pointer}
+    button:hover{border-color:#cbd5e1}
+    .warn{color:var(--warn)}
+    .accent{color:var(--accent)}
+    .btns{display:flex; gap:8px; flex-wrap:wrap}
+    .kv{font-family:var(--mono); background:#fff; border:1px solid var(--border); border-radius:10px; padding:10px; font-size:13px}
+    .muted{color:var(--muted)}
+
+    /* ARC boxes with thick colored left borders */
+    .arcbox{background:#fff; border:1px solid var(--border); border-radius:12px; padding:10px; margin:10px 0}
+    .arcbox.answer{border-left:10px solid var(--good)}
+    .arcbox.reason{border-left:10px solid var(--cyan)}
+    .arcbox.check{border-left:10px solid var(--indigo)}
+    .arclabel{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:6px}
   </style>
 </head>
 <body>
-  <main>
-    <header class="row">
-      <div>
-        <h1>Graph — French cities (ARC)</h1>
-        <p>Preloaded with the one‑way connections used in the French cities example.</p>
-      </div>
-      <div class="row" style="margin-left:auto;">
-        <label class="muted small"><input id="directed" type="checkbox" checked> Directed</label>
-        <label class="muted small"><input id="weighted" type="checkbox"> Weighted</label>
-        <label class="muted small">Start:
-          <input id="start" type="text" value="" placeholder="(none)" style="margin-left:6px;width:160px">
-          <select id="startSel"></select>
-        </label>
-        <label class="muted small">Goal:
-          <input id="goal" type="text" value="nantes" placeholder="(none)" style="margin-left:6px;width:160px">
-          <select id="goalSel"></select>
-        </label>
-        <button id="go" class="btn">Compute</button>
-      </div>
+  <div class="wrap">
+    <header>
+      <h1>Graph reachability — <span class="accent">ARC</span> (Answer • Reason • Check)</h1>
+      <div class="pill" id="status">Ready</div>
     </header>
 
-    <section>
-      <h2>What this is?</h2>
-      <p>
-        A focused version of the graph playground, prefilled with the real <em>French cities</em> toy network.
-        You can now leave either field blank:
-      </p>
-      <ul class="small">
-        <li><strong>Only Start</strong>: list all <code>X</code> reachable from Start with one shortest chain each — like <code>path(start, X)</code>.</li>
-        <li><strong>Only Goal</strong>: list all <code>X</code> that can reach Goal — like <code>path(X, goal)</code>.</li>
-        <li><strong>Both</strong>: show the shortest route Start → Goal.</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Edges</h2>
-      <textarea id="edges" class="mono" spellcheck="false"></textarea>
-      <div class="small muted">Directed edges as in the source. Known nodes: <span id="known"></span></div>
-    </section>
-
-    <section id="answer">
-      <h2>Answer</h2>
-      <div id="summary-chips" class="row small" style="gap:8px"></div>
-      <div id="to-goal"></div>
-      <div id="from-start"></div>
-      <div id="shortest"></div>
-      <div id="shortest-all"></div>
-      <div id="mst"></div>
-      <div id="adj"></div>
-    </section>
-
-    <section id="reason">
-      <h2>Reason why</h2>
-      <div class="small">
-        <p><strong>BFS:</strong> finds the fewest hops in an unweighted graph. We run BFS forward (from Start) or on the
-           <em>reversed</em> graph (from Goal) to list all solutions with their shortest chains.</p>
+    <div class="card">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained, browser‑only demo that answers the query
+        <code>?- path(X, nantes)</code> over a small directed graph of French cities using two Horn clauses:</p>
+        <pre class="kv">C1: path(U,V) :- oneway(U,V).
+C2: path(U,V) :- oneway(U,Z), path(Z,V).</pre>
+        <p class="muted">Answer lists every city X that reaches <code>nantes</code> with one shortest chain.
+        Reason shows a backward‑chaining proof for <code>X = paris</code>. Check validates the results by
+        independent forward search and shortest‑path minimality.</p>
       </div>
-    </section>
+    </div>
 
-    <section id="check">
-      <h2>Check (harness)</h2>
-      <div id="check-body"></div>
-    </section>
-  </main>
+    <!-- Vertical layout: all cards stacked -->
+    <div class="card">
+      <div class="head"><h2>Graph (fixed)</h2></div>
+      <div class="body">
+        <pre class="kv" id="graphBox"></pre>
+        <div class="btns" style="margin-top:10px">
+          <button onclick="run()">▶ Run</button>
+          <button onclick="copyARC()">Copy ARC</button>
+          <button onclick="downloadTxt()">⬇ Export .txt</button>
+        </div>
+      </div>
+    </div>
 
-  <script>
-  (function(){
-    "use strict";
-    const $ = (id) => document.getElementById(id);
-    const setHTML = (id, html) => { const el = $(id); if (el) el.innerHTML = html; };
+    <div class="card">
+      <div class="head"><h2>Query & Goal</h2></div>
+      <div class="body">
+        <pre class="kv" id="caseBox"></pre>
+      </div>
+    </div>
 
-    // Normalization helper: case-insensitive, strip accents
-    function normalize(name){
-      return name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
-    }
+    <div class="card">
+      <div class="head">
+        <h2>ARC Output</h2>
+        <div class="muted">Cards with left borders</div>
+      </div>
+      <div class="body">
+        <div class="arcbox answer">
+          <div class="arclabel">Answer</div>
+          <pre id="ans">(no run yet)</pre>
+        </div>
+        <div class="arcbox reason">
+          <div class="arclabel">Reason why</div>
+          <pre id="why">(no run yet)</pre>
+        </div>
+        <div class="arcbox check">
+          <div class="arclabel">Check (harness)</div>
+          <pre id="chk">(no run yet)</pre>
+        </div>
+      </div>
+    </div>
 
-    // ----------- Parsing -----------
-    function parseEdges(text, directed=false, weighted=true){
-      const lines = text.split(/\r?\n/).map(s=>s.trim()).filter(s=>s && !s.startsWith('#'));
-      const nodes = new Set();
-      const edges = [];
-      const nameIndex = new Map(); // normalized -> canonical name (first seen)
-      function addName(n){
-        nodes.add(n);
-        const key = normalize(n);
-        if (!nameIndex.has(key)) nameIndex.set(key, n);
-      }
-      for (const ln of lines){
-        const parts = ln.split(/\s+/);
-        if (parts.length < 2) continue;
-        const u = parts[0], v = parts[1];
-        const w = (weighted && parts.length >= 3) ? Number(parts[2]) : 1;
-        if (weighted && parts.length >= 3 && Number.isNaN(w)) continue;
-        addName(u); addName(v);
-        edges.push([u,v,w]);
-        if (!directed) edges.push([v,u,w]);
-      }
-      const adj = new Map();
-      for (const n of nodes) adj.set(n, []);
-      for (const [u,v,w] of edges){
-        adj.get(u).push({v, w});
-      }
-      // reverse adjacency (for "to goal" BFS)
-      const rev = new Map();
-      for (const n of nodes) rev.set(n, []);
-      for (const [u,v,w] of edges){
-        if (!rev.has(v)) rev.set(v, []);
-        rev.get(v).push({v:u, w});
-      }
-      return {nodes:[...nodes], adj, rev, edges, directed, weighted, nameIndex};
-    }
+  </div>
 
-    function alias(name, graph){
-      if (!name) return "";
-      if (graph.adj.has(name)) return name;
-      const hit = graph.nameIndex.get(normalize(name));
-      return hit || name;
-    }
+<script>
+// ----- 0) Data -----
+const EDGES = [
+  ["paris","orleans"],
+  ["paris","chartres"],
+  ["paris","amiens"],
+  ["orleans","blois"],
+  ["orleans","bourges"],
+  ["blois","tours"],
+  ["chartres","lemans"],
+  ["lemans","angers"],
+  ["lemans","tours"],
+  ["angers","nantes"],
+];
+const GOAL = "nantes";
 
-    // ----------- Algorithms -----------
-    function bfsUnweighted(adj, s){
-      const dist = new Map([[s,0]]);
-      const q = [s];
-      const pred = new Map();
-      while (q.length){
-        const u = q.shift();
-        for (const {v} of (adj.get(u)||[])){
-          if (!dist.has(v)){
-            dist.set(v, dist.get(u)+1);
-            pred.set(v, u);
-            q.push(v);
-          }
-        }
-      }
-      return {dist, pred};
-    }
+// Build succs, preds, nodes
+const oneway = new Set(EDGES.map(e=>JSON.stringify(e)));
+const succs = new Map();
+const preds = new Map();
+const NODES = new Set();
+for(const [u,v] of EDGES){
+  if(!succs.has(u)) succs.set(u, new Set());
+  succs.get(u).add(v);
+  if(!preds.has(v)) preds.set(v, new Set());
+  preds.get(v).add(u);
+  NODES.add(u); NODES.add(v);
+}
 
-    // BFS from GOAL on reversed edges: gives shortest hops to goal for every node
-    function bfsToGoal(revAdj, goal){
-      const dist = new Map([[goal,0]]);
-      const parent = new Map(); // parent[x] = next node towards goal on forward graph
-      const q = [goal];
-      while (q.length){
-        const y = q.shift();
-        for (const {v:x} of (revAdj.get(y)||[])){ // x -> y in forward graph
-          if (!dist.has(x)){
-            dist.set(x, dist.get(y)+1);
-            parent.set(x, y); // from x, go to y next
-            q.push(x);
-          }
-        }
-      }
-      return {dist, parent};
-    }
-
-    function restoreForwardPathViaParent(parent, start, goal){
-      const path = [start];
-      let cur = start;
-      const SAFE = 1000;
-      for (let i=0;i<SAFE && cur !== goal;i++){
-        const nxt = parent.get(cur);
-        if (!nxt) break;
-        path.push(nxt);
-        cur = nxt;
-      }
-      return (cur === goal) ? path : null;
-    }
-
-    // Utility
-    function connectedComponents(adj){
-      const seen = new Set();
-      const comps = [];
-      for (const n of adj.keys()){
-        if (seen.has(n)) continue;
-        const q = [n]; seen.add(n);
-        const cur = [n];
-        while (q.length){
-          const u = q.shift();
-          for (const {v} of (adj.get(u)||[])){
-            if (!seen.has(v)){ seen.add(v); q.push(v); cur.push(v); }
-          }
-        }
-        comps.push(cur);
-      }
-      return comps;
-    }
-
-    // Count shortest paths in unweighted graph using DP over BFS layers
-    function countShortestPaths(adj, s, t){
-      const {dist} = bfsUnweighted(adj, s);
-      if (!dist.has(t)) return 0;
-      const maxD = Math.max(...dist.values());
-      const layers = Array.from({length:maxD+1}, ()=>[]);
-      for (const [node, d] of dist.entries()) layers[d].push(node);
-      const ways = new Map([[s,1]]);
-      for (let d=0; d<layers.length; d++){
-        for (const u of layers[d]){
-          const wu = ways.get(u) || 0;
-          for (const {v} of (adj.get(u)||[])){
-            if (dist.get(v) === d+1){
-              ways.set(v, (ways.get(v)||0) + wu);
-            }
-          }
-        }
-      }
-      return ways.get(t) || 0;
-    }
-
-    // ----------- Rendering -----------
-    function chips(summary){
-      const elts = summary.map(([label, value, cls]) => `<span class="chip ${cls||''}">${label}: ${value}</span>`);
-      return elts.join(' ');
-    }
-
-    function renderAdj(adj){
-      const rows = [];
-      rows.push('<table class="tbl mono small"><thead><tr><th>node</th><th>neighbors</th></tr></thead><tbody>');
-      const keys = [...adj.keys()].sort();
-      for (const u of keys){
-        const ns = (adj.get(u)||[]).map(e=>`${e.v}(${e.w})`).join(', ');
-        rows.push(`<tr><td>${u}</td><td>${ns}</td></tr>`);
-      }
-      rows.push('</tbody></table>');
-      setHTML('adj', rows.join(''));
-    }
-
-    function populateSelectors(graph){
-      const opts = graph.nodes.slice().sort().map(n => {
-        const o = document.createElement('option'); o.value = n; o.textContent = n; return o;
-      });
-      const ss = $('startSel'), gs = $('goalSel');
-      ss.replaceChildren(...opts.map(o=>o.cloneNode(true)));
-      gs.replaceChildren(...opts.map(o=>o.cloneNode(true)));
-      // preselect matching current text if possible
-      const sa = alias($('start').value, graph);
-      const ga = alias($('goal').value, graph);
-      if (sa) ss.value = sa;
-      if (ga) gs.value = ga;
-      // sync both ways
-      ss.onchange = ()=>{ $('start').value = ss.value; };
-      gs.onchange = ()=>{ $('goal').value = gs.value; };
-      $('start').oninput = ()=>{ const a = alias($('start').value, graph); if (graph.adj.has(a)) ss.value = a; };
-      $('goal').oninput = ()=>{ const a = alias($('goal').value, graph); if (graph.adj.has(a)) gs.value = a; };
-    }
-
-    function renderShortest(sIn, tIn, graph){
-      const s = alias(sIn, graph);
-      const t = alias(tIn, graph);
-      const {adj} = graph;
-
-      // Case 1: only Goal is set -> list all X that can reach Goal
-      if (!s && t){
-        const {dist, parent} = bfsToGoal(graph.rev, t);
-        const items = [...dist.entries()]
-          .filter(([x,d]) => x !== t)
-          .sort((a,b)=>a[1]-b[1] || (a[0] < b[0] ? -1 : 1));
-        if (items.length === 0){
-          setHTML('to-goal', `<p>No sources can reach <strong>${t}</strong>.</p>`);
-        } else {
-          const lines = items.map(([x,d]) => {
-            const path = restoreForwardPathViaParent(parent, x, t) || [x, '…', t];
-            return `  X = ${x} &nbsp;&nbsp; path: ${path.join(' → ')} &nbsp;&nbsp; (hops = ${d})`;
-          });
-          const pre = `<pre class="mono" style="white-space:pre-wrap">All solutions (with one shortest chain each):\n${lines.join('\n')}\n\nTotal solutions: ${items.length}</pre>`;
-          setHTML('to-goal', pre);
-        }
-        setHTML('from-start', '');
-        setHTML('shortest', '');
-        setHTML('shortest-all', '');
-        return {mode:'toGoal', t, distToGoal: dist, parent};
-      }
-
-      // Case 2: only Start is set -> list all X reachable from Start
-      if (s && !t){
-        const {dist, pred} = bfsUnweighted(adj, s);
-        const items = [...dist.entries()]
-          .filter(([x,d]) => x !== s)
-          .sort((a,b)=>a[1]-b[1] || (a[0] < b[0] ? -1 : 1));
-        if (items.length === 0){
-          setHTML('from-start', `<p>No targets are reachable from <strong>${s}</strong>.</p>`);
-        } else {
-          function restore(pred, s, t){
-            if (!pred.has(t)) return [s];
-            const path = [t];
-            let cur = t;
-            while (cur !== s){ cur = pred.get(cur); path.push(cur); }
-            path.reverse();
-            return path;
-          }
-          const lines = items.map(([x,d]) => {
-            const path = restore(pred, s, x);
-            return `  X = ${x} &nbsp;&nbsp; path: ${path.join(' → ')} &nbsp;&nbsp; (hops = ${d})`;
-          });
-          const pre = `<pre class="mono" style="white-space:pre-wrap">All solutions (with one shortest chain each):\n${lines.join('\n')}\n\nTotal solutions: ${items.length}</pre>`;
-          setHTML('from-start', pre);
-        }
-        setHTML('to-goal', '');
-        setHTML('shortest', '');
-        setHTML('shortest-all', '');
-        return {mode:'fromStart', s, distFromStart: dist, pred};
-      }
-
-      // Case 3: both empty -> nudge
-      if (!s && !t){
-        setHTML('to-goal', '');
-        setHTML('from-start', '');
-        setHTML('shortest', `<p class="muted small">Tip: set either <strong>Start</strong> or <strong>Goal</strong> (or both) to list shortest chains.</p>`);
-        setHTML('shortest-all', '');
-        return {mode:'none'};
-      }
-
-      // Case 4: both set -> shortest path Start→Goal
-      setHTML('to-goal', '');
-      setHTML('from-start', '');
-      const existsS = adj.has(s), existsT = adj.has(t);
-      if (!existsS || !existsT){
-        const known = [...adj.keys()].sort().join(', ');
-        setHTML('shortest', `<p class="bad">Start or goal node not found.</p><p class="small muted">Known nodes: ${known}</p>`);
-        setHTML('shortest-all', '');
-        return {mode:'pair', s, t, ok:false};
-      }
-      const {dist, pred} = bfsUnweighted(adj, s);
-      const d = dist.get(t);
-      if (d === undefined){
-        setHTML('shortest', `<p>Shortest path (unweighted): <span class="bad">no route from ${s} to ${t}</span></p>`);
-        setHTML('shortest-all', '');
-        return {mode:'pair', s, t, ok:false};
-      }
-      const p = (function restore(pred, s, t){
-        if (!pred.has(t)) return [s];
-        const path = [t];
-        let cur = t;
-        while (cur !== s){ cur = pred.get(cur); path.push(cur); }
-        path.reverse();
-        return path;
-      })(pred, s, t);
-      setHTML('shortest', `<p>Shortest path (unweighted): <strong>${d} edge(s)</strong></p><p class="mono small">${p.join(' → ')}</p>`);
-      setHTML('shortest-all', '');
-      return {mode:'pair', s, t, ok:true, dist, pred, d, path:p};
-    }
-
-    function renderMST(graph){
-      const {directed} = graph;
-      if (directed){
-        setHTML('mst', `<p class="muted small">No MST for directed graphs.</p>`);
-        return null;
-      } else {
-        setHTML('mst', `<p class="muted small">Switch off “Directed” (treat links as two‑way) if you want an MST.</p>`);
-        return null;
+// ----- 1) Reverse BFS from goal -----
+function bfsParentsAndDist(goal){
+  const parent = {};                // parent[u] = next hop towards goal
+  const dist = {[goal]: 0};
+  const dq = [goal];
+  let head = 0;
+  while(head < dq.length){
+    const v = dq[head++];
+    const Ps = [...(preds.get(v) || [])].sort(); // deterministic
+    for(const u of Ps){
+      if(!(u in dist)){
+        dist[u] = dist[v] + 1;
+        parent[u] = v;
+        dq.push(u);
       }
     }
+  }
+  return {parent, dist};
+}
+const {parent: PARENT, dist: DIST} = bfsParentsAndDist(GOAL);
+function shortestPath(src, goal){
+  const chain = [src];
+  while(chain[chain.length-1] !== goal){
+    const cur = chain[chain.length-1];
+    chain.push(PARENT[cur]);
+  }
+  return chain;
+}
 
-    function runChecks(graph, outcome){
-      const lines = [];
-      const ok = (b) => b ? '✓' : '✗';
+// ----- 2) Tiny backward chainer (trace only) -----
+function bc_path(u, v, depth, seenEdges, stepCounter){
+  const indent = " ".repeat(depth);
+  logWhy(`${indent}Step ${String(stepCounter()).padStart(2,"0")}: prove path(${u}, ${v})`);
+  // C1
+  if(oneway.has(JSON.stringify([u,v]))){
+    logWhy(`${indent} ✓ by fact oneway(${u}, ${v})`);
+    return true;
+  }
+  // C2
+  const succ = [...(succs.get(u) || [])].sort();
+  for(const z of succ){
+    if(seenEdges.has(u+"→"+z)) continue;
+    logWhy(`${indent} → try oneway(${u}, ${z}), then prove path(${z}, ${v})`);
+    const ok = bc_path(z, v, depth+1, new Set([...seenEdges, u+"→"+z]), stepCounter);
+    if(ok) return true;
+  }
+  return false;
+}
 
-      // ---------- Graph integrity ----------
-      const nodes = graph.nodes;
-      const edges = graph.edges;
-      const n = nodes.length, m = edges.length;
-      const selfLoops = edges.filter(([u,v]) => u===v).length;
-      const dupMap = new Map();
-      for (const [u,v] of edges){
-        const k = `${u}→${v}`; dupMap.set(k, (dupMap.get(k)||0)+1);
-      }
-      const dups = [...dupMap.values()].filter(c=>c>1).length;
+// ----- 3) ARC writers -----
+function setText(id, s){ const el=document.getElementById(id); if(el) el.textContent=s; }
+function status(msg, warn=false){ const el=document.getElementById('status'); if(!el) return; el.textContent=msg; el.classList.toggle('warn', !!warn); }
+let WHY_BUFFER = [];
+function logWhy(line){ WHY_BUFFER.push(line); }
 
-      let unknownRefs = 0;
-      for (const [u,v] of edges){
-        if (!graph.adj.has(u) || !graph.adj.has(v)) unknownRefs++;
-      }
+function run(){
+  WHY_BUFFER = [];
+  // Boxes
+  const Gtxt = EDGES.map(([u,v])=>`oneway(${u}, ${v}).`).join("\n");
+  setText('graphBox', Gtxt);
+  setText('caseBox', `Query : ?- path(X, ${GOAL})
+Goal  : ${GOAL}
+Rules : C1, C2 (see above)`);
 
-      lines.push('Graph integrity:');
-      lines.push(`  nodes = ${n}, edges = ${m}`);
-      lines.push(`  self-loops: ${selfLoops} ${ok(selfLoops===0)}`);
-      lines.push(`  duplicate arcs (u→v counted >1): ${dups} ${ok(dups===0)}`);
-      lines.push(`  all edge endpoints exist: ${ok(unknownRefs===0)}`);
-
-      const comps = connectedComponents(graph.adj);
-      lines.push(`  weakly-connected components (approx via BFS treating arcs as directed): ${comps.length}`);
-
-      // ---------- Mode-specific checks ----------
-      if (outcome.mode === 'pair'){
-        lines.push('Pair mode checks:');
-        if (!outcome.ok){
-          lines.push('  start/goal recognized & reachable: ✗');
-        } else {
-          const {s, t, d, path} = outcome;
-          // path edges valid
-          let pathOk = true;
-          for (let i=0;i+1<path.length;i++){
-            const u = path[i], v = path[i+1];
-            if (!(graph.adj.get(u)||[]).some(e=>e.v===v)) { pathOk = false; break; }
-          }
-          lines.push(`  start recognized: ${ok(graph.adj.has(s))}  (${s})`);
-          lines.push(`  goal recognized: ${ok(graph.adj.has(t))}  (${t})`);
-          lines.push(`  BFS distance d(s,t) = ${d}`);
-          lines.push(`  printed path length = ${path.length-1} hops ${ok((path.length-1)===d)}`);
-          lines.push(`  every hop is a real edge: ${ok(pathOk)}`);
-        }
-      } else if (outcome.mode === 'toGoal'){
-        const {t, distToGoal, parent} = outcome;
-        lines.push('“To-goal” mode checks:');
-        lines.push(`  goal recognized: ${ok(graph.adj.has(t))}  (${t})`);
-        // Verify parent-based path reconstruction
-        let okCount = 0, missCount = 0;
-        for (const [x, d] of distToGoal.entries()){
-          if (x === t) continue;
-          const p = restoreForwardPathViaParent(parent, x, t);
-          if (p && p.length-1 === d) okCount++; else missCount++;
-        }
-        lines.push(`  paths reconstructed from parent map: OK=${okCount}, issues=${missCount} ${ok(missCount===0)}`);
-        // Per-distance histogram
-        const hist = {};
-        for (const d of distToGoal.values()){ hist[d]=(hist[d]||0)+1; }
-        const histStr = Object.entries(hist).sort((a,b)=>a[0]-b[0]).map(([L,C])=>`d=${L}:${C}`).join(', ');
-        lines.push(`  distance histogram (to goal): ${histStr}`);
-      } else if (outcome.mode === 'fromStart'){
-        const {s, distFromStart, pred} = outcome;
-        lines.push('“From-start” mode checks:');
-        lines.push(`  start recognized: ${ok(graph.adj.has(s))}  (${s})`);
-        // Verify reconstruction for each reachable node
-        let okCount = 0, missCount = 0;
-        for (const [x, d] of distFromStart.entries()){
-          if (x === s) continue;
-          // Rebuild along pred chain and verify hop count
-          const path = (function restore(pred, s, t){
-            if (!pred.has(t)) return [s];
-            const path = [t];
-            let cur = t;
-            while (cur !== s){ cur = pred.get(cur); path.push(cur); }
-            path.reverse();
-            return path;
-          })(pred, s, x);
-          if (path && path.length-1 === d) okCount++; else missCount++;
-        }
-        lines.push(`  paths reconstructed from predecessor map: OK=${okCount}, issues=${missCount} ${ok(missCount===0)}`);
-        // Per-distance histogram
-        const hist = {};
-        for (const d of distFromStart.values()){ hist[d]=(hist[d]||0)+1; }
-        const histStr = Object.entries(hist).sort((a,b)=>a[0]-b[0]).map(([L,C])=>`d=${L}:${C}`).join(', ');
-        lines.push(`  distance histogram (from start): ${histStr}`);
-      } else {
-        lines.push('No Start/Goal provided — nothing to verify.');
-      }
-
-      // Done
-      return lines;
+  // Answer
+  let A = "Answer\n======\n";
+  A += `Query: ?- path(X, ${GOAL})\n\n`;
+  const solutions = Object.keys(PARENT).sort();
+  if(!solutions.length){
+    A += "No solutions.";
+  }else{
+    A += "All solutions (with one shortest chain each):\n";
+    for(const src of solutions){
+      const chain = shortestPath(src, GOAL);
+      const hops  = chain.length - 1;
+      A += ` X = ${src.padEnd(9,' ')} path: ${chain.join(" → ")} (hops = ${hops})\n`;
     }
+    A += `\nTotal solutions: ${solutions.length}`;
+  }
+  setText('ans', A);
 
-    function renderChecks(graph, outcome){
-      const lines = runChecks(graph, outcome);
-      const pre = document.createElement('pre');
-      pre.className = 'mono';
-      pre.style.whiteSpace = 'pre-wrap';
-      pre.textContent = lines.join('\n');
-      $('check-body').replaceChildren(pre);
+  // Reason
+  let R = "\nReason why\n==========\n";
+  R += "We use two Horn clauses:\n";
+  R += " C1 path(U,V) :- oneway(U,V).\n";
+  R += " C2 path(U,V) :- oneway(U,Z), path(Z,V).\n";
+  R += "Backward-chaining tries C1 (a fact) or applies C2 by choosing a\n";
+  R += "successor Z of U and recursively proving path(Z,V).\n\n";
+  const demo_src = "paris";
+  if(!(demo_src in PARENT)){
+    R += `(Demo: ${demo_src} does not reach ${GOAL} in this graph.)`;
+  }else{
+    R += `Demo proof for X = ${demo_src}:\n`;
+    let step = 0; const stepper = ()=>++step;
+    const ok = bc_path(demo_src, GOAL, 0, new Set(), stepper);
+    R += WHY_BUFFER.join("\n") + "\n";
+    R += ok ? " ✔ PROVED\n" : " ✗ NOT PROVED\n";
+    R += `Shortest chain: ${shortestPath(demo_src, GOAL).join(" → ")}`;
+  }
+  setText('why', R);
+
+  // Check
+  let C = "\nCheck (harness)\n===============\n";
+  // A) independent forward search from each node
+  function reaches_goal_forward(u){
+    if(u === GOAL) return false; // by convention exclude the goal as X
+    const seen = new Set([u]);
+    const dq = [u]; let head=0;
+    while(head<dq.length){
+      const x = dq[head++];
+      for(const y of (succs.get(x) || [])){
+        if(y === GOAL) return true;
+        if(!seen.has(y)){ seen.add(y); dq.push(y); }
+      }
     }
+    return false;
+  }
+  const forward_reach = [...NODES].filter(reaches_goal_forward).sort();
+  const solver_reach  = Object.keys(PARENT).sort();
+  const same = JSON.stringify(forward_reach) === JSON.stringify(solver_reach);
+  C += `Forward search nodes == solver nodes ? ${same}\n`;
+  if(!same){
+    C += ` forward: ${JSON.stringify(forward_reach)}\n`;
+    C += ` solver : ${JSON.stringify(solver_reach)}\n`;
+  }
+  // B) Validate each shortest path
+  function is_valid_chain(chain){
+    for(let i=0;i<chain.length-1;i++)
+      if(!oneway.has(JSON.stringify([chain[i], chain[i+1]]))) return false;
+    return true;
+  }
+  let all_valid = true, all_minimal = true;
+  for(const src of solver_reach){
+    const chain = shortestPath(src, GOAL);
+    if(!is_valid_chain(chain)){ all_valid = false; }
+    if(chain.length - 1 !== DIST[src]){ all_minimal = false; }
+  }
+  C += `All chains follow oneway edges? ${all_valid}\n`;
+  C += `All chains are hop-minimal? ${all_minimal}`;
+  setText('chk', C);
 
-    function compute(){
-      const directed = $('directed').checked;
-      const weighted = $('weighted').checked;
-      const s = $('start').value.trim();
-      const t = $('goal').value.trim();
-      const g = parseEdges($('edges').value, directed, weighted);
+  status('Done');
+}
 
-      populateSelectors(g);
-      $('known').textContent = g.nodes.slice().sort().join(', ');
+function copyARC(){
+  const txt = [document.getElementById('ans').textContent,
+               document.getElementById('why').textContent,
+               document.getElementById('chk').textContent].join('\n\n');
+  navigator.clipboard?.writeText(txt).catch(()=>{});
+}
+function downloadTxt(){
+  const blob=new Blob([document.getElementById('ans').textContent, '\n\n',
+                       document.getElementById('why').textContent, '\n\n',
+                       document.getElementById('chk').textContent], {type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='graph_french_output.txt'; a.click();
+}
 
-      // Summary
-      const compsCount = connectedComponents(g.adj).length;
-      const summary = [
-        ['nodes', g.nodes.length],
-        ['edges', g.edges.length],
-        ['directed', g.directed ? 'yes':'no'],
-        ['weighted', g.weighted ? 'yes':'no'],
-        ['components', compsCount, compsCount===1?'ok':(compsCount>1?'warn':'')],
-      ];
-      setHTML('summary-chips', chips(summary));
-
-      renderAdj(g.adj);
-      const outcome = renderShortest(s, t, g);
-      renderMST(g);
-      renderChecks(g, outcome);
-    }
-
-    // Prefill with French cities edges (directed, unweighted)
-    const EDGES = `paris orleans
-paris chartres
-paris amiens
-orleans blois
-orleans bourges
-blois tours
-chartres lemans
-lemans angers
-lemans tours
-angers nantes`;
-    $('edges').value = EDGES;
-
-    // Enter key submits
-    ['start','goal','edges'].forEach(id => {
-      $(id).addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); $('go').click(); }});
-    });
-
-    $('go').addEventListener('click', compute);
-    compute();
-  })();
-  </script>
+// auto-run
+window.addEventListener('DOMContentLoaded', run);
+</script>
 </body>
 </html>
