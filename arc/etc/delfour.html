@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Delfour</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --muted:#64748b; --ink:#0f172a; --line:#e2e8f0; --bg:#f8fafc;
+      --accent:#4f46e5; --accent-ink:#fff; --ok:#059669; --bad:#dc2626;
+    }
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:16px;color:var(--ink)}
+    h1{margin:0 0 6px;font-size:20px}
+    .muted{color:var(--muted)}
+    .row{display:flex;gap:8px;align-items:center;margin:10px 0;flex-wrap:wrap}
+    .row input{min-width:8ch}
+    .btn{padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer}
+    .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+    .stephdr{display:flex;gap:8px;align-items:center;margin-top:14px}
+    .step{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;
+          background:#eef2ff;color:#3730a3;font-weight:600;font-size:13px;border:1px solid #e0e7ff}
+    .trail{font-size:12px;color:var(--muted)}
+    .card{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fff;margin-top:10px}
+    .card h3{margin:0 0 6px;font-size:14px;color:#111827;display:flex;align-items:center;gap:8px}
+    .file{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;background:#eef2ff;border:1px solid #e0e7ff;
+          color:#3730a3;border-radius:999px;padding:1px 8px}
+    .tag{font-size:11px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:1px 8px;color:#334155}
+    pre{white-space:pre-wrap;word-break:break-word;background:var(--bg);border:1px solid var(--line);border-radius:8px;
+        padding:8px;font-size:12px;max-height:280px;overflow:auto}
+    .timeline{list-style:none;padding-left:0;margin:0}
+    .timeline li{display:flex;gap:8px;align-items:flex-start;padding:4px 0;border-bottom:1px dashed #e5e7eb}
+    .ts{color:#94a3b8;min-width:86px}
+    .ev{font-weight:600;min-width:120px}
+    .badge{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:999px;
+          font-size:12px;margin-right:6px}
+    .ok{background:#dcfce7;color:#065f46}
+    .bad{background:#fee2e2;color:#991b1b}
+    code.inline{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:#f1f5f9;padding:1px 6px;border-radius:6px}
+  </style>
+</head>
+<body>
+  <h1>Delfour</h1>
+  <div class="muted">Fully client-side N3 reasoning (phone → scanner). Pure JavaScript + eye-js (no Python).</div>
+
+  <div class="row">
+    <button id="runBtn" class="btn primary">Run Demo</button>
+    <label class="muted">Session&nbsp;<input id="sessionId" value="S1" style="padding:6px;border:1px solid #cbd5e1;border-radius:8px"></label>
+    <span id="status" class="muted"></span>
+  </div>
+
+  <!-- STEP 1: PHONE — Inputs -->
+  <div class="stephdr"><span class="step">1</span><div><b>PHONE — Inputs</b><div class="trail">profile.ttl + context.ttl</div></div></div>
+  <div class="card"><h3><span class="file">profile.ttl</span> <span class="tag">POD data</span></h3><pre id="profileBox"></pre></div>
+  <div class="card"><h3><span class="file">context.ttl</span> <span class="tag">session</span></h3><pre id="contextBox"></pre></div>
+
+  <!-- STEP 2: PHONE — Derived -->
+  <div class="stephdr"><span class="step">2</span><div><b>PHONE — Derived</b><div class="trail">phone.n3 ⇒ insight + policy</div></div></div>
+  <div class="card"><h3><span class="file">insight_policy.ttl</span> <span class="tag">derived</span></h3><pre id="phoneOutBox"></pre></div>
+
+  <!-- STEP 3: SCANNER — Inputs -->
+  <div class="stephdr"><span class="step">3</span><div><b>SCANNER — Inputs</b><div class="trail">now + request + catalog + scan</div></div></div>
+  <div class="card"><h3><span class="file">now.ttl</span> <span class="tag">clock</span></h3><pre id="nowBox"></pre></div>
+  <div class="card"><h3><span class="file">request.ttl</span> <span class="tag">use@shopping_assist</span></h3><pre id="requestBox"></pre></div>
+  <div class="card"><h3><span class="file">catalog.ttl</span> <span class="tag">products</span></h3><pre id="catalogBox"></pre></div>
+  <div class="card"><h3><span class="file">scan.ttl</span> <span class="tag">event</span></h3><pre id="scanBox"></pre></div>
+
+  <!-- STEP 4: SCANNER — Derived -->
+  <div class="stephdr"><span class="step">4</span><div><b>SCANNER — Derived</b><div class="trail">scanner.n3 ⇒ auth + audit + suggestion</div></div></div>
+  <div class="card"><h3><span class="file">scanner_out.n3</span> <span class="tag">derived</span></h3><pre id="scanOutBox"></pre></div>
+
+  <!-- STEP 5: Summary + Runtime + Audit -->
+  <div class="stephdr"><span class="step">5</span><div><b>Summary & Runtime</b><div class="trail">Decision • Suggestion • Checks • Timeline • Reason Why • Audit</div></div></div>
+  <div class="card"><h3><span class="file">banner.json</span> <span class="tag">runtime</span></h3><pre id="bannerBox"></pre></div>
+  <div class="card"><h3><span class="file">summary.json</span> <span class="tag">extracted</span></h3><pre id="summaryBox"></pre></div>
+  <div class="card">
+    <h3><span class="file">checks.txt</span> <span class="tag">harness</span></h3>
+    <ul id="checksBox" class="timeline"></ul>
+  </div>
+  <div class="card"><h3><span class="file">reason.txt</span> <span class="tag">why</span></h3><pre id="reasonBox"></pre></div>
+  <div class="card"><h3><span class="file">timeline.txt</span> <span class="tag">breadcrumbs</span></h3><ul id="timelineBox" class="timeline"></ul></div>
+  <div class="card"><h3><span class="file">audit.n3</span> <span class="tag">derived</span></h3><pre id="auditBox"></pre></div>
+
+<script type="module">
+/* ---------------- UI helpers ---------------- */
+const $ = (id)=>document.getElementById(id);
+const setStatus = (s)=>{ $('status').textContent = s || ''; };
+const addTimeline = (ev, detail="")=>{
+  const li = document.createElement('li');
+  const ts = new Date().toISOString().split('T')[1].replace('Z','');
+  li.innerHTML = `<span class="ts">${ts}</span><span class="ev">${ev}</span><span>${detail}</span>`;
+  $('timelineBox').appendChild(li);
+};
+const showChecks = (pairs)=>{
+  const box = $('checksBox'); box.innerHTML = '';
+  pairs.forEach(([name, ok])=>{
+    const li = document.createElement('li');
+    const badge = `<span class="badge ${ok?'ok':'bad'}">${ok?'✓':'✗'}</span>`;
+    li.innerHTML = `<span class="ts"></span><span class="ev">${badge}${name}</span>`;
+    box.appendChild(li);
+  });
+};
+
+/* ---------------- time helpers ---------------- */
+const nowISO = ()=> new Date().toISOString();
+const plusHoursISO = (h)=> new Date(Date.now()+h*3600*1000).toISOString();
+
+/* ---------------- N3 rule packs ---------------- */
+/* phone.n3 */
+const PHONE_RULES = `@prefix :        <https://example.org/person#> .
+@prefix health:  <https://example.org/health#> .
+@prefix need:    <https://example.org/need#> .
+@prefix ctx:     <https://example.org/context#> .
+@prefix ins:     <https://example.org/insight#> .
+@prefix odrl:    <http://www.w3.org/ns/odrl/2/> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+{ ?p health:householdCondition health:Diabetes. } => { ?p need:needsLowSugar true. } .
+
+{
+  ?p need:needsLowSugar true.
+  ?c  ctx:retailer   ?ret ;
+      ctx:device     ?dev ;
+      ctx:event      ?ev ;
+      ctx:createdAt  ?ts  ;
+      ctx:expiresAt  ?exp .
+}
+=>
+{
+  _:ins a                 ins:Insight ;
+        ins:metric        "sugar_g_per_serving" ;
+        ins:threshold     "10.0"^^xsd:decimal ;
+        ins:suggestionPolicy "lower_metric_first_higher_price_ok" ;
+        ins:scopeDevice   ?dev ;
+        ins:scopeEvent    ?ev ;
+        ins:retailer      ?ret ;
+        ins:createdAt     ?ts ;
+        ins:expiresAt     ?exp .
+} .
+
+{
+  ?ins a ins:Insight ;
+       ins:retailer     ?ret ;
+       ins:scopeDevice  ?dev ;
+       ins:scopeEvent   ?ev ;
+       ins:expiresAt    ?exp .
+}
+=>
+{
+  _:pol a odrl:Policy ;
+        odrl:profile    "Delfour-Insight-Policy" ;
+
+        odrl:permission [
+          odrl:action      odrl:use ;
+          odrl:target      ?ins ;
+          odrl:constraint [
+            odrl:leftOperand  odrl:purpose ;
+            odrl:operator     odrl:eq ;
+            odrl:rightOperand "shopping_assist"
+          ]
+        ] ;
+
+        odrl:prohibition [
+          odrl:action      odrl:share ;
+          odrl:target      ?ins ;
+          odrl:constraint [
+            odrl:leftOperand  odrl:purpose ;
+            odrl:operator     odrl:eq ;
+            odrl:rightOperand "marketing"
+          ]
+        ] ;
+
+        odrl:duty [
+          odrl:action      odrl:delete ;
+          odrl:constraint [
+            odrl:leftOperand  odrl:dateTime ;
+            odrl:operator     odrl:eq ;
+            odrl:rightOperand ?exp
+          ]
+        ] .
+} .
+`;
+
+/* scanner.n3 */
+const SCANNER_RULES = `@prefix ins:   <https://example.org/insight#> .
+@prefix odrl:  <http://www.w3.org/ns/odrl/2/> .
+@prefix ex:    <https://example.org/enforce#> .
+@prefix act:   <https://example.org/activity#> .
+@prefix shop:  <https://example.org/shop#> .
+@prefix schema:<http://schema.org/> .
+@prefix math:  <http://www.w3.org/2000/10/swap/math#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+{ ?ins a ins:Insight ; ins:expiresAt ?exp . [] ex:now ?now . ?exp math:lessThan ?now . }
+=> { ?ins a ex:Expired . } .
+
+{
+  ?pol a odrl:Policy ;
+       odrl:permission [
+         odrl:action      odrl:use ;
+         odrl:target      ?ins ;
+         odrl:constraint [
+           odrl:leftOperand  odrl:purpose ;
+           odrl:operator     odrl:eq ;
+           odrl:rightOperand "shopping_assist"
+         ]
+       ] .
+  ?ins a ins:Insight .
+  ?req odrl:action odrl:use ;
+       odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:rightOperand "shopping_assist" ] .
+}
+=> { ?req a ex:Allowed ; ex:target ?ins . } .
+
+{ ?req a ex:Allowed ; ex:target ?ins . ?ins a ex:Expired . }
+=> { ?req a ex:Blocked ; ex:reason "expired" . } .
+
+{ ?req a ex:Allowed . [] ex:now ?now . }
+=> { _:a a act:Decision ; act:at ?now ; act:request ?req ; act:outcome "Allowed" . } .
+
+{ ?req a ex:Blocked ; ex:reason ?r . [] ex:now ?now . }
+=> { _:a a act:Decision ; act:at ?now ; act:request ?req ; act:outcome "Blocked" ; act:reason ?r . } .
+
+{ ?ins a ex:Expired . [] ex:now ?now . }
+=> { _:d a act:Duty ; act:type "delete_due" ; act:at ?now ; act:target ?ins . } .
+
+{
+  ?req a ex:Allowed ; ex:target ?ins .
+  ?ins a ins:Insight ; ins:metric "sugar_g_per_serving" ; ins:threshold ?thr .
+  ?scan shop:scannedProduct ?p .
+  ?p schema:name ?name ; schema:sugarContent ?sug .
+  ?alt schema:name ?an ; schema:sugarContent ?as .
+  ?as math:lessThan ?sug .
+  ?sug math:notLessThan ?thr .
+}
+=> { ?scan shop:note "High sugar" ; shop:suggestedAlternative ?alt . } .
+`;
+
+/* ---------------- Input builders ---------------- */
+const buildProfileTTL = () => `@prefix :       <https://example.org/person#> .
+@prefix health: <https://example.org/health#> .
+:me  health:householdCondition  health:Diabetes .
+`.trim();
+
+const buildContextTTL = (createdISO, expiresISO) => `@prefix ctx: <https://example.org/context#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+[] ctx:retailer "Delfour" ;
+   ctx:device   "self-scanner" ;
+   ctx:event    "pick_up_scanner" ;
+   ctx:createdAt "${createdISO}"^^xsd:dateTime ;
+   ctx:expiresAt "${expiresISO}"^^xsd:dateTime .
+`.trim();
+
+const buildNowTTL = (nowISO) => `@prefix ex:  <https://example.org/enforce#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+[] ex:now "${nowISO}"^^xsd:dateTime .
+`.trim();
+
+const buildRequestTTL = () => `@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix req:  <https://example.org/request#> .
+req:r1 odrl:action odrl:use ;
+      odrl:constraint [
+        odrl:leftOperand  odrl:purpose ;
+        odrl:rightOperand "shopping_assist"
+      ] .
+`.trim();
+
+const buildCatalogTTL = () => `@prefix prod:   <https://example.org/product#> .
+@prefix schema: <http://schema.org/> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+prod:BIS_001 a schema:Product ; schema:name "Classic Tea Biscuits" ; schema:sugarContent "12.0"^^xsd:decimal .
+prod:BIS_101 a schema:Product ; schema:name "Low-Sugar Tea Biscuits" ; schema:sugarContent "3.0"^^xsd:decimal .
+prod:CHOC_050 a schema:Product ; schema:name "Milk Chocolate Bar"   ; schema:sugarContent "15.0"^^xsd:decimal .
+prod:CHOC_150 a schema:Product ; schema:name "85% Dark Chocolate"   ; schema:sugarContent "6.0"^^xsd:decimal .
+`.trim();
+
+const buildScanTTL = () => `@prefix shop: <https://example.org/shop#> .
+@prefix prod: <https://example.org/product#> .
+[] shop:scannedProduct prod:BIS_001 .
+`.trim();
+
+/* ---------------- eye-js runner ---------------- */
+let n3reasoner=null;
+async function ensureEye(){
+  if (n3reasoner) return n3reasoner;
+  const mod = await import("https://eyereasoner.github.io/eye-js/latest/dynamic-import.js");
+  if (!mod?.eyereasoner?.n3reasoner) throw new Error("eye-js n3reasoner not available");
+  n3reasoner = mod.eyereasoner.n3reasoner;
+  return n3reasoner;
+}
+async function derive(graphs){
+  const r = await ensureEye();
+  return await r(graphs, null, { output:"derivations", outputType:"string" });
+}
+
+/* ---------------- parse helpers ---------------- */
+function parseDecisionAndSuggestion(n3){
+  const decision =
+    /act:outcome\s+"(Allowed|Blocked)"/.exec(n3)?.[1] || "(no Decision found)";
+  const expired = /ex:Expired\b/.test(n3);
+  const suggestionQname =
+    /shop:suggestedAlternative\s+([^\s]+)\s*\./.exec(n3)?.[1] || null;
+  return { decision, expired, suggestionQname };
+}
+function nameForQname(qname, catalogTTL){
+  if (!qname) return null;
+  const re = new RegExp(qname.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + `[\\s\\S]*?schema:name\\s+"([^"]+)"`);
+  return (catalogTTL.match(re)||[])[1] || qname;
+}
+
+/* ---------------- Reason & Checks ---------------- */
+const REASON_TXT = "Household requires low-sugar guidance (diabetes in POD). Neutral insight envelope is scoped to this session (device+event+retailer) and expires soon.";
+function buildChecks(insightTTL, bannerJSON, scanOut){
+  const t = (insightTTL||"").toLowerCase();
+  const hasScope = ["scopedevice","scopeevent","expiresat"].every(k=>t.includes(k));
+  const banner = (()=>{ try{return JSON.parse(bannerJSON||"{}")}catch{return{}} })();
+  const runtimeOK = !!banner.headline;
+  const suggests = /shop:suggestedAlternative\b/.test(scanOut);
+  const hasDecision = /act:Decision\b/.test(scanOut);
+  return [
+    ["insight_nonempty", !!insightTTL.trim()],
+    ["minimization_no_sensitive_terms", !t.includes("diabetes") && !t.includes("medical")],
+    ["scope_has_device_event_expiry", hasScope],
+    ["runtime_present", runtimeOK],
+    ["behavior_suggests_on_high_sugar", suggests],
+    ["audit_has_decision", hasDecision]
+  ];
+}
+
+/* ---------------- Orchestrator ---------------- */
+async function runDemo(){
+  $('runBtn').disabled = true;
+  try{
+    // Build inputs
+    const created = nowISO();
+    const expires = plusHoursISO(2);
+    const now = nowISO();
+
+    const profileTTL  = buildProfileTTL();
+    const contextTTL  = buildContextTTL(created, expires);
+    const nowTTL      = buildNowTTL(now);
+    const requestTTL  = buildRequestTTL();
+    const catalogTTL  = buildCatalogTTL();
+    const scanTTL     = buildScanTTL();
+
+    $('profileBox').textContent = profileTTL;
+    $('contextBox').textContent = contextTTL;
+    $('nowBox').textContent     = nowTTL;
+    $('requestBox').textContent = requestTTL;
+    $('catalogBox').textContent = catalogTTL;
+    $('scanBox').textContent    = scanTTL;
+
+    // Run PHONE phase
+    setStatus("PHONE: deriving insight + policy …");
+    addTimeline("PICKUP", 'scanner="self-scanner" retailer="Delfour"');
+    addTimeline("AGENT-DIALOG", "capabilities received");
+    const phoneOut = (await derive([profileTTL, contextTTL, PHONE_RULES])).trim();
+    $('phoneOutBox').textContent = phoneOut || "(no derivations)";
+    addTimeline("INSIGHT", "neutral low-sugar envelope emitted");
+    addTimeline("POLICY", "ODRL policy emitted (use@shopping_assist; share@marketing prohibited)");
+
+    // Run SCANNER phase
+    setStatus("SCANNER: auth + audit + suggestion …");
+    const scanOut  = (await derive([phoneOut, nowTTL, requestTTL, catalogTTL, scanTTL, SCANNER_RULES])).trim();
+    $('scanOutBox').textContent  = scanOut || "(no derivations)";
+
+    // Extract audit (for display) — keep raw derivations
+    $('auditBox').textContent = scanOut;
+
+    // Parse decision + suggested alternative + build banner
+    const parsed   = parseDecisionAndSuggestion(scanOut);
+    const altName  = nameForQname(parsed.suggestionQname, catalogTTL);
+    const banner = (parsed.decision === "Blocked")
+      ? { headline: "Policy blocked action", product_name: null, note: "Expired or prohibited", suggested_alternative: null }
+      : {
+          headline: altName ? "Track sugar per serving while you scan" : "Scan complete",
+          product_name: "Classic Tea Biscuits",
+          note: altName ? "High sugar" : null,
+          suggested_alternative: altName || null
+        };
+    $('bannerBox').textContent = JSON.stringify(banner, null, 2);
+
+    // Timeline breadcrumbs
+    if (parsed.decision === "Allowed") addTimeline("AUTH", "Allowed (use@shopping_assist)");
+    else if (parsed.decision === "Blocked") addTimeline("AUTH", "Blocked (expired)");
+    if (banner.headline) addTimeline("RUNTIME", "banner written");
+
+    addTimeline("DROP", "scanner returned; session closed");
+
+    // Checks + Reason
+    $('reasonBox').textContent = REASON_TXT;
+    const checks = buildChecks(phoneOut, $('bannerBox').textContent, scanOut);
+    showChecks(checks);
+
+    // Summary JSON
+    $('summaryBox').textContent  = JSON.stringify({
+      decision: parsed.decision,
+      expired: parsed.expired,
+      suggestedAlternative: altName || null
+    }, null, 2);
+
+    setStatus("Done.");
+  }catch(e){
+    console.error(e);
+    setStatus("Error: " + (e?.message || e));
+  }finally{
+    $('runBtn').disabled = false;
+  }
+}
+
+document.getElementById('runBtn').addEventListener('click', runDemo);
+setStatus("Ready.");
+</script>
+</body>
+</html>
+

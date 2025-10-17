@@ -9,6 +9,7 @@ ARC is a framework that transforms a combination of data, logic, and a question 
 * [Collatz (3n+1)](https://eyereasoner.github.io/eye/arc/etc/collatz.html)
 * [Complex identities — explanatory proofs](https://eyereasoner.github.io/eye/arc/etc/complex.html)
 * [Control System](https://eyereasoner.github.io/eye/arc/etc/control_system.html)
+* [Delfour](https://eyereasoner.github.io/eye/arc/etc/delfour.html)
 * [Easter (Computus)](https://eyereasoner.github.io/eye/arc/etc/easter.html)
 * [Fibonacci via Fast Doubling](https://eyereasoner.github.io/eye/arc/etc/fibonacci.html)
 * [GPS Clinical Bench](https://eyereasoner.github.io/eye/arc/etc/gps_clinical_bench_100.html)
