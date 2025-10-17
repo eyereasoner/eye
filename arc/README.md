@@ -20,7 +20,7 @@ ARC is a framework that transforms a combination of data, logic, and a question 
 * [Library & Path](https://eyereasoner.github.io/eye/arc/etc/library_and_path.html)
 * [LLDM](https://eyereasoner.github.io/eye/arc/etc/lldm.html)
 * [Mathematics — the WHAT & the WHY](https://eyereasoner.github.io/eye/arc/etc/math_what_why.html)
-* [n-Queens](https://eyereasoner.github.io/eye/arc/etc/n_queens.html)
+* [N-Queens](https://eyereasoner.github.io/eye/arc/etc/n_queens.html)
 * [Polynomial roots (Durand–Kerner)](https://eyereasoner.github.io/eye/arc/etc/polynomial.html)
 * [Sudoku](https://eyereasoner.github.io/eye/arc/etc/sudoku.html)
 
