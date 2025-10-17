@@ -43,6 +43,7 @@
     .dot { width:10px; height:10px; border-radius:50%; display:inline-block; vertical-align:middle; margin-right:6px; }
     .spark { width:100%; height:72px; border-radius:10px; background: color-mix(in srgb, var(--accent) 6%, transparent); border:1px solid color-mix(in srgb, var(--accent) 18%, transparent); }
     details summary { cursor:pointer; font-weight:700; }
+    #advanced-rules { white-space: pre-line; }
   </style>
 </head>
 <body>
@@ -97,10 +98,7 @@
 
     <section id="reason">
       <h2>Reason why</h2>
-      <details>
-        <summary>Show simple rules (advanced)</summary>
         <div class="mono small" id="advanced-rules"></div>
-      </details>
     </section>
 
     <section id="check">
@@ -149,7 +147,8 @@
         'Expansins: E_{t+1} = E_t + k_e G_t (1 − E_t).',
         'Milestones at first t with thresholds; coleoptile = radicle + 3 days.',
       ];
-      setHTML('advanced-rules', txt.join('\\n').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'));
+      const el = $('advanced-rules');
+      if (el) el.textContent = txt.join('\n');
     })();
 
     // ------------------ Simulator ------------------
@@ -332,7 +331,7 @@
       const pre = document.createElement('pre');
       pre.className = 'mono';
       pre.style.whiteSpace = 'pre-wrap';
-      pre.textContent = lines.join('\\n');
+      pre.textContent = lines.join('\n');
       wrap.replaceChildren(pre);
     }
 
