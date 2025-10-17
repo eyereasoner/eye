@@ -2,19 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Delfour — JS logic + Turtle data/ODRL</title>
+  <title>Delfour — Insight Economy</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root{ --muted:#64748b; --ink:#0f172a; --line:#e2e8f0; --bg:#f8fafc; --accent:#4f46e5; --ok:#059669; --bad:#dc2626; }
     *{box-sizing:border-box}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:16px;color:var(--ink)}
-    h1{margin:0 0 6px;font-size:20px}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:14px;color:var(--ink)}
+    h1{margin:0 0 8px;font-size:20px}
     .muted{color:var(--muted)}
     .row{display:flex;gap:8px;align-items:center;margin:10px 0;flex-wrap:wrap}
+    .row input{min-width:8ch}
     .btn{padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer}
     .btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
     .btn:disabled{opacity:.5;cursor:not-allowed}
-    .step{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:600;font-size:13px;border:1px solid #e0e7ff;margin-right:6px}
+    .stephdr{display:flex;gap:8px;align-items:center;margin-top:14px}
+    .step{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:600;font-size:13px;border:1px solid #e0e7ff}
     .trail{font-size:12px;color:var(--muted)}
     .card{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fff;margin-top:10px}
     .card h3{margin:0 0 6px;font-size:14px;color:#111827;display:flex;align-items:center;gap:8px}
@@ -29,10 +31,20 @@
     .ok{background:#dcfce7;color:#065f46}
     .bad{background:#fee2e2;color:#991b1b}
   </style>
+  <!-- N3.js (browser build) -->
+  <script src="https://unpkg.com/n3@^1.17.0/browser/n3.min.js"></script>
 </head>
 <body>
-  <h1>Delfour — JS logic + Turtle</h1>
-  <div class="muted">A privacy-first, client-side demo that turns POD profile + session context into a neutral Insight with ODRL policy, then authorizes and (if needed) suggests a lower-sugar alternative.</div>
+  <h1>Delfour — Insight Economy</h1>
+
+  <!-- What this is -->
+  <section class="card" id="what-this-is">
+    <h2>What this is?</h2>
+    <p class="muted">
+      client-side demo that keeps <em>data & ODRL policy in Turtle</em>, while <em>logic runs in JavaScript</em>.
+      It derives a neutral Insight, builds an ODRL policy, authorizes a purpose-limited request, and suggests a lower-sugar alternative.
+    </p>
+  </section>
 
   <div class="row">
     <button id="runBtn" class="btn primary">Run Demo</button>
@@ -40,56 +52,44 @@
     <span id="status" class="muted"></span>
   </div>
 
-  <!-- Step 1: PHONE inputs -->
-  <div class="card">
-    <h3><span class="step">1</span><b>PHONE — Inputs</b> <span class="trail">profile.ttl + context.ttl</span></h3>
-    <div class="card"><h3><span class="file">profile.ttl</span> <span class="tag">POD data</span></h3><pre id="profileBox"></pre></div>
-    <div class="card"><h3><span class="file">context.ttl</span> <span class="tag">session</span></h3><pre id="contextBox"></pre></div>
-  </div>
+  <!-- STEP 1: PHONE — Inputs -->
+  <div class="stephdr"><span class="step">1</span><div><b>PHONE — Inputs</b><div class="trail">profile.ttl + context.ttl</div></div></div>
+  <div class="card"><h3><span class="file">profile.ttl</span> <span class="tag">POD data</span></h3><pre id="profileBox"></pre></div>
+  <div class="card"><h3><span class="file">context.ttl</span> <span class="tag">session</span></h3><pre id="contextBox"></pre></div>
 
-  <!-- Step 2: PHONE derived -->
-  <div class="card">
-    <h3><span class="step">2</span><b>PHONE — Derived</b> <span class="trail">JS ⇒ insight.ttl + policy.ttl</span></h3>
-    <div class="card"><h3><span class="file">insight.ttl</span> <span class="tag">derived</span></h3><pre id="insightBox"></pre></div>
-    <div class="card"><h3><span class="file">policy.ttl</span> <span class="tag">derived</span></h3><pre id="policyBox"></pre></div>
-  </div>
+  <!-- STEP 2: PHONE — Derived -->
+  <div class="stephdr"><span class="step">2</span><div><b>PHONE — Derived</b><div class="trail">JS ⇒ insight.ttl + policy.ttl</div></div></div>
+  <div class="card"><h3><span class="file">insight.ttl</span> <span class="tag">derived</span></h3><pre id="insightBox"></pre></div>
+  <div class="card"><h3><span class="file">policy.ttl</span> <span class="tag">derived</span></h3><pre id="policyBox"></pre></div>
 
-  <!-- Step 3: SCANNER inputs -->
-  <div class="card">
-    <h3><span class="step">3</span><b>SCANNER — Inputs</b> <span class="trail">now.ttl + request.ttl + catalog.ttl + scan.ttl</span></h3>
-    <div class="card"><h3><span class="file">now.ttl</span> <span class="tag">clock</span></h3><pre id="nowBox"></pre></div>
-    <div class="card"><h3><span class="file">request.ttl</span> <span class="tag">use@shopping_assist</span></h3><pre id="requestBox"></pre></div>
-    <div class="card"><h3><span class="file">catalog.ttl</span> <span class="tag">products</span></h3><pre id="catalogBox"></pre></div>
-    <div class="card"><h3><span class="file">scan.ttl</span> <span class="tag">event</span></h3><pre id="scanBox"></pre></div>
-  </div>
+  <!-- STEP 3: SCANNER — Inputs -->
+  <div class="stephdr"><span class="step">3</span><div><b>SCANNER — Inputs</b><div class="trail">now.ttl + request.ttl + catalog.ttl + scan.ttl</div></div></div>
+  <div class="card"><h3><span class="file">now.ttl</span> <span class="tag">clock</span></h3><pre id="nowBox"></pre></div>
+  <div class="card"><h3><span class="file">request.ttl</span> <span class="tag">use@shopping_assist</span></h3><pre id="requestBox"></pre></div>
+  <div class="card"><h3><span class="file">catalog.ttl</span> <span class="tag">products</span></h3><pre id="catalogBox"></pre></div>
+  <div class="card"><h3><span class="file">scan.ttl</span> <span class="tag">event</span></h3><pre id="scanBox"></pre></div>
 
-  <!-- Step 4: SCANNER derived + Step 5: Summary -->
-  <div class="card">
-    <h3><span class="step">4</span><b>SCANNER — Derived</b> <span class="trail">JS ⇒ audit.ttl + banner.json</span></h3>
-    <div class="card"><h3><span class="file">audit.ttl</span> <span class="tag">derived</span></h3><pre id="auditBox"></pre></div>
-    <div class="card"><h3><span class="file">banner.json</span> <span class="tag">runtime preview</span></h3><pre id="bannerBox"></pre></div>
-  </div>
+  <!-- STEP 4 + 5 -->
+  <div class="stephdr"><span class="step">4</span><div><b>SCANNER — Derived</b><div class="trail">JS ⇒ audit.ttl + banner.json</div></div></div>
+  <div class="card"><h3><span class="file">audit.ttl</span> <span class="tag">derived</span></h3><pre id="auditBox"></pre></div>
+  <div class="card"><h3><span class="file">banner.json</span> <span class="tag">runtime</span></h3><pre id="bannerBox"></pre></div>
 
-  <div class="card">
-    <h3><span class="step">5</span><b>Summary & Harness</b> <span class="trail">Decision • Suggestion • Checks • Reason • Timeline</span></h3>
-    <div class="card"><h3><span class="file">summary.json</span></h3><pre id="summaryBox"></pre></div>
-    <div class="card"><h3><span class="file">checks.txt</span></h3><ul id="checksBox" class="timeline"></ul></div>
-    <div class="card"><h3><span class="file">reason.txt</span></h3><pre id="reasonBox"></pre></div>
-    <div class="card"><h3><span class="file">timeline.txt</span></h3><ul id="timelineBox" class="timeline"></ul></div>
-  </div>
+  <div class="stephdr"><span class="step">5</span><div><b>Summary & Harness</b><div class="trail">Decision • Suggestion • Checks • Reason • Timeline</div></div></div>
+  <div class="card"><h3><span class="file">summary.json</span></h3><pre id="summaryBox"></pre></div>
+  <div class="card"><h3><span class="file">checks.txt</span></h3><ul id="checksBox" class="timeline"></ul></div>
+  <div class="card"><h3><span class="file">reason.txt</span></h3><pre id="reasonBox"></pre></div>
+  <div class="card"><h3><span class="file">timeline.txt</span></h3><ul id="timelineBox" class="timeline"></ul></div>
 
-<script type="module">
-/* ---------------- UI helpers ---------------- */
-const $ = (id)=>document.getElementById(id);
-const setStatus = (s)=>{ $('status').textContent = s||''; };
+<script>
+const setStatus = (s)=>{ document.getElementById('status').textContent = s||''; };
 const addTimeline = (ev, detail="")=>{
   const li = document.createElement('li');
   const ts = new Date().toISOString().split('T')[1].replace('Z','');
   li.innerHTML = `<span class="ts">${ts}</span><span class="ev">${ev}</span><span>${detail}</span>`;
-  $('timelineBox').appendChild(li);
+  document.getElementById('timelineBox').appendChild(li);
 };
 const showChecks = (pairs)=>{
-  const box = $('checksBox'); box.innerHTML = '';
+  const box = document.getElementById('checksBox'); box.innerHTML = '';
   pairs.forEach(([name, ok])=>{
     const li = document.createElement('li');
     const badge = `<span class="badge ${ok?'ok':'bad'}">${ok?'✓':'✗'}</span>`;
@@ -97,9 +97,8 @@ const showChecks = (pairs)=>{
     box.appendChild(li);
   });
 };
-const REASON = "Household requires low-sugar guidance (diabetes in POD). Neutral insight scoped to device+event+retailer; expires soon.";
+const REASON = "Household requires low-sugar guidance (diabetes in POD). Neutral insight scoped to this session; expires soon.";
 
-/* ---------------- TTL input builders (data in Turtle) ---------------- */
 const profileTTL = `@prefix :       <https://example.org/person#> .
 @prefix health: <https://example.org/health#> .
 :me  health:householdCondition  health:Diabetes .`;
@@ -118,11 +117,10 @@ const nowTTL = (nowISO) => `@prefix ex:  <https://example.org/enforce#> .
 
 const requestTTL = `@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
 @prefix req:  <https://example.org/request#> .
-@prefix vocab:   <https://example.org/vocab/> .
 req:r1 odrl:action odrl:use ;
       odrl:constraint [
         odrl:leftOperand  odrl:purpose ;
-        odrl:rightOperand vocab:shopping_assist
+        odrl:rightOperand "shopping_assist"
       ] .`;
 
 const catalogTTL = `@prefix prod:   <https://example.org/product#> .
@@ -137,197 +135,238 @@ const scanTTL = `@prefix shop: <https://example.org/shop#> .
 @prefix prod: <https://example.org/product#> .
 [] shop:scannedProduct prod:BIS_001 .`;
 
-/* ---------------- Minimal TTL parsing helpers (controlled data) ---------------- */
-const pick = (ttl, re, def=null)=> (ttl.match(re)||[])[1] ?? def;
-const parseContext = (ttl)=> ({
-  retailer:    pick(ttl, /ctx:retailer\s+"([^"]+)"/),
-  device:      pick(ttl, /ctx:device\s+"([^"]+)"/),
-  event:       pick(ttl, /ctx:event\s+"([^"]+)"/),
-  createdAt:   pick(ttl, /ctx:createdAt\s+"([^"]+)"/),
-  expiresAt:   pick(ttl, /ctx:expiresAt\s+"([^"]+)"/),
-});
-const parseNow = (ttl)=> pick(ttl, /ex:now\s+"([^"]+)"/);
-const parseScan = (ttl)=> pick(ttl, /shop:scannedProduct\s+([^\s]+)\s*\./);
-function parseCatalog(ttl){
-  const lines = ttl.split(/\n/);
-  const items = {};
-  for(const ln of lines){
-    const m = ln.match(/^(prod:[A-Z_0-9]+).+schema:name\s+"([^"]+)".+schema:sugarContent\s+"([\d.]+)"/);
-    if(m){ items[m[1]] = { name:m[2], sugar: parseFloat(m[3]) }; }
+// N3.js
+const { Parser, Writer, DataFactory } = N3;
+const { namedNode, blankNode, literal, quad } = DataFactory;
+
+function parseContext(ttl){
+  const p = new Parser();
+  const ctx = {};
+  for (const q of p.parse(ttl)){
+    if (!q || !q.predicate) continue;
+    const pred = q.predicate.value;
+    if (pred.endsWith('/context#retailer')) ctx.retailer = q.object.value;
+    if (pred.endsWith('/context#device'))   ctx.device   = q.object.value;
+    if (pred.endsWith('/context#event'))    ctx.event    = q.object.value;
+    if (pred.endsWith('/context#createdAt'))ctx.createdAt= q.object.value;
+    if (pred.endsWith('/context#expiresAt'))ctx.expiresAt= q.object.value;
   }
+  return ctx;
+}
+function parseNow(ttl){
+  const p = new Parser();
+  for (const q of p.parse(ttl)){
+    if (q && q.predicate && q.predicate.value.endsWith('/enforce#now')) return q.object.value;
+  }
+  return null;
+}
+function parseScan(ttl){
+  const p = new Parser();
+  for (const q of p.parse(ttl)){
+    if (q && q.predicate && q.predicate.value.endsWith('/shop#scannedProduct')) return q.object.value; // full IRI or CURIE? Parser expands to full IRI
+  }
+  return null;
+}
+function parseCatalog(ttl){
+  const p = new Parser();
+  const items = {};
+  const names = {};
+  const sugars = {};
+  for (const q of p.parse(ttl)){
+    if (!q || !q.predicate) continue;
+    const pred = q.predicate.value;
+    const subj = q.subject.value;
+    if (pred.endsWith('/schema.org/name')) names[subj] = q.object.value;
+    if (pred.endsWith('/schema.org/sugarContent')) sugars[subj] = parseFloat(q.object.value);
+  }
+  Object.keys(names).forEach(s=>{
+    items[s] = { name: names[s], sugar: sugars[s] ?? NaN };
+  });
   return items;
 }
 
-/* ---------------- JS “rules” implemented imperatively ---------------- */
-// Derive neutral Insight from profile+context (desensitization is assumed)
-function deriveInsight({context}){
-  const id = `https://example.org/insight/${crypto.randomUUID?.()||Date.now()}`;
-  const thr = 10.0;
-  const ttl = `@prefix ins: <https://example.org/insight#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-<${id}> a ins:Insight ;
-  ins:metric "sugar_g_per_serving" ;
-  ins:threshold "${thr.toFixed(1)}"^^xsd:decimal ;
-  ins:suggestionPolicy "lower_metric_first_higher_price_ok" ;
-  ins:scopeDevice "${context.device}" ;
-  ins:scopeEvent "${context.event}" ;
-  ins:retailer "${context.retailer}" ;
-  ins:createdAt "${context.createdAt}"^^xsd:dateTime ;
-  ins:expiresAt "${context.expiresAt}"^^xsd:dateTime .`;
-  return { id, threshold: thr, insightTTL: ttl };
+function deriveInsightTTL({ctx, threshold=10.0, insightIri}){
+  const w = new Writer({ prefixes: {
+    ins: 'https://example.org/insight#',
+    xsd: 'http://www.w3.org/2001/XMLSchema#'
+  }});
+  const s = namedNode(insightIri);
+  w.addQuad(quad(s, namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), namedNode('https://example.org/insight#Insight')));
+  w.addQuad(quad(s, namedNode('https://example.org/insight#metric'), literal('sugar_g_per_serving')));
+  w.addQuad(quad(s, namedNode('https://example.org/insight#threshold'), literal(threshold.toFixed(1), namedNode('http://www.w3.org/2001/XMLSchema#decimal'))));
+  w.addQuad(quad(s, namedNode('https://example.org/insight#suggestionPolicy'), literal('lower_metric_first_higher_price_ok')));
+  w.addQuad(quad(s, namedNode('https://example.org/insight#scopeDevice'), literal(ctx.device)));
+  w.addQuad(quad(s, namedNode('https://example.org/insight#scopeEvent'), literal(ctx.event)));
+  w.addQuad(quad(s, namedNode('https://example.org/insight#retailer'), literal(ctx.retailer)));
+  w.addQuad(quad(s, namedNode('https://example.org/insight#createdAt'), literal(ctx.createdAt, namedNode('http://www.w3.org/2001/XMLSchema#dateTime'))));
+  w.addQuad(quad(s, namedNode('https://example.org/insight#expiresAt'), literal(ctx.expiresAt, namedNode('http://www.w3.org/2001/XMLSchema#dateTime'))));
+  return new Promise(res=> w.end((err,str)=> res(str.trim())));
 }
 
-// Build ODRL policy Turtle from the Insight (typed expiry)
-function buildPolicy({insightId, expiresAt}){
-  return `@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
-@prefix ins:  <https://example.org/insight#> .
-@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-@prefix vocab:   <https://example.org/vocab/> .
-@prefix profile: <https://example.org/profile/> .
-_:pol a odrl:Policy ;
-  odrl:profile profile:Delfour-Insight-Policy ;
-  odrl:permission [
-    odrl:action odrl:use ;
-    odrl:target <${insightId}> ;
-    odrl:constraint [
-      odrl:leftOperand odrl:purpose ;
-      odrl:operator    odrl:eq ;
-      odrl:rightOperand vocab:shopping_assist
-    ]
-  ] ;
-  odrl:prohibition [
-    odrl:action odrl:distribute ;
-    odrl:target <${insightId}> ;
-    odrl:constraint [
-      odrl:leftOperand odrl:purpose ;
-      odrl:operator    odrl:eq ;
-      odrl:rightOperand vocab:marketing
-    ]
-  ] ;
-  odrl:duty [
-    odrl:action odrl:delete ;
-    odrl:constraint [
-      odrl:leftOperand odrl:dateTime ;
-      odrl:operator    odrl:eq ;
-      odrl:rightOperand "${expiresAt}"^^xsd:dateTime
-    ]
-  ] .`;
+function buildPolicyTTL({insightIri, expiresAt}){
+  const w = new Writer({ prefixes: {
+    odrl: 'http://www.w3.org/ns/odrl/2/',
+    ins:  'https://example.org/insight#',
+    xsd:  'http://www.w3.org/2001/XMLSchema#'
+  }});
+  const pol = blankNode();
+  const perm = blankNode();
+  const cons1= blankNode();
+  const prob = blankNode();
+  const cons2= blankNode();
+  const duty = blankNode();
+  const cons3= blankNode();
+
+  // _:pol a odrl:Policy ;
+  w.addQuad(pol, namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), namedNode('http://www.w3.org/ns/odrl/2/Policy'));
+  w.addQuad(pol, namedNode('http://www.w3.org/ns/odrl/2/profile'), literal('Delfour-Insight-Policy'));
+
+  // permission […]
+  w.addQuad(pol, namedNode('http://www.w3.org/ns/odrl/2/permission'), perm);
+  w.addQuad(perm, namedNode('http://www.w3.org/ns/odrl/2/action'), namedNode('http://www.w3.org/ns/odrl/2/use'));
+  w.addQuad(perm, namedNode('http://www.w3.org/ns/odrl/2/target'), namedNode(insightIri));
+  w.addQuad(perm, namedNode('http://www.w3.org/ns/odrl/2/constraint'), cons1);
+  w.addQuad(cons1, namedNode('http://www.w3.org/ns/odrl/2/leftOperand'), namedNode('http://www.w3.org/ns/odrl/2/purpose'));
+  w.addQuad(cons1, namedNode('http://www.w3.org/ns/odrl/2/operator'),    namedNode('http://www.w3.org/ns/odrl/2/eq'));
+  w.addQuad(cons1, namedNode('http://www.w3.org/ns/odrl/2/rightOperand'),literal('shopping_assist'));
+
+  // prohibition […]
+  w.addQuad(pol, namedNode('http://www.w3.org/ns/odrl/2/prohibition'), prob);
+  w.addQuad(prob, namedNode('http://www.w3.org/ns/odrl/2/action'), namedNode('http://www.w3.org/ns/odrl/2/share'));
+  w.addQuad(prob, namedNode('http://www.w3.org/ns/odrl/2/target'), namedNode(insightIri));
+  w.addQuad(prob, namedNode('http://www.w3.org/ns/odrl/2/constraint'), cons2);
+  w.addQuad(cons2, namedNode('http://www.w3.org/ns/odrl/2/leftOperand'), namedNode('http://www.w3.org/ns/odrl/2/purpose'));
+  w.addQuad(cons2, namedNode('http://www.w3.org/ns/odrl/2/operator'),    namedNode('http://www.w3.org/ns/odrl/2/eq'));
+  w.addQuad(cons2, namedNode('http://www.w3.org/ns/odrl/2/rightOperand'),literal('marketing'));
+
+  // duty […]
+  w.addQuad(pol, namedNode('http://www.w3.org/ns/odrl/2/duty'), duty);
+  w.addQuad(duty, namedNode('http://www.w3.org/ns/odrl/2/action'), namedNode('http://www.w3.org/ns/odrl/2/delete'));
+  w.addQuad(duty, namedNode('http://www.w3.org/ns/odrl/2/constraint'), cons3);
+  w.addQuad(cons3, namedNode('http://www.w3.org/ns/odrl/2/leftOperand'), namedNode('http://www.w3.org/ns/odrl/2/dateTime'));
+  w.addQuad(cons3, namedNode('http://www.w3.org/ns/odrl/2/operator'),    namedNode('http://www.w3.org/ns/odrl/2/eq'));
+  w.addQuad(cons3, namedNode('http://www.w3.org/ns/odrl/2/rightOperand'), literal(expiresAt, namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
+
+  return new Promise(res=> w.end((err,str)=> res(str.trim())));
 }
 
-// Enforce: check purpose permission and expiry
-function enforce({policyTTL, requestTTL, nowISO, insightId, expiresAt}){
-  const purposeOK = /rightOperand vocab:shopping_assist/.test(policyTTL) &&
-                    /odrl:action odrl:use/.test(requestTTL);
-  const expired = new Date(nowISO) > new Date(expiresAt);
-  const allowed = purposeOK && !expired;
-  const auditTTL = `@prefix act: <https://example.org/activity#> .
-@prefix ex:  <https://example.org/enforce#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-_:dec a act:Decision ;
-  act:at "${nowISO}"^^xsd:dateTime ;
-  act:request <https://example.org/request/r1> ;
-  act:outcome "${allowed ? "Allowed" : "Blocked"}" ${expired ? '; act:reason "expired"' : ''} .
-${expired ? `<${insightId}> a ex:Expired .` : ''}`;
-  return { allowed, expired, auditTTL };
-}
-
-// Shopping suggestion if allowed: pick lower sugar than scanned
-function suggest({allowed, catalog, scannedQName, threshold}){
-  const scanned = catalog[scannedQName];
-  if(!allowed || !scanned) return { banner: {
-    headline: "Policy blocked action", product_name: null, note: "Expired or prohibited", suggested_alternative: null
-  }, altName: null };
-
-  if (scanned.sugar < threshold) {
-    return { banner: { headline:"Scan complete", product_name: scanned.name, note: null, suggested_alternative: null }, altName: null };
+function buildAuditTTL({allowed, reason, nowISO, insightIri, expired}){
+  const w = new Writer({ prefixes: {
+    act: 'https://example.org/activity#',
+    ex:  'https://example.org/enforce#',
+    xsd: 'http://www.w3.org/2001/XMLSchema#'
+  }});
+  const dec = blankNode();
+  w.addQuad(dec, namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), namedNode('https://example.org/activity#Decision'));
+  w.addQuad(dec, namedNode('https://example.org/activity#at'), literal(nowISO, namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
+  w.addQuad(dec, namedNode('https://example.org/activity#request'), namedNode('https://example.org/request/r1'));
+  w.addQuad(dec, namedNode('https://example.org/activity#outcome'), literal(allowed ? 'Allowed' : 'Blocked'));
+  if (!allowed && reason) w.addQuad(dec, namedNode('https://example.org/activity#reason'), literal(reason));
+  if (expired) {
+    w.addQuad(namedNode(insightIri), namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), namedNode('https://example.org/enforce#Expired'));
   }
-  const alts = Object.values(catalog).filter(p => p.sugar < scanned.sugar);
-  const best = alts.sort((a,b)=>a.sugar-b.sugar)[0];
-  if (best){
-    return { banner: { headline:"Track sugar per serving while you scan", product_name: scanned.name, note:"High sugar", suggested_alternative: best.name }, altName: best.name };
-  }
-  return { banner: { headline:"Scan complete", product_name: scanned.name, note: null, suggested_alternative: null }, altName: null };
+  return new Promise(res=> w.end((err,str)=> res(str.trim())));
 }
 
-/* ---------------- Orchestrator ---------------- */
+/* Orchestrator */
 function isoNow(){ return new Date().toISOString(); }
 function isoPlusHours(h){ return new Date(Date.now()+h*3600*1000).toISOString(); }
 
-document.getElementById('runBtn').addEventListener('click', () => {
-  (async () => {
-    const btn = document.getElementById('runBtn');
-    btn.disabled = true;
-    try{
-      setStatus("Preparing inputs…");
-      const created = isoNow();
-      const expires = isoPlusHours(2);
-      const now = isoNow();
+document.getElementById('runBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('runBtn'); btn.disabled = true;
+  try{
+    setStatus("Preparing inputs…");
+    const created = isoNow();
+    const expires = isoPlusHours(2);
+    const now = isoNow();
 
-      const ctxTtl = contextTTL({created, expires});
-      const ctx = parseContext(ctxTtl);
-      const cat = parseCatalog(catalogTTL);
-      const scanned = parseScan(scanTTL);
+    document.getElementById('profileBox').textContent = profileTTL;
+    const ctxStr = contextTTL({created, expires});
+    document.getElementById('contextBox').textContent = ctxStr;
+    document.getElementById('nowBox').textContent     = nowTTL(now);
+    document.getElementById('requestBox').textContent = requestTTL;
+    document.getElementById('catalogBox').textContent = catalogTTL;
+    document.getElementById('scanBox').textContent    = scanTTL;
 
-      // Show inputs
-      $('profileBox').textContent = profileTTL;
-      $('contextBox').textContent = ctxTtl;
-      $('nowBox').textContent = nowTTL(now);
-      $('requestBox').textContent = requestTTL;
-      $('catalogBox').textContent = catalogTTL;
-      $('scanBox').textContent = scanTTL;
+    const ctx = parseContext(ctxStr);
+    const cat = parseCatalog(catalogTTL);
+    const scannedIri = parseScan(scanTTL);
 
-      // PHONE phase
-      addTimeline("PICKUP", `scanner="${ctx.device}" retailer="${ctx.retailer}"`);
-      addTimeline("AGENT-DIALOG", "capabilities received");
-      setStatus("Deriving Insight + Policy…");
-      const { id: insightId, threshold, insightTTL } = deriveInsight({context: ctx});
-      const policyTTLStr = buildPolicy({insightId, expiresAt: ctx.expiresAt});
-      $('insightBox').textContent = insightTTL;
-      $('policyBox').textContent  = policyTTLStr;
-      addTimeline("INSIGHT", "neutral low-sugar envelope emitted");
-      addTimeline("POLICY", "ODRL policy emitted");
+    // PHONE
+    addTimeline("PICKUP", `scanner="${ctx.device}" retailer="${ctx.retailer}"`);
+    addTimeline("AGENT-DIALOG", "capabilities received");
+    setStatus("Deriving Insight + Policy (JS + N3.js)…");
 
-      // SCANNER phase
-      setStatus("Authorization + Audit + Suggestion…");
-      const { allowed, expired, auditTTL } = enforce({
-        policyTTL: policyTTLStr, requestTTL, nowISO: now, insightId, expiresAt: ctx.expiresAt
-      });
-      $('auditBox').textContent = auditTTL;
+    const insightIri = `https://example.org/insight/${(crypto.randomUUID&&crypto.randomUUID()) || ('S'+Date.now())}`;
+    const threshold = 10.0;
+    const insightTTLStr = await deriveInsightTTL({ ctx, threshold, insightIri });
+    const policyTTLStr  = await buildPolicyTTL({ insightIri, expiresAt: ctx.expiresAt });
 
-      const { banner, altName } = suggest({ allowed, catalog: cat, scannedQName: scanned, threshold });
-      $('bannerBox').textContent = JSON.stringify(banner, null, 2);
+    document.getElementById('insightBox').textContent = insightTTLStr;
+    document.getElementById('policyBox').textContent  = policyTTLStr;
+    addTimeline("INSIGHT", "neutral low-sugar envelope emitted");
+    addTimeline("POLICY", "ODRL policy emitted");
 
-      addTimeline("AUTH", allowed ? "Allowed (use@shopping_assist)" : (expired ? "Blocked (expired)" : "Blocked"));
-      addTimeline("RUNTIME", "banner written");
-      addTimeline("DROP", "scanner returned; session closed");
+    // SCANNER — enforce + suggest
+    setStatus("Authorization + Audit + Suggestion…");
+    const purposeOK = /odrl:rightOperand "shopping_assist"/.test(policyTTLStr);
+    const allowed   = purposeOK && (new Date(now) <= new Date(ctx.expiresAt));
+    const expired   = new Date(now) > new Date(ctx.expiresAt);
+    const reason    = !allowed ? (expired ? "expired" : "prohibited") : null;
 
-      // Checks + reason
-      $('reasonBox').textContent = REASON;
-      const checks = [
-        ["insight_nonempty", !!insightTTL.trim()],
-        ["minimization_no_sensitive_terms", !/diabetes|medical/i.test(insightTTL)],
-        ["scope_has_device_event_expiry", /ins:scopeDevice|ins:scopeEvent|ins:expiresAt/.test(insightTTL)],
-        ["runtime_present", !!banner.headline],
-        ["behavior_suggests_on_high_sugar", !!banner.note],
-        ["audit_has_decision", /act:Decision/.test(auditTTL)]
-      ];
-      showChecks(checks);
+    const auditTTLStr = await buildAuditTTL({ allowed, reason, nowISO: now, insightIri, expired });
+    document.getElementById('auditBox').textContent = auditTTLStr;
 
-      // Summary
-      $('summaryBox').textContent = JSON.stringify({
-        decision: allowed ? "Allowed" : "Blocked",
-        expired, suggestedAlternative: altName
-      }, null, 2);
-
-      setStatus("Done.");
-    }catch(e){
-      console.error(e);
-      setStatus("Error: " + (e?.message || e));
-    }finally{
-      btn.disabled = false;
+    // suggestion
+    const scanned = cat[scannedIri];
+    let banner;
+    if (!allowed || !scanned){
+      banner = { headline: "Policy blocked action", product_name: null, note: "Expired or prohibited", suggested_alternative: null };
+      addTimeline("AUTH", expired ? "Blocked (expired)" : "Blocked");
+    } else {
+      if (scanned.sugar >= threshold){
+        const alts = Object.values(cat).filter(p => p.sugar < scanned.sugar).sort((a,b)=>a.sugar-b.sugar);
+        const best = alts[0];
+        if (best){
+          banner = { headline:"Track sugar per serving while you scan", product_name: scanned.name, note:"High sugar", suggested_alternative: best.name };
+        } else {
+          banner = { headline:"Scan complete", product_name: scanned.name, note:null, suggested_alternative:null };
+        }
+      } else {
+        banner = { headline:"Scan complete", product_name: scanned.name, note:null, suggested_alternative:null };
+      }
+      addTimeline("AUTH", "Allowed (use@shopping_assist)");
     }
-  })();
+    document.getElementById('bannerBox').textContent = JSON.stringify(banner, null, 2);
+    addTimeline("RUNTIME", "banner written");
+    addTimeline("DROP", "scanner returned; session closed");
+
+    // Checks + Summary + Reason
+    document.getElementById('reasonBox').textContent = REASON;
+    const checks = [
+      ["insight_nonempty", !!insightTTLStr.trim()],
+      ["minimization_no_sensitive_terms", !/diabetes|medical/i.test(insightTTLStr)],
+      ["scope_has_device_event_expiry", /ins:scopeDevice|ins:scopeEvent|ins:expiresAt/.test(insightTTLStr)],
+      ["runtime_present", !!banner.headline],
+      ["behavior_suggests_on_high_sugar", !!banner.note],
+      ["audit_has_decision", /act:Decision/.test(auditTTLStr)]
+    ];
+    showChecks(checks);
+
+    document.getElementById('summaryBox').textContent = JSON.stringify({
+      decision: allowed ? "Allowed" : "Blocked",
+      expired, suggestedAlternative: banner.suggested_alternative || null
+    }, null, 2);
+
+    setStatus("Done.");
+  }catch(e){
+    console.error(e);
+    setStatus("Error: " + (e?.message || e));
+  }finally{
+    btn.disabled = false;
+  }
 });
+
 setStatus("Ready.");
 </script>
 </body>
