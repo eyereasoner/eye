@@ -12,6 +12,7 @@ in real-world applications.
 * [AuroraCare](https://eyereasoner.github.io/eye/arc/etc/auroracare.html)
 * [BMI](https://eyereasoner.github.io/eye/arc/etc/bmi.html)
 * [Collatz (3n+1)](https://eyereasoner.github.io/eye/arc/etc/collatz.html)
+* [Combinatorics](https://eyereasoner.github.io/eye/arc/etc/combinatorics.html)
 * [Complex identities — explanatory proofs](https://eyereasoner.github.io/eye/arc/etc/complex.html)
 * [Control System](https://eyereasoner.github.io/eye/arc/etc/control_system.html)
 * [Delfour](https://eyereasoner.github.io/eye/arc/etc/delfour.html)
