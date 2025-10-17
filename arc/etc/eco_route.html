@@ -49,8 +49,17 @@
 
     <div class="card" style="margin-bottom:16px">
       <div class="body">
-        <p><strong>What this is?</strong> Edit the Turtle below and press <em>Run</em>. If your Turtle came from a single‑line JSON string,
-        click <em>↯ Fix \n</em> once to convert <code>\\n</code> into real line breaks.</p>
+        <p><strong>What this is?</strong> A self‑contained, browser‑only reproduction of the Eco‑Route insight.
+        It specializes the original N3 rules into JavaScript and evaluates them against a small Turtle snippet.
+        The page produces an ARC report and a compact insight envelope you could pass to a UI.</p>
+        <ul>
+          <li><strong>R1</strong>: compute <code>ex:fuelIndex</code> for each route: <em>distanceKm × (payloadKg/1000) × gradientFactor</em>.</li>
+          <li><strong>R2</strong>: show an eco banner at the depot if the <em>current</em> route’s fuel index exceeds the policy threshold.</li>
+          <li><strong>R3</strong>: suggest the alternative route if it is strictly better (<code>FI_alt &lt; FI_current</code>).</li>
+          <li><strong>R4</strong>: add an estimated saving if the alternative is also within threshold (<code>FI_alt ≤ threshold</code>).</li>
+          <li><strong>R5</strong>: optional comfort index (simple sum) when it’s ≥ 40.</li>
+        </ul>
+        <p class="small">All logic runs locally; no network calls or external libraries. The sample below autoloads and auto‑runs.</p>
       </div>
     </div>
 
