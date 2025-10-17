@@ -11,6 +11,7 @@ ARC is a framework that transforms a combination of data, logic, and a question 
 * [Control System](https://eyereasoner.github.io/eye/arc/etc/control_system.html)
 * [Delfour](https://eyereasoner.github.io/eye/arc/etc/delfour.html)
 * [Easter (Computus)](https://eyereasoner.github.io/eye/arc/etc/easter.html)
+* [Eco‑Route ](https://eyereasoner.github.io/eye/arc/etc/eco_route.html)
 * [Fibonacci via Fast Doubling](https://eyereasoner.github.io/eye/arc/etc/fibonacci.html)
 * [GPS Clinical Bench](https://eyereasoner.github.io/eye/arc/etc/gps_clinical_bench_100.html)
 * [Graph — French cities](https://eyereasoner.github.io/eye/arc/etc/graph_french.html)
