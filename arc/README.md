@@ -27,6 +27,7 @@ in real-world applications.
 * [Library & Path](https://eyereasoner.github.io/eye/arc/etc/library_and_path.html)
 * [LLDM](https://eyereasoner.github.io/eye/arc/etc/lldm.html)
 * [Mathematics — the WHAT & the WHY](https://eyereasoner.github.io/eye/arc/etc/math_what_why.html)
+* [Matrix basics](https://eyereasoner.github.io/eye/arc/etc/matrix.html)
 * [N-Queens](https://eyereasoner.github.io/eye/arc/etc/n_queens.html)
 * [Polynomial roots (Durand–Kerner)](https://eyereasoner.github.io/eye/arc/etc/polynomial.html)
 * [REST-path](https://eyereasoner.github.io/eye/arc/etc/restpath.html)
