@@ -2,108 +2,226 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Delfour — Insight Economy</title>
+  <title>Delfour</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root{ --muted:#64748b; --ink:#0f172a; --line:#e2e8f0; --bg:#f8fafc; --accent:#4f46e5; --ok:#059669; --bad:#dc2626; }
-    *{box-sizing:border-box}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:14px;color:var(--ink)}
-    h1{margin:0 0 8px;font-size:20px}
-    .muted{color:var(--muted)}
-    .row{display:flex;gap:8px;align-items:center;margin:10px 0;flex-wrap:wrap}
-    .row input{min-width:8ch}
-    .btn{padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer}
-    .btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-    .btn:disabled{opacity:.5;cursor:not-allowed}
-    .stephdr{display:flex;gap:8px;align-items:center;margin-top:14px}
-    .step{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:600;font-size:13px;border:1px solid #e0e7ff}
-    .trail{font-size:12px;color:var(--muted)}
-    .card{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fff;margin-top:10px}
-    .card h3{margin:0 0 6px;font-size:14px;color:#111827;display:flex;align-items:center;gap:8px}
-    .file{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;background:#eef2ff;border:1px solid #e0e7ff;color:#3730a3;border-radius:999px;padding:1px 8px}
-    .tag{font-size:11px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:1px 8px;color:#334155}
-    pre{white-space:pre-wrap;word-break:break-word;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12px;max-height:280px;overflow:auto}
-    .timeline{list-style:none;padding-left:0;margin:0}
-    .timeline li{display:flex;gap:8px;align-items:flex-start;padding:4px 0;border-bottom:1px dashed #e5e7eb}
-    .ts{color:#94a3b8;min-width:86px}
-    .ev{font-weight:600;min-width:120px}
-    .badge{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:999px;font-size:12px;margin-right:6px}
-    .ok{background:#dcfce7;color:#065f46}
-    .bad{background:#fee2e2;color:#991b1b}
-  </style>
-  <!-- N3.js (browser build) -->
+  <meta name="color-scheme" content="light" />
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- N3.js for Turtle parsing/serializing -->
   <script src="https://unpkg.com/n3@^1.17.0/browser/n3.min.js"></script>
+  <style>
+    html, body { height: 100%; }
+    pre { white-space: pre-wrap; word-break: break-word; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  </style>
 </head>
-<body>
-  <h1>Delfour — Insight Economy</h1>
+<body class="bg-gradient-to-b from-slate-50 to-white text-slate-900 min-h-screen">
+  <main class="max-w-6xl mx-auto p-6">
+    <header class="mb-6">
+      <h1 class="text-2xl font-bold">Delfour</h1>
+      <p class="text-slate-600">
+        All logic in <span class="font-semibold">JavaScript</span>; data & policies in <span class="font-semibold">Turtle</span> (parsed with N3.js). Runs fully client-side.
+      </p>
+    </header>
 
-  <!-- What this is -->
-  <section class="card" id="what-this-is">
-    <h2>What this is?</h2>
-    <p class="muted">
-      client-side demo that keeps <em>data & ODRL policy in Turtle</em>, while <em>logic runs in JavaScript</em>.
-      It derives a neutral Insight, builds an ODRL policy, authorizes a purpose-limited request, and suggests a lower-sugar alternative.
-    </p>
-  </section>
+    <!-- What this is? -->
+    <section class="mb-4">
+      <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+        <h3 class="text-lg font-semibold mb-2">What this is?</h3>
+        <p class="text-sm text-slate-700">
+          It derives a neutral Insight, builds an ODRL policy, authorizes a purpose-limited request,
+          and suggests a lower-sugar alternative.
+        </p>
+      </div>
+    </section>
 
-  <div class="row">
-    <button id="runBtn" class="btn primary">Run Demo</button>
-    <label class="muted">Session&nbsp;<input id="sessionId" value="S1" style="padding:6px;border:1px solid #cbd5e1;border-radius:8px"></label>
-    <span id="status" class="muted"></span>
-  </div>
+    <div class="flex items-center gap-3 mb-6">
+      <button id="runBtn"
+              class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold shadow hover:bg-indigo-500 disabled:opacity-50">
+        Run Demo
+      </button>
+      <label class="text-slate-600 text-sm flex items-center gap-2">
+        Session
+        <input id="sessionId" value="S1" class="px-2 py-1 border border-slate-300 rounded-lg" />
+      </label>
+      <span id="status" class="text-sm text-slate-600"></span>
+    </div>
 
-  <!-- STEP 1: PHONE — Inputs -->
-  <div class="stephdr"><span class="step">1</span><div><b>PHONE — Inputs</b><div class="trail">profile.ttl + context.ttl</div></div></div>
-  <div class="card"><h3><span class="file">profile.ttl</span> <span class="tag">POD data</span></h3><pre id="profileBox"></pre></div>
-  <div class="card"><h3><span class="file">context.ttl</span> <span class="tag">session</span></h3><pre id="contextBox"></pre></div>
+    <!-- ONE-COLUMN FLOW (AuroraCare style cards) -->
+    <!-- 1) PHONE — Inputs -->
+    <section class="space-y-4">
+      <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+        <h3 class="text-lg font-semibold mb-2">PHONE — Inputs <span class="text-xs text-slate-500">(profile.ttl + context.ttl)</span></h3>
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700 border border-indigo-100">profile.ttl</span>
+              <span class="text-xs text-slate-500">POD data</span>
+            </div>
+            <pre id="profileBox" class="text-xs"></pre>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700 border border-indigo-100">context.ttl</span>
+              <span class="text-xs text-slate-500">session</span>
+            </div>
+            <pre id="contextBox" class="text-xs"></pre>
+          </div>
+        </div>
+      </div>
 
-  <!-- STEP 2: PHONE — Derived -->
-  <div class="stephdr"><span class="step">2</span><div><b>PHONE — Derived</b><div class="trail">JS ⇒ insight.ttl + policy.ttl</div></div></div>
-  <div class="card"><h3><span class="file">insight.ttl</span> <span class="tag">derived</span></h3><pre id="insightBox"></pre></div>
-  <div class="card"><h3><span class="file">policy.ttl</span> <span class="tag">derived</span></h3><pre id="policyBox"></pre></div>
+      <!-- 2) PHONE — Derived -->
+      <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+        <h3 class="text-lg font-semibold mb-2">PHONE — Derived <span class="text-xs text-slate-500">(insight.ttl + policy.ttl)</span></h3>
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-emerald-50 text-emerald-700 border border-emerald-100">insight.ttl</span>
+              <span class="text-xs text-slate-500">neutral envelope</span>
+            </div>
+            <pre id="insightBox" class="text-xs"></pre>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-emerald-50 text-emerald-700 border border-emerald-100">policy.ttl</span>
+              <span class="text-xs text-slate-500">ODRL</span>
+            </div>
+            <pre id="policyBox" class="text-xs"></pre>
+          </div>
+        </div>
+      </div>
 
-  <!-- STEP 3: SCANNER — Inputs -->
-  <div class="stephdr"><span class="step">3</span><div><b>SCANNER — Inputs</b><div class="trail">now.ttl + request.ttl + catalog.ttl + scan.ttl</div></div></div>
-  <div class="card"><h3><span class="file">now.ttl</span> <span class="tag">clock</span></h3><pre id="nowBox"></pre></div>
-  <div class="card"><h3><span class="file">request.ttl</span> <span class="tag">use@shopping_assist</span></h3><pre id="requestBox"></pre></div>
-  <div class="card"><h3><span class="file">catalog.ttl</span> <span class="tag">products</span></h3><pre id="catalogBox"></pre></div>
-  <div class="card"><h3><span class="file">scan.ttl</span> <span class="tag">event</span></h3><pre id="scanBox"></pre></div>
+      <!-- 3) SCANNER — Inputs -->
+      <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+        <h3 class="text-lg font-semibold mb-2">SCANNER — Inputs <span class="text-xs text-slate-500">(now.ttl + request.ttl + catalog.ttl + scan.ttl)</span></h3>
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-100">now.ttl</span>
+              <span class="text-xs text-slate-500">clock</span>
+            </div>
+            <pre id="nowBox" class="text-xs"></pre>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-100">request.ttl</span>
+              <span class="text-xs text-slate-500">use@shopping_assist</span>
+            </div>
+            <pre id="requestBox" class="text-xs"></pre>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-100">catalog.ttl</span>
+              <span class="text-xs text-slate-500">products</span>
+            </div>
+            <pre id="catalogBox" class="text-xs"></pre>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-100">scan.ttl</span>
+              <span class="text-xs text-slate-500">event</span>
+            </div>
+            <pre id="scanBox" class="text-xs"></pre>
+          </div>
+        </div>
+      </div>
 
-  <!-- STEP 4 + 5 -->
-  <div class="stephdr"><span class="step">4</span><div><b>SCANNER — Derived</b><div class="trail">JS ⇒ audit.ttl + banner.json</div></div></div>
-  <div class="card"><h3><span class="file">audit.ttl</span> <span class="tag">derived</span></h3><pre id="auditBox"></pre></div>
-  <div class="card"><h3><span class="file">banner.json</span> <span class="tag">runtime</span></h3><pre id="bannerBox"></pre></div>
+      <!-- 4) SCANNER — Derived + 5) Summary -->
+      <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+        <h3 class="text-lg font-semibold mb-2">SCANNER — Derived <span class="text-xs text-slate-500">(audit.ttl + banner.json)</span></h3>
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-rose-50 text-rose-700 border border-rose-100">audit.ttl</span>
+              <span class="text-xs text-slate-500">decision trail</span>
+            </div>
+            <pre id="auditBox" class="text-xs"></pre>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-rose-50 text-rose-700 border border-rose-100">banner.json</span>
+              <span class="text-xs text-slate-500">runtime preview</span>
+            </div>
+            <pre id="bannerBox" class="text-xs"></pre>
+          </div>
+        </div>
+      </div>
 
-  <div class="stephdr"><span class="step">5</span><div><b>Summary & Harness</b><div class="trail">Decision • Suggestion • Checks • Reason • Timeline</div></div></div>
-  <div class="card"><h3><span class="file">summary.json</span></h3><pre id="summaryBox"></pre></div>
-  <div class="card"><h3><span class="file">checks.txt</span></h3><ul id="checksBox" class="timeline"></ul></div>
-  <div class="card"><h3><span class="file">reason.txt</span></h3><pre id="reasonBox"></pre></div>
-  <div class="card"><h3><span class="file">timeline.txt</span></h3><ul id="timelineBox" class="timeline"></ul></div>
+      <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
+        <h3 class="text-lg font-semibold mb-2">Summary & Harness <span class="text-xs text-slate-500">(decision • suggestion • checks • reason • timeline)</span></h3>
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-sky-50 text-sky-700 border border-sky-100">summary.json</span>
+            </div>
+            <pre id="summaryBox" class="text-xs"></pre>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-sky-50 text-sky-700 border border-sky-100">checks.txt</span>
+            </div>
+            <div id="checks" class="text-sm space-y-1"></div>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-sky-50 text-sky-700 border border-sky-100">reason.txt</span>
+            </div>
+            <pre id="reasonBox" class="text-xs"></pre>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-sky-50 text-sky-700 border border-sky-100">timeline</span>
+            </div>
+            <ul id="timeline" class="text-sm space-y-1"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<script>
-const setStatus = (s)=>{ document.getElementById('status').textContent = s||''; };
-const addTimeline = (ev, detail="")=>{
-  const li = document.createElement('li');
-  const ts = new Date().toISOString().split('T')[1].replace('Z','');
-  li.innerHTML = `<span class="ts">${ts}</span><span class="ev">${ev}</span><span>${detail}</span>`;
-  document.getElementById('timelineBox').appendChild(li);
-};
-const showChecks = (pairs)=>{
-  const box = document.getElementById('checksBox'); box.innerHTML = '';
-  pairs.forEach(([name, ok])=>{
-    const li = document.createElement('li');
-    const badge = `<span class="badge ${ok?'ok':'bad'}">${ok?'✓':'✗'}</span>`;
-    li.innerHTML = `<span class="ts"></span><span class="ev">${badge}${name}</span>`;
-    box.appendChild(li);
-  });
-};
-const REASON = "Household requires low-sugar guidance (diabetes in POD). Neutral insight scoped to this session; expires soon.";
+    <footer class="mt-8 text-xs text-slate-500">
+      Inspired by the AuroraCare style. Powered by <span class="font-mono">N3.js</span>.
+    </footer>
+  </main>
 
-const profileTTL = `@prefix :       <https://example.org/person#> .
+<script type="module">
+  const { Parser, Writer, DataFactory } = N3;
+  const { namedNode, blankNode, literal, quad } = DataFactory;
+
+  const statusEl = document.getElementById("status");
+  const runBtn   = document.getElementById("runBtn");
+
+  function setStatus(msg){ statusEl.textContent = msg||""; }
+  function addTimeline(ev, detail=""){
+    const li = document.createElement("li");
+    const ts = new Date().toLocaleTimeString();
+    li.className = "flex gap-2";
+    li.innerHTML = `<span class="text-slate-400 w-28 shrink-0">${ts}</span>
+                    <span class="font-semibold w-36 shrink-0">${ev}</span>
+                    <span class="text-slate-700">${detail||""}</span>`;
+    document.getElementById("timeline").appendChild(li);
+  }
+  function showChecks(arr){
+    const box = document.getElementById("checks");
+    box.innerHTML = "";
+    arr.forEach(([name, ok])=>{
+      const row = document.createElement("div");
+      row.className = "flex items-center gap-2";
+      const badge = document.createElement("span");
+      badge.className = "inline-flex h-5 w-5 items-center justify-center rounded-full " + (ok ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700");
+      badge.textContent = ok ? "✓" : "✗";
+      const label = document.createElement("span");
+      label.textContent = name;
+      row.append(badge, label);
+      box.appendChild(row);
+    });
+  }
+
+  // ----- TTL sources (data in Turtle) -----
+  const profileTTL = `@prefix :       <https://example.org/person#> .
 @prefix health: <https://example.org/health#> .
 :me  health:householdCondition  health:Diabetes .`;
 
-const contextTTL = ({created, expires}) => `@prefix ctx: <https://example.org/context#> .
+  const contextTTL = ({created, expires}) => `@prefix ctx: <https://example.org/context#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 [] ctx:retailer "Delfour" ;
    ctx:device   "self-scanner" ;
@@ -111,11 +229,11 @@ const contextTTL = ({created, expires}) => `@prefix ctx: <https://example.org/co
    ctx:createdAt "${created}"^^xsd:dateTime ;
    ctx:expiresAt "${expires}"^^xsd:dateTime .`;
 
-const nowTTL = (nowISO) => `@prefix ex:  <https://example.org/enforce#> .
+  const nowTTL = (nowISO) => `@prefix ex:  <https://example.org/enforce#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 [] ex:now "${nowISO}"^^xsd:dateTime .`;
 
-const requestTTL = `@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+  const requestTTL = `@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
 @prefix req:  <https://example.org/request#> .
 req:r1 odrl:action odrl:use ;
       odrl:constraint [
@@ -123,7 +241,7 @@ req:r1 odrl:action odrl:use ;
         odrl:rightOperand "shopping_assist"
       ] .`;
 
-const catalogTTL = `@prefix prod:   <https://example.org/product#> .
+  const catalogTTL = `@prefix prod:   <https://example.org/product#> .
 @prefix schema: <http://schema.org/> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
 prod:BIS_001 a schema:Product ; schema:name "Classic Tea Biscuits" ; schema:sugarContent "12.0"^^xsd:decimal .
@@ -131,243 +249,229 @@ prod:BIS_101 a schema:Product ; schema:name "Low-Sugar Tea Biscuits" ; schema:su
 prod:CHOC_050 a schema:Product ; schema:name "Milk Chocolate Bar"   ; schema:sugarContent "15.0"^^xsd:decimal .
 prod:CHOC_150 a schema:Product ; schema:name "85% Dark Chocolate"   ; schema:sugarContent "6.0"^^xsd:decimal .`;
 
-const scanTTL = `@prefix shop: <https://example.org/shop#> .
+  const scanTTL = `@prefix shop: <https://example.org/shop#> .
 @prefix prod: <https://example.org/product#> .
 [] shop:scannedProduct prod:BIS_001 .`;
 
-// N3.js
-const { Parser, Writer, DataFactory } = N3;
-const { namedNode, blankNode, literal, quad } = DataFactory;
-
-function parseContext(ttl){
-  const p = new Parser();
-  const ctx = {};
-  for (const q of p.parse(ttl)){
-    if (!q || !q.predicate) continue;
-    const pred = q.predicate.value;
-    if (pred.endsWith('/context#retailer')) ctx.retailer = q.object.value;
-    if (pred.endsWith('/context#device'))   ctx.device   = q.object.value;
-    if (pred.endsWith('/context#event'))    ctx.event    = q.object.value;
-    if (pred.endsWith('/context#createdAt'))ctx.createdAt= q.object.value;
-    if (pred.endsWith('/context#expiresAt'))ctx.expiresAt= q.object.value;
+  // ----- parse helpers (N3.js) -----
+  function parseContext(ttl){
+    const p = new Parser();
+    const ctx = {};
+    for (const q of p.parse(ttl)||[]){
+      if (!q || !q.predicate) continue;
+      const pred = q.predicate.value;
+      if (pred.endsWith("/context#retailer"))  ctx.retailer  = q.object.value;
+      if (pred.endsWith("/context#device"))    ctx.device    = q.object.value;
+      if (pred.endsWith("/context#event"))     ctx.event     = q.object.value;
+      if (pred.endsWith("/context#createdAt")) ctx.createdAt = q.object.value;
+      if (pred.endsWith("/context#expiresAt")) ctx.expiresAt = q.object.value;
+    }
+    return ctx;
   }
-  return ctx;
-}
-function parseNow(ttl){
-  const p = new Parser();
-  for (const q of p.parse(ttl)){
-    if (q && q.predicate && q.predicate.value.endsWith('/enforce#now')) return q.object.value;
+  function parseNow(ttl){
+    const p = new Parser();
+    for (const q of p.parse(ttl)||[]){
+      if (q?.predicate?.value.endsWith("/enforce#now")) return q.object.value;
+    }
+    return null;
   }
-  return null;
-}
-function parseScan(ttl){
-  const p = new Parser();
-  for (const q of p.parse(ttl)){
-    if (q && q.predicate && q.predicate.value.endsWith('/shop#scannedProduct')) return q.object.value; // full IRI or CURIE? Parser expands to full IRI
+  function parseScan(ttl){
+    const p = new Parser();
+    for (const q of p.parse(ttl)||[]){
+      if (q?.predicate?.value.endsWith("/shop#scannedProduct")) return q.object.value; // full IRI expanded by N3.js
+    }
+    return null;
   }
-  return null;
-}
-function parseCatalog(ttl){
-  const p = new Parser();
-  const items = {};
-  const names = {};
-  const sugars = {};
-  for (const q of p.parse(ttl)){
-    if (!q || !q.predicate) continue;
-    const pred = q.predicate.value;
-    const subj = q.subject.value;
-    if (pred.endsWith('/schema.org/name')) names[subj] = q.object.value;
-    if (pred.endsWith('/schema.org/sugarContent')) sugars[subj] = parseFloat(q.object.value);
+  function parseCatalog(ttl){
+    const p = new Parser();
+    const name = {}, sugar = {};
+    for (const q of p.parse(ttl)||[]){
+      if (!q?.predicate) continue;
+      const pred = q.predicate.value;
+      const subj = q.subject.value;
+      if (pred === "http://schema.org/name")          name[subj]  = q.object.value;
+      if (pred === "http://schema.org/sugarContent")  sugar[subj] = parseFloat(q.object.value);
+    }
+    const items = {};
+    for (const s of Object.keys(name)){
+      items[s] = { name: name[s], sugar: sugar[s] ?? NaN };
+    }
+    return items;
   }
-  Object.keys(names).forEach(s=>{
-    items[s] = { name: names[s], sugar: sugars[s] ?? NaN };
-  });
-  return items;
-}
 
-function deriveInsightTTL({ctx, threshold=10.0, insightIri}){
-  const w = new Writer({ prefixes: {
-    ins: 'https://example.org/insight#',
-    xsd: 'http://www.w3.org/2001/XMLSchema#'
-  }});
-  const s = namedNode(insightIri);
-  w.addQuad(quad(s, namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), namedNode('https://example.org/insight#Insight')));
-  w.addQuad(quad(s, namedNode('https://example.org/insight#metric'), literal('sugar_g_per_serving')));
-  w.addQuad(quad(s, namedNode('https://example.org/insight#threshold'), literal(threshold.toFixed(1), namedNode('http://www.w3.org/2001/XMLSchema#decimal'))));
-  w.addQuad(quad(s, namedNode('https://example.org/insight#suggestionPolicy'), literal('lower_metric_first_higher_price_ok')));
-  w.addQuad(quad(s, namedNode('https://example.org/insight#scopeDevice'), literal(ctx.device)));
-  w.addQuad(quad(s, namedNode('https://example.org/insight#scopeEvent'), literal(ctx.event)));
-  w.addQuad(quad(s, namedNode('https://example.org/insight#retailer'), literal(ctx.retailer)));
-  w.addQuad(quad(s, namedNode('https://example.org/insight#createdAt'), literal(ctx.createdAt, namedNode('http://www.w3.org/2001/XMLSchema#dateTime'))));
-  w.addQuad(quad(s, namedNode('https://example.org/insight#expiresAt'), literal(ctx.expiresAt, namedNode('http://www.w3.org/2001/XMLSchema#dateTime'))));
-  return new Promise(res=> w.end((err,str)=> res(str.trim())));
-}
-
-function buildPolicyTTL({insightIri, expiresAt}){
-  const w = new Writer({ prefixes: {
-    odrl: 'http://www.w3.org/ns/odrl/2/',
-    ins:  'https://example.org/insight#',
-    xsd:  'http://www.w3.org/2001/XMLSchema#'
-  }});
-  const pol = blankNode();
-  const perm = blankNode();
-  const cons1= blankNode();
-  const prob = blankNode();
-  const cons2= blankNode();
-  const duty = blankNode();
-  const cons3= blankNode();
-
-  // _:pol a odrl:Policy ;
-  w.addQuad(pol, namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), namedNode('http://www.w3.org/ns/odrl/2/Policy'));
-  w.addQuad(pol, namedNode('http://www.w3.org/ns/odrl/2/profile'), literal('Delfour-Insight-Policy'));
-
-  // permission […]
-  w.addQuad(pol, namedNode('http://www.w3.org/ns/odrl/2/permission'), perm);
-  w.addQuad(perm, namedNode('http://www.w3.org/ns/odrl/2/action'), namedNode('http://www.w3.org/ns/odrl/2/use'));
-  w.addQuad(perm, namedNode('http://www.w3.org/ns/odrl/2/target'), namedNode(insightIri));
-  w.addQuad(perm, namedNode('http://www.w3.org/ns/odrl/2/constraint'), cons1);
-  w.addQuad(cons1, namedNode('http://www.w3.org/ns/odrl/2/leftOperand'), namedNode('http://www.w3.org/ns/odrl/2/purpose'));
-  w.addQuad(cons1, namedNode('http://www.w3.org/ns/odrl/2/operator'),    namedNode('http://www.w3.org/ns/odrl/2/eq'));
-  w.addQuad(cons1, namedNode('http://www.w3.org/ns/odrl/2/rightOperand'),literal('shopping_assist'));
-
-  // prohibition […]
-  w.addQuad(pol, namedNode('http://www.w3.org/ns/odrl/2/prohibition'), prob);
-  w.addQuad(prob, namedNode('http://www.w3.org/ns/odrl/2/action'), namedNode('http://www.w3.org/ns/odrl/2/share'));
-  w.addQuad(prob, namedNode('http://www.w3.org/ns/odrl/2/target'), namedNode(insightIri));
-  w.addQuad(prob, namedNode('http://www.w3.org/ns/odrl/2/constraint'), cons2);
-  w.addQuad(cons2, namedNode('http://www.w3.org/ns/odrl/2/leftOperand'), namedNode('http://www.w3.org/ns/odrl/2/purpose'));
-  w.addQuad(cons2, namedNode('http://www.w3.org/ns/odrl/2/operator'),    namedNode('http://www.w3.org/ns/odrl/2/eq'));
-  w.addQuad(cons2, namedNode('http://www.w3.org/ns/odrl/2/rightOperand'),literal('marketing'));
-
-  // duty […]
-  w.addQuad(pol, namedNode('http://www.w3.org/ns/odrl/2/duty'), duty);
-  w.addQuad(duty, namedNode('http://www.w3.org/ns/odrl/2/action'), namedNode('http://www.w3.org/ns/odrl/2/delete'));
-  w.addQuad(duty, namedNode('http://www.w3.org/ns/odrl/2/constraint'), cons3);
-  w.addQuad(cons3, namedNode('http://www.w3.org/ns/odrl/2/leftOperand'), namedNode('http://www.w3.org/ns/odrl/2/dateTime'));
-  w.addQuad(cons3, namedNode('http://www.w3.org/ns/odrl/2/operator'),    namedNode('http://www.w3.org/ns/odrl/2/eq'));
-  w.addQuad(cons3, namedNode('http://www.w3.org/ns/odrl/2/rightOperand'), literal(expiresAt, namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
-
-  return new Promise(res=> w.end((err,str)=> res(str.trim())));
-}
-
-function buildAuditTTL({allowed, reason, nowISO, insightIri, expired}){
-  const w = new Writer({ prefixes: {
-    act: 'https://example.org/activity#',
-    ex:  'https://example.org/enforce#',
-    xsd: 'http://www.w3.org/2001/XMLSchema#'
-  }});
-  const dec = blankNode();
-  w.addQuad(dec, namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), namedNode('https://example.org/activity#Decision'));
-  w.addQuad(dec, namedNode('https://example.org/activity#at'), literal(nowISO, namedNode('http://www.w3.org/2001/XMLSchema#dateTime')));
-  w.addQuad(dec, namedNode('https://example.org/activity#request'), namedNode('https://example.org/request/r1'));
-  w.addQuad(dec, namedNode('https://example.org/activity#outcome'), literal(allowed ? 'Allowed' : 'Blocked'));
-  if (!allowed && reason) w.addQuad(dec, namedNode('https://example.org/activity#reason'), literal(reason));
-  if (expired) {
-    w.addQuad(namedNode(insightIri), namedNode('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), namedNode('https://example.org/enforce#Expired'));
+  // ----- JS “rules” implemented imperatively, but emit TTL via N3.Writer -----
+  async function deriveInsightTTL({ctx, threshold=10.0, insightIri}){
+    const w = new Writer({ prefixes: {
+      ins: "https://example.org/insight#",
+      xsd: "http://www.w3.org/2001/XMLSchema#"
+    }});
+    const s = namedNode(insightIri);
+    w.addQuad(quad(s, namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), namedNode("https://example.org/insight#Insight")));
+    w.addQuad(quad(s, namedNode("https://example.org/insight#metric"), literal("sugar_g_per_serving")));
+    w.addQuad(quad(s, namedNode("https://example.org/insight#threshold"), literal(threshold.toFixed(1), namedNode("http://www.w3.org/2001/XMLSchema#decimal"))));
+    w.addQuad(quad(s, namedNode("https://example.org/insight#suggestionPolicy"), literal("lower_metric_first_higher_price_ok")));
+    w.addQuad(quad(s, namedNode("https://example.org/insight#scopeDevice"), literal(ctx.device)));
+    w.addQuad(quad(s, namedNode("https://example.org/insight#scopeEvent"), literal(ctx.event)));
+    w.addQuad(quad(s, namedNode("https://example.org/insight#retailer"), literal(ctx.retailer)));
+    w.addQuad(quad(s, namedNode("https://example.org/insight#createdAt"), literal(ctx.createdAt, namedNode("http://www.w3.org/2001/XMLSchema#dateTime"))));
+    w.addQuad(quad(s, namedNode("https://example.org/insight#expiresAt"), literal(ctx.expiresAt, namedNode("http://www.w3.org/2001/XMLSchema#dateTime"))));
+    return new Promise(res=> w.end((e,str)=> res((str||"").trim())));
   }
-  return new Promise(res=> w.end((err,str)=> res(str.trim())));
-}
 
-/* Orchestrator */
-function isoNow(){ return new Date().toISOString(); }
-function isoPlusHours(h){ return new Date(Date.now()+h*3600*1000).toISOString(); }
+  async function buildPolicyTTL({insightIri, expiresAt}){
+    const w = new Writer({ prefixes: {
+      odrl: "http://www.w3.org/ns/odrl/2/",
+      ins:  "https://example.org/insight#",
+      xsd:  "http://www.w3.org/2001/XMLSchema#"
+    }});
+    const pol  = blankNode(), perm = blankNode(), cons1 = blankNode();
+    const prob = blankNode(), cons2 = blankNode(), duty = blankNode(), cons3 = blankNode();
 
-document.getElementById('runBtn').addEventListener('click', async () => {
-  const btn = document.getElementById('runBtn'); btn.disabled = true;
-  try{
-    setStatus("Preparing inputs…");
-    const created = isoNow();
-    const expires = isoPlusHours(2);
-    const now = isoNow();
+    w.addQuad(pol, namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), namedNode("http://www.w3.org/ns/odrl/2/Policy"));
+    w.addQuad(pol, namedNode("http://www.w3.org/ns/odrl/2/profile"), literal("Delfour-Insight-Policy"));
 
-    document.getElementById('profileBox').textContent = profileTTL;
-    const ctxStr = contextTTL({created, expires});
-    document.getElementById('contextBox').textContent = ctxStr;
-    document.getElementById('nowBox').textContent     = nowTTL(now);
-    document.getElementById('requestBox').textContent = requestTTL;
-    document.getElementById('catalogBox').textContent = catalogTTL;
-    document.getElementById('scanBox').textContent    = scanTTL;
+    w.addQuad(pol, namedNode("http://www.w3.org/ns/odrl/2/permission"), perm);
+    w.addQuad(perm, namedNode("http://www.w3.org/ns/odrl/2/action"),  namedNode("http://www.w3.org/ns/odrl/2/use"));
+    w.addQuad(perm, namedNode("http://www.w3.org/ns/odrl/2/target"),  namedNode(insightIri));
+    w.addQuad(perm, namedNode("http://www.w3.org/ns/odrl/2/constraint"), cons1);
+    w.addQuad(cons1, namedNode("http://www.w3.org/ns/odrl/2/leftOperand"), namedNode("http://www.w3.org/ns/odrl/2/purpose"));
+    w.addQuad(cons1, namedNode("http://www.w3.org/ns/odrl/2/operator"),    namedNode("http://www.w3.org/ns/odrl/2/eq"));
+    w.addQuad(cons1, namedNode("http://www.w3.org/ns/odrl/2/rightOperand"), literal("shopping_assist"));
 
-    const ctx = parseContext(ctxStr);
-    const cat = parseCatalog(catalogTTL);
-    const scannedIri = parseScan(scanTTL);
+    w.addQuad(pol, namedNode("http://www.w3.org/ns/odrl/2/prohibition"), prob);
+    w.addQuad(prob, namedNode("http://www.w3.org/ns/odrl/2/action"),  namedNode("http://www.w3.org/ns/odrl/2/share"));
+    w.addQuad(prob, namedNode("http://www.w3.org/ns/odrl/2/target"),  namedNode(insightIri));
+    w.addQuad(prob, namedNode("http://www.w3.org/ns/odrl/2/constraint"), cons2);
+    w.addQuad(cons2, namedNode("http://www.w3.org/ns/odrl/2/leftOperand"), namedNode("http://www.w3.org/ns/odrl/2/purpose"));
+    w.addQuad(cons2, namedNode("http://www.w3.org/ns/odrl/2/operator"),    namedNode("http://www.w3.org/ns/odrl/2/eq"));
+    w.addQuad(cons2, namedNode("http://www.w3.org/ns/odrl/2/rightOperand"), literal("marketing"));
 
-    // PHONE
-    addTimeline("PICKUP", `scanner="${ctx.device}" retailer="${ctx.retailer}"`);
-    addTimeline("AGENT-DIALOG", "capabilities received");
-    setStatus("Deriving Insight + Policy (JS + N3.js)…");
+    w.addQuad(pol, namedNode("http://www.w3.org/ns/odrl/2/duty"), duty);
+    w.addQuad(duty, namedNode("http://www.w3.org/ns/odrl/2/action"), namedNode("http://www.w3.org/ns/odrl/2/delete"));
+    w.addQuad(duty, namedNode("http://www.w3.org/ns/odrl/2/constraint"), cons3);
+    w.addQuad(cons3, namedNode("http://www.w3.org/ns/odrl/2/leftOperand"), namedNode("http://www.w3.org/ns/odrl/2/dateTime"));
+    w.addQuad(cons3, namedNode("http://www.w3.org/ns/odrl/2/operator"),    namedNode("http://www.w3.org/ns/odrl/2/eq"));
+    w.addQuad(cons3, namedNode("http://www.w3.org/ns/odrl/2/rightOperand"), literal(expiresAt, namedNode("http://www.w3.org/2001/XMLSchema#dateTime")));
 
-    const insightIri = `https://example.org/insight/${(crypto.randomUUID&&crypto.randomUUID()) || ('S'+Date.now())}`;
-    const threshold = 10.0;
-    const insightTTLStr = await deriveInsightTTL({ ctx, threshold, insightIri });
-    const policyTTLStr  = await buildPolicyTTL({ insightIri, expiresAt: ctx.expiresAt });
+    return new Promise(res=> w.end((e,str)=> res((str||"").trim())));
+  }
 
-    document.getElementById('insightBox').textContent = insightTTLStr;
-    document.getElementById('policyBox').textContent  = policyTTLStr;
-    addTimeline("INSIGHT", "neutral low-sugar envelope emitted");
-    addTimeline("POLICY", "ODRL policy emitted");
+  async function buildAuditTTL({allowed, reason, nowISO, insightIri, expired}){
+    const w = new Writer({ prefixes: {
+      act: "https://example.org/activity#",
+      ex:  "https://example.org/enforce#",
+      xsd: "http://www.w3.org/2001/XMLSchema#"
+    }});
+    const dec = blankNode();
+    w.addQuad(dec, namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), namedNode("https://example.org/activity#Decision"));
+    w.addQuad(dec, namedNode("https://example.org/activity#at"), literal(nowISO, namedNode("http://www.w3.org/2001/XMLSchema#dateTime")));
+    w.addQuad(dec, namedNode("https://example.org/activity#request"), namedNode("https://example.org/request/r1"));
+    w.addQuad(dec, namedNode("https://example.org/activity#outcome"), literal(allowed ? "Allowed" : "Blocked"));
+    if (!allowed && reason) w.addQuad(dec, namedNode("https://example.org/activity#reason"), literal(reason));
+    if (expired) {
+      w.addQuad(namedNode(insightIri), namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), namedNode("https://example.org/enforce#Expired"));
+    }
+    return new Promise(res=> w.end((e,str)=> res((str||"").trim())));
+  }
 
-    // SCANNER — enforce + suggest
-    setStatus("Authorization + Audit + Suggestion…");
-    const purposeOK = /odrl:rightOperand "shopping_assist"/.test(policyTTLStr);
-    const allowed   = purposeOK && (new Date(now) <= new Date(ctx.expiresAt));
-    const expired   = new Date(now) > new Date(ctx.expiresAt);
-    const reason    = !allowed ? (expired ? "expired" : "prohibited") : null;
+  function isoNow(){ return new Date().toISOString(); }
+  function isoPlusHours(h){ return new Date(Date.now()+h*3600*1000).toISOString(); }
 
-    const auditTTLStr = await buildAuditTTL({ allowed, reason, nowISO: now, insightIri, expired });
-    document.getElementById('auditBox').textContent = auditTTLStr;
+  runBtn.addEventListener("click", async () => {
+    runBtn.disabled = true;
+    try{
+      setStatus("Preparing inputs…");
+      const created = isoNow();
+      const expires = isoPlusHours(2);
+      const now     = isoNow();
 
-    // suggestion
-    const scanned = cat[scannedIri];
-    let banner;
-    if (!allowed || !scanned){
-      banner = { headline: "Policy blocked action", product_name: null, note: "Expired or prohibited", suggested_alternative: null };
-      addTimeline("AUTH", expired ? "Blocked (expired)" : "Blocked");
-    } else {
-      if (scanned.sugar >= threshold){
-        const alts = Object.values(cat).filter(p => p.sugar < scanned.sugar).sort((a,b)=>a.sugar-b.sugar);
-        const best = alts[0];
-        if (best){
-          banner = { headline:"Track sugar per serving while you scan", product_name: scanned.name, note:"High sugar", suggested_alternative: best.name };
+      document.getElementById("profileBox").textContent = profileTTL;
+      const ctxStr = contextTTL({created, expires});
+      document.getElementById("contextBox").textContent = ctxStr;
+      document.getElementById("nowBox").textContent     = nowTTL(now);
+      document.getElementById("requestBox").textContent = requestTTL;
+      document.getElementById("catalogBox").textContent = catalogTTL;
+      document.getElementById("scanBox").textContent    = scanTTL;
+
+      const ctx = parseContext(ctxStr);
+      const cat = parseCatalog(catalogTTL);
+      const scannedIri = parseScan(scanTTL);
+
+      // PHONE phase
+      addTimeline("PICKUP", `scanner="${ctx.device}" retailer="${ctx.retailer}"`);
+      addTimeline("AGENT-DIALOG", "capabilities received");
+      setStatus("Deriving Insight + Policy…");
+
+      const insightIri  = `https://example.org/insight/${(crypto.randomUUID&&crypto.randomUUID()) || ('S'+Date.now())}`;
+      const threshold   = 10.0;
+      const insightOut  = await deriveInsightTTL({ ctx, threshold, insightIri });
+      const policyOut   = await buildPolicyTTL({ insightIri, expiresAt: ctx.expiresAt });
+
+      document.getElementById("insightBox").textContent = insightOut;
+      document.getElementById("policyBox").textContent  = policyOut;
+      addTimeline("INSIGHT", "neutral low-sugar envelope emitted");
+      addTimeline("POLICY",  "ODRL policy emitted");
+
+      // SCANNER phase — authorize + audit + suggestion
+      setStatus("Authorization + Audit + Suggestion…");
+      const purposeOK = /odrl:rightOperand "shopping_assist"/.test(policyOut);
+      const expired   = new Date(now) > new Date(ctx.expiresAt);
+      const allowed   = purposeOK && !expired;
+      const reason    = !allowed ? (expired ? "expired" : "prohibited") : null;
+
+      const auditOut  = await buildAuditTTL({ allowed, reason, nowISO: now, insightIri, expired });
+      document.getElementById("auditBox").textContent = auditOut;
+
+      // Suggestion
+      const scanned = cat[scannedIri];
+      let banner;
+      if (!allowed || !scanned) {
+        banner = { headline: "Policy blocked action", product_name: null, note: "Expired or prohibited", suggested_alternative: null };
+        addTimeline("AUTH", expired ? "Blocked (expired)" : "Blocked");
+      } else {
+        if (scanned.sugar >= threshold) {
+          const alts = Object.values(cat).filter(p => p.sugar < scanned.sugar).sort((a,b)=>a.sugar-b.sugar);
+          const best = alts[0];
+          banner = best
+            ? { headline:"Track sugar per serving while you scan", product_name: scanned.name, note:"High sugar", suggested_alternative: best.name }
+            : { headline:"Scan complete", product_name: scanned.name, note:null, suggested_alternative:null };
         } else {
           banner = { headline:"Scan complete", product_name: scanned.name, note:null, suggested_alternative:null };
         }
-      } else {
-        banner = { headline:"Scan complete", product_name: scanned.name, note:null, suggested_alternative:null };
+        addTimeline("AUTH", "Allowed (use@shopping_assist)");
       }
-      addTimeline("AUTH", "Allowed (use@shopping_assist)");
+      document.getElementById("bannerBox").textContent = JSON.stringify(banner, null, 2);
+      addTimeline("RUNTIME", "banner written");
+      addTimeline("DROP", "scanner returned; session closed");
+
+      // Reason + Checks + Summary
+      document.getElementById("reasonBox").textContent = "Household requires low-sugar guidance (diabetes in POD). Neutral insight scoped to device+event+retailer; expires soon.";
+      const checks = [
+        ["insight_nonempty", !!insightOut.trim()],
+        ["minimization_no_sensitive_terms", !/diabetes|medical/i.test(insightOut)],
+        ["scope_has_device_event_expiry", /ins:scopeDevice|ins:scopeEvent|ins:expiresAt/.test(insightOut)],
+        ["runtime_present", !!banner.headline],
+        ["behavior_suggests_on_high_sugar", !!banner.note],
+        ["audit_has_decision", /act:Decision/.test(auditOut)]
+      ];
+      showChecks(checks);
+
+      document.getElementById("summaryBox").textContent = JSON.stringify({
+        decision: allowed ? "Allowed" : "Blocked",
+        expired,
+        suggestedAlternative: banner.suggested_alternative || null
+      }, null, 2);
+
+      setStatus("Done.");
+    } catch (e) {
+      console.error(e);
+      setStatus("Error: " + (e?.message || e));
+    } finally {
+      runBtn.disabled = false;
     }
-    document.getElementById('bannerBox').textContent = JSON.stringify(banner, null, 2);
-    addTimeline("RUNTIME", "banner written");
-    addTimeline("DROP", "scanner returned; session closed");
+  });
 
-    // Checks + Summary + Reason
-    document.getElementById('reasonBox').textContent = REASON;
-    const checks = [
-      ["insight_nonempty", !!insightTTLStr.trim()],
-      ["minimization_no_sensitive_terms", !/diabetes|medical/i.test(insightTTLStr)],
-      ["scope_has_device_event_expiry", /ins:scopeDevice|ins:scopeEvent|ins:expiresAt/.test(insightTTLStr)],
-      ["runtime_present", !!banner.headline],
-      ["behavior_suggests_on_high_sugar", !!banner.note],
-      ["audit_has_decision", /act:Decision/.test(auditTTLStr)]
-    ];
-    showChecks(checks);
-
-    document.getElementById('summaryBox').textContent = JSON.stringify({
-      decision: allowed ? "Allowed" : "Blocked",
-      expired, suggestedAlternative: banner.suggested_alternative || null
-    }, null, 2);
-
-    setStatus("Done.");
-  }catch(e){
-    console.error(e);
-    setStatus("Error: " + (e?.message || e));
-  }finally{
-    btn.disabled = false;
-  }
-});
-
-setStatus("Ready.");
+  setStatus("Ready.");
 </script>
 </body>
 </html>
