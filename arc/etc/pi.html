@@ -161,14 +161,14 @@ function run(){
   const t1 = performance.now();
 
   // Answer
-  let A = "Answer\n======\n";
+  let A = "";
   A += `π to ${digits} digits (Chudnovsky, guard ${guard}, iters ≈ ⌈N/14⌉):\n\n`;
   A += wrapDigits(piStr, 50) + "\n\n";
   A += `Time: ${(t1 - t0).toFixed(0)} ms\n`;
   setText('ans', A);
 
   // Reason
-  let R = "Reason why\n==========\n";
+  let R = "";
   R += "We evaluate the Chudnovsky series in fixed‑point BigInt arithmetic:\n";
   R += "  π = (426880·√10005) / Σₖ [ (6k)! (13591409 + 545140134k) / ((3k)! (k!)³ (−640320)^{3k}) ].\n";
   R += "Using the standard recurrence for the term ratio (avoids factorials),\n";
@@ -178,7 +178,7 @@ function run(){
   setText('why', R);
 
   // Check
-  let C = "Check (harness)\n===============\n";
+  let C = "";
   const prefix50 = "3.14159265358979323846264338327950288419716939937510";
   const samePrefix = piStr.slice(0, prefix50.length) === prefix50;
   C += `First 50‑digit prefix matches known value? ${samePrefix}\n`;
