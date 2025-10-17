@@ -1,3 +1,0 @@
-Answer: 55
-Reason: The emulated 4-bit program loops 10 times. On each iteration it adds the current addend i (starting at 1) into the low nibble R0. Any nibble carry is propagated to the high nibble R1 by performing ADD with a zero register while including the carry. The ISZ loop counter is seeded to 6 so that after 10 increments it wraps to 0, ending the loop. The final R1:R0 = 0x3:0x7 = 55.
-Check:  PASS (emulator=55, python=55)
