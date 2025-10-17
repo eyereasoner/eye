@@ -32,7 +32,7 @@
 </head>
 <body>
   <h1>Delfour — JS logic + Turtle</h1>
-  <div class="muted">A privacy-first, client-side demo that turns POD profile + session context into a neutral Insight with ODRL policy, then authorizes and (if needed) suggests a lower-sugar alternative. All logic in JavaScript; data & policies in Turtle.</div>
+  <div class="muted">A privacy-first, client-side demo that turns POD profile + session context into a neutral Insight with ODRL policy, then authorizes and (if needed) suggests a lower-sugar alternative.</div>
 
   <div class="row">
     <button id="runBtn" class="btn primary">Run Demo</button>
@@ -118,10 +118,11 @@ const nowTTL = (nowISO) => `@prefix ex:  <https://example.org/enforce#> .
 
 const requestTTL = `@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
 @prefix req:  <https://example.org/request#> .
+@prefix vocab:   <https://example.org/vocab/> .
 req:r1 odrl:action odrl:use ;
       odrl:constraint [
         odrl:leftOperand  odrl:purpose ;
-        odrl:rightOperand "shopping_assist"
+        odrl:rightOperand vocab:shopping_assist
       ] .`;
 
 const catalogTTL = `@prefix prod:   <https://example.org/product#> .
@@ -181,24 +182,26 @@ function buildPolicy({insightId, expiresAt}){
   return `@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
 @prefix ins:  <https://example.org/insight#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix vocab:   <https://example.org/vocab/> .
+@prefix profile: <https://example.org/profile/> .
 _:pol a odrl:Policy ;
-  odrl:profile "Delfour-Insight-Policy" ;
+  odrl:profile profile:Delfour-Insight-Policy ;
   odrl:permission [
     odrl:action odrl:use ;
     odrl:target <${insightId}> ;
     odrl:constraint [
       odrl:leftOperand odrl:purpose ;
       odrl:operator    odrl:eq ;
-      odrl:rightOperand "shopping_assist"
+      odrl:rightOperand vocab:shopping_assist
     ]
   ] ;
   odrl:prohibition [
-    odrl:action odrl:share ;
+    odrl:action odrl:distribute ;
     odrl:target <${insightId}> ;
     odrl:constraint [
       odrl:leftOperand odrl:purpose ;
       odrl:operator    odrl:eq ;
-      odrl:rightOperand "marketing"
+      odrl:rightOperand vocab:marketing
     ]
   ] ;
   odrl:duty [
@@ -213,7 +216,7 @@ _:pol a odrl:Policy ;
 
 // Enforce: check purpose permission and expiry
 function enforce({policyTTL, requestTTL, nowISO, insightId, expiresAt}){
-  const purposeOK = /rightOperand\s+"shopping_assist"/.test(policyTTL) &&
+  const purposeOK = /rightOperand vocab:shopping_assist/.test(policyTTL) &&
                     /odrl:action odrl:use/.test(requestTTL);
   const expired = new Date(nowISO) > new Date(expiresAt);
   const allowed = purposeOK && !expired;
