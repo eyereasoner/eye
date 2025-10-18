@@ -3,303 +3,292 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Eco-Route Insight — ARC</title>
+  <title>Eco Route — ARC (EYE‑JS, v8)</title>
   <style>
     :root{
-      --bg:#fff; --ink:#111827; --muted:#6b7280; --panel:#f8fafc; --border:#e5e7eb; --accent:#0ea5e9;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-      --green:#10b981; --blue:#3b82f6; --amber:#f59e0b;
+      --bg:#ffffff; --ink:#0f172a; --muted:#64748b; --panel:#f8fafc; --border:#e2e8f0;
+      --a:#22c55e; --r:#06b6d4; --c:#6366f1;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
     }
-    body{ margin:0; background:#fff; color:var(--ink); font:15px/1.6 var(--ui); }
-    .wrap{max-width:980px; margin:36px auto; padding:0 16px;}
-    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
-    h1{font-size:22px; margin:0; letter-spacing:.2px}
+    html,body{height:100%}
+    body{ margin:0; background:#fff; color:var(--ink); font:15px/1.55 var(--ui); }
+    .wrap{max-width:980px; margin:28px auto; padding:0 14px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px}
+    h1{font-size:20px; margin:0; letter-spacing:.2px}
     .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
-    .row{display:flex; flex-direction:column; gap:16px}
-    .card{background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .card{width:100%; background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:14px}
     .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
     .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
     .body{padding:12px}
-    textarea{width:100%; min-height:220px; background:#fff; color:var(--ink); border:1px solid var(--border); border-radius:10px; padding:12px; font-family:var(--mono); font-size:14px; line-height:1.55}
-    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13.5px}
-    button{all:unset; background:#fff; border:1px solid var(--border); padding:8px 12px; border-radius:10px; cursor:pointer}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px; margin:0}
+    textarea{width:100%; min-height:200px; background:#fff; color:var(--ink); border:1px solid var(--border); border-radius:10px; padding:10px; font-family:var(--mono); font-size:13px}
+    .btns{display:flex; gap:8px; flex-wrap:wrap}
+    button{all:unset; background:#fff; border:1px solid var(--border); padding:9px 13px; border-radius:10px; cursor:pointer}
     button:hover{border-color:#cbd5e1}
-    .arc-grid{display:flex; flex-direction:column; gap:12px}
-    .arc-card{background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden}
-    .arc-card .ac-head{display:flex; align-items:center; gap:8px; padding:10px 12px; border-bottom:1px solid var(--border); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
-    .arc-card .ac-body{padding:12px}
-    .debug{display:none}
-    .link{color:#0ea5e9; cursor:pointer; text-decoration:underline}
+    .muted{color:var(--muted)}
+    .arcbox{background:#fff; border:1px solid var(--border); border-radius:12px; padding:10px; margin:10px 0}
+    .arcbox.answer{border-left:10px solid var(--a)}
+    .arcbox.reason{border-left:10px solid var(--r)}
+    .arcbox.check{border-left:10px solid var(--c)}
+    .arclabel{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:6px}
   </style>
-  <!-- Load N3.js UMD build (global N3) -->
-  <script src="https://unpkg.com/n3@1.17.3/browser/n3.min.js"></script>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>Eco-Route Insight — <span class="accent">ARC</span> (Answer • Reason • Check)</h1>
-      <div style="display:flex;gap:10px;align-items:center">
-        <span class="link" onclick="toggleDbg()">Show debug</span>
-        <div class="pill" id="status">Loading N3.js…</div>
-      </div>
+      <h1>Eco Route — <span class="accent">ARC</span> (Answer • Reason • Check)</h1>
+      <div class="pill" id="status">Ready</div>
     </header>
 
-    <div class="card" style="margin-bottom:16px">
+    <div class="card">
       <div class="body">
-        <p><strong>What this is?</strong> A self-contained, browser page that computes an eco-route
-        insight from a tiny Turtle snippet. It uses <code>N3.js</code> to parse Turtle and then applies
-        specialized rules (fuel index, banners, suggestion, saving, comfort).</p>
-        <div class="card" style="margin-bottom:16px">
-          <div class="body">
-            <p><strong>What this is?</strong> A self-contained, browser page that computes an eco-route
-            insight from a tiny Turtle snippet. It uses <code>N3.js</code> to parse Turtle and then applies:</p>
-            <ul>
-              <li><strong>R1</strong>: compute <code>ex:fuelIndex</code> for each route:
-                <code>distanceKm × (payloadKg/1000) × gradientFactor</code>.</li>
-              <li><strong>R2</strong>: show an eco banner at the depot if the current route’s fuel index
-                exceeds the policy threshold.</li>
-              <li><strong>R3</strong>: suggest the alternative route if it is strictly better
-                (<code>FI_alt &lt; FI_current</code>).</li>
-              <li><strong>R4</strong>: add an estimated saving if the alternative is also within
-                threshold (<code>FI_alt ≤ threshold</code>).</li>
-              <li><strong>R5</strong>: optional comfort index (simple sum) when it’s ≥ 40.</li>
-            </ul>
-          </div>
+        <p><strong>What this is?</strong> A self‑contained page that calls <em>EYE‑JS</em> to evaluate five N3 rules,
+        and renders an ARC report. “Check” re‑evaluates conditions from the reasoner’s own outputs and shows ✓/✗.</p>
+        <pre class="muted">R1: compute ex:fuelIndex for each route: distanceKm × (payloadKg/1000) × gradientFactor.
+R2: show an eco banner at the depot if the current route’s fuel index exceeds the policy threshold.
+R3: suggest the alternative route if it is strictly better (FI_alt &lt; FI_current).
+R4: add an estimated saving if the alternative is also within threshold (FI_alt ≤ threshold).
+R5: optional comfort index (simple sum) when it’s ≥ 40.</pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head"><h2>N3 Rules (fixed)</h2></div>
+      <div class="body">
+        <pre id="rulesView"></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head"><h2>Turtle Data (input)</h2></div>
+      <div class="body">
+        <textarea id="ttl"></textarea>
+        <div class="btns" style="margin-top:10px">
+          <button onclick="run()">▶ Run</button>
+          <button onclick="loadSample()">⟲ Load sample</button>
+          <button onclick="copyARC()">Copy ARC</button>
+          <button onclick="downloadTxt()">⬇ Export .txt</button>
         </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="card">
-        <div class="head">
-          <h2>Turtle Data (input)</h2>
-          <div style="display:flex;gap:8px;align-items:center">
-            <button onclick="run()">▶ Run</button>
-            <button onclick="loadSample()">⟲ Load sample</button>
-          </div>
-        </div>
-        <div class="body">
-          <textarea id="ttl" spellcheck="false"></textarea>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="head">
-          <h2>ARC Output</h2>
-          <div style="display:flex;gap:8px;align-items:center">
-            <button onclick="downloadARC()">⬇ Export .txt</button>
-          </div>
-        </div>
-        <div class="body">
-          <div class="arc-grid">
-            <div class="arc-card">
-              <div class="ac-head">Answer</div>
-              <div class="ac-body"><pre id="ans">(no run yet)</pre></div>
-            </div>
-            <div class="arc-card">
-              <div class="ac-head">Reason why</div>
-              <div class="ac-body"><pre id="why">(no run yet)</pre></div>
-            </div>
-            <div class="arc-card">
-              <div class="ac-head">Check (harness)</div>
-              <div class="ac-body"><pre id="chk">(no run yet)</pre></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card debug" id="dbgCard">
-        <div class="head"><h2>Debug — Parsed triples</h2></div>
-        <div class="body"><pre id="dbg">(hidden)</pre></div>
+    <div class="card">
+      <div class="head"><h2>ARC Output</h2><span class="muted">Cards with left borders</span></div>
+      <div class="body">
+        <div class="arcbox answer"><div class="arclabel">Answer</div><pre id="ans">(no run yet)</pre></div>
+        <div class="arcbox reason"><div class="arclabel">Reason why</div><pre id="why">(no run yet)</pre></div>
+        <div class="arcbox check"><div class="arclabel">Check (harness)</div><pre id="chk">(no run yet)</pre></div>
       </div>
     </div>
   </div>
 
 <script>
-function toggleDbg(){
-  const c=document.getElementById('dbgCard');
-  c.style.display = (c.style.display==='none' || c.style.display==='') ? 'block':'none';
-}
-const NS = {
-  ex:  'https://example.org/ex#',
-  xsd: 'http://www.w3.org/2001/XMLSchema#'
-};
-function qn(term){
-  if(!term) return '';
-  if(term.termType==='NamedNode'){
-    if(term.value.startsWith(NS.ex)) return 'ex:'+term.value.slice(NS.ex.length);
-    return '<'+term.value+'>';
-  }
-  if(term.termType==='Literal'){
-    if(term.datatype && term.datatype.value.startsWith(NS.xsd)){
-      return term.value+'^^xsd:'+term.datatype.value.slice(NS.xsd.length);
-    }
-    return JSON.stringify(term.value);
-  }
-  return term.value || String(term);
-}
-function numberFrom(store, s, p){
-  const quads = store.getQuads(s, p, null, null);
-  if(!quads.length) return NaN;
-  const lit = quads[0].object;
-  const v = parseFloat(lit.value);
-  return isFinite(v) ? v : NaN;
-}
-function namedFrom(store, s, p){
-  const quads = store.getQuads(s, p, null, null);
-  if(!quads.length) return '';
-  return qn(quads[0].object);
-}
-function datetimeFrom(store, s, p){
-  const quads = store.getQuads(s, p, null, null);
-  if(!quads.length) return '';
-  return quads[0].object.value; // ISO string value
-}
+const PFX = `@prefix ex:   <https://example.org/ex#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .`;
 
-function inferFromStore(store){
-  const DF = N3.DataFactory;
-  const ex = (local)=> DF.namedNode(NS.ex+local);
+const RULES = `${PFX}
 
-  const scan1 = ex('scan1'), shipment1 = ex('shipment1');
-  const current = ex('currentRoute'), alt = ex('altRoute'), policy = ex('policy');
+# R1 FuelIndex for any route
+{ ex:scan1 ex:forShipment ?S.
+  ?S ex:payloadKg ?Wkg. ( ?Wkg 1000 ) math:quotient ?Wton.
+  ?R a ex:Route; ex:distanceKm ?Dkm; ex:gradientFactor ?Gf.
+  ( ?Dkm ?Wton ) math:product ?Work. ( ?Work ?Gf ) math:product ?FuelIndex. }
+=> { ?R ex:fuelIndex ?FuelIndex. }.
 
-  const depotQN = namedFrom(store, scan1, ex('inDepot')) || 'ex:DepotX';
-  const issuedISO = datetimeFrom(store, scan1, ex('atTime')) || '2025-01-01T09:00:00Z';
+# R2 Banner if current route over threshold
+{ ex:scan1 ex:forShipment ?S. ?S ex:payloadKg ?Wkg. ( ?Wkg 1000 ) math:quotient ?Wton.
+  ex:scan1 ex:usesRoute ?R1. ?R1 ex:distanceKm ?D1; ex:gradientFactor ?G1.
+  ( ?D1 ?Wton ) math:product ?W1. ( ?W1 ?G1 ) math:product ?Fi1.
+  ex:policy ex:fuelIndexThreshold ?T. ?Fi1 math:greaterThan ?T.
+  ex:scan1 ex:inDepot ?Depot. }
+=> { ex:insight1 a ex:Insight; ex:showEcoBanner ?Depot; ex:fuelIndex ?Fi1. }.
 
-  const payload = numberFrom(store, shipment1, ex('payloadKg'));
-  const D1 = numberFrom(store, current, ex('distanceKm'));
-  const G1 = numberFrom(store, current, ex('gradientFactor'));
-  const D2 = numberFrom(store, alt, ex('distanceKm'));
-  const G2 = numberFrom(store, alt, ex('gradientFactor'));
-  const T  = numberFrom(store, policy, ex('fuelIndexThreshold'));
+# R3 Suggest alternative when strictly better
+{ ex:scan1 ex:forShipment ?S. ?S ex:payloadKg ?Wkg. ( ?Wkg 1000 ) math:quotient ?Wton.
+  ex:scan1 ex:usesRoute ?R1. ?R1 ex:distanceKm ?D1; ex:gradientFactor ?G1.
+  ( ?D1 ?Wton ) math:product ?W1. ( ?W1 ?G1 ) math:product ?Fi1.
+  ex:altRoute ex:distanceKm ?D2; ex:gradientFactor ?G2.
+  ( ?D2 ?Wton ) math:product ?W2. ( ?W2 ?G2 ) math:product ?Fi2.
+  ?Fi1 math:greaterThan ?Fi2. }
+=> { ex:insight1 ex:suggestRoute ex:altRoute. }.
 
-  const problems=[];
-  if(!isFinite(payload)) problems.push('shipment1/payloadKg');
-  if(!isFinite(D1)) problems.push('currentRoute/distanceKm');
-  if(!isFinite(G1)) problems.push('currentRoute/gradientFactor');
-  if(!isFinite(D2)) problems.push('altRoute/distanceKm');
-  if(!isFinite(G2)) problems.push('altRoute/gradientFactor');
-  if(!isFinite(T))  problems.push('policy/fuelIndexThreshold');
+# R4 Estimated saving (guard: alt notGreaterThan threshold)
+{ ex:scan1 ex:forShipment ?S. ?S ex:payloadKg ?Wkg. ( ?Wkg 1000 ) math:quotient ?Wton.
+  ex:scan1 ex:usesRoute ?R1. ?R1 ex:distanceKm ?D1; ex:gradientFactor ?G1.
+  ( ?D1 ?Wton ) math:product ?W1. ( ?W1 ?G1 ) math:product ?Fi1.
+  ex:altRoute ex:distanceKm ?D2; ex:gradientFactor ?G2.
+  ( ?D2 ?Wton ) math:product ?W2. ( ?W2 ?G2 ) math:product ?Fi2.
+  ( ?Fi1 ?Fi2 ) math:difference ?Saving.
+  ex:policy ex:fuelIndexThreshold ?T. ?Fi2 math:notGreaterThan ?T. }
+=> { ex:insight1 ex:estimatedSaving ?Saving. }.
 
-  const Wton = payload/1000;
-  const FI1  = D1*Wton*G1;
-  const FI2  = D2*Wton*G2;
-  const showBanner = FI1 > T;
-  const suggestAlt = FI1 > FI2;
-  const saving = FI1 - FI2;
-  const altOk = FI2 <= T;
-  const comfort1 = D1 + (G1*10);
-  const comfort2 = D2 + (G2*10);
-  const hasC1 = comfort1 >= 40;
-  const hasC2 = comfort2 >= 40;
+# R5 Optional comfort index (sum, notLessThan)
+{ ?R ex:distanceKm ?D; ex:gradientFactor ?Gf.
+  ( ?Gf 10 ) math:product ?Pg. ( ?D ?Pg ) math:sum ?Comfort.
+  ?Comfort math:notLessThan 40. }
+=> { ?R ex:comfortIndex ?Comfort. }.`;
 
-  const envelope = {
-    audience: depotQN,
-    allowedUse: 'ui.eco.banner',
-    issuedAt: issuedISO.replace('Z','+00:00'),
-    expiry: new Date(new Date(issuedISO).getTime()+4*3600*1000).toISOString().replace('.000','').replace('Z','+00:00'),
-    assertions: {
-      fuelIndex_current: +FI1.toFixed(2),
-      fuelIndex_alt: +FI2.toFixed(2),
-      ...(showBanner ? {showEcoBanner: depotQN} : {}),
-      ...(suggestAlt ? {suggestRoute: 'ex:altRoute'} : {}),
-      ...((showBanner && suggestAlt && altOk) ? {estimatedSaving: +saving.toFixed(2)} : {}),
-      ...(hasC1 ? {comfortIndex_current: +comfort1.toFixed(1)} : {}),
-      ...(hasC2 ? {comfortIndex_alt: +comfort2.toFixed(1)} : {})
-    }
+// Query: collect outputs and inputs
+const QUERY = `${PFX}
+# Outputs
+{ ex:currentRoute ex:fuelIndex ?Fi. } => { _:o ex:out_fuelIndex_current ?Fi. }.
+{ ex:altRoute     ex:fuelIndex ?Fi. } => { _:o ex:out_fuelIndex_alt ?Fi. }.
+{ ex:insight1 ex:showEcoBanner ?Depot. } => { _:o ex:out_showEcoBanner ?Depot. }.
+{ ex:insight1 ex:suggestRoute ?R. } => { _:o ex:out_suggestRoute ?R. }.
+{ ex:insight1 ex:estimatedSaving ?S. } => { _:o ex:out_estimatedSaving ?S. }.
+{ ex:currentRoute ex:comfortIndex ?C. } => { _:o ex:out_comfort_current ?C. }.
+{ ex:altRoute     ex:comfortIndex ?C. } => { _:o ex:out_comfort_alt ?C. }.
+# Inputs
+{ ex:shipment1   ex:payloadKg ?W. }           => { _:o ex:out_in_payloadKg ?W. }.
+{ ex:currentRoute ex:distanceKm ?D. }         => { _:o ex:out_in_distance_current ?D. }.
+{ ex:currentRoute ex:gradientFactor ?G. }     => { _:o ex:out_in_gradient_current ?G. }.
+{ ex:altRoute     ex:distanceKm ?D. }         => { _:o ex:out_in_distance_alt ?D. }.
+{ ex:altRoute     ex:gradientFactor ?G. }     => { _:o ex:out_in_gradient_alt ?G. }.
+{ ex:policy       ex:fuelIndexThreshold ?T. } => { _:o ex:out_in_threshold ?T. }.`;
+
+const SAMPLE_TTL = `@prefix ex:   <https://example.org/ex#>.
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#>.
+
+ex:DepotX a ex:Depot .
+ex:shipment1 a ex:Shipment ; ex:payloadKg 2500.0 .
+ex:currentRoute a ex:Route ; ex:distanceKm 42.0 ; ex:gradientFactor 1.15 .
+ex:altRoute a ex:Route ; ex:distanceKm 38.0 ; ex:gradientFactor 1.05 .
+ex:scan1 a ex:ScanEvent ; ex:inDepot ex:DepotX ; ex:atTime "2025-01-01T09:00:00Z"^^xsd:dateTime ; ex:usesRoute ex:currentRoute ; ex:forShipment ex:shipment1 .
+# Lower threshold so banner becomes true while alt remains ≤ threshold
+ex:policy ex:fuelIndexThreshold 110.0 .`;
+
+function setText(id, s){ const el=document.getElementById(id); if(el) el.textContent=s; }
+function status(msg, warn=false){ const el=document.getElementById('status'); el.textContent=msg; el.classList.toggle('warn', !!warn); }
+
+function parseOut(n3){
+  const out = {};
+  const stmts = n3.split(/\.\s*(?:\r?\n|$)/);
+  const numFromTok = (tok) => {
+    let t = tok.trim().replace(/[;,]\s*$/, '');
+    let m = t.match(/^"([^"]+)"\^\^([^\s]+)$/);
+    if (m) { const x = Number(m[1]); return Number.isFinite(x) ? x : null; }
+    m = t.match(/^"([^"]+)"$/);
+    if (m) { const x = Number(m[1]); return Number.isFinite(x) ? x : null; }
+    const x = Number(t);
+    return Number.isFinite(x) ? x : null;
   };
-  envelope.signature = btoa(JSON.stringify(envelope)).replace(/=+$/,'');
-
-  const triples = store.getQuads(null,null,null,null)
-    .map(q => `${qn(q.subject)} ${qn(q.predicate)} ${qn(q.object)} .`).join('\n');
-
-  return {depotQN, payload, D1, G1, D2, G2, T, FI1, FI2, showBanner, suggestAlt, saving, altOk, comfort1, comfort2, hasC1, hasC2, problems, envelope, triples};
+  const iriFromTok = (tok) => {
+    let t = tok.trim().replace(/[;,]\s*$/, '');
+    if (/^<[^>]+>$/.test(t)) return t.slice(1, -1);
+    return t;
+  };
+  for (const st of stmts) {
+    if (!st.includes('ex:out_')) continue;
+    const rePO = /(ex:out_[A-Za-z_]+)\s+("[^"]+"(?:\^\^[^\s;.,]+)?|<[^>]+>|[^\s;.,]+)/g;
+    let m;
+    while ((m = rePO.exec(st)) !== null) {
+      const pred = m[1], obj = m[2];
+      const num = numFromTok(obj);
+      out[pred] = (num !== null) ? num : iriFromTok(obj);
+    }
+  }
+  return out;
 }
 
-function fmt(x,n=2){ return Number.isFinite(x) ? x.toFixed(n) : String(x); }
+async function eyeRun(data, query){
+  const mod = await import('https://eyereasoner.github.io/eye-js/2/latest/dynamic-import.js');
+  return await mod.eyereasoner.n3reasoner(data, query);
+}
 
-function run(){
-  const ttl = document.getElementById('ttl').value;
+function fmt(x, d=2){ return (typeof x === 'number' && Number.isFinite(x)) ? x.toFixed(d) : String(x); }
+function mark(ok){ return ok ? '✓' : '✗'; }
+
+async function run(){
+  const ttl = document.getElementById('ttl').value.trim();
+  if(!ttl){
+    setText('ans','⛔ Please provide Turtle input or click “Load sample”.');
+    setText('why','(no run)'); setText('chk','(no run)');
+    status('No input', true); return;
+  }
+  status('Reasoning…');
+  const data = `${RULES}\n\n${ttl}`;
   try{
-    // Prefer N3.Parser, fallback to global constructor name if needed
-    const ParserCtor = (N3 && N3.Parser) ? N3.Parser : (window.Parser || null);
-    if(!ParserCtor) throw new Error("N3.Parser not available");
-    const parser = new ParserCtor({ format: 'text/turtle' });
-    const quads = parser.parse(ttl);
-    const store = new N3.Store(quads);
-    const r = inferFromStore(store);
+    const n3 = await eyeRun(data, QUERY);
+    const o = parseOut(n3);
 
+    // Answer
     const ans = [];
-    if(r.problems.length){
-      ans.push('⛔ Missing/invalid inputs in Turtle: ' + r.problems.join(', '));
-    } else if(!(r.showBanner || r.suggestAlt)){
-      ans.push('⛔ No eco-nudge is warranted under current numbers.');
-    } else {
-      ans.push('✅ Insight envelope (audience-scoped, short-lived)\n');
-      ans.push(JSON.stringify(r.envelope, null, 2));
-      ans.push('\nHuman-readable:');
-      if(r.showBanner) ans.push(' • Show eco banner at ' + r.depotQN);
-      if(r.suggestAlt) ans.push(' • Suggest alternative route' + (r.altOk ? ' (expected saving ≈ '+fmt(r.saving,2)+')' : ''));
+    ans.push('✅ Insight envelope');
+    let asserted = false;
+    if('ex:out_fuelIndex_current' in o){ ans.push(`fuelIndex_current = ${fmt(o['ex:out_fuelIndex_current'])}`); asserted = true; }
+    if('ex:out_fuelIndex_alt' in o){ ans.push(`fuelIndex_alt = ${fmt(o['ex:out_fuelIndex_alt'])}`); asserted = true; }
+    if('ex:out_showEcoBanner' in o){ ans.push(`showEcoBanner = ${o['ex:out_showEcoBanner']}`); asserted = true; }
+    if('ex:out_suggestRoute' in o){ ans.push(`suggestRoute = ${o['ex:out_suggestRoute']}`); asserted = true; }
+    if('ex:out_estimatedSaving' in o){ ans.push(`estimatedSaving = ${fmt(o['ex:out_estimatedSaving'])}`); asserted = true; }
+    if('ex:out_comfort_current' in o){ ans.push(`comfortIndex_current = ${fmt(o['ex:out_comfort_current'],1)}`); asserted = true; }
+    if('ex:out_comfort_alt' in o){ ans.push(`comfortIndex_alt = ${fmt(o['ex:out_comfort_alt'],1)}`); asserted = true; }
+    if(asserted) ans.splice(1,0,'—'); else ans.push('(no assertions derived)');
+    setText('ans', ans.join('\n'));
+
+    // Reason why
+    let R = "We apply the five N3 rules R1–R5 to the input facts.\n\n";
+    R += "Key derived values:\n";
+    if('ex:out_fuelIndex_current' in o) R += ` • FI(current) = ${fmt(o['ex:out_fuelIndex_current'])}\n`;
+    if('ex:out_fuelIndex_alt' in o) R += ` • FI(alt)     = ${fmt(o['ex:out_fuelIndex_alt'])}\n`;
+    if('ex:out_estimatedSaving' in o) R += ` • Saving      = ${fmt(o['ex:out_estimatedSaving'])}\n`;
+    if('ex:out_showEcoBanner' in o) R += ` • Banner at   = ${o['ex:out_showEcoBanner']}\n`;
+    if('ex:out_suggestRoute' in o) R += ` • Suggest     = ${o['ex:out_suggestRoute']}\n`;
+    if('ex:out_comfort_current' in o) R += ` • Comfort(cur)= ${fmt(o['ex:out_comfort_current'],1)}\n`;
+    if('ex:out_comfort_alt' in o) R += ` • Comfort(alt)= ${fmt(o['ex:out_comfort_alt'],1)}\n`;
+    setText('why', R);
+
+    // Check — evaluate conditions from the EYE outputs and show ✓/✗
+    const FI1 = o['ex:out_fuelIndex_current'];
+    const FI2 = o['ex:out_fuelIndex_alt'];
+    const T   = o['ex:out_in_threshold'];
+
+    let C = "Cross‑check from EYE outputs:\n";
+    if(typeof FI1 === 'number') C += ` • FI(current) = ${fmt(FI1)}\n`;
+    if(typeof FI2 === 'number') C += ` • FI(alt)     = ${fmt(FI2)}\n`;
+    if(typeof T === 'number'){
+      const banner = FI1 > T;
+      const suggest = FI2 < FI1;
+      const altOK = FI2 <= T;
+      const saving = (typeof FI1==='number' && typeof FI2==='number') ? (FI1-FI2) : NaN;
+      C += ` • Banner condition (FI1>T)? ${mark(banner)}\n`;
+      C += ` • Suggest alt (FI2<FI1)? ${mark(suggest)}\n`;
+      C += ` • Alt within threshold (FI2≤T)? ${mark(altOK)}\n`;
+      C += ` • Saving = ${fmt(saving)}\n`;
+      const all = banner && suggest && altOK;
+      C += ` • All checks ${all ? 'passed ✓' : 'failed ✗'}\n`;
     }
-    document.getElementById('ans').textContent = ans.join('\n');
+    setText('chk', C);
 
-    const why = [];
-    why.push('Fuel index: distanceKm × (payloadKg/1000) × gradientFactor');
-    why.push('Current: ' + fmt(r.D1,1) + ' × (' + fmt(r.payload,1) + '/1000) × ' + fmt(r.G1,2) + ' = ' + fmt(r.FI1,2));
-    why.push('Alt    : ' + fmt(r.D2,1) + ' × (' + fmt(r.payload,1) + '/1000) × ' + fmt(r.G2,2) + ' = ' + fmt(r.FI2,2));
-    why.push('Policy : banner if current > ' + fmt(r.T,1) + '; suggest alt if alt < current; saving if alt ≤ threshold.');
-    document.getElementById('why').textContent = why.join('\n');
-
-    const chk = [];
-    chk.push(r.problems.length ? '• Parse completed with missing fields. ✗' : '• Turtle parsed with N3.js and all required fields present. ✓');
-    chk.push(r.showBanner ? '• Banner condition holds (current > threshold). ✓' : '• Current ≤ threshold → no banner. ✓');
-    chk.push(r.suggestAlt ? '• Alternative strictly better (alt < current). ✓' : '• Alternative not strictly better → no suggestion. ✓');
-    chk.push((r.showBanner && r.suggestAlt && r.altOk) ? '• Saving asserted; alt ≤ threshold. ✓' : '• Saving guard check complete. ✓');
-    chk.push((r.hasC1 || r.hasC2) ? '• Comfort index added where ≥ 40. ✓' : '• Comfort index skipped (< 40). ✓');
-    document.getElementById('chk').textContent = chk.join('\n');
-
-    document.getElementById('dbg').textContent = r.triples;
-    document.getElementById('status').textContent = 'Computed';
-  }catch(e){
-    document.getElementById('ans').textContent = '⛔ Parse error: ' + (e && e.message ? e.message : String(e));
-    document.getElementById('why').textContent = '';
-    document.getElementById('chk').textContent = '';
-    document.getElementById('status').textContent = 'Error';
-    document.getElementById('dbg').textContent = '';
+    status('EYE‑JS ✓');
+  }catch(err){
+    setText('ans','⛔ EYE‑JS error: '+ (err?.message || String(err)));
+    setText('why','(no run)'); setText('chk','(no run)');
+    status('Error', true);
   }
 }
 
-function downloadARC(){
-  const blob = new Blob([
-    document.getElementById('ans').textContent, '\n\n',
-    document.getElementById('why').textContent, '\n\n',
-    document.getElementById('chk').textContent
-  ],{type:'text/plain'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='eco_route_insight_output.txt'; a.click();
+function loadSample(){ document.getElementById('ttl').value = SAMPLE_TTL; run(); }
+function copyARC(){
+  const txt = [document.getElementById('ans').textContent,
+               document.getElementById('why').textContent,
+               document.getElementById('chk').textContent].join('\n\n');
+  navigator.clipboard?.writeText(txt).catch(()=>{});
+}
+function downloadTxt(){
+  const blob=new Blob([document.getElementById('ans').textContent, '\n\n',
+                       document.getElementById('why').textContent, '\n\n',
+                       document.getElementById('chk').textContent], {type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='eco_route_arc.txt'; a.click();
 }
 
-function loadSample(){
-  document.getElementById('ttl').value = [
-    '@prefix ex:   <https://example.org/ex#>.',
-    '@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.',
-    '@prefix xsd:  <http://www.w3.org/2001/XMLSchema#>.',
-    '',
-    'ex:DepotX a ex:Depot .',
-    'ex:shipment1 a ex:Shipment ; ex:payloadKg 2500.0 .',
-    'ex:currentRoute a ex:Route ; ex:distanceKm 42.0 ; ex:gradientFactor 1.15 .',
-    'ex:altRoute a ex:Route ; ex:distanceKm 38.0 ; ex:gradientFactor 1.05 .',
-    'ex:scan1 a ex:ScanEvent ; ex:inDepot ex:DepotX ; ex:atTime "2025-01-01T09:00:00Z"^^xsd:dateTime ; ex:usesRoute ex:currentRoute ; ex:forShipment ex:shipment1 .',
-    'ex:policy ex:fuelIndexThreshold 120.0 .'
-  ].join('\n');  /* real newlines */
-}
-
-// When N3 is loaded, preload sample and auto-run
-window.addEventListener('DOMContentLoaded', () => {
-  const wait = () => (window.N3 && N3.Parser) ? Promise.resolve() : new Promise(r=>setTimeout(r,50)).then(wait);
-  wait().then(()=>{ loadSample(); run(); document.getElementById('status').textContent='Ready'; });
-});
+// Bootstrap
+document.getElementById('rulesView').textContent = RULES;
+document.getElementById('ttl').value = SAMPLE_TTL;
+window.addEventListener('DOMContentLoaded', run);
 </script>
 </body>
 </html>
-

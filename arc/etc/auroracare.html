@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AuroraCare</title>
+  <title>AuroraCare — Purpose-based Medical Data Exchange</title>
   <style>
     :root {
       --bg: #f7f9fc; --card: #ffffff; --muted: #5b6470; --text: #0b1020; --accent: #0b5fff;
@@ -49,6 +49,7 @@
     }
     button.secondary { background: linear-gradient(180deg, #3b82f6, #2563eb); box-shadow: 0 8px 18px rgba(37,99,235,0.35); }
     button.ghost { background: transparent; border: 1px solid var(--border); color: var(--text); box-shadow: none; }
+    button[disabled] { opacity: .6; cursor: not-allowed; box-shadow: none; }
     .result { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 8px; }
     .answer { font-size: 14px; font-weight: 800; letter-spacing: .06em; padding: 8px 12px; border-radius: 10px; width: fit-content; border: 1px solid var(--border); }
     .answer.permit { background: #e9f7ef; color: var(--good); }
@@ -76,9 +77,9 @@
   <div class="container">
     <header style="margin-bottom:12px; display:flex; align-items:flex-end; gap:12px; flex-wrap:wrap;">
       <div>
-        <h1>🌤️ AuroraCare</h1>
+        <h1>🌤️ AuroraCare — Purpose-based Medical Data Exchange</h1>
       </div>
-      <span id="statusBadge" class="badge">script not ready</span>
+      <span id="statusBadge" class="badge">awaiting app init</span>
     </header>
     <div id="statusBox" class="tiny muted" style="max-width:900px; margin-top:-4px"></div>
 
@@ -87,8 +88,9 @@
       <h2>What this is?</h2>
       <p class="muted">
         A self-contained, front-end prototype for <b>purpose-based medical data exchange</b> that evaluates requests against
-        <b>ODRL</b> policies aligned with <b>DPV</b>, <b>DPV-Health</b>, and <b>EHDS</b> purposes. It shows a human-readable
-        decision as <i>Answer / Reason why / Check</i> and logs activity in a timeline with lightweight insights.
+        <b>ODRL</b> policies aligned with <b>DPV</b>, <b>DPV-Health</b>, and <b>EHDS</b> purposes. It uses <b>EYE-JS</b> to parse
+        the <b>Turtle</b> policies in-browser and shows a human-readable decision as <i>Answer / Reason why / Check</i>.
+        A simple timeline logs interactions and an insights panel summarises usage and project outcomes.
       </p>
     </section>
 
@@ -130,7 +132,7 @@
           <div id="catBox" class="chips"></div>
         </div>
         <div style="margin-top:12px" class="row">
-          <button id="evalBtn">Evaluate Request</button>
+          <button id="evalBtn" disabled>Evaluate Request</button>
           <button class="ghost tiny" id="copyBtn">Copy result JSON</button>
         </div>
 
@@ -173,7 +175,7 @@
       <section class="card" id="decision-card">
         <h2>Decision</h2>
         <div id="result" class="result">
-          <div class="muted tiny">Fill the form and click <b>Evaluate Request</b>.</div>
+          <div class="muted tiny">Policies are loading. They’ll compile in your browser using EYE-JS.</div>
         </div>
 
         <details style="margin-top:12px">
@@ -202,7 +204,7 @@
     </div>
 
     <footer class="muted tiny">
-      AuroraCare prototype — ODRL + DPV + DPV-Health alignment, “Answer / Reason why / Check” output.
+      AuroraCare prototype — ODRL + DPV + DPV-Health alignment, “Answer / Reason why / Check”. EYE-JS parses Turtle in-browser.
     </footer>
   </div>
 
@@ -238,26 +240,22 @@
   })();
   </script>
 
-  <!-- N3.js for Turtle parsing -->
-  <script src="https://unpkg.com/n3@1.17.4/browser/n3.min.js"></script>
-
-  <!-- Main app (unchanged logic, vertical layout only) -->
+  <!-- EYE-JS dynamic import + App -->
   <script>
   (function () {
     const setStatus = window.AC_setStatus || function() {};
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
       try {
-        setStatus(true, "ready");
-
-        // IRIs
+        // ---------- IRIs ----------
         const ODRL = "http://www.w3.org/ns/odrl/2/";
         const DPV  = "https://w3id.org/dpv#";
         const EHDS = "https://w3id.org/dpv/legal/eu/ehds#";
         const HLTH = "https://w3id.org/dpv/sector/health#";
         const EX   = "https://example.org/health#";
         const AC   = "https://example.org/auroracare#";
+        const RDF  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 
-        // Purposes
+        // ---------- Purposes ----------
         const PURPOSE = {
           PRIMARY_CARE: HLTH + "PrimaryCareManagement",
           REMOTE_CONSULT: HLTH + "PatientRemoteMonitoring",
@@ -268,7 +266,7 @@
         };
         const isPrimaryPurpose = (p) => p === PURPOSE.PRIMARY_CARE || p === PURPOSE.REMOTE_CONSULT;
 
-        // Categories
+        // ---------- UI: categories ----------
         const Categories = ["PATIENT_SUMMARY","LAB_RESULTS","IMAGING_REPORT","DISCHARGE_REPORT","EPRESCRIPTION"];
         function catCheckboxes() {
           const box = document.getElementById("catBox");
@@ -282,7 +280,7 @@
         }
         catCheckboxes();
 
-        // Turtle policies
+        // ---------- Policies: TURTLE (source of truth) ----------
         const POLICY_TTL = `
 @prefix odrl: <http://www.w3.org/ns/odrl/2/> .
 @prefix dpv:  <https://w3id.org/dpv#> .
@@ -375,73 +373,101 @@
 `;
         document.getElementById("policyDump").textContent = POLICY_TTL;
 
-        // Compile TTL → engine objects
-        function compilePoliciesFromTurtle(ttl) {
-          const parser = new N3.Parser();
-          const quads  = parser.parse(ttl);
-          const RDF  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-          const ODRL = "http://www.w3.org/ns/odrl/2/";
+        // ---------- EYE-JS: parse Turtle to RDF/JS quads and build `policies` ----------
+        let policies = [];
+        let policiesReady = false;
+
+        async function loadPoliciesWithEye(ttl) {
+          // dynamic import of EYE-JS browser bundle
+          const { eyereasoner } = await import('https://eyereasoner.github.io/eye-js/latest/dynamic-import.js');
+
+          // parse & get deductive closure as RDF/JS quads
+          const quads = await eyereasoner.n3reasoner(ttl, undefined, {
+            output: 'deductive_closure',
+            outputType: 'quads'
+          });
+
+          // index by subject.value
           const byS = new Map();
           for (const q of quads) {
-            const s = q.subject.id;
+            const s = q.subject.value;
             if (!byS.has(s)) byS.set(s, []);
             byS.get(s).push(q);
           }
-          const po = (s, p) => (byS.get(s)||[]).filter(q => q.predicate.value === p).map(q => q.object);
-          const first = (s,p) => po(s,p)[0];
-          const termToValue = (t) => !t ? null : (t.termType === "NamedNode" ? t.value : t.termType === "Literal" ? t.value : t.termType === "BlankNode" ? t.id : null);
+
+          const po = (s, p) => (byS.get(s) || []).filter(q => q.predicate.value === p).map(q => q.object);
+          const first = (s, p) => po(s, p)[0];
+
+          function termVal(t) {
+            if (!t) return null;
+            if (t.termType === "NamedNode") return t.value;
+            if (t.termType === "Literal")   return t.value;
+            if (t.termType === "BlankNode") return t.value; // use id for lookup
+            return null;
+          }
+
           function readList(head) {
             const items = [];
             let node = head;
             while (node && !(node.termType === "NamedNode" && node.value === RDF + "nil")) {
-              const f = first(node.id, RDF + "first"); if (!f) break;
-              items.push(termToValue(f));
-              const r = first(node.id, RDF + "rest"); if (!r) break;
+              const sId = node.termType === "BlankNode" ? node.value : node.id;
+              const b = byS.get(sId) || [];
+              const f = b.find(q => q.predicate.value === RDF + "first")?.object;
+              if (!f) break;
+              items.push(termVal(f));
+              const r = b.find(q => q.predicate.value === RDF + "rest")?.object;
+              if (!r) break;
               node = r;
             }
             return items;
           }
-          function readConstraint(cId) {
-            const lop = termToValue(first(cId, ODRL + "leftOperand"));
-            const op  = termToValue(first(cId, ODRL + "operator"));
-            let roRef = first(cId, ODRL + "rightOperandReference");
-            let roLit = first(cId, ODRL + "rightOperand");
-            const out = { "odrl:leftOperand": lop, "odrl:operator": op };
+
+          function readConstraint(obj) {
+            const cId = obj.termType === "BlankNode" ? obj.value : obj.id;
+            const left  = termVal(first(cId, ODRL + "leftOperand"));
+            const op    = termVal(first(cId, ODRL + "operator"));
+            const roRef = first(cId, ODRL + "rightOperandReference");
+            const roLit = first(cId, ODRL + "rightOperand");
+            const out = { "odrl:leftOperand": left, "odrl:operator": op };
             if (roRef) {
-              out["odrl:rightOperandReference"] = roRef.termType === "BlankNode" ? readList(roRef) : termToValue(roRef);
+              out["odrl:rightOperandReference"] =
+                (roRef.termType === "BlankNode") ? readList(roRef) : termVal(roRef);
             } else if (roLit) {
-              out["odrl:rightOperand"] = termToValue(roLit);
+              out["odrl:rightOperand"] = termVal(roLit);
             }
             return out;
           }
-          function readRule(rid) {
-            const action = termToValue(first(rid, ODRL + "action"));
-            const target = termToValue(first(rid, ODRL + "target"));
-            const cons   = po(rid, ODRL + "constraint").map(o => readConstraint(o.id));
-            const duties = po(rid, ODRL + "duty").map(dn => {
-              const act = termToValue(first(dn.id, ODRL + "action"));
-              return act ? { "odrl:action": act } : null;
+
+          function readRule(obj) {
+            const rid = obj.termType === "BlankNode" ? obj.value : obj.id;
+            const action = termVal(first(rid, ODRL + "action"));
+            const target = termVal(first(rid, ODRL + "target"));
+            const constraints = po(rid, ODRL + "constraint").map(readConstraint);
+            const duty = po(rid, ODRL + "duty").map(d => {
+              const did = d.termType === "BlankNode" ? d.value : d.id;
+              const da = termVal(first(did, ODRL + "action"));
+              return da ? { "odrl:action": da } : null;
             }).filter(Boolean);
-            const o = { "odrl:action": action, "odrl:target": target, "odrl:constraint": cons };
-            if (duties.length) o["odrl:duty"] = duties;
+            const o = { "odrl:action": action, "odrl:target": target, "odrl:constraint": constraints };
+            if (duty.length) o["odrl:duty"] = duty;
             return o;
           }
-          const isPolicy = q => q.predicate.value === RDF+"type" && q.object.value === ODRL+"Policy";
-          const policies = [];
-          for (const [sid, list] of byS.entries()) {
-            if (!list.some(isPolicy)) continue;
-            const perms = po(sid, ODRL + "permission").map(n => readRule(n.id));
-            const prohib = po(sid, ODRL + "prohibition").map(n => readRule(n.id));
-            const pol = { "@context": {}, uid: sid, type: "odrl:Policy" };
+
+          const out = [];
+          for (const [sid, triples] of byS.entries()) {
+            const isPolicy = triples.some(q => q.predicate.value === RDF + "type" && q.object.value === ODRL + "Policy");
+            if (!isPolicy) continue;
+            const perms = po(sid, ODRL + "permission").map(readRule);
+            const prohib = po(sid, ODRL + "prohibition").map(readRule);
+            const pol = { uid: sid, type: "odrl:Policy" };
             if (perms.length)  pol["odrl:permission"]  = perms;
             if (prohib.length) pol["odrl:prohibition"] = prohib;
-            policies.push(pol);
+            out.push(pol);
           }
-          return policies;
+          return out;
         }
-        const policies = compilePoliciesFromTurtle(POLICY_TTL);
 
-        // Services
+        // ---------- Services (stubs) ----------
         const ConsentService = {
           store: {},
           set(subject, purposeIri, allowed) { (this.store[subject] ??= {})[purposeIri] = allowed; },
@@ -470,7 +496,7 @@
         }
         syncConsentAndCareteamFromUI();
 
-        // Engine
+        // ---------- ODRL Engine ----------
         const ODRLEngine = {
           ACTION_USE: "use",
           match(req, policy) {
@@ -551,7 +577,7 @@
           _prefix(policy, lines) { return lines.map(ln => `${policy.uid}:${ln}`); }
         };
 
-        // PDP
+        // ---------- PDP ----------
         const PDP = {
           PROHIBITED_PURPOSES: new Set([PURPOSE.INSURANCE]),
           decide(req) {
@@ -680,7 +706,7 @@
           }
         };
 
-        // UI helpers
+        // ---------- UI helpers ----------
         function readRequestFromUI() {
           const requester_id = document.getElementById("requesterId").value.trim();
           const roleSelVal = document.getElementById("role").value;
@@ -809,14 +835,17 @@
           };
         }
 
-        // Wire-up
+        // ---------- Wire-up ----------
         document.getElementById("evalBtn").addEventListener("click", () => {
           try {
+            if (!policiesReady) {
+              alert("Policies are not compiled yet. Please wait a moment.");
+              return;
+            }
             syncConsentAndCareteamFromUI();
             const req = readRequestFromUI();
             const decision = PDP.decide(req);
             Audit.add({ ts: Date.now(), actor: req.requester_id, purposeIri: req.purpose, decision: decision.Answer, note: decision["Reason why"] });
-            // auto-scroll to Decision for nicer flow
             document.getElementById("decision-card").scrollIntoView({ behavior: "smooth", block: "start" });
           } catch (err) {
             document.getElementById("traceDump").textContent = `JS error in Evaluate: ${err?.message || err}\n${err?.stack || ""}`;
@@ -826,6 +855,10 @@
 
         document.getElementById("copyBtn").addEventListener("click", async () => {
           try {
+            if (!policiesReady) {
+              alert("Policies are not compiled yet. Please wait a moment.");
+              return;
+            }
             const req = readRequestFromUI();
             const result = PDP.decide(req);
             await navigator.clipboard.writeText(JSON.stringify(result, null, 2));
@@ -847,20 +880,13 @@
               const careSel = document.getElementById("careteamLink");
               document.querySelectorAll("#catBox input").forEach(i => i.checked = false);
 
-              const PURPOSE = {
-                PRIMARY_CARE: "https://w3id.org/dpv/sector/health#PrimaryCareManagement",
-                REMOTE_CONSULT: "https://w3id.org/dpv/sector/health#PatientRemoteMonitoring",
-                QI: "https://w3id.org/dpv/legal/eu/ehds#EnsureQualitySafetyHealthcare",
-                RESEARCH: "https://w3id.org/dpv/legal/eu/ehds#HealthcareScientificResearch",
-                AI_TRAINING: "https://w3id.org/dpv/legal/eu/ehds#TrainTestAndEvaluateAISystemsAlgorithms",
-                INSURANCE: "https://w3id.org/dpv/sector/health#InsuranceManagement"
-              };
+              const P = PURPOSE;
 
               if (id === "A") {
                 document.getElementById("requesterId").value = "clinician_alba";
                 roleSel.value = "clinician";
                 document.getElementById("subjectId").value = "ruben";
-                purposeSel.value = PURPOSE.PRIMARY_CARE;
+                purposeSel.value = P.PRIMARY_CARE;
                 envSel.value = "api_gateway";
                 document.querySelector("#catBox input[value='PATIENT_SUMMARY']").checked = true;
                 consentResSel.value = "unset"; careSel.value = "linked";
@@ -869,7 +895,7 @@
                 document.getElementById("requesterId").value = "qi_analyst";
                 roleSel.value = "data_user";
                 document.getElementById("subjectId").value = "ruben";
-                purposeSel.value = PURPOSE.QI;
+                purposeSel.value = P.QI;
                 envSel.value = "secure_env";
                 document.querySelector("#catBox input[value='LAB_RESULTS']").checked = true;
                 document.querySelector("#catBox input[value='PATIENT_SUMMARY']").checked = true;
@@ -878,7 +904,7 @@
                 document.getElementById("requesterId").value = "qi_analyst";
                 roleSel.value = "data_user";
                 document.getElementById("subjectId").value = "ruben";
-                purposeSel.value = PURPOSE.QI;
+                purposeSel.value = P.QI;
                 envSel.value = "secure_env";
                 document.querySelector("#catBox input[value='LAB_RESULTS']").checked = true;
                 careSel.value = "linked"; consentResSel.value = "unset";
@@ -887,7 +913,7 @@
                 document.getElementById("requesterId").value = "insurer_bot";
                 roleSel.value = "data_user";
                 document.getElementById("subjectId").value = "ruben";
-                purposeSel.value = PURPOSE.INSURANCE;
+                purposeSel.value = P.INSURANCE;
                 envSel.value = "secure_env";
                 document.querySelector("#catBox input[value='PATIENT_SUMMARY']").checked = true;
                 consentResSel.value = "unset"; careSel.value = "unlinked";
@@ -896,7 +922,7 @@
                 document.getElementById("requesterId").value = "gp_ruben";
                 roleSel.value = "clinician";
                 document.getElementById("subjectId").value = "ruben";
-                purposeSel.value = PURPOSE.PRIMARY_CARE;
+                purposeSel.value = P.PRIMARY_CARE;
                 envSel.value = "api_gateway";
                 document.querySelector("#catBox input[value='LAB_RESULTS']").checked = true;
                 consentResSel.value = "unset"; careSel.value = "linked";
@@ -905,7 +931,7 @@
                 document.getElementById("requesterId").value = "researcher_aurora";
                 roleSel.value = "data_user";
                 document.getElementById("subjectId").value = "ruben";
-                purposeSel.value = PURPOSE.RESEARCH;
+                purposeSel.value = P.RESEARCH;
                 envSel.value = "secure_env";
                 document.querySelector("#catBox input[value='PATIENT_SUMMARY']").checked = true;
                 document.querySelector("#catBox input[value='LAB_RESULTS']").checked = true;
@@ -915,12 +941,12 @@
                 document.getElementById("requesterId").value = "ml_ops";
                 roleSel.value = "data_user";
                 document.getElementById("subjectId").value = "ruben";
-                purposeSel.value = PURPOSE.AI_TRAINING;
+                purposeSel.value = P.AI_TRAINING;
                 envSel.value = "secure_env";
                 document.querySelector("#catBox input[value='PATIENT_SUMMARY']").checked = true;
                 document.querySelector("#catBox input[value='LAB_RESULTS']").checked = true;
                 consentResSel.value = "unset"; careSel.value = "linked";
-                document.getElementById("optOutAi").checked = true;  // forces DENY
+                document.getElementById("optOutAi").checked = true;
                 document.getElementById("anonymised").checked = false;
               }
               syncConsentAndCareteamFromUI();
@@ -932,7 +958,51 @@
           });
         });
 
-        // Initial
+        // ---------- Load policies with EYE-JS then enable Evaluate ----------
+        try {
+          setStatus(false, "loading EYE-JS…");
+          const { eyereasoner } = await import('https://eyereasoner.github.io/eye-js/latest/dynamic-import.js');
+          setStatus(false, "parsing policies…");
+          // hand eyereasoner to loader (so we don’t fetch twice)
+          const quads = await eyereasoner.n3reasoner(POLICY_TTL, undefined, { output: 'deductive_closure', outputType: 'quads' });
+
+          // reuse the same building code as loadPoliciesWithEye but with existing quads
+          const byS = new Map();
+          for (const q of quads) {
+            const s = q.subject.value;
+            if (!byS.has(s)) byS.set(s, []);
+            byS.get(s).push(q);
+          }
+          const po = (s, p) => (byS.get(s) || []).filter(q => q.predicate.value === p).map(q => q.object);
+          const first = (s, p) => po(s, p)[0];
+          function termVal(t) { if (!t) return null; if (t.termType==="NamedNode") return t.value; if (t.termType==="Literal") return t.value; if (t.termType==="BlankNode") return t.value; return null; }
+          function readList(head){ const items=[]; let node=head; while(node && !(node.termType==="NamedNode" && node.value===RDF+"nil")){ const sId=node.termType==="BlankNode"?node.value:node.id; const b=byS.get(sId)||[]; const f=b.find(q=>q.predicate.value===RDF+"first")?.object; if(!f) break; items.push(termVal(f)); const r=b.find(q=>q.predicate.value===RDF+"rest")?.object; if(!r) break; node=r; } return items; }
+          function readConstraint(obj){ const cId=obj.termType==="BlankNode"?obj.value:obj.id; const left=termVal(first(cId,ODRL+"leftOperand")); const op=termVal(first(cId,ODRL+"operator")); const roRef=first(cId,ODRL+"rightOperandReference"); const roLit=first(cId,ODRL+"rightOperand"); const out={"odrl:leftOperand":left,"odrl:operator":op}; if(roRef){ out["odrl:rightOperandReference"]=(roRef.termType==="BlankNode")?readList(roRef):termVal(roRef);} else if(roLit){ out["odrl:rightOperand"]=termVal(roLit);} return out; }
+          function readRule(obj){ const rid=obj.termType==="BlankNode"?obj.value:obj.id; const action=termVal(first(rid,ODRL+"action")); const target=termVal(first(rid,ODRL+"target")); const constraints=po(rid,ODRL+"constraint").map(readConstraint); const duty=po(rid,ODRL+"duty").map(d=>{ const did=d.termType==="BlankNode"?d.value:d.id; const da=termVal(first(did,ODRL+"action")); return da?{"odrl:action":da}:null; }).filter(Boolean); const o={"odrl:action":action,"odrl:target":target,"odrl:constraint":constraints}; if(duty.length) o["odrl:duty"]=duty; return o; }
+          policies = [];
+          for (const [sid, triples] of byS.entries()) {
+            const isPolicy = triples.some(q => q.predicate.value === RDF + "type" && q.object.value === ODRL + "Policy");
+            if (!isPolicy) continue;
+            const perms = po(sid, ODRL + "permission").map(readRule);
+            const prohib = po(sid, ODRL + "prohibition").map(readRule);
+            const pol = { uid: sid, type: "odrl:Policy" };
+            if (perms.length)  pol["odrl:permission"]  = perms;
+            if (prohib.length) pol["odrl:prohibition"] = prohib;
+            policies.push(pol);
+          }
+
+          policiesReady = true;
+          document.getElementById("evalBtn").disabled = false;
+          setStatus(true, "ready");
+          // Optional: auto-run an initial scenario
+          // document.querySelector('[data-scenario="A"]').click();
+        } catch (err) {
+          setStatus(false, "EYE-JS init error", err?.stack || err?.message || String(err));
+          const t = document.getElementById("traceDump");
+          if (t) t.textContent = "EYE-JS init error:\n" + (err?.stack || err);
+        }
+
+        // ---------- Initial renders ----------
         renderTimeline();
         renderInsights();
 
