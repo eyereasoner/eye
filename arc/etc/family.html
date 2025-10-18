@@ -47,8 +47,8 @@
 
     <div class="card">
       <div class="body">
-        <p><strong>What this is?</strong> A self‑contained, browser‑only port of the Horn‑logic forward chainer
-        from <em>family.py</em>. It saturates a small family KB with rules (siblings, grand‑relations, uncles/aunts
+        <p><strong>What this is?</strong> A self‑contained, browser‑only port of the Horn‑logic forward chainer.
+        It saturates a small family KB with rules (siblings, grand‑relations, uncles/aunts
         by blood or marriage), records one proof per derived fact, and presents the results as
         <em>Answer • Reason • Check</em>.</p>
         <p class="muted">Tip: Click <em>Run</em> to re‑derive from scratch; try toggling the “strict siblings” option.</p>
@@ -97,7 +97,7 @@
   </div>
 
 <script>
-// ===== Logic core (JS port of family.py) =====
+// ===== Logic core =====
 let gensymCounter = 1;
 const gensym = () => gensymCounter++;
 
@@ -130,7 +130,7 @@ function rename(cl){
   return new Clause(cl.name, head, body);
 }
 
-// Base facts (same as family.py)
+// Base facts
 const baseFacts = [
   // gender
   ["Frans","a","MALE"],["Jo","a","MALE"],["Paul","a","MALE"],["Pieter-Jan","a","MALE"],
