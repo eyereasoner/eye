@@ -21,7 +21,7 @@ in real-world applications.
 * [Eco‑Route](https://eyereasoner.github.io/eye/arc/etc/eco_route.html)
 * [Family logic](https://eyereasoner.github.io/eye/arc/etc/family.html)
 * [Fibonacci via Fast Doubling](https://eyereasoner.github.io/eye/arc/etc/fibonacci.html)
-* [GPS Clinical Bench](https://eyereasoner.github.io/eye/arc/etc/gps_clinical_bench_100.html)
+* [GPS Clinical Bench](https://eyereasoner.github.io/eye/arc/etc/gps_clinical_bench.html)
 * [Graph — French cities](https://eyereasoner.github.io/eye/arc/etc/graph_french.html)
 * [Grass seed — molecular germination](https://eyereasoner.github.io/eye/arc/etc/grass_molecular.html)
 * [Group Theory](https://eyereasoner.github.io/eye/arc/etc/group_theory.html)
