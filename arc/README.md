@@ -20,6 +20,7 @@ in real-world applications.
 * [Easter (Computus)](https://eyereasoner.github.io/eye/arc/etc/easter.html)
 * [Eco‑Route](https://eyereasoner.github.io/eye/arc/etc/eco_route.html)
 * [Family logic](https://eyereasoner.github.io/eye/arc/etc/family.html)
+* [Fibonacci golden spiral](https://eyereasoner.github.io/eye/arc/etc/fibonacci_golden_spiral.html)
 * [Fibonacci via Fast Doubling](https://eyereasoner.github.io/eye/arc/etc/fibonacci.html)
 * [GPS Clinical Bench](https://eyereasoner.github.io/eye/arc/etc/gps_clinical_bench.html)
 * [Graph — French cities](https://eyereasoner.github.io/eye/arc/etc/graph_french.html)

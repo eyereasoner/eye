@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Fibonacci golden spiral</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --ink:#0f172a; --sub:#334155; --line:#d5dbe7;
+    --a:#a5d8ff; --b:#cfe8ff; --edge:#7fb6e0; --spiral:#0ea5e9;
+    --ok:#059669; --bad:#dc2626;
+  }
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+            font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  header{padding:18px 20px;border-bottom:1px solid var(--line)}
+  h1{margin:0 0 6px;font-size:22px}
+  h2{margin:18px 0 10px;font-size:17px}
+  p,li,small{line-height:1.45}
+  main{display:block;padding:18px 20px 40px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;
+        box-shadow:0 1px 0 rgba(15,23,42,.04);margin:0 0 18px}
+  .card header{padding:12px 14px;border-bottom:1px solid var(--line);
+               border-radius:12px 12px 0 0}
+  .card section{padding:14px}
+  .muted{color:var(--sub)}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .ok{color:#059669} .bad{color:#dc2626}
+  svg{max-width:50%;height:auto;display:block;margin:0 auto;} /* half-width drawing */
+</style>
+</head>
+<body>
+<header>
+  <h1>Fibonacci golden spiral</h1>
+</header>
+
+<main>
+
+  <!-- WHAT THIS IS -->
+  <article class="card">
+    <header><h2>What this is?</h2></header>
+    <section>
+      <p>
+        An SVG construction of a golden rectangle tiled by Fibonacci squares
+        (1, 1, 2, 3, 5, 8, 13, 21, 34). In each square we draw a quarter–circle
+        so that the arcs meet at shared corners and wind smoothly. Here the
+        spiral is <em>mirrored</em> relative to the usual textbook drawing
+        (it turns the opposite way).
+      </p>
+      <p class="muted">
+        A checker at the end verifies that the side lengths follow the Fibonacci
+        rule, that the squares exactly tile the rectangle (no overlap), and that
+        the rectangle’s aspect ratio matches the golden ratio built from the
+        last two Fibonacci numbers.
+      </p>
+    </section>
+  </article>
+
+  <!-- ANSWER -->
+  <article class="card">
+    <header><h2>Answer — drawing</h2></header>
+    <section>
+      <svg id="fig" viewBox="0 0 240 240"
+           aria-label="Golden rectangle tiled by Fibonacci squares with mirrored spiral">
+        <defs>
+          <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+            <path d="M10 0H0V10" fill="none" stroke="#eef2f7"/>
+          </pattern>
+          <clipPath id="clipRect"><rect id="clipRectRect" x="0" y="0" width="0" height="0"/></clipPath>
+        </defs>
+        <rect x="10" y="10" width="220" height="220" fill="url(#grid)" stroke="#c7d2e5"/>
+        <g id="layer" clip-path="url(#clipRect)"></g>
+      </svg>
+    </section>
+  </article>
+
+  <!-- REASON -->
+  <article class="card">
+    <header><h2>Reason</h2></header>
+    <section>
+      <ol>
+        <li>Start with two unit squares. Each new square is attached along the
+            long side of the current rectangle, rotating the attachment
+            direction by 90° each time. This produces side lengths that follow
+            the Fibonacci sequence and a bounding rectangle of 55 by 34.</li>
+        <li>Inside every added square, draw a quarter–circle centered at the
+            corner that touches the previous rectangle. Reversing the sweep
+            direction mirrors the spiral while keeping the arcs continuous at
+            each shared corner.</li>
+      </ol>
+    </section>
+  </article>
+
+  <!-- CHECK -->
+  <article class="card">
+    <header><h2>Check</h2></header>
+    <section>
+      <ul id="checks" class="mono"></ul>
+      <div id="numbers" class="mono" style="margin-top:8px"></div>
+      <small class="muted">We verify the Fibonacci rule for side lengths, absence of
+        overlap, exact area sum, and the golden-rectangle aspect ratio.</small>
+    </section>
+  </article>
+
+</main>
+
+<script>
+/* ---------- helpers ---------- */
+function almost(a,b,eps=1e-9){return Math.abs(a-b)<eps;}
+function rectIntersects(A,B){
+  return !(A.x+A.s<=B.x || B.x+B.s<=A.x || A.y+A.s<=B.y || B.y+B.s<=A.y);
+}
+
+(function(){
+  const layer=document.getElementById('layer');
+  const clipRect=document.getElementById('clipRectRect');
+
+  // Fibonacci sides (9 squares → 34×55 rectangle)
+  const fib=[1,1,2,3,5,8,13,21,34];
+
+  // Build tiling in math coords (origin bottom-left, y up)
+  let squares=[{x:0,y:0,s:1},{x:1,y:0,s:1}];
+  let bx=0, by=0, bw=2, bh=1;
+  const dirs=['up','left','down','right']; let di=0;
+
+  for(let i=2;i<fib.length;i++){
+    const s=fib[i], dir=dirs[di%4];
+    if(dir==='up'){ squares.push({x:bx, y:by+bh, s}); bh+=s; }
+    else if(dir==='left'){ squares.push({x:bx-s, y:by, s}); bx-=s; bw+=s; }
+    else if(dir==='down'){ squares.push({x:bx, y:by-s, s}); by-=s; bh+=s; }
+    else { squares.push({x:bx+bw, y:by, s}); bw+=s; }
+    di++;
+  }
+
+  // Final golden rectangle
+  const W=bw, H=bh, Xmin=bx, Ymin=by, Xmax=bx+bw, Ymax=by+bh;
+
+  // Fit & center inside 220×220 inner square
+  const margin=10, inner=220;
+  const u=inner/Math.max(W,H);
+  const offX=margin + (inner - W*u)/2;
+  const offY=margin + (inner - H*u)/2;
+  const toSx = x => offX + (x - Xmin)*u;
+  const toSy = y => offY + (Ymax - y)*u; // flip y for SVG
+
+  // Clip so arcs never spill
+  clipRect.setAttribute('x', toSx(Xmin));
+  clipRect.setAttribute('y', toSy(Ymax));
+  clipRect.setAttribute('width',  W*u);
+  clipRect.setAttribute('height', H*u);
+
+  // Draw squares
+  squares.forEach((r,i)=>{
+    const e=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    e.setAttribute('x', toSx(r.x));
+    e.setAttribute('y', toSy(r.y + r.s));
+    e.setAttribute('width',  r.s*u);
+    e.setAttribute('height', r.s*u);
+    e.setAttribute('fill', i%2===0?'var(--a)':'var(--b)');
+    e.setAttribute('stroke','var(--edge)');
+    e.setAttribute('stroke-width','1.5');
+    layer.appendChild(e);
+  });
+
+  // ---- Mirrored Fibonacci spiral ----
+  // Standard centers, but sweep flag reversed (0) for a mirrored turn.
+  function arcPath(cx,cy,r,from,to){
+    const x1=toSx(cx + r*Math.cos(from)), y1=toSy(cy + r*Math.sin(from));
+    const x2=toSx(cx + r*Math.cos(to  )), y2=toSy(cy + r*Math.sin(to  ));
+    return `M ${x1} ${y1} A ${r*u} ${r*u} 0 0 0 ${x2} ${y2}`;
+  }
+  const order=['up','left','down','right']; let oi=0;
+  let dPath='';
+  for(let i=2;i<squares.length;i++){
+    const sq=squares[i], s=sq.s, dir=order[oi%4];
+    if(dir==='up'){          // center (x, y)             0 → π/2
+      dPath += ' ' + arcPath(sq.x, sq.y, s, 0, Math.PI/2);
+    }else if(dir==='left'){  // center (x + s, y)         π/2 → π
+      dPath += ' ' + arcPath(sq.x + s, sq.y, s, Math.PI/2, Math.PI);
+    }else if(dir==='down'){  // center (x + s, y + s)     π → 3π/2
+      dPath += ' ' + arcPath(sq.x + s, sq.y + s, s, Math.PI, 3*Math.PI/2);
+    }else{                   // right: center (x, y + s)  3π/2 → 2π
+      dPath += ' ' + arcPath(sq.x, sq.y + s, s, 3*Math.PI/2, 2*Math.PI);
+    }
+    oi++;
+  }
+  const spiral=document.createElementNS('http://www.w3.org/2000/svg','path');
+  spiral.setAttribute('d', dPath.trim());
+  spiral.setAttribute('fill','none');
+  spiral.setAttribute('stroke','var(--spiral)');
+  spiral.setAttribute('stroke-width','2');
+  layer.appendChild(spiral);
+
+  /* ---------- Checks ---------- */
+  const checks=document.getElementById('checks');
+  const numbers=document.getElementById('numbers');
+  const ok=t=>`<li><span class="ok">OK</span> — ${t}</li>`;
+  const bad=t=>`<li><span class="bad">FAIL</span> — ${t}</li>`;
+
+  // Fibonacci rule
+  let fibOK=true; for(let i=2;i<fib.length;i++){ if(fib[i]!==fib[i-1]+fib[i-2]){fibOK=false;break;} }
+  checks.insertAdjacentHTML('beforeend', fibOK?ok('Side lengths follow the Fibonacci rule'):bad('Fibonacci rule failed'));
+
+  // Non-overlap
+  let overlap=false;
+  for(let i=0;i<squares.length;i++){ for(let j=i+1;j<squares.length;j++){ if(rectIntersects(squares[i],squares[j])){overlap=true;break;} } if(overlap)break; }
+  checks.insertAdjacentHTML('beforeend', overlap?bad('Squares overlap'):ok('No pairwise overlaps'));
+
+  // Area equality & aspect ratio
+  const sumArea=squares.reduce((a,r)=>a+r.s*r.s,0), rectArea=W*H;
+  checks.insertAdjacentHTML('beforeend', almost(sumArea,rectArea)?ok(`Areas match: ${sumArea} = ${rectArea}`):bad(`Area mismatch: ${sumArea} vs ${rectArea}`));
+  const phi=(1+Math.sqrt(5))/2, ratio=(W>H?W/H:H/W);
+  checks.insertAdjacentHTML('beforeend', Math.abs(ratio-phi)<1e-9?ok('Aspect equals the golden ratio')
+                                                                :ok(`Aspect ≈ golden ratio (ratio=${ratio})`));
+  numbers.textContent = `Squares: ${fib.join(', ')}  |  Rectangle: ${W} × ${H}  |  Aspect ${ratio.toFixed(12)}`;
+})();
+</script>
+</body>
+</html>
+
