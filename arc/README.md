@@ -16,6 +16,7 @@ in real-world applications.
 * [Complex identities — explanatory proofs](https://eyereasoner.github.io/eye/arc/etc/complex.html)
 * [Control System](https://eyereasoner.github.io/eye/arc/etc/control_system.html)
 * [Delfour](https://eyereasoner.github.io/eye/arc/etc/delfour.html)
+* [Descartes’ circle theorem](https://eyereasoner.github.io/eye/arc/etc/descartes_circles.html)
 * [Easter (Computus)](https://eyereasoner.github.io/eye/arc/etc/easter.html)
 * [Eco‑Route](https://eyereasoner.github.io/eye/arc/etc/eco_route.html)
 * [Family logic](https://eyereasoner.github.io/eye/arc/etc/family.html)
