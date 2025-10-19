@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ARC • Square → 17 similar right triangles (legs 1:2)</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --ink:#0f172a; --sub:#334155; --line:#d5dbe7;
+    --a:#a5d8ff; --b:#cfe8ff; --edge:#7fb6e0; --ok:#059669; --bad:#dc2626;
+  }
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+            font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  header{padding:18px 20px;border-bottom:1px solid var(--line)}
+  h1{margin:0 0 6px;font-size:22px}
+  h2{margin:18px 0 10px;font-size:17px}
+  p,li,small{line-height:1.45}
+  main{display:block;padding:18px 20px 40px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;
+        box-shadow:0 1px 0 rgba(15,23,42,.04);margin:0 0 18px}
+  .card header{padding:12px 14px;border-bottom:1px solid var(--line);
+               border-radius:12px 12px 0 0}
+  .card section{padding:14px}
+  .muted{color:var(--sub)}
+  .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .sw{display:inline-flex;align-items:center;gap:6px}
+  .sw i{display:inline-block;width:14px;height:14px;border-radius:4px;border:1px solid var(--line)}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .ok{color:var(--ok)} .bad{color:var(--bad)}
+  svg{max-width:50%;height:auto;display:block;margin:0 auto;} /* half width */
+</style>
+</head>
+<body>
+<header>
+  <h1>ARC (Answer • Reason • Check)</h1>
+  <p class="muted"><strong>What this is?</strong> A square is exactly partitioned into
+    <strong>17</strong> pairwise similar <strong>right</strong> triangles whose
+    <em>legs</em> are in the ratio <strong>1 : 2</strong>. The drawing below includes an automatic checker.</p>
+</header>
+
+<main>
+
+  <!-- ANSWER -->
+  <article class="card" aria-labelledby="answer-title">
+    <header><h2 id="answer-title">Answer — drawing (fills the square, no overlaps)</h2></header>
+    <section>
+      <!-- Square 160×160 at (10,10) — half the previous size.
+           The square is split into eight 40×80 rectangles.
+           Each rectangle is cut on a diagonal → two 1:2 right triangles (16 total).
+           In the top-left rectangle, one of those triangles is split by the altitude
+           from the right angle to the hypotenuse, producing two similar 1:2 triangles.
+           That makes 17 triangles in total. -->
+      <svg id="tiling" viewBox="0 0 190 190" role="img"
+           aria-label="Square partitioned into 17 similar right triangles, legs 1:2">
+        <defs>
+          <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+            <path d="M10 0H0V10" fill="none" stroke="#eef2f7"/>
+          </pattern>
+        </defs>
+
+        <!-- background and frame -->
+        <rect x="10" y="10" width="160" height="160" fill="url(#grid)" stroke="#c7d2e5"/>
+        <rect x="10" y="10" width="160" height="160" fill="none" stroke="#9fb3d1" stroke-width="2"/>
+
+        <!-- 17 triangles (all 1:2). Coordinates are precisely half the earlier construction. -->
+
+        <!-- top-left cell with altitude split: H = (42,26) -->
+        <polygon class="tri" points="10,10 50,10 42,26" fill="#a5d8ff" stroke="#7fb6e0"/>
+        <polygon class="tri" points="10,10 10,90 42,26" fill="#cfe8ff" stroke="#7fb6e0"/>
+        <polygon class="tri" points="50,10 50,90 10,90" fill="#a5d8ff" stroke="#7fb6e0"/>
+
+        <!-- rest of top row -->
+        <polygon class="tri" points="50,10 90,10 50,90" fill="#cfe8ff" stroke="#7fb6e0"/>
+        <polygon class="tri" points="90,10 90,90 50,90" fill="#a5d8ff" stroke="#7fb6e0"/>
+
+        <polygon class="tri" points="90,10 130,10 90,90" fill="#a5d8ff" stroke="#7fb6e0"/>
+        <polygon class="tri" points="130,10 130,90 90,90" fill="#cfe8ff" stroke="#7fb6e0"/>
+
+        <polygon class="tri" points="130,10 170,10 130,90" fill="#cfe8ff" stroke="#7fb6e0"/>
+        <polygon class="tri" points="170,10 170,90 130,90" fill="#a5d8ff" stroke="#7fb6e0"/>
+
+        <!-- bottom row -->
+        <polygon class="tri" points="10,90 50,90 10,170" fill="#a5d8ff" stroke="#7fb6e0"/>
+        <polygon class="tri" points="50,90 50,170 10,170" fill="#cfe8ff" stroke="#7fb6e0"/>
+
+        <polygon class="tri" points="50,90 90,90 50,170" fill="#cfe8ff" stroke="#7fb6e0"/>
+        <polygon class="tri" points="90,90 90,170 50,170" fill="#a5d8ff" stroke="#7fb6e0"/>
+
+        <polygon class="tri" points="90,90 130,90 90,170" fill="#a5d8ff" stroke="#7fb6e0"/>
+        <polygon class="tri" points="130,90 130,170 90,170" fill="#cfe8ff" stroke="#7fb6e0"/>
+
+        <polygon class="tri" points="130,90 170,90 130,170" fill="#cfe8ff" stroke="#7fb6e0"/>
+        <polygon class="tri" points="170,90 170,170 130,170" fill="#a5d8ff" stroke="#7fb6e0"/>
+      </svg>
+
+      <div class="legend">
+        <div class="sw"><i style="background:#a5d8ff"></i> 1:2 right triangle</div>
+        <div class="sw"><i style="background:#cfe8ff"></i> 1:2 right triangle (rotated)</div>
+      </div>
+    </section>
+  </article>
+
+  <!-- REASON -->
+  <article class="card" aria-labelledby="reason-title">
+    <header><h2 id="reason-title">Reason</h2></header>
+    <section>
+      <ol>
+        <li>The square (160×160) is divided into eight 40×80 rectangles. Cutting each on a diagonal
+            yields two right triangles with leg lengths 40 and 80 (ratio 1:2).</li>
+        <li>In the top-left rectangle, one such triangle is split by the altitude from the right angle
+            to the hypotenuse. This produces two smaller right triangles similar to the original 1:2 triangle,
+            bringing the total to 17 similar pieces.</li>
+        <li>Every cut lies on existing borders, so the pieces fill the square exactly with no overlaps.</li>
+      </ol>
+    </section>
+  </article>
+
+  <!-- CHECK -->
+  <article class="card" aria-labelledby="check-title">
+    <header><h2 id="check-title">Check</h2></header>
+    <section>
+      <p class="muted">Automatic verification of the drawing:</p>
+      <ul id="checks" class="mono"></ul>
+      <small class="muted">We verify: (1) 17 triangles, (2) each is right with leg ratio 1:2,
+        (3) total area equals the square, (4) a dense lattice of interior points is covered by
+        exactly one triangle (no gaps or overlaps).</small>
+    </section>
+  </article>
+
+</main>
+
+<script>
+(function(){
+  const list = document.getElementById('checks');
+  const ok = (t)=>`<li><span class="ok">OK</span> — ${t}</li>`;
+  const bad = (t)=>`<li><span class="bad">FAIL</span> — ${t}</li>`;
+
+  const svg = document.getElementById('tiling');
+  const polys = [...svg.querySelectorAll('polygon.tri')];
+
+  function parse(points){
+    return points.trim().split(/\s+/).map(s=>{
+      const [x,y]=s.split(',').map(Number); return {x,y};
+    });
+  }
+  function dist(a,b){ return Math.hypot(a.x-b.x, a.y-b.y); }
+  function area(pts){
+    let s=0; for(let i=0;i<3;i++){ const a=pts[i], b=pts[(i+1)%3]; s+=a.x*b.y-b.x*a.y; }
+    return Math.abs(s)/2;
+  }
+  function rightRatio(pts){
+    const [a,b,c]=pts;
+    const ab=dist(a,b), bc=dist(b,c), ca=dist(c,a);
+    const sides=[ab,bc,ca].sort((x,y)=>x-y);
+    const [l1,l2,h]=sides;
+    const right = Math.abs(h*h - (l1*l1 + l2*l2)) < 1e-9;
+    const ratioOK = Math.abs(l1/l2 - 0.5) < 1e-9; // legs 1:2
+    return {right, ratioOK};
+  }
+
+  // 1) count
+  list.insertAdjacentHTML('beforeend',
+    polys.length===17 ? ok('17 triangles present') : bad(`expected 17, found ${polys.length}`));
+
+  const triangles = polys.map(p=>parse(p.getAttribute('points')));
+
+  // 2) right + 1:2 and areas
+  let allGood=true, total=0;
+  triangles.forEach((t,i)=>{
+    const {right,ratioOK}=rightRatio(t);
+    const A=area(t); total+=A;
+    list.insertAdjacentHTML('beforeend', (right&&ratioOK)
+      ? ok(`T${i+1}: right, legs 1:2, area=${A}`)
+      : bad(`T${i+1}: not right and/or not 1:2`));
+    allGood = allGood && right && ratioOK;
+  });
+  list.insertAdjacentHTML('beforeend', allGood
+    ? ok('All triangles are right and mutually similar (legs 1:2).')
+    : bad('Some triangles failed the right/ratio test.'));
+
+  // 3) area equals square area
+  const squareArea = 160*160;
+  list.insertAdjacentHTML('beforeend',
+    Math.abs(total - squareArea) < 1e-6
+    ? ok(`Areas match: Σtriangles = ${total} = square ${squareArea}`)
+    : bad(`Area mismatch: triangles ${total} vs square ${squareArea}`));
+
+  // 4) coverage test (no gaps/overlap)
+  const xmin=10, ymin=10, xmax=170, ymax=170;
+  const step=2, offset=1;
+  function inside(p,t){
+    const [a,b,c]=t;
+    const v0={x:c.x-a.x,y:c.y-a.y};
+    const v1={x:b.x-a.x,y:b.y-a.y};
+    const v2={x:p.x-a.x,y:p.y-a.y};
+    const den=v0.x*v1.y-v1.x*v0.y;
+    const u=(v2.x*v1.y-v1.x*v2.y)/den;
+    const v=(v0.x*v2.y-v2.x*v0.y)/den;
+    const w=1-u-v, eps=1e-9;
+    return u>-eps && v>-eps && w>-eps;
+  }
+  let badSamples=0, totalSamples=0;
+  for(let y=ymin+offset; y<ymax; y+=step){
+    for(let x=xmin+offset; x<xmax; x+=step){
+      totalSamples++;
+      let c=0;
+      for(const t of triangles) if(inside({x,y}, t)) c++;
+      if(c!==1) badSamples++;
+    }
+  }
+  list.insertAdjacentHTML('beforeend',
+    badSamples===0
+    ? ok('Coverage is perfect: each interior sample point lies in exactly one triangle.')
+    : bad(`Coverage problem: ${badSamples}/${totalSamples} samples are not covered exactly once.`)
+  );
+})();
+</script>
+</body>
+</html>
+
