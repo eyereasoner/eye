@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Euler’s characteristic — rectangular grid example</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --ink:#0f172a; --sub:#334155; --line:#d5dbe7;
+    --face1:#eaf3ff; --face2:#d9ebff; --edge:#4f79c8; --vert:#0ea5e9;
+    --axis:#e5eaf5; --ok:#059669; --bad:#dc2626;
+  }
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+            font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  header{padding:18px 20px;border-bottom:1px solid var(--line)}
+  h1{margin:0 0 6px;font-size:22px}
+  h2{margin:18px 0 10px;font-size:17px}
+  p,li,small{line-height:1.45}
+  main{display:block;padding:18px 20px 40px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;
+        box-shadow:0 1px 0 rgba(15,23,42,.04);margin:0 0 18px}
+  .card header{padding:12px 14px;border-bottom:1px solid var(--line);
+               border-radius:12px 12px 0 0}
+  .card section{padding:14px}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .ok{color:var(--ok)} .bad{color:var(--bad)}
+  svg{max-width:50%;height:auto;display:block;margin:0 auto;shape-rendering:geometricPrecision;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Euler’s characteristic — rectangular grid example</h1>
+</header>
+
+<main>
+
+  <!-- WHAT THIS IS -->
+  <article class="card">
+    <header><h2>What this is?</h2></header>
+    <section>
+      <p>
+        A straight-line planar graph formed by a small rectangular lattice of unit squares.
+        We count vertices <strong>V</strong>, edges <strong>E</strong>, faces <strong>F</strong>
+        (including the single outer face), and verify <strong>Euler’s relation</strong> for
+        connected planar graphs: <strong>χ = V − E + F = 2</strong>.
+      </p>
+    </section>
+  </article>
+
+  <!-- ANSWER -->
+  <article class="card">
+    <header><h2>Answer — drawing</h2></header>
+    <section>
+      <svg id="fig" viewBox="0 0 240 240" aria-label="Rectangular grid planar graph">
+        <g id="frame"></g>
+        <g id="faces"></g>
+        <g id="edges"></g>
+        <g id="verts"></g>
+      </svg>
+    </section>
+  </article>
+
+  <!-- REASON -->
+  <article class="card">
+    <header><h2>Reason</h2></header>
+    <section>
+      <ol>
+        <li>Take a grid with <em>cols</em> columns and <em>rows</em> rows of unit squares (one connected component).</li>
+        <li>Counts by construction:
+          <ul>
+            <li>Vertices: V = (cols + 1)(rows + 1)</li>
+            <li>Edges: E = cols(rows + 1) + (cols + 1)rows (all unit horizontal and vertical edges)</li>
+            <li>Faces: F = cols·rows + 1 (all unit squares plus the single unbounded outer face)</li>
+          </ul>
+        </li>
+        <li>Therefore χ = V − E + F = 2 for any rectangular grid, which we also verify numerically from the
+            arrays actually drawn.</li>
+      </ol>
+    </section>
+  </article>
+
+  <!-- CHECK -->
+  <article class="card">
+    <header><h2>Check</h2></header>
+    <section>
+      <ul id="checks" class="mono"></ul>
+      <pre id="numbers" class="mono" style="white-space:pre-wrap;margin-top:8px"></pre>
+    </section>
+  </article>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  const checks=document.getElementById('checks');
+  const numbers=document.getElementById('numbers');
+  const ok=t=>`<li class="ok">OK — ${t}</li>`;
+  const bad=t=>`<li class="bad">FAIL — ${t}</li>`;
+
+  const gFrame=document.getElementById('frame');
+  const gFaces=document.getElementById('faces');
+  const gEdges=document.getElementById('edges');
+  const gVerts=document.getElementById('verts');
+
+  // ----- Choose grid size (cells): cols × rows -----
+  const cols = 4, rows = 3; // 4 by 3 unit squares (change if you like)
+
+  // ----- Build integer-lattice vertices -----
+  // We’ll space them proportionally inside the 220×220 inner box.
+  const margin=10, inner=220;
+  const X = i => margin + (inner * (i / cols));       // i = 0..cols
+  const Y = j => margin + (inner * (1 - j / rows));   // j = 0..rows (flip Y for SVG)
+
+  // Geometric arrays
+  const V=[]; // {i,j,x,y}
+  for(let j=0;j<=rows;j++){
+    for(let i=0;i<=cols;i++){
+      V.push({i,j,x:X(i),y:Y(j)});
+    }
+  }
+  // index helper
+  const vid = (i,j)=> i + (cols+1)*j;
+
+  // Edges: all unit horizontals and verticals
+  const E=[];
+  for(let j=0;j<=rows;j++) for(let i=0;i<cols;i++)   E.push([vid(i,j), vid(i+1,j)]);
+  for(let i=0;i<=cols;i++) for(let j=0;j<rows;j++)   E.push([vid(i,j), vid(i,j+1)]);
+
+  // Faces (unit squares) just for shading; outer face is implicit
+  const faces=[];
+  for(let j=0;j<rows;j++){
+    for(let i=0;i<cols;i++){
+      faces.push([
+        {x:X(i),   y:Y(j)},
+        {x:X(i+1), y:Y(j)},
+        {x:X(i+1), y:Y(j+1)},
+        {x:X(i),   y:Y(j+1)}
+      ]);
+    }
+  }
+
+  // ----- Draw frame -----
+  const border=document.createElementNS('http://www.w3.org/2000/svg','rect');
+  border.setAttribute('x',10); border.setAttribute('y',10);
+  border.setAttribute('width',220); border.setAttribute('height',220);
+  border.setAttribute('fill','none'); border.setAttribute('stroke','#c7d2e5'); border.setAttribute('stroke-width','1');
+  gFrame.appendChild(border);
+
+  // ----- Draw faces (alternating fill) -----
+  faces.forEach((f,idx)=>{
+    const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+    let d=`M ${f[0].x} ${f[0].y} L ${f[1].x} ${f[1].y} L ${f[2].x} ${f[2].y} L ${f[3].x} ${f[3].y} Z`;
+    p.setAttribute('d',d);
+    p.setAttribute('fill', idx%2 ? 'var(--face1)' : 'var(--face2)');
+    p.setAttribute('stroke','none');
+    gFaces.appendChild(p);
+  });
+
+  // ----- Draw edges -----
+  for(const [a,b] of E){
+    const ea=document.createElementNS('http://www.w3.org/2000/svg','line');
+    ea.setAttribute('x1',V[a].x); ea.setAttribute('y1',V[a].y);
+    ea.setAttribute('x2',V[b].x); ea.setAttribute('y2',V[b].y);
+    ea.setAttribute('stroke','var(--edge)'); ea.setAttribute('stroke-width','2');
+    gEdges.appendChild(ea);
+  }
+
+  // ----- Draw vertices -----
+  V.forEach(p=>{
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',p.x); c.setAttribute('cy',p.y); c.setAttribute('r',2.1);
+    c.setAttribute('fill','white'); c.setAttribute('stroke','var(--vert)'); c.setAttribute('stroke-width','1.4');
+    gVerts.appendChild(c);
+  });
+
+  // ----- Counts from what we actually built -----
+  const Vcount = V.length;                              // (cols+1)(rows+1)
+  const Ecount = E.length;                              // cols(rows+1) + (cols+1)rows
+  const Fcount = faces.length + 1;                      // +1 for the outer face
+  const Ccount = 1;                                     // one connected component
+  const chi    = Vcount - Ecount + Fcount;
+  const rhs    = 2;                                     // 1 + C with C=1
+
+  // ----- Independent closed-form counts for cross-check -----
+  const V_formula = (cols+1)*(rows+1);
+  const E_formula = cols*(rows+1) + (cols+1)*rows;
+  const F_formula = cols*rows + 1;
+
+  // ----- Checks -----
+  const allInts = V.every(p=>Number.isInteger(p.i) && Number.isInteger(p.j));
+  checks.insertAdjacentHTML('beforeend', allInts ? ok('All vertices lie on integer lattice coordinates (i,j).')
+                                                 : bad('A vertex is not on integer lattice coordinates.'));
+  const countsMatch = (Vcount===V_formula) && (Ecount===E_formula) && (Fcount===F_formula);
+  checks.insertAdjacentHTML('beforeend', countsMatch ? ok('Counts match formulas V=(c+1)(r+1), E=c(r+1)+(c+1)r, F=cr+1.')
+                                                    : bad('Counts do not match the closed-form formulas.'));
+  checks.insertAdjacentHTML('beforeend', (chi===rhs) ? ok(`Euler holds: χ = V − E + F = ${chi} (expected 2).`)
+                                                     : bad(`Euler mismatch: χ = ${chi} (expected 2).`));
+
+  numbers.textContent =
+`Grid cells: ${cols} × ${rows}
+Vertices V: ${Vcount}   (formula ${(V_formula)})
+Edges    E: ${Ecount}   (formula ${(E_formula)})
+Faces    F: ${Fcount}   (formula ${(F_formula)})
+Components C: ${Ccount}
+Euler χ = V − E + F = ${chi}`;
+})();
+</script>
+</body>
+</html>
+

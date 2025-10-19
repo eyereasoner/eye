@@ -20,6 +20,7 @@ in real-world applications.
 * [Descartes’ circle theorem](https://eyereasoner.github.io/eye/arc/etc/descartes_circles.html)
 * [Easter (Computus)](https://eyereasoner.github.io/eye/arc/etc/easter.html)
 * [Eco‑Route](https://eyereasoner.github.io/eye/arc/etc/eco_route.html)
+* [Euler’s characteristic](https://eyereasoner.github.io/eye/arc/etc/euler_characteristic.html)
 * [Family logic](https://eyereasoner.github.io/eye/arc/etc/family.html)
 * [Fibonacci golden spiral](https://eyereasoner.github.io/eye/arc/etc/fibonacci_golden_spiral.html)
 * [Fibonacci via Fast Doubling](https://eyereasoner.github.io/eye/arc/etc/fibonacci.html)
