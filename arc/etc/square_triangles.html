@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>ARC • Square → 17 similar right triangles (legs 1:2)</title>
+<title>Square divided into 17 similar right triangles (legs 1:2)</title>
 <style>
   :root{
     --bg:#f6f8fb; --ink:#0f172a; --sub:#334155; --line:#d5dbe7;
@@ -32,10 +32,11 @@
 </head>
 <body>
 <header>
-  <h1>ARC (Answer • Reason • Check)</h1>
-  <p class="muted"><strong>What this is?</strong> A square is exactly partitioned into
-    <strong>17</strong> pairwise similar <strong>right</strong> triangles whose
-    <em>legs</em> are in the ratio <strong>1 : 2</strong>. The drawing below includes an automatic checker.</p>
+  <h1>Square divided into 17 similar right triangles (legs 1:2)</h1>
+  <p class="muted">ARC • <strong>Answer</strong> • <strong>Reason</strong> • <strong>Check</strong></p>
+  <p class="muted"><strong>What this is?</strong> A square exactly partitioned into
+    <strong>17</strong> pairwise similar <strong>right</strong> triangles whose legs are in the ratio
+    <strong>1 : 2</strong>. The drawing includes an automatic checker.</p>
 </header>
 
 <main>
@@ -44,12 +45,12 @@
   <article class="card" aria-labelledby="answer-title">
     <header><h2 id="answer-title">Answer — drawing (fills the square, no overlaps)</h2></header>
     <section>
-      <!-- Square 160×160 at (10,10) — half the previous size.
+      <!-- Square 160×160 at (10,10) — half the earlier size.
            The square is split into eight 40×80 rectangles.
            Each rectangle is cut on a diagonal → two 1:2 right triangles (16 total).
-           In the top-left rectangle, one of those triangles is split by the altitude
-           from the right angle to the hypotenuse, producing two similar 1:2 triangles.
-           That makes 17 triangles in total. -->
+           In the top-left rectangle, one such triangle is split by the altitude
+           from the right angle to the hypotenuse, giving two similar 1:2 triangles.
+           That makes 17 triangles. -->
       <svg id="tiling" viewBox="0 0 190 190" role="img"
            aria-label="Square partitioned into 17 similar right triangles, legs 1:2">
         <defs>
@@ -62,7 +63,7 @@
         <rect x="10" y="10" width="160" height="160" fill="url(#grid)" stroke="#c7d2e5"/>
         <rect x="10" y="10" width="160" height="160" fill="none" stroke="#9fb3d1" stroke-width="2"/>
 
-        <!-- 17 triangles (all 1:2). Coordinates are precisely half the earlier construction. -->
+        <!-- 17 triangles (all 1:2). -->
 
         <!-- top-left cell with altitude split: H = (42,26) -->
         <polygon class="tri" points="10,10 50,10 42,26" fill="#a5d8ff" stroke="#7fb6e0"/>
@@ -105,12 +106,12 @@
     <header><h2 id="reason-title">Reason</h2></header>
     <section>
       <ol>
-        <li>The square (160×160) is divided into eight 40×80 rectangles. Cutting each on a diagonal
-            yields two right triangles with leg lengths 40 and 80 (ratio 1:2).</li>
-        <li>In the top-left rectangle, one such triangle is split by the altitude from the right angle
-            to the hypotenuse. This produces two smaller right triangles similar to the original 1:2 triangle,
-            bringing the total to 17 similar pieces.</li>
-        <li>Every cut lies on existing borders, so the pieces fill the square exactly with no overlaps.</li>
+        <li>The 160×160 square is divided into eight 40×80 rectangles. Cutting each on a diagonal
+            yields two right triangles with legs 40 and 80 (ratio 1:2).</li>
+        <li>In the top-left rectangle, one of those triangles is split by the altitude from the right angle
+            to the hypotenuse, giving two smaller right triangles similar to the original 1:2 triangle.
+            Total pieces = 17.</li>
+        <li>All cuts lie on existing borders; therefore the pieces fill the square exactly with no overlaps.</li>
       </ol>
     </section>
   </article>
