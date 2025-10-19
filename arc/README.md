@@ -37,6 +37,7 @@ in real-world applications.
 * [N-Queens](https://eyereasoner.github.io/eye/arc/etc/n_queens.html)
 * [Pentagon & pentagram — golden ratio](https://eyereasoner.github.io/eye/arc/etc/pentagon_pentagram.html)
 * [π (Chudnovsky)](https://eyereasoner.github.io/eye/arc/etc/pi.html)
+* [Pick's Theorem](https://eyereasoner.github.io/eye/arc/etc/picks_theorem.html)
 * [Polynomial roots (Durand–Kerner)](https://eyereasoner.github.io/eye/arc/etc/polynomial.html)
 * [Primes](https://eyereasoner.github.io/eye/arc/etc/prime.html)
 * [Pythagorean Theorem](https://eyereasoner.github.io/eye/arc/etc/pythagorean_theorem.html)
