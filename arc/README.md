@@ -23,6 +23,7 @@ in real-world applications.
 * [Family logic](https://eyereasoner.github.io/eye/arc/etc/family.html)
 * [Fibonacci golden spiral](https://eyereasoner.github.io/eye/arc/etc/fibonacci_golden_spiral.html)
 * [Fibonacci via Fast Doubling](https://eyereasoner.github.io/eye/arc/etc/fibonacci.html)
+* [Ford circles](https://eyereasoner.github.io/eye/arc/etc/ford_circles.html)
 * [GPS Clinical Bench](https://eyereasoner.github.io/eye/arc/etc/gps_clinical_bench.html)
 * [Graph — French cities](https://eyereasoner.github.io/eye/arc/etc/graph_french.html)
 * [Grass seed — molecular germination](https://eyereasoner.github.io/eye/arc/etc/grass_molecular.html)

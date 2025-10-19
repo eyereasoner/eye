@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ford circles — Farey neighbors and tangency</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --ink:#0f172a; --sub:#334155; --line:#d5dbe7;
+    --edge:#7aa2d6; --circle:#cfe8ff; --axis:#94a3b8;
+    --ok:#059669; --bad:#dc2626;
+  }
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+            font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  header{padding:18px 20px;border-bottom:1px solid var(--line)}
+  h1{margin:0 0 6px;font-size:22px}
+  h2{margin:18px 0 10px;font-size:17px}
+  p,li,small{line-height:1.45}
+  main{display:block;padding:18px 20px 40px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;
+        box-shadow:0 1px 0 rgba(15,23,42,.04);margin:0 0 18px}
+  .card header{padding:12px 14px;border-bottom:1px solid var(--line);
+               border-radius:12px 12px 0 0}
+  .card section{padding:14px}
+  .muted{color:var(--sub)}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .ok{color:var(--ok)} .bad{color:var(--bad)}
+  svg{max-width:50%;height:auto;display:block;margin:0 auto;
+      shape-rendering:geometricPrecision;} /* half-width, precise */
+</style>
+</head>
+<body>
+<header>
+  <h1>Ford circles — Farey neighbors and tangency</h1>
+</header>
+
+<main>
+
+  <!-- WHAT THIS IS -->
+  <article class="card">
+    <header><h2>What this is?</h2></header>
+    <section>
+      <p>
+        Ford circles over [0,1]. For each reduced fraction p/q we draw the circle
+        with center (p/q, 1/(2q²)) and radius 1/(2q²). Two Ford circles are tangent
+        exactly when |p₁q₂ − p₂q₁| = 1 (Farey neighbors). The drawing uses a single,
+        uniform scale and clips circles to the half-plane y ≥ 0 for clean tangencies.
+      </p>
+    </section>
+  </article>
+
+  <!-- ANSWER -->
+  <article class="card">
+    <header><h2>Answer — drawing</h2></header>
+    <section>
+      <svg id="fig" viewBox="0 0 240 240" aria-label="Ford circles on [0,1]">
+        <defs>
+          <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+            <path d="M10 0H0V10" fill="none" stroke="#eef2f7"/>
+          </pattern>
+          <!-- clip to the half-plane y >= 0 in pixel coords (set in JS) -->
+          <clipPath id="clipHalf"><rect id="clipRect" x="0" y="0" width="0" height="0"/></clipPath>
+        </defs>
+        <rect x="10" y="10" width="220" height="220" fill="url(#grid)" stroke="#c7d2e5"/>
+        <g id="circles" clip-path="url(#clipHalf)"></g>
+        <g id="axes"></g>
+      </svg>
+    </section>
+  </article>
+
+  <!-- REASON -->
+  <article class="card">
+    <header><h2>Reason</h2></header>
+    <section>
+      <ol>
+        <li>Circle for p/q has center (p/q, 1/(2q²)) and radius r = 1/(2q²). It is tangent to y = 0 at x = p/q.</li>
+        <li>Two fractions p₁/q₁ and p₂/q₂ are neighbors in a Farey sequence exactly when |p₁q₂ − p₂q₁| = 1.
+            Their Ford circles are then tangent; otherwise the circles are disjoint.</li>
+        <li>Sorting all reduced fractions with denominator ≤ N gives the Farey sequence of order N, so consecutive
+            entries are neighbors and their circles kiss.</li>
+      </ol>
+    </section>
+  </article>
+
+  <!-- CHECK -->
+  <article class="card">
+    <header><h2>Check</h2></header>
+    <section>
+      <p class="muted">Automatic verification:</p>
+      <ul id="checks" class="mono"></ul>
+      <div id="numbers" class="mono" style="margin-top:8px;white-space:pre-wrap"></div>
+    </section>
+  </article>
+
+</main>
+
+<script>
+/* ===== Helpers ===== */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a;}
+function almost(a,b,eps=1e-11){return Math.abs(a-b)<eps;}
+function dist(a,b){return Math.hypot(a.x-b.x, a.y-b.y);}
+
+(function(){
+  const gCircles=document.getElementById('circles');
+  const gAxes=document.getElementById('axes');
+  const clipRect=document.getElementById('clipRect');
+
+  const N = 12;                   // Farey order
+  const includeEndpoints = true;  // include 0/1 and 1/1
+
+  // Fractions (Farey order)
+  const fracs=[];
+  for(let q=1;q<=N;q++){
+    for(let p=0;p<=q;p++){
+      if(gcd(p,q)===1) fracs.push({p,q,x:p/q});
+    }
+  }
+  fracs.sort((a,b)=>a.x-b.x);
+
+  // Circles
+  const circles=[];
+  for(const f of fracs){
+    if(!includeEndpoints && f.q===1) continue;
+    const r=1/(2*f.q*f.q);
+    circles.push({p:f.p,q:f.q,x:f.x,y:r,r,id:`${f.p}/${f.q}`});
+  }
+
+  // Uniform mapping
+  const xmin=-0.02, xmax=1.02;
+  const ymin=0.0,  ymax=includeEndpoints?0.52:0.40;
+  const W=xmax-xmin, H=ymax-ymin;
+
+  const margin=10, inner=220;
+  const s = inner/Math.max(W,H);
+  const offX=margin + (inner - W*s)/2;
+  const offY=margin + (inner - H*s)/2;
+  const X=x=>offX + (x - xmin)*s;
+  const Y=y=>offY + (H - (y - ymin))*s;
+
+  // Clip rectangle for y >= 0 (prevents stroke from dipping below axis)
+  clipRect.setAttribute('x', X(xmin));
+  clipRect.setAttribute('y', Y(ymax));
+  clipRect.setAttribute('width',  W*s);
+  clipRect.setAttribute('height', H*s);
+
+  // Draw circles
+  for(const c of circles){
+    const e=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    e.setAttribute('cx', X(c.x));
+    e.setAttribute('cy', Y(c.y));
+    e.setAttribute('r',  c.r*s);
+    e.setAttribute('fill','var(--circle)');
+    e.setAttribute('stroke','var(--edge)');
+    e.setAttribute('stroke-width','1.1');
+    e.setAttribute('vector-effect','non-scaling-stroke');
+    gCircles.appendChild(e);
+  }
+
+  // Axes (drawn last so they sit on top)
+  const baseline=document.createElementNS('http://www.w3.org/2000/svg','line');
+  baseline.setAttribute('x1', X(0)); baseline.setAttribute('y1', Y(0));
+  baseline.setAttribute('x2', X(1)); baseline.setAttribute('y2', Y(0));
+  baseline.setAttribute('stroke','var(--axis)'); baseline.setAttribute('stroke-width','1.4');
+  baseline.setAttribute('vector-effect','non-scaling-stroke');
+  gAxes.appendChild(baseline);
+
+  const v0=document.createElementNS('http://www.w3.org/2000/svg','line');
+  v0.setAttribute('x1', X(0)); v0.setAttribute('y1', Y(0));
+  v0.setAttribute('x2', X(0)); v0.setAttribute('y2', Y(ymax));
+  v0.setAttribute('stroke','var(--axis)'); v0.setAttribute('stroke-width','1'); v0.setAttribute('opacity','0.5');
+  v0.setAttribute('vector-effect','non-scaling-stroke');
+  gAxes.appendChild(v0);
+
+  const v1=document.createElementNS('http://www.w3.org/2000/svg','line');
+  v1.setAttribute('x1', X(1)); v1.setAttribute('y1', Y(0));
+  v1.setAttribute('x2', X(1)); v1.setAttribute('y2', Y(ymax));
+  v1.setAttribute('stroke','var(--axis)'); v1.setAttribute('stroke-width','1'); v1.setAttribute('opacity','0.5');
+  v1.setAttribute('vector-effect','non-scaling-stroke');
+  gAxes.appendChild(v1);
+
+  /* ===== Checks ===== */
+  const checks=document.getElementById('checks');
+  const numbers=document.getElementById('numbers');
+  const ok=t=>`<li><span class="ok">OK</span> — ${t}</li>`;
+  const bad=t=>`<li><span class="bad">FAIL</span> — ${t}</li>`;
+
+  // 1) Radius and baseline tangency
+  let radOK=true, baseOK=true;
+  for(const c of circles){
+    const r=1/(2*c.q*c.q);
+    if(!almost(c.r,r)) radOK=false;
+    if(!almost(c.y,c.r)) baseOK=false;
+  }
+  checks.insertAdjacentHTML('beforeend', radOK?ok('Each radius r = 1/(2 q²)'):bad('Some radius ≠ 1/(2 q²)'));
+  checks.insertAdjacentHTML('beforeend', baseOK?ok('Every circle is tangent to y = 0'):bad('Some circle not tangent to baseline'));
+
+  // 2) Tangency for consecutive Farey fractions
+  let neighborPairs=0, tangFailures=0;
+  for(let i=0;i<fracs.length-1;i++){
+    const a=fracs[i], b=fracs[i+1];
+    if(!includeEndpoints && (a.q===1 || b.q===1)) continue;
+    const ra=1/(2*a.q*a.q), rb=1/(2*b.q*b.q);
+    const da=dist({x:a.x,y:ra},{x:b.x,y:rb}), sum=ra+rb;
+    neighborPairs++;
+    if(!almost(da,sum,1e-11)) tangFailures++;
+  }
+  checks.insertAdjacentHTML('beforeend',
+    tangFailures===0?ok(`Tangency holds for all ${neighborPairs} Farey-neighbor pairs`)
+                    :bad(`Tangency failed for ${tangFailures} neighbor pairs`));
+
+  // 3) Non-neighbors are disjoint
+  let overlaps=0;
+  for(let i=0;i<circles.length;i++){
+    for(let j=i+1;j<circles.length;j++){
+      const A=circles[i], B=circles[j];
+      const neighbors=Math.abs(A.p*B.q - B.p*A.q)===1;
+      const d=dist({x:A.x,y:A.y},{x:B.x,y:B.y});
+      if(!neighbors && d < A.r+B.r - 1e-11) overlaps++;
+    }
+  }
+  checks.insertAdjacentHTML('beforeend', overlaps===0?ok('No overlaps among non-neighbor circles')
+                                                     :bad(`Overlaps detected: ${overlaps} pairs`));
+
+  numbers.textContent =
+    `Farey order N = ${N}
+Fractions total (including endpoints) = ${fracs.length}
+Circles drawn = ${circles.length}
+Uniform scale s = ${s.toFixed(6)} px/unit`;
+})();
+</script>
+</body>
+</html>
+
