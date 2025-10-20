@@ -44,6 +44,7 @@ in real-world applications.
 * [Pythagorean Theorem](https://eyereasoner.github.io/eye/arc/etc/pythagorean_theorem.html)
 * [REST-path](https://eyereasoner.github.io/eye/arc/etc/restpath.html)
 * [Roots of Unity](https://eyereasoner.github.io/eye/arc/etc/roots_of_unity.html)
+* [Socrates](https://eyereasoner.github.io/eye/arc/etc/socrates.html)
 * [Square tiled by 17 right triangles](https://eyereasoner.github.io/eye/arc/etc/square_triangles.html)
 * [Sudoku](https://eyereasoner.github.io/eye/arc/etc/sudoku.html)
 * [Turing Machine](https://eyereasoner.github.io/eye/arc/etc/turing.html)
