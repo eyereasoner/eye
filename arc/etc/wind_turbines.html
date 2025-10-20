@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wind-Turbine Maintenance — ARC (Answer • Reason • Check)</title>
+  <title>Wind-Turbine Maintenance — ARC</title>
   <style>
     :root { --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --accent:#0ea5e9; --ok:#16a34a; --bad:#dc2626; --border:#e5e7eb; }
     html, body { height:100%; background: var(--bg); color: var(--text); font:15px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif }
@@ -13,12 +13,28 @@
     .wrap { max-width: 980px; margin: 0 auto; padding: 24px }
     .stack { display: grid; grid-template-columns: 1fr; gap: 14px }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; box-shadow: 0 6px 20px rgba(0,0,0,.04) }
+
+    /* Auto-growing textarea: no scrollbar; expands to content */
     textarea, pre, code, input, button { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace }
-    textarea { width:100%; min-height: 140px; resize: vertical; border-radius: 10px; padding: 10px; border:1px solid var(--border); background:#fbfdff; color:var(--text) }
+    textarea {
+      width: 100%;
+      min-height: 0;
+      height: auto;
+      overflow: hidden;     /* hide scrollbars */
+      resize: none;         /* user doesn't drag-resize */
+      border-radius: 10px;
+      padding: 10px;
+      border:1px solid var(--border);
+      background:#fbfdff;
+      color:var(--text);
+      box-sizing: border-box;
+      white-space: pre-wrap; /* preserve newlines and wrap long lines */
+    }
+
     .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap }
     button { border:0; background: linear-gradient(180deg,#7dd3fc,#38bdf8); color:#052436; padding:10px 14px; border-radius:12px; font-weight:700; cursor:pointer; box-shadow:0 3px 12px rgba(56,189,248,.35) }
     button.secondary { background:#f3f4f6; color:#111827; border:1px solid var(--border); box-shadow:none }
-    .output { min-height: 160px; white-space: pre-wrap; background:#fbfdff; border:1px solid var(--border); border-radius: 10px; padding: 10px; overflow:auto }
+    .output { min-height: 180px; white-space: pre-wrap; background:#fbfdff; border:1px solid var(--border); border-radius: 10px; padding: 10px; overflow:auto }
     .badge { display:inline-block; padding:2px 8px; border-radius: 999px; font-size: 12px; font-weight:700; letter-spacing:.3px; border:1px solid var(--border) }
     .ok { background: rgba(22,163,74,.08); color: var(--ok); border-color: rgba(22,163,74,.35) }
     .bad { background: rgba(220,38,38,.08); color: var(--bad); border-color: rgba(220,38,38,.35) }
@@ -36,40 +52,46 @@
     <div class="stack">
 
       <!-- What this is? -->
-      <div class="card">
+      <div class="card" id="what">
         <h2>What this is?</h2>
-        <p>This page reasons over wind-turbine observations to propose maintenance tasks and safety states.</p>
-        <ul>
-          <li><strong>Answer:</strong> deduped tasks and statuses per turbine, from Data + Rules.</li>
-          <li><strong>Reason:</strong> EYE’s proof explanation (no <code>--nope</code>), captured from the engine.</li>
-          <li><strong>Check:</strong> re-asks unique Answer triples as filter rules, via the same low-level path, then dedupes output.</li>
-        </ul>
+        <p>Reason over wind-turbine observations to propose maintenance tasks, safety states, and priorities—data-only runs for Answer/Check, adaptive proof for Reason.</p>
       </div>
 
       <div class="card">
         <h2>Data (+ Rules)</h2>
         <textarea id="dataTA" spellcheck="false">@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <urn:wt:> .
 
-# --- Assets
-:T1 a :Turbine .
-:GB1 a :Gearbox ; :partOf :T1 .
-:MB1 a :MainBearing ; :partOf :T1 .
+##########
+# Asset taxonomy
+##########
+:Turbine a rdfs:Class .
+:Component a rdfs:Class .
+:Gearbox rdfs:subClassOf :Component .
+:Generator rdfs:subClassOf :Component .
+:MainBearing rdfs:subClassOf :Component .
+:Blade rdfs:subClassOf :Component .
+:YawSystem rdfs:subClassOf :Component .
 
-:T2 a :Turbine .
-:GEN2 a :Generator ; :partOf :T2 .
+##########
+# Condition taxonomy
+##########
+:Condition a rdfs:Class .
+:CriticalCondition rdfs:subClassOf :Condition .
+:MajorCondition rdfs:subClassOf :Condition .
+:EarlyWarningCondition rdfs:subClassOf :Condition .
 
-# --- Observations (from SCADA/CM)
-:ObsVibGB1 a :HighVibration ; :about :GB1 .
-:ObsTempGEN2 a :Overheat ; :about :GEN2 .
-:ObsOilMB1 a :OilDebris ; :about :MB1 .
-
-# --- Taxonomy of conditions
 :HighVibration rdfs:subClassOf :CriticalCondition .
 :Overheat      rdfs:subClassOf :MajorCondition .
 :OilDebris     rdfs:subClassOf :EarlyWarningCondition .
+:PitchError    rdfs:subClassOf :MajorCondition .
+:YawMisalign   rdfs:subClassOf :EarlyWarningCondition .
 
-# --- Tasks (catalog)
+##########
+# Task catalog
+##########
+:Task a rdfs:Class .
 :InspectGearbox a :Task .
 :BalanceRotor a :Task .
 :TightenFoundation a :Task .
@@ -77,44 +99,95 @@
 :ChangeFilter a :Task .
 :OilAnalysis a :Task .
 :InspectMainBearing a :Task .
+:InspectPitchActuator a :Task .
+:CalibrateYawCompass a :Task .
 
-# --- RDFS subclass rule
+##########
+# Priority levels
+##########
+:Priority a rdfs:Class .
+:Urgent a :Priority .
+:High a :Priority .
+:Normal a :Priority .
+
+##########
+# Assets and decomposition
+##########
+:T1 a :Turbine .
+:GB1 a :Gearbox ; :partOf :T1 .
+:MB1 a :MainBearing ; :partOf :T1 .
+
+:T2 a :Turbine .
+:GEN2 a :Generator ; :partOf :T2 .
+:B2 a :Blade ; :partOf :T2 .
+:YS2 a :YawSystem ; :partOf :T2 .
+
+:T3 a :Turbine .
+:GEN3 a :Generator ; :partOf :T3 .
+:GB3 a :Gearbox ; :partOf :T3 .
+
+##########
+# Observations (from SCADA/CM/walkdowns)
+##########
+:ObsVibGB1 a :HighVibration ; :about :GB1 .
+:ObsTempGEN2 a :Overheat ; :about :GEN2 .
+:ObsOilMB1 a :OilDebris ; :about :MB1 .
+:ObsPitchB2 a :PitchError ; :about :B2 .
+:ObsYawYS2 a :YawMisalign ; :about :YS2 .
+
+##########
+# Generic rules
+##########
+
+# RDFS subclass
 { ?A rdfs:subClassOf ?B . ?S a ?A } => { ?S a ?B } .
 
-# --- Mapping: condition observations -> maintenance tasks (generic for all turbines)
-{ ?OBS a :HighVibration . ?OBS :about ?COMP . ?COMP :partOf ?T }
+# :partOf transitive closure
+{ ?x :partOf ?y . ?y :partOf ?z } => { ?x :partOf ?z } .
+
+# Map observations to turbine via :about + :partOf
+{ ?obs :about ?comp . ?comp :partOf ?turbine } => { ?obs :aboutTurbine ?turbine } .
+
+# Condition → tasks (generic)
+{ ?obs a :HighVibration . ?obs :aboutTurbine ?T }
   => { ?T :requiresTask :BalanceRotor .
        ?T :requiresTask :InspectGearbox .
        ?T :requiresTask :TightenFoundation . } .
 
-{ ?OBS a :Overheat . ?OBS :about ?COMP . ?COMP :partOf ?T }
+{ ?obs a :Overheat . ?obs :aboutTurbine ?T }
   => { ?T :requiresTask :ThermalScanGenerator .
        ?T :requiresTask :ChangeFilter . } .
 
-{ ?OBS a :OilDebris . ?OBS :about ?COMP . ?COMP :partOf ?T }
+{ ?obs a :OilDebris . ?obs :aboutTurbine ?T }
   => { ?T :requiresTask :OilAnalysis .
        ?T :requiresTask :InspectMainBearing . } .
 
-# --- Safety escalation: any CriticalCondition => turbine requires shutdown
-{ ?OBS a :CriticalCondition . ?OBS :about ?COMP . ?COMP :partOf ?T }
-  => { ?T a :RequiresShutdown } .
+{ ?obs a :PitchError . ?obs :aboutTurbine ?T }
+  => { ?T :requiresTask :InspectPitchActuator . } .
+
+{ ?obs a :YawMisalign . ?obs :aboutTurbine ?T }
+  => { ?T :requiresTask :CalibrateYawCompass . } .
+
+# Safety escalation
+{ ?obs a :CriticalCondition . ?obs :aboutTurbine ?T }
+  => { ?T a :RequiresShutdown .
+       ?T :priority :Urgent } .
+
+# Major but not critical → High priority (uses log:notIncludes)
+{ ?obs a :MajorCondition . ?obs :aboutTurbine ?T . ?SCOPE log:notIncludes { ?obs a :CriticalCondition } }
+  => { ?T :priority :High } .
+
+# Any maintenance task with no explicit priority → Normal (uses log:notIncludes)
+{ ?T :requiresTask ?X . ?SCOPE log:notIncludes { ?T :priority ?_P } }
+  => { ?T :priority :Normal } .
 </textarea>
       </div>
 
       <div class="card">
-        <h2>Query (filter rules)</h2>
-        <textarea id="queryTA" spellcheck="false">@prefix : <urn:wt:> .
-{ ?T :requiresTask ?TASK } => { ?T :requiresTask ?TASK } .
-{ ?T a :RequiresShutdown } => { ?T a :RequiresShutdown } .
-</textarea>
-        <div class="row" style="margin-top:10px">
+        <h2>Controls</h2>
+        <div class="row">
           <button id="runBtn">▶ Run ARC</button>
-          <button id="proofBtn" class="secondary">Show proof only</button>
-          <label class="tiny" style="display:flex;align-items:center;gap:6px;margin-left:auto">
-            <input type="checkbox" id="portableProof" />
-            Portable proof fallback
-          </label>
-          <span id="status" class="muted tiny"></span>
+          <span id="status" class="muted tiny" style="margin-left:auto"></span>
         </div>
         <div id="diag" class="diag"></div>
       </div>
@@ -136,23 +209,31 @@
         </div>
         <div id="check" class="output">computing…</div>
       </div>
+
     </div>
 
-    <footer>
-      Tip: If a preview sandbox hides WASM output, open this file directly; use the Portable proof fallback if needed.
-    </footer>
   </div>
 
   <script type="module">
     const $ = (id) => document.getElementById(id);
     const els = {
-      dataTA: $("dataTA"), queryTA: $("queryTA"),
-      runBtn: $("runBtn"), proofBtn: $("proofBtn"), status: $("status"),
-      answer: $("answer"), proof: $("proof"), check: $("check"), checkBadge: $("checkBadge"),
-      portable: $("portableProof"), diag: $("diag")
+      dataTA: $("dataTA"),
+      runBtn: $("runBtn"),
+      status: $("status"),
+      answer: $("answer"),
+      proof: $("proof"),
+      check: $("check"),
+      checkBadge: $("checkBadge"),
+      diag: $("diag")
     };
     const log = (m) => { els.diag.textContent += (els.diag.textContent ? "\n" : "") + m; };
     const normalize = (s) => (s || "").replace(/\r\n?/g, "\n").trim() + "\n";
+
+    // Auto-grow the Data textarea to fit content (no scrollbar)
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
+    }
 
     async function getEye() {
       if (window.eyereasoner) return window.eyereasoner;
@@ -160,27 +241,36 @@
       return eyereasoner;
     }
 
-    function buildInputs() {
-      const data  = normalize(els.dataTA.value);
-      const query = normalize(els.queryTA.value);
-      return { data, query };
-    }
+    function buildData() { return normalize(els.dataTA.value); }
 
-    // --- low-level runner (stdout, stderr)
-    async function runEye(eye, data, query, args) {
+    // Run EYE on *data only* and capture stdout/stderr
+    async function runEyeOnData(eye, data, args) {
       let stdout = "", stderr = "";
       const Module = await eye.SwiplEye({
         print:    (s) => { stdout += s + "\n"; },
         printErr: (s) => { stderr += s + "\n"; },
-        arguments: [] // we pass flags via 'args'
+        arguments: []
+      });
+      Module.FS.writeFile('data.n3', new TextEncoder().encode(data));
+      await eye.queryOnce(Module, 'main', args);
+      return { stdout: stdout.trim(), stderr: stderr.trim(), FS: Module.FS };
+    }
+
+    // Run with a synthesized query file
+    async function runEyeWithQuery(eye, data, query, args) {
+      let stdout = "", stderr = "";
+      const Module = await eye.SwiplEye({
+        print:    (s) => { stdout += s + "\n"; },
+        printErr: (s) => { stderr += s + "\n"; },
+        arguments: []
       });
       Module.FS.writeFile('data.n3',  new TextEncoder().encode(data));
-      Module.FS.writeFile('query.n3', new TextEncoder().encode(query));
-      await eye.queryOnce(Module, 'main', args);
+      Module.FS.writeFile('proof.n3', new TextEncoder().encode(query));
+      await eye.queryOnce(Module, 'main', [...args, 'data.n3', '--query', 'proof.n3']);
       return { stdout: stdout.trim(), stderr: stderr.trim() };
     }
 
-    // --- N3 helpers: unique prefixes + unique triples (prevents duplicates)
+    // Dedup prefixes & triples (for Answer/Check display)
     function extractN3Parts(n3) {
       const lines = (n3 || '').replace(/\r\n?/g, '\n').split(/\n+/).map(l=>l.trim()).filter(Boolean);
       const prefixes = [], triples = []; const seenP = new Set(), seenT = new Set();
@@ -199,7 +289,16 @@
       return (head + body).trim();
     }
 
-    // --- portable proof fallback (only if engine proof is empty)
+    // Synthesized query from unique Answer triples (targets exactly the derived facts)
+    function buildQueryFromAnswer(answerN3) {
+      const { prefixes, triples } = extractN3Parts(answerN3);
+      if (!triples.length) return '';
+      const head = prefixes.length ? prefixes.join('\n') + '\n\n' : '';
+      const body = triples.map(t => `{ ${t} } => { ${t} } .`).join('\n') + '\n';
+      return (head + body).trim() + '\n';
+    }
+
+    // Portable proof fallback (only if we cannot get engine proof)
     function buildPortableProof(dataStr, answerStr) {
       const header = '@prefix r: <http://www.w3.org/2000/10/swap/reason#>.\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.\n';
       const L = s => s.replace(/\r\n?/g,'\n').split(/\n+/).map(l=>l.trim()).filter(Boolean);
@@ -211,7 +310,6 @@
         const m = t.match(/^(.*)\s+a\s+(.*)\s*\.?$/); if (!m) continue;
         const S = m[1].trim(), O = m[2].trim();
         const aLine = data.find(l => l.startsWith(S + ' a '));
-        // find a matching subclass chain triple if present
         const A = aLine ? aLine.replace(/^.* a /,'').replace(/\.$/,'').trim() : null;
         const subLine = A ? data.find(l => l.includes(' rdfs:subClassOf ') && l.includes(' ' + A + ' ') && l.includes(' ' + O)) : null;
         const ruleLine = '{ ?A rdfs:subClassOf ?B . ?S a ?A } => { ?S a ?B } .';
@@ -227,26 +325,27 @@
       return lemmas.length ? header + lemmas.join('\n\n') + '\n' : '';
     }
 
-    // --- Check via low-level run (stdout only) built from unique Answer triples
-    async function runCheckLow(eye, data, answerN3) {
-      const parts = extractN3Parts(answerN3);
-      const head = parts.prefixes.length ? parts.prefixes.join('\n') + '\n\n' : '';
-      const rules = parts.triples.map(t => `{ ${t} } => { ${t} } .`).join('\n') + '\n';
-      const checkN3 = (head + rules).trim() + '\n';
-
-      const { stdout } = await runEye(
-        eye,
-        data,
-        checkN3,
-        ['--quiet', '--nope', 'data.n3', '--query', 'query.n3']
-      );
-      const outParts = extractN3Parts(stdout);
-      const details = formatAnswerFromParts(outParts);
-      return { passed: outParts.triples.length > 0, details };
+    // Check: recompute derivations on Data; assert Answer ⊆ Derivations
+    async function runCheckNoQuery(eye, data, answerN3) {
+      const ans = extractN3Parts(answerN3);
+      if (!ans.triples.length) return { passed: false, details: '' };
+      const deriv = await runEyeOnData(eye, data, ['--quiet', '--nope', '--pass-only-new', 'data.n3']);
+      const derivParts = extractN3Parts(deriv.stdout);
+      const derivSet = new Set(derivParts.triples);
+      const allPresent = ans.triples.every(t => derivSet.has(t));
+      const details = formatAnswerFromParts(ans);
+      return { passed: allPresent, details };
     }
 
-    // --- ARC orchestration
+    function looksLikeProof(s) {
+      return /(^|\W)r:Proof\b/.test(s || "") || /skolem:proof\b/.test(s || "");
+    }
+
+    // ARC orchestration
     async function runARC() {
+      // ensure Data textarea height matches content
+      autoResize(els.dataTA);
+
       els.answer.textContent = 'computing…';
       els.proof.textContent = '';
       els.check.textContent = 'computing…';
@@ -255,29 +354,38 @@
       try {
         const eye = await getEye();
         els.status.textContent = 'Running…';
-        const { data, query } = buildInputs();
+        const data = buildData();
 
-        // A — Answer (stdout)
-        const ansRun = await runEye(eye, data, query, ['--quiet', '--nope', 'data.n3', '--query', 'query.n3']);
+        // A — Answer (stdout) on data only
+        const ansRun = await runEyeOnData(eye, data, ['--quiet', '--nope', '--pass-only-new', 'data.n3']);
         const ansParts = extractN3Parts(ansRun.stdout);
         const answer = formatAnswerFromParts(ansParts);
         els.answer.textContent = answer || '(no new derivations)';
 
-        // R — Reason (stderr preferred; no --nope)
+        // R — Reason: try data-only (stdout). If no r:Proof, synthesize a tiny query from Answer and run again.
         let proof = '';
-        if (!els.portable.checked) {
-          const proofRun = await runEye(eye, data, query, ['--quiet', 'data.n3', '--query', 'query.n3']);
-          proof = (proofRun.stderr || '').trim();
-          if (!proof) proof = (proofRun.stdout || '').trim();
-        }
-        if (!proof) {
-          proof = buildPortableProof(data, answer);
-          if (!els.portable.checked) log('Falling back to portable proof.');
+        const pr1 = await runEyeOnData(eye, data, ['--quiet', '--pass-only-new', 'data.n3']);
+        const proofStdout = (pr1.stdout || '').trim();
+        if (looksLikeProof(proofStdout)) {
+          proof = proofStdout;
+        } else if (answer.trim()) {
+          const q = buildQueryFromAnswer(answer);
+          const pr2 = await runEyeWithQuery(eye, data, q, ['--quiet']);
+          const alt = (pr2.stdout || '').trim();
+          if (looksLikeProof(alt)) {
+            proof = alt;
+            //log('Proof: used synthesized query to obtain full r:Proof graph.');
+          } else {
+            proof = buildPortableProof(data, answer);
+            //log('Proof: neither data-only nor synthesized-query returned r:Proof; using portable proof.');
+          }
+        } else {
+          proof = '(no proof output for empty answer)';
         }
         els.proof.textContent = proof || '(no proof output)';
 
-        // C — Check (stdout, deduped)
-        const { passed, details } = await runCheckLow(eye, data, answer);
+        // C — Check
+        const { passed, details } = await runCheckNoQuery(eye, data, answer);
         els.check.textContent = details || '(no matches)';
         els.checkBadge.textContent = passed ? 'PASS' : 'FAIL';
         els.checkBadge.className = 'badge ' + (passed ? 'ok' : 'bad');
@@ -294,26 +402,15 @@
       }
     }
 
+    // Buttons
     els.runBtn.addEventListener('click', runARC);
-    els.proofBtn.addEventListener('click', async () => {
-      els.proof.textContent = 'loading proof…';
-      try {
-        const eye = await getEye();
-        const { data, query } = buildInputs();
-        let proof = '';
-        if (!els.portable.checked) {
-          const pr = await runEye(eye, data, query, ['--quiet', 'data.n3', '--query', 'query.n3']);
-          proof = (pr.stderr || '').trim();
-          if (!proof) proof = (pr.stdout || '').trim();
-        }
-        if (!proof) proof = buildPortableProof(data, (els.answer.textContent || ''));
-        els.proof.textContent = proof || '(no proof output)';
-      } catch (e) {
-        els.proof.textContent = '(proof failed) ' + (e?.message || '');
-      }
-    });
 
-    window.addEventListener('DOMContentLoaded', () => { runARC(); });
+    // On load: auto-size textarea and run ARC once
+    window.addEventListener('DOMContentLoaded', () => {
+      autoResize(els.dataTA);
+      els.dataTA.addEventListener('input', () => autoResize(els.dataTA));
+      runARC();
+    });
   </script>
 </body>
 </html>
