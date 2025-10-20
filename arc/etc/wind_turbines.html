@@ -3,22 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Socrates — ARC (Answer • Reason • Check)</title>
+  <title>Wind-Turbine Maintenance — ARC (Answer • Reason • Check)</title>
   <style>
     :root { --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --accent:#0ea5e9; --ok:#16a34a; --bad:#dc2626; --border:#e5e7eb; }
     html, body { height:100%; background: var(--bg); color: var(--text); font:15px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif }
     h1 { font-weight: 700; letter-spacing:.2px; margin:18px 0 6px }
     h2 { font-size: 13px; color: var(--muted); margin: 0 0 8px; letter-spacing:.2px; text-transform: uppercase }
     a { color: var(--accent) }
-    .wrap { max-width: 860px; margin: 0 auto; padding: 24px }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 24px }
     .stack { display: grid; grid-template-columns: 1fr; gap: 14px }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; box-shadow: 0 6px 20px rgba(0,0,0,.04) }
     textarea, pre, code, input, button { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace }
-    textarea { width:100%; min-height: 130px; resize: vertical; border-radius: 10px; padding: 10px; border:1px solid var(--border); background:#fbfdff; color:var(--text) }
+    textarea { width:100%; min-height: 140px; resize: vertical; border-radius: 10px; padding: 10px; border:1px solid var(--border); background:#fbfdff; color:var(--text) }
     .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap }
     button { border:0; background: linear-gradient(180deg,#7dd3fc,#38bdf8); color:#052436; padding:10px 14px; border-radius:12px; font-weight:700; cursor:pointer; box-shadow:0 3px 12px rgba(56,189,248,.35) }
     button.secondary { background:#f3f4f6; color:#111827; border:1px solid var(--border); box-shadow:none }
-    .output { min-height: 140px; white-space: pre-wrap; background:#fbfdff; border:1px solid var(--border); border-radius: 10px; padding: 10px; overflow:auto }
+    .output { min-height: 160px; white-space: pre-wrap; background:#fbfdff; border:1px solid var(--border); border-radius: 10px; padding: 10px; overflow:auto }
     .badge { display:inline-block; padding:2px 8px; border-radius: 999px; font-size: 12px; font-weight:700; letter-spacing:.3px; border:1px solid var(--border) }
     .ok { background: rgba(22,163,74,.08); color: var(--ok); border-color: rgba(22,163,74,.35) }
     .bad { background: rgba(220,38,38,.08); color: var(--bad); border-color: rgba(220,38,38,.35) }
@@ -27,42 +27,85 @@
     .tiny { font-size: 12px }
     .diag { font-size: 12px; color: #6b7280; }
   </style>
-  <!-- Prebundled browser build; dynamic import fallback inside script -->
   <script src="https://eyereasoner.github.io/eye-js/2/latest/index.js" defer></script>
 </head>
 <body>
   <div class="wrap">
-    <h1>Socrates — ARC</h1>
+    <h1>Wind-Turbine Maintenance — ARC</h1>
 
     <div class="stack">
+
       <!-- What this is? -->
-      <div class="card" id="what-this-is">
+      <div class="card">
         <h2>What this is?</h2>
-        <p>
-          This page is an <strong>ARC</strong> demo (<em>Answer • Reason • Check</em>) using
-          <strong>EYE-JS</strong> in the browser. It runs EYE (WebAssembly) locally to:
-        </p>
+        <p>This page reasons over wind-turbine observations to propose maintenance tasks and safety states.</p>
         <ul>
-          <li><strong>Answer</strong> — derive Answer from your Data + Rules.</li>
-          <li><strong>Reason</strong> — show EYE’s proof explanation by running the engine again
-            (fallback to a portable proof if needed).</li>
-          <li><strong>Check</strong> — re-ask the unique Answer triples as N3 filter rules.</li>
+          <li><strong>Answer:</strong> deduped tasks and statuses per turbine, from Data + Rules.</li>
+          <li><strong>Reason:</strong> EYE’s proof explanation (no <code>--nope</code>), captured from the engine.</li>
+          <li><strong>Check:</strong> re-asks unique Answer triples as filter rules, via the same low-level path, then dedupes output.</li>
         </ul>
       </div>
+
       <div class="card">
         <h2>Data (+ Rules)</h2>
         <textarea id="dataTA" spellcheck="false">@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix : <urn:ex:> .
-:Socrates a :Human .
-:Human rdfs:subClassOf :Mortal .
+@prefix : <urn:wt:> .
+
+# --- Assets
+:T1 a :Turbine .
+:GB1 a :Gearbox ; :partOf :T1 .
+:MB1 a :MainBearing ; :partOf :T1 .
+
+:T2 a :Turbine .
+:GEN2 a :Generator ; :partOf :T2 .
+
+# --- Observations (from SCADA/CM)
+:ObsVibGB1 a :HighVibration ; :about :GB1 .
+:ObsTempGEN2 a :Overheat ; :about :GEN2 .
+:ObsOilMB1 a :OilDebris ; :about :MB1 .
+
+# --- Taxonomy of conditions
+:HighVibration rdfs:subClassOf :CriticalCondition .
+:Overheat      rdfs:subClassOf :MajorCondition .
+:OilDebris     rdfs:subClassOf :EarlyWarningCondition .
+
+# --- Tasks (catalog)
+:InspectGearbox a :Task .
+:BalanceRotor a :Task .
+:TightenFoundation a :Task .
+:ThermalScanGenerator a :Task .
+:ChangeFilter a :Task .
+:OilAnalysis a :Task .
+:InspectMainBearing a :Task .
+
+# --- RDFS subclass rule
 { ?A rdfs:subClassOf ?B . ?S a ?A } => { ?S a ?B } .
+
+# --- Mapping: condition observations -> maintenance tasks (generic for all turbines)
+{ ?OBS a :HighVibration . ?OBS :about ?COMP . ?COMP :partOf ?T }
+  => { ?T :requiresTask :BalanceRotor .
+       ?T :requiresTask :InspectGearbox .
+       ?T :requiresTask :TightenFoundation . } .
+
+{ ?OBS a :Overheat . ?OBS :about ?COMP . ?COMP :partOf ?T }
+  => { ?T :requiresTask :ThermalScanGenerator .
+       ?T :requiresTask :ChangeFilter . } .
+
+{ ?OBS a :OilDebris . ?OBS :about ?COMP . ?COMP :partOf ?T }
+  => { ?T :requiresTask :OilAnalysis .
+       ?T :requiresTask :InspectMainBearing . } .
+
+# --- Safety escalation: any CriticalCondition => turbine requires shutdown
+{ ?OBS a :CriticalCondition . ?OBS :about ?COMP . ?COMP :partOf ?T }
+  => { ?T a :RequiresShutdown } .
 </textarea>
       </div>
 
       <div class="card">
-        <h2>Query (as N3 filter rule)</h2>
-        <textarea id="queryTA" spellcheck="false">@prefix : <urn:ex:> .
-{ :Socrates a :Mortal } => { :Socrates a :Mortal } .
+        <h2>Query (filter rules)</h2>
+        <textarea id="queryTA" spellcheck="false">@prefix : <urn:wt:> .
+{ ?T :requiresTask ?TASK } => { ?T :requiresTask ?TASK } .
+{ ?T a :RequiresShutdown } => { ?T a :RequiresShutdown } .
 </textarea>
         <div class="row" style="margin-top:10px">
           <button id="runBtn">▶ Run ARC</button>
@@ -123,13 +166,13 @@
       return { data, query };
     }
 
-    // ---- EYE low-level runner: returns {stdout, stderr} ------------------------
+    // --- low-level runner (stdout, stderr)
     async function runEye(eye, data, query, args) {
       let stdout = "", stderr = "";
       const Module = await eye.SwiplEye({
         print:    (s) => { stdout += s + "\n"; },
         printErr: (s) => { stderr += s + "\n"; },
-        arguments: [] // no '-q' here; use '--quiet' in args if desired
+        arguments: [] // we pass flags via 'args'
       });
       Module.FS.writeFile('data.n3',  new TextEncoder().encode(data));
       Module.FS.writeFile('query.n3', new TextEncoder().encode(query));
@@ -137,13 +180,16 @@
       return { stdout: stdout.trim(), stderr: stderr.trim() };
     }
 
-    // ---- N3 helpers: unique prefixes + triples (prevents duplicates) ----------
+    // --- N3 helpers: unique prefixes + unique triples (prevents duplicates)
     function extractN3Parts(n3) {
       const lines = (n3 || '').replace(/\r\n?/g, '\n').split(/\n+/).map(l=>l.trim()).filter(Boolean);
       const prefixes = [], triples = []; const seenP = new Set(), seenT = new Set();
       for (const l of lines) {
         if (l.startsWith('@prefix')) { if (!seenP.has(l)) { prefixes.push(l); seenP.add(l); } }
-        else if (!l.startsWith('#')) { const t = l.endsWith('.') ? l : (l + ' .'); if (!seenT.has(t)) { triples.push(t); seenT.add(t); } }
+        else if (!l.startsWith('#')) {
+          const t = l.endsWith('.') ? l : (l + ' .');
+          if (!seenT.has(t)) { triples.push(t); seenT.add(t); }
+        }
       }
       return { prefixes, triples };
     }
@@ -153,7 +199,7 @@
       return (head + body).trim();
     }
 
-    // ---- Portable proof fallback (only used if engine proof is empty) ---------
+    // --- portable proof fallback (only if engine proof is empty)
     function buildPortableProof(dataStr, answerStr) {
       const header = '@prefix r: <http://www.w3.org/2000/10/swap/reason#>.\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.\n';
       const L = s => s.replace(/\r\n?/g,'\n').split(/\n+/).map(l=>l.trim()).filter(Boolean);
@@ -165,6 +211,7 @@
         const m = t.match(/^(.*)\s+a\s+(.*)\s*\.?$/); if (!m) continue;
         const S = m[1].trim(), O = m[2].trim();
         const aLine = data.find(l => l.startsWith(S + ' a '));
+        // find a matching subclass chain triple if present
         const A = aLine ? aLine.replace(/^.* a /,'').replace(/\.$/,'').trim() : null;
         const subLine = A ? data.find(l => l.includes(' rdfs:subClassOf ') && l.includes(' ' + A + ' ') && l.includes(' ' + O)) : null;
         const ruleLine = '{ ?A rdfs:subClassOf ?B . ?S a ?A } => { ?S a ?B } .';
@@ -180,22 +227,25 @@
       return lemmas.length ? header + lemmas.join('\n\n') + '\n' : '';
     }
 
-    // Build a check query from the *unique* answer triples, then run EYE low-level
+    // --- Check via low-level run (stdout only) built from unique Answer triples
     async function runCheckLow(eye, data, answerN3) {
-      // 1) Use unique prefixes + triples from the *answer* to construct the check rules
       const parts = extractN3Parts(answerN3);
       const head = parts.prefixes.length ? parts.prefixes.join('\n') + '\n\n' : '';
       const rules = parts.triples.map(t => `{ ${t} } => { ${t} } .`).join('\n') + '\n';
       const checkN3 = (head + rules).trim() + '\n';
-      // 2) Run EYE
-      const { stdout } = await runEye(eye, data, checkN3, ['--quiet', '--nope', 'data.n3', '--query', 'query.n3']);
-      // 3) Deduplicate what EYE printed back, and report
+
+      const { stdout } = await runEye(
+        eye,
+        data,
+        checkN3,
+        ['--quiet', '--nope', 'data.n3', '--query', 'query.n3']
+      );
       const outParts = extractN3Parts(stdout);
-      const details = formatAnswerFromParts(outParts); // prefixes (once) + unique triples
+      const details = formatAnswerFromParts(outParts);
       return { passed: outParts.triples.length > 0, details };
     }
 
-    // ---- ARC orchestration -----------------------------------------------------
+    // --- ARC orchestration
     async function runARC() {
       els.answer.textContent = 'computing…';
       els.proof.textContent = '';
@@ -207,30 +257,26 @@
         els.status.textContent = 'Running…';
         const { data, query } = buildInputs();
 
-        // A — Answer: stdout from EYE with --nope
+        // A — Answer (stdout)
         const ansRun = await runEye(eye, data, query, ['--quiet', '--nope', 'data.n3', '--query', 'query.n3']);
         const ansParts = extractN3Parts(ansRun.stdout);
         const answer = formatAnswerFromParts(ansParts);
         els.answer.textContent = answer || '(no new derivations)';
 
-        // R — Reason: stderr from EYE (omit --nope), fallback to portable if empty
+        // R — Reason (stderr preferred; no --nope)
         let proof = '';
         if (!els.portable.checked) {
           const proofRun = await runEye(eye, data, query, ['--quiet', 'data.n3', '--query', 'query.n3']);
-          // Prefer stderr for proof; some builds also echo bits to stdout
           proof = (proofRun.stderr || '').trim();
           if (!proof) proof = (proofRun.stdout || '').trim();
         }
-        if (!proof && els.portable.checked) {
+        if (!proof) {
           proof = buildPortableProof(data, answer);
-        }
-        if (!proof) { // last-resort fallback
-          proof = buildPortableProof(data, answer);
-          log('Falling back to portable proof.');
+          if (!els.portable.checked) log('Falling back to portable proof.');
         }
         els.proof.textContent = proof || '(no proof output)';
 
-        // C — Check (low-level; deduped)
+        // C — Check (stdout, deduped)
         const { passed, details } = await runCheckLow(eye, data, answer);
         els.check.textContent = details || '(no matches)';
         els.checkBadge.textContent = passed ? 'PASS' : 'FAIL';
@@ -248,15 +294,12 @@
       }
     }
 
-    // ---- Buttons ---------------------------------------------------------------
     els.runBtn.addEventListener('click', runARC);
     els.proofBtn.addEventListener('click', async () => {
       els.proof.textContent = 'loading proof…';
       try {
         const eye = await getEye();
         const { data, query } = buildInputs();
-
-        // Proof-only: run once for proof, same flags as ARC proof step
         let proof = '';
         if (!els.portable.checked) {
           const pr = await runEye(eye, data, query, ['--quiet', 'data.n3', '--query', 'query.n3']);

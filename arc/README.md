@@ -48,4 +48,5 @@ in real-world applications.
 * [Square tiled by 17 right triangles](https://eyereasoner.github.io/eye/arc/etc/square_triangles.html)
 * [Sudoku](https://eyereasoner.github.io/eye/arc/etc/sudoku.html)
 * [Turing Machine](https://eyereasoner.github.io/eye/arc/etc/turing.html)
+* [Wind-Turbine Maintenance](https://eyereasoner.github.io/eye/arc/etc/wind_turbines.html)
 
