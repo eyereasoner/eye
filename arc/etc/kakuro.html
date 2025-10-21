@@ -7,9 +7,9 @@
 <style>
   :root {
     --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --border:#e5e7eb; --accent:#0ea5e9; --ink:#111827;
-    --cell: 58px; /* ↑ bigger solution grid cells */
+    --cell: 72px; /* larger solution grid cells */
   }
-  html,body{height:100%;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
+  html,body{height:100%;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
   h1{font-weight:700;margin:18px 0 6px}
   h2{font-size:13px;color:var(--muted);margin:0 0 8px;letter-spacing:.2px;text-transform:uppercase}
   .wrap{max-width:1150px;margin:0 auto;padding:24px}
@@ -19,7 +19,7 @@
   button{border:0;background:linear-gradient(180deg,#7dd3fc,#38bdf8);color:#052436;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(56,189,248,.35)}
   button.secondary{background:#f3f4f6;color:#111827;border:1px solid var(--border);box-shadow:none}
   .output{min-height:0;white-space:pre-wrap;background:#fbfdff;border:1px solid var(--border);border-radius:10px;padding:10px;overflow:auto}
-  .output.tall{min-height:180px}
+  .output.tall{min-height:200px}
   .muted{color:var(--muted)}
   .tiny{font-size:12px}
   .badge{display:inline-block;border:1px solid var(--border);background:#f5f7fb;color:#334155;border-radius:999px;padding:2px 8px;font-size:12px;font-weight:700;letter-spacing:.3px}
@@ -27,23 +27,40 @@
   textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:#0f172a;box-sizing:border-box;white-space:pre-wrap}
 
   /* Solution grid */
-  .grid{display:grid;gap:0}
+  .grid{display:grid;gap:8px;overflow:visible} /* overflow visible so labels can sit above */
   .cell{
     width:var(--cell);height:var(--cell);
     display:flex;align-items:center;justify-content:center;
     border:1px solid #cbd5e1;background:#fff;
-    font-weight:800;color:#0f172a;position:relative;border-radius:6px;
-    box-shadow:0 2px 10px rgba(0,0,0,.05);
+    font-weight:800;color:#0f172a;position:relative;border-radius:8px;
+    box-shadow:0 2px 12px rgba(0,0,0,.06);
   }
-  .cell .num{position:relative;z-index:1}
-  .black{background:#0f172a;color:#e2e8f0;border-radius:6px}
+  .cell .num{position:relative;z-index:1;font-size:20px}
+
+  /* Soft, patterned blanks instead of heavy black */
+  .black{
+    background: repeating-linear-gradient(
+      135deg,
+      #f1f5f9 0, #f1f5f9 12px,
+      #eef2f7 12px, #eef2f7 24px
+    );
+    border:1px solid #d9e2ee;
+    color:#94a3b8;
+    border-radius:8px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.7);
+  }
+  .blankMark{ width:20px;height:20px;border:2px solid #94a3b8;border-radius:5px;opacity:.85 }
+
+  /* Run labels – now placed just ABOVE the cell so they never overlap the number */
   .label{
-    position:absolute;top:4px;left:6px;
-    font-size:10px; font-weight:800; color:#334155; opacity:.9;
-    padding:0 5px;border-radius:999px; background:rgba(255,255,255,.6); backdrop-filter:saturate(1.2) blur(1px);
+    position:absolute;top:-12px;left:2px;
+    font-size:11px; font-weight:800; color:#334155;
+    padding:0 6px;border-radius:999px; border:1px solid #dbe2ea;
+    background:#ffffffcc; backdrop-filter:saturate(1.1) blur(1px);
+    pointer-events:none; white-space:nowrap; max-width:calc(var(--cell) + 36px); overflow:hidden; text-overflow:ellipsis;
   }
 
-  /* Small color chips for legend (optional if you add one later) */
+  .legend{display:flex;flex-wrap:wrap;gap:8px}
   .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:999px;padding:2px 8px;background:#f5f7fb}
   .dot{width:12px;height:12px;border-radius:999px;border:1px solid rgba(0,0,0,.1)}
 </style>
@@ -57,50 +74,50 @@
     <!-- What this is? -->
     <div class="card">
       <h2>What this is?</h2>
-      <p>A one-file, pure JS + JSON solver for a Kakuro puzzle. Each <em>run</em> (contiguous white cells left→right or top→bottom) must sum to its clue with <b>distinct digits 1–9</b>. We generate all valid digit tuples per run, propagate across intersections, and use DFS if needed. The page explains why digits are forced and verifies the result.</p>
+      <p>Pure JS + JSON Kakuro. Runs (contiguous white cells) must sum to their clue with <b>distinct digits 1–9</b>. We generate valid tuples per run, propagate across intersections, and DFS if needed. Labels no longer overlap numbers: they’re shown <em>above</em> the first cell of each run.</p>
       <ul>
-        <li><b>Data</b> — <code>size</code> and a list of <code>runs</code>, each with <code>id</code>, <code>sum</code>, and <code>cells</code> (1-based <code>[row,col]</code>).</li>
-        <li><b>Policies</b> — declarative families: run-sum + all-different, digits ∈ {1..9}, intersection consistency.</li>
+        <li><b>Auto-tighten:</b> If the puzzle has multiple solutions, the solver adds ≤3 single-cell “pin runs” at differing cells, then re-solves for a unique answer. Pins are reported below.</li>
         <li><b>Answer</b> — derived facts (<code>cell(r,c)=d</code>).</li>
         <li><b>Reason Why</b> — which runs/tuples forced which digits.</li>
-        <li><b>Check</b> — 12+ validations (sums, distinctness, bounds, completeness).</li>
-        <li><b>Solution Summary</b> — now **larger** with **colors**: each cell shows a diagonal blend of its horizontal (↘) and vertical (↗) run colors.</li>
-        <li><b>Uniqueness</b> — optional probe for a different second solution.</li>
+        <li><b>Check</b> — sums, distinctness, bounds, coverage.</li>
       </ul>
-      <p class="tiny muted">This demo uses a fully white 5×5 grid with row/column runs only (sum=15). That forces each run to be a permutation of {1,2,3,4,5}, and intersections behave like a 5×5 Latin puzzle.</p>
     </div>
 
-    <!-- NEW: Puzzle details -->
+    <!-- Puzzle details -->
     <div class="card">
       <h2>Puzzle Details</h2>
       <ul>
-        <li><b>Size:</b> 5×5 (editable in Data).</li>
-        <li><b>Runs:</b> 10 total — 5 horizontal (R1–R5) and 5 vertical (C1–C5), each length 5 with sum 15.</li>
-        <li><b>Digits:</b> 1–9, pairwise distinct within each run.</li>
-        <li><b>Editing:</b> Replace <code>runs</code> with any Kakuro layout; any cell not present in any run renders as a black cell.</li>
-        <li><b>Colors:</b> Horizontal and vertical runs are colored with a pastel palette; cells show a diagonal split to indicate both memberships. Labels display the run IDs and sums on first cells.</li>
+        <li><b>Size:</b> 6×6 default (editable).</li>
+        <li><b>Layout:</b> “diamond-ish” with irregular blanks.</li>
+        <li><b>Editing:</b> each white cell should belong to one H-run and one V-run (engine tolerates helper pins if present).</li>
       </ul>
     </div>
 
     <div class="card">
       <h2>Data (JSON)</h2>
       <textarea id="dataTA" spellcheck="false">{
-  "size": 5,
+  "size": 6,
   "runs": [
-    { "id": "R1", "sum": 15, "cells": [[1,1],[1,2],[1,3],[1,4],[1,5]] },
-    { "id": "R2", "sum": 15, "cells": [[2,1],[2,2],[2,3],[2,4],[2,5]] },
-    { "id": "R3", "sum": 15, "cells": [[3,1],[3,2],[3,3],[3,4],[3,5]] },
-    { "id": "R4", "sum": 15, "cells": [[4,1],[4,2],[4,3],[4,4],[4,5]] },
-    { "id": "R5", "sum": 15, "cells": [[5,1],[5,2],[5,3],[5,4],[5,5]] },
+    { "id": "H1",  "sum": 4,  "cells": [[1,3],[1,4]] },
+    { "id": "H2",  "sum": 20, "cells": [[2,2],[2,3],[2,4],[2,5]] },
+    { "id": "H3a", "sum": 9,  "cells": [[3,1],[3,2]] },
+    { "id": "H3b", "sum": 16, "cells": [[3,4],[3,5],[3,6]] },
+    { "id": "H4a", "sum": 14, "cells": [[4,1],[4,2],[4,3]] },
+    { "id": "H4b", "sum": 10, "cells": [[4,5],[4,6]] },
+    { "id": "H5",  "sum": 18, "cells": [[5,2],[5,3],[5,4],[5,5]] },
+    { "id": "H6",  "sum": 13, "cells": [[6,3],[6,4]] },
 
-    { "id": "C1", "sum": 15, "cells": [[1,1],[2,1],[3,1],[4,1],[5,1]] },
-    { "id": "C2", "sum": 15, "cells": [[1,2],[2,2],[3,2],[4,2],[5,2]] },
-    { "id": "C3", "sum": 15, "cells": [[1,3],[2,3],[3,3],[4,3],[5,3]] },
-    { "id": "C4", "sum": 15, "cells": [[1,4],[2,4],[3,4],[4,4],[5,4]] },
-    { "id": "C5", "sum": 15, "cells": [[1,5],[2,5],[3,5],[4,5],[5,5]] }
+    { "id": "V1",  "sum": 15, "cells": [[3,1],[4,1]] },
+    { "id": "V2",  "sum": 22, "cells": [[2,2],[3,2],[4,2],[5,2]] },
+    { "id": "V3a", "sum": 5,  "cells": [[1,3],[2,3]] },
+    { "id": "V3b", "sum": 9,  "cells": [[4,3],[5,3],[6,3]] },
+    { "id": "V4a", "sum": 11, "cells": [[1,4],[2,4],[3,4]] },
+    { "id": "V4b", "sum": 12, "cells": [[5,4],[6,4]] },
+    { "id": "V5",  "sum": 14, "cells": [[2,5],[3,5],[4,5],[5,5]] },
+    { "id": "V6",  "sum": 16, "cells": [[3,6],[4,6]] }
   ]
 }</textarea>
-      <p class="tiny muted">You can switch to a shaped Kakuro: just list all horizontal and vertical runs; any grid cell not in any run becomes a black cell.</p>
+      <p class="tiny muted">If you prefer strict hand-crafted uniqueness, leave Auto-tighten off in code (see <code>AUTO_TIGHTEN</code>), or add one-cell “pin” runs yourself.</p>
     </div>
 
     <div class="card">
@@ -122,11 +139,24 @@
       <h2>Controls</h2>
       <div class="row">
         <button id="runBtn">▶ Run ARC</button>
-        <label class="switch"><input id="uniqChk" type="checkbox"/> Probe uniqueness (second solution)</label>
+        <label class="switch"><input id="uniqChk" type="checkbox" checked/> Probe uniqueness (second solution)</label>
         <button id="reasonBtn" class="secondary">Show Reason only</button>
         <span id="status" class="muted tiny" style="margin-left:auto"></span>
       </div>
       <div id="diag" class="tiny" style="color:#6b7280"></div>
+    </div>
+
+    <div class="card">
+      <h2>Solution Summary</h2>
+      <div id="gridHost" class="output">
+        <div id="gridMount"></div>
+        <div class="legend tiny" id="legend"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Uniqueness Probe</h2>
+      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
     </div>
 
     <div class="card">
@@ -144,22 +174,13 @@
       <div id="checks" class="output tall">computing…</div>
     </div>
 
-    <div class="card">
-      <h2>Solution Summary</h2>
-      <div id="gridHost" class="output">
-        <div id="gridMount"></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Uniqueness Probe</h2>
-      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
-    </div>
-
   </div>
 </div>
 
 <script>
+const AUTO_TIGHTEN = true;        // <= set false if you don't want automatic pinning
+const AUTO_TIGHTEN_MAX_PINS = 3;  // <= up to how many single-cell pins to add
+
 const $ = id => document.getElementById(id);
 const els = {
   dataTA: $("dataTA"), policyTA: $("policyTA"),
@@ -167,7 +188,7 @@ const els = {
   status: $("status"), diag: $("diag"),
   answer: $("answer"), reason: $("reason"), checks: $("checks"),
   checksCount: $("checksCount"), checksCountInline: $("checksCountInline"),
-  gridMount: $("gridMount"), uniqOut: $("uniqOut")
+  gridMount: $("gridMount"), legend: $("legend"), uniqOut: $("uniqOut")
 };
 
 // Auto-grow textareas
@@ -181,8 +202,9 @@ function parseJSON(text, label){
   try { return JSON.parse(text); }
   catch(e){ throw new Error(`${label} JSON error: ${e.message}`); }
 }
-
 function setEq(a,b){ if(a.size!==b.size) return false; for(const x of a) if(!b.has(x)) return false; return true; }
+function key(r,c){ return `${r},${c}`; }
+function keyParts(k){ return k.split(',').map(Number); }
 
 // Generate strictly increasing combinations of digits 1..9 length k summing to S
 function combos(k, S, start=1){
@@ -199,32 +221,34 @@ function combos(k, S, start=1){
   return out;
 }
 
-// All permutations (k ≤ 9; here k is small)
+// All permutations (for small k)
 function perms(arr){
   const out=[];
   function rec(a, l){
     if(l===a.length-1){ out.push(a.slice()); return; }
     for(let i=l;i<a.length;i++){
-      [a[l],a[i]]=[a[i],a[l]]; rec(a,l+1); [a[l],a[i]]=[a[i],a[l]];
+      [a[l],a[i]]=[a[i],a[l]];
+      rec(a,l+1);
+      [a[l],a[i]]=[a[i],a[l]];
     }
   }
   rec(arr.slice(),0);
   return out;
 }
 
-function key(r,c){ return `${r},${c}`; }
-
+// Build cell map and run index
 function buildIndex(size, runs){
   const cellRuns = new Map(); // "r,c" -> [runIds...]
   const runById = new Map();
   const runOrient = new Map(); // id -> "H" or "V"
   for(const run of runs){
     runById.set(run.id, run);
-    // Orientation heuristic: compare first two cells if possible
     let orient="H";
     if(run.cells.length>=2){
       const [r1,c1] = run.cells[0], [r2,c2] = run.cells[1];
       orient = (r1===r2) ? "H" : "V";
+    } else {
+      orient="P"; // pin/helper
     }
     runOrient.set(run.id, orient);
     for(const [r,c] of run.cells){
@@ -236,23 +260,26 @@ function buildIndex(size, runs){
   return {cellRuns, runById, runOrient};
 }
 
-// Valid tuples for a run given cell domains
+// Compute valid tuples for a run given cell domains
 function validTuples(run, domains){
   const k = run.cells.length;
   const base = combos(k, run.sum);
   const tuples=[];
   const cells = run.cells.map(([r,c])=> domains.get(key(r,c)));
   for(const comb of base){
-    // quick feasibility vs domains
-    let okUnion=true;
+    // prune by domain feasibility before permuting
+    let unionOK = true;
     const allVals = new Set(comb);
     for(const s of cells){
-      let hit=false; for(const v of s){ if(allVals.has(v)){ hit=true; break; } }
-      if(!hit){ okUnion=false; break; }
+      let has=false;
+      for(const v of s){ if(allVals.has(v)){ has=true; break; } }
+      if(!has){ unionOK=false; break; }
     }
-    if(!okUnion) continue;
+    if(!unionOK) continue;
+    // expand to permutations and filter by per-cell domain
     for(const p of perms(comb)){
-      let ok=true; for(let i=0;i<k;i++){ if(!cells[i].has(p[i])){ ok=false; break; } }
+      let ok=true;
+      for(let i=0;i<k;i++){ if(!cells[i].has(p[i])){ ok=false; break; } }
       if(ok) tuples.push(p);
     }
   }
@@ -268,12 +295,15 @@ function propagate(size, runs, domains, reasons){
       if(tups.length===0) return {progress:false, contradiction:true};
       const k = run.cells.length;
       const support = Array.from({length:k}, ()=> new Set());
-      for(const t of tups){ for(let i=0;i<k;i++) support[i].add(t[i]); }
+      for(const t of tups){
+        for(let i=0;i<k;i++) support[i].add(t[i]);
+      }
       for(let i=0;i<k;i++){
-        const [r,c] = run.cells[i]; const K = key(r,c);
+        const [r,c] = run.cells[i];
+        const K = key(r,c);
         const dom = domains.get(K);
         const before = new Set(dom);
-        for(const v of Array.from(dom)){ if(!support[i].has(v)) dom.delete(v); }
+        for(const v of [...dom]) if(!support[i].has(v)) dom.delete(v);
         if(dom.size===0) return {progress:false, contradiction:true};
         if(dom.size !== before.size){
           const removed = [...before].filter(v=>!dom.has(v));
@@ -289,10 +319,31 @@ function propagate(size, runs, domains, reasons){
   }
 }
 
-function cloneDomains(domains){ const m = new Map(); for(const [k,v] of domains) m.set(k, new Set(v)); return m; }
-function isSolved(domains){ for(const s of domains.values()) if(s.size!==1) return false; return true; }
-function pickCell(domains){ let pick=null, min=99; for(const [k,s] of domains){ if(s.size>1 && s.size<min){ min=s.size; pick=k; } } return pick; }
-function equalSolutions(a,b){ for(const [k,s] of a){ const t=b.get(k); if(!t||!setEq(s,t)) return false; } return true; }
+function cloneDomains(domains){
+  const m = new Map();
+  for(const [k,v] of domains) m.set(k, new Set(v));
+  return m;
+}
+
+function isSolved(domains){
+  for(const s of domains.values()) if(s.size!==1) return false;
+  return true;
+}
+
+function pickCell(domains){
+  let pick=null, min=99;
+  for(const [k,s] of domains){
+    if(s.size>1 && s.size<min){ min=s.size; pick=k; }
+  }
+  return pick;
+}
+
+function equalSolutions(a,b){
+  for(const [k,s] of a){
+    const t=b.get(k); if(!t || !setEq(s,t)) return false;
+  }
+  return true;
+}
 
 function solve(size, runs, domains, forbid=null){
   const reasons=[];
@@ -340,16 +391,16 @@ function runColors(runs){
   const n = ids.length||1;
   const map = new Map();
   for(let i=0;i<ids.length;i++){
-    const hue = Math.round((i*360/n + 8) % 360);
+    const hue = Math.round((i*360/n + 12) % 360);
     map.set(ids[i], {
-      bg: hsl(hue, 85, 90),   // pastel fill
-      stroke: hsl(hue, 55, 40) // text/badge
+      bg: hsl(hue, 85, 90),
+      stroke: hsl(hue, 55, 42)
     });
   }
   return map;
 }
 
-// Render grid with diagonal color blend (H vs V run)
+// Render grid with diagonal color blend (H vs V) and soft blanks; labels above the cell
 function renderGrid(size, runs, domains){
   const g = document.createElement('div');
   g.className = 'grid';
@@ -362,12 +413,13 @@ function renderGrid(size, runs, domains){
   for(const run of runs) for(const [r,c] of run.cells) white.add(key(r,c));
 
   // Label map at first cell of each run
-  const labelAt = new Map(); // "r,c" -> ["R1=15", "C3=23", ...]
+  const labelAt = new Map(); // "r,c" -> ["H1=15", "V3=23", ...]
   for(const run of runs){
     const [r,c] = run.cells[0];
     const k = key(r,c);
     if(!labelAt.has(k)) labelAt.set(k, []);
-    labelAt.get(k).push(`${run.id}=${run.sum}`);
+    const abbrev = run.id + "=" + run.sum;
+    labelAt.get(k).push(abbrev);
   }
 
   for(let r=1;r<=size;r++){
@@ -378,7 +430,9 @@ function renderGrid(size, runs, domains){
 
       if(!white.has(k)){
         cellDiv.classList.add('black');
-        cellDiv.textContent = '■';
+        const mark = document.createElement('div');
+        mark.className = 'blankMark';
+        cellDiv.appendChild(mark);
         g.appendChild(cellDiv);
         continue;
       }
@@ -391,7 +445,7 @@ function renderGrid(size, runs, domains){
       num.textContent = val;
       cellDiv.appendChild(num);
 
-      // Colors: blend horizontal (↘) and vertical (↗) if available
+      // Colors: blend horizontal (↘) and vertical (↗)
       const runsHere = (cellRuns.get(k) || []);
       let colH = null, colV = null;
       for(const rid of runsHere){
@@ -399,14 +453,12 @@ function renderGrid(size, runs, domains){
         if(o==="H") colH = colors.get(rid)?.bg || colH;
         if(o==="V") colV = colors.get(rid)?.bg || colV;
       }
-      // Fallbacks
       if(!colH && colV) colH = colV;
       if(!colV && colH) colV = colH;
       if(!colH && !colV){ colH = '#fff'; colV = '#fff'; }
-
       cellDiv.style.background = `linear-gradient(135deg, ${colH} 0 50%, ${colV} 50% 100%)`;
 
-      // Label on first cell(s) of run(s)
+      // Label above the cell (never covers number)
       if(labelAt.has(k)){
         const lab = document.createElement('div');
         lab.className = 'label';
@@ -424,7 +476,7 @@ function renderGrid(size, runs, domains){
 function facts(domains){
   const out=[];
   for(const [k,s] of domains){
-    const [r,c] = k.split(',').map(Number);
+    const [r,c] = keyParts(k);
     out.push(`cell(${r},${c}) = ${[...s][0]}`);
   }
   return out.sort().join("\n");
@@ -433,13 +485,11 @@ function explain(reasons){ return reasons.join("\n"); }
 
 function checks(size, runs, domains){
   const out=[];
-  // Assigned & range
   let allAssigned = true, inRange = true;
   for(const [k,s] of domains){ if(s.size!==1) allAssigned=false; const v=[...s][0]; if(v<1||v>9) inRange=false; }
   out.push({name:"All white cells assigned", pass:allAssigned});
   out.push({name:"Digits within 1..9", pass:inRange});
 
-  // For each run: sum & distinctness
   for(const run of runs){
     const vals = run.cells.map(([r,c])=>[...domains.get(key(r,c))][0]);
     const sumOK = vals.reduce((a,b)=>a+b,0)===run.sum;
@@ -448,15 +498,9 @@ function checks(size, runs, domains){
     out.push({name:`Run ${run.id} all-different`, pass:distinct});
   }
 
-  // Coverage sanity
   const white = new Set(); for(const run of runs) for(const [r,c] of run.cells) white.add(key(r,c));
   out.push({name:"White cell coverage consistent", pass: domains.size===white.size});
 
-  // Diagnostics: digit frequencies
-  const freq = new Map(); for(const [k,s] of domains){ const v=[...s][0]; freq.set(v,(freq.get(v)||0)+1); }
-  for(const d of [1,2,3,4,5,6,7,8,9]){
-    out.push({name:`Digit ${d} frequency (diagnostic)`, pass: (freq.get(d)||0) >= 0});
-  }
   return out;
 }
 
@@ -467,12 +511,31 @@ function renderChecks(list){
   return lines.join("\n");
 }
 
+// ---- Uniqueness helpers (auto-tighten)
+function domainsToValueMap(dom){
+  const map = new Map();
+  for(const [k,s] of dom) map.set(k, [...s][0]);
+  return map;
+}
+function differingCells(solA, solB){
+  const a = domainsToValueMap(solA), b = domainsToValueMap(solB);
+  const diffs=[];
+  for(const [k,v] of a){ if(b.get(k)!==v) diffs.push([k,v]); }
+  return diffs;
+}
+function addPinRun(runs, k, v, pinIdx){
+  const [r,c] = keyParts(k);
+  const id = `PIN${pinIdx}@${r},${c}`;
+  runs.push({ id, sum: v, cells: [[r,c]] });
+  return id;
+}
+
 // Orchestrate
 function runARC(){
   els.status.textContent = "Parsing JSON…";
   els.answer.textContent = els.reason.textContent = els.checks.textContent = "computing…";
   els.gridMount.innerHTML = ""; els.uniqOut.textContent = "(toggle “Probe uniqueness” then Run)";
-  els.diag.textContent = "";
+  els.legend.innerHTML = ""; els.diag.textContent = "";
 
   try{
     const data = parseJSON(els.dataTA.value, "Data");
@@ -481,30 +544,59 @@ function runARC(){
     if(!(Number.isInteger(size) && size>0)) throw new Error("size must be a positive integer");
     if(!Array.isArray(data.runs) || data.runs.length===0) throw new Error("runs must be a non-empty array");
 
-    const {domains} = initDomains(size, data.runs);
-    els.status.textContent = "Solving…";
-    const sol = solve(size, data.runs, domains, null);
+    // Try original data
+    let baseRuns = structuredClone(data.runs);
+    let {domains} = initDomains(size, baseRuns);
+    let sol = solve(size, baseRuns, domains, null);
     if(!sol) throw new Error("No solution found (check runs).");
-    const {domains:solution, reasons} = sol;
 
-    els.answer.textContent = facts(solution);
-    els.reason.textContent = explain(reasons);
+    let pinsAdded = [];
+    if(els.uniqChk.checked){
+      // Probe uniqueness
+      let {domains:dom2} = initDomains(size, baseRuns);
+      let alt = solve(size, baseRuns, dom2, sol.domains);
+      // Auto-tighten if multiple and allowed
+      let pinCount = 0;
+      while(AUTO_TIGHTEN && alt && pinCount < AUTO_TIGHTEN_MAX_PINS){
+        const diffs = differingCells(sol.domains, alt.domains);
+        // choose the first differing cell to pin to sol's value
+        const [k,v] = diffs[0];
+        const pinId = addPinRun(baseRuns, k, v, pinCount+1);
+        pinsAdded.push(`${pinId}=${v}`);
+        // re-solve with new pin
+        const s1 = initDomains(size, baseRuns);
+        sol = solve(size, baseRuns, s1.domains, null);
+        if(!sol) throw new Error("Auto-tighten made the puzzle inconsistent. Undo a pin or lower AUTO_TIGHTEN_MAX_PINS.");
+        const s2 = initDomains(size, baseRuns);
+        alt = solve(size, baseRuns, s2.domains, sol.domains);
+        pinCount++;
+      }
+      els.uniqOut.textContent = (pinsAdded.length>0)
+        ? `Unique after auto-tighten (${pinsAdded.length} pin${pinsAdded.length>1?'s':''}): ${pinsAdded.join(', ')}`
+        : (alt ? "Multiple solutions found — under-constrained." : "Unique — no second distinct solution found.");
+    }
 
-    const chk = checks(size, data.runs, solution);
+    // Report
+    els.answer.textContent = facts(sol.domains);
+    els.reason.textContent = explain(sol.reasons);
+
+    const chk = checks(size, baseRuns, sol.domains);
     els.checks.textContent = renderChecks(chk);
     els.checksCount.textContent = String(chk.length);
     if(els.checksCountInline) els.checksCountInline.textContent = String(chk.length);
 
-    els.gridMount.appendChild(renderGrid(size, data.runs, solution));
+    els.gridMount.appendChild(renderGrid(size, baseRuns, sol.domains));
 
-    if(els.uniqChk.checked){
-      els.status.textContent = "Probing uniqueness…";
-      const {domains:dom2} = initDomains(size, data.runs);
-      const alt = solve(size, data.runs, dom2, solution);
-      els.uniqOut.textContent = alt ? "Multiple solutions found — this clue set is under-constrained." : "Unique — no second distinct solution found.";
+    // tiny legend (optional color chips)
+    els.legend.innerHTML = ""; // left empty; per-run chips are less readable here
+
+    // Status & diagnostics
+    if(pinsAdded.length){
+      els.status.textContent = `Done. Auto-tightened (${pinsAdded.length} pin${pinsAdded.length>1?'s':''}).`;
+      els.diag.textContent = `Pins added: ${pinsAdded.join(', ')}\n(Note: pins are single-cell runs injected by the solver to guarantee uniqueness.)`;
+    } else {
+      els.status.textContent = "Done.";
     }
-
-    els.status.textContent = "Done.";
   } catch(e){
     els.status.textContent = "Error";
     els.answer.textContent = "(failed)";

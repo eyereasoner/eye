@@ -56,8 +56,6 @@
         <li><b>Answer</b> — newly derived facts (the solved digits), with a checks summary.</li>
         <li><b>Reason Why</b> — mathematical-English explanations per cage and row/column uniqueness.</li>
         <li><b>Check</b> — auto-generated assertions (rows, columns, cages): <span id="checksCountInline" class="badge">…</span> items.</li>
-        <li><b>Puzzle Solution Summary</b> — rendered grid with <b>cage labels</b>, <b>thick boundaries</b>, and <b>colored cages</b>.</li>
-        <li><b>Uniqueness</b> — optional probe: look for a different second solution.</li>
       </ul>
       <p class="tiny muted">Engine: domain propagation (1..N), cage tuple filtering, Latin all-different, and DFS backtracking. Works well up to N≈6 for typical puzzles.</p>
     </div>
@@ -126,6 +124,17 @@
     </div>
 
     <div class="card">
+      <h2>Puzzle Solution Summary</h2>
+      <div id="gridMount" class="output"></div>
+    </div>
+
+    <div class="card">
+      <h2>Uniqueness Probe</h2>
+      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
+      <div id="altGridMount" class="output" style="margin-top:8px"></div>
+    </div>
+
+    <div class="card">
       <h2>Answer (newly derived facts)</h2>
       <div id="answer" class="output tall">computing…</div>
     </div>
@@ -138,17 +147,6 @@
     <div class="card">
       <h2>Check <span id="checksCount" class="badge">0</span></h2>
       <div id="checks" class="output tall">computing…</div>
-    </div>
-
-    <div class="card">
-      <h2>Puzzle Solution Summary</h2>
-      <div id="gridMount" class="output"></div>
-    </div>
-
-    <div class="card">
-      <h2>Uniqueness Probe</h2>
-      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
-      <div id="altGridMount" class="output" style="margin-top:8px"></div>
     </div>
 
   </div>

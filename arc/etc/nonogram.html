@@ -53,8 +53,6 @@
         <li><b>Answer</b> — derived facts (<code>cell(r,c)=fill/empty</code>).</li>
         <li><b>Reason Why</b> — mathematical-English explanations per propagation step (line candidates → forced cells).</li>
         <li><b>Check</b> — row/column validity, full assignment, and candidate sanity (<span id="checksCountInline" class="badge">…</span> items).</li>
-        <li><b>Solution Summary</b> — rendered grid with clues.</li>
-        <li><b>Uniqueness</b> — optional probe to search for a second, distinct solution.</li>
       </ul>
       <p class="tiny muted">Tech: complete enumeration of line patterns from clues; intersection forcing; alternating row/column propagation; DFS with smallest-domain branching; proofs are recorded as “forced by line X”.</p>
     </div>
@@ -111,6 +109,18 @@
     </div>
 
     <div class="card">
+      <h2>Solution Summary</h2>
+      <div id="gridHost" class="output">
+        <div id="gridMount"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Uniqueness Probe</h2>
+      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
+    </div>
+
+    <div class="card">
       <h2>Answer (newly derived facts)</h2>
       <div id="answer" class="output tall">computing…</div>
     </div>
@@ -123,18 +133,6 @@
     <div class="card">
       <h2>Check <span id="checksCount" class="badge">0</span></h2>
       <div id="checks" class="output tall">computing…</div>
-    </div>
-
-    <div class="card">
-      <h2>Solution Summary</h2>
-      <div id="gridHost" class="output">
-        <div id="gridMount"></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Uniqueness Probe</h2>
-      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
     </div>
 
   </div>

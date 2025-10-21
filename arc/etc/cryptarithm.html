@@ -44,8 +44,6 @@
         <li><b>Answer</b> — the letter→digit mapping and derived numeric equation.</li>
         <li><b>Reason Why</b> — column-by-column arithmetic (with carries) in mathematical English.</li>
         <li><b>Check</b> — distinctness, non-zero leaders, numeric equality, and per-column identities (<span id="checksCountInline" class="badge">…</span> items).</li>
-        <li><b>Solution Summary</b> — a typeset addition with digits substituted.</li>
-        <li><b>Uniqueness</b> — optional probe to see if a second, different solution exists.</li>
       </ul>
       <p class="tiny muted">Solver: depth-first search on columns (least-significant to most-significant) assigning digits consistent with carries; prunes with used digits & leading-zero bans.</p>
     </div>
@@ -100,6 +98,16 @@
     </div>
 
     <div class="card">
+      <h2>Puzzle Solution Summary</h2>
+      <div id="summary" class="output sum">(run to populate)</div>
+    </div>
+
+    <div class="card">
+      <h2>Uniqueness Probe</h2>
+      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
+    </div>
+
+    <div class="card">
       <h2>Answer (newly derived facts)</h2>
       <div id="answer" class="output tall">computing…</div>
     </div>
@@ -112,16 +120,6 @@
     <div class="card">
       <h2>Check <span id="checksCount" class="badge">0</span></h2>
       <div id="checks" class="output tall">computing…</div>
-    </div>
-
-    <div class="card">
-      <h2>Puzzle Solution Summary</h2>
-      <div id="summary" class="output sum">(run to populate)</div>
-    </div>
-
-    <div class="card">
-      <h2>Uniqueness Probe</h2>
-      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
     </div>
 
   </div>

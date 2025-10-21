@@ -94,8 +94,6 @@
         <li><b>Answer</b> — derived facts (<code>cell(r,c)=h</code>).</li>
         <li><b>Reason Why</b> — line candidate filtering + intersection forcing (and branches if needed).</li>
         <li><b>Check</b> — row/col permutations, visibility matches, sums, ranges (<span id="checksCountInline" class="badge">…</span> items).</li>
-        <li><b>Solution Summary</b> — large grid with a **newspaper-style side panel** showing all clues perfectly aligned around the grid.</li>
-        <li><b>Uniqueness</b> — optional probe for a second, distinct solution.</li>
       </ul>
       <p class="tiny muted">Engine: precompute permutations of 1..N; filter by clues; alternate row/column propagation via position-wise intersections; branch on the smallest candidate line if needed.</p>
     </div>
@@ -152,6 +150,19 @@
     </div>
 
     <div class="card">
+      <h2>Solution Summary</h2>
+      <div id="gridHost" class="">
+        <div id="boardMount" class="output" style="overflow:hidden"></div>
+        <div class="legend tiny" id="legend"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Uniqueness Probe</h2>
+      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
+    </div>
+
+    <div class="card">
       <h2>Answer (newly derived facts)</h2>
       <div id="answer" class="output tall">computing…</div>
     </div>
@@ -164,19 +175,6 @@
     <div class="card">
       <h2>Check <span id="checksCount" class="badge">0</span></h2>
       <div id="checks" class="output tall">computing…</div>
-    </div>
-
-    <div class="card">
-      <h2>Solution Summary</h2>
-      <div id="gridHost" class="">
-        <div id="boardMount" class="output" style="overflow:hidden"></div>
-        <div class="legend tiny" id="legend"></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Uniqueness Probe</h2>
-      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
     </div>
 
   </div>
