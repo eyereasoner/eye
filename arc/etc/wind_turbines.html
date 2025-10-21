@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Wind-Turbine Maintenance — ARC (Pure JS + JSON)</title>
+  <title>Wind-Turbine Maintenance — ARC</title>
   <style>
     :root { --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --accent:#0ea5e9; --ok:#16a34a; --bad:#dc2626; --border:#e5e7eb; }
     html,body{height:100%;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
@@ -25,14 +25,41 @@
     /* Auto-growing textareas */
     textarea,pre,code,input,button{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
     textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:var(--text);box-sizing:border-box;white-space:pre-wrap}
+    #summary { min-height: 0; }
   </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Wind-Turbine Maintenance — ARC (Pure JS + JSON)</h1>
-  <p class="muted">ARC = <b>Answer</b> • <b>Reason</b> • <b>Check</b>. Policies are declarative JSON rules; reasoning is local, no external engine.</p>
+  <h1>Wind-Turbine Maintenance — ARC</h1>
 
   <div class="stack">
+
+    <div class="card" id="what">
+      <h2>What this is?</h2>
+      <p>One-file, pure JS + JSON reasoning demo for wind-turbine maintenance using ARC:
+        <strong>Answer</strong> • <strong>Reason</strong> • <strong>Check</strong>.</p>
+      <ul>
+        <li><strong>Data</strong> — JSON assets, components, and observations.</li>
+        <li><strong>Policies</strong> — declarative JSON rules
+          (<code>if</code> atoms with optional <code>"not": true</code> negations ⇒ <code>then</code> atoms).</li>
+        <li><strong>Answer</strong> — only the <em>newly derived</em> facts.</li>
+        <li><strong>Reason Why</strong> — explanations in mathematical English (rule templates with variable bindings).</li>
+        <li><strong>Check</strong> — runs JSON assertions (≥ 10) against the full fact set.</li>
+        <li><strong>Maintenance Summary</strong> — per-turbine priority and task roll-up.</li>
+      </ul>
+      <p class="tiny muted">
+        Engine: small forward-chainer with unification, subclassing (<code>subClass</code>), transitive <code>partOf</code>,
+        mapping observations to turbines, and negation-as-failure for <code>"not": true</code>.
+      </p>
+      <details class="tiny">
+        <summary>How to extend</summary>
+        <ol>
+          <li>Add observations/components in <em>Data</em> (JSON).</li>
+          <li>Add/modify rules in <em>Policies</em> (use variables like <code>?T</code>, <code>?obs</code>).</li>
+          <li>Add checks in <em>Checks</em> (triples you expect to hold: <code>{"pred","s","o"}</code>).</li>
+        </ol>
+      </details>
+    </div>
 
     <div class="card">
       <h2>Data (JSON)</h2>
@@ -216,6 +243,11 @@
       <div id="checks" class="output">computing…</div>
     </div>
 
+    <div class="card" id="summaryCard">
+      <h2>Maintenance Summary</h2>
+      <div id="summary" class="output">(run to populate)</div>
+    </div>
+
   </div>
 </div>
 
@@ -225,7 +257,7 @@
     dataTA: $("dataTA"), policyTA: $("policyTA"), checksTA: $("checksTA"),
     runBtn: $("runBtn"), reasonBtn: $("reasonBtn"),
     status: $("status"), diag: $("diag"),
-    answer: $("answer"), reason: $("reason"), checks: $("checks")
+    answer: $("answer"), reason: $("reason"), checks: $("checks"), summary: $("summary")
   };
 
   // Auto-grow textareas
@@ -267,13 +299,11 @@
   function isVar(x){ return typeof x==="string" && x.startsWith("?"); }
 
   function unifyAtomWithFact(atom, f, env){
-    // atom fields pred,s,o (string); env is binding map
     const out = {...env};
     const slots = ["pred","s","o"];
     for(const slot of slots){
-      const pat = atom[slot];
-      const val = slot==="pred" ? atom.pred : (slot==="s"? atom.s : atom.o);
-      const factVal = slot==="pred"? f.pred : (slot==="s"? f.s : f.o);
+      const val = atom[slot];
+      const factVal = f[slot] ?? (slot==="pred"? f.pred : slot==="s"? f.s : f.o);
       if(isVar(val)){
         if(out[val]!==undefined && out[val]!==factVal) return null;
         out[val]=factVal;
@@ -298,7 +328,6 @@
   }
 
   function negHolds(atom, factsIdx, env){
-    // true if there exists a fact that unifies with atom under env
     const candidates = factsIdx.byPred.get(atom.pred)||[];
     for(const f of candidates){
       if(unifyAtomWithFact(atom,f,env)) return true;
@@ -312,7 +341,6 @@
   }
 
   function derive(data, policies){
-    // Build base facts
     let facts = buildFactsFromData(data);
     const baseSet = new Set(facts.map(key));
     const factSet = new Set(baseSet);
@@ -325,7 +353,6 @@
       for(const rule of policies){
         const posBindings = matchPositives(rule, factsIdx, {}, 0);
         for(const env of posBindings){
-          // check all 'not' atoms
           const negs = rule.if.filter(a=>a.not);
           let ok=true, negUsed=[];
           for(const n of negs){
@@ -335,7 +362,6 @@
           }
           if(!ok) continue;
 
-          // emit conclusions
           for(const t of rule.then){
             const concl = substitute(t, env);
             const k = key(concl);
@@ -346,8 +372,7 @@
               if(!factsIdx.byPred.has(concl.pred)) factsIdx.byPred.set(concl.pred,[]);
               factsIdx.byPred.get(concl.pred).push({...concl,_base:false});
 
-              // explanation
-              const exp = buildExplanation(rule, env, factsIdx, negUsed);
+              const exp = buildExplanation(rule, env, negUsed);
               proofs.set(k, exp);
             }
           }
@@ -355,11 +380,9 @@
       }
     }
 
-    // Prepare Answer (new only)
     const derived = facts.filter(f=>!f._base);
     const answerLines = formatFacts(derived);
 
-    // Reason: compile explanations for each derived fact
     const reasonLines = [];
     for(const f of derived){
       const k = key(f);
@@ -371,7 +394,7 @@
     return { facts, baseSet, derived, answerText: answerLines.join("\n"), reasonText: reasonLines.join("\n") };
   }
 
-  function buildExplanation(rule, env, idx, negUsed){
+  function buildExplanation(rule, env, negUsed){
     const fill = s => s.replace(/\?[A-Za-z0-9_]+/g, m => env[m] ?? m);
     let text = fill(rule.explain || `Applied ${rule.id}`);
     if(negUsed && negUsed.length){
@@ -396,7 +419,6 @@
   }
 
   function formatFacts(facts){
-    // grouped by predicate
     const groups = {};
     for(const f of facts){
       (groups[f.pred] ||= []).push(f);
@@ -408,7 +430,6 @@
       const sorted = groups[pred].slice().sort((a,b)=> (a.s+a.o).localeCompare(b.s+b.o));
       for(const f of sorted) lines.push(prettyFact(f));
     }
-    // any other preds
     for(const pred of Object.keys(groups)){
       if(order.includes(pred)) continue;
       const sorted = groups[pred].slice().sort((a,b)=> (a.s+a.o).localeCompare(b.s+b.o));
@@ -441,6 +462,28 @@
     return lines.join("\n");
   }
 
+  // ---- Maintenance Summary
+  function summarizeMaintenance(facts){
+    const tasksByT = new Map(), prioByT = new Map();
+    for (const f of facts) {
+      if (f.pred === "requiresTask") {
+        if (!tasksByT.has(f.s)) tasksByT.set(f.s, new Set());
+        tasksByT.get(f.s).add(f.o);
+      } else if (f.pred === "priority") {
+        prioByT.set(f.s, f.o);
+      }
+    }
+    const lines = [];
+    const turbines = new Set([...tasksByT.keys(), ...prioByT.keys()]);
+    if (!turbines.size) return "(no turbines require maintenance)";
+    for (const t of [...turbines].sort()) {
+      const pr = prioByT.get(t) || "Normal";
+      const tasks = [...(tasksByT.get(t) || [])].sort().join(", ");
+      lines.push(`${t}: priority ${pr}${tasks ? " — tasks: " + tasks : ""}`);
+    }
+    return lines.join("\n");
+  }
+
   // ---- Orchestration
   function parseJSON(text, label){
     try { return JSON.parse(text); }
@@ -448,7 +491,6 @@
   }
 
   function toPolicies(spec){
-    // Just sanity: ensure fields exist
     return spec.map(r => ({
       id: r.id || "(unnamed)",
       if: r.if || [],
@@ -457,13 +499,12 @@
     }));
   }
 
-  function buildDataObj(spec){
-    return spec; // direct pass-through; builder handles it
-  }
+  function buildDataObj(spec){ return spec; }
 
   async function runARC(){
     els.status.textContent = "Parsing JSON…";
     els.answer.textContent = els.reason.textContent = els.checks.textContent = "computing…";
+    els.summary.textContent = "(run to populate)";
     els.diag.textContent = "";
     try{
       const dataSpec = parseJSON(els.dataTA.value, "Data");
@@ -482,6 +523,9 @@
       const checkResults = runChecks(facts, checksSpec);
       els.checks.textContent = renderChecks(checkResults);
 
+      // Summary
+      els.summary.textContent = summarizeMaintenance(facts);
+
       els.status.textContent = "Done.";
     }catch(e){
       console.error(e);
@@ -489,6 +533,7 @@
       els.answer.textContent = "(failed)";
       els.reason.textContent = "(failed)";
       els.checks.textContent = "(failed)";
+      els.summary.textContent = "(failed)";
       els.diag.textContent = e.message;
     }
     // keep textareas height fresh
@@ -496,7 +541,6 @@
   }
 
   function showReasonOnly(){
-    // Just recompute Reason; but simplest is runARC and focus Reason
     runARC().then(()=> {
       window.scrollTo({top: $("reason").getBoundingClientRect().top + window.scrollY - 12, behavior: "smooth"});
     });
