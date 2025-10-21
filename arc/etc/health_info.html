@@ -20,6 +20,9 @@
     .muted{color:var(--muted)}
     .tiny{font-size:12px}
     .diag{font-size:12px;color:#6b7280}
+    /* badges */
+    .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.3px;border:1px solid var(--border);background:#f5f7fb;color:#334155}
+    /* textareas */
     textarea,pre,code,input,button{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
     textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:var(--text);box-sizing:border-box;white-space:pre-wrap}
   </style>
@@ -30,16 +33,20 @@
 
   <div class="stack">
 
+    <!-- What this is? -->
     <div class="card" id="what">
       <h2>What this is?</h2>
-      <p>Pure JS + JSON demo that mimics FHIR-ish resources and coding. You edit the JSON; the page derives:</p>
+      <p>One-file, pure JS + JSON demo that mimics FHIR-ish resources and coding. Edit the JSON below and click <b>Run ARC</b>:</p>
       <ul>
-        <li><strong>Answer</strong> — newly derived facts (keeps strongest priority per patient: Blocked &gt; High &gt; Normal &gt; Low)</li>
-        <li><strong>Reason</strong> — mathematical-English explanations</li>
-        <li><strong>Check</strong> — ≥10 assertions over the full fact set</li>
-        <li><strong>Summary</strong> — per-patient priority and tasks</li>
+        <li><b>Data</b> — FHIR-flavored resources: <code>Patient</code>, <code>Encounter</code>, <code>DocumentReference</code>,
+            <code>Observation</code>, <code>Condition</code>, <code>Consent</code>; lab codes (LOINC), condition codes (SNOMED).</li>
+        <li><b>Policies</b> — declarative JSON rules: an array of objects with <code>if</code> atoms (allowing <code>"not": true</code>) ⇒ <code>then</code> atoms, plus an <code>explain</code> template.</li>
+        <li><b>Answer</b> — the <em>newly derived</em> facts only (keeps the strongest <code>priority</code> per patient).</li>
+        <li><b>Reason Why</b> — mathematical-English derivations based on bound variables per rule firing.</li>
+        <li><b>Check</b> — JSON assertions evaluated against the full fact set (<span id="checksCountInline" class="badge">…</span> items).</li>
+        <li><b>Health Info Summary</b> — per-patient strongest priority and tasks. Priority order: Blocked &gt; High &gt; Normal &gt; Low.</li>
       </ul>
-      <p class="tiny muted">Standards flavor: FHIR resource types (Patient/Encounter/DocumentReference/Observation/Condition/Consent), LOINC lab codes, SNOMED CT condition codes, consent scopes (treatment vs research) with org limits.</p>
+      <p class="tiny muted">Engine: tiny forward-chainer with unification, subclassing (<code>subClass</code>), transitive <code>partOf</code>, observation→patient mapping, and negation-as-failure for <code>"not": true</code>.</p>
     </div>
 
     <div class="card">
@@ -221,7 +228,7 @@
     </div>
 
     <div class="card">
-      <h2>Checks (JSON)</h2>
+      <h2>Checks <span id="checksCount" class="badge">0</span></h2>
       <textarea id="checksTA" spellcheck="false">[
   {"name":"PHI in Note1 → about P1",                 "pattern":{"pred":"aboutPatient","s":"ObsPHI1","o":"P1"}},
   {"name":"SR1 (treatment) → about P1",              "pattern":{"pred":"aboutPatient","s":"SR1","o":"P1"}},
@@ -279,7 +286,8 @@
     dataTA: $("dataTA"), policyTA: $("policyTA"), checksTA: $("checksTA"),
     runBtn: $("runBtn"), reasonBtn: $("reasonBtn"),
     status: $("status"), diag: $("diag"),
-    answer: $("answer"), reason: $("reason"), checks: $("checks"), summary: $("summary")
+    answer: $("answer"), reason: $("reason"), checks: $("checks"), summary: $("summary"),
+    checksCount: $("checksCount"), checksCountInline: $("checksCountInline")
   };
 
   // Auto-grow textareas
@@ -315,7 +323,7 @@
       if(d.codeSystem) facts.push({pred:"codeSystem",s:d.id,o:d.codeSystem,_base:true});
       if(d.code)       facts.push({pred:"code",s:d.id,o:d.code,_base:true});
     });
-    // observations (FHIR Observation & events)
+    // observations/events
     (spec.observations||[]).forEach(o=>{
       facts.push({pred:"isA",s:o.id,o:o.type||"Observation",_base:true});
       if(o.about) facts.push({pred:"about",s:o.id,o:o.about,_base:true});
@@ -536,17 +544,8 @@
   }
 
   // Summary
-  function bestPriorities(facts) {
-    const PRIORITY_RANK = { Blocked:4, High:3, Normal:2, Low:1 };
-    const best = new Map();
-    for (const f of facts) {
-      if (f.pred !== "priority") continue;
-      const cur = best.get(f.s);
-      if (!cur || (PRIORITY_RANK[f.o]||0) > (PRIORITY_RANK[cur]||0)) best.set(f.s, f.o);
-    }
-    return best;
-  }
   function summarizePatients(facts){
+    const PRIORITY_RANK = { Blocked:4, High:3, Normal:2, Low:1 };
     const tasksByP = new Map();
     for (const f of facts) {
       if (f.pred === "requiresTask") {
@@ -554,7 +553,13 @@
         tasksByP.get(f.s).add(f.o);
       }
     }
-    const best = bestPriorities(facts);
+    // best priority
+    const best = new Map();
+    for (const f of facts) {
+      if (f.pred !== "priority") continue;
+      const cur = best.get(f.s);
+      if (!cur || (PRIORITY_RANK[f.o]||0) > (PRIORITY_RANK[cur]||0)) best.set(f.s, f.o);
+    }
     const patients = new Set([...tasksByP.keys(), ...best.keys()]);
     if (!patients.size) return "(no derived tasks/priority)";
     const lines = [];
@@ -585,6 +590,11 @@
       const dataSpec = parseJSON(els.dataTA.value, "Data");
       const polSpec  = parseJSON(els.policyTA.value, "Policies");
       const checksSpec = parseJSON(els.checksTA.value, "Checks");
+
+      // Update checks count badges
+      els.checksCount.textContent = String(checksSpec.length);
+      if (els.checksCountInline) els.checksCountInline.textContent = String(checksSpec.length);
+
       const data = buildDataObj(dataSpec);
       const policies = toPolicies(polSpec);
 
@@ -610,6 +620,7 @@
       els.summary.textContent = "(failed)";
       els.diag.textContent = e.message;
     }
+    // re-auto-size textareas after run
     autoResize(els.dataTA); autoResize(els.policyTA); autoResize(els.checksTA);
   }
 
