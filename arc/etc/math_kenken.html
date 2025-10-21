@@ -20,10 +20,24 @@
     .muted{color:var(--muted)}
     .tiny{font-size:12px}
     .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.3px;border:1px solid var(--border);background:#f5f7fb;color:#334155}
-    .grid{display:grid;gap:6px}
-    .cell{display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:10px;padding:12px;background:#fff;font-weight:700}
+    .grid{display:grid;gap:0}
+    .cell{
+      position:relative;
+      display:flex;align-items:center;justify-content:center;
+      border:1px solid var(--border);
+      border-width:1px;
+      width:56px;height:56px;border-radius:0;
+      background:#fff;font-weight:700
+    }
+    .cageLabel{
+      position:absolute;top:3px;left:6px;
+      font-size:10px;color:#6b7280;font-weight:700;pointer-events:none;
+      background:transparent;
+    }
     textarea,pre,code,input,button{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
     textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:#0f172a;box-sizing:border-box;white-space:pre-wrap}
+    .switch{display:inline-flex;align-items:center;gap:8px}
+    .switch input{transform:scale(1.1)}
   </style>
 </head>
 <body>
@@ -35,28 +49,28 @@
     <!-- What this is? -->
     <div class="card">
       <h2>What this is?</h2>
-      <p>This is a one-file, pure JS + JSON solver for a 5×5 KenKen-style Latin puzzle. Edit the JSON and click <b>Run ARC</b>.</p>
+      <p>One-file, pure JS + JSON solver for a 5×5 KenKen-style Latin puzzle. Edit the JSON, then click <b>Run ARC</b>.</p>
       <ul>
-        <li><b>Data</b> — grid <code>N=5</code> and an array of <em>cages</em>. A cage has an operator (<code>= + - × ÷</code>) and a target applied to its cells.</li>
-        <li><b>Policies</b> — declarative constraint families: row/column all-different and cage arithmetic (kept here as documentation).</li>
-        <li><b>Answer</b> — newly derived facts (the solved digits), with the strongest checks summary.</li>
-        <li><b>Reason Why</b> — mathematical-English explanations for cage arithmetic and Latin constraints.</li>
+        <li><b>Data</b> — grid <code>N=5</code> and <em>cages</em>. A cage has an operator (<code>= + - × ÷</code>) and a target applied to its cells.</li>
+        <li><b>Policies</b> — declarative constraint families: row/column all-different and cage arithmetic.</li>
+        <li><b>Answer</b> — newly derived facts (the solved digits), with a checks summary.</li>
+        <li><b>Reason Why</b> — mathematical-English explanations per cage and row/column uniqueness.</li>
         <li><b>Check</b> — auto-generated assertions (rows, columns, cages): <span id="checksCountInline" class="badge">…</span> items.</li>
-        <li><b>Puzzle Solution Summary</b> — renders the solved 5×5 grid.</li>
+        <li><b>Puzzle Solution Summary</b> — rendered grid with <b>cage labels</b>, <b>thick boundaries</b>, and <b>colored cages</b>.</li>
+        <li><b>Uniqueness</b> — optional probe: look for a different second solution.</li>
       </ul>
-      <p class="tiny muted">Engine: domain propagation (1..N), cage-tuple filtering, Latin all-different, and DFS backtracking if needed. Works nicely up to N≈6 for typical cages.</p>
+      <p class="tiny muted">Engine: domain propagation (1..N), cage tuple filtering, Latin all-different, and DFS backtracking. Works well up to N≈6 for typical puzzles.</p>
     </div>
 
     <!-- Puzzle details / meta -->
     <div class="card">
       <h2>Puzzle Details</h2>
       <ul>
-        <li><b>Size</b>: 5×5 (values 1..5). Latin rule: each row/column contains each number exactly once.</li>
-        <li><b>Operators</b>: <code>=</code> (single cell), <code>+</code> (sum), <code>-</code> (absolute diff, two cells), <code>×</code> (product), <code>÷</code> (integer division, two cells, no remainder).</li>
-        <li><b>Difficulty</b>: Medium — a mix of singletons, sum cages, and a few difference/paired cages.</li>
-        <li><b>Editing</b>: You can alter cages, targets, or size (2..6). Make sure every cell is covered by exactly one cage.</li>
-        <li><b>Uniqueness</b>: This demo finds <em>a</em> solution; uniqueness is not guaranteed. To tighten, reduce singletons and add mixed operators that couple rows & columns.</li>
-        <li><b>Tip</b>: Start with <code>=</code> cages to seed values; then use row/column all-different to prune domains; cage arithmetic does the rest.</li>
+        <li><b>Size</b>: 5×5 (values 1..5). Latin rule: each row/column has each number exactly once.</li>
+        <li><b>Operators</b>: <code>=</code> (singleton), <code>+</code> (sum), <code>-</code> (absolute diff, two cells), <code>×</code> (product), <code>÷</code> (integer division, two cells, no remainder).</li>
+        <li><b>Design</b>: Mixed singletons, sum pairs, and difference pairs for medium difficulty.</li>
+        <li><b>Editing</b>: You can alter <code>size</code> (2..6) and cages. Ensure every cell appears in exactly one cage.</li>
+        <li><b>Tip</b>: Singletons seed values; all-different prunes domains; cages do arithmetic pruning; backtracking finishes.</li>
       </ul>
     </div>
 
@@ -103,6 +117,8 @@
       <h2>Controls</h2>
       <div class="row">
         <button id="runBtn">▶ Run ARC</button>
+        <label class="switch"><input id="colorChk" type="checkbox" checked/> Color cages</label>
+        <label class="switch"><input id="uniqChk" type="checkbox"/> Probe uniqueness (second solution)</label>
         <button id="reasonBtn" class="secondary">Show Reason only</button>
         <span id="status" class="muted tiny" style="margin-left:auto"></span>
       </div>
@@ -129,6 +145,12 @@
       <div id="gridMount" class="output"></div>
     </div>
 
+    <div class="card">
+      <h2>Uniqueness Probe</h2>
+      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
+      <div id="altGridMount" class="output" style="margin-top:8px"></div>
+    </div>
+
   </div>
 </div>
 
@@ -136,11 +158,11 @@
   const $ = id => document.getElementById(id);
   const els = {
     dataTA: $("dataTA"), policyTA: $("policyTA"),
-    runBtn: $("runBtn"), reasonBtn: $("reasonBtn"),
+    runBtn: $("runBtn"), reasonBtn: $("reasonBtn"), uniqChk: $("uniqChk"), colorChk: $("colorChk"),
     status: $("status"), diag: $("diag"),
     answer: $("answer"), reason: $("reason"), checks: $("checks"),
     checksCount: $("checksCount"), checksCountInline: $("checksCountInline"),
-    gridMount: $("gridMount")
+    gridMount: $("gridMount"), uniqOut: $("uniqOut"), altGridMount: $("altGridMount")
   };
 
   // Auto-grow textareas
@@ -281,12 +303,26 @@
     return bestR===-1? null : {r:bestR,c:bestC};
   }
 
-  function solve(grid, cages){
+  function equalSolutionMatrix(a, b){
+    const N = a.length;
+    for(let r=0;r<N;r++){
+      for(let c=0;c<N;c++){
+        const va = [...a[r][c]][0], vb = [...b[r][c]][0];
+        if(va !== vb) return false;
+      }
+    }
+    return true;
+  }
+
+  function solve(grid, cages, forbidMatrix=null){
     const {contradiction} = propagate(grid, cages);
     if(contradiction) return null;
 
     // All assigned?
-    if(grid.every(row=>row.every(s=>s.size===1))) return grid;
+    if(grid.every(row=>row.every(s=>s.size===1))){
+      if(forbidMatrix && equalSolutionMatrix(grid, forbidMatrix)) return null; // forbid exact prior solution
+      return grid;
+    }
 
     const cell = pickCell(grid);
     if(!cell) return null;
@@ -294,29 +330,120 @@
     for(const v of choices){
       const next = cloneGrid(grid);
       next[cell.r][cell.c] = new Set([v]);
-      const sol = solve(next, cages);
+      const sol = solve(next, cages, forbidMatrix);
       if(sol) return sol;
     }
     return null;
   }
 
-  // ---- Rendering helpers
-  function renderGrid(sol){
+  // ---- Cage color helpers
+  function hsl(h,s,l){ return `hsl(${h} ${s}% ${l}%)`; }
+  function generateCageColors(cages){
+    const ids = cages.map(c=>c.id);
+    const n = ids.length || 1;
+    const map = new Map();
+    // evenly spaced hues, slight offset
+    for(let i=0;i<ids.length;i++){
+      const hue = Math.round((i*360/n + 12) % 360);
+      const bg  = hsl(hue, 85, 92);   // pastel background
+      const lab = hsl(hue, 55, 30);   // darker label text
+      map.set(ids[i], {bg, lab});
+    }
+    return map;
+  }
+
+  // ---- Cage rendering helpers
+  function buildCageIndex(cages){
+    const cell2cage = new Map(); // "r,c" -> id
+    const cageById = new Map();
+    const topLeft = new Map(); // id -> [r,c]
+    for(const cg of cages){
+      cageById.set(cg.id, cg);
+      let tl = null;
+      for(const [r,c] of cg.cells){
+        const k = `${r},${c}`;
+        cell2cage.set(k, cg.id);
+        if(!tl || r<tl[0] || (r===tl[0] && c<tl[1])) tl = [r,c];
+      }
+      topLeft.set(cg.id, tl);
+    }
+    return {cell2cage, cageById, topLeft};
+  }
+
+  function opPretty(op){ return op==="*" ? "×" : op; }
+  function labelForCage(cg){
+    const sym = opPretty(cg.op);
+    return (cg.op === "=") ? `${cg.id} ${cg.target}` : `${cg.id} ${cg.target}${sym}`;
+  }
+
+  function computeBorders(N, cell2cage){
+    const borders = new Map(); // "r,c" -> {t,l,r,b}
+    for(let r=1;r<=N;r++){
+      for(let c=1;c<=N;c++){
+        const k = `${r},${c}`;
+        const id = cell2cage.get(k);
+        const up    = (r===1) ? null : cell2cage.get(`${r-1},${c}`);
+        const down  = (r===N) ? null : cell2cage.get(`${r+1},${c}`);
+        const left  = (c===1) ? null : cell2cage.get(`${r},${c-1}`);
+        const right = (c===N) ? null : cell2cage.get(`${r},${c+1}`);
+        borders.set(k, {
+          t: (r===1 || up    !== id) ? "3px" : "1px",
+          b: (r===N || down  !== id) ? "3px" : "1px",
+          l: (c===1 || left  !== id) ? "3px" : "1px",
+          r: (c===N || right !== id) ? "3px" : "1px"
+        });
+      }
+    }
+    return borders;
+  }
+
+  function renderGridWithCages(sol, cages, colorize){
     const N = sol.length;
     const g = document.createElement('div');
     g.className = 'grid';
-    g.style.gridTemplateColumns = `repeat(${N}, 1fr)`;
-    for(let r=0;r<N;r++){
-      for(let c=0;c<N;c++){
+    g.style.gridTemplateColumns = `repeat(${N}, 56px)`;
+    const {cell2cage, cageById, topLeft} = buildCageIndex(cages);
+    const borders = computeBorders(N, cell2cage);
+    const colors = generateCageColors(cages);
+
+    for(let r=1;r<=N;r++){
+      for(let c=1;c<=N;c++){
         const div = document.createElement('div');
         div.className = 'cell';
-        div.textContent = [...sol[r][c]][0];
+        const val = [...sol[r-1][c-1]][0];
+        div.textContent = val;
+
+        const k = `${r},${c}`;
+        const cageId = cell2cage.get(k);
+        if(colorize && cageId && colors.has(cageId)){
+          div.style.backgroundColor = colors.get(cageId).bg;
+        }
+
+        const b = borders.get(k);
+        if(b){
+          div.style.borderTopWidth = b.t;
+          div.style.borderBottomWidth = b.b;
+          div.style.borderLeftWidth = b.l;
+          div.style.borderRightWidth = b.r;
+        }
+
+        // label on cage's top-left cell
+        const tl = cageId && topLeft.get(cageId);
+        if(tl && tl[0]===r && tl[1]===c){
+          const lab = document.createElement('div');
+          lab.className = 'cageLabel';
+          lab.textContent = labelForCage(cageById.get(cageId));
+          if(colorize) lab.style.color = colors.get(cageId).lab;
+          div.appendChild(lab);
+        }
+
         g.appendChild(div);
       }
     }
     return g;
   }
 
+  // ---- Reporting
   function factsFromSolution(sol){
     const N = sol.length;
     const lines = [];
@@ -399,14 +526,14 @@
   function runARC(){
     els.status.textContent = "Parsing JSON…";
     els.answer.textContent = els.reason.textContent = els.checks.textContent = "computing…";
-    els.gridMount.innerHTML = "";
+    els.gridMount.innerHTML = ""; els.altGridMount.innerHTML = "";
+    els.uniqOut.textContent = "(toggle “Probe uniqueness” then Run)";
     els.diag.textContent = "";
 
     try{
       const data = parseJSON(els.dataTA.value, "Data");
-      parseJSON(els.policyTA.value, "Policies"); // just to validate JSON; solver uses fixed families
+      parseJSON(els.policyTA.value, "Policies"); // validate JSON; solver uses fixed families
 
-      // Build initial grid
       const N = data.size;
       if(!(Number.isInteger(N) && N>=2 && N<=6)) throw new Error("Use size N between 2 and 6 for demo performance.");
       const grid = domainsInit(N);
@@ -435,8 +562,28 @@
       els.checksCount.textContent = String(checks.length);
       if($("checksCountInline")) $("checksCountInline").textContent = String(checks.length);
 
-      // Summary grid
-      els.gridMount.appendChild(renderGrid(sol));
+      // Summary grid with cages (+color)
+      els.gridMount.appendChild(renderGridWithCages(sol, data.cages, els.colorChk.checked));
+
+      // Uniqueness probe
+      if(els.uniqChk.checked){
+        els.status.textContent = "Probing uniqueness…";
+        const forbid = sol; // exact solution to avoid
+        const grid2 = domainsInit(N);
+        for(const cage of data.cages){
+          if(cage.op==="="){
+            const [r,c] = cage.cells[0];
+            grid2[r-1][c-1] = new Set([cage.target]);
+          }
+        }
+        const alt = solve(grid2, data.cages, forbid);
+        if(alt){
+          els.uniqOut.textContent = "Multiple solutions found — here’s an alternate:";
+          els.altGridMount.appendChild(renderGridWithCages(alt, data.cages, els.colorChk.checked));
+        } else {
+          els.uniqOut.textContent = "Unique — no second distinct solution found.";
+        }
+      }
 
       els.status.textContent = "Done.";
     } catch(e){
@@ -444,7 +591,8 @@
       els.answer.textContent = "(failed)";
       els.reason.textContent = "(failed)";
       els.checks.textContent = "(failed)";
-      els.gridMount.innerHTML = "";
+      els.gridMount.innerHTML = ""; els.altGridMount.innerHTML = "";
+      els.uniqOut.textContent = "(failed)";
       els.diag.textContent = e.message;
       console.error(e);
     }
