@@ -8,11 +8,12 @@
   :root {
     --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --border:#e5e7eb; --accent:#0ea5e9;
     --cell: 58px; /* size of solution cells */
+    --clue: 28px; /* size of clue bubbles */
   }
   html,body{height:100%;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
   h1{font-weight:700;margin:18px 0 6px}
   h2{font-size:13px;color:var(--muted);margin:0 0 8px;letter-spacing:.2px;text-transform:uppercase}
-  .wrap{max-width:1150px;margin:0 auto;padding:24px}
+  .wrap{max-width:1180px;margin:0 auto;padding:24px}
   .stack{display:grid;grid-template-columns:1fr;gap:14px}
   .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:0 6px 20px rgba(0,0,0,.04)}
   .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
@@ -26,7 +27,42 @@
   textarea,pre,code,input,button{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
   textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:#0f172a;box-sizing:border-box;white-space:pre-wrap}
 
-  /* Solution grid */
+  /* Newspaper-style board layout: clues wrapped around grid */
+  .board {
+    display:grid;
+    grid-template-areas:
+      "tl   top   tr"
+      "left grid  right"
+      "bl   bottom br";
+    /* We'll override columns/rows inline with N so alignment stays perfect */
+    grid-template-columns: var(--clue) calc(var(--cell) * 6) var(--clue);
+    grid-template-rows: var(--clue) calc(var(--cell) * 6) var(--clue);
+    gap:6px; align-items:center; justify-items:center; margin:6px 0;
+  }
+  .place-top{grid-area: top}
+  .place-bottom{grid-area: bottom}
+  .place-left{grid-area: left}
+  .place-right{grid-area: right}
+  .place-grid{grid-area: grid}
+  .corner{width:var(--clue);height:var(--clue)}
+  .corner.tl{grid-area: tl} .corner.tr{grid-area: tr}
+  .corner.bl{grid-area: bl} .corner.br{grid-area: br}
+
+  /* Aligned clue rows/cols: one slot per grid cell */
+  .clueRow, .clueCol { display:grid; gap:0; }
+  .slotRow, .slotCol { display:flex; align-items:center; justify-content:center; }
+  .slotRow { width: var(--cell); height: var(--clue); }
+  .slotCol { width: var(--clue); height: var(--cell); }
+
+  .clueBubble{
+    min-width: var(--clue); height: var(--clue);
+    display:flex; align-items:center; justify-content:center;
+    padding: 0 8px; border:1px solid #dbe2ea; border-radius:7px;
+    background:#f8fafc; color:#334155; font-weight:800; font-size:12px;
+  }
+  .clueBubble.dim { color:#94a3b8; background:#f9fbff; }
+
+  /* Solution grid cells */
   .grid{display:grid;gap:0}
   .cell{
     width:var(--cell);height:var(--cell);
@@ -36,7 +72,8 @@
     box-shadow:0 2px 10px rgba(0,0,0,.05);
   }
   .num{position:relative;z-index:1}
-  .legend{display:flex;flex-wrap:wrap;gap:8px}
+
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
   .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:999px;padding:2px 8px;background:#f5f7fb}
   .dot{width:12px;height:12px;border-radius:999px;border:1px solid rgba(0,0,0,.1)}
 </style>
@@ -52,36 +89,35 @@
       <h2>What this is?</h2>
       <p>One-file, pure JS + JSON solver for a <b>Skyscrapers</b> puzzle. Fill an N×N grid with heights 1..N so each row/column is a permutation, and the edge clues state how many buildings are visible from that side (taller buildings block smaller ones behind them).</p>
       <ul>
-        <li><b>Data</b> — <code>size</code> N and four arrays of length N: <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>. Use 0 to mean “no clue”.</li>
-        <li><b>Policies</b> — declarative families: row/column all-different; visibility counts honored where clues are given; values in 1..N.</li>
+        <li><b>Data</b> — <code>size</code> N and four arrays of length N: <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>. Use 0 for “no clue”.</li>
+        <li><b>Policies</b> — row/column all-different; visibility must match clues where given; values in 1..N.</li>
         <li><b>Answer</b> — derived facts (<code>cell(r,c)=h</code>).</li>
-        <li><b>Reason Why</b> — candidate counts per line & forced digits from intersection pruning.</li>
-        <li><b>Check</b> — many validations: rows/cols permutations, visibility matches clues, sums, ranges (<span id="checksCountInline" class="badge">…</span> items).</li>
-        <li><b>Solution Summary</b> — large, color-coded grid (pastel ramp by height).</li>
+        <li><b>Reason Why</b> — line candidate filtering + intersection forcing (and branches if needed).</li>
+        <li><b>Check</b> — row/col permutations, visibility matches, sums, ranges (<span id="checksCountInline" class="badge">…</span> items).</li>
+        <li><b>Solution Summary</b> — large grid with a **newspaper-style side panel** showing all clues perfectly aligned around the grid.</li>
         <li><b>Uniqueness</b> — optional probe for a second, distinct solution.</li>
       </ul>
-      <p class="tiny muted">Engine: precompute permutations of 1..N; filter by edge clues; alternate row/column pruning via position-wise intersections; branch on the smallest candidate line if needed.</p>
+      <p class="tiny muted">Engine: precompute permutations of 1..N; filter by clues; alternate row/column propagation via position-wise intersections; branch on the smallest candidate line if needed.</p>
     </div>
 
     <!-- Puzzle details -->
     <div class="card">
       <h2>Puzzle Details</h2>
       <ul>
-        <li><b>Size:</b> 5×5 (editable).</li>
-        <li><b>Clues:</b> symmetric full set in this demo; change any to 0 for “no clue”.</li>
-        <li><b>Difficulty:</b> With full clues this solves by propagation; with fewer clues it may branch (still fast at N≤6).</li>
-        <li><b>Editing tips:</b> Always keep arrays exactly length N. All clues must be integers 0..N.</li>
+        <li><b>Size:</b> 6×6 (editable).</li>
+        <li><b>Sparser clues:</b> moderate density — solvable by propagation with small search.</li>
+        <li><b>Editing tips:</b> keep each clue array length = N and entries 0..N; fewer clues ⇒ more branching; more clues ⇒ faster/unique.</li>
       </ul>
     </div>
 
     <div class="card">
       <h2>Data (JSON)</h2>
       <textarea id="dataTA" spellcheck="false">{
-  "size": 5,
-  "top":    [5,4,3,2,1],
-  "bottom": [1,2,2,2,2],
-  "left":   [5,4,3,2,1],
-  "right":  [1,2,2,2,2]
+  "size": 6,
+  "top":    [0, 0, 3, 1, 4, 2],
+  "bottom": [0, 0, 0, 3, 0, 4],
+  "left":   [0, 0, 4, 0, 0, 4],
+  "right":  [0, 0, 0, 0, 5, 0]
 }</textarea>
       <p class="tiny muted">0 means no clue. Coordinates in the Answer are 1-based.</p>
     </div>
@@ -132,8 +168,8 @@
 
     <div class="card">
       <h2>Solution Summary</h2>
-      <div id="gridHost" class="output">
-        <div id="gridMount"></div>
+      <div id="gridHost" class="">
+        <div id="boardMount" class="output" style="overflow:hidden"></div>
         <div class="legend tiny" id="legend"></div>
       </div>
     </div>
@@ -154,7 +190,7 @@ const els = {
   status: $("status"), diag: $("diag"),
   answer: $("answer"), reason: $("reason"), checks: $("checks"),
   checksCount: $("checksCount"), checksCountInline: $("checksCountInline"),
-  gridMount: $("gridMount"), legend: $("legend"), uniqOut: $("uniqOut")
+  boardMount: $("boardMount"), legend: $("legend"), uniqOut: $("uniqOut")
 };
 
 // Auto-grow textareas
@@ -209,11 +245,9 @@ function initState(N, clues){
   const rowClues = clues.row; // [L[i], R[i]]
   const colClues = clues.col; // [T[j], B[j]]
 
-  // initial candidate perms by clues only
   const rowCands = Array.from({length:N}, (_,r)=> basePerms.filter(p=> okSide(p, rowClues[r])));
   const colCands = Array.from({length:N}, (_,c)=> basePerms.filter(p=> okTopBottom(p, colClues[c])));
 
-  // domains grid (all 1..N)
   const domains = Array.from({length:N},()=> Array.from({length:N},()=> new Set(range(N))));
   return {rowCands, colCands, domains, basePerms};
 }
@@ -250,7 +284,7 @@ function propagate(state, clues, reasons){
   while(true){
     let changed=false;
 
-    // Row → domains (position-wise support)
+    // Row → domains
     for(let r=0;r<N;r++){
       const cands = rowCands[r];
       if(cands.length===0) return {contradiction:true};
@@ -320,7 +354,6 @@ function propagate(state, clues, reasons){
 
 // ---------- Branching solve
 function pickLine(state){
-  // Pick the row/col with the smallest candidate list (>1)
   const N = state.domains.length;
   let best=null, count=1e9;
   for(let r=0;r<N;r++){
@@ -339,14 +372,13 @@ function solve(state, clues, forbid=null){
   const step = propagate(state, clues, reasons);
   if(step.contradiction) return null;
 
-  // If all domains = 1, we’re done. Still check clues (should hold by construction)
   if(allAssigned(state.domains)){
     if(forbid && equalSolutions(state.domains, forbid)) return null;
     return {domains: state.domains, reasons};
   }
 
   const pick = pickLine(state);
-  if(!pick) return null; // stuck
+  if(!pick) return null;
   const nexts = (pick.kind==="row" ? state.rowCands[pick.idx] : state.colCands[pick.idx]);
 
   for(let i=0;i<nexts.length;i++){
@@ -354,9 +386,7 @@ function solve(state, clues, forbid=null){
     const perm = nexts[i];
 
     if(pick.kind==="row"){
-      // Assign this row permutation into domains
       for(let c=0;c<child.domains.length;c++){ child.domains[pick.idx][c] = new Set([perm[c]]); }
-      // Narrow row candidates to exactly this perm
       child.rowCands[pick.idx] = [perm];
     } else {
       for(let r=0;r<child.domains.length;r++){ child.domains[r][pick.idx] = new Set([perm[r]]); }
@@ -372,15 +402,13 @@ function solve(state, clues, forbid=null){
   return null;
 }
 
-// ---------- Rendering
+// ---------- Colors & rendering
 function hsl(h,s,l){ return `hsl(${h} ${s}% ${l}%)`; }
 function colorForHeight(h, N){
-  // pastel ramp across hues (200 → 20)
   const hue = 200 - (180*(h-1)/(N-1||1));
   const sat = 85, light = 88 - (h-1)*(40/(N-1||1));
   return hsl(Math.round(hue), Math.round(sat), Math.round(light));
 }
-
 function renderLegend(N){
   const cont = els.legend; cont.innerHTML = "";
   for(let h=1; h<=N; h++){
@@ -395,8 +423,7 @@ function renderLegend(N){
     cont.appendChild(chip);
   }
 }
-
-function renderGrid(domains){
+function renderGridOnly(domains){
   const N = domains.length;
   const g = document.createElement('div');
   g.className = 'grid';
@@ -417,13 +444,71 @@ function renderGrid(domains){
   return g;
 }
 
+/* Aligned clue renderers */
+function renderClueRow(arr, N){
+  const row = document.createElement('div');
+  row.className = 'clueRow';
+  row.style.gridTemplateColumns = `repeat(${N}, var(--cell))`;
+  row.style.gridTemplateRows    = `var(--clue)`;
+  for(let i=0;i<N;i++){
+    const slot   = document.createElement('div'); slot.className = 'slotRow';
+    const bubble = document.createElement('div');
+    bubble.className = 'clueBubble' + (arr[i] ? '' : ' dim');
+    bubble.textContent = arr[i] ? String(arr[i]) : '·';
+    slot.appendChild(bubble);
+    row.appendChild(slot);
+  }
+  return row;
+}
+function renderClueCol(arr, N){
+  const col = document.createElement('div');
+  col.className = 'clueCol';
+  col.style.gridTemplateColumns = `var(--clue)`;
+  col.style.gridTemplateRows    = `repeat(${N}, var(--cell))`;
+  for(let i=0;i<N;i++){
+    const slot   = document.createElement('div'); slot.className = 'slotCol';
+    const bubble = document.createElement('div');
+    bubble.className = 'clueBubble' + (arr[i] ? '' : ' dim');
+    bubble.textContent = arr[i] ? String(arr[i]) : '·';
+    slot.appendChild(bubble);
+    col.appendChild(slot);
+  }
+  return col;
+}
+
+function renderBoard(domains, data){
+  const N = domains.length;
+  const board = document.createElement('div');
+  board.className = 'board';
+  // override template sizes to match N exactly
+  board.style.gridTemplateColumns = `var(--clue) calc(var(--cell) * ${N}) var(--clue)`;
+  board.style.gridTemplateRows    = `var(--clue) calc(var(--cell) * ${N}) var(--clue)`;
+
+  // Corners (empty)
+  ['tl','tr','bl','br'].forEach(pos=>{
+    const d=document.createElement('div'); d.className=`corner ${pos}`; board.appendChild(d);
+  });
+
+  // Top / Bottom
+  const topRow    = renderClueRow(data.top,    N); topRow.classList.add('place-top');     board.appendChild(topRow);
+  const bottomRow = renderClueRow(data.bottom, N); bottomRow.classList.add('place-bottom');board.appendChild(bottomRow);
+
+  // Left / Right
+  const leftCol   = renderClueCol(data.left,   N); leftCol.classList.add('place-left');   board.appendChild(leftCol);
+  const rightCol  = renderClueCol(data.right,  N); rightCol.classList.add('place-right'); board.appendChild(rightCol);
+
+  // Grid
+  const grid = renderGridOnly(domains); grid.classList.add('place-grid'); board.appendChild(grid);
+
+  return board;
+}
+
 // ---------- Reporting
 function facts(domains){
   const N = domains.length, out=[];
   for(let r=0;r<N;r++) for(let c=0;c<N;c++) out.push(`cell(${r+1},${c+1}) = ${[...domains[r][c]][0]}`);
   return out.join("\n");
 }
-
 function explain(reasons){ return reasons.join("\n"); }
 
 function checks(domains, clues){
@@ -492,7 +577,7 @@ function buildClues(data){
 function runARC(){
   els.status.textContent = "Parsing JSON…";
   els.answer.textContent = els.reason.textContent = els.checks.textContent = "computing…";
-  els.gridMount.innerHTML = ""; els.legend.innerHTML=""; els.uniqOut.textContent = "(toggle “Probe uniqueness” then Run)";
+  els.boardMount.innerHTML = ""; els.legend.innerHTML=""; els.uniqOut.textContent = "(toggle “Probe uniqueness” then Run)";
   els.diag.textContent = "";
 
   try{
@@ -520,8 +605,8 @@ function runARC(){
     els.checksCount.textContent = String(chk.length);
     if(els.checksCountInline) els.checksCountInline.textContent = String(chk.length);
 
-    // Solution grid + legend
-    els.gridMount.appendChild(renderGrid(solved.domains));
+    // Solution board + legend (with side clues)
+    els.boardMount.appendChild(renderBoard(solved.domains, data));
     renderLegend(N);
 
     // Uniqueness
@@ -538,7 +623,7 @@ function runARC(){
     els.answer.textContent = "(failed)";
     els.reason.textContent = "(failed)";
     els.checks.textContent = "(failed)";
-    els.gridMount.innerHTML = ""; els.legend.innerHTML="";
+    els.boardMount.innerHTML = ""; els.legend.innerHTML="";
     els.uniqOut.textContent = "(failed)";
     els.diag.textContent = e.message;
     console.error(e);
