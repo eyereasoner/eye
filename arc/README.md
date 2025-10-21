@@ -11,6 +11,7 @@ in real-world applications.
 * [A₂ (Ackermann via hyper-operations)](https://eyereasoner.github.io/eye/arc/etc/ackermann.html)
 * [Apollonian gasket](https://eyereasoner.github.io/eye/arc/etc/apollonian_gasket.html)
 * [AuroraCare](https://eyereasoner.github.io/eye/arc/etc/auroracare.html)
+* [Bike Trip Planning](https://eyereasoner.github.io/eye/arc/etc/bike_trip.html)
 * [BMI](https://eyereasoner.github.io/eye/arc/etc/bmi.html)
 * [Clinical Care Planning](https://eyereasoner.github.io/eye/arc/etc/clinical_care.html)
 * [Collatz (3n+1)](https://eyereasoner.github.io/eye/arc/etc/collatz.html)
