@@ -15,7 +15,9 @@
     .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
     button{border:0;background:linear-gradient(180deg,#7dd3fc,#38bdf8);color:#052436;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(56,189,248,.35)}
     button.secondary{background:#f3f4f6;color:#111827;border:1px solid var(--border);box-shadow:none}
-    .output{min-height:160px;white-space:pre-wrap;background:#fbfdff;border:1px solid var(--border);border-radius:10px;padding:10px;overflow:auto}
+    /* outputs */
+    .output{min-height:0;white-space:pre-wrap;background:#fbfdff;border:1px solid var(--border);border-radius:10px;padding:10px;overflow:auto}
+    .output.tall{min-height:160px}
     .muted{color:var(--muted)}
     .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.3px;border:1px solid var(--border)}
     .ok{background:rgba(22,163,74,.08);color:var(--ok);border-color:rgba(22,163,74,.35)}
@@ -25,7 +27,6 @@
     /* Auto-growing textareas */
     textarea,pre,code,input,button{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
     textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:var(--text);box-sizing:border-box;white-space:pre-wrap}
-    #summary { min-height: 0; }
   </style>
 </head>
 <body>
@@ -34,6 +35,7 @@
 
   <div class="stack">
 
+    <!-- What this is? -->
     <div class="card" id="what">
       <h2>What this is?</h2>
       <p>One-file, pure JS + JSON reasoning demo for wind-turbine maintenance using ARC:
@@ -42,23 +44,15 @@
         <li><strong>Data</strong> — JSON assets, components, and observations.</li>
         <li><strong>Policies</strong> — declarative JSON rules
           (<code>if</code> atoms with optional <code>"not": true</code> negations ⇒ <code>then</code> atoms).</li>
-        <li><strong>Answer</strong> — only the <em>newly derived</em> facts.</li>
+        <li><strong>Answer</strong> — only the <em>newly derived</em> facts (strongest priority kept per turbine).</li>
         <li><strong>Reason Why</strong> — explanations in mathematical English (rule templates with variable bindings).</li>
         <li><strong>Check</strong> — runs JSON assertions (≥ 10) against the full fact set.</li>
-        <li><strong>Maintenance Summary</strong> — per-turbine priority and task roll-up.</li>
+        <li><strong>Maintenance Summary</strong> — per-turbine priority and task roll-up (chooses strongest priority).</li>
       </ul>
       <p class="tiny muted">
         Engine: small forward-chainer with unification, subclassing (<code>subClass</code>), transitive <code>partOf</code>,
-        mapping observations to turbines, and negation-as-failure for <code>"not": true</code>.
+        observation-to-turbine mapping, and negation-as-failure for <code>"not": true</code>.
       </p>
-      <details class="tiny">
-        <summary>How to extend</summary>
-        <ol>
-          <li>Add observations/components in <em>Data</em> (JSON).</li>
-          <li>Add/modify rules in <em>Policies</em> (use variables like <code>?T</code>, <code>?obs</code>).</li>
-          <li>Add checks in <em>Checks</em> (triples you expect to hold: <code>{"pred","s","o"}</code>).</li>
-        </ol>
-      </details>
     </div>
 
     <div class="card">
@@ -230,17 +224,17 @@
 
     <div class="card">
       <h2>Answer (newly derived facts)</h2>
-      <div id="answer" class="output">computing…</div>
+      <div id="answer" class="output tall">computing…</div>
     </div>
 
     <div class="card">
       <h2>Reason Why (mathematical English)</h2>
-      <div id="reason" class="output">(click “Run ARC”)</div>
+      <div id="reason" class="output tall">(click “Run ARC”)</div>
     </div>
 
     <div class="card">
       <h2>Check</h2>
-      <div id="checks" class="output">computing…</div>
+      <div id="checks" class="output tall">computing…</div>
     </div>
 
     <div class="card" id="summaryCard">
@@ -268,18 +262,14 @@
 
   // ---- Tiny fact KB
   function key(f){ return `${f.pred}|${f.s}|${f.o}`; }
-  function clone(o){ return JSON.parse(JSON.stringify(o)); }
 
   function buildFactsFromData(data){
     const facts = [];
-    // subclass
     (data.subclassOf||[]).forEach(([a,b])=>facts.push({pred:"subClass",s:a,o:b,_base:true}));
-    // assets
     for(const [id,info] of Object.entries(data.assets||{})){
       if(info.type) facts.push({pred:"isA",s:id,o:info.type,_base:true});
       if(info.partOf) facts.push({pred:"partOf",s:id,o:info.partOf,_base:true});
     }
-    // observations
     (data.observations||[]).forEach(o=>{
       facts.push({pred:"isA",s:o.id,o:o.type,_base:true});
       facts.push({pred:"about",s:o.id,o:o.about,_base:true});
@@ -317,7 +307,7 @@
   function matchPositives(rule, factsIdx, env={}, i=0){
     if(i>=rule.if.length) return [env];
     const atom = rule.if[i];
-    if(atom.not) return matchPositives(rule, factsIdx, env, i+1); // skip negs here
+    if(atom.not) return matchPositives(rule, factsIdx, env, i+1);
     const candidates = factsIdx.byPred.get(atom.pred)||[];
     const out = [];
     for(const f of candidates){
@@ -340,12 +330,27 @@
     return { pred: t.pred, s: sub(t.s), o: sub(t.o) };
   }
 
+  // ---- Priority handling
+  const PRIORITY_RANK = { Urgent: 3, High: 2, Normal: 1 };
+
+  function bestPriorities(facts) {
+    const best = new Map();
+    for (const f of facts) {
+      if (f.pred !== "priority") continue;
+      const cur = best.get(f.s);
+      if (!cur || (PRIORITY_RANK[f.o]||0) > (PRIORITY_RANK[cur]||0)) {
+        best.set(f.s, f.o);
+      }
+    }
+    return best;
+  }
+
   function derive(data, policies){
     let facts = buildFactsFromData(data);
     const baseSet = new Set(facts.map(key));
     const factSet = new Set(baseSet);
     const factsIdx = indexFacts(facts);
-    const proofs = new Map(); // key -> explanation string
+    const proofs = new Map(); // key -> explanation
 
     let changed=true, guard=0;
     while(changed && guard++<200){
@@ -381,10 +386,17 @@
     }
 
     const derived = facts.filter(f=>!f._base);
-    const answerLines = formatFacts(derived);
+
+    // Keep only strongest priority per turbine for Answer/Reason
+    const best = bestPriorities(facts);
+    const derivedFiltered = derived.filter(f =>
+      f.pred !== "priority" || best.get(f.s) === f.o
+    );
+
+    const answerLines = formatFacts(derivedFiltered);
 
     const reasonLines = [];
-    for(const f of derived){
+    for(const f of derivedFiltered){
       const k = key(f);
       const exp = proofs.get(k);
       if(exp) reasonLines.push(`• ${exp} ⇒ therefore ${prettyFact(f)}.`);
@@ -462,22 +474,21 @@
     return lines.join("\n");
   }
 
-  // ---- Maintenance Summary
+  // ---- Maintenance Summary (uses strongest priority per turbine)
   function summarizeMaintenance(facts){
-    const tasksByT = new Map(), prioByT = new Map();
+    const tasksByT = new Map();
     for (const f of facts) {
       if (f.pred === "requiresTask") {
         if (!tasksByT.has(f.s)) tasksByT.set(f.s, new Set());
         tasksByT.get(f.s).add(f.o);
-      } else if (f.pred === "priority") {
-        prioByT.set(f.s, f.o);
       }
     }
-    const lines = [];
-    const turbines = new Set([...tasksByT.keys(), ...prioByT.keys()]);
+    const best = bestPriorities(facts);
+    const turbines = new Set([...tasksByT.keys(), ...best.keys()]);
     if (!turbines.size) return "(no turbines require maintenance)";
+    const lines = [];
     for (const t of [...turbines].sort()) {
-      const pr = prioByT.get(t) || "Normal";
+      const pr = best.get(t) || "Normal";
       const tasks = [...(tasksByT.get(t) || [])].sort().join(", ");
       lines.push(`${t}: priority ${pr}${tasks ? " — tasks: " + tasks : ""}`);
     }
@@ -523,7 +534,7 @@
       const checkResults = runChecks(facts, checksSpec);
       els.checks.textContent = renderChecks(checkResults);
 
-      // Summary
+      // Summary (strongest priority)
       els.summary.textContent = summarizeMaintenance(facts);
 
       els.status.textContent = "Done.";
