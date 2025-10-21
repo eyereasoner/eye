@@ -13,6 +13,7 @@ in real-world applications.
 * [AuroraCare](https://eyereasoner.github.io/eye/arc/etc/auroracare.html)
 * [Bike Trip Planning](https://eyereasoner.github.io/eye/arc/etc/bike_trip.html)
 * [BMI](https://eyereasoner.github.io/eye/arc/etc/bmi.html)
+* [Building Performance](https://eyereasoner.github.io/eye/arc/etc/building_performance.html)
 * [Clinical Care Planning](https://eyereasoner.github.io/eye/arc/etc/clinical_care.html)
 * [Collatz (3n+1)](https://eyereasoner.github.io/eye/arc/etc/collatz.html)
 * [Combinatorics](https://eyereasoner.github.io/eye/arc/etc/combinatorics.html)
