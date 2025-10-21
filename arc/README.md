@@ -37,6 +37,7 @@ in real-world applications.
 * [Lee](https://eyereasoner.github.io/eye/arc/etc/lee.html)
 * [Library & Path](https://eyereasoner.github.io/eye/arc/etc/library_and_path.html)
 * [LLDM](https://eyereasoner.github.io/eye/arc/etc/lldm.html)
+* [Math Puzzle — KenKen](https://eyereasoner.github.io/eye/arc/etc/math_kenken.html)
 * [Mathematics — the WHAT & the WHY](https://eyereasoner.github.io/eye/arc/etc/math_what_why.html)
 * [Matrix basics](https://eyereasoner.github.io/eye/arc/etc/matrix.html)
 * [N-Queens](https://eyereasoner.github.io/eye/arc/etc/n_queens.html)
