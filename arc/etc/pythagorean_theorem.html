@@ -74,6 +74,52 @@
             <div class="arc-card answer">
               <div class="ac-head">Answer</div>
               <div class="ac-body"><pre id="ans">(no run yet)</pre></div>
+              <figure class="pythagoras-figure" style="max-width: 760px; margin: 1rem auto;">
+                <svg id="pythagoras-svg" viewBox="-140 -180 500 520" role="img" aria-labelledby="pythagoras-title pythagoras-desc" width="100%">
+                  <title id="pythagoras-title">Colored SVG illustrating the Pythagorean theorem</title>
+                  <desc id="pythagoras-desc">A 3–4–5 right triangle with colored squares on each side: red on the vertical leg a (length 3×), blue on the horizontal leg b (length 4×), and green on the hypotenuse c (length 5×). It shows that the combined area of the two small squares equals the big one.</desc>
+
+                  <style>
+                    #pythagoras-svg .sqA { fill: #ff6b6b; fill-opacity: .35; stroke: #c0392b; stroke-width: 2; }
+                    #pythagoras-svg .sqB { fill: #4da3ff; fill-opacity: .35; stroke: #1b6fd1; stroke-width: 2; }
+                    #pythagoras-svg .sqC { fill: #6bd66b; fill-opacity: .35; stroke: #238823; stroke-width: 2; }
+                    #pythagoras-svg .tri { fill: none; stroke: #222; stroke-width: 2.5; }
+                    #pythagoras-svg .right-angle { fill: none; stroke: #222; stroke-width: 2; }
+                    #pythagoras-svg .label { font: 600 18px system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #111; }
+                    #pythagoras-svg .caption { font: 600 20px system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #111; }
+                    #pythagoras-svg .note { font: 14px system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #333; }
+                  </style>
+
+                  <!-- Coordinates use a 3–4–5 triangle scaled by 40: A(0,0), B(160,0), C(0,120); c = 200. -->
+                  <!-- Squares on each side (a: vertical AC, b: horizontal AB, c: hypotenuse BC). -->
+                  <polygon class="sqB" points="0,0 160,0 160,-160 0,-160"/>
+                  <polygon class="sqA" points="0,0 0,120 -120,120 -120,0"/>
+                  <polygon class="sqC" points="160,0 0,120 120,280 280,160"/>
+
+                  <!-- Right triangle -->
+                  <polygon class="tri" points="0,0 160,0 0,120"/>
+
+                  <!-- Right-angle tick at A -->
+                  <path class="right-angle" d="M0 0 h20 v20"/>
+
+                  <!-- Side labels -->
+                  <text class="label" x="80" y="18" text-anchor="middle">b</text>
+                  <text class="label" x="-8" y="64" text-anchor="end">a</text>
+                  <text class="label" x="88" y="64" text-anchor="start">c</text>
+
+                  <!-- Square area labels -->
+                  <text class="label" x="80" y="-80" text-anchor="middle">b²</text>
+                  <text class="label" x="-60" y="60" text-anchor="middle">a²</text>
+                  <text class="label" x="140" y="140" text-anchor="middle">c²</text>
+
+                  <!-- Formula caption -->
+                  <text class="caption" x="-120" y="310">a² + b² = c²</text>
+                  <text class="note" x="-120" y="330">(Areas add: red + blue = green)</text>
+                </svg>
+                <figcaption style="text-align:center; margin-top:.25rem; color:#444; font: 14px/1.4 system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                  Pythagorean theorem visual: squares on the legs (a, b) match the square on the hypotenuse (c).
+                </figcaption>
+              </figure>
             </div>
             <div class="arc-card reason">
               <div class="ac-head">Reason why</div>

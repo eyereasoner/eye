@@ -35,6 +35,7 @@ in real-world applications.
 * [Group Theory](https://eyereasoner.github.io/eye/arc/etc/group_theory.html)
 * [Health Information Processing](https://eyereasoner.github.io/eye/arc/etc/health_info.html)
 * [Infite Game of Insight Economy](https://eyereasoner.github.io/eye/arc/etc/infinite_game_insight_economy.html)
+* [Kakuro (Cross Sums)](https://eyereasoner.github.io/eye/arc/etc/kakuro.html)
 * [KenKen](https://eyereasoner.github.io/eye/arc/etc/kenken.html)
 * [Lee](https://eyereasoner.github.io/eye/arc/etc/lee.html)
 * [Library & Path](https://eyereasoner.github.io/eye/arc/etc/library_and_path.html)
