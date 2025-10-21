@@ -12,6 +12,7 @@ in real-world applications.
 * [Apollonian gasket](https://eyereasoner.github.io/eye/arc/etc/apollonian_gasket.html)
 * [AuroraCare](https://eyereasoner.github.io/eye/arc/etc/auroracare.html)
 * [BMI](https://eyereasoner.github.io/eye/arc/etc/bmi.html)
+* [Clinical Care Planning](https://eyereasoner.github.io/eye/arc/etc/clinical_care.html)
 * [Collatz (3n+1)](https://eyereasoner.github.io/eye/arc/etc/collatz.html)
 * [Combinatorics](https://eyereasoner.github.io/eye/arc/etc/combinatorics.html)
 * [Complex identities — explanatory proofs](https://eyereasoner.github.io/eye/arc/etc/complex.html)
