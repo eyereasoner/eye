@@ -32,6 +32,7 @@ in real-world applications.
 * [Graph — French cities](https://eyereasoner.github.io/eye/arc/etc/graph_french.html)
 * [Grass seed — molecular germination](https://eyereasoner.github.io/eye/arc/etc/grass_molecular.html)
 * [Group Theory](https://eyereasoner.github.io/eye/arc/etc/group_theory.html)
+* [Health Information Processing](https://eyereasoner.github.io/eye/arc/etc/health_info.html)
 * [Infite Game of Insight Economy](https://eyereasoner.github.io/eye/arc/etc/infinite_game_insight_economy.html)
 * [Lee](https://eyereasoner.github.io/eye/arc/etc/lee.html)
 * [Library & Path](https://eyereasoner.github.io/eye/arc/etc/library_and_path.html)
