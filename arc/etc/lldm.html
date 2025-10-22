@@ -72,7 +72,7 @@
       </div>
       <div class="btn-row">
         <button id="run">Compute</button>
-        <span class="hint">Rounding to 4 decimals; internal math in full precision. Slope convention: <span class="mono">cL3 = -(-1/cL1)</span> (matches Python/webpage).</span>
+        <span class="hint">Rounding to 4 decimals; internal math in full precision. Slope convention: <span class="mono">cL3 = -(-1/cL1)</span>.</span>
       </div>
     </section>
 
@@ -145,7 +145,7 @@
     line1(out, step, "dy24Cm", "p2y − p4y"); cont(out, `${p2y} − ${p4y}`); cont(out, `${fmt(dy24)} cm`); step++;
     sep(out);
 
-    // Slopes (Python/webpage convention)
+    // Slopes
     const cL1 = dy12 / dx12;
     const dL3m = -1 / cL1;
     const cL3 = -dL3m;

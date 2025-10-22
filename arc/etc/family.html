@@ -343,7 +343,7 @@ function render(){
   const ok_uncles   = JSON.stringify(api.uncles('Veerle'))   === JSON.stringify(['Paul']); // Jo is parent; excluded
   const ok_father   = api.father('Goedele') === 'Jo';
   const ok_mother   = api.mother('Goedele') === 'Maaike';
-  // Fixpoint: just re-run and compare length as in Python
+  // Fixpoint: just re-run and compare length
   const before = deriveAll(strict);
   const after  = deriveAll(strict);
   const ok_fix = before.factsList.length === after.factsList.length;
