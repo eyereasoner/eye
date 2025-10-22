@@ -1,6 +1,6 @@
 # Answer • Reason • Check — *ARC*
 
-ARC is a framework that transforms a combination of data, logic, and a question into a self-contained
+[ARC](https://eyereasoner.github.io/eye/arc) is a framework that transforms a combination of data, logic, and a question into a self-contained
 program that not only gives an answer but also explains its reasoning and verifies its correctness.
 Built on the [P3 method](https://eyereasoner.github.io/eye/arc/p3.html), ARC embodies a “triad of trust”
 — Answer, Reason, Check — ensuring that every result is transparent, auditable, and reproducible.
