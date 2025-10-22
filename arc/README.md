@@ -1,13 +1,13 @@
-# Answer • Reason • Check — *ARC*
+# The ARC Book
+by Jos De Roo
 
-[ARC](https://eyereasoner.github.io/eye/arc/) is a framework that transforms a combination of data, logic, and a question into a self-contained
-program that not only gives an answer but also explains its reasoning and verifies its correctness.
-Built on the [P3 method](https://eyereasoner.github.io/eye/arc/p3.html), ARC embodies a “triad of trust”
-— Answer, Reason, Check — ensuring that every result is transparent, auditable, and reproducible.
+**ARC** stands for **Answer Reason Check**. It's a [powerful framework](https://eyereasoner.github.io/eye/arc/) that transforms data, logic, and a question into a single, self-contained program.
 
+What makes ARC unique is that this program doesn't just *give* an answer—it also clearly **explains its reasoning** and **verifies its own correctness**.
+
+Built on the [P3 method](https://eyereasoner.github.io/eye/arc/p3.html), ARC embodies a “triad of trust.” This (Answer, Reason, Check) approach ensures every result is transparent, auditable, and reproducible.
 
 ### Examples and Test Cases
-
 - [A₂ (Ackermann via hyper-operations)](https://eyereasoner.github.io/eye/arc/etc/ackermann.html) — Compute A₂ with exact hyper-ops; print small, expand huge safely.
 - [Apollonian gasket](https://eyereasoner.github.io/eye/arc/etc/apollonian_gasket.html) — Exact tangent-circle packing via Descartes’ theorem and complex centers.
 - [AuroraCare](https://eyereasoner.github.io/eye/arc/etc/auroracare.html) — Purpose-based medical data exchange (ODRL/DPV).
