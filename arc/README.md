@@ -20,7 +20,7 @@ Built on the [P3 method](https://eyereasoner.github.io/eye/arc/p3.html), ARC emb
 - [Complex identities — explanatory proofs](https://eyereasoner.github.io/eye/arc/etc/complex_identities.html) — Symbolic steps for complex-number equalities with auditable reasoning.
 - [Control System](https://eyereasoner.github.io/eye/arc/etc/control_system.html) — Model simple feedback loops and verify stability/response conditions.
 - [Cryptarithm](https://eyereasoner.github.io/eye/arc/etc/cryptarithm.html) — Solve letter-to-digit puzzles with constraint checks on carry/uniqueness.
-- [Delfour Insight Economy](https://eyereasoner.github.io/eye/arc/etc/delfour.html) — Client-side demo that derives a neutral insight, builds an ODRL policy, authorizes a purpose-limited request, and suggests a lower-sugar alternative.
+- [Delfour Insight Economy](https://eyereasoner.github.io/eye/arc/etc/delfour.html) — Derives a neutral insight, applies an ODRL policy, and suggests a healthier alternative.
 - [Descartes’ circle theorem](https://eyereasoner.github.io/eye/arc/etc/descartes_circles.html) — Compute the fourth tangent circle from three using curvature relations.
 - [Easter (Computus)](https://eyereasoner.github.io/eye/arc/etc/easter.html) — Derive Easter dates from calendrical rules with verifiable steps.
 - [Eco-Route](https://eyereasoner.github.io/eye/arc/etc/eco_route.html) — Pick lower-emission routes by fusing traffic, grade, and policy goals.
