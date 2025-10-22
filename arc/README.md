@@ -6,7 +6,7 @@ Built on the [P3 method](https://eyereasoner.github.io/eye/arc/p3.html), ARC emb
 — Answer, Reason, Check — ensuring that every result is transparent, auditable, and reproducible.
 
 
-## Examples and Test Cases
+### Examples and Test Cases
 
 - [A₂ (Ackermann via hyper-operations)](https://eyereasoner.github.io/eye/arc/etc/ackermann.html) — Compute A₂ with exact hyper-ops; print small, expand huge safely.
 - [Apollonian gasket](https://eyereasoner.github.io/eye/arc/etc/apollonian_gasket.html) — Exact tangent-circle packing via Descartes’ theorem and complex centers.
@@ -14,10 +14,10 @@ Built on the [P3 method](https://eyereasoner.github.io/eye/arc/p3.html), ARC emb
 - [Bike Trip Planning](https://eyereasoner.github.io/eye/arc/etc/bike_trip.html) — Route priorities from hazards, preferences, and declarative JSON rules.
 - [BMI](https://eyereasoner.github.io/eye/arc/etc/bmi.html) — Compute BMI categories with explainable thresholds and sanity checks.
 - [Building Performance](https://eyereasoner.github.io/eye/arc/etc/building_performance.html) — Reason about energy/comfort metrics and verify rule-based outcomes.
-- [Clinical Care Planning](https://eyereasoner.github.io/eye/arc/etc/clinical_care_planning.html) — Derive care plans from observations, guidelines, and policy constraints.
+- [Clinical Care Planning](https://eyereasoner.github.io/eye/arc/etc/clinical_care.html) — Derive care plans from observations, guidelines, and policy constraints.
 - [Collatz (3n+1)](https://eyereasoner.github.io/eye/arc/etc/collatz.html) — Generate trajectories and check invariants for the Collatz map.
 - [Combinatorics](https://eyereasoner.github.io/eye/arc/etc/combinatorics.html) — Count, choose, and permute with proofs of identities where feasible.
-- [Complex identities — explanatory proofs](https://eyereasoner.github.io/eye/arc/etc/complex_identities.html) — Symbolic steps for complex-number equalities with auditable reasoning.
+- [Complex identities — explanatory proofs](https://eyereasoner.github.io/eye/arc/etc/complex.html) — Symbolic steps for complex-number equalities with auditable reasoning.
 - [Control System](https://eyereasoner.github.io/eye/arc/etc/control_system.html) — Model simple feedback loops and verify stability/response conditions.
 - [Cryptarithm](https://eyereasoner.github.io/eye/arc/etc/cryptarithm.html) — Solve letter-to-digit puzzles with constraint checks on carry/uniqueness.
 - [Delfour Insight Economy](https://eyereasoner.github.io/eye/arc/etc/delfour.html) — Derives a neutral insight, applies an ODRL policy, and suggests a healthier alternative.
@@ -27,13 +27,13 @@ Built on the [P3 method](https://eyereasoner.github.io/eye/arc/p3.html), ARC emb
 - [Euler’s characteristic](https://eyereasoner.github.io/eye/arc/etc/euler_characteristic.html) — Compute χ = V−E+F for meshes; sanity-check against topology rules.
 - [Family logic](https://eyereasoner.github.io/eye/arc/etc/family_logic.html) — Infer kinship from base relations (parent, spouse) with consistency checks.
 - [Fibonacci golden spiral](https://eyereasoner.github.io/eye/arc/etc/fibonacci_spiral.html) — Draw the spiral from Fibonacci rectangles and verify ratios.
-- [Fibonacci via Fast Doubling](https://eyereasoner.github.io/eye/arc/etc/fibonacci_fast_doubling.html) — Compute big Fₙ with fast-doubling recurrences and proof-style checks.
+- [Fibonacci via Fast Doubling](https://eyereasoner.github.io/eye/arc/etc/fibonacci.html) — Compute big Fₙ with fast-doubling recurrences and proof-style checks.
 - [Ford circles](https://eyereasoner.github.io/eye/arc/etc/ford_circles.html) — Place circles at rationals; verify tangency and Farey-sequence links.
 - [GPS Clinical Bench](https://eyereasoner.github.io/eye/arc/etc/gps_clinical_bench.html) — Benchmark clinical decisions with transparent rules and audit trails.
-- [Graph — French cities](https://eyereasoner.github.io/eye/arc/etc/graph_french.html) — Answer `path(X, nantes)` by backward chaining; check with forward search and shortest-path minimality.
+- [Graph — French cities](https://eyereasoner.github.io/eye/arc/etc/graph_french.html) — Shortest paths and connectivity over a city graph with proofs.
 - [Grass seed — molecular germination](https://eyereasoner.github.io/eye/arc/etc/grass_seed.html) — Model germination states and transitions with rule checks.
 - [Group Theory](https://eyereasoner.github.io/eye/arc/etc/group_theory.html) — Verify closure, identity, inverses, and associativity on examples.
-- [Health Information Processing](https://eyereasoner.github.io/eye/arc/etc/health_info.html) — FHIR-ish JSON + rules derive priorities/tasks and consent-based shares; explain & check results.
+- [Health Information Processing](https://eyereasoner.github.io/eye/arc/etc/health_info.html) — Transform clinical payloads with typed rules and validation.
 - [Infinite Game of Insight Economy](https://eyereasoner.github.io/eye/arc/etc/infinite_game_insight_economy.html) — Score derivation, minimization, activation, equilibrium, and copy-resistance; includes test checks.
 - [Kakuro (Cross Sums)](https://eyereasoner.github.io/eye/arc/etc/kakuro.html) — Fill grid sums with unique digits using constraint propagation.
 - [KenKen](https://eyereasoner.github.io/eye/arc/etc/kenken.html) — Latin-square + cage arithmetic solved with explainable deductions.
@@ -41,21 +41,21 @@ Built on the [P3 method](https://eyereasoner.github.io/eye/arc/p3.html), ARC emb
 - [The Library & the Path](https://eyereasoner.github.io/eye/arc/etc/library_and_path.html) — Toggle “laws,” search a minimal path to a target observation set, then verify with independent checks.
 - [LLDM](https://eyereasoner.github.io/eye/arc/etc/lldm.html) — Line–Line Distance Method: estimate limb-length discrepancy from four landmarks with an ARC trace.
 - [Mathematics — the WHAT & the WHY](https://eyereasoner.github.io/eye/arc/etc/math_what_why.html) — Pair results with reasons: each computation carries its proof sketch.
-- [Matrix basics](https://eyereasoner.github.io/eye/arc/etc/matrix_basics.html) — Do matrix ops (add/mul/inv) with dimension and property checks.
+- [Matrix basics](https://eyereasoner.github.io/eye/arc/etc/matrix.html) — Do matrix ops (add/mul/inv) with dimension and property checks.
 - [N-Queens](https://eyereasoner.github.io/eye/arc/etc/n_queens.html) — Place N queens without attacks; verify constraints per row/diag.
 - [Nonogram (Picross)](https://eyereasoner.github.io/eye/arc/etc/nonogram.html) — Fill grid cells to match run hints using logical deductions.
 - [Pentagon & pentagram — golden ratio](https://eyereasoner.github.io/eye/arc/etc/pentagon_pentagram.html) — Construct φ-relations in pentagons and star polygons with proofs.
-- [π (Chudnovsky)](https://eyereasoner.github.io/eye/arc/etc/pi_chudnovsky.html) — High-precision π via Chudnovsky series with error-bound checks.
+- [π (Chudnovsky)](https://eyereasoner.github.io/eye/arc/etc/pi.html) — High-precision π via Chudnovsky series with error-bound checks.
 - [Pick’s Theorem](https://eyereasoner.github.io/eye/arc/etc/picks_theorem.html) — Area = I + B/2 − 1 for lattice polygons; verify interior/boundary counts.
-- [Polynomial roots (Durand–Kerner)](https://eyereasoner.github.io/eye/arc/etc/polynomial_roots_dk.html) — Find all roots simultaneously; prove convergence on typical cases.
+- [Polynomial roots (Durand–Kerner)](https://eyereasoner.github.io/eye/arc/etc/polynomial.html) — Find all roots simultaneously; prove convergence on typical cases.
 - [Primes](https://eyereasoner.github.io/eye/arc/etc/primes.html) — Generate/test primes; log certs (e.g., trial factors or proofs) as checks.
-- [Pythagorean Theorem](https://eyereasoner.github.io/eye/arc/etc/pythagorean.html) — Compute legs/hypotenuse and confirm with algebraic or area proofs.
+- [Pythagorean Theorem](https://eyereasoner.github.io/eye/arc/etc/pythagorean_theorem.html) — Compute legs/hypotenuse and confirm with algebraic or area proofs.
 - [REST-path](https://eyereasoner.github.io/eye/arc/etc/rest_path.html) — Explain link-following over REST resources; verify pre/post conditions.
 - [Roots of Unity](https://eyereasoner.github.io/eye/arc/etc/roots_of_unity.html) — Place complex n-th roots on the unit circle; check equal spacing and sums/products.
 - [Skyscrapers](https://eyereasoner.github.io/eye/arc/etc/skyscrapers.html) — Deduce building heights from sightlines with constraint logic.
 - [Socrates](https://eyereasoner.github.io/eye/arc/etc/socrates.html) — Classic syllogisms with explicit inference traces.
-- [Square tiled by 17 right triangles](https://eyereasoner.github.io/eye/arc/etc/square_17_triangles.html) — Dissect a square into 17 right triangles; verify tiling constraints.
+- [Square tiled by 17 right triangles](https://eyereasoner.github.io/eye/arc/etc/square_triangles.html) — Dissect a square into 17 right triangles; verify tiling constraints.
 - [Sudoku](https://eyereasoner.github.io/eye/arc/etc/sudoku.html) — Explain each step of solving a 9×9 with row/col/box checks.
 - [Turing Machine](https://eyereasoner.github.io/eye/arc/etc/turing_machine.html) — Run tapes with explicit transitions; verify halting and tape contents.
-- [Wind-Turbine Maintenance](https://eyereasoner.github.io/eye/arc/etc/wind_turbine_maintenance.html) — Plan maintenance from telemetry and policies with auditable outcomes.
+- [Wind-Turbine Maintenance](https://eyereasoner.github.io/eye/arc/etc/wind_turbine.html) — Plan maintenance from telemetry and policies with auditable outcomes.
 
