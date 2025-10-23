@@ -1,6 +1,10 @@
 # The ARC Book
 by [Jos De Roo](https://josd.github.io/)
 
+<p align="center">
+  <img src="./arc.svg" alt="Colorful abstract arcs" width="960">
+</p>
+
 **ARC** stands for **Answer Reason Check**. It's a [powerful framework](https://eyereasoner.github.io/eye/arc/) that transforms data, logic, and a question into a single, self-contained program.
 
 What makes ARC unique is that this program doesn't just *give* an answer—it also clearly **explains its reasoning** and **verifies its own correctness**.
