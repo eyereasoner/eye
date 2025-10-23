@@ -6,36 +6,34 @@
   <title>π (Pi) — Chudnovsky + ARC (Answer • Reason • Checks)</title>
   <style>
     :root{
-      --bg:#0b0f14;--panel:#121821;--muted:#9fb2c8;--ink:#eaf2ff;--accent:#8bd3ff;
-      --ok:#1fbf75;--fail:#ff5f6d;--border:#223042;--card:#0f141c;--mono:"SFMono-Regular",Consolas,Menlo,Monaco,monospace;
+      --bg:#f7fafc;--ink:#0b1220;--muted:#5b6780;--accent:#0b6cff;--panel:#ffffff;--border:#dfe6ee;--card:#f3f6fb;
+      --ok:#15803d;--fail:#c2410c;--mono:"SFMono-Regular",Consolas,Menlo,Monaco,monospace;
     }
     *{box-sizing:border-box}
-    body{margin:0;background:linear-gradient(180deg,#0b0f14,#0e131c 40%,#0b0f14);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
     a{color:var(--accent)}
-    header{padding:28px 20px 8px;max-width:1100px;margin:0 auto}
+    header{padding:28px 20px 8px;max-width:900px;margin:0 auto}
     header h1{margin:0 0 8px;font-weight:800;letter-spacing:-0.02em}
     header p{margin:0;color:var(--muted)}
 
-    .wrap{max-width:1100px;margin:0 auto;padding:16px 20px 60px}
+    .wrap{max-width:900px;margin:0 auto;padding:16px 20px 60px}
 
-    .controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center;background:var(--panel);border:1px solid var(--border);padding:12px 12px;border-radius:16px;margin-bottom:16px}
+    .controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center;background:var(--panel);border:1px solid var(--border);padding:12px 12px;border-radius:14px;margin-bottom:16px}
     .controls label{font-size:14px;color:var(--muted)}
-    .controls input[type=number]{width:120px;padding:8px 10px;border-radius:10px;border:1px solid var(--border);background:#0d121a;color:var(--ink)}
-    .controls button{padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#121c2a;color:var(--ink);cursor:pointer;font-weight:600}
-    .controls button.primary{background:linear-gradient(180deg,#1a7bdc,#155bb4);border-color:#0a4b9b}
+    .controls input[type=number]{width:120px;padding:8px 10px;border-radius:10px;border:1px solid var(--border);background:#fff;color:var(--ink)}
+    .controls button{padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--ink);cursor:pointer;font-weight:600}
+    .controls button.primary{background:linear-gradient(180deg,#4da3ff,#0b6cff);border-color:#0b6cff;color:#fff}
     .controls .hint{font-size:12px;color:var(--muted)}
 
-    .grid{display:grid;grid-template-columns:1.3fr .9fr;gap:16px}
-    @media (max-width: 950px){.grid{grid-template-columns:1fr}}
-
-    .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:14px 14px}
+    /* Vertical layout */
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 14px;margin-bottom:14px}
     .card h3{margin:4px 0 10px;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 
-    .answer{font-family:var(--mono);font-size:14px;line-height:1.45;background:var(--card);border:1px dashed #243347;padding:12px;border-radius:12px;white-space:pre-wrap;word-break:break-word}
+    .answer{font-family:var(--mono);font-size:14px;line-height:1.45;background:var(--card);border:1px dashed #cfd8e3;padding:12px;border-radius:10px;white-space:pre-wrap;word-break:break-word}
     .small{font-size:12px;color:var(--muted)}
 
     .checks{display:grid;gap:8px}
-    .check{border-left:6px solid var(--border);padding:8px 10px;border-radius:10px;background:var(--card);border:1px solid #243347}
+    .check{border-left:6px solid var(--border);padding:8px 10px;border-radius:10px;background:var(--card);border:1px solid #e2e8f0}
     .check.ok{border-left-color:var(--ok)}
     .check.fail{border-left-color:var(--fail)}
     .check-title{font-weight:700}
@@ -58,33 +56,31 @@
       <button id="run" class="primary">Run</button>
       <button id="copy">Copy answer</button>
       <button id="save">Save .txt</button>
-      <span class="hint">Up to 2000 digits. Uses ~20 guard digits for rounding.</span>
+      <span class="hint">Up to 2 000 digits. Uses ~20 guard digits for rounding.</span>
     </div>
 
-    <div class="grid">
-      <section class="card">
-        <h3>Answer</h3>
-        <div id="answer" class="answer">—</div>
-        <div class="row" style="margin-top:8px">
-          <span class="small" id="meta">–</span>
-        </div>
-      </section>
+    <section class="card">
+      <h3>Answer</h3>
+      <div id="answer" class="answer">—</div>
+      <div class="row" style="margin-top:8px">
+        <span class="small" id="meta">–</span>
+      </div>
+    </section>
 
-      <section class="card">
-        <h3>Reason</h3>
-        <div id="reason" class="small">—</div>
-        <div class="footer">Method: Chudnovsky series with big‑integer fixed‑point arithmetic; guard digits then round once and trim.</div>
-      </section>
-    </div>
+    <section class="card">
+      <h3>Reason</h3>
+      <div id="reason" class="small">—</div>
+      <div class="footer">Method: Chudnovsky series with big‑integer fixed‑point arithmetic; guard digits then round once and trim.</div>
+    </section>
 
-    <section class="card" style="margin-top:16px">
+    <section class="card">
       <h3>Checks</h3>
       <div id="checks" class="checks"></div>
     </section>
 
-    <section class="card" style="margin-top:16px">
+    <section class="card">
       <h3>What is this?</h3>
-      <p class="small">A self‑contained page that computes π using the Chudnovsky series. It works entirely in your browser (no libraries). The <strong>Checks</strong> include a short prefix check and a stability check that recomputes with more guard digits and asserts the first N digits are unchanged.</p>
+      <p class="small">A self‑contained page that computes π using the Chudnovsky series. It works entirely in your browser. The <strong>Checks</strong> include: a short prefix check, a stability check (more guard digits), a format/length check, and an independent <em>Machin</em> cross‑check for the first 40–60 digits.</p>
     </section>
   </div>
 
@@ -104,7 +100,7 @@ function formatScaled(S, prec){
   return (point <= 0) ? ("0." + "0".repeat(-point) + s) : (s.slice(0, point) + "." + s.slice(point));
 }
 
-// ===== π via Chudnovsky with guard digits & rounding =====
+// ===== π via Chudnovsky with guard digits & proper scaling =====
 function chudnovskyPi(digits, guard = 20){
   if (!Number.isFinite(digits) || digits < 1) throw new Error("digits must be >= 1");
   const A = 13591409n, B = 545140134n;
@@ -118,8 +114,8 @@ function chudnovskyPi(digits, guard = 20){
   // sqrt(10005) scaled by 10^prec (floor)
   const sqrt10005 = isqrt(10005n * scale * scale);
 
-  // Sum S = Σ (-1)^k * M(k) * (A + Bk) / C3^k  (scaled by 10^prec)
-  let S = 0n;
+  // Sum S_scaled = (Σ (-1)^k * M(k) * (A + Bk) / C3^k) * 10^prec
+  let S_scaled = 0n;
   let M = 1n;   // M(0)=1
   let X = 1n;   // C3^0
   let sign = 1n;
@@ -128,9 +124,9 @@ function chudnovskyPi(digits, guard = 20){
     const kk = BigInt(k);
     const L = A + B * kk;
 
-    // term scaled: (M * L / X) * 10^prec
+    // term scaled to 10^prec: floor((M * L / X) * 10^prec)
     const term = (M * L * scale) / X;
-    S += sign * term;
+    S_scaled += sign * term;
 
     // advance to k+1 with exact ratio for M
     const k1 = kk + 1n;
@@ -142,36 +138,79 @@ function chudnovskyPi(digits, guard = 20){
     sign = -sign;
   }
 
-  // π_scaled_full = floor( K * sqrt(10005) / S )  (scaled by 10^prec)
-  let piScaled = (K * sqrt10005) / S;
+  // π_scaled_full = floor( (K * sqrt(10005) * 10^prec) / S_scaled )
+  // NOTE: multiply by scale to compensate for S being scaled by 10^prec too.
+  let piScaledFull = (K * sqrt10005 * scale) / S_scaled;
 
   // Round to requested digits by trimming guard places
+  let piScaled = piScaledFull;
   if (guard > 0){
     const half = 5n * 10n ** BigInt(guard - 1);
-    piScaled = (piScaled + half) / (10n ** BigInt(guard));
+    piScaled = (piScaledFull + half) / (10n ** BigInt(guard));
   }
 
   const text = formatScaled(piScaled, digits);
   return { text, raw: piScaled, precUsed: prec, terms };
 }
 
+// ===== Independent cross‑check via Machin's formula =====
+// π = 16*atan(1/5) − 4*atan(1/239)
+function arctanScaled_inv(m, prec){ // returns floor(atan(1/m) * 10^prec)
+  const scale = 10n ** BigInt(prec);
+  const x = scale / BigInt(m); // floor(10^prec / m)
+  let t = x; // first term (n=0): x
+  let sum = t;
+  // iterate until term becomes zero at this precision or cap
+  for (let n = 0; n < 20000; n++){
+    // t_{n+1} = - t_n * x^2 * (2n+1)/(2n+3)
+    let t1 = (t * x) / scale; // multiply by x (scaled)
+    t1 = (t1 * x) / scale;    // multiply by x again => x^2
+    const num = BigInt(2*n + 1);
+    const den = BigInt(2*n + 3);
+    t1 = (t1 * num) / den;    // * (2n+1)/(2n+3)
+    t = -t1;
+    if (t === 0n) break;
+    sum += t;
+  }
+  return sum;
+}
+
+function machinPi(digits){
+  const guard = 10; // modest guard for cross‑check
+  const prec = digits + guard;
+  const scale = 10n ** BigInt(prec);
+  const a = arctanScaled_inv(5, prec);
+  const b = arctanScaled_inv(239, prec);
+  let piScaled = 16n * a - 4n * b; // scaled by 10^prec
+  // round to requested digits
+  const half = 5n * 10n ** BigInt(guard - 1);
+  piScaled = (piScaled + half) / (10n ** BigInt(guard));
+  return formatScaled(piScaled, digits);
+}
+
 // ===== Checks =====
-// A conservative, well-known 100-digit reference prefix (including "3.")
-const PI_PREFIX_100 =
+// 200‑digit reference prefix (including leading "3.")
+const PI_PREFIX_200 =
   "3.14159265358979323846264338327950288419716939937510" +
-  "58209749445923078164062862089986280348253421170679";
+  "58209749445923078164062862089986280348253421170679" +
+  "82148086513282306647093844609550582231725359408128";
 
 function runChecks(answerText, digits){
   const checks = [];
   const clean = answerText.replace(/[^0-9.]/g, "");
 
-  // 1) Prefix check (up to 100 digits)
-  const upto = Math.min(clean.length, PI_PREFIX_100.length);
-  const okPrefix = clean.slice(0, upto) === PI_PREFIX_100.slice(0, upto);
+  // 0) Format/length sanity
+  const begins = clean.startsWith('3.');
+  const lenOk = clean.length === 2 + digits;
+  checks.push({ name: 'Format check', ok: begins && lenOk, detail: begins ? (lenOk? 'starts with 3. and length OK' : `length ${clean.length} ≠ ${2+digits}`) : 'does not start with 3.' });
+
+  // 1) Prefix check (up to 200 digits)
+  const upto = Math.min(clean.length, PI_PREFIX_200.length);
+  const okPrefix = clean.slice(0, upto) === PI_PREFIX_200.slice(0, upto);
   checks.push({
     name: `Prefix check (≤ ${Math.max(0, upto - 2)} decimals)`,
     ok: okPrefix,
-    detail: okPrefix ? "prefix matches" : `mismatch at position ${[...clean].findIndex((c,i)=>c!==PI_PREFIX_100[i])}`
+    detail: okPrefix ? "prefix matches" : `mismatch at position ${[...clean].findIndex((c,i)=>c!==PI_PREFIX_200[i])}`
   });
 
   // 2) Stability check: recompute with guard+10 and compare first N digits
@@ -179,11 +218,15 @@ function runChecks(answerText, digits){
   const b = chudnovskyPi(digits, 30).text.replace(/[^0-9.]/g, "");
   const targetLen = 2 + digits; // "3." + digits
   const okStable = a.slice(0, targetLen) === b.slice(0, targetLen);
-  checks.push({
-    name: "Stability check (guard +10)",
-    ok: okStable,
-    detail: okStable ? "first N digits unchanged" : "first N digits changed with more guard"
-  });
+  checks.push({ name: "Stability check (guard +10)", ok: okStable, detail: okStable ? "first N digits unchanged" : "first N digits changed with more guard" });
+
+  // 3) Independent Machin cross‑check for first K decimals (K ≤ min(60, digits))
+  const K = Math.min(60, digits);
+  if (K >= 10){
+    const m = machinPi(K).replace(/[^0-9.]/g, "");
+    const okMach = a.slice(0, 2+K) === m.slice(0, 2+K);
+    checks.push({ name: `Machin cross‑check (${K} dec)`, ok: okMach, detail: okMach ? 'matches' : 'differs from Machin' });
+  }
 
   return checks;
 }
@@ -213,7 +256,8 @@ function prettyBreak(s){
   if (i < 0) return s;
   const head = s.slice(0, i+1);
   const tail = s.slice(i+1);
-  return head + tail.replace(/.{1,100}/g, '$&\n');
+  return head + tail.replace(/.{1,100}/g, '$&
+');
 }
 
 async function compute(){
@@ -242,13 +286,15 @@ window.addEventListener('load', compute);
 
 copyBtn.addEventListener('click', async ()=>{
   try{
-    await navigator.clipboard.writeText(answerBox.textContent.replace(/\n/g,''));
+    await navigator.clipboard.writeText(answerBox.textContent.replace(/
+/g,''));
     copyBtn.textContent = 'Copied!'; setTimeout(()=>copyBtn.textContent='Copy answer',1000);
   }catch{ copyBtn.textContent = 'Copy failed'; setTimeout(()=>copyBtn.textContent='Copy answer',1200); }
 });
 
 saveBtn.addEventListener('click', ()=>{
-  const blob = new Blob([answerBox.textContent + "\n"], {type:'text/plain'});
+  const blob = new Blob([answerBox.textContent + "
+"], {type:'text/plain'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = `pi_${(parseInt(digitsInput.value)||0)}_digits.txt`;
