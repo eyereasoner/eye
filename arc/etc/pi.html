@@ -85,6 +85,26 @@
   </div>
 
 <script>
+// ===== Error surface so failures show up in the UI =====
+(function(){
+  const printError = (msg)=>{
+    const ans = document.getElementById('answer');
+    if (ans) ans.textContent = 'Error: ' + msg;
+    const reason = document.getElementById('reason');
+    if (reason) reason.textContent = '';
+  };
+  window.addEventListener('error', (e)=>{ printError(e.message || 'script error'); });
+  window.addEventListener('unhandledrejection', (e)=>{ printError('Promise rejection: ' + (e.reason && e.reason.message || e.reason)); });
+})();
+
+// ===== Feature check =====
+if (typeof BigInt === 'undefined'){
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const a = document.getElementById('answer');
+    if (a) a.textContent = 'Error: BigInt is not supported in this browser.';
+  });
+}
+
 // ===== BigInt helpers =====
 function isqrt(n){ // Integer square root via Newton's method
   if (n < 0n) throw new Error('isqrt of negative');
@@ -92,6 +112,17 @@ function isqrt(n){ // Integer square root via Newton's method
   let x = n, y = (n >> 1n) + 1n;
   while (y < x) { x = y; y = (y + n / y) >> 1n; }
   return x;
+}
+
+function pow10n(exp){ // robust 10^exp using exponentiation by squaring
+  let e = BigInt(exp);
+  let base = 10n, res = 1n;
+  while (e > 0n){
+    if (e & 1n) res *= base;
+    e >>= 1n;
+    if (e) base *= base;
+  }
+  return res;
 }
 
 function formatScaled(S, prec){
@@ -109,7 +140,7 @@ function chudnovskyPi(digits, guard = 20){
 
   const terms = Math.ceil((digits + guard) / 14) + 2; // ~14 digits per term
   const prec = digits + guard;
-  const scale = 10n ** BigInt(prec);
+  const scale = pow10n(prec);
 
   // sqrt(10005) scaled by 10^prec (floor)
   const sqrt10005 = isqrt(10005n * scale * scale);
@@ -139,14 +170,14 @@ function chudnovskyPi(digits, guard = 20){
   }
 
   // π_scaled_full = floor( (K * sqrt(10005) * 10^prec) / S_scaled )
-  // NOTE: multiply by scale to compensate for S being scaled by 10^prec too.
+  if (S_scaled === 0n) throw new Error('internal sum is zero — unexpected');
   let piScaledFull = (K * sqrt10005 * scale) / S_scaled;
 
   // Round to requested digits by trimming guard places
   let piScaled = piScaledFull;
   if (guard > 0){
-    const half = 5n * 10n ** BigInt(guard - 1);
-    piScaled = (piScaledFull + half) / (10n ** BigInt(guard));
+    const half = 5n * pow10n(guard - 1);
+    piScaled = (piScaledFull + half) / pow10n(guard);
   }
 
   const text = formatScaled(piScaled, digits);
@@ -156,15 +187,14 @@ function chudnovskyPi(digits, guard = 20){
 // ===== Independent cross‑check via Machin's formula =====
 // π = 16*atan(1/5) − 4*atan(1/239)
 function arctanScaled_inv(m, prec){ // returns floor(atan(1/m) * 10^prec)
-  const scale = 10n ** BigInt(prec);
+  const scale = pow10n(prec);
   const x = scale / BigInt(m); // floor(10^prec / m)
   let t = x; // first term (n=0): x
   let sum = t;
-  // iterate until term becomes zero at this precision or cap
   for (let n = 0; n < 20000; n++){
     // t_{n+1} = - t_n * x^2 * (2n+1)/(2n+3)
-    let t1 = (t * x) / scale; // multiply by x (scaled)
-    t1 = (t1 * x) / scale;    // multiply by x again => x^2
+    let t1 = (t * x) / scale; // * x
+    t1 = (t1 * x) / scale;    // * x again => x^2
     const num = BigInt(2*n + 1);
     const den = BigInt(2*n + 3);
     t1 = (t1 * num) / den;    // * (2n+1)/(2n+3)
@@ -178,18 +208,16 @@ function arctanScaled_inv(m, prec){ // returns floor(atan(1/m) * 10^prec)
 function machinPi(digits){
   const guard = 10; // modest guard for cross‑check
   const prec = digits + guard;
-  const scale = 10n ** BigInt(prec);
   const a = arctanScaled_inv(5, prec);
   const b = arctanScaled_inv(239, prec);
   let piScaled = 16n * a - 4n * b; // scaled by 10^prec
   // round to requested digits
-  const half = 5n * 10n ** BigInt(guard - 1);
-  piScaled = (piScaled + half) / (10n ** BigInt(guard));
+  const half = 5n * pow10n(guard - 1);
+  piScaled = (piScaled + half) / pow10n(guard);
   return formatScaled(piScaled, digits);
 }
 
 // ===== Checks =====
-// 200‑digit reference prefix (including leading "3.")
 const PI_PREFIX_200 =
   "3.14159265358979323846264338327950288419716939937510" +
   "58209749445923078164062862089986280348253421170679" +
@@ -207,11 +235,7 @@ function runChecks(answerText, digits){
   // 1) Prefix check (up to 200 digits)
   const upto = Math.min(clean.length, PI_PREFIX_200.length);
   const okPrefix = clean.slice(0, upto) === PI_PREFIX_200.slice(0, upto);
-  checks.push({
-    name: `Prefix check (≤ ${Math.max(0, upto - 2)} decimals)`,
-    ok: okPrefix,
-    detail: okPrefix ? "prefix matches" : `mismatch at position ${[...clean].findIndex((c,i)=>c!==PI_PREFIX_200[i])}`
-  });
+  checks.push({ name: `Prefix check (≤ ${Math.max(0, upto - 2)} decimals)`, ok: okPrefix, detail: okPrefix ? "prefix matches" : `mismatch at position ${[...clean].findIndex((c,i)=>c!==PI_PREFIX_200[i])}` });
 
   // 2) Stability check: recompute with guard+10 and compare first N digits
   const a = clean;
@@ -227,6 +251,11 @@ function runChecks(answerText, digits){
     const okMach = a.slice(0, 2+K) === m.slice(0, 2+K);
     checks.push({ name: `Machin cross‑check (${K} dec)`, ok: okMach, detail: okMach ? 'matches' : 'differs from Machin' });
   }
+
+  // 4) Rounding check: compute with digits+1 and ensure truncation of rounded matches
+  const c = chudnovskyPi(digits+1, 20).text.replace(/[^0-9.]/g, "");
+  const okRound = a.slice(0, 2+digits) === c.slice(0, 2+digits);
+  checks.push({ name: 'Rounding consistency (+1 digit)', ok: okRound, detail: okRound ? 'leading digits stable' : 'leading digits changed when adding one more digit' });
 
   return checks;
 }
@@ -251,7 +280,6 @@ function renderChecks(list){
 }
 
 function prettyBreak(s){
-  // insert a soft break every 100 chars past the decimal for readability
   const i = s.indexOf('.');
   if (i < 0) return s;
   const head = s.slice(0, i+1);
@@ -260,7 +288,7 @@ function prettyBreak(s){
 ');
 }
 
-async function compute(){
+function compute(){
   const n = Math.max(1, Math.min(2000, (parseInt(digitsInput.value)||0)));
   const start = performance.now();
   let out;
@@ -282,7 +310,12 @@ async function compute(){
 }
 
 runBtn.addEventListener('click', compute);
-window.addEventListener('load', compute);
+// Use DOMContentLoaded (fires earlier than load)
+if (document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', compute);
+} else {
+  compute();
+}
 
 copyBtn.addEventListener('click', async ()=>{
   try{
