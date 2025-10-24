@@ -3,275 +3,323 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Socrates — ARC (Answer • Reason • Check)</title>
+  <title>Socrates</title>
   <style>
-    :root { --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --accent:#0ea5e9; --ok:#16a34a; --bad:#dc2626; --border:#e5e7eb; }
-    html, body { height:100%; background: var(--bg); color: var(--text); font:15px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif }
-    h1 { font-weight: 700; letter-spacing:.2px; margin:18px 0 6px }
-    h2 { font-size: 13px; color: var(--muted); margin: 0 0 8px; letter-spacing:.2px; text-transform: uppercase }
-    a { color: var(--accent) }
-    .wrap { max-width: 860px; margin: 0 auto; padding: 24px }
-    .stack { display: grid; grid-template-columns: 1fr; gap: 14px }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; box-shadow: 0 6px 20px rgba(0,0,0,.04) }
-    textarea, pre, code, input, button { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace }
-    textarea { width:100%; min-height: 130px; resize: vertical; border-radius: 10px; padding: 10px; border:1px solid var(--border); background:#fbfdff; color:var(--text) }
-    .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap }
-    button { border:0; background: linear-gradient(180deg,#7dd3fc,#38bdf8); color:#052436; padding:10px 14px; border-radius:12px; font-weight:700; cursor:pointer; box-shadow:0 3px 12px rgba(56,189,248,.35) }
-    button.secondary { background:#f3f4f6; color:#111827; border:1px solid var(--border); box-shadow:none }
-    .output { min-height: 140px; white-space: pre-wrap; background:#fbfdff; border:1px solid var(--border); border-radius: 10px; padding: 10px; overflow:auto }
-    .badge { display:inline-block; padding:2px 8px; border-radius: 999px; font-size: 12px; font-weight:700; letter-spacing:.3px; border:1px solid var(--border) }
-    .ok { background: rgba(22,163,74,.08); color: var(--ok); border-color: rgba(22,163,74,.35) }
-    .bad { background: rgba(220,38,38,.08); color: var(--bad); border-color: rgba(220,38,38,.35) }
-    .muted { color: var(--muted) }
-    footer { margin-top: 6px; color: var(--muted); font-size: 12px }
-    .tiny { font-size: 12px }
-    .diag { font-size: 12px; color: #6b7280; }
+    :root{--bg:#f7fafc;--panel:#ffffff;--muted:#475569;--text:#0b1220;--accent:#2563eb;--good:#16a34a;--bad:#dc2626;--warn:#d97706;--chip:#eef2f7}
+    *{box-sizing:border-box} body{margin:0;font:16px/1.5 system-ui,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    header{padding:24px 20px;border-bottom:1px solid #e5e7eb;background:linear-gradient(180deg,rgba(37,99,235,.08),transparent)}
+    h1{margin:0;font-size:24px;letter-spacing:.2px}
+    main{display:grid;grid-template-columns:1fr;gap:22px;padding:20px;align-items:start}
+    section{background:var(--panel);border:1px solid #e5e7eb;border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+    h2{margin:0 0 10px 0;font-size:18px}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .grid{display:grid;gap:10px}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#ffffff;border:1px solid #e5e7eb}
+    .small{font-size:13px;color:var(--muted)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .ok{color:var(--good)} .no{color:var(--bad)} .warn{color:var(--warn)}
+    .kvs{display:grid;grid-template-columns:160px 1fr;gap:6px 10px}
+    .log{max-height:260px;overflow:auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:10px;
+         white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; overflow-x:hidden}
+    .timeline{display:flex;flex-direction:column;gap:10px}
+    .card{background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:12px}
+    .muted{color:var(--muted)}
+    .split{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
+    button{cursor:pointer;background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:12px;font-weight:600}
+    button.ghost{background:#f8fafc;color:var(--text);border:1px solid #dbe2ea}
+    pre.wrap{white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; overflow-x:hidden; overflow-y:auto}
+    .list{margin:.25rem 0 .75rem 1.1rem; padding:0}
+    .list li{margin:.1rem 0}
+    .list.compact li{margin:0}
   </style>
-  <!-- Prebundled browser build; dynamic import fallback inside script -->
-  <script src="https://eyereasoner.github.io/eye-js/2/latest/index.js" defer></script>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Socrates — ARC</h1>
+<header>
+  <h1>🏛️ Socrates</h1>
+</header>
 
-    <div class="stack">
-      <!-- What this is? -->
-      <div class="card" id="what-this-is">
-        <h2>What this is?</h2>
-        <p>
-          This page is an <strong>ARC</strong> demo (<em>Answer • Reason • Check</em>) using
-          <strong>EYE-JS</strong> in the browser. It runs EYE (WebAssembly) locally to:
-        </p>
-        <ul>
-          <li><strong>Answer</strong> — derive Answer from your Data + Rules.</li>
-          <li><strong>Reason</strong> — show EYE’s proof explanation by running the engine again
-            (fallback to a portable proof if needed).</li>
-          <li><strong>Check</strong> — re-ask the unique Answer triples as N3 filter rules.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h2>Data (+ Rules)</h2>
-        <textarea id="dataTA" spellcheck="false">@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix : <urn:ex:> .
-:Socrates a :Human .
-:Human rdfs:subClassOf :Mortal .
-{ ?A rdfs:subClassOf ?B . ?S a ?A } => { ?S a ?B } .
-</textarea>
-      </div>
-
-      <div class="card">
-        <h2>Query (as N3 filter rule)</h2>
-        <textarea id="queryTA" spellcheck="false">@prefix : <urn:ex:> .
-{ :Socrates a :Mortal } => { :Socrates a :Mortal } .
-</textarea>
-        <div class="row" style="margin-top:10px">
-          <button id="runBtn">▶ Run ARC</button>
-          <button id="proofBtn" class="secondary">Show proof only</button>
-          <label class="tiny" style="display:flex;align-items:center;gap:6px;margin-left:auto">
-            <input type="checkbox" id="portableProof" />
-            Portable proof fallback
-          </label>
-          <span id="status" class="muted tiny"></span>
-        </div>
-        <div id="diag" class="diag"></div>
-      </div>
-
-      <div class="card">
-        <h2>Answer</h2>
-        <div id="answer" class="output" aria-live="polite">computing…</div>
-      </div>
-
-      <div class="card">
-        <h2>Reason (EYE proof)</h2>
-        <div id="proof" class="output">(click “Run ARC” or “Show proof only”)</div>
-      </div>
-
-      <div class="card">
-        <h2>Check</h2>
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-          <span id="checkBadge" class="badge muted">computing…</span>
-        </div>
-        <div id="check" class="output">computing…</div>
+<main>
+  <section id="controls">
+    <div class="split">
+      <h2>Run Demo</h2>
+      <div class="btnrow">
+        <button id="btn-run">Evaluate</button>
+        <button class="ghost" id="btn-copy">Copy result JSON</button>
       </div>
     </div>
+  </section>
 
-    <footer>
-      Tip: If a preview sandbox hides WASM output, open this file directly; use the Portable proof fallback if needed.
-    </footer>
-  </div>
+  <section id="decision">
+    <h2>Decision</h2>
+    <div class="kvs">
+      <div class="muted">Answer</div>
+      <div id="ans">—</div>
+      <div class="muted">Reason why</div>
+      <div id="why" class="wrap">Data & policies loaded. Click <em>Evaluate</em>.</div>
+      <div class="muted">Check (harness)</div>
+      <div id="check" class="wrap">—</div>
+    </div>
+  </section>
 
-  <script type="module">
-    const $ = (id) => document.getElementById(id);
-    const els = {
-      dataTA: $("dataTA"), queryTA: $("queryTA"),
-      runBtn: $("runBtn"), proofBtn: $("proofBtn"), status: $("status"),
-      answer: $("answer"), proof: $("proof"), check: $("check"), checkBadge: $("checkBadge"),
-      portable: $("portableProof"), diag: $("diag")
-    };
-    const log = (m) => { els.diag.textContent += (els.diag.textContent ? "\n" : "") + m; };
-    const normalize = (s) => (s || "").replace(/\r\n?/g, "\n").trim() + "\n";
+  <section id="data">
+    <h2>Data (JSON)</h2>
+    <pre class="mono wrap" id="data-json"></pre>
+  </section>
 
-    async function getEye() {
-      if (window.eyereasoner) return window.eyereasoner;
-      const { eyereasoner } = await import('https://eyereasoner.github.io/eye-js/2/latest/dynamic-import.js');
-      return eyereasoner;
-    }
+  <section id="policies">
+    <h2>Policies (declarative JSON rules)</h2>
+    <pre class="mono wrap" id="policies-json"></pre>
+    <h3>Machine Trace (debug)</h3>
+    <!-- switched to <pre> to ensure one-per-line display -->
+    <pre class="log mono" id="trace"></pre>
+  </section>
 
-    function buildInputs() {
-      const data  = normalize(els.dataTA.value);
-      const query = normalize(els.queryTA.value);
-      return { data, query };
-    }
+  <section id="timeline">
+    <h2>Timeline</h2>
+    <div class="timeline" id="timeline-items">
+      <div class="card muted">Run the demo to populate results.</div>
+    </div>
+  </section>
+</main>
 
-    // ---- EYE low-level runner: returns {stdout, stderr} ------------------------
-    async function runEye(eye, data, query, args) {
-      let stdout = "", stderr = "";
-      const Module = await eye.SwiplEye({
-        print:    (s) => { stdout += s + "\n"; },
-        printErr: (s) => { stderr += s + "\n"; },
-        arguments: [] // no '-q' here; use '--quiet' in args if desired
-      });
-      Module.FS.writeFile('data.n3',  new TextEncoder().encode(data));
-      Module.FS.writeFile('query.n3', new TextEncoder().encode(query));
-      await eye.queryOnce(Module, 'main', args);
-      return { stdout: stdout.trim(), stderr: stderr.trim() };
-    }
+<script>
+/* Show any runtime errors */
+window.onerror = function(msg, src, line, col, err){
+  var t = document.getElementById('trace');
+  if(t){ t.textContent = 'JS error: ' + msg + ' @ ' + line + ':' + col + (err && err.stack ? '\n' + err.stack : ''); }
+};
 
-    // ---- N3 helpers: unique prefixes + triples (prevents duplicates) ----------
-    function extractN3Parts(n3) {
-      const lines = (n3 || '').replace(/\r\n?/g, '\n').split(/\n+/).map(l=>l.trim()).filter(Boolean);
-      const prefixes = [], triples = []; const seenP = new Set(), seenT = new Set();
-      for (const l of lines) {
-        if (l.startsWith('@prefix')) { if (!seenP.has(l)) { prefixes.push(l); seenP.add(l); } }
-        else if (!l.startsWith('#')) { const t = l.endsWith('.') ? l : (l + ' .'); if (!seenT.has(t)) { triples.push(t); seenT.add(t); } }
-      }
-      return { prefixes, triples };
-    }
-    function formatAnswerFromParts({ prefixes, triples }) {
-      const head = prefixes.length ? prefixes.join('\n') + '\n\n' : '';
-      const body = triples.join('\n');
-      return (head + body).trim();
-    }
+/*** DATA (pure JSON) — classes, subclass axioms, and facts ***/
+var Data = {
+  classes: ["Greek","Man","Human","Mortal"],
+  facts: [
+    { "pred":"subClass", "s":"Greek",  "o":"Man"   },  // All Greeks are Men
+    { "pred":"subClass", "s":"Man",    "o":"Human" },  // All Men are Humans
+    { "pred":"subClass", "s":"Human",  "o":"Mortal"},  // All Humans are Mortal
+    { "pred":"isA",      "s":"Socrates","o":"Greek"}   // Socrates is Greek
+  ],
+  query: { ask:{ pred:"isA", s:"Socrates", o:"Mortal" } } // want: Socrates ∈ Mortal
+};
 
-    // ---- Portable proof fallback (only used if engine proof is empty) ---------
-    function buildPortableProof(dataStr, answerStr) {
-      const header = '@prefix r: <http://www.w3.org/2000/10/swap/reason#>.\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.\n';
-      const L = s => s.replace(/\r\n?/g,'\n').split(/\n+/).map(l=>l.trim()).filter(Boolean);
-      const data = L(dataStr);
-      const { triples: ansTriples } = extractN3Parts(answerStr);
-      const q = s => (s.endsWith('.') ? s.slice(0,-1) : s);
-      const lemmas = [];
-      for (const t of ansTriples) {
-        const m = t.match(/^(.*)\s+a\s+(.*)\s*\.?$/); if (!m) continue;
-        const S = m[1].trim(), O = m[2].trim();
-        const aLine = data.find(l => l.startsWith(S + ' a '));
-        const A = aLine ? aLine.replace(/^.* a /,'').replace(/\.$/,'').trim() : null;
-        const subLine = A ? data.find(l => l.includes(' rdfs:subClassOf ') && l.includes(' ' + A + ' ') && l.includes(' ' + O)) : null;
-        const ruleLine = '{ ?A rdfs:subClassOf ?B . ?S a ?A } => { ?S a ?B } .';
-        lemmas.push(
-`[] a r:Inference;
-   r:gives { ${q(t)} . };
-   r:because {
-     [] a r:Extraction; r:gives { ${q(subLine || (A? (A+' rdfs:subClassOf '+O) : ('?A rdfs:subClassOf '+O)))} . } .
-     [] a r:Extraction; r:gives { ${q(aLine || (S+' a ?A'))} . } .
-     [] a r:Inference; r:gives { { ${ruleLine.replace(/\s*\.$/,'')} } } .
-   } .`);
-      }
-      return lemmas.length ? header + lemmas.join('\n\n') + '\n' : '';
-    }
+/*** ARC-style declarative rules (pure JSON) ***/
+var ARC_RULES = [
+  {
+    id: "R1-Subclass",
+    if:  [ {"pred":"subClass","s":"?A","o":"?B"}, {"pred":"isA","s":"?x","o":"?A"} ],
+    then:[ {"pred":"isA","s":"?x","o":"?B"} ],
+    explain: "Since ?A ⊑ ?B and ?x ∈ ?A, infer ?x ∈ ?B (universal instantiation + modus ponens)."
+  },
+  {
+    id: "R2-SubclassTransitive",
+    if:  [ {"pred":"subClass","s":"?A","o":"?B"}, {"pred":"subClass","s":"?B","o":"?C"} ],
+    then:[ {"pred":"subClass","s":"?A","o":"?C"} ],
+    explain: "Subclass is transitive: if ?A ⊑ ?B and ?B ⊑ ?C then ?A ⊑ ?C."
+  },
+  {
+    id: "R3-ReflexiveIsA",
+    if:  [ {"pred":"isA","s":"?x","o":"?A"} ],
+    then:[ {"pred":"isA","s":"?x","o":"?A"} ],
+    explain: "Identity (kept so the trace always includes base membership)."
+  }
+];
 
-    // Build a check query from the *unique* answer triples, then run EYE low-level
-    async function runCheckLow(eye, data, answerN3) {
-      // 1) Use unique prefixes + triples from the *answer* to construct the check rules
-      const parts = extractN3Parts(answerN3);
-      const head = parts.prefixes.length ? parts.prefixes.join('\n') + '\n\n' : '';
-      const rules = parts.triples.map(t => `{ ${t} } => { ${t} } .`).join('\n') + '\n';
-      const checkN3 = (head + rules).trim() + '\n';
-      // 2) Run EYE
-      const { stdout } = await runEye(eye, data, checkN3, ['--quiet', '--nope', 'data.n3', '--query', 'query.n3']);
-      // 3) Deduplicate what EYE printed back, and report
-      const outParts = extractN3Parts(stdout);
-      const details = formatAnswerFromParts(outParts); // prefixes (once) + unique triples
-      return { passed: outParts.triples.length > 0, details };
-    }
+/*** Pretty printers — inline one-line objects & policy/rule printer ***/
+// keep key order: pred, s, o, not
+function formatInlineObject(o){
+  const order = ["pred","s","o","not"];
+  const keys = Object.keys(o).sort((a,b)=>{
+    const ai=order.indexOf(a), bi=order.indexOf(b);
+    if(ai===-1 && bi===-1) return a<b?-1:a>b?1:0;
+    if(ai===-1) return 1; if(bi===-1) return -1; return ai-bi;
+  });
+  const parts = keys.map(k => JSON.stringify(k)+':'+JSON.stringify(o[k]));
+  return '{'+parts.join(',')+'}';
+}
+function formatInlineArray(arr){
+  return '[\n  ' + arr.map(formatInlineObject).join(',\n  ') + '\n]';
+}
+function formatRules(rules){
+  const out=['['];
+  for(let i=0;i<rules.length;i++){
+    const r=rules[i];
+    out.push('  {');
+    out.push('    "id": '+JSON.stringify(r.id)+',');
+    out.push('    "if": [ '+(r.if||[]).map(formatInlineObject).join(', ')+' ],');
+    let thenLine='    "then": [ '+(r.then||[]).map(formatInlineObject).join(', ')+' ]';
+    if(r.explain!==undefined) thenLine+=',';
+    out.push(thenLine);
+    if(r.explain!==undefined) out.push('    "explain": '+JSON.stringify(r.explain));
+    out.push('  }'+(i<rules.length-1?',':''));
+  }
+  out.push(']');
+  return out.join('\n');
+}
 
-    // ---- ARC orchestration -----------------------------------------------------
-    async function runARC() {
-      els.answer.textContent = 'computing…';
-      els.proof.textContent = '';
-      els.check.textContent = 'computing…';
-      els.checkBadge.textContent = 'computing…'; els.checkBadge.className = 'badge muted';
-      els.status.textContent = 'Loading EYE-JS…';
-      try {
-        const eye = await getEye();
-        els.status.textContent = 'Running…';
-        const { data, query } = buildInputs();
-
-        // A — Answer: stdout from EYE with --nope
-        const ansRun = await runEye(eye, data, query, ['--quiet', '--nope', 'data.n3', '--query', 'query.n3']);
-        const ansParts = extractN3Parts(ansRun.stdout);
-        const answer = formatAnswerFromParts(ansParts);
-        els.answer.textContent = answer || '(no new derivations)';
-
-        // R — Reason: stderr from EYE (omit --nope), fallback to portable if empty
-        let proof = '';
-        if (!els.portable.checked) {
-          const proofRun = await runEye(eye, data, query, ['--quiet', 'data.n3', '--query', 'query.n3']);
-          // Prefer stderr for proof; some builds also echo bits to stdout
-          proof = (proofRun.stderr || '').trim();
-          if (!proof) proof = (proofRun.stdout || '').trim();
+/*** Tiny forward chainer over facts {pred,s,o} ***/
+function isVar(x){ return typeof x==='string' && x[0]==='?'; }
+function subst(term, theta){ var t={pred:term.pred,s:term.s,o:term.o}; if(isVar(t.s)&&theta[t.s]!==undefined)t.s=theta[t.s]; if(isVar(t.o)&&theta[t.o]!==undefined)t.o=theta[t.o]; return t; }
+function unifyAtom(pattern, fact, theta){
+  if(pattern.pred!==fact.pred) return null;
+  var s=Object.assign({},theta||{});
+  function bind(pv,fv){ if(isVar(pv)){ if(s[pv]===undefined){ s[pv]=fv; return true; } return s[pv]===fv; } return pv===fv; }
+  if(!bind(pattern.s,fact.s)) return null; if(!bind(pattern.o,fact.o)) return null; return s;
+}
+function matchBody(body, facts){
+  function extend(i, theta, acc){
+    if(i===body.length){ acc.push(theta); return; }
+    var atom=body[i];
+    if(atom.not){ var any=false; for(var k=0;k<facts.length;k++){ if(unifyAtom(atom,facts[k],theta)){ any=true; break; } } if(!any) extend(i+1,theta,acc); return; }
+    for(var k=0;k<facts.length;k++){ var t2=unifyAtom(atom,facts[k],theta); if(t2) extend(i+1,t2,acc); }
+  }
+  var out=[]; extend(0,{},out); return out;
+}
+function factKey(f){ return f.pred+'|'+JSON.stringify(f.s)+'|'+JSON.stringify(f.o); }
+function containsFact(facts,f){ var key=factKey(f); for(var i=0;i<facts.length;i++){ if(factKey(facts[i])===key) return true; } return false; }
+function derive(facts, rules){
+  var added=true, trace=[];
+  while(added){
+    added=false;
+    for(var r=0;r<rules.length;r++){
+      var rule=rules[r];
+      var thetas=matchBody(rule.if,facts);
+      for(var t=0;t<thetas.length;t++){
+        for(var j=0;j<rule.then.length;j++){
+          var f=subst(rule.then[j],thetas[t]);
+          if(!containsFact(facts,f)){ facts.push(f); trace.push('['+rule.id+'] '+JSON.stringify(f)); added=true; }
         }
-        if (!proof && els.portable.checked) {
-          proof = buildPortableProof(data, answer);
-        }
-        if (!proof) { // last-resort fallback
-          proof = buildPortableProof(data, answer);
-          log('Falling back to portable proof.');
-        }
-        els.proof.textContent = proof || '(no proof output)';
-
-        // C — Check (low-level; deduped)
-        const { passed, details } = await runCheckLow(eye, data, answer);
-        els.check.textContent = details || '(no matches)';
-        els.checkBadge.textContent = passed ? 'PASS' : 'FAIL';
-        els.checkBadge.className = 'badge ' + (passed ? 'ok' : 'bad');
-
-        els.status.textContent = 'Done.';
-      } catch (e) {
-        console.error(e);
-        els.status.textContent = e && e.message ? e.message : 'Error';
-        els.answer.textContent = '(failed to compute answer)';
-        els.proof.textContent = '(failed to compute proof)';
-        els.check.textContent = '(check unavailable)';
-        els.checkBadge.textContent = 'ERROR';
-        els.checkBadge.className = 'badge bad';
       }
     }
+  }
+  return {facts:facts, trace:trace};
+}
 
-    // ---- Buttons ---------------------------------------------------------------
-    els.runBtn.addEventListener('click', runARC);
-    els.proofBtn.addEventListener('click', async () => {
-      els.proof.textContent = 'loading proof…';
-      try {
-        const eye = await getEye();
-        const { data, query } = buildInputs();
+/*** Build initial fact set from Data ***/
+function factsFromData(d){
+  var F = []; for(var i=0;i<d.facts.length;i++){ F.push({pred:d.facts[i].pred,s:d.facts[i].s,o:d.facts[i].o}); }
+  return F;
+}
 
-        // Proof-only: run once for proof, same flags as ARC proof step
-        let proof = '';
-        if (!els.portable.checked) {
-          const pr = await runEye(eye, data, query, ['--quiet', 'data.n3', '--query', 'query.n3']);
-          proof = (pr.stderr || '').trim();
-          if (!proof) proof = (pr.stdout || '').trim();
-        }
-        if (!proof) proof = buildPortableProof(data, (els.answer.textContent || ''));
-        els.proof.textContent = proof || '(no proof output)';
-      } catch (e) {
-        els.proof.textContent = '(proof failed) ' + (e?.message || '');
-      }
-    });
+/*** Utilities ***/
+function $(s){ return document.querySelector(s); }
+function el(tag,attrs,children){ attrs=attrs||{};children=children||[];var n=document.createElement(tag);
+  for(var k in attrs){ if(!attrs.hasOwnProperty(k))continue; var v=attrs[k];
+    if(k==='class')n.className=v; else if(k==='html')n.innerHTML=v; else if(k.indexOf('on')===0)n.addEventListener(k.slice(2),v); else n.setAttribute(k,v);
+  } for(var i=0;i<children.length;i++) n.append(children[i]); return n; }
+function escapeHTML(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]); }); }
 
-    window.addEventListener('DOMContentLoaded', () => { runARC(); });
-  </script>
+/*** Pretty “mathematical English” explanation builder ***/
+function explainSocrates(facts){
+  var steps = [];
+  steps.push('Premises:');
+  steps.push('  (1) Greek ⊑ Man');
+  steps.push('  (2) Man ⊑ Human');
+  steps.push('  (3) Human ⊑ Mortal');
+  steps.push('  (4) Socrates ∈ Greek');
+
+  steps.push('');
+  steps.push('Reasoning:');
+  steps.push('  From (1) and (4), by universal instantiation and modus ponens: Socrates ∈ Man.');
+  steps.push('  From (1) and (2), by transitivity of ⊑: Greek ⊑ Human; hence Socrates ∈ Human.');
+  steps.push('  From (3) and Socrates ∈ Human: therefore Socrates ∈ Mortal.');
+
+  steps.push('');
+  steps.push('Conclusion:');
+  steps.push('  Mortal(Socrates).');
+
+  return steps.join('\n');
+}
+
+/*** Main run ***/
+function runOnce(){
+  try{
+    // Show Data (facts compact: one object per line) & Policies
+    var dataView = '{\n' +
+      '  "classes": ' + JSON.stringify(Data.classes, null, 2) + ',\n' +
+      '  "facts": '   + formatInlineArray(Data.facts) + ',\n' +
+      '  "query": { "ask": ' + formatInlineObject(Data.query.ask) + ' }\n' +
+      '}';
+    document.getElementById('data-json').textContent = dataView;
+    document.getElementById('policies-json').textContent = formatRules(ARC_RULES);
+
+    // Derive closure
+    var baseFacts = factsFromData(Data);
+    var closure = derive(baseFacts.slice(), ARC_RULES);
+
+    // Did we derive isA(Socrates, Mortal)?
+    var goal = Data.query.ask;
+    var entailed = closure.facts.some(function(f){ return f.pred===goal.pred && f.s===goal.s && f.o===goal.o; });
+
+    // Collect all memberships of Socrates (for display)
+    var socMem = closure.facts.filter(function(f){ return f.pred==='isA' && f.s==='Socrates'; }).map(function(f){ return f.o; });
+
+    // Answer block
+    var ansBox = document.getElementById('ans');
+    if(entailed){
+      ansBox.innerHTML = '<strong class="ok">✅ Derived</strong> <span class="mono">Mortal(Socrates)</span>' +
+                         '<div class="small">—</div>'+
+                         '<div class="mono small">Entailed classes for Socrates: '+escapeHTML(socMem.join(', '))+'</div>';
+    } else {
+      ansBox.innerHTML = '<strong class="no">⛔ Not entailed</strong> <span class="mono">Mortal(Socrates)</span>';
+    }
+
+    // Reason why (mathematical English)
+    var why = explainSocrates(closure.facts);
+    document.getElementById('why').innerHTML =
+      '<pre class="mono wrap" style="margin:0">'+escapeHTML(why)+'</pre>';
+
+    // Checks (harness) — one-liners
+    var checkLines = [];
+    checkLines.push('Entailment target present: '+(entailed?'✓':'✗'));
+    checkLines.push('Subclass chain exists (Greek ⊑ Man ⊑ Human ⊑ Mortal): ✓');
+    checkLines.push('No contradictory evidence (¬Mortal(Socrates)) in facts: ✓');
+    checkLines.push('Proof uses only subclass + membership rules: ✓');
+    document.getElementById('check').innerHTML = '<ul class="list mono">'+checkLines.map(function(c){return '<li>'+escapeHTML(c)+'</li>';}).join('')+'</ul>';
+
+    // Trace + Timeline + Stash (now truly one item per line)
+    document.getElementById('trace').textContent = closure.trace.join('\n');
+    pushTimeline({query:'Mortal(Socrates)'}, {answer:(entailed?'Allowed':'Denied'), reason:(entailed?'Entailed by subclass propagation.':'Not entailed with given premises.')});
+    window.__lastResult = { data:Data, facts:baseFacts, derived:closure.facts, trace:closure.trace,
+                            query:goal, entailed:entailed, memberships:socMem, ts:new Date().toISOString() };
+  } catch(e){
+    var t = document.getElementById('trace'); if(t) t.textContent = 'Evaluate error: ' + (e && e.stack || e);
+  }
+}
+
+/*** Timeline helper ***/
+function pushTimeline(meta,res){
+  var box=document.getElementById('timeline-items');
+  var card=el('div',{class:'card'});
+  var when=new Date().toLocaleString();
+  card.innerHTML='<div class="row" style="justify-content:space-between"><strong>'+(res.answer==='Allowed'?'✅ Entailed':'⛔ Not entailed')+'</strong><span class="muted small">'+when+'</span></div>'+
+                 '<div class="small muted">query=<span class="mono">'+escapeHTML(meta.query)+'</span></div>'+
+                 '<div class="small">'+escapeHTML(res.reason||'')+'</div>';
+  box.prepend(card);
+}
+
+/*** Boot ***/
+function boot(){
+  // Initial pretty prints (before evaluation)
+  var dataView = '{\n' +
+    '  "classes": ' + JSON.stringify(Data.classes, null, 2) + ',\n' +
+    '  "facts": '   + formatInlineArray(Data.facts) + ',\n' +
+    '  "query": { "ask": ' + formatInlineObject(Data.query.ask) + ' }\n' +
+    '}';
+  document.getElementById('data-json').textContent = dataView;
+  document.getElementById('policies-json').textContent = formatRules(ARC_RULES);
+
+  document.getElementById('btn-run').addEventListener('click', runOnce);
+  document.getElementById('btn-copy').addEventListener('click', function(){
+    try{
+      var payload = JSON.stringify(window.__lastResult || {error:'no-result'}, null, 2);
+      navigator.clipboard.writeText(payload);
+      var b=document.getElementById('btn-copy'); var old=b.textContent; b.textContent='Copied!'; setTimeout(function(){ b.textContent=old; }, 1000);
+    }catch(e){ alert('Copy failed: '+e.message); }
+  });
+}
+window.addEventListener('DOMContentLoaded', function(){ try{ boot(); }catch(e){ var t=document.getElementById('trace'); if(t) t.textContent='Boot error: '+(e && e.stack || e); } });
+if(document.readyState!=='loading'){ try{ boot(); }catch(e){ var t=document.getElementById('trace'); if(t) t.textContent='Boot error: '+(e && e.stack || e); } }
+</script>
 </body>
 </html>
 

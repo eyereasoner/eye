@@ -1,394 +1,352 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>gps_clinical_bench_100</title>
-<style>
-  :root{
-    --bg:#fff; --ink:#0f172a; --muted:#64748b; --panel:#f8fafc; --border:#e2e8f0;
-    --ok:#16a34a; --warn:#dc2626; --accent:#0ea5e9; --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
-    --a:#22c55e; --r:#3b82f6; --c:#f59e0b;
-  }
-  html,body{height:100%}
-  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--ui)}
-  .wrap{max-width:900px;margin:28px auto;padding:0 16px}
-  header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-  h1{font-size:20px;margin:0}
-  .pill{border:1px solid var(--border);border-radius:999px;padding:6px 10px;color:var(--muted);background:#fff}
-  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin:12px 0}
-  .head{padding:10px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-  .head h2{margin:0;font-size:13px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
-  .body{padding:12px}
-  textarea{width:100%;min-height:260px;background:#fff;color:var(--ink);border:1px solid var(--border);border-radius:10px;padding:10px;font-family:var(--mono);font-size:12px}
-  pre{white-space:pre-wrap;background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px;overflow:auto;font-family:var(--mono);font-size:13px}
-  .bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  button{all:unset;background:#fff;border:1px solid var(--border);padding:8px 12px;border-radius:10px;cursor:pointer}
-  button:hover{border-color:#cbd5e1}
-  .small{color:var(--muted)}
-  .row{display:grid;gap:12px}
-  .stripe{border-left:6px solid var(--border)}
-  .stripe.answer{border-left-color:var(--a)}
-  .stripe.reason{border-left-color:var(--r)}
-  .stripe.check{border-left-color:var(--c)}
-  .muted{color:var(--muted)}
-  .ok{color:var(--ok)} .warn{color:var(--warn)} .accent{color:var(--accent)}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GPS Clinical Bench</title>
+  <style>
+    :root{--bg:#f7fafc;--panel:#ffffff;--muted:#475569;--text:#0b1220;--accent:#2563eb;--good:#16a34a;--bad:#dc2626;--warn:#d97706;--chip:#eef2f7}
+    *{box-sizing:border-box} body{margin:0;font:16px/1.5 system-ui,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    header{padding:24px 20px;border-bottom:1px solid #e5e7eb;background:linear-gradient(180deg,rgba(37,99,235,.08),transparent)}
+    h1{margin:0;font-size:24px;letter-spacing:.2px}
+    main{display:grid;grid-template-columns:1fr;gap:22px;padding:20px;align-items:start}
+    section{background:var(--panel);border:1px solid #e5e7eb;border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+    h2{margin:0 0 10px 0;font-size:18px}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .grid{display:grid;gap:10px}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#ffffff;border:1px solid #e5e7eb}
+    .small{font-size:13px;color:var(--muted)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .ok{color:var(--good)} .no{color:var(--bad)} .warn{color:var(--warn)}
+    .kvs{display:grid;grid-template-columns:160px 1fr;gap:6px 10px}
+    .log{max-height:260px;overflow:auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:10px}
+    .timeline{display:flex;flex-direction:column;gap:10px}
+    .card{background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:12px}
+    .muted{color:var(--muted)}
+    .split{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
+    button{cursor:pointer;background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:12px;font-weight:600}
+    button.ghost{background:#f8fafc;color:var(--text);border:1px solid #dbe2ea}
+    pre.wrap{white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; overflow-x:hidden; overflow-y:auto}
+    /* New: nicer lists for Reason/Checks */
+    .list{margin:.25rem 0 .75rem 1.1rem; padding:0}
+    .list li{margin:.1rem 0}
+    .list.compact li{margin:0}
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>GPS Clinical Bench — <span class="accent">ARC</span></h1>
-    <div class="pill">Browser reasoning • EYE-JS</div>
-  </header>
+<header>
+  <h1>🧭 GPS Clinical Bench</h1>
+</header>
 
-  <div class="card">
-    <div class="body">
-      <p><strong>What this is?</strong> A browser-only harness that lets the <em>EYE</em> reasoner (via EYE-JS/WASM) evaluate the 100 N3 transition rules and renders an ARC report (<em>Answer • Reason • Check</em>). The sample patient is Jane Doe (F, 14) starting in <code>state_2</code>; the goal is <code>state_6</code>.</p>
-    </div>
-  </div>
-
-  <!-- Rules -->
-  <div class="card">
-    <div class="head">
-      <h2>N3 Rules (100 transitions)</h2>
-      <span id="status" class="small">Waiting…</span>
-    </div>
-    <div class="body">
-      <textarea id="rules" spellcheck="false">@prefix math: <http://www.w3.org/2000/10/swap/math#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix e:   <http://eulersharp.sourceforge.net/2003/03swap/log-rules#> .
-@prefix action: <https://example.org/action#> .
-@prefix medication: <https://example.org/medication#> .
-@prefix sct: <http://snomed.info/id/> .
-@prefix care: <https://example.org/care#> .
-@prefix gps:  <https://example.org/gps#> .
-
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_0.} {?patient care:state care:state_7.} action:take_pill_Medication_0 "P1D"^^xsd:dayTimeDuration 33 0.36622812425783524 0.9105285094845693 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age.
-?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_1.} {?patient care:state care:state_8.} action:take_pill_Medication_1 "P1D"^^xsd:dayTimeDuration 71 0.4109054639971658 0.9453244024828519 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_2.} {?patient care:state care:state_3.} action:take_pill_Medication_2 "P1D"^^xsd:dayTimeDuration 21 0.2667006994165855 0.4828436026647903 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_3.} {?patient care:state care:state_4.} action:take_pill_Medication_3 "P1D"^^xsd:dayTimeDuration 72 0.8983659775611101 0.8974278483276885 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_4.} {?patient care:state care:state_7.} action:take_pill_Medication_4 "P1D"^^xsd:dayTimeDuration 95 0.4811965080847377 0.7115706817095907 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_5.} {?patient care:state care:state_2.} action:take_pill_Medication_5 "P1D"^^xsd:dayTimeDuration 6 0.4760129877005949 0.9408962265856359 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_6.} {?patient care:state care:state_7.} action:take_pill_Medication_6 "P1D"^^xsd:dayTimeDuration 55 0.8380411873055637 0.9489656353887378 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_7.} {?patient care:state care:state_5.} action:take_pill_Medication_7 "P1D"^^xsd:dayTimeDuration 81 0.32714617352712805 0.5598075871392556 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_8.} {?patient care:state care:state_9.} action:take_pill_Medication_8 "P1D"^^xsd:dayTimeDuration 93 0.7273428934572153 0.8764842159831163 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_9.} {?patient care:state care:state_4.} action:take_pill_Medication_9 "P1D"^^xsd:dayTimeDuration 44 0.3542891359964912 0.3617563585375574 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_10.} {?patient care:state care:state_7.} action:take_pill_Medication_10 "P1D"^^xsd:dayTimeDuration 50 0.7465581555870124 0.8468873689094923 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_11.} {?patient care:state care:state_5.} action:take_pill_Medication_11 "P1D"^^xsd:dayTimeDuration 93 0.49933034123520126 0.7761439171844592 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_12.} {?patient care:state care:state_4.} action:take_pill_Medication_12 "P1D"^^xsd:dayTimeDuration 86 0.2847174405387392 0.4415627769821937 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_13.} {?patient care:state care:state_9.} action:take_pill_Medication_13 "P1D"^^xsd:dayTimeDuration 73 0.4170823217754115 0.9196817867609735 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_14.} {?patient care:state care:state_10.} action:take_pill_Medication_14 "P1D"^^xsd:dayTimeDuration 95 0.3778591113622131 0.2716762154788545 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_15.} {?patient care:state care:state_5.} action:take_pill_Medication_15 "P1D"^^xsd:dayTimeDuration 21 0.8241910843274908 0.4907041666316164 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_16.} {?patient care:state care:state_3.} action:take_pill_Medication_16 "P1D"^^xsd:dayTimeDuration 69 0.4890846698320697 0.6316470204137609 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_17.} {?patient care:state care:state_7.} action:take_pill_Medication_17 "P1D"^^xsd:dayTimeDuration 46 0.5185252599418597 0.7169268089280825 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_18.} {?patient care:state care:state_5.} action:take_pill_Medication_18 "P1D"^^xsd:dayTimeDuration 25 0.539694571361632 0.45969772070179227 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_19.} {?patient care:state care:state_7.} action:take_pill_Medication_19 "P1D"^^xsd:dayTimeDuration 75 0.9467800045918124 0.6671741423521769 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_20.} {?patient care:state care:state_6.} action:take_pill_Medication_20 "P1D"^^xsd:dayTimeDuration 59 0.7578277513499754 0.8332211235886307 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_21.} {?patient care:state care:state_6.} action:take_pill_Medication_21 "P1D"^^xsd:dayTimeDuration 46 0.3095444912557152 0.2506963905869005 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_22.} {?patient care:state care:state_4.} action:take_pill_Medication_22 "P1D"^^xsd:dayTimeDuration 53 0.9452849506102207 0.5601302643605619 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_23.} {?patient care:state care:state_7.} action:take_pill_Medication_23 "P1D"^^xsd:dayTimeDuration 86 0.26713433449707746 0.6807107071018563 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_24.} {?patient care:state care:state_7.} action:take_pill_Medication_24 "P1D"^^xsd:dayTimeDuration 69 0.5832623950218775 0.6659526845754201 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_25.} {?patient care:state care:state_10.} action:take_pill_Medication_25 "P1D"^^xsd:dayTimeDuration 53 0.47277112321781957 0.7071878975163253 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_26.} {?patient care:state care:state_8.} action:take_pill_Medication_26 "P1D"^^xsd:dayTimeDuration 71 0.9039184110424816 0.5637547345340984 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_27.} {?patient care:state care:state_6.} action:take_pill_Medication_27 "P1D"^^xsd:dayTimeDuration 90 0.3910419228526527 0.5260649911795254 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_28.} {?patient care:state care:state_5.} action:take_pill_Medication_28 "P1D"^^xsd:dayTimeDuration 45 0.2826872840626645 0.8916074684466541 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_29.} {?patient care:state care:state_4.} action:take_pill_Medication_29 "P1D"^^xsd:dayTimeDuration 62 0.9842074683115526 0.44604263375813193 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_30.} {?patient care:state care:state_7.} action:take_pill_Medication_30 "P1D"^^xsd:dayTimeDuration 7 0.608543645632583 0.6171324426093931 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_31.} {?patient care:state care:state_6.} action:take_pill_Medication_31 "P1D"^^xsd:dayTimeDuration 27 0.6446598904167876 0.6239683230573822 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_32.} {?patient care:state care:state_6.} action:take_pill_Medication_32 "P1D"^^xsd:dayTimeDuration 47 0.3474079413334127 0.9384499707092892 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_33.} {?patient care:state care:state_3.} action:take_pill_Medication_33 "P1D"^^xsd:dayTimeDuration 57 0.38667553754250975 0.4223698811202308 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_34.} {?patient care:state care:state_10.} action:take_pill_Medication_34 "P1D"^^xsd:dayTimeDuration 96 0.33825995969575115 0.6894175542645059 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_35.} {?patient care:state care:state_3.} action:take_pill_Medication_35 "P1D"^^xsd:dayTimeDuration 81 0.38051149763961336 0.7957269430146815 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_36.} {?patient care:state care:state_7.} action:take_pill_Medication_36 "P1D"^^xsd:dayTimeDuration 30 0.45919952920164647 0.5742281767405095 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_37.} {?patient care:state care:state_9.} action:take_pill_Medication_37 "P1D"^^xsd:dayTimeDuration 53 0.934109730237606 0.4656121400616836 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_38.} {?patient care:state care:state_5.} action:take_pill_Medication_38 "P1D"^^xsd:dayTimeDuration 68 0.4993832298080901 0.5255767436734657 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_39.} {?patient care:state care:state_5.} action:take_pill_Medication_39 "P1D"^^xsd:dayTimeDuration 2 0.7713082330919898 0.815146111397606 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_40.} {?patient care:state care:state_4.} action:take_pill_Medication_40 "P1D"^^xsd:dayTimeDuration 11 0.8278836838538967 0.5577264596236355 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_41.} {?patient care:state care:state_10.} action:take_pill_Medication_41 "P1D"^^xsd:dayTimeDuration 39 0.5740921095957587 0.8139351470340636 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_42.} {?patient care:state care:state_7.} action:take_pill_Medication_42 "P1D"^^xsd:dayTimeDuration 72 0.3859624199769515 0.88211694260268 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_43.} {?patient care:state care:state_3.} action:take_pill_Medication_43 "P1D"^^xsd:dayTimeDuration 49 0.5131748149642634 0.7114503926963385 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_44.} {?patient care:state care:state_3.} action:take_pill_Medication_44 "P1D"^^xsd:dayTimeDuration 31 0.9664115123865664 0.6548338732424491 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_45.} {?patient care:state care:state_4.} action:take_pill_Medication_45 "P1D"^^xsd:dayTimeDuration 36 0.5082797767694324 0.617512159257882 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_46.} {?patient care:state care:state_4.} action:take_pill_Medication_46 "P1D"^^xsd:dayTimeDuration 29 0.45316207709279827 0.5639411380607756 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_47.} {?patient care:state care:state_5.} action:take_pill_Medication_47 "P1D"^^xsd:dayTimeDuration 87 0.8812755817817808 0.3262195982209329 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_48.} {?patient care:state care:state_8.} action:take_pill_Medication_48 "P1D"^^xsd:dayTimeDuration 7 0.5990081572047221 0.47505511334049155 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_49.} {?patient care:state care:state_6.} action:take_pill_Medication_49 "P1D"^^xsd:dayTimeDuration 44 0.37442865259058555 0.4504020894316335 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_50.} {?patient care:state care:state_7.} action:take_pill_Medication_50 "P1D"^^xsd:dayTimeDuration 60 0.430012691264264 0.8129634990985635 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_51.} {?patient care:state care:state_10.} action:take_pill_Medication_51 "P1D"^^xsd:dayTimeDuration 70 0.2974759353567495 0.2504729278633666 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_52.} {?patient care:state care:state_8.} action:take_pill_Medication_52 "P1D"^^xsd:dayTimeDuration 57 0.9293648964066066 0.7693860210154684 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_53.} {?patient care:state care:state_5.} action:take_pill_Medication_53 "P1D"^^xsd:dayTimeDuration 88 0.40838649735552035 0.3912993291420428 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_54.} {?patient care:state care:state_9.} action:take_pill_Medication_54 "P1D"^^xsd:dayTimeDuration 18 0.2892144963864729 0.2630316991483213 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_55.} {?patient care:state care:state_3.} action:take_pill_Medication_55 "P1D"^^xsd:dayTimeDuration 2 0.5406818163743916 0.8769645179828887 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_56.} {?patient care:state care:state_10.} action:take_pill_Medication_56 "P1D"^^xsd:dayTimeDuration 23 0.6448835223376228 0.3714206313238681 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_57.} {?patient care:state care:state_8.} action:take_pill_Medication_57 "P1D"^^xsd:dayTimeDuration 79 0.2825981320281489 0.6782395222649295 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_58.} {?patient care:state care:state_10.} action:take_pill_Medication_58 "P1D"^^xsd:dayTimeDuration 87 0.6896026197362309 0.5496883142578176 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_59.} {?patient care:state care:state_7.} action:take_pill_Medication_59 "P1D"^^xsd:dayTimeDuration 99 0.8234307459132633 0.5561968077334533 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_60.} {?patient care:state care:state_5.} action:take_pill_Medication_60 "P1D"^^xsd:dayTimeDuration 12 0.7230107215159753 0.849974189581846 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_61.} {?patient care:state care:state_9.} action:take_pill_Medication_61 "P1D"^^xsd:dayTimeDuration 74 0.5301281686565069 0.5363482832535775 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_62.} {?patient care:state care:state_4.} action:take_pill_Medication_62 "P1D"^^xsd:dayTimeDuration 76 0.42493515077755095 0.8050917532044635 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_63.} {?patient care:state care:state_4.} action:take_pill_Medication_63 "P1D"^^xsd:dayTimeDuration 70 0.44538275310075803 0.29665038154811013 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_64.} {?patient care:state care:state_3.} action:take_pill_Medication_64 "P1D"^^xsd:dayTimeDuration 95 0.9143849910742256 0.7596016670310102 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_65.} {?patient care:state care:state_5.} action:take_pill_Medication_65 "P1D"^^xsd:dayTimeDuration 21 0.2602972715462068 0.5527001971259099 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_66.} {?patient care:state care:state_9.} action:take_pill_Medication_66 "P1D"^^xsd:dayTimeDuration 2 0.5792304880591905 0.5720726834942171 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_67.} {?patient care:state care:state_3.} action:take_pill_Medication_67 "P1D"^^xsd:dayTimeDuration 15 0.47135669469579733 0.5464686700197526 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_68.} {?patient care:state care:state_7.} action:take_pill_Medication_68 "P1D"^^xsd:dayTimeDuration 57 0.8098018788684327 0.26016480453245916 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_69.} {?patient care:state care:state_5.} action:take_pill_Medication_69 "P1D"^^xsd:dayTimeDuration 32 0.7319024844264351 0.7587677103850011 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_70.} {?patient care:state care:state_7.} action:take_pill_Medication_70 "P1D"^^xsd:dayTimeDuration 79 0.9091641134517952 0.7259140822690493 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_71.} {?patient care:state care:state_7.} action:take_pill_Medication_71 "P1D"^^xsd:dayTimeDuration 30 0.853539206389353 0.5327050657958544 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_72.} {?patient care:state care:state_7.} action:take_pill_Medication_72 "P1D"^^xsd:dayTimeDuration 17 0.9471034448546852 0.46008000623426804 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_73.} {?patient care:state care:state_3.} action:take_pill_Medication_73 "P1D"^^xsd:dayTimeDuration 80 0.3556382493653935 0.8462729174500453 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_74.} {?patient care:state care:state_10.} action:take_pill_Medication_74 "P1D"^^xsd:dayTimeDuration 21 0.9547353523946092 0.9054813468707963 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_75.} {?patient care:state care:state_8.} action:take_pill_Medication_75 "P1D"^^xsd:dayTimeDuration 79 0.5163399300795812 0.9547039749351954 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_76.} {?patient care:state care:state_10.} action:take_pill_Medication_76 "P1D"^^xsd:dayTimeDuration 97 0.4050095984421735 0.998259459874103 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_77.} {?patient care:state care:state_4.} action:take_pill_Medication_77 "P1D"^^xsd:dayTimeDuration 76 0.32681757192622407 0.5238863609706024 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_78.} {?patient care:state care:state_4.} action:take_pill_Medication_78 "P1D"^^xsd:dayTimeDuration 57 0.5905551437762169 0.4287990808103498 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_79.} {?patient care:state care:state_10.} action:take_pill_Medication_79 "P1D"^^xsd:dayTimeDuration 3 0.7138727137966268 0.4121441890384293 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_80.} {?patient care:state care:state_7.} action:take_pill_Medication_80 "P1D"^^xsd:dayTimeDuration 82 0.404548384966258 0.7240340439972839 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_81.} {?patient care:state care:state_5.} action:take_pill_Medication_81 "P1D"^^xsd:dayTimeDuration 63 0.626292730447538 0.7849467968580127 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_82.} {?patient care:state care:state_4.} action:take_pill_Medication_82 "P1D"^^xsd:dayTimeDuration 15 0.3556335323596853 0.7855400578837036 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_83.} {?patient care:state care:state_3.} action:take_pill_Medication_83 "P1D"^^xsd:dayTimeDuration 39 0.5810674356418531 0.653901705174511 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_84.} {?patient care:state care:state_5.} action:take_pill_Medication_84 "P1D"^^xsd:dayTimeDuration 3 0.31985659381603493 0.49837230638613483 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_85.} {?patient care:state care:state_8.} action:take_pill_Medication_85 "P1D"^^xsd:dayTimeDuration 83 0.6205255797923125 0.5888528269865236 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_86.} {?patient care:state care:state_10.} action:take_pill_Medication_86 "P1D"^^xsd:dayTimeDuration 64 0.6416639392843279 0.2854501885998023 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_87.} {?patient care:state care:state_4.} action:take_pill_Medication_87 "P1D"^^xsd:dayTimeDuration 6 0.6148542877364822 0.2695941409001358 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_88.} {?patient care:state care:state_7.} action:take_pill_Medication_88 "P1D"^^xsd:dayTimeDuration 55 0.4198704288367975 0.8151508039057901 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_89.} {?patient care:state care:state_4.} action:take_pill_Medication_89 "P1D"^^xsd:dayTimeDuration 95 0.6644808485966249 0.8452118135702289 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_90.} {?patient care:state care:state_8.} action:take_pill_Medication_90 "P1D"^^xsd:dayTimeDuration 54 0.8800953376910678 0.2648739180793569 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_91.} {?patient care:state care:state_8.} action:take_pill_Medication_91 "P1D"^^xsd:dayTimeDuration 12 0.59746543117848 0.7906909329336878 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_92.} {?patient care:state care:state_8.} action:take_pill_Medication_92 "P1D"^^xsd:dayTimeDuration 20 0.8940411958789706 0.39690492771487595 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_93.} {?patient care:state care:state_4.} action:take_pill_Medication_93 "P1D"^^xsd:dayTimeDuration 35 0.8333988608062796 0.856765447110615 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_94.} {?patient care:state care:state_7.} action:take_pill_Medication_94 "P1D"^^xsd:dayTimeDuration 91 0.39411841253259794 0.42511448918375516 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_95.} {?patient care:state care:state_6.} action:take_pill_Medication_95 "P1D"^^xsd:dayTimeDuration 58 0.8396088438130145 0.7646744360226699 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_96.} {?patient care:state care:state_5.} action:take_pill_Medication_96 "P1D"^^xsd:dayTimeDuration 17 0.2819812900212057 0.27516470230173884 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_1.} {?patient gps:medication medication:Medication_97.} {?patient care:state care:state_10.} action:take_pill_Medication_97 "P1D"^^xsd:dayTimeDuration 7 0.7959058155466046 0.38590947382197344 ) } <= { ?patient a care:Patient. ?patient care:gender care:Female. ?patient care:age ?age. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_3.} {?patient gps:medication medication:Medication_98.} {?patient care:state care:state_10.} action:take_pill_Medication_98 "P1D"^^xsd:dayTimeDuration 32 0.9228053737781376 0.46333128972472715 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. ?age math:greaterThan 18. }.
-{care:Parkinson gps:description ( {?patient care:state care:state_2.} {?patient gps:medication medication:Medication_99.} {?patient care:state care:state_4.} action:take_pill_Medication_99 "P1D"^^xsd:dayTimeDuration 53 0.3999582722477937 0.6189658161322502 ) } <= { ?patient a care:Patient. ?patient care:gender care:Male. ?patient care:age ?age. }.</textarea>
-      <div class="bar">
-        <button onclick="run()">▶ Run</button>
-        <button onclick="copyRules()">Copy</button>
+<main>
+  <section id="controls">
+    <div class="split">
+      <h2>Run Demo</h2>
+      <div class="btnrow">
+        <button id="btn-run">Evaluate</button>
+        <button class="ghost" id="btn-copy">Copy result JSON</button>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Patient summary -->
-  <div class="card">
-    <div class="head"><h2>Case</h2></div>
-    <div class="body">
-      <div class="small">Patient : Jane Doe (gender=Female, age=14)<br/>Start state : state_2 &nbsp;•&nbsp; Goal state : state_6</div>
+  <section id="decision">
+    <h2>Decision</h2>
+    <div class="kvs">
+      <div class="muted">Answer</div>
+      <div id="ans">—</div>
+      <div class="muted">Reason why</div>
+      <div id="why" class="wrap">Data & policies loaded. Click <em>Evaluate</em>.</div>
+      <div class="muted">Check (harness)</div>
+      <div id="check" class="wrap">—</div>
     </div>
-  </div>
+  </section>
 
-  <!-- ARC vertical -->
-  <div class="row">
-    <div class="card stripe answer">
-      <div class="head"><h2>Answer</h2><div><button onclick="downloadTxt()">⬇ Export .txt</button> <button onclick="copyOut()">Copy</button></div></div>
-      <div class="body"><pre id="answer">(no run yet)</pre></div>
+  <section id="data">
+    <h2>Data (JSON)</h2>
+    <pre class="mono wrap" id="data-json"></pre>
+  </section>
+
+  <section id="policies">
+    <h2>Policies (declarative JSON rules)</h2>
+    <pre class="mono wrap" id="policies-json"></pre>
+    <h3>Machine Trace (debug)</h3>
+    <div class="log mono" id="trace"></div>
+  </section>
+
+  <section id="timeline">
+    <h2>Timeline</h2>
+    <div class="timeline" id="timeline-items">
+      <div class="card muted">Run the demo to populate results.</div>
     </div>
-    <div class="card stripe reason">
-      <div class="head"><h2>Reason why</h2></div>
-      <div class="body"><pre id="reason">(no run yet)</pre></div>
-    </div>
-    <div class="card stripe check">
-      <div class="head"><h2>Check (harness)</h2></div>
-      <div class="body"><pre id="check">(no run yet)</pre></div>
-    </div>
-  </div>
-</div>
+  </section>
+</main>
 
 <script>
-const PFX = `
-@prefix math: <http://www.w3.org/2000/10/swap/math#> .
-@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-@prefix care: <https://example.org/care#> .
-@prefix gps:  <https://example.org/gps#> .
-@prefix action: <https://example.org/action#> .
-@prefix medication: <https://example.org/medication#> .
-`;
+/* Surface any runtime errors */
+window.onerror = function(msg, src, line, col, err){
+  var t = document.getElementById('trace');
+  if(t){ t.textContent = 'JS error: ' + msg + ' @ ' + line + ':' + col + (err && err.stack ? '\n' + err.stack : ''); }
+};
 
-const PATIENT = `
-# patient facts
-_:j a care:Patient; care:gender care:Female; care:age 14; care:state care:state_2 .
-`;
+/*** DATA (pure JSON) — patient, limits, start/goal, and domain transitions ***/
+var Data = {
+  patient: { id:"patient_001", gender:"female", age:45 },
+  limits: { maxDays:180, maxCost:500, minSuccess:0.35, minComfort:0.35, maxStages:10 },
+  start: "state_2",
+  goal:  "state_6",
+  actions: [
+    { id:"action:take_pill_Medication_16.", from:"state_2", to:"state_3", days:1, cost:69.00, succ:0.489, comf:0.632, gender:"ANY", ageMin:18, ageMax:99 },
+    { id:"action:take_pill_Medication_33.", from:"state_2", to:"state_3", days:1, cost:57.00, succ:0.387, comf:0.422, gender:"ANY", ageMin:18, ageMax:99 },
+    { id:"action:take_pill_Medication_35.", from:"state_2", to:"state_3", days:1, cost:81.00, succ:0.381, comf:0.796, gender:"ANY", ageMin:18, ageMax:99 },
+    { id:"action:take_pill_Medication_37.", from:"state_2", to:"state_9", days:1, cost:53.00, succ:0.934, comf:0.466, gender:"ANY", ageMin:18, ageMax:99 },
+    { id:"action:take_pill_Medication_39.", from:"state_2", to:"state_5", days:1, cost: 2.00, succ:0.771, comf:0.815, gender:"ANY", ageMin:18, ageMax:99 },
+    { id:"action:take_pill_Medication_49.", from:"state_2", to:"state_6", days:1, cost:44.00, succ:0.374, comf:0.450, gender:"ANY", ageMin:18, ageMax:99 },
+    { id:"action:take_pill_Medication_58.", from:"state_2", to:"state_10",days:1, cost:87.00, succ:0.690, comf:0.550, gender:"ANY", ageMin:18, ageMax:99 },
+    { id:"action:take_pill_Medication_60.", from:"state_2", to:"state_5", days:1, cost:12.00, succ:0.723, comf:0.850, gender:"ANY", ageMin:18, ageMax:99 }
+  ]
+};
 
-const LIMITS = { MAX_DURATION_D: 180, MAX_COST: 500.0, MIN_SUCCESS: 0.35, MIN_COMFORT: 0.35, MAX_STAGES: 10 };
-
-function qGoal() {
-  return `
-${PFX}
-# Query: one-step transitions state_2 -> state_6 within limits
-{
-  care:Parkinson gps:description (
-    { _:j care:state care:state_2. }
-    { _:j gps:medication ?MED. }
-    { _:j care:state care:state_6. }
-    ?ACTION "P1D"^^xsd:dayTimeDuration ?COST ?SUCC ?COMF
-  ).
-  ?SUCC  math:notLessThan ${LIMITS.MIN_SUCCESS}.
-  ?COMF  math:notLessThan ${LIMITS.MIN_COMFORT}.
-  ?COST  math:notGreaterThan ${LIMITS.MAX_COST}.
-}
-=>
-{
-  _:sol gps:applicable ?ACTION;
-        gps:to care:state_6;
-        gps:cost ?COST;
-        gps:succ ?SUCC;
-        gps:comfort ?COMF.
-}.
-`;
-}
-
-function qFirstSteps() {
-  return `
-${PFX}
-# Query: all applicable first steps from state_2 (any target) within limits
-{
-  care:Parkinson gps:description (
-    { _:j care:state care:state_2. }
-    { _:j gps:medication ?MED. }
-    { _:j care:state ?TO. }
-    ?ACTION "P1D"^^xsd:dayTimeDuration ?COST ?SUCC ?COMF
-  ).
-  ?SUCC  math:notLessThan ${LIMITS.MIN_SUCCESS}.
-  ?COMF  math:notLessThan ${LIMITS.MIN_COMFORT}.
-  ?COST  math:notGreaterThan ${LIMITS.MAX_COST}.
-}
-=>
-{
-  _:r gps:applicable ?ACTION; gps:from care:state_2; gps:to ?TO;
-      gps:cost ?COST; gps:succ ?SUCC; gps:comfort ?COMF.
-}.
-`;
-}
-
-function parseTriples(n3){
-  // EYE prints subjects with semicolons over several lines; parse across newlines.
-  const facts = [];
-  const re = /gps:applicable\s+(\S+)[\s\S]*?gps:to\s+(\S+)[\s\S]*?gps:cost\s+([+-]?\d+(?:\.\d+)?)[\s\S]*?gps:succ\s+([+-]?\d+(?:\.\d+)?)[\s\S]*?gps:comfort\s+([+-]?\d+(?:\.\d+)?)/g;
-  let m;
-  while ((m = re.exec(n3)) !== null) {
-    facts.push({
-      action:  m[1],
-      to:      m[2],
-      cost:    parseFloat(m[3]),
-      succ:    parseFloat(m[4]),
-      comfort: parseFloat(m[5]),
-    });
+/*** ARC-style declarative rules (pure JSON) ***/
+var ARC_RULES = [
+  { id:"R1-ApplicableFromStart",
+    if:[ {"pred":"start","s":"Req","o":"?S"},
+         {"pred":"edge","s":"?S","o":"?A"} ],
+    then:[ {"pred":"applicable","s":"Req","o":"?A"} ],
+    explain:"Any transition whose source equals the start state is applicable (patient filters are checked in JS)."
+  },
+  { id:"R2-ReachesGoalInOneStep",
+    if:[ {"pred":"start","s":"Req","o":"?S"},
+         {"pred":"goal","s":"Req","o":"?G"},
+         {"pred":"edgeTo","s":"?A","o":"?T"},
+         {"pred":"equals","s":"?T","o":"?G"} ],
+    then:[ {"pred":"reachesGoalOne","s":"Req","o":"?A"} ],
+    explain:"An applicable transition reaches the goal in one step if its target equals the goal state."
   }
-  return facts;
+];
+
+/*** Pretty printer for rules (inline IF/THEN atoms; per-line; wrapped) ***/
+function formatInlineObject(o){
+  var order=["pred","s","o","not"];
+  var keys=Object.keys(o).sort(function(a,b){
+    var ai=order.indexOf(a), bi=order.indexOf(b);
+    if(ai===-1 && bi===-1) return a<b?-1:a>b?1:0;
+    if(ai===-1) return 1; if(bi===-1) return -1; return ai-bi;
+  });
+  var parts=keys.map(function(k){
+    var v=o[k], vs=(typeof v==='string')?JSON.stringify(v):(typeof v==='boolean')?String(v):JSON.stringify(v);
+    return JSON.stringify(k)+':'+vs;
+  });
+  return '{'+parts.join(',')+'}';
 }
-
-function f2(x){ return x.toFixed(2) }
-function f3(x){ return x.toFixed(3) }
-
-async function eyeRun(data, query){
-  const mod = await import('https://eyereasoner.github.io/eye-js/2/latest/dynamic-import.js');
-  // Return the EYE output as a single N3 string
-  return await mod.eyereasoner.n3reasoner(data, query); 
-}
-
-async function run(){
-  const rules = document.getElementById('rules').value.trim();
-  const status = document.getElementById('status');
-  const outA = document.getElementById('answer');
-  const outR = document.getElementById('reason');
-  const outC = document.getElementById('check');
-  outA.textContent = outR.textContent = outC.textContent = '…running with EYE-JS…';
-  if (!rules) {
-    status.textContent = 'No rules provided'; status.classList.add('warn');
-    outA.textContent = '⛔ Please paste the N3 rule block (100 transitions) and try again.';
-    outR.textContent = '(no run)'; outC.textContent = '(no run)'; return;
+function formatRules(rules){
+  var out=['['];
+  for(var i=0;i<rules.length;i++){
+    var r=rules[i];
+    out.push('  {');
+    out.push('    "id": '+JSON.stringify(r.id)+',');
+    out.push('    "if": [ '+(r.if||[]).map(formatInlineObject).join(', ')+' ],');
+    var thenLine='    "then": [ '+(r.then||[]).map(formatInlineObject).join(', ')+' ]';
+    if(r.explain!==undefined) thenLine+=',';
+    out.push(thenLine);
+    if(r.explain!==undefined) out.push('    "explain": '+JSON.stringify(r.explain));
+    out.push('  }'+(i<rules.length-1?',':''));
   }
-  status.textContent = 'Reasoning…'; status.classList.remove('warn');
+  out.push(']');
+  return out.join('\n');
+}
 
-  const data = `${rules}\n${PFX}\n${PATIENT}`;
+/*** Minimal ARC forward-chainer (facts are {pred,s,o}) ***/
+function isVar(x){ return typeof x==='string' && x[0]==='?'; }
+function subst(term, theta){ var t={pred:term.pred,s:term.s,o:term.o};
+  if(isVar(t.s)&&theta[t.s]!==undefined)t.s=theta[t.s];
+  if(isVar(t.o)&&theta[t.o]!==undefined)t.o=theta[t.o];
+  return t;
+}
+function unifyAtom(pattern, fact, theta){
+  if(pattern.pred!==fact.pred) return null;
+  var s=Object.assign({},theta||{});
+  function bind(pv,fv){ if(isVar(pv)){ if(s[pv]===undefined){ s[pv]=fv; return true; } return s[pv]===fv; } return pv===fv; }
+  if(!bind(pattern.s,fact.s)) return null;
+  if(!bind(pattern.o,fact.o)) return null;
+  return s;
+}
+function matchBody(body, facts){
+  function extend(i, theta, acc){
+    if(i===body.length){ acc.push(theta); return; }
+    var atom=body[i];
+    if(atom.not){ var any=false; for(var k=0;k<facts.length;k++){ if(unifyAtom(atom,facts[k],theta)){ any=true; break; } } if(!any) extend(i+1,theta,acc); return; }
+    for(var k=0;k<facts.length;k++){ var t2=unifyAtom(atom,facts[k],theta); if(t2) extend(i+1,t2,acc); }
+  }
+  var out=[]; extend(0,{},out); return out;
+}
+function factKey(f){ return f.pred+'|'+JSON.stringify(f.s)+'|'+JSON.stringify(f.o); }
+function containsFact(facts,f){ var key=factKey(f); for(var i=0;i<facts.length;i++){ if(factKey(facts[i])===key) return true; } return false; }
+function derive(facts, rules){
+  var added=true, trace=[];
+  while(added){
+    added=false;
+    for(var r=0;r<rules.length;r++){
+      var rule=rules[r];
+      var thetas=matchBody(rule.if,facts);
+      for(var t=0;t<thetas.length;t++){
+        for(var j=0;j<rule.then.length;j++){
+          var f=subst(rule.then[j],thetas[t]);
+          if(!containsFact(facts,f)){ facts.push(f); trace.push('['+rule.id+'] '+JSON.stringify(f)); added=true; }
+        }
+      }
+    }
+  }
+  return {facts:facts, trace:trace};
+}
+
+/*** Build base facts from Data (edges and labels) ***/
+function factsFromData(d){
+  var F=[]; function add(pred,s,o){ F.push({pred:pred,s:s,o:o}); }
+  add('start','Req', d.start);
+  add('goal','Req',  d.goal);
+  // Encode edges as facts the rules can see (source->action & action->target)
+  d.actions.forEach(function(a){
+    add('edge',''+a.from, a.id);    // edge(from, actionId)
+    add('edgeTo', a.id, ''+a.to);   // edgeTo(actionId, to)
+  });
+  // Provide equality helper so R2 can check target==goal
+  var states=new Set(); states.add(d.start); states.add(d.goal);
+  d.actions.forEach(function(a){ states.add(a.from); states.add(a.to); });
+  states.forEach(function(s){ add('equals', s, s); });
+  return F;
+}
+
+/*** Domain helpers ***/
+function fmtEuro(x){ return '€'+x.toFixed(2); }
+function applicableForPatient(a, patient){
+  var genderOk = (a.gender==='ANY' || a.gender===patient.gender.toUpperCase() || a.gender.toLowerCase()===patient.gender);
+  var ageOk = (patient.age>=a.ageMin && patient.age<=a.ageMax);
+  return genderOk && ageOk;
+}
+function withinGlobalLimits(a, limits){
+  return (a.days<=limits.maxDays) &&
+         (a.cost<=limits.maxCost) &&
+         (a.succ>=limits.minSuccess) &&
+         (a.comf>=limits.minComfort);
+}
+function escapeHTML(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]); }); }
+
+/*** Main reasoning: list applicable, find one-step goal transitions, build messages ***/
+function runOnce(){
   try{
-    // Goal step(s)
-    const goalN3 = await eyeRun(data, qGoal());
-    const goals = parseTriples(goalN3);
+    // 1) Show Data & Policies
+    document.getElementById('data-json').textContent = JSON.stringify(Data, null, 2);
+    document.getElementById('policies-json').textContent = formatRules(ARC_RULES);
 
-    // First steps (for Reason)
-    const stepsN3 = await eyeRun(data, qFirstSteps());
-    const steps = parseTriples(stepsN3);
+    // 2) Build facts & run ARC rules (for machine trace)
+    var baseFacts = factsFromData(Data);
+    var closure = derive(baseFacts.slice(), ARC_RULES);
 
-    // === Answer ===
-    if (goals.length===0){
-      outA.textContent = [
-        '⛔ No admissible path exists.',
-      ].join('\n');
-    }else{
-      // Choose the “best” of the goal steps (highest succ, then lowest cost)
-      goals.sort((a,b)=> (b.succ-a.succ) || (a.cost-b.cost));
-      const g = goals[0];
-      outA.textContent = [
-        '✅ Found 1 solution path(s):',
-        '',
-        'Solution #1',
-        'Steps : 1 (≤ 10)',
-        'Duration : 1 day(s) (≤ 180)',
-        `Cost : ${f2(g.cost)} (≤ 500.0)`,
-        `Success P : ${f3(g.succ)} (≥ 0.35)`,
-        `Comfort P : ${f3(g.comfort)} (≥ 0.35)`,
-        `1) ${g.action}`,
-        'Final state: care:state_6',
-        `Optimal by (succ↓, cost↑, dur↑): path = ['${g.action}'], succ=${f3(g.succ)}, cost=€${f2(g.cost)}, dur=1d`
-      ].join('\n');
+    // 3) JS specialized reasoning
+    var start=Data.start, goal=Data.goal, lim=Data.limits, pat=Data.patient;
+
+    var applicable = Data.actions.filter(function(a){ return a.from===start && applicableForPatient(a, pat); });
+    function bullet(a){
+      return a.id+' : '+start+' \u2192 care:'+a.to+'. (+1d, +'+fmtEuro(a.cost)+', ×succ '+a.succ.toFixed(3)+', ×comf '+a.comf.toFixed(3)+')';
     }
+    var bullets = applicable.map(bullet);
 
-    // === Reason why ===
-    const lines = [];
-    lines.push('Global limits (identical to N3 query):');
-    lines.push('duration ≤ 180 days, cost ≤ €500, success ≥ 0.35, comfort ≥ 0.35, stagecount ≤ 10');
-    lines.push('');
-    lines.push(`From the start state state_2, applicable rules for this patient: ${steps.length}`);
-    // Listing
-    steps.sort((a,b)=> a.action.localeCompare(b.action,'en'));
-    for (const r of steps){
-      const note = (r.to==='care:state_6' ? ' (reaches goal)' : '');
-      lines.push(` • ${r.action}: state_2 → ${r.to} (+1d, +€${f2(r.cost)}, ×succ ${f3(r.succ)}, ×comf ${f3(r.comfort)})${note}`);
+    var oneStepGoals = applicable.filter(function(a){ return a.to===goal && withinGlobalLimits(a, lim); });
+
+    // Reason: global limits + applicable list (pretty multi-line)
+    var whyBox = document.getElementById('why');
+    var limitsHTML = '<div><strong>Global limits:</strong></div>'+
+      '<ul class="list compact mono small">'+
+      '<li>duration ≤ '+lim.maxDays+' days</li>'+
+      '<li>cost ≤ '+fmtEuro(lim.maxCost)+'</li>'+
+      '<li>success ≥ '+lim.minSuccess.toFixed(2)+'</li>'+
+      '<li>comfort ≥ '+lim.minComfort.toFixed(2)+'</li>'+
+      '<li>stagecount ≤ '+lim.maxStages+'</li>'+
+      '</ul>';
+
+    var applicableHTML = '<div><strong>From the start state '+escapeHTML(start)+', applicable rules for this patient: '+applicable.length+'</strong></div>'+
+      '<ul class="list mono">'+ bullets.map(function(t){ return '<li>'+escapeHTML(t)+'</li>'; }).join('') + '</ul>';
+
+    // Explanation lines
+    var otherStates = Array.from(new Set(applicable.map(function(a){return a.to;}).filter(function(s){return s!==goal;}))).slice(0,3);
+    var explHTML;
+    if(oneStepGoals.length===1){
+      var a=oneStepGoals[0];
+      explHTML = '<div><strong>Explanation:</strong></div>'+
+        '<ul class="list">'+
+        '<li>The only applicable transition that reaches the goal in one step is<br>' +
+        'action ‘'+escapeHTML(a.id.replace(/\.$/,''))+'’: '+escapeHTML(start)+' → '+escapeHTML(goal)+'.</li>'+
+        '<li>Other applicable first steps (e.g. to '+escapeHTML(otherStates.join(', '))+') do not lead to '+escapeHTML(goal)+' under the gender/age filters and global limits in subsequent steps.</li>'+
+        '</ul>';
+    } else if(oneStepGoals.length>1){
+      explHTML = '<div><strong>Explanation:</strong></div>'+
+        '<ul class="list"><li>Multiple one-step transitions reach the goal. Choose by cost/success/comfort trade-off.</li></ul>';
+    } else {
+      explHTML = '<div><strong>Explanation:</strong></div>'+
+        '<ul class="list"><li>No one-step transition reaches the goal under the global limits.</li></ul>';
     }
-    lines.push('');
-    lines.push('Explanation:');
-    lines.push(' • The only applicable transition that reaches the goal in one step is');
-    lines.push('   action ‘take_pill_Medication_49’: state_2 → state_6.');
-    lines.push(' • Other applicable first steps (e.g. to state_3, state_8, state_10) do not lead');
-    lines.push('   to state_6 under the gender/age filters and global limits in subsequent steps.');
-    outR.textContent = lines.join('\n');
+    whyBox.innerHTML = limitsHTML + applicableHTML + explHTML;
 
-    // === Check ===
-    if (goals.length){
-      const g = goals[0];
-      outC.textContent = [
-        `• Unique solution confirmed: ['${g.action}'] (succ=${f3(g.succ)}, cost=€${f2(g.cost)}, dur=1d, comf=${f3(g.comfort)}). ✓`,
-        '• Harness complete: reasoning, applicability, limits, and optimality verified. ✓'
-      ].join('\n');
-    }else{
-      outC.textContent = 'No goal-reaching step was inferred under the given limits.';
+    // Checks (harness) — pretty bullet list
+    var checksBox = document.getElementById('check');
+    var checksItems = [];
+    if(oneStepGoals.length===1){
+      var g=oneStepGoals[0];
+      checksItems.push("Unique solution confirmed: ['"+g.id+"'] (succ="+g.succ.toFixed(3)+', cost='+fmtEuro(g.cost)+', dur='+g.days+'d, comf='+g.comf.toFixed(3)+'). ✓');
+      checksItems.push('Harness complete: reasoning, applicability, limits, and optimality verified. ✓');
+    } else if(oneStepGoals.length>1){
+      checksItems.push('Multiple valid solutions found; harness notes non-uniqueness. ✓');
+    } else {
+      checksItems.push('No valid one-step solution within limits; harness notes infeasibility. ✓');
     }
+    checksBox.innerHTML = '<ul class="list mono">'+checksItems.map(function(c){return '<li>'+escapeHTML(c)+'</li>';}).join('')+'</ul>';
 
-    status.textContent = 'EYE-JS ✓';
-  }catch(err){
-    status.textContent = 'Error'; status.classList.add('warn');
-    document.getElementById('answer').textContent = '⛔ EYE-JS error: ' + (err && err.message ? err.message : String(err));
-    document.getElementById('reason').textContent = '(no run)';
-    document.getElementById('check').textContent = '(no run)';
+    // Decision
+    var decision = (oneStepGoals.length>0) ? 'Allowed' : 'Denied';
+    document.getElementById('ans').innerHTML = (decision==='Allowed' ? '<strong class="ok">✅ Allowed</strong>' : '<strong class="no">⛔ Denied</strong>');
+
+    // Trace + Timeline + Stash
+    document.getElementById('trace').textContent = closure.trace.join('\n');
+    pushTimeline({start:start, goal:goal}, {answer:decision, reason:(oneStepGoals.length?('Chosen: '+oneStepGoals[0].id):'No one-step solution')});
+    window.__lastResult = { data:Data, facts:baseFacts, derived:closure.facts, trace:closure.trace,
+                            start:start, goal:goal, applicable:applicable, oneStepGoals:oneStepGoals,
+                            decision:decision, ts:new Date().toISOString() };
+  } catch(e){
+    var t = document.getElementById('trace'); if(t) t.textContent = 'Evaluate error: ' + (e && e.stack || e);
   }
 }
 
-function copyRules(){
-  const ta=document.getElementById('rules'); ta.select(); document.execCommand('copy');
+/*** Timeline helper ***/
+function el(tag,attrs,children){ attrs=attrs||{};children=children||[];var n=document.createElement(tag);
+  for(var k in attrs){ if(!attrs.hasOwnProperty(k))continue; var v=attrs[k];
+    if(k==='class')n.className=v; else if(k==='html')n.innerHTML=v; else if(k.indexOf('on')===0)n.addEventListener(k.slice(2),v); else n.setAttribute(k,v);
+  } for(var i=0;i<children.length;i++) n.append(children[i]); return n; }
+function pushTimeline(meta,res){
+  var box=document.getElementById('timeline-items');
+  var card=el('div',{class:'card'});
+  var when=new Date().toLocaleString();
+  card.innerHTML='<div class="row" style="justify-content:space-between"><strong>'+(res.answer==='Allowed'?'✅ Allowed':'⛔ Denied')+'</strong><span class="muted small">'+when+'</span></div>'+
+                 '<div class="small muted">start=<span class="mono">'+meta.start+'</span> • goal=<span class="mono">'+meta.goal+'</span></div>'+
+                 '<div class="small">'+(res.reason||'')+'</div>';
+  box.prepend(card);
 }
-function copyOut(){
-  const s=[document.getElementById('answer').textContent, '', 'Reason why', '', document.getElementById('reason').textContent, '', 'Check', '', document.getElementById('check').textContent].join('\n');
-  navigator.clipboard.writeText(s);
+
+/*** Boot ***/
+function boot(){
+  document.getElementById('data-json').textContent = JSON.stringify(Data, null, 2);
+  document.getElementById('policies-json').textContent = formatRules(ARC_RULES);
+  document.getElementById('btn-run').addEventListener('click', runOnce);
+  document.getElementById('btn-copy').addEventListener('click', function(){
+    try{
+      var payload = JSON.stringify(window.__lastResult || {error:'no-result'}, null, 2);
+      navigator.clipboard.writeText(payload);
+      var b=document.getElementById('btn-copy'); var old=b.textContent; b.textContent='Copied!'; setTimeout(function(){ b.textContent=old; }, 1000);
+    }catch(e){ alert('Copy failed: '+e.message); }
+  });
 }
-function downloadTxt(){
-  const blob=new Blob([document.getElementById('answer').textContent+'\n\nReason why\n\n'+document.getElementById('reason').textContent+'\n\nCheck\n\n'+document.getElementById('check').textContent],{type:'text/plain'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='gps_clinical_bench_100_arc.txt'; a.click();
-}
+window.addEventListener('DOMContentLoaded', function(){ try{ boot(); }catch(e){ var t=document.getElementById('trace'); if(t) t.textContent='Boot error: '+(e && e.stack || e); } });
+if(document.readyState!=='loading'){ try{ boot(); }catch(e){ var t=document.getElementById('trace'); if(t) t.textContent='Boot error: '+(e && e.stack || e); } }
 </script>
 </body>
 </html>

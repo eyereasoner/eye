@@ -2,505 +2,447 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Delfour Insight Economy</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="color-scheme" content="light" />
-  <!-- Tailwind (CDN) -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Delfour Insight Economy</title>
   <style>
-    html, body { height: 100%; }
-    pre { white-space: pre-wrap; word-break: break-word; }
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    :root{--bg:#f7fafc;--panel:#ffffff;--muted:#475569;--text:#0b1220;--accent:#2563eb;--good:#16a34a;--bad:#dc2626;--warn:#d97706;--chip:#eef2f7}
+    *{box-sizing:border-box} body{margin:0;font:16px/1.5 system-ui,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    header{padding:24px 20px;border-bottom:1px solid #e5e7eb;background:linear-gradient(180deg,rgba(37,99,235,.08),transparent)}
+    h1{margin:0;font-size:24px;letter-spacing:.2px}
+    main{display:grid;grid-template-columns:1fr;gap:22px;padding:20px;align-items:start}
+    section{background:var(--panel);border:1px solid #e5e7eb;border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+    h2{margin:0 0 10px 0;font-size:18px}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .grid{display:grid;gap:10px}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#ffffff;border:1px solid #e5e7eb}
+    .small{font-size:13px;color:var(--muted)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .ok{color:var(--good)} .no{color:var(--bad)} .warn{color:var(--warn)}
+    .kvs{display:grid;grid-template-columns:160px 1fr;gap:6px 10px}
+    .log{max-height:260px;overflow:auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:10px}
+    .timeline{display:flex;flex-direction:column;gap:10px}
+    .card{background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:12px}
+    .muted{color:var(--muted)}
+    .split{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
+    button{cursor:pointer;background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:12px;font-weight:600}
+    button.ghost{background:#f8fafc;color:var(--text);border:1px solid #dbe2ea}
+    select{padding:6px 8px;border-radius:10px;border:1px solid #cbd5e1;background:#fff}
   </style>
 </head>
-<body class="bg-gradient-to-b from-slate-50 to-white text-slate-900 min-h-screen">
-  <main class="max-w-6xl mx-auto p-6">
-    <header class="mb-6">
-      <h1 class="text-2xl font-bold">Delfour Insight Economy</h1>
-      <p class="text-slate-600">
-        Reasoning powered by <span class="font-mono">eye-js</span>
-      </p>
-    </header>
+<body>
+<header>
+  <h1>📱 Delfour Insight Economy</h1>
+</header>
 
-    <!-- What this is? -->
-    <section class="mb-4">
-      <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
-        <h3 class="text-lg font-semibold mb-2">What this is?</h3>
-        <p class="text-sm text-slate-700">
-          Client-side demo that keeps data &amp; ODRL policy in Turtle, while logic runs in eye-js.
-          It derives a neutral Insight, builds an ODRL policy, authorizes a purpose-limited request,
-          and suggests a lower-sugar alternative.
-        </p>
+<main>
+  <section id="controls">
+    <div class="split">
+      <h2>Run Demo</h2>
+      <div class="btnrow">
+        <button id="btn-run">Evaluate</button>
+        <button class="ghost" id="btn-copy">Copy result JSON</button>
       </div>
-    </section>
-
-    <div class="flex items-center gap-3 mb-6">
-      <button id="runBtn"
-              class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold shadow hover:bg-indigo-500 disabled:opacity-50">
-        Run Demo
-      </button>
-      <label class="text-slate-600 text-sm flex items-center gap-2">
-        Session
-        <input id="sessionId" value="S1" class="px-2 py-1 border border-slate-300 rounded-lg" />
-      </label>
-      <span id="status" class="text-sm text-slate-600"></span>
     </div>
+    <div class="row">
+      <label class="pill"><span class="small">Scan Product</span>
+        <select id="scan-select" style="margin-left:8px">
+          <!-- filled at boot -->
+        </select>
+      </label>
+    </div>
+  </section>
 
-    <!-- ONE-COLUMN FLOW -->
-    <section class="space-y-4">
-      <!-- 1) PHONE — Inputs -->
-      <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
-        <h3 class="text-lg font-semibold mb-2">PHONE — Inputs <span class="text-xs text-slate-500">(profile.ttl + context.ttl)</span></h3>
-        <div class="grid grid-cols-1 gap-4">
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700 border border-indigo-100">profile.ttl</span>
-              <span class="text-xs text-slate-500">POD data</span>
-            </div>
-            <pre id="profileBox" class="text-xs"></pre>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-indigo-50 text-indigo-700 border border-indigo-100">context.ttl</span>
-              <span class="text-xs text-slate-500">session</span>
-            </div>
-            <pre id="contextBox" class="text-xs"></pre>
-          </div>
-        </div>
-      </div>
+  <section id="decision">
+    <h2>Decision</h2>
+    <div class="kvs">
+      <div class="muted">Answer</div>
+      <div id="ans">—</div>
+      <div class="muted">Reason why</div>
+      <div id="why">Data & policies loaded. Click <em>Evaluate</em>.</div>
+      <div class="muted">Check</div>
+      <div id="check">—</div>
+    </div>
+  </section>
 
-      <!-- 2) PHONE — Derived -->
-      <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
-        <h3 class="text-lg font-semibold mb-2">PHONE — Derived <span class="text-xs text-slate-500">(insight + policy)</span></h3>
-        <div class="grid grid-cols-1 gap-4">
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-emerald-50 text-emerald-700 border border-emerald-100">insight (derived)</span>
-              <span class="text-xs text-slate-500">neutral envelope</span>
-            </div>
-            <pre id="insightBox" class="text-xs"></pre>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-emerald-50 text-emerald-700 border border-emerald-100">policy (derived)</span>
-              <span class="text-xs text-slate-500">ODRL</span>
-            </div>
-            <pre id="policyBox" class="text-xs"></pre>
-          </div>
-        </div>
-      </div>
+  <section id="banner">
+    <h2>Banner Preview (JSON)</h2>
+    <pre class="mono" id="banner-json" style="white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; overflow-x:hidden; overflow-y:auto"></pre>
+  </section>
 
-      <!-- 3) SCANNER — Inputs -->
-      <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
-        <h3 class="text-lg font-semibold mb-2">SCANNER — Inputs <span class="text-xs text-slate-500">(now + request + catalog + scan)</span></h3>
-        <div class="grid grid-cols-1 gap-4">
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-100">now.ttl</span>
-              <span class="text-xs text-slate-500">clock</span>
-            </div>
-            <pre id="nowBox" class="text-xs"></pre>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-100">request.ttl</span>
-              <span class="text-xs text-slate-500">use@shopping_assist</span>
-            </div>
-            <pre id="requestBox" class="text-xs"></pre>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-100">catalog.ttl</span>
-              <span class="text-xs text-slate-500">products</span>
-            </div>
-            <pre id="catalogBox" class="text-xs"></pre>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-100">scan.ttl</span>
-              <span class="text-xs text-slate-500">event</span>
-            </div>
-            <pre id="scanBox" class="text-xs"></pre>
-          </div>
-        </div>
-      </div>
+  <section id="data">
+    <h2>Data (JSON)</h2>
+    <pre class="mono" id="data-json" style="white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; overflow-x:hidden; overflow-y:auto"></pre>
+  </section>
 
-      <!-- 4) SCANNER — Derived + 5) Summary -->
-      <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
-        <h3 class="text-lg font-semibold mb-2">SCANNER — Derived <span class="text-xs text-slate-500">(auth + audit + suggestion)</span></h3>
-        <div class="grid grid-cols-1 gap-4">
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-rose-50 text-rose-700 border border-rose-100">audit (derived)</span>
-              <span class="text-xs text-slate-500">decision trail</span>
-            </div>
-            <pre id="auditBox" class="text-xs"></pre>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-rose-50 text-rose-700 border border-rose-100">banner.json</span>
-              <span class="text-xs text-slate-500">runtime preview</span>
-            </div>
-            <pre id="bannerBox" class="text-xs"></pre>
-          </div>
-        </div>
-      </div>
+  <section id="policies">
+    <h2>Policies (declarative JSON rules)</h2>
+    <pre class="mono" id="policies-json" style="white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; overflow-x:hidden; overflow-y:auto"></pre>
+    <h3>Machine Trace (debug)</h3>
+    <div class="log mono" id="trace"></div>
+  </section>
 
-      <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-4">
-        <h3 class="text-lg font-semibold mb-2">Summary &amp; Harness <span class="text-xs text-slate-500">(decision • suggestion • checks • reason • timeline)</span></h3>
-        <div class="grid grid-cols-1 gap-4">
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-sky-50 text-sky-700 border border-sky-100">summary.json</span>
-            </div>
-            <pre id="summaryBox" class="text-xs"></pre>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-sky-50 text-sky-700 border border-sky-100">checks</span>
-            </div>
-            <div id="checks" class="text-sm space-y-1"></div>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-sky-50 text-sky-700 border border-sky-100">reason.txt</span>
-            </div>
-            <pre id="reasonBox" class="text-xs"></pre>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-sky-50 text-sky-700 border border-sky-100">timeline</span>
-            </div>
-            <ul id="timeline" class="text-sm space-y-1"></ul>
-          </div>
-        </div>
-      </div>
-    </section>
+  <section id="timeline">
+    <h2>Timeline</h2>
+    <div class="timeline" id="timeline-items">
+      <div class="card muted">Recent interactions and decisions will appear here.</div>
+    </div>
+  </section>
+</main>
 
-    <footer class="mt-8 text-xs text-slate-500">
-      Inspired by AuroraCare’s layout. Powered by <span class="font-mono">eye-js</span>.
-    </footer>
-  </main>
+<script>
+/* Surface any runtime errors */
+window.onerror = function(msg, src, line, col, err){
+  var t = document.getElementById('trace');
+  if(t){ t.textContent = 'JS error: ' + msg + ' @ ' + line + ':' + col + (err && err.stack ? '\n' + err.stack : ''); }
+};
 
-  <!-- eye-js (dynamic import) -->
-  <script type="module">
-    // ------- Minimal UI helpers -------
-    const statusEl = document.getElementById("status");
-    const runBtn   = document.getElementById("runBtn");
+/*** Demo DATA (pure JSON) — matches your TTL content ***/
+(function seedData(){
+  // use ISO now; expiry = +2h, but keep values visible and stable at runtime
+  var now = new Date();
+  var createdISO = now.toISOString();
+  var expiresISO = new Date(now.getTime() + 2*60*60*1000).toISOString();
 
-    function setStatus(msg){ statusEl.textContent = msg || ""; }
-    function addTimeline(ev, detail=""){
-      const li = document.createElement("li");
-      const ts = new Date().toLocaleTimeString();
-      li.className = "flex gap-2";
-      li.innerHTML = `<span class="text-slate-400 w-28 shrink-0">${ts}</span>
-                      <span class="font-semibold w-36 shrink-0">${ev}</span>
-                      <span class="text-slate-700">${detail||""}</span>`;
-      document.getElementById("timeline").appendChild(li);
+  window.Data = {
+    phone: {
+      profile: { POD: { householdCondition: ["Diabetes"] } },
+      context: {
+        retailer: "Delfour",
+        device: "self-scanner",
+        event: "pick_up_scanner",
+        createdAt: createdISO,
+        expiresAt: expiresISO
+      }
+    },
+    scanner: {
+      now: { iso: createdISO },
+      request: { id:"req:r1", action:"use", purpose:"shopping_assist", requester:{ id:"phone-scanner", role:"APP" } },
+      catalog: [
+        { id:"prod:BIS_001", name:"Classic Tea Biscuits",   sugarPerServing:12.0 },
+        { id:"prod:BIS_101", name:"Low-Sugar Tea Biscuits", sugarPerServing:3.0  },
+        { id:"prod:CHOC_050", name:"Milk Chocolate Bar",    sugarPerServing:15.0 },
+        { id:"prod:CHOC_150", name:"85% Dark Chocolate",    sugarPerServing:6.0  }
+      ],
+      scan: { productId: "prod:BIS_001" }
     }
-    function showChecks(arr){
-      const box = document.getElementById("checks");
-      box.innerHTML = "";
-      arr.forEach(([name, ok])=>{
-        const row = document.createElement("div");
-        row.className = "flex items-center gap-2";
-        const badge = document.createElement("span");
-        badge.className = "inline-flex h-5 w-5 items-center justify-center rounded-full " + (ok ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700");
-        badge.textContent = ok ? "✓" : "✗";
-        const label = document.createElement("span");
-        label.textContent = name;
-        row.append(badge, label);
-        box.appendChild(row);
-      });
-    }
+  };
+})();
 
-    // ------- Build TTL inputs -------
-    const profileTTL = `@prefix :       <https://example.org/person#> .
-@prefix health: <https://example.org/health#> .
-:me  health:householdCondition  health:Diabetes .`;
+/*** ARC-style declarative policy rules (pure JSON) ***/
+var ARC_RULES = [
+  { id:"R1-EnvelopeNeutral",
+    if:[ {"pred":"purpose","s":"Req","o":"shopping_assist"},
+         {"pred":"device","s":"Req","o":"self-scanner"},
+         {"pred":"event","s":"Req","o":"pick_up_scanner"},
+         {"pred":"retailer","s":"Req","o":"Delfour"},
+         {"pred":"householdCondition","s":"Req","o":"Diabetes"} ],
+    then:[ {"pred":"envelope","s":"Req","o":"neutral"},
+           {"pred":"metric","s":"Req","o":"sugar_g_per_serving"},
+           {"pred":"threshold","s":"Req","o":10.0},
+           {"pred":"scopeDevice","s":"Req","o":"self-scanner"},
+           {"pred":"scopeEvent","s":"Req","o":"pick_up_scanner"} ],
+    explain:"Diabetes flag + device+event+retailer scope → neutral insight envelope with sugar metric and 10g/serving threshold."
+  },
+  { id:"R2-PermitUseShoppingAssist",
+    if:[ {"pred":"envelope","s":"Req","o":"neutral"},
+         {"pred":"purpose","s":"Req","o":"shopping_assist"} ],
+    then:[ {"pred":"permit","s":"Req","o":"insight"},
+           {"pred":"policyUid","s":"Req","o":"urn:policy:delfour-2025"},
+           {"pred":"duty","s":"Req","o":"delete[session_end]"},
+           {"pred":"prohibition","s":"Req","o":"share"} ],
+    explain:"Neutral envelope permits use for shopping assistance; share is prohibited; delete at session end."
+  },
+  { id:"R3-NowWithinValidity",
+    if:[ {"pred":"createdAt","s":"Req","o":"?t1"},
+         {"pred":"expiresAt","s":"Req","o":"?t2"},
+         {"pred":"now","s":"Req","o":"?tn"} ],
+    then:[ {"pred":"valid","s":"Req","o":"true"} ],
+    explain:"If now is between createdAt and expiresAt (checked in JS), we mark the request valid."
+  }
+];
 
-    const contextTTL = ({created, expires}) => `@prefix ctx: <https://example.org/context#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-[] ctx:retailer "Delfour" ;
-   ctx:device   "self-scanner" ;
-   ctx:event    "pick_up_scanner" ;
-   ctx:createdAt "${created}"^^xsd:dateTime ;
-   ctx:expiresAt "${expires}"^^xsd:dateTime .`;
-
-    const nowTTL = (nowISO) => `@prefix ex:  <https://example.org/enforce#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-[] ex:now "${nowISO}"^^xsd:dateTime .`;
-
-    const requestTTL = `@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
-@prefix req:  <https://example.org/request#> .
-req:r1 odrl:action odrl:use ;
-      odrl:constraint [
-        odrl:leftOperand  odrl:purpose ;
-        odrl:rightOperand "shopping_assist"
-      ] .`;
-
-    const catalogTTL = `@prefix prod:   <https://example.org/product#> .
-@prefix schema: <http://schema.org/> .
-@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
-prod:BIS_001 a schema:Product ; schema:name "Classic Tea Biscuits" ; schema:sugarContent "12.0"^^xsd:decimal .
-prod:BIS_101 a schema:Product ; schema:name "Low-Sugar Tea Biscuits" ; schema:sugarContent "3.0"^^xsd:decimal .
-prod:CHOC_050 a schema:Product ; schema:name "Milk Chocolate Bar"   ; schema:sugarContent "15.0"^^xsd:decimal .
-prod:CHOC_150 a schema:Product ; schema:name "85% Dark Chocolate"   ; schema:sugarContent "6.0"^^xsd:decimal .`;
-
-    const scanTTL = `@prefix shop: <https://example.org/shop#> .
-@prefix prod: <https://example.org/product#> .
-[] shop:scannedProduct prod:BIS_001 .`;
-
-    // ------- N3 rule sets (executed by eye-js) -------
-    const PHONE_RULES = `@prefix :        <https://example.org/person#> .
-@prefix health:  <https://example.org/health#> .
-@prefix need:    <https://example.org/need#> .
-@prefix ctx:     <https://example.org/context#> .
-@prefix ins:     <https://example.org/insight#> .
-@prefix odrl:    <http://www.w3.org/ns/odrl/2/> .
-@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
-
-{ ?p health:householdCondition health:Diabetes. } => { ?p need:needsLowSugar true. } .
-
-{
-  ?p need:needsLowSugar true.
-  ?c  ctx:retailer   ?ret ;
-      ctx:device     ?dev ;
-      ctx:event      ?ev ;
-      ctx:createdAt  ?ts  ;
-      ctx:expiresAt  ?exp .
+/*** Pretty-printer for rules: inline IF/THEN atoms, per-line, wrapped ***/
+function formatInlineObject(o){
+  var order = ["pred","s","o","not"];
+  var keys = Object.keys(o).sort(function(a,b){
+    var ai = order.indexOf(a), bi = order.indexOf(b);
+    if (ai === -1 && bi === -1) return a < b ? -1 : a > b ? 1 : 0;
+    if (ai === -1) return 1; if (bi === -1) return -1; return ai - bi;
+  });
+  var parts = keys.map(function(k){
+    var v=o[k]; var vs=(typeof v==='string')?JSON.stringify(v):(typeof v==='boolean')?String(v):JSON.stringify(v);
+    return JSON.stringify(k)+':'+vs;
+  });
+  return '{'+parts.join(',')+'}';
 }
-=>
-{
-  _:ins a                 ins:Insight ;
-        ins:metric        "sugar_g_per_serving" ;
-        ins:threshold     "10.0"^^xsd:decimal ;
-        ins:suggestionPolicy "lower_metric_first_higher_price_ok" ;
-        ins:scopeDevice   ?dev ;
-        ins:scopeEvent    ?ev ;
-        ins:retailer      ?ret ;
-        ins:createdAt     ?ts ;
-        ins:expiresAt     ?exp .
-} .
-
-{
-  ?ins a ins:Insight ;
-       ins:retailer     ?ret ;
-       ins:scopeDevice  ?dev ;
-       ins:scopeEvent   ?ev ;
-       ins:expiresAt    ?exp .
+function formatRules(rules){
+  var out=['['];
+  for (var i=0;i<rules.length;i++){
+    var r=rules[i];
+    out.push('  {');
+    out.push('    "id": '+JSON.stringify(r.id)+',');
+    out.push('    "if": [ '+(r.if||[]).map(formatInlineObject).join(', ')+' ],');
+    var thenLine='    "then": [ '+(r.then||[]).map(formatInlineObject).join(', ')+' ]';
+    if(r.explain!==undefined) thenLine+=',';
+    out.push(thenLine);
+    if(r.explain!==undefined) out.push('    "explain": '+JSON.stringify(r.explain));
+    out.push('  }'+(i<rules.length-1?',':''));
+  }
+  out.push(']');
+  return out.join('\n');
 }
-=>
-{
-  _:pol a odrl:Policy ;
-        odrl:profile    "Delfour-Insight-Policy" ;
 
-        odrl:permission [
-          odrl:action      odrl:use ;
-          odrl:target      ?ins ;
-          odrl:constraint [
-            odrl:leftOperand  odrl:purpose ;
-            odrl:operator     odrl:eq ;
-            odrl:rightOperand "shopping_assist"
-          ]
-        ] ;
-
-        odrl:prohibition [
-          odrl:action      odrl:share ;
-          odrl:target      ?ins ;
-          odrl:constraint [
-            odrl:leftOperand  odrl:purpose ;
-            odrl:operator     odrl:eq ;
-            odrl:rightOperand "marketing"
-          ]
-        ] ;
-
-        odrl:duty [
-          odrl:action      odrl:delete ;
-          odrl:constraint [
-            odrl:leftOperand  odrl:dateTime ;
-            odrl:operator     odrl:eq ;
-            odrl:rightOperand ?exp
-          ]
-        ] .
-} .
-`;
-
-    const SCANNER_RULES = `@prefix ins:   <https://example.org/insight#> .
-@prefix odrl:  <http://www.w3.org/ns/odrl/2/> .
-@prefix ex:    <https://example.org/enforce#> .
-@prefix act:   <https://example.org/activity#> .
-@prefix shop:  <https://example.org/shop#> .
-@prefix schema:<http://schema.org/> .
-@prefix math:  <http://www.w3.org/2000/10/swap/math#> .
-@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
-
-{ ?ins a ins:Insight ; ins:expiresAt ?exp . [] ex:now ?now . ?exp math:lessThan ?now . }
-=> { ?ins a ex:Expired . } .
-
-{
-  ?pol a odrl:Policy ;
-       odrl:permission [
-         odrl:action      odrl:use ;
-         odrl:target      ?ins ;
-         odrl:constraint [
-           odrl:leftOperand  odrl:purpose ;
-           odrl:operator     odrl:eq ;
-           odrl:rightOperand "shopping_assist"
-         ]
-       ] .
-  ?ins a ins:Insight .
-  ?req odrl:action odrl:use ;
-       odrl:constraint [ odrl:leftOperand odrl:purpose ; odrl:rightOperand "shopping_assist" ] .
+/*** Minimal ARC forward-chainer (facts are {pred,s,o}) ***/
+function isVar(x){ return typeof x==='string' && x[0]==='?'; }
+function subst(term, theta){ var t={pred:term.pred,s:term.s,o:term.o};
+  if(isVar(t.s)&&theta[t.s]!==undefined)t.s=theta[t.s];
+  if(isVar(t.o)&&theta[t.o]!==undefined)t.o=theta[t.o];
+  return t;
 }
-=> { ?req a ex:Allowed ; ex:target ?ins . } .
-
-{ ?req a ex:Allowed ; ex:target ?ins . ?ins a ex:Expired . }
-=> { ?req a ex:Blocked ; ex:reason "expired" . } .
-
-{ ?req a ex:Allowed . [] ex:now ?now . }
-=> { _:a a act:Decision ; act:at ?now ; act:request ?req ; act:outcome "Allowed" . } .
-
-{ ?req a ex:Blocked ; ex:reason ?r . [] ex:now ?now . }
-=> { _:a a act:Decision ; act:at ?now ; act:request ?req ; act:outcome "Blocked" ; act:reason ?r . } .
-
-{ ?ins a ex:Expired . [] ex:now ?now . }
-=> { _:d a act:Duty ; act:type "delete_due" ; act:at ?now ; act:target ?ins . } .
-
-{
-  ?req a ex:Allowed ; ex:target ?ins .
-  ?ins a ins:Insight ; ins:metric "sugar_g_per_serving" ; ins:threshold ?thr .
-  ?scan shop:scannedProduct ?p .
-  ?p schema:name ?name ; schema:sugarContent ?sug .
-  ?alt schema:name ?an ; schema:sugarContent ?as .
-  ?as math:lessThan ?sug .
-  ?sug math:notLessThan ?thr .
+function unifyAtom(pattern, fact, theta){
+  if(pattern.pred!==fact.pred) return null;
+  var s=Object.assign({},theta||{});
+  function bind(pv,fv){ if(isVar(pv)){ if(s[pv]===undefined){ s[pv]=fv; return true; } return s[pv]===fv; } return pv===fv; }
+  if(!bind(pattern.s,fact.s)) return null;
+  if(!bind(pattern.o,fact.o)) return null;
+  return s;
 }
-=> { ?scan shop:note "High sugar" ; shop:suggestedAlternative ?alt . } .
-`;
-
-    // ------- eye-js loader -------
-    let n3reasoner = null;
-    async function eye() {
-      if (n3reasoner) return n3reasoner;
-      const mod = await import("https://eyereasoner.github.io/eye-js/latest/dynamic-import.js");
-      if (!mod?.eyereasoner?.n3reasoner) throw new Error("eye-js n3reasoner not available");
-      n3reasoner = mod.eyereasoner.n3reasoner;
-      return n3reasoner;
+function matchBody(body, facts){
+  function extend(i, theta, acc){
+    if(i===body.length){ acc.push(theta); return; }
+    var atom=body[i];
+    if(atom.not){
+      var any=false; for(var k=0;k<facts.length;k++){ if(unifyAtom(atom,facts[k],theta)){ any=true; break; } }
+      if(!any) extend(i+1, theta, acc);
+      return;
     }
-    async function derive(graphs) {
-      const r = await eye();
-      return await r(graphs, null, { output: "derivations", outputType: "string" });
+    for(var k=0;k<facts.length;k++){
+      var t2=unifyAtom(atom,facts[k],theta); if(t2) extend(i+1,t2,acc);
     }
-
-    // ------- small helpers -------
-    const nowISO = () => new Date().toISOString();
-    const plusHoursISO = (h)=> new Date(Date.now()+h*3600*1000).toISOString();
-
-    function extractDecision(n3) {
-      const outcome = /act:outcome\s+"(Allowed|Blocked)"/.exec(n3)?.[1] || "(none)";
-      const expired = /ex:Expired\b/.test(n3);
-      const suggQ   = /shop:suggestedAlternative\s+([^\s]+)\s*\./.exec(n3)?.[1] || null;
-      return { outcome, expired, suggQ };
-    }
-    function nameForQname(qname, catalogTtl) {
-      if (!qname) return null;
-      const re = new RegExp(qname.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + `[\\s\\S]*?schema:name\\s+"([^"]+)"`);
-      return (catalogTtl.match(re)||[])[1] || null;
-    }
-
-    function showList(id, text) { document.getElementById(id).textContent = (text||"").trim(); }
-
-    // ------- Orchestrator -------
-    async function runDemo(){
-      runBtn.disabled = true;
-      try {
-        // Build inputs
-        const created = nowISO();
-        const expires = plusHoursISO(2);
-        const now     = nowISO();
-
-        const pTTL = profileTTL;
-        const cTTL = contextTTL({created, expires});
-        const nTTL = nowTTL(now);
-        const rTTL = requestTTL;
-        const cat  = catalogTTL;
-        const sTTL = scanTTL;
-
-        showList("profileBox", pTTL);
-        showList("contextBox", cTTL);
-        showList("nowBox", nTTL);
-        showList("requestBox", rTTL);
-        showList("catalogBox", cat);
-        showList("scanBox", sTTL);
-
-        // PHONE: derive insight + policy with eye-js
-        setStatus("PHONE: deriving insight + policy …");
-        addTimeline("PICKUP", 'scanner="self-scanner" retailer="Delfour"');
-        addTimeline("AGENT-DIALOG", "capabilities received");
-
-        const phoneOut = (await derive([pTTL, cTTL, PHONE_RULES])).trim();
-        // Split insight vs policy for display convenience (still one derivation bag)
-        const insightPart = phoneOut.split("\n").filter(l=>/ins:Insight|ins:metric|ins:threshold|ins:scope|ins:retailer|ins:expiresAt|ins:createdAt/.test(l)).join("\n");
-        const policyPart  = phoneOut.split("\n").filter(l=>/odrl:Policy|odrl:permission|odrl:prohibition|odrl:duty|odrl:profile|odrl:action|odrl:constraint/.test(l)).join("\n");
-
-        showList("insightBox", insightPart || phoneOut);
-        showList("policyBox",  policyPart  || phoneOut);
-        addTimeline("INSIGHT", "neutral low-sugar envelope emitted");
-        addTimeline("POLICY",  "ODRL policy emitted");
-
-        // SCANNER: auth + audit + suggestion with eye-js
-        setStatus("SCANNER: authorization + audit + suggestion …");
-        const scanOut = (await derive([phoneOut, nTTL, rTTL, cat, sTTL, SCANNER_RULES])).trim();
-        showList("auditBox", scanOut);
-
-        // Decision + banner
-        const { outcome, expired, suggQ } = extractDecision(scanOut);
-        const altName = nameForQname(suggQ, cat);
-        const banner = (outcome === "Blocked")
-          ? { headline: "Policy blocked action", product_name: null, note: "Expired or prohibited", suggested_alternative: null }
-          : { headline: altName ? "Track sugar per serving while you scan" : "Scan complete",
-              product_name: "Classic Tea Biscuits",
-              note: altName ? "High sugar" : null,
-              suggested_alternative: altName || null };
-        document.getElementById("bannerBox").textContent = JSON.stringify(banner, null, 2);
-
-        addTimeline("AUTH", outcome === "Allowed" ? "Allowed (use@shopping_assist)" : (expired ? "Blocked (expired)" : "Blocked"));
-        addTimeline("RUNTIME", "banner written");
-        addTimeline("DROP", "scanner returned; session closed");
-
-        // Reason + Checks + Summary
-        const REASON = "Household requires low-sugar guidance (diabetes in POD). Neutral insight scoped to device+event+retailer; expires soon.";
-        showList("reasonBox", REASON);
-
-        const checks = [
-          ["insight_nonempty", !!phoneOut.trim()],
-          ["minimization_no_sensitive_terms", !/diabetes|medical/i.test(phoneOut)],
-          ["scope_has_device_event_expiry", /ins:scopeDevice|ins:scopeEvent|ins:expiresAt/.test(phoneOut)],
-          ["runtime_present", !!banner.headline],
-          ["behavior_suggests_on_high_sugar", !!banner.note],
-          ["audit_has_decision", /act:Decision/.test(scanOut)]
-        ];
-        showChecks(checks);
-
-        document.getElementById("summaryBox").textContent = JSON.stringify({
-          decision: outcome,
-          expired,
-          suggestedAlternative: altName || null
-        }, null, 2);
-
-        setStatus("Done.");
-      } catch (e) {
-        console.error(e);
-        setStatus("Error: " + (e?.message || e));
-      } finally {
-        runBtn.disabled = false;
+  }
+  var out=[]; extend(0,{},out); return out;
+}
+function factKey(f){ return f.pred+'|'+JSON.stringify(f.s)+'|'+JSON.stringify(f.o); }
+function containsFact(facts,f){ var key=factKey(f); for(var i=0;i<facts.length;i++){ if(factKey(facts[i])===key) return true; } return false; }
+function derive(facts, rules){
+  var added=true, trace=[];
+  while(added){
+    added=false;
+    for(var r=0;r<rules.length;r++){
+      var rule=rules[r];
+      var thetas=matchBody(rule.if,facts);
+      for(var t=0;t<thetas.length;t++){
+        for(var j=0;j<rule.then.length;j++){
+          var f=subst(rule.then[j],thetas[t]);
+          if(!containsFact(facts,f)){ facts.push(f); trace.push('['+rule.id+'] '+JSON.stringify(f)); added=true; }
+        }
       }
     }
+  }
+  return {facts:facts, trace:trace};
+}
 
-    runBtn.addEventListener("click", runDemo);
-    setStatus("Ready.");
-  </script>
+/*** Build base facts from Data ***/
+function factsFromData(d){
+  var F=[]; function add(pred,s,o){ F.push({pred:pred,s:s,o:o}); }
+  var ctx = d.phone.context, req = d.scanner.request;
+  add('purpose','Req', req.purpose);
+  add('device','Req', ctx.device);
+  add('event','Req', ctx.event);
+  add('retailer','Req', ctx.retailer);
+  add('createdAt','Req', ctx.createdAt);
+  add('expiresAt','Req', ctx.expiresAt);
+  add('now','Req', d.scanner.now.iso);
+  if(d.phone.profile.POD.householdCondition.indexOf("Diabetes")>=0){
+    add('householdCondition','Req', 'Diabetes');
+  }
+  return F;
+}
+
+/*** Specialized reasoning: sugar check & suggestion ***/
+function suggestLowerSugar(data){
+  var list = data.scanner.catalog.slice();
+  var scanId = data.scanner.scan.productId;
+  var scanned = list.find(function(p){ return p.id===scanId; });
+  if(!scanned) return { scanned:null, suggestion:null, limit:10.0, note:"No scanned product found." };
+
+  var limit = 10.0; // per serving, from R1 threshold
+  var sameCat = list; // no explicit categories in source sample; consider full list
+  var okAlts = sameCat.filter(function(p){ return p.id!==scanned.id && p.sugarPerServing <= limit; });
+  okAlts.sort(function(a,b){ return a.sugarPerServing - b.sugarPerServing; });
+
+  var suggestion = okAlts.length ? okAlts[0] : null;
+  return { scanned:scanned, suggestion:suggestion, limit:limit };
+}
+
+/*** Decision & checks ***/
+function decide(facts, data, sug){
+  var permitted = facts.some(function(f){ return f.pred==='permit' && f.o==='insight'; });
+  var forbidden = facts.some(function(f){ return f.pred==='forbid' && f.o==='insight'; }); // none here, but kept for symmetry
+  var duties = facts.filter(function(f){ return f.pred==='duty'; }).map(function(f){ return f.o; });
+  var uid = (facts.find(function(f){ return f.pred==='policyUid'; }) || {}).o;
+
+  var answer, reason;
+  if(forbidden){ answer='Denied'; reason='Prohibited by policy-derived prohibition.'; }
+  else if(permitted){ answer='Allowed'; reason='Permitted by ARC rule for shopping assistance.'; }
+  else { answer='Denied'; reason='No matching permission for the provided purpose and context.'; }
+
+  // Checks (one-liners)
+  var lines=[];
+  var hasEnvelope  = facts.some(function(f){ return f.pred==='envelope' && f.o==='neutral'; });
+  var hasMetric    = facts.some(function(f){ return f.pred==='metric' && f.o==='sugar_g_per_serving'; });
+  var hasThresh    = facts.some(function(f){ return f.pred==='threshold'; });
+  lines.push('insight_nonempty ' + (hasEnvelope && hasMetric && hasThresh ? '✅' : '⛔'));
+
+  // minimization: banner should contain no sensitive terms
+  var sensitiveTerms=['diabetes','insulin','diagnosis'];
+  var bannerOk = true; if(window.__banner_last){
+    var text = JSON.stringify(window.__banner_last).toLowerCase();
+    bannerOk = !sensitiveTerms.some(function(w){ return text.indexOf(w)>=0; });
+  }
+  lines.push('minimization_no_sensitive_terms ' + (bannerOk ? '✅' : '⛔'));
+
+  // scope: device + event + validity
+  var hasDev = facts.some(function(f){ return f.pred==='device' && f.o; });
+  var hasEvt = facts.some(function(f){ return f.pred==='event' && f.o; });
+  var created = (facts.find(function(f){ return f.pred==='createdAt'; })||{}).o;
+  var expires = (facts.find(function(f){ return f.pred==='expiresAt'; })||{}).o;
+  var now = (facts.find(function(f){ return f.pred==='now'; })||{}).o;
+  var notExpired = created && expires && now && (now >= created) && (now <= expires);
+  lines.push('scope_has_device_event_expiry ' + (hasDev && hasEvt && notExpired ? '✅' : '⛔'));
+
+  // runtime present
+  lines.push('runtime_present ' + (window.__banner_last ? '✅' : '⛔'));
+
+  // behavior: suggest on high sugar
+  if(sug && sug.scanned){
+    var over = sug.scanned.sugarPerServing > sug.limit;
+    var good = !over || (over && !!sug.suggestion);
+    lines.push('behavior_suggests_on_high_sugar ' + (good ? '✅' : '⛔'));
+  } else {
+    lines.push('behavior_suggests_on_high_sugar ⏭️');
+  }
+
+  // audit decision present (Allowed/Denied) — we key off answer
+  lines.push('audit_has_decision ' + ((answer==='Allowed' || answer==='Denied') ? '✅' : '⛔'));
+
+  return { answer:answer, reason:reason, checks:lines, policyUid:uid, duties:duties };
+}
+
+/*** UI helpers ***/
+function $(s){ return document.querySelector(s); }
+function $all(s){ return Array.prototype.slice.call(document.querySelectorAll(s)); }
+function el(tag,attrs,children){ attrs=attrs||{};children=children||[];var n=document.createElement(tag);
+  for(var k in attrs){ if(!attrs.hasOwnProperty(k))continue; var v=attrs[k];
+    if(k==='class')n.className=v; else if(k==='html')n.innerHTML=v; else if(k.indexOf('on')===0)n.addEventListener(k.slice(2),v); else n.setAttribute(k,v);
+  } for(var i=0;i<children.length;i++) n.append(children[i]); return n; }
+
+/*** Timeline helper ***/
+function pushTimeline(meta,res){
+  var box = document.getElementById('timeline-items');
+  var card = el('div', {class:'card'});
+  var when = new Date().toLocaleTimeString();
+  card.innerHTML = '<div class="row" style="justify-content:space-between"><strong>'+(res.answer==='Allowed'?'✅ Allowed':'⛔ Denied')+'</strong><span class="muted small">'+when+'</span></div>'+
+                   '<div class="small muted">purpose=<span class="mono">'+meta.purpose+'</span> • device=<span class="mono">'+meta.device+'</span></div>'+
+                   '<div class="small">'+res.reason+'</div>';
+  box.prepend(card);
+}
+
+/*** One-click run ***/
+function runOnce(){
+  try{
+    // set chosen scan
+    var sel = document.getElementById('scan-select');
+    Data.scanner.scan.productId = sel.value;
+
+    // 1) Show Data JSON
+    $('#data-json').textContent = JSON.stringify(Data, null, 2);
+
+    // 2) Build base facts from Data (session/context + request)
+    var baseFacts = factsFromData(Data);
+
+    // 3) Derive policy facts
+    var closure = derive(baseFacts.slice(), ARC_RULES);
+
+    // 4) Specialized reasoning: sugar + suggestion
+    var sug = suggestLowerSugar(Data);
+    var banner;
+    if(sug && sug.scanned){
+      var s=sug.scanned, alt=sug.suggestion, lim=sug.limit;
+      if(alt){
+        var delta=(s.sugarPerServing - alt.sugarPerServing);
+        var pct = Math.round(100*(1 - (alt.sugarPerServing / s.sugarPerServing)));
+        banner = {
+          headline:"Track sugar per serving while you scan",
+          product_name:s.name,
+          note: (s.sugarPerServing>lim ? "High sugar" : "Within preference"),
+          suggested_alternative: alt.name
+        };
+      } else {
+        banner = {
+          headline:"Track sugar per serving while you scan",
+          product_name:s.name,
+          note: (s.sugarPerServing>lim ? "High sugar" : "Within preference"),
+          suggested_alternative: null
+        };
+      }
+    } else {
+      banner = { headline:"Ready to scan", product_name:null, note:"—", suggested_alternative:null };
+    }
+    window.__banner_last = banner;
+    $('#banner-json').textContent = JSON.stringify(banner, null, 2);
+
+    // 5) Decision + checks
+    var dec = decide(closure.facts, Data, sug);
+
+    // 6) Render Answer / Reason / Checks / Trace
+    $('#ans').innerHTML = (dec.answer==='Allowed' ? '<strong class="ok">✅ Allowed</strong>' : '<strong class="no">⛔ Denied</strong>');
+    $('#why').textContent = dec.reason;
+    $('#check').innerHTML = dec.checks.map(function(s){ return '<div>• '+s+'</div>'; }).join('');
+    $('#trace').textContent = closure.trace.join('\n');
+
+    // 7) Timeline
+    pushTimeline({purpose:Data.scanner.request.purpose, device:Data.phone.context.device}, {answer:dec.answer, reason:dec.reason});
+
+    // 8) Stash result for Copy
+    window.__lastResult = {
+      data:Data, facts:baseFacts, derived:closure.facts, trace:closure.trace,
+      decision:dec, banner:banner, ts:new Date().toISOString()
+    };
+  } catch(e){
+    var t = document.getElementById('trace'); if(t) t.textContent = 'Evaluate error: ' + (e && e.stack || e);
+  }
+}
+
+/*** Boot ***/
+function boot(){
+  // Populate scan dropdown
+  var sel = document.getElementById('scan-select');
+  Data.scanner.catalog.forEach(function(p){
+    var opt = document.createElement('option'); opt.value=p.id; opt.textContent=p.name + ' ('+p.sugarPerServing+'g/serving)';
+    if(p.id===Data.scanner.scan.productId) opt.selected=true; sel.appendChild(opt);
+  });
+
+  // Print Data & Policies
+  document.getElementById('data-json').textContent = JSON.stringify(Data, null, 2);
+  document.getElementById('policies-json').textContent = formatRules(ARC_RULES);
+
+  // Wire buttons
+  document.getElementById('btn-run').addEventListener('click', runOnce);
+  document.getElementById('btn-copy').addEventListener('click', function(){
+    try{
+      var payload = JSON.stringify(window.__lastResult || {error:'no-result'}, null, 2);
+      navigator.clipboard.writeText(payload);
+      var b = document.getElementById('btn-copy'); var old=b.textContent; b.textContent='Copied!'; setTimeout(function(){ b.textContent=old; }, 1000);
+    }catch(e){ alert('Copy failed: '+e.message); }
+  });
+}
+
+// Boot
+window.addEventListener('DOMContentLoaded', function(){ try{ boot(); }catch(e){ var t=document.getElementById('trace'); if(t) t.textContent='Boot error: '+(e && e.stack || e); } });
+if(document.readyState!=='loading'){ try{ boot(); }catch(e){ var t=document.getElementById('trace'); if(t) t.textContent='Boot error: '+(e && e.stack || e); } }
+</script>
 </body>
 </html>
 
