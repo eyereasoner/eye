@@ -2,14 +2,16 @@
 by [Jos De Roo](https://josd.github.io/)
 
 <p align="center">
-  <img src="./arc.svg" alt="Colorful abstract arcs" width="960">
+  <img src="./arc.svg" alt="" width="960">
 </p>
 
-**ARC** stands for **Answer Reason Check**. It's a [powerful framework](https://eyereasoner.github.io/eye/arc/) that transforms data, logic, and a question into a single, self-contained program.
+[ARC](https://eyereasoner.github.io/eye/arc/)—short for Answer • Reason • Check—is a question-first framework that turns Data + Logic + a precise Question into a self-contained program that does three things every time it runs: produce an answer, explain why that answer follows, and independently check itself. Built on the P3 method (Prompt → Program → Proof), ARC asks an LLM to synthesize an auditable artifact—not just code, but a portable procedure whose proof obligation is explicit: “Proof = Reason Why + Check.” The result is transparent, reproducible, and CI-friendly by design.
 
-What makes ARC unique is that this program doesn't just *give* an answer—it also clearly **explains its reasoning** and **verifies its own correctness**.
+What this looks like in practice spans from mathematics and logic to routing, clinical policy, and classic puzzles. Each case is presented as a small, runnable unit—often “JS-only”—with the ARC triad rendered right in the page (Answer / Reason Why / Check). Try, for instance, the Sudoku solver or the Pythagorean-theorem proof: both are self-contained demos that surface their reasoning and include a harness to validate correctness.
 
-Built on the [P3 method](https://eyereasoner.github.io/eye/arc/p3.html), ARC embodies a “triad of trust.” This (Answer, Reason, Check) approach ensures every result is transparent, auditable, and reproducible.
+ARC sits alongside the EYE reasoning stack, which brings a long tradition of explainable, symbolic inference on the Semantic Web (Notation3, forward/backward chaining along Euler paths). That heritage complements ARC’s program-synthesis workflow: use generative AI to draft the procedure, keep the logic explicit and inspectable, and verify the outcome every time you run it.
+
+If you’re new here: pick a case, run it, read the “Reason Why,” and then look at the “Check.” That rhythm—the ARC triad—is the whole point.
 
 ### Examples and Test Cases
 - [A₂ (Ackermann via hyper-operations)](https://eyereasoner.github.io/eye/arc/etc/ackermann.html) — Compute A₂ with exact hyper-ops; print small, expand huge safely.
