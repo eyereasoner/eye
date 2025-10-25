@@ -36,7 +36,7 @@
 
 <main>
 
-  <!-- ANSWER -->
+  <!-- DRAWING -->
   <article class="card">
     <header><h2>Drawing</h2></header>
     <section>
@@ -61,9 +61,7 @@
             (negative for the enclosing circle), Descartes’ circle theorem says:
             <em>(k1 + k2 + k3 + k4)² = 2 · (k1² + k2² + k3² + k4²)</em>.</li>
         <li>Given three tangent circles with curvatures <em>k1, k2, k3</em>, the fourth curvature is
-            <em>k4 = k1 + k2 + k3 ± 2 · sqrt(k1·k2 + k2·k3 + k3·k1)</em>.
-            The plus choice gives the small inner Soddy circle; the minus choice gives the
-            enclosing circle (its curvature is negative).</li>
+            <em>k4 = k1 + k2 + k3 ± 2 · sqrt(k1·k2 + k2·k3 + k3·k1)</em>.</li>
       </ol>
     </section>
   </article>
@@ -80,124 +78,97 @@
 </main>
 
 <script>
-(function(){
+window.addEventListener('DOMContentLoaded', () => {
+  const NS = 'http://www.w3.org/2000/svg';
   const layer = document.getElementById('layer');
 
-  // Geometry (same configuration as before)
-  const cx=120, cy=120, R=100;
-  const rA=R/2, rB=R/2, rC=R/3;
-  const A={x:cx-(R-rA), y:cy};
-  const B={x:cx+(R-rB), y:cy};
-  const C={x:cx, y:cy-(R-rC)};
-  const circles=[
-    {id:'Outer', cx, cy, r:R,  k:-1/R, fill:'var(--cOuter)'},
-    {id:'A',     cx:A.x, cy:A.y, r:rA, k: 1/rA, fill:'var(--cA)'},
-    {id:'B',     cx:B.x, cy:B.y, r:rB, k: 1/rB, fill:'var(--cB)'},
-    {id:'C',     cx:C.x, cy:C.y, r:rC, k: 1/rC, fill:'var(--cC)'},
+  // --- Geometry (four circles only) ---
+  const cx = 120, cy = 120, R = 100;
+  const rA = R/2, rB = R/2, rC = R/3;
+  const A = { x: cx - (R - rA), y: cy };
+  const B = { x: cx + (R - rB), y: cy };
+  const C = { x: cx, y: cy - (R - rC) };
+
+  const circles = [
+    { id: 'Outer', cx,      cy,      r: R,  k: -1 / R,  fill: 'none' },
+    { id: 'A',     cx: A.x, cy: A.y, r: rA, k:  1 / rA, fill: 'var(--cA)' },
+    { id: 'B',     cx: B.x, cy: B.y, r: rB, k:  1 / rB, fill: 'var(--cB)' },
+    { id: 'C',     cx: C.x, cy: C.y, r: rC, k:  1 / rC, fill: 'var(--cC)' },
   ];
 
-  function drawCircle(c){
-    const e=document.createElementNS('http://www.w3.org/2000/svg','circle');
-    e.setAttribute('cx',c.cx); e.setAttribute('cy',c.cy); e.setAttribute('r',c.r);
-    e.setAttribute('fill',c.fill); e.setAttribute('stroke','var(--edge)'); e.setAttribute('stroke-width',2);
+  // --- Draw circles + labels ---
+  circles.forEach(c => {
+    const e = document.createElementNS(NS, 'circle');
+    e.setAttribute('cx', c.cx);
+    e.setAttribute('cy', c.cy);
+    e.setAttribute('r',  c.r);
+    e.setAttribute('fill', c.fill);
+    e.setAttribute('stroke', 'var(--edge, #6577c5)'); // fallback so it's visible
+    e.setAttribute('stroke-width', '2');
     layer.appendChild(e);
-  }
-  circles.forEach(drawCircle);
 
-  // Show the other (inner) Soddy circle as dashed reference (not part of checks)
-  (function(){
-    const k1=circles[1].k, k2=circles[2].k, k3=circles[3].k;
-    const s=k1+k2+k3, t=Math.sqrt(k1*k2+k2*k3+k3*k1);
-    const kPlus=s+2*t, rPlus=1/Math.abs(kPlus);
-    const dx=Math.abs(cx-circles[1].cx), d=rPlus+circles[1].r;
-    const dy=Math.sqrt(Math.max(0,d*d-dx*dx));
-    const y=cy-dy;
-    const g=document.createElementNS('http://www.w3.org/2000/svg','circle');
-    g.setAttribute('cx',cx); g.setAttribute('cy',y); g.setAttribute('r',rPlus);
-    g.setAttribute('fill','none'); g.setAttribute('stroke','var(--ghost)');
-    g.setAttribute('stroke-width','1.5'); g.setAttribute('stroke-dasharray','4 4');
-    layer.appendChild(g);
-  })();
-
-  // --- non-overlapping labels (with leader lines) ---
-  function unitAwayFromCenter(x,y){
-    const vx=x-cx, vy=y-cy, L=Math.hypot(vx,vy)||1; return {x:vx/L,y:vy/L};
-  }
-  function labelPoint(c, idx){
-    if(idx===0){ const ang=-3*Math.PI/4, d=0.82*c.r; return {x:c.cx+Math.cos(ang)*d, y:c.cy+Math.sin(ang)*d}; }
-    const u=unitAwayFromCenter(c.cx,c.cy), d=0.60*c.r; return {x:c.cx+u.x*d, y:c.cy+u.y*d};
-  }
-  function leader(a,b){
-    const L=document.createElementNS('http://www.w3.org/2000/svg','line');
-    L.setAttribute('x1',a.x); L.setAttribute('y1',a.y);
-    L.setAttribute('x2',b.x); L.setAttribute('y2',b.y);
-    L.setAttribute('stroke','var(--edge)'); L.setAttribute('stroke-width','1'); L.setAttribute('opacity','0.7');
-    layer.appendChild(L);
-  }
-  function drawLabel(c, idx){
-    const p=labelPoint(c, idx); leader({x:c.cx,y:c.cy}, p);
-    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
-    t.setAttribute('x',p.x); t.setAttribute('y',p.y);
-    t.setAttribute('class','lbl'); t.setAttribute('text-anchor','middle'); t.setAttribute('dominant-baseline','middle');
-    const rTxt=(Math.round(c.r*1e6)/1e6).toString(); const kTxt=(Math.round(c.k*1e6)/1e6).toString();
-    const line1=document.createElementNS('http://www.w3.org/2000/svg','tspan');
-    line1.setAttribute('x',p.x); line1.setAttribute('dy','-0.5em'); line1.textContent=(idx===0?'Outer':c.id);
-    const line2=document.createElementNS('http://www.w3.org/2000/svg','tspan');
-    line2.setAttribute('x',p.x); line2.setAttribute('dy','1.2em'); line2.textContent=`r=${rTxt}`;
-    const line3=document.createElementNS('http://www.w3.org/2000/svg','tspan');
-    line3.setAttribute('x',p.x); line3.setAttribute('dy','1.2em'); line3.textContent=`k=${kTxt}`;
-    t.appendChild(line1); t.appendChild(line2); t.appendChild(line3); layer.appendChild(t);
-  }
-  circles.forEach((c,i)=>drawLabel(c,i));
+    // label (centered; move "Outer" away from center so it doesn't collide)
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', c.id === 'Outer' ? cx - R * 0.7 : c.cx);
+    t.setAttribute('y', c.id === 'Outer' ? cy - R * 0.7 : c.cy);
+    t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('dominant-baseline', 'middle');
+    t.setAttribute('class', 'lbl');
+    t.textContent = c.id;
+    layer.appendChild(t);
+  });
 
   // --- Checks ---
-  const checks=document.getElementById('checks');
-  const summary=document.getElementById('summary');
-  const ok=t=>`<li><span class="ok">OK</span> — ${t}</li>`;
-  const bad=t=>`<li><span class="bad">FAIL</span> — ${t}</li>`;
-  function dist(p,q){return Math.hypot(p.x-q.x,p.y-q.y);}
+  const checks = document.getElementById('checks');
+  const summary = document.getElementById('summary');
+  const ok  = t => `<li><span class="ok">OK</span> — ${t}</li>`;
+  const bad = t => `<li><span class="bad">FAIL</span> — ${t}</li>`;
+  const dist = (p,q) => Math.hypot(p.x - q.x, p.y - q.y);
 
   // pairwise tangencies
-  const eps=1e-6; let tang=0;
-  for(let i=0;i<circles.length;i++){
-    for(let j=i+1;j<circles.length;j++){
-      const ci=circles[i], cj=circles[j];
-      const d=dist({x:ci.cx,y:ci.cy},{x:cj.cx,y:cj.cy});
-      const ext=Math.abs(d-(ci.r+cj.r))<eps;
-      const intl=Math.abs(d-Math.abs(ci.r-cj.r))<eps;
-      const good=ext||intl; if(good) tang++;
+  const eps = 1e-6; let tang = 0;
+  for (let i = 0; i < circles.length; i++) {
+    for (let j = i + 1; j < circles.length; j++) {
+      const ci = circles[i], cj = circles[j];
+      const d = dist({x:ci.cx,y:ci.cy}, {x:cj.cx,y:cj.cy});
+      const ext = Math.abs(d - (ci.r + cj.r)) < eps;
+      const intl = Math.abs(d - Math.abs(ci.r - cj.r)) < eps;
+      const good = ext || intl; if (good) tang++;
       checks.insertAdjacentHTML('beforeend', good
-        ? ok(`Tangency ${ci.id}–${cj.id} (${ext?'external':'internal'})`)
+        ? ok(`Tangency ${ci.id}–${cj.id} (${ext ? 'external' : 'internal'})`)
         : bad(`Not tangent: ${ci.id}–${cj.id}`));
     }
   }
-  checks.insertAdjacentHTML('beforeend', tang===6 ? ok('All 6 pairwise tangencies confirmed')
-                                                  : bad(`Tangency count = ${tang} (expected 6)`));
+  checks.insertAdjacentHTML('beforeend',
+    tang === 6 ? ok('All 6 pairwise tangencies confirmed')
+               : bad(`Tangency count = ${tang} (expected 6)`));
 
   // Descartes equation
-  const ks=circles.map(c=>c.k);
-  const S=ks.reduce((a,b)=>a+b,0);
-  const S2=ks.reduce((a,b)=>a+b*b,0);
-  const L=S*S, Rv=2*S2;
-  checks.insertAdjacentHTML('beforeend', Math.abs(L-Rv)<1e-9
-    ? ok('Descartes equation holds: (sum k)² equals 2 times the sum of squares')
-    : bad(`Descartes mismatch: LHS=${L}, RHS=${Rv}`));
-
-  // Soddy roots comparison
-  const [kA,kB,kC]=[circles[1].k,circles[2].k,circles[3].k];
-  const s=kA+kB+kC, t=Math.sqrt(kA*kB+kB*kC+kC*kA);
-  const kPlus=s+2*t, kMinus=s-2*t, kOuter=circles[0].k;
+  const ks = circles.map(c => c.k);
+  const S  = ks.reduce((a,b) => a + b, 0);
+  const S2 = ks.reduce((a,b) => a + b*b, 0);
+  const L  = S*S, Rv = 2*S2;
   checks.insertAdjacentHTML('beforeend',
-    Math.abs(kMinus-kOuter)<1e-12 ? ok('Minus root equals the enclosing circle curvature')
-                                  : bad('Minus root does not match the enclosing circle curvature'));
+    Math.abs(L - Rv) < 1e-9
+      ? ok('Descartes equation holds: (sum k)² equals 2 times the sum of squares')
+      : bad(`Descartes mismatch: LHS=${L}, RHS=${Rv}`));
 
-  // summary numbers
-  function fmt(x){return (Math.round(x*1e6)/1e6).toString();}
-  const lines=[];
-  circles.forEach(c=>lines.push(`${c.id}: r=${fmt(c.r)}  k=${fmt(c.k)}`));
+  // Soddy roots comparison (from A, B, C)
+  const [kA, kB, kC] = [circles[1].k, circles[2].k, circles[3].k];
+  const s = kA + kB + kC, t = Math.sqrt(kA*kB + kB*kC + kC*kA);
+  const kPlus = s + 2*t, kMinus = s - 2*t, kOuter = circles[0].k;
+  checks.insertAdjacentHTML('beforeend',
+    Math.abs(kMinus - kOuter) < 1e-12
+      ? ok('Minus root equals the enclosing circle curvature')
+      : bad('Minus root does not match the enclosing circle curvature'));
+
+  // Summary
+  const fmt = x => (Math.round(x*1e6)/1e6).toString();
+  const lines = [];
+  circles.forEach(c => lines.push(`${c.id}: r=${fmt(c.r)}  k=${fmt(c.k)}`));
   lines.push(`Soddy roots from A, B, C:  k_plus=${fmt(kPlus)},  k_minus=${fmt(kMinus)} (outer)`);
-  summary.textContent=lines.join('\n');
-})();
+  summary.textContent = lines.join('\n');
+});
 </script>
 </body>
 </html>

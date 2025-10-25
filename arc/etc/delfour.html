@@ -79,7 +79,8 @@
     <h2>Policies (declarative JSON rules)</h2>
     <pre class="mono" id="policies-json" style="white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; overflow-x:hidden; overflow-y:auto"></pre>
     <h3>Machine Trace (debug)</h3>
-    <div class="log mono" id="trace"></div>
+    <!-- switched to <pre> to ensure one-per-line display -->
+    <pre class="log mono" id="trace"></pre>
   </section>
 
   <section id="timeline">
@@ -400,7 +401,8 @@ function runOnce(){
     $('#ans').innerHTML = (dec.answer==='Allowed' ? '<strong class="ok">✅ Allowed</strong>' : '<strong class="no">⛔ Denied</strong>');
     $('#why').textContent = dec.reason;
     $('#check').innerHTML = dec.checks.map(function(s){ return '<div>• '+s+'</div>'; }).join('');
-    $('#trace').textContent = closure.trace.join('\n');
+    $('#trace').textContent = closure.trace.map(s => s.replace(/}\s*\[/g, '}\n[')).join('\n');
+    $('#trace').style.whiteSpace = 'pre-wrap';
 
     // 7) Timeline
     pushTimeline({purpose:Data.scanner.request.purpose, device:Data.phone.context.device}, {answer:dec.answer, reason:dec.reason});
