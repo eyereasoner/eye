@@ -53,7 +53,7 @@ If you are reading this for the first time, the best way in is straightforward: 
 - [Pentagon & pentagram — golden ratio](https://eyereasoner.github.io/eye/arc/etc/pentagon_pentagram.html) — Construct φ-relations in pentagons and star polygons with proofs.
 - [π (Chudnovsky)](https://eyereasoner.github.io/eye/arc/etc/pi.html) — High-precision π via Chudnovsky series with error-bound checks.
 - [Pick’s Theorem](https://eyereasoner.github.io/eye/arc/etc/picks_theorem.html) — Area = I + B/2 − 1 for lattice polygons; verify interior/boundary counts.
-- [Poincaré Rotation on the Circle](https://eyereasoner.github.io/eye/arc/etc/polynomial.html) — An irrational circle rotation is non-repeating and uniform.
+- [Poincaré Rotation on the Circle](https://eyereasoner.github.io/eye/arc/etc/poincare.html) — An irrational circle rotation is non-repeating and uniform.
 - [Polynomial roots (Durand–Kerner)](https://eyereasoner.github.io/eye/arc/etc/polynomial.html) — Find all roots simultaneously; prove convergence on typical cases.
 - [Primes](https://eyereasoner.github.io/eye/arc/etc/prime.html) — Generate/test primes; log certs (e.g., trial factors or proofs) as checks.
 - [Pythagorean Theorem](https://eyereasoner.github.io/eye/arc/etc/pythagorean_theorem.html) — Compute legs/hypotenuse and confirm with algebraic or area proofs.
