@@ -63,7 +63,7 @@
   <div class="container">
     <header class="card">
       <h1>Poincaré Rotation on the Circle</h1>
-      <p class="muted">Inspired by <strong>Henri Poincaré</strong> (qualitative dynamics). We study the irrational rotation map <code>T(x) = (x + α) mod 1</code> with <code>α = (√5−1)/2</code> and ask whether the orbit behaves as theory predicts. Following <span class="badge">P3</span>, the page delivers an <em>Answer</em>, a <em>Reason Why</em>, and an independent <em>Check</em> suite.</p>
+      <p class="muted">Inspired by <strong>Henri Poincaré</strong> (qualitative dynamics). We study the irrational rotation map <code>T(x) = (x + α) mod 1</code> with <code>α = (3−√5)/2</code> and ask whether the orbit behaves as theory predicts. Following <span class="badge">P3</span>, the page delivers an <em>Answer</em>, a <em>Reason Why</em>, and an independent <em>Check</em> suite.</p>
       <div class="row">
         <span class="pill warn">Question-first</span>
         <span class="pill ok">Self-checking</span>
@@ -73,7 +73,7 @@
 
     <section class="card" id="answer">
       <h2>Answer</h2>
-      <p>We rotate the unit circle by a fixed irrational angle <strong>α = (√5−1)/2</strong>. The orbit of 0 never repeats, returns arbitrarily close to its start, and spreads evenly around the circle. In finite data (<em>N</em> = 5,000 steps) this appears as near‑uniform bin counts, at most three distinct gap lengths, and tiny low‑order Fourier modes. The checks below confirm this behaviour.</p>
+      <p>We rotate the unit circle by a fixed irrational angle <strong>α = (3−√5)/2</strong> — the golden angle — which is about 0.381966 of a full turn, i.e., ≈ 137.5°. The orbit of 0 never repeats, returns arbitrarily close to its start, and spreads evenly around the circle. In finite data (<em>N</em> = 5,000 steps) this appears as near‑uniform bin counts, at most three distinct gap lengths, and tiny low‑order Fourier modes. The checks below confirm this behaviour.</p>
       <div class="row" style="margin-top:8px">
         <button class="btn" id="rerun">Re‑run checks</button>
         <div id="passpill" class="pill ok" style="display:none"></div>
@@ -83,8 +83,7 @@
     <section class="card" id="reason">
       <h2>Reason</h2>
       <p><strong>Rotation by an irrational angle preserves length and never closes up.</strong> Because α is irrational, the points {nα mod 1} do not repeat; they become evenly spread (equidistributed). A length‑preserving map on a bounded space also has the Poincaré recurrence property: some iterates come back arbitrarily close to where they started. For any finite N, the circular gaps between the sorted points take at most three sizes (the three‑gap theorem). These facts explain why the orbit looks uniform and why our specific tests should pass.</p>
-      <p class="small muted">Unit circle, marked with the first 60 orbit points starting at 0. Each step advances by a fixed angle α; the blue arrow shows one such step. The cloud of points hints at equidistribution while the arc lengths suggest the three‑gap phenomenon.</p>
-    </section>
+
 
     <p class="small muted">Unit circle, marked with the first 60 orbit points starting at 0. Each step advances by a fixed angle α; the blue arrow shows one such step. The cloud of points hints at equidistribution while the arc lengths suggest the three‑gap phenomenon.</p>
       <svg id="orbitSVG" viewBox="0 0 360 280" width="100%" height="auto" role="img" aria-label="Orbit illustration"></svg>
@@ -105,7 +104,7 @@
 (function(){
   // ————— Parameters —————
   const params = {
-    alpha: (Math.sqrt(5) - 1) / 2, // golden ratio conjugate ≈ 0.618…
+    alpha: (3 - Math.sqrt(5)) / 2, // golden ratio conjugate ≈ 0.618…
     N: 5000,                        // number of steps (excluding x0)
     bins: 50,                       // histogram bins
     tol: 1e-12,                     // numerical tolerance
@@ -215,7 +214,7 @@
       const x2 = cx + r * Math.cos(theta2), y2 = cy + r * Math.sin(theta2);
       content += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)" />`;
       const xm = (x1 + x2) / 2, ym = (y1 + y2) / 2;
-      content += `<text x="${xm}" y="${ym - 6}" font-size="12" fill="#374151">α</text>`;
+      content += `<text x="${xm}" y="${ym - 6}" font-size="12" fill="#374151">α ≈ 137.5°</text>`;
       svg.innerHTML = content;
     }
 
@@ -288,7 +287,7 @@
     const atext = (passed===results.length)
       ? `All ${results.length} checks passed. Empirically consistent with Poincaré-style behavior for irrational rotation by α≈${fmt(params.alpha,6)} over N=${params.N} steps.`
       : `${passed}/${results.length} checks passed. One or more diagnostics failed — inspect details below.`;
-    document.getElementById('answerText').textContent = atext;
+    {const e=document.getElementById('answerText'); if(e) e.textContent = atext;}
 
     // Render checks list
     const list = document.getElementById('checksList');
