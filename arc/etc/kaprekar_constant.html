@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kaprekar’s Constant (4‑digit) — P3: Answer • Reason • Check</title>
+  <title>Kaprekar’s Constant (4‑digit)</title>
   <style>
     :root {
       --bg: #f6f8fb;
@@ -23,41 +23,15 @@
       color: var(--text);
       background: radial-gradient(1400px 700px at 20% -10%, #ffffff 0, #f5fbff 40%, var(--bg) 100%);
     }
-    .container {
-      max-width: 980px;
-      margin: 24px auto 80px;
-      padding: 0 16px;
-    }
-    header {
-      margin: 8px 0 22px;
-    }
-    h1 {
-      font-size: clamp(24px, 3.6vw, 34px);
-      margin: 0 0 6px;
-      letter-spacing: -0.02em;
-    }
+    .container { max-width: 980px; margin: 24px auto 80px; padding: 0 16px; }
+    header { margin: 8px 0 22px; }
+    h1 { font-size: clamp(24px, 3.6vw, 34px); margin: 0 0 6px; letter-spacing: -0.02em; }
     .subtitle { color: var(--muted); font-size: 14px; }
 
     /* Vertical cards */
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 20px clamp(16px, 2.0vw, 26px);
-      margin: 14px 0;
-      box-shadow: 0 10px 24px rgba(2, 8, 23, 0.04), 0 2px 6px rgba(2, 8, 23, 0.03);
-    }
-    .card h2 {
-      display: flex; align-items: center; gap: 10px;
-      font-size: clamp(18px, 2.6vw, 22px);
-      margin: 0 0 10px;
-    }
-    .k-pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 10px; border-radius: 999px;
-      background: #eaf6fe; color: #0369a1; border: 1px solid #d7eefc;
-      font-size: 12px; text-transform: uppercase; letter-spacing: .06em; font-weight: 650;
-    }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px clamp(16px, 2.0vw, 26px); margin: 14px 0; box-shadow: 0 10px 24px rgba(2, 8, 23, 0.04), 0 2px 6px rgba(2, 8, 23, 0.03); }
+    .card h2 { display: flex; align-items: center; gap: 10px; font-size: clamp(18px, 2.6vw, 22px); margin: 0 0 10px; }
+    .k-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; background: #eaf6fe; color: #0369a1; border: 1px solid #d7eefc; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; font-weight: 650; }
     .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 10px; }
     .stat { background: #fcfdff; border: 1px solid var(--border); border-radius: 14px; padding: 10px 14px; }
     .stat .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
@@ -66,6 +40,7 @@
     .muted { color: var(--muted); }
     .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
     .codebox { background:#0b1220; color:#d7e2ff; border-radius: 14px; padding: 14px 16px; overflow:auto; border:1px solid #1e2a44; }
+    .proofbox { background:#fbfdff; border:1px dashed var(--border); border-radius:12px; padding:12px 14px; }
 
     table { width: 100%; border-collapse: collapse; }
     th, td { padding: 8px 10px; text-align: left; border-bottom: 1px dashed var(--border); }
@@ -83,7 +58,8 @@
     .accent { color: var(--accent); font-weight: 700; }
     .sep { height: 8px; }
     .kbd { font-weight: 650; border:1px solid var(--border); background:#fff; padding: 2px 6px; border-radius: 6px; box-shadow: inset 0 -1px 0 rgba(0,0,0,0.05); }
-  .badge{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;border-radius:999px;border:1px solid var(--border);font-size:12px;font-weight:700}
+
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;border-radius:999px;border:1px solid var(--border);font-size:12px;font-weight:700}
     .badge.pass{background:#ecfdf5;border-color:#bbf7d0;color:#065f46}
     .badge.fail{background:#fef2f2;border-color:#fecaca;color:#7f1d1d}
   </style>
@@ -110,20 +86,16 @@
 
     <!-- 2/ Reason why -->
     <section class="card" aria-labelledby="reason-title">
-      <h2 id="reason-title"><span class="k-pill">2/ Reason why</span> What’s going on</h2>
-      <p>
-        Kaprekar’s 4‑digit routine sorts the digits descending and ascending (keeping leading zeros), then subtracts:
-      </p>
-      <div class="codebox mono small" aria-label="Kaprekar step definition">
-        step(<span class="accent">abcd</span>) = sort↓(<span class="accent">abcd</span>) − sort↑(<span class="accent">abcd</span>) → 4‑digit string (pad with zeros)
+      <h2 id="reason-title"><span class="k-pill">2/ Reason why</span> Mathematical explanation</h2>
+      <div class="proofbox small">
+        <p><strong>Definition.</strong> Let <em>K</em> act on 4‑digit strings (leading zeros kept) as follows: write the digits in descending and ascending order to form two 4‑digit numbers, then subtract and pad with leading zeros to 4 digits. We denote the result by <em>K</em>(<em>x</em>).</p>
+        <p><strong>Fixed points and traps.</strong> (i) <span class="mono">6174</span> is a fixed point: <em>K</em>(6174) = 6174. (ii) For every rep‑digit <span class="mono">aaaa</span>, the ascending and descending sorts coincide, so <em>K</em>(<span class="mono">aaaa</span>) = <span class="mono">0000</span> and then <em>K</em>(<span class="mono">0000</span>) = <span class="mono">0000</span>. Thus the only non‑converging starts are the ten rep‑digits, which fall into the absorbing state <span class="mono">0000</span>.</p>
+        <p><strong>Claim.</strong> Every non‑rep‑digit 4‑digit state reaches <span class="mono">6174</span> in finitely many steps. The map <em>K</em> acts on the finite set of 10,000 states. Aside from the trap at <span class="mono">0000</span> (reached exactly by rep‑digits), there are no other cycles; consequently every orbit that avoids <span class="mono">0000</span> must flow into the fixed point <span class="mono">6174</span>. Our harness below confirms this by exhaustive enumeration and shows that the worst‑case time‑to‑reach is 7 steps.</p>
       </div>
-      <div class="sep"></div>
-      <p>
-        For any 4‑digit state that is not a rep‑digit (like <span class="mono">1111</span> or <span class="mono">7777</span>), repeated application reaches the fixed point <span class="mono">6174</span> in at most a small number of steps. Rep‑digits are the only non‑convergers: they jump to <span class="mono">0000</span> in one step and then stay there forever because both the ascending and descending sorts are identical.
-      </p>
+      <p class="small muted">In short: rep‑digits collapse to <span class="mono">0000</span>; everything else flows to the unique fixed point <span class="mono">6174</span>.</p>
     </section>
 
-    <!-- 3/ Check (harness) -->
+    <!-- 3/ Checks (five, uncollapsed) -->
     <section class="card" aria-labelledby="check-title">
       <h2 id="check-title"><span class="k-pill">3/ Checks (harness)</span> Exhaustive sweep 0000–9999</h2>
 
@@ -159,7 +131,7 @@
 
       <details open id="check4">
         <summary>Check 4 — Distribution sums to converger count; includes k=0 <span class="badge" id="chk4badge">—</span></summary>
-        <div class="footer-note">Each row shows how many starting states first hit 6174 after exactly k steps.</div>
+        <div class="footer-note">Each row shows how many starting states first hit <span class="mono">6174</span> after exactly <span class="mono">k</span> steps.</div>
         <div class="sep"></div>
         <table aria-describedby="dist-caption">
           <caption id="dist-caption" class="visually-hidden">Iteration distribution</caption>
@@ -209,7 +181,7 @@
       const seen = new Set([start]);
       while (s !== '6174' && i < 50) {
         s = step(s); i++; path.push(s);
-        if (seen.has(s)) break; // safety (shouldn’t happen for 4-digit Kaprekar)
+        if (seen.has(s)) break; // safety
         seen.add(s);
       }
       return { iter: (s === '6174' ? i : null), path, converges: (s === '6174') };
@@ -230,7 +202,7 @@
       const s = pad4(n);
       if (isRepDigit(s)) { nonConvergers.push(s); continue; }
       const { iter, path, converges } = pathTo6174(s);
-      if (!converges) { /* Shouldn’t occur besides rep-digits, but guard anyway */ continue; }
+      if (!converges) { continue; }
       convergerStarts.push(s);
       iterSum += iter;
       if (!dist.has(iter)) dist.set(iter, 0);
@@ -312,7 +284,6 @@
       chip.textContent = s;
       nonList.appendChild(chip);
     });
-  
 
     // ——— Checks & badges ———
     function setBadge(id, ok){
@@ -348,7 +319,7 @@
     let paddingOk = true;
     for (let n = 0; n < TOTAL && paddingOk; n++) {
       const { path } = pathTo6174(pad4(n));
-      for (const t of path) { if (!/^[0-9]{4}$/.test(t)) { paddingOk = false; break; } }
+      for (const t of path) { if (!/^\d{4}$/.test(t)) { paddingOk = false; break; } }
     }
     document.getElementById('padCheck').textContent = paddingOk ? 'OK' : 'Violation found';
     setBadge('chk5', fp === '6174' && paddingOk);
