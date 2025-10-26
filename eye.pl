@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.22.5 (2025-10-15)').
+version_info('EYE v11.22.6 (2025-10-26)').
 
 license_info('MIT License
 
@@ -12162,8 +12162,9 @@ exo_pred(A, A).
 
 exopred(P, S, O) :-
     (   var(P),
-        var(S),
-        var(O)
+        (   var(S)
+        ;   var(O)
+        )
     ->  pred(P),
         H =.. [P, S, O],
         clause(H, true)
