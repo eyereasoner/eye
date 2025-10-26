@@ -13,7 +13,11 @@ ARC stands alongside the EYE reasoning stack, with its roots in the Semantic Web
 
 If you are reading this for the first time, the best way in is straightforward: pick a case, run it, read the Reason Why, and then study the Check. That rhythm—the ARC triad—is the point.
 
+
+
+
 ### Examples and Test Cases
+
 - [A₂ (Ackermann via hyper-operations)](https://eyereasoner.github.io/eye/arc/etc/ackermann.html) — Compute A₂ with exact hyper-ops; print small, expand huge safely.
 - [Apollonian gasket](https://eyereasoner.github.io/eye/arc/etc/apollonian_gasket.html) — Exact tangent-circle packing via Descartes’ theorem and complex centers.
 - [Bike Trip Planning](https://eyereasoner.github.io/eye/arc/etc/bike_trip.html) — Route priorities from hazards, preferences, and declarative JSON rules.
@@ -39,11 +43,11 @@ If you are reading this for the first time, the best way in is straightforward: 
 - [Grass seed — molecular germination](https://eyereasoner.github.io/eye/arc/etc/grass_molecular.html) — Model germination states and transitions with rule checks.
 - [Group Theory](https://eyereasoner.github.io/eye/arc/etc/group_theory.html) — Verify closure, identity, inverses, and associativity on examples.
 - [Health Information Processing](https://eyereasoner.github.io/eye/arc/etc/health_info.html) — Transform clinical payloads with typed rules and validation.
-- [Infinite Game of Insight Economy](https://eyereasoner.github.io/eye/arc/etc/infinite_game_insight_economy.html) — Score derivation, minimization, activation, equilibrium, and copy-resistance; includes test checks.
 - [Kakuro (Cross Sums)](https://eyereasoner.github.io/eye/arc/etc/kakuro.html) — Fill grid sums with unique digits using constraint propagation.
+- [Kaprekar’s Constant](https://eyereasoner.github.io/eye/arc/etc/kaprekar_constant.html) — An exhaustive sweep of every 4‑digit state that runs Kaprekar’s routine.
 - [KenKen](https://eyereasoner.github.io/eye/arc/etc/kenken.html) — Latin-square + cage arithmetic solved with explainable deductions.
 - [Lee](https://eyereasoner.github.io/eye/arc/etc/lee.html) — Maze routing with Lee’s algorithm; trace optimal wavefront paths.
-- [The Library & the Path](https://eyereasoner.github.io/eye/arc/etc/library_and_path.html) — Toggle “laws,” search a minimal path to a target observation set, then verify with independent checks.
+- [The Library & the Path](https://eyereasoner.github.io/eye/arc/etc/library_and_path.html) — Toggle “laws,” search a minimal path to a target observation set.
 - [LLDM](https://eyereasoner.github.io/eye/arc/etc/lldm.html) — Leg Length Discrepancy Measurement: estimate leg-length discrepancy from four landmarks with an ARC trace.
 - [Mathematics — the WHAT & the WHY](https://eyereasoner.github.io/eye/arc/etc/math_what_why.html) — Pair results with reasons: each computation carries its proof sketch.
 - [Matrix basics](https://eyereasoner.github.io/eye/arc/etc/matrix.html) — Do matrix ops (add/mul/inv) with dimension and property checks.
