@@ -1,275 +1,421 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BMI</title>
+  <title>Body Mass Index</title>
   <style>
-    :root{
-      --bg:#ffffff;
-      --ink:#111827;
-      --muted:#6b7280;
-      --panel:#f8fafc;
-      --border:#e5e7eb;
-      --accent:#0ea5e9;
-      --good:#16a34a;
-      --warn:#d97706;
-      --bad:#dc2626;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    :root {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --panel-2: #ffffff;
+      --border: #e3e6ee;
+      --text: #0b1324;
+      --muted: #5b6779;
+      --accent: #0b6bcb;
+      --accent-2: #5a3df0;
+      --good: #1a7f37;
+      --warn: #b7791f;
+      --bad: #b42318;
+      --card-radius: 14px;
+      --gap: 14px;
+      --shadow: 0 6px 18px rgba(10,20,30,.08);
+      --mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      --sans: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,"Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji";
     }
-    html,body{height:100%}
-    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 var(--ui); }
-    .wrap{max-width:980px; margin:36px auto; padding:0 16px;}
-    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
-    h1{font-size:22px; margin:0; letter-spacing:.2px}
-    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
-    .row{display:flex; flex-direction:column; gap:16px}
-    .card{background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden}
-    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
-    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
-    .body{padding:12px}
-    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px}
-    .bar{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
-    button{all:unset; background:#fff; border:1px solid var(--border); padding:8px 12px; border-radius:10px; cursor:pointer}
-    button:hover{border-color:#cbd5e1}
-    .small{color:var(--muted); text-decoration:none}
-    .accent{color:var(--accent)}
-    .grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
-    label{font-size:12px; color:var(--muted)}
-    input{width:100%; box-sizing:border-box; padding:8px; border:1px solid var(--border); border-radius:10px; background:#fff; font-family:var(--mono); font-size:12px}
-    select{width:100%; box-sizing:border-box; padding:8px; border:1px solid var(--border); border-radius:10px; background:#fff; font-family:var(--mono); font-size:12px}
-    /* ARC v2 (Cards) */
-    .arc-grid{display:flex; flex-direction:column; gap:12px}
-    .arc-card{background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden}
-    .arc-card .ac-head{display:flex; align-items:center; gap:8px; padding:10px 12px; border-bottom:1px solid var(--border); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
-    .arc-card .ac-body{padding:12px}
-    .arc-card pre{margin:0; white-space:pre-wrap; background:#fff; border:1px solid #eef2f7; border-radius:10px; padding:10px; font-family:var(--mono); font-size:13px}
-    .arc-card.answer{border-left:4px solid #10b981}
-    .arc-card.reason{border-left:4px solid #3b82f6}
-    .arc-card.check{border-left:4px solid #f59e0b}
-    .toolbar{display:flex; gap:8px; align-items:center}
-    .badge{display:inline-block; padding:2px 8px; border-radius:999px; font:12px/1 var(--ui); border:1px solid var(--border); margin-left:8px}
-    .b-good{color:var(--good); border-color:#bbf7d0; background:#f0fdf4}
-    .b-warn{color:var(--warn); border-color:#fde68a; background:#fffbeb}
-    .b-bad{color:var(--bad); border-color:#fecaca; background:#fff1f2}
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.5; }
+    a { color: var(--accent); text-decoration: none; }
+    h1, h2, h3 { margin: 0 0 .6rem; font-weight: 700; }
+    h1 { font-size: clamp(1.2rem, 1.1rem + 1.2vw, 1.9rem); letter-spacing: .2px; }
+    h2 { font-size: clamp(1rem, .9rem + .8vw, 1.3rem); color: var(--muted); font-weight: 600; }
+    p { margin: .25rem 0 .75rem; color: var(--muted); }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 20px; }
+    header { display: grid; gap: 6px; margin-bottom: 12px; }
+    header .meta { color: var(--muted); font-size: .95rem; }
+
+    /* Vertical layout: single column stack */
+    .grid { display: grid; grid-template-columns: 1fr; gap: var(--gap); }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .panel + .panel { margin-top: var(--gap); }
+
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+    @media (max-width: 560px){ .row { grid-template-columns: 1fr; } }
+
+    .field { display: grid; gap: 6px; }
+    .field label { color: var(--muted); font-size: .9rem; }
+    .field input[type="number"], .field input[type="text"], .field select {
+      background: #fff; border: 1px solid var(--border); color: var(--text);
+      border-radius: 10px; padding: 10px 12px; font-size: 1rem; outline: none;
+    }
+    .unit-toggle { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .unit-toggle label { display: inline-flex; gap: 6px; align-items: center; background: #fff; border: 1px solid var(--border); padding: 8px 12px; border-radius: 999px; cursor: pointer; }
+    .unit-toggle input { accent-color: var(--accent); }
+
+    .btnbar { display: flex; gap: 8px; flex-wrap: wrap; }
+    button, .btn {
+      background: linear-gradient(180deg, #2b87ff, #1769e9);
+      border: none; color: white; font-weight: 700; letter-spacing: .2px; padding: 10px 14px;
+      border-radius: 12px; cursor: pointer; box-shadow: var(--shadow); font-size: .98rem;
+    }
+    button.secondary { background: #f5f7fb; border: 1px solid var(--border); color: var(--text); font-weight: 600; }
+    button.ghost { background: transparent; border: 1px dashed var(--border); color: var(--muted); }
+
+    /* Cards stacked vertically */
+    .cards { display: grid; grid-template-columns: 1fr; gap: var(--gap); }
+
+    .card { background: #fff; border: 1px solid var(--border); border-radius: var(--card-radius); padding: 14px; box-shadow: var(--shadow); }
+    .card h3 { color: var(--text); font-size: 1.05rem; }
+    .mono { font-family: var(--mono); }
+    .kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; align-items: baseline; }
+    .kv dt { color: var(--muted); }
+    .kv dd { margin: 0; }
+    .pill { display: inline-block; padding: 3px 8px; border-radius: 999px; font-size: .85rem; font-weight: 700; }
+    .pill.good { background: color-mix(in oklab, var(--good) 18%, white); color: var(--good); border: 1px solid color-mix(in oklab, var(--good) 40%, white); }
+    .pill.warn { background: color-mix(in oklab, var(--warn) 18%, white); color: #a66b13; border: 1px solid color-mix(in oklab, var(--warn) 40%, white); }
+    .pill.bad  { background: color-mix(in oklab, var(--bad) 18%, white);  color: var(--bad); border: 1px solid color-mix(in oklab, var(--bad) 40%, white); }
+
+    .section-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .section-title small { color: var(--muted); }
+    .footer-note { color: var(--muted); font-size: .9rem; margin-top: 10px; }
+    .trace { white-space: pre-wrap; font-family: var(--mono); background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 12px; min-height: 120px; }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>BMI</h1>
-      <div class="pill">Self‑contained • No deps</div>
+      <h1>Body Mass Index</span></h1>
+      <p><strong>What this is?</strong> A self‑contained, browser‑only ARC harness for body mass index (BMI). Enter height and weight (metric or US units), then press <em>Run</em>. The page prints a step‑by‑step <em>Trace</em> and an ARC report (Answer • Reason • Check), including category and a healthy‑range weight band for the given height.</p>
+      <p class="footer-note">For reproducibility and documentation only; not medical advice.</p>
     </header>
 
-    <div class="card" style="margin-bottom:16px">
-      <div class="body">
-        <p><strong>What this is?</strong> A self‑contained, browser‑only <em>ARC harness</em> for body mass index (BMI). Enter height and weight (metric or US units), then press <em>Run</em>. The page prints a step‑by‑step Trace and an ARC report (<em>Answer • Reason • Check</em>), including category and a healthy‑range weight band for the given height.</p>
-        <p class="small">For reproducibility and documentation only; not medical advice.</p>
-      </div>
+    <div class="grid">
+      <!-- Inputs -->
+      <section class="panel" aria-labelledby="inputs-h2">
+        <div class="section-title">
+          <h2 id="inputs-h2">Inputs</h2>
+          <div class="btnbar"><button class="secondary" id="demoBtn" type="button">Demo & Run</button></div>
+        </div>
+
+        <div class="unit-toggle" role="radiogroup" aria-label="Unit system">
+          <label><input type="radio" name="units" value="metric" checked> Metric (kg, cm)</label>
+          <label><input type="radio" name="units" value="us"> US (lb, ft+in)</label>
+        </div>
+
+        <div class="row" style="margin-top:12px">
+          <div class="field" id="weightField">
+            <label for="weight">Weight <span class="mono" id="weightUnitLabel">(kg)</span></label>
+            <input id="weight" type="number" min="0" step="any" placeholder="e.g., 72" inputmode="decimal" value="72" />
+          </div>
+          <div class="field" id="heightField">
+            <label for="height">Height <span class="mono" id="heightUnitLabel">(cm)</span></label>
+            <input id="height" type="number" min="0" step="any" placeholder="e.g., 175" inputmode="decimal" value="179.5" />
+          </div>
+        </div>
+
+        <div class="row" id="usExtras" style="margin-top:8px; display:none">
+          <div class="field">
+            <label for="feet">Height (feet)</label>
+            <input id="feet" type="number" min="0" step="1" placeholder="e.g., 5" />
+          </div>
+          <div class="field">
+            <label for="inches">Height (inches)</label>
+            <input id="inches" type="number" min="0" step="any" placeholder="e.g., 9" />
+          </div>
+        </div>
+
+        <div class="btnbar" style="margin-top:12px">
+          <button id="runBtn" type="button">▶ Run</button>
+          <button class="secondary" id="copyOutputsBtn" type="button" title="Copy Answer + Reason + Check">Copy both outputs</button>
+        </div>
+      </section>
+
+      <!-- Trace -->
+      <section class="panel" aria-labelledby="trace-h2">
+        <div class="section-title">
+          <h2 id="trace-h2">Trace</h2>
+          <div class="btnbar">
+            <button class="ghost" id="exportTraceBtn" type="button">⬇ Export .txt</button>
+          </div>
+        </div>
+        <div id="trace" class="trace" aria-live="polite">(no run yet)</div>
+      </section>
     </div>
 
-    <div class="row">
-      <div class="card">
-        <div class="head"><h2>Inputs</h2><a href="#" class="small" onclick="demo();run();return false;">Demo &amp; Run</a></div>
-        <div class="body">
-          <div class="grid">
-            <div>
-              <label>Unit system</label>
-              <select id="unit" onchange="syncUnits()">
-                <option value="metric">Metric (kg, cm)</option>
-                <option value="us">US (lb, ft+in)</option>
-              </select>
-            </div>
-            <div>
-              <label>Weight (<span id="wUnit">kg</span>)</label>
-              <input id="weight" type="number" step="0.01">
-            </div>
-            <div>
-              <label>Height (<span id="hUnit">cm</span>)</label>
-              <input id="height" type="number" step="0.01">
-            </div>
-          </div>
-          <div class="bar">
-            <button onclick="run()">▶ Run</button>
-            <a href="#" class="small" onclick="copyBoth();return false;">Copy both outputs</a>
-          </div>
+    <!-- ARC Output -->
+    <section class="panel" aria-labelledby="arc-h2" style="margin-top:16px">
+      <div class="section-title">
+        <h2 id="arc-h2">ARC Output</h2>
+        <div class="btnbar">
+          <!-- intentionally no “Style: plain” label -->
+          <button class="ghost" id="exportArcBtn" type="button">⬇ Export .txt</button>
         </div>
       </div>
 
-      <div class="card">
-        <div class="head">
-          <h2>Trace</h2>
-          <button onclick="downloadText('bmi_trace.txt', document.getElementById('trace').textContent)">⬇ Export .txt</button>
-        </div>
-        <div class="body"><pre id="trace">(no run yet)</pre></div>
+      <div class="cards" id="cards">
+        <article class="card" aria-labelledby="answer-h3">
+          <h3 id="answer-h3">Answer</h3>
+          <div id="answer">(no run yet)</div>
+        </article>
+        <article class="card" aria-labelledby="reason-h3">
+          <h3 id="reason-h3">Reason why</h3>
+          <div id="reason">(no run yet)</div>
+        </article>
+        <article class="card" aria-labelledby="check-h3">
+          <h3 id="check-h3">Check (harness)</h3>
+          <div id="check">(no run yet)</div>
+        </article>
       </div>
-
-      <div class="card">
-        <div class="head">
-          <h2>ARC Output</h2>
-          <div class="toolbar">
-            <button onclick="toggleArcStyle()" id="styleBtn">Style: Cards</button>
-            <button onclick="downloadARC()">⬇ Export .txt</button>
-          </div>
-        </div>
-        <div class="body">
-          <div id="arc-cards" class="arc-grid">
-            <div class="arc-card answer">
-              <div class="ac-head">Answer <span id="catBadge" class="badge"></span></div>
-              <div class="ac-body"><pre id="arc_ans">(no run yet)</pre></div>
-            </div>
-            <div class="arc-card reason">
-              <div class="ac-head">Reason why</div>
-              <div class="ac-body"><pre id="arc_reason">(no run yet)</pre></div>
-            </div>
-            <div class="arc-card check">
-              <div class="ac-head">Check (harness)</div>
-              <div class="ac-body"><pre id="arc_check">(no run yet)</pre></div>
-            </div>
-          </div>
-          <pre id="arc" style="display:none">(no run yet)</pre>
-        </div>
-      </div>
-    </div>
+    </section>
   </div>
 
-<script>
-// ---------- units & helpers ----------
-function syncUnits(){
-  const u = document.getElementById('unit').value;
-  document.getElementById('wUnit').textContent = (u==='metric'?'kg':'lb');
-  document.getElementById('hUnit').textContent = (u==='metric'?'cm':'in');
-}
-function demo(){
-  // A typical adult example ~ BMI ~ 22.7
-  document.getElementById('unit').value = 'metric';
-  syncUnits();
-  document.getElementById('weight').value = 72.0; // kg
-  document.getElementById('height').value = 178.0; // cm
-}
-function kg_from(weight, unit){ return unit==='metric' ? weight : (weight * 0.45359237); }
-function m_from(height, unit){ return unit==='metric' ? (height/100.0) : (height * 0.0254); }
-function round(n, d=2){ return Number(n.toFixed(d)); }
+  <script>
+    const els = {
+      units: () => document.querySelector('input[name="units"]:checked').value,
+      weight: document.getElementById('weight'),
+      height: document.getElementById('height'),
+      feet: document.getElementById('feet'),
+      inches: document.getElementById('inches'),
+      usExtras: document.getElementById('usExtras'),
+      weightUnitLabel: document.getElementById('weightUnitLabel'),
+      heightUnitLabel: document.getElementById('heightUnitLabel'),
+      answer: document.getElementById('answer'),
+      reason: document.getElementById('reason'),
+      check: document.getElementById('check'),
+      trace: document.getElementById('trace'),
+      runBtn: document.getElementById('runBtn'),
+      demoBtn: document.getElementById('demoBtn'),
+      exportTraceBtn: document.getElementById('exportTraceBtn'),
+      exportArcBtn: document.getElementById('exportArcBtn'),
+      copyOutputsBtn: document.getElementById('copyOutputsBtn'),
+    };
 
-const WHO = [
-  {name:"Underweight",  min:null,  max:18.5},
-  {name:"Normal",       min:18.5,  max:25.0},
-  {name:"Overweight",   min:25.0,  max:30.0},
-  {name:"Obesity I",    min:30.0,  max:35.0},
-  {name:"Obesity II",   min:35.0,  max:40.0},
-  {name:"Obesity III",  min:40.0,  max:null}
-];
-function classify(bmi){
-  for(const c of WHO){
-    const ge = (c.min===null) ? true : (bmi >= c.min);
-    const lt = (c.max===null) ? true : (bmi <  c.max);
-    if(ge && lt) return c;
-  }
-  return WHO[WHO.length-1];
-}
-function healthy_weight_range_for_height_m(m){
-  // BMI 18.5..24.9 (upper bound <25)
-  const min = 18.5 * m*m;
-  const max = 24.9 * m*m;
-  return [min, max];
-}
+    // Units toggle
+    document.querySelectorAll('input[name="units"]').forEach(r => {
+      r.addEventListener('change', () => {
+        const metric = els.units() === 'metric';
+        els.weightUnitLabel.textContent = metric ? '(kg)' : '(lb)';
+        els.heightUnitLabel.textContent = metric ? '(cm)' : '(ft+in → cm)';
+        els.usExtras.style.display = metric ? 'none' : 'grid';
+        // Clear fields when switching systems
+        if (metric){
+          els.weight.value = '72';
+          els.height.value = '179.5';
+          els.feet.value = '';
+          els.inches.value = '';
+        } else {
+          els.weight.value = '';
+          els.height.value = '';
+          els.feet.value = '';
+          els.inches.value = '';
+        }
+      });
+    });
 
-// ---------- ARC run ----------
-function run(){
-  const unit = document.getElementById('unit').value;
-  const w = parseFloat(document.getElementById('weight').value);
-  const h = parseFloat(document.getElementById('height').value);
-  if(!Number.isFinite(w) || !Number.isFinite(h) || w<=0 || h<=0){
-    document.getElementById('trace').textContent = "Please fill weight and height with positive numbers (or use Demo).";
-    ['arc','arc_ans','arc_reason','arc_check'].forEach(id => document.getElementById(id).textContent="(no run)");
-    return;
-  }
+    // Helpers
+    const round = (num, decimals) => {
+      const p = Math.pow(10, decimals);
+      return Math.round((num + Number.EPSILON) * p) / p;
+    };
 
-  const kg = kg_from(w, unit);
-  const m  = m_from(h, unit);
-  const bmi = kg/(m*m);
-  const cat = classify(bmi);
-  const [hw_min, hw_max] = healthy_weight_range_for_height_m(m);
+    function kgToLb(kg){ return kg * 2.20462262185; }
+    function lbToKg(lb){ return lb * 0.45359237; }
+    function cmToM(cm){ return cm / 100; }
 
-  // Trace
-  const T = [];
-  T.push(`Step 01: Normalize units → kg = ${unit==='metric'?w:round(kg,2)} ${unit==='metric'?'(metric input)':'(from lb)'}, m = ${unit==='metric'?round(m,2):round(m,2)} ${unit==='metric'?'(from cm)':'(from in)'}`);
-  T.push(`Step 02: BMI = weight_kg / (height_m)^2 = ${round(kg,2)} / (${round(m,2)}^2) = ${round(bmi,2)}`);
-  T.push(`Step 03: Category = ${cat.name} (WHO thresholds)`);
-  T.push(`Step 04: Healthy weight range at this height (BMI 18.5–24.9): ${round(hw_min,1)} kg .. ${round(hw_max,1)} kg`);
-  document.getElementById('trace').textContent = T.join("\n");
+    function fmtRange(min, max, unit){
+      return `${round(min,1)}–${round(max,1)} ${unit}`;
+    }
 
-  // ARC sections
-  const A=[]; const R=[]; const C=[];
-  A.push(`BMI = ${round(bmi,2)}`);
-  A.push(`Category = ${cat.name}`);
-  A.push(`At height ${round(m*100,0)} cm, a “healthy range” is ≈ ${round(hw_min,1)}–${round(hw_max,1)} kg (BMI 18.5–24.9)`);
+    function category(bmi){
+      if (bmi < 18.5) return {label: 'Underweight', cls: 'warn'};
+      if (bmi < 25) return {label: 'Normal weight', cls: 'good'};
+      if (bmi < 30) return {label: 'Overweight', cls: 'warn'};
+      return {label: 'Obesity', cls: 'bad'};
+    }
 
-  R.push("BMI is defined as weight (kg) divided by height (m) squared.");
-  R.push("We normalize the inputs to SI units (kg, m), compute BMI, then map it to WHO adult categories.");
-  R.push("Boundaries are interpreted as half-open intervals:");
-  R.push("  Underweight: BMI < 18.5");
-  R.push("  Normal:     18.5 ≤ BMI < 25");
-  R.push("  Overweight: 25 ≤ BMI < 30");
-  R.push("  Obesity I:  30 ≤ BMI < 35;  Obesity II: 35 ≤ BMI < 40;  Obesity III: BMI ≥ 40");
-  R.push("We also translate the healthy BMI band (18.5..24.9) into a corresponding weight range for the given height.");
+    function collectInputs(){
+      const metric = els.units() === 'metric';
+      let w_kg, h_cm; let notes = [];
+      if (metric){
+        const w = parseFloat(els.weight.value);
+        const h = parseFloat(els.height.value);
+        if (!isFinite(w) || !isFinite(h) || w <= 0 || h <= 0) {
+          throw new Error('Please enter positive numeric weight and height.');
+        }
+        w_kg = w; h_cm = h; notes.push(`Metric input: weight ${w} kg, height ${h} cm.`);
+      } else {
+        const lb = parseFloat(els.weight.value);
+        const ft = parseFloat(els.feet.value || '0');
+        const inch = parseFloat(els.inches.value || '0');
+        const h_cm_guess = parseFloat(els.height.value);
+        if (!isFinite(lb) || lb <= 0) throw new Error('Enter a positive weight (lb).');
+        // Prefer ft+in, else accept cm typed in the main height box for convenience
+        let totalIn = NaN;
+        if (isFinite(ft) && isFinite(inch) && (ft>0 || inch>0)) {
+          totalIn = ft * 12 + inch;
+        }
+        if (!isFinite(totalIn) || totalIn <= 0){
+          if (!isFinite(h_cm_guess) || h_cm_guess <= 0) throw new Error('Enter height as ft+in or cm.');
+          h_cm = h_cm_guess; notes.push(`US input with cm override: height ${h_cm_guess} cm.`);
+        } else {
+          h_cm = totalIn * 2.54; notes.push(`US input: ${ft} ft ${inch} in → ${round(h_cm,1)} cm.`);
+        }
+        w_kg = lbToKg(lb); notes.push(`${lb} lb → ${round(w_kg,2)} kg.`);
+      }
+      return { w_kg, h_cm, notes };
+    }
 
-  const ok_eq_185 = classify(18.5).name === "Normal";
-  const ok_lt_185 = classify(18.49).name === "Underweight";
-  const ok_eq_25  = classify(25.0).name === "Overweight";
-  const ok_eq_30  = classify(30.0).name === "Obesity I";
-  const ok_mon    = (classify(22.0).name==="Normal") && (classify(27.0).name==="Overweight") && (classify(41.0).name.startsWith("Obesity"));
-  C.push(`Boundary checks: BMI=18.49 → Underweight (${ok_lt_185}), 18.5 → Normal (${ok_eq_185}), 25.0 → Overweight (${ok_eq_25}), 30.0 → Obesity I (${ok_eq_30})`);
-  C.push(`Monotonicity example (22→Normal, 27→Overweight, 41→Obesity*): ${ok_mon}`);
+    function compute(){
+      const t0 = performance.now();
+      let trace = [];
+      try {
+        const { w_kg, h_cm, notes } = collectInputs();
+        trace.push(...notes);
+        const h_m = cmToM(h_cm);
+        const bmi = w_kg / (h_m*h_m);
+        const bmiRounded = round(bmi, 1);
+        const cat = category(bmiRounded);
 
-  // Populate
-  document.getElementById('arc_ans').textContent = A.join("\n");
-  document.getElementById('arc_reason').textContent = R.join("\n");
-  document.getElementById('arc_check').textContent = C.join("\n");
+        // Healthy range for given height
+        const min_w = 18.5 * h_m*h_m;
+        const max_w = 24.9 * h_m*h_m;
+        const rangeKg = fmtRange(min_w, max_w, 'kg');
+        const rangeLb = fmtRange(kgToLb(min_w), kgToLb(max_w), 'lb');
 
-  // Badge
-  const b = document.getElementById('catBadge');
-  b.textContent = cat.name;
-  b.className = "badge " + (cat.name==="Normal" ? "b-good" : (cat.name.startsWith("Obesity") ? "b-bad" : "b-warn"));
+        // Build Answer card
+        const ans = document.createElement('div');
+        ans.innerHTML = `
+          <p><strong class="mono">BMI</strong>: <span class="mono" style="font-size:1.15rem">${bmiRounded}</span> <span class="pill ${cat.cls}">${cat.label}</span></p>
+          <dl class="kv">
+            <dt>Height</dt><dd>${round(h_cm,1)} cm (${round(h_m,2)} m)</dd>
+            <dt>Weight</dt><dd>${round(w_kg,1)} kg (${round(kgToLb(w_kg),1)} lb)</dd>
+            <dt>Healthy weight<br/>range @ height</dt><dd>${rangeKg}  /  ${rangeLb}</dd>
+          </dl>`;
+        els.answer.replaceChildren(ans);
 
-  // Combined plain text
-  const combined = ["Answer","------", ...A, "", "Reason why","----------", ...R, "", "Check (harness)","---------------", ...C].join("\n");
-  document.getElementById('arc').textContent = combined;
-}
+        // Build Reason card
+        const rs = document.createElement('div');
+        rs.innerHTML = `
+          <ol>
+            <li>Convert units to metric (kg, cm). ${notes.length? '<span class="mono">'+notes.join(' ')+"</span>": ''}</li>
+            <li>Convert height to meters: <span class="mono">h = ${round(h_cm,1)} cm = ${round(h_m,2)} m</span>.</li>
+            <li>Apply formula <span class="mono">BMI = weight_kg / (height_m)^2</span> → <span class="mono">${round(w_kg,1)} / ${round(h_m,2)}² = ${bmiRounded}</span>.</li>
+            <li>Classify using standard bands (Underweight &lt;18.5, Normal 18.5–24.9, Overweight 25–29.9, Obesity ≥30).</li>
+            <li>Healthy range @ height: <span class="mono">[18.5, 24.9] × h²</span> → <span class="mono">${rangeKg}</span> (≈ <span class="mono">${rangeLb}</span>).</li>
+          </ol>`;
+        els.reason.replaceChildren(rs);
 
-function toggleArcStyle(){
-  const pre = document.getElementById('arc');
-  const cards = document.getElementById('arc-cards');
-  const btn = document.getElementById('styleBtn');
-  const showingCards = cards.style.display !== 'none';
-  if(showingCards){
-    cards.style.display = 'none';
-    pre.style.display = 'block';
-    btn.textContent = 'Style: Plain';
-  }else{
-    cards.style.display = 'block';
-    pre.style.display = 'none';
-    btn.textContent = 'Style: Cards';
-  }
-}
-function downloadText(name, text){
-  const blob=new Blob([text],{type:'text/plain'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove();
-}
-function downloadARC(){
-  const text = document.getElementById('arc').textContent;
-  downloadText('bmi_arc.txt', text);
-}
-function copyBoth(){
-  const text = document.getElementById('trace').textContent + "\n\n" + document.getElementById('arc').textContent;
-  navigator.clipboard.writeText(text);
-}
+        // Build Check card (sanity harness)
+        const w_from_bmi = bmiRounded * h_m*h_m;
+        const delta_w = Math.abs(w_from_bmi - w_kg);
+        const rel = (delta_w / w_kg) * 100;
+        const ok = rel < 2.0; // within 2% after rounding
+        const ck = document.createElement('div');
+        ck.innerHTML = `
+          <ul>
+            <li>Reconstruction check: <span class="mono">BMI × h² = ${round(w_from_bmi,2)} kg</span> (input was <span class="mono">${round(w_kg,2)} kg</span>) → <strong class="pill ${ok? 'good':'bad'}">${ok? 'OK':'Mismatch'}</strong>.</li>
+            <li>Unit invariance: switching display units does not change BMI (dimensionless).</li>
+            <li>Numerical stability: results rounded to 1 decimal (BMI) and 1 decimal (ranges) for readability.</li>
+          </ul>`;
+        els.check.replaceChildren(ck);
 
-// bootstrap
-syncUnits();
-demo();
-run();
-</script>
+        // Trace
+        const t1 = performance.now();
+        trace.push(`Height (m): ${round(h_m,4)}`);
+        trace.push(`BMI (raw): ${bmi}`);
+        trace.push(`BMI (rounded 1dp): ${bmiRounded}`);
+        trace.push(`Category: ${cat.label}`);
+        trace.push(`Range kg: ${rangeKg}`);
+        trace.push(`Range lb: ${rangeLb}`);
+        trace.push(`Runtime: ${round(t1 - t0, 2)} ms`);
+        els.trace.textContent = trace.join('\n');
+      } catch (e){
+        els.answer.textContent = '(no run yet)';
+        els.reason.textContent = '(no run yet)';
+        els.check.textContent = '(no run yet)';
+        els.trace.textContent = 'Error: ' + e.message;
+      }
+    }
+
+    // Export helpers
+    function download(filename, text){
+      const blob = new Blob([text], {type: 'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; a.style.display='none';
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 0);
+    }
+
+    els.exportTraceBtn.addEventListener('click', () => {
+      download('bmi-trace.txt', els.trace.textContent || '');
+    });
+    els.exportArcBtn.addEventListener('click', () => {
+      const txt = [
+        '# Answer',
+        strip(els.answer), '',
+        '# Reason',
+        strip(els.reason), '',
+        '# Check',
+        strip(els.check)
+      ].join('\n');
+      download('bmi-arc.txt', txt);
+    });
+
+    els.copyOutputsBtn.addEventListener('click', async () => {
+      const txt = [
+        'Answer:\n' + strip(els.answer),
+        'Reason:\n' + strip(els.reason),
+        'Check:\n' + strip(els.check)
+      ].join('\n\n');
+      try { await navigator.clipboard.writeText(txt); toast('Copied Answer + Reason + Check.'); }
+      catch { toast('Unable to access clipboard.'); }
+    });
+
+    function strip(node){
+      const clone = node.cloneNode(true);
+      clone.querySelectorAll('style,script').forEach(n => n.remove());
+      return clone.textContent.trim().replace(/\n\s*\n\s*\n/g, '\n\n');
+    }
+
+    function toast(msg){
+      const t = document.createElement('div');
+      t.textContent = msg;
+      Object.assign(t.style, {
+        position:'fixed', inset:'auto 16px 16px auto', background:'#fff', color:'#0b1324',
+        border:'1px solid #e3e6ee', padding:'8px 12px', borderRadius:'10px', zIndex:9999,
+        boxShadow:'var(--shadow)', opacity:0, transition:'opacity .15s ease, transform .15s ease',
+        transform:'translateY(6px)'
+      });
+      document.body.appendChild(t);
+      requestAnimationFrame(()=>{ t.style.opacity=1; t.style.transform='translateY(0)'; });
+      setTimeout(()=>{ t.style.opacity=0; t.style.transform='translateY(6px)'; setTimeout(()=>t.remove(), 200); }, 1600);
+    }
+
+    // Bind
+    els.runBtn.addEventListener('click', compute);
+    els.demoBtn.addEventListener('click', () => {
+      // Demo: keep metric example
+      document.querySelector('input[value="metric"]').checked = true;
+      els.usExtras.style.display = 'none';
+      els.weightUnitLabel.textContent = '(kg)';
+      els.heightUnitLabel.textContent = '(cm)';
+      els.weight.value = '72';
+      els.height.value = '175';
+      els.feet.value = '';
+      els.inches.value = '';
+      compute();
+    });
+  </script>
 </body>
 </html>

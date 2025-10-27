@@ -1,283 +1,355 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Combinatorics</title>
   <style>
-    :root{
-      --bg:#ffffff; --ink:#111827; --muted:#6b7280; --panel:#f8fafc; --border:#e5e7eb; --accent:#0ea5e9;
-      --good:#16a34a; --cyan:#06b6d4; --indigo:#6366f1; --warn:#dc2626;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    :root {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --border: #e3e6ee;
+      --text: #0b1324;
+      --muted: #5b6779;
+      --accent: #0b6bcb;
+      --good: #1a7f37;
+      --warn: #b7791f;
+      --bad: #b42318;
+      --radius: 14px;
+      --gap: 14px;
+      --shadow: 0 6px 18px rgba(10,20,30,.08);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
     }
-    html,body{height:100%}
-    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 var(--ui); }
-    .wrap{max-width:980px; margin:28px auto; padding:0 14px;}
-    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px}
-    h1{font-size:20px; margin:0; letter-spacing:.2px}
-    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
-    .card{width:100%; background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:14px}
-    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
-    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
-    .body{padding:12px}
-    input[type="text"], input[type="number"]{width:100%; background:#fff; color:#0f172a; border:1px solid var(--border); border-radius:10px; padding:10px; font-family:var(--ui); font-size:14px}
-    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px; margin:0}
-    button{all:unset; background:#fff; border:1px solid var(--border); padding:9px 13px; border-radius:10px; cursor:pointer}
-    button:hover{border-color:#cbd5e1}
-    .warn{color:var(--warn)}
-    .accent{color:var(--accent)}
-    .btns{display:flex; gap:8px; flex-wrap:wrap}
-    .kv{font-family:var(--mono); background:#fff; border:1px solid var(--border); border-radius:10px; padding:10px; font-size:13px}
-    .muted{color:var(--muted)}
-    .row{display:grid; grid-template-columns: 1fr; gap:14px}
-    @media (min-width: 900px){ .row{ grid-template-columns: 1fr 1fr; } }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.5; }
+    a { color: var(--accent); text-decoration: none; }
+    h1, h2, h3 { margin: 0 0 .6rem; font-weight: 700; }
+    h1 { font-size: clamp(1.2rem, 1.1rem + 1.2vw, 1.9rem); }
+    h2 { font-size: clamp(1rem, .9rem + .8vw, 1.3rem); color: var(--muted); font-weight: 600; }
+    p { margin: .25rem 0 .75rem; color: var(--muted); }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 20px; }
+    header { display: grid; gap: 6px; margin-bottom: 12px; }
 
-    /* ARC boxes with thick colored left borders */
-    .arcbox{background:#fff; border:1px solid var(--border); border-radius:12px; padding:10px; margin:10px 0}
-    .arcbox.answer{border-left:10px solid var(--good)}
-    .arcbox.reason{border-left:10px solid var(--cyan)}
-    .arcbox.check{border-left:10px solid var(--indigo)}
-    .arclabel{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:6px}
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); }
+    .panel + .panel { margin-top: var(--gap); }
+
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+    @media (max-width: 680px) { .row { grid-template-columns: 1fr; } }
+
+    .field { display: grid; gap: 6px; }
+    .field label { color: var(--muted); font-size: .9rem; }
+    input, textarea, select { background: #fff; border: 1px solid var(--border); color: var(--text); border-radius: 10px; padding: 10px 12px; font-size: 1rem; }
+    textarea { min-height: 90px; resize: vertical; }
+
+    .btnbar { display: flex; gap: 8px; flex-wrap: wrap; }
+    button { background: linear-gradient(180deg, #2b87ff, #1769e9); color: #fff; border: none; border-radius: 12px; padding: 10px 14px; font-weight: 700; box-shadow: var(--shadow); cursor: pointer; }
+    button.secondary { background: #f5f7fb; color: var(--text); border: 1px solid var(--border); font-weight: 600; }
+    button.ghost { background: transparent; color: var(--muted); border: 1px dashed var(--border); }
+
+    .cards { display: grid; grid-template-columns: 1fr; gap: var(--gap); }
+    .card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
+    .card h3 { font-size: 1.05rem; }
+
+    .trace { white-space: pre-wrap; font-family: var(--mono); background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 12px; min-height: 120px; }
+    .mono { font-family: var(--mono); }
+    .pill { display: inline-block; padding: 3px 8px; border-radius: 999px; font-size: .85rem; font-weight: 700; }
+    .pill.good{ color: var(--good); border: 1px solid color-mix(in oklab, var(--good) 40%, white); background: color-mix(in oklab, var(--good) 18%, white); }
+    .pill.warn{ color: #a66b13; border: 1px solid color-mix(in oklab, var(--warn) 40%, white); background: color-mix(in oklab, var(--warn) 18%, white); }
+    .pill.bad { color: var(--bad);  border: 1px solid color-mix(in oklab, var(--bad) 40%,  white); background: color-mix(in oklab, var(--bad) 18%, white); }
+
+    .list { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+    .muted { color: var(--muted); }
+    .kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; align-items: baseline; }
+    .kv dt { color: var(--muted); }
+    .kv dd { margin: 0; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>Combinatorics</h1>
-      <div class="pill" id="status">Ready</div>
+      <h1>Combinatorics</span></h1>
+      <p><strong>What this is?</strong> Compute the power set, all k‑combinations and k‑permutations (k = 1..n), and combinations‑with‑replacement for a chosen k. Enter a comma‑separated list and press <em>Run</em>.</p>
     </header>
 
-    <div class="card">
-      <div class="body">
-        <p><strong>What this is?</strong> A self‑contained, browser‑only page that computes the power set,
-        all k‑combinations and k‑permutations (k = 1..n), and combinations‑with‑replacement for a chosen k.
-        The ARC section mirrors the script’s <em>Answer • Reason • Check</em> output.</p>
+    <section class="panel" aria-labelledby="input-h2">
+      <h2 id="input-h2">Input</h2>
+      <div class="row" style="margin-top:8px">
+        <div class="field">
+          <label for="elems">Elements (comma‑separated)</label>
+          <textarea id="elems" placeholder="e.g., A, B, C, D">A, B, C, D</textarea>
+        </div>
+        <div class="field">
+          <label for="kcr">k for combinations‑with‑replacement</label>
+          <input id="kcr" type="number" min="0" step="1" value="2" />
+        </div>
       </div>
-    </div>
+      <div class="btnbar" style="margin-top:8px">
+        <button id="runBtn" type="button">▶ Run</button>
+        <button class="secondary" id="sampleBtn" type="button">⟲ Load sample</button>
+        <button class="secondary" id="copyBtn" type="button">Copy ARC</button>
+        <button class="ghost" id="exportBtn" type="button">⬇ Export .txt</button>
+      </div>
+    </section>
 
-    <div class="row">
-      <div class="card">
-        <div class="head"><h2>Input</h2></div>
-        <div class="body">
-          <label class="muted">Elements (comma‑separated)</label>
-          <input id="els" type="text" value="A, B, C, D, E" />
-          <div style="height:8px"></div>
-          <label class="muted">k for combinations‑with‑replacement</label>
-          <input id="k" type="number" min="0" value="2" />
-          <div class="btns" style="margin-top:10px">
-            <button onclick="run()">▶ Run</button>
-            <button onclick="loadSample()">⟲ Load sample</button>
-            <button onclick="copyAnswer()">Copy ARC</button>
-            <button onclick="downloadTxt()">⬇ Export .txt</button>
-          </div>
-        </div>
-      </div>
+    <section class="panel" aria-labelledby="params-h2">
+      <h2 id="params-h2">Case — Parameters</h2>
+      <div id="params" class="trace">(none yet)</div>
+    </section>
 
-      <div class="card">
-        <div class="head"><h2>Case — Parameters</h2></div>
-        <div class="body">
-          <pre class="kv" id="caseBox"></pre>
-        </div>
+    <section class="panel" aria-labelledby="trace-h2">
+      <div style="display:flex; align-items:center; justify-content:space-between;">
+        <h2 id="trace-h2">Trace</h2>
+        <small class="muted">Limits: n ≤ 10 (to avoid huge outputs)</small>
       </div>
-    </div>
+      <div id="trace" class="trace" aria-live="polite">(no run yet)</div>
+    </section>
 
-    <div class="card">
-      <div class="head">
-        <h2>ARC Output</h2>
-        <div class="muted">Cards with left borders</div>
+    <section class="panel" aria-labelledby="arc-h2">
+      <div style="display:flex; align-items:center; justify-content:space-between;">
+        <h2 id="arc-h2">ARC Output</h2>
+        <div class="muted">Cards</div>
       </div>
-      <div class="body">
-        <div class="arcbox answer">
-          <div class="arclabel">Answer</div>
-          <pre id="ans">(no run yet)</pre>
-        </div>
-        <div class="arcbox reason">
-          <div class="arclabel">Reason why</div>
-          <pre id="why">(no run yet)</pre>
-        </div>
-        <div class="arcbox check">
-          <div class="arclabel">Check (harness)</div>
-          <pre id="chk">(no run yet)</pre>
-        </div>
+      <div class="cards">
+        <article class="card">
+          <h3>Answer</h3>
+          <div id="answer">(no run yet)</div>
+        </article>
+        <article class="card">
+          <h3>Reason why</h3>
+          <div id="reason">(no run yet)</div>
+        </article>
+        <article class="card">
+          <h3>Check (harness)</h3>
+          <div id="check">(no run yet)</div>
+        </article>
       </div>
-    </div>
-
+    </section>
   </div>
 
-<script>
-// ---------- helpers ----------
-const S = (id)=>document.getElementById(id);
-const setText = (id, txt)=>{ const el=S(id); if(el) el.textContent = txt; };
-function status(msg, isWarn=false){ const el=S('status'); if(!el) return; el.textContent=msg; el.classList.toggle('warn', !!isWarn); }
-const tup = (arr)=> '(' + arr.join(', ') + ')';
-const listOfTuples = (L)=> L.length ? '[ ' + L.map(tup).join(', ') + ' ]' : '[]';
-function parseElements(v){
-  return v.split(',').map(x=>x.trim()).filter(x=>x.length>0);
-}
+  <script>
+    // Helpers
+    const round = (x,d=4)=>{ const p=Math.pow(10,d); return Math.round((x+Number.EPSILON)*p)/p; };
+    const fact = n => n<=1 ? 1 : n*fact(n-1);
+    const choose = (n,k) => (k<0||k>n)?0: fact(n)/(fact(k)*fact(n-k));
+    const perm = (n,k) => (k<0||k>n)?0: fact(n)/fact(n-k);
 
-// ---------- math: counts ----------
-function nCk(n,k){
-  if(k<0||k>n) return 0;
-  k = Math.min(k, n-k);
-  let res = 1;
-  for(let i=1;i<=k;i++){
-    res = (res * (n - k + i)) / i;
-  }
-  return Math.round(res);
-}
-function nPk(n,k){
-  if(k<0||k>n) return 0;
-  let res=1;
-  for(let i=0;i<k;i++) res *= (n - i);
-  return res;
-}
-
-// ---------- generators ----------
-function combinations(arr, k, start=0, prefix=[], acc=[]){
-  if(k===0){ acc.push(prefix.slice()); return acc; }
-  for(let i=start; i<=arr.length-k; i++){
-    prefix.push(arr[i]);
-    combinations(arr, k-1, i+1, prefix, acc);
-    prefix.pop();
-  }
-  return acc;
-}
-function permutationsK(arr, k, used=new Array(arr.length).fill(false), prefix=[], acc=[]){
-  if(prefix.length===k){ acc.push(prefix.slice()); return acc; }
-  for(let i=0;i<arr.length;i++){
-    if(used[i]) continue;
-    used[i]=true;
-    prefix.push(arr[i]);
-    permutationsK(arr, k, used, prefix, acc);
-    prefix.pop();
-    used[i]=false;
-  }
-  return acc;
-}
-function combinationsWithReplacement(arr, k, start=0, prefix=[], acc=[]){
-  if(k===0){ acc.push(prefix.slice()); return acc; }
-  for(let i=start;i<arr.length;i++){
-    prefix.push(arr[i]);
-    combinationsWithReplacement(arr, k-1, i, prefix, acc);
-    prefix.pop();
-  }
-  return acc;
-}
-
-// ---------- core ----------
-function compute(elements, cwr_k){
-  const n = elements.length;
-  // power set via combinations r=0..n
-  const subsets = [];
-  for(let r=0;r<=n;r++) subsets.push(...combinations(elements, r));
-  // per-k
-  const combos = {};
-  const perms  = {};
-  for(let k=1;k<=n;k++){
-    combos[k] = combinations(elements, k);
-    perms[k]  = permutationsK(elements, k);
-  }
-  const cwr_list = combinationsWithReplacement(elements, cwr_k);
-  return { elements, subsets, combos, perms, cwr_k, cwr_list };
-}
-
-// ---------- ARC sections ----------
-function render(elements, cwr_k){
-  const n = elements.length;
-  const res = compute(elements, cwr_k);
-
-  // Case
-  setText('caseBox', `Elements: [ ${elements.join(', ')} ]
-n = ${n}
-cwr_k = ${cwr_k}`);
-
-  // Answer
-  let A = '';
-  A += `Elements: [ ${elements.join(', ')} ]\n`;
-  A += `Total number of subsets: 2^${n} = ${2**n}\n\n`;
-  A += 'All subsets (power set):\n';
-  for(const s of res.subsets) A += tup(s) + '\\n';
-  A += '\\n---\\n\\n';
-  for(let k=1;k<=n;k++){
-    A += `k = ${k}:\n`;
-    A += ` Number of combinations C(${n},${k}) = ${nCk(n,k)}\n`;
-    A += ` All combinations of size ${k}: ${listOfTuples(res.combos[k])}\n`;
-    A += ` Number of permutations P(${n},${k}) = ${nPk(n,k)}\n`;
-    A += ` All permutations of length ${k}: ${listOfTuples(res.perms[k])}\n\n`;
-  }
-  const cwr = nCk(n + cwr_k - 1, cwr_k);
-  A += `Combinations with repetition: choosing ${cwr_k} from ${n} with repetition allowed\n`;
-  A += ` Number of multiset combinations: C(${n + cwr_k - 1},${cwr_k}) = ${cwr}\n`;
-  A += ` List: ${listOfTuples(res.cwr_list)}\n`;
-  setText('ans', A);
-
-  // Reason
-  let R = '';
-  R += 'Power set:\n';
-  R += ` |P([${elements.join(', ')}])| = 2^${n} because each element is either included or not included.\n\n`;
-  R += 'Combinations (order doesn’t matter):\n';
-  R += ' C(n, k) = n! / (k! (n-k)!).\n\n';
-  R += 'Permutations (order matters, no repetition):\n';
-  R += ' P(n, k) = n! / (n-k)! (i.e., n · (n-1) · … · (n-k+1)).\n\n';
-  R += 'Combinations with repetition (multiset combinations):\n';
-  R += ' # = C(n+k-1, k) — stars and bars.\n\n';
-  R += 'Numeric summary for your input:\n';
-  R += ` Power set size: 2^${n} = ${2**n}\n`;
-  R += ' For k = 1..n:\n';
-  for(let k=1;k<=n;k++){
-    R += ` C(${n},${k}) = ${nCk(n,k)}, P(${n},${k}) = ${nPk(n,k)}\n`;
-  }
-  R += ` With repetition (k=${cwr_k}): C(${n + cwr_k - 1},${cwr_k}) = ${nCk(n + cwr_k - 1, cwr_k)}\n`;
-  setText('why', R);
-
-  // Check
-  let C = '';
-  try{
-    // Distinctness
-    if(new Set(elements).size !== n) throw new Error('Input elements should be distinct.');
-    const subsetsCount = res.subsets.length;
-    if(subsetsCount !== 2**n) throw new Error(`Power set size mismatch: ${subsetsCount} != 2^${n}`);
-    let sumBinoms=0; for(let k=0;k<=n;k++) sumBinoms += nCk(n,k);
-    if(sumBinoms !== subsetsCount) throw new Error('Sum_k C(n,k) should equal 2^n.');
-    for(let k=1;k<=n;k++){
-      if(res.combos[k].length !== nCk(n,k)) throw new Error(`C(${n},${k}) count mismatch.`);
-      if(res.perms[k].length !== nPk(n,k)) throw new Error(`P(${n},${k}) count mismatch.`);
-      if(!res.combos[k].every(t=>t.length===k)) throw new Error(`Some ${k}-combination has wrong length.`);
-      if(!res.perms[k].every(t=>t.length===k && (new Set(t)).size===k)) throw new Error(`Some ${k}-permutation invalid.`);
+    function parseElems(txt){
+      return txt.split(',').map(s=>s.trim()).filter(s=>s.length>0);
     }
-    const expectedCWR = nCk(n + cwr_k - 1, cwr_k);
-    if(res.cwr_list.length !== expectedCWR) throw new Error(`CWR count mismatch: ${res.cwr_list.length} != C(${n + cwr_k - 1},${cwr_k})`);
-    C += 'OK: counts, formulas, and listings are mutually consistent.';
-  }catch(e){
-    C += 'FAILED: ' + e.message;
-  }
-  setText('chk', C);
-  status('Done');
-}
 
-// ---------- buttons ----------
-function run(){
-  const elements = parseElements(S('els').value);
-  const k = Math.max(0, parseInt(S('k').value || '2', 10));
-  render(elements, k);
-}
-function loadSample(){
-  S('els').value = 'A, B, C, D, E';
-  S('k').value = '2';
-  run();
-}
-function copyAnswer(){
-  const out = [S('ans').textContent, S('why').textContent, S('chk').textContent].join('\n\n');
-  navigator.clipboard?.writeText(out).catch(()=>{});
-}
-function downloadTxt(){
-  const blob=new Blob([S('ans').textContent, '\n\n', S('why').textContent, '\n\n', S('chk').textContent], {type:'text/plain'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='combinatorics_output.txt'; a.click();
-}
+    function powerset(arr){
+      const n = arr.length; const out=[];
+      for(let mask=0; mask< (1<<n); mask++){
+        const subset=[]; for(let i=0;i<n;i++){ if(mask & (1<<i)) subset.push(arr[i]); }
+        out.push(subset);
+      }
+      return out;
+    }
 
-// auto-run
-window.addEventListener('DOMContentLoaded', run);
-</script>
+    function combinations(arr,k){
+      const res=[]; const n=arr.length;
+      function rec(start, comb){ if(comb.length===k){ res.push(comb.slice()); return; }
+        for(let i=start;i<n;i++){ comb.push(arr[i]); rec(i+1, comb); comb.pop(); }
+      }
+      if(k===0){ return [[]]; }
+      if(k>n){ return []; }
+      rec(0,[]); return res;
+    }
+
+    function permutations(arr,k){
+      const res=[]; const n=arr.length; const used=Array(n).fill(false);
+      const cur=[];
+      function rec(){ if(cur.length===k){ res.push(cur.slice()); return; }
+        for(let i=0;i<n;i++){ if(used[i]) continue; used[i]=true; cur.push(arr[i]); rec(); cur.pop(); used[i]=false; }
+      }
+      if(k===0){ return [[]]; }
+      if(k>n){ return []; }
+      rec(); return res;
+    }
+
+    function combWithRep(arr,k){
+      const res=[]; const n=arr.length;
+      function rec(start, comb){ if(comb.length===k){ res.push(comb.slice()); return; }
+        for(let i=start;i<n;i++){ comb.push(arr[i]); rec(i, comb); comb.pop(); }
+      }
+      if(k===0){ return [[]]; }
+      rec(0,[]); return res;
+    }
+
+    // UI els
+    const els = {
+      elems: document.getElementById('elems'),
+      kcr: document.getElementById('kcr'),
+      runBtn: document.getElementById('runBtn'),
+      sampleBtn: document.getElementById('sampleBtn'),
+      copyBtn: document.getElementById('copyBtn'),
+      exportBtn: document.getElementById('exportBtn'),
+      params: document.getElementById('params'),
+      trace: document.getElementById('trace'),
+      answer: document.getElementById('answer'),
+      reason: document.getElementById('reason'),
+      check: document.getElementById('check')
+    };
+
+    function listHTML(items, cap=60){
+      if(items.length===0) return '<em class="muted">(none)</em>';
+      const shown = items.slice(0,cap);
+      const hidden = items.slice(cap);
+      const fmt = a => Array.isArray(a) ? '['+a.join(', ')+']' : String(a);
+      let html = '<div class="list">'+ shown.map(fmt).join('<br>') + '</div>';
+      if(hidden.length){
+        const id = 'more_'+Math.random().toString(36).slice(2);
+        html += `<div class="muted" style="margin-top:6px">+ ${hidden.length} more <button class="secondary" onclick="(function(){const n=document.getElementById('${id}'); n.style.display='block'; event.target.remove();})()">Show all</button></div>`;
+        html += `<div id="${id}" class="list" style="display:none; margin-top:8px">${hidden.map(fmt).join('<br>')}</div>`;
+      }
+      return html;
+    }
+
+    function run(){
+      const t0 = performance.now();
+      try{
+        const arr = parseElems(els.elems.value);
+        const n = arr.length; const kcr = parseInt(els.kcr.value||'0',10);
+        if(n===0) throw new Error('Please provide at least one element.');
+        if(n>10) throw new Error('n is too large for enumeration (max 10).');
+        if(!Number.isFinite(kcr) || kcr<0) throw new Error('k must be a non‑negative integer.');
+
+        const ps = powerset(arr);
+        const allComb = []; const allPerm = [];
+        for(let k=1;k<=n;k++){
+          allComb.push({k, items: combinations(arr,k)});
+          allPerm.push({k, items: permutations(arr,k)});
+        }
+        const cwr = combWithRep(arr, kcr);
+
+        // parameters panel
+        els.params.textContent = `n = ${n} | elements = [${arr.join(', ')}] | k(cwr) = ${kcr}`;
+
+        // Answer
+        const psCount = ps.length;
+        const combCount = allComb.reduce((s, o)=>s+o.items.length, 0);
+        const permCount = allPerm.reduce((s, o)=>s+o.items.length, 0);
+        const ans = document.createElement('div');
+        ans.innerHTML = `
+          <dl class="kv">
+            <dt>Power set</dt><dd>${psCount} subsets (expected 2^n = ${Math.pow(2,n)})</dd>
+            <dt>All combinations</dt><dd>${combCount} tuples over k=1..${n}</dd>
+            <dt>All permutations</dt><dd>${permCount} tuples over k=1..${n}</dd>
+            <dt>Combinations with replacement</dt><dd>k=${kcr} → ${cwr.length} tuples</dd>
+          </dl>
+          <h4 style="margin:.6rem 0 .2rem">Samples</h4>
+          <div><strong>Power set (first items)</strong></div>
+          ${listHTML(ps.slice(0, Math.min(ps.length, 32)))}
+          <div style="margin-top:8px"><strong>Combinations k=${Math.min(2,n)}</strong></div>
+          ${listHTML(allComb.find(o=>o.k===Math.min(2,n)).items)}
+        `;
+        els.answer.replaceChildren(ans);
+
+        // Reason
+        const rs = document.createElement('div');
+        const binomSum = Array.from({length:n+1}, (_,k)=>choose(n,k)).reduce((a,b)=>a+b,0);
+        const permSum  = Array.from({length:n}, (_,i)=>perm(n,i+1)).reduce((a,b)=>a+b,0);
+        rs.innerHTML = `
+          <ol>
+            <li>Parse the comma‑separated elements into an ordered list <span class="mono">S</span> of size <span class="mono">n</span>.</li>
+            <li>Enumerate:
+              <ul>
+                <li>Power set |P(S)| = <span class="mono">2^n</span> subsets via bitmasks.</li>
+                <li>k‑Combinations <span class="mono">C(n,k)</span> with recursion over start index.</li>
+                <li>k‑Permutations <span class="mono">P(n,k)</span> using a used[] array.</li>
+                <li>Combinations with replacement: non‑decreasing indices; count is <span class="mono">C(n+k-1, k)</span>.</li>
+              </ul>
+            </li>
+            <li>Aggregate totals over k = 1..n.</li>
+            <li>Report summary and sample listings. Large outputs are capped; you can expand with “Show all”.</li>
+          </ol>
+          <div class="muted">Closed forms for verification: 
+            <span class="mono">∑ C(n,k) = 2^n</span> gives ${binomSum} and 
+            <span class="mono">∑ P(n,k) = ∑_{k=1..n} n!/(n-k)!</span> gives ${permSum}.
+          </div>
+        `;
+        els.reason.replaceChildren(rs);
+
+        // Check (harness)
+        const sumComb = allComb.reduce((s,o)=>s+o.items.length,0);
+        const sumPerm = allPerm.reduce((s,o)=>s+o.items.length,0);
+        const okPS = (ps.length === Math.pow(2,n));
+        const okCombSum = (sumComb === Math.pow(2,n)-1); // since k=1..n
+        const expectedCWR = choose(n + parseInt(els.kcr.value||'0',10) - 1, parseInt(els.kcr.value||'0',10));
+        const okCWR = (cwr.length === expectedCWR);
+        const check = document.createElement('div');
+        check.innerHTML = `
+          <ul>
+            <li>Power set size: <span class="mono">|P(S)| = ${ps.length}</span> vs <span class="mono">2^n = ${Math.pow(2,n)}</span> → <strong class="pill ${okPS?'good':'bad'}">${okPS?'OK':'Mismatch'}</strong></li>
+            <li>∑ C(n,k) over k=1..n: ${sumComb} vs ${Math.pow(2,n)-1} → <strong class="pill ${okCombSum?'good':'bad'}">${okCombSum?'OK':'Mismatch'}</strong></li>
+            <li>Combinations with replacement: counted ${cwr.length} vs C(n+k-1,k) = ${expectedCWR} → <strong class="pill ${okCWR?'good':'bad'}">${okCWR?'OK':'Mismatch'}</strong></li>
+          </ul>
+          <details style="margin-top:6px"><summary>Show detailed lists</summary>
+            <div style="margin-top:8px"><strong>Power set</strong>${listHTML(ps)}</div>
+            <div style="margin-top:8px"><strong>All combinations</strong>${allComb.map(o=>`<div style='margin-top:6px'><em>k=${o.k}</em>${listHTML(o.items)}</div>`).join('')}</div>
+            <div style="margin-top:8px"><strong>All permutations</strong>${allPerm.map(o=>`<div style='margin-top:6px'><em>k=${o.k}</em>${listHTML(o.items)}</div>`).join('')}</div>
+            <div style="margin-top:8px"><strong>Combinations with replacement (k=${kcr})</strong>${listHTML(cwr)}</div>
+          </details>
+        `;
+        els.check.replaceChildren(check);
+
+        // Trace
+        const t1 = performance.now();
+        const lines = [];
+        lines.push(`Elements: [${arr.join(', ')}] (n=${n})`);
+        lines.push(`Power set size: ${ps.length}`);
+        lines.push(`All combinations total: ${sumComb}`);
+        lines.push(`All permutations total: ${sumPerm}`);
+        lines.push(`CWR k=${kcr} size: ${cwr.length}`);
+        lines.push(`Runtime: ${round(t1-t0,2)} ms`);
+        els.trace.textContent = lines.join('\n');
+      } catch(e){
+        els.answer.textContent = '(no run yet)';
+        els.reason.textContent = '(no run yet)';
+        els.check.textContent = '(no run yet)';
+        els.trace.textContent = 'Error: ' + e.message;
+      }
+    }
+
+    els.runBtn.addEventListener('click', run);
+    els.sampleBtn.addEventListener('click', ()=>{
+      els.elems.value = 'A, B, C, D';
+      els.kcr.value = '2';
+    });
+    els.copyBtn.addEventListener('click', async ()=>{
+      const txt = [
+        'Answer:\n' + (document.getElementById('answer').innerText||''),
+        'Reason:\n' + (document.getElementById('reason').innerText||''),
+        'Check:\n' + (document.getElementById('check').innerText||'')
+      ].join('\n\n');
+      try{ await navigator.clipboard.writeText(txt); toast('Copied ARC.'); }
+      catch{ toast('Clipboard blocked.'); }
+    });
+    els.exportBtn.addEventListener('click', ()=>{
+      const txt = [
+        '# Answer', document.getElementById('answer').innerText, '',
+        '# Reason', document.getElementById('reason').innerText, '',
+        '# Check', document.getElementById('check').innerText
+      ].join('\n');
+      const blob = new Blob([txt], {type:'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = Object.assign(document.createElement('a'), {href:url, download:'combinatorics-arc.txt'});
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+
+    function toast(msg){
+      const t = document.createElement('div');
+      t.textContent = msg;
+      Object.assign(t.style, { position:'fixed', inset:'auto 16px 16px auto', background:'#fff', color:'#0b1324',
+        border:'1px solid #e3e6ee', padding:'8px 12px', borderRadius:'10px', zIndex:9999,
+        boxShadow:'var(--shadow)', opacity:0, transition:'opacity .15s ease, transform .15s ease',
+        transform:'translateY(6px)' });
+      document.body.appendChild(t);
+      requestAnimationFrame(()=>{ t.style.opacity=1; t.style.transform='translateY(0)'; });
+      setTimeout(()=>{ t.style.opacity=0; t.style.transform='translateY(6px)'; setTimeout(()=>t.remove(), 200); }, 1600);
+    }
+  </script>
 </body>
 </html>
