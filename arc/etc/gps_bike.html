@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>GPS Bike — Gent → Maasmechelen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg:#f7fafc; --card:#ffffff; --ink:#0f172a; --muted:#475569;
+      --ok:#16a34a; --bad:#dc2626; --accent:#2563eb;
+      --edge:#93c5fd; --mway:#cbd5e1; --path:#1d4ed8; --node:#020617;
+      --shadow:0 8px 20px rgba(2,6,23,0.08); --radius:16px;
+    }
+    html,body{margin:0;background:var(--bg);color:var(--ink);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;line-height:1.45}
+    .wrap{max-width:1000px;margin-inline:auto;padding:24px;display:flex;flex-direction:column;gap:20px}
+    header{display:flex;flex-direction:column;gap:8px}
+    h1{font-size:clamp(1.4rem,2.4vw,2rem);margin:0}
+    .sub{color:var(--muted)}
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+    .stack{display:flex;flex-direction:column;gap:14px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .btn{border:0;border-radius:12px;padding:10px 14px;font-weight:600;cursor:pointer;
+      background:var(--accent);color:white;box-shadow:var(--shadow)}
+    .kpi{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .k{background:var(--bg);border-radius:12px;padding:10px 12px}
+    .k .label{font-size:.8rem;color:var(--muted)}
+    .k .val{font-size:1.05rem;font-weight:700}
+    .checks{display:grid;grid-template-columns:1fr;gap:10px}
+    .check{display:flex;justify-content:space-between;align-items:center;background:var(--bg);
+      border-radius:12px;padding:10px 12px}
+    .badge{font-size:.8rem;font-weight:700;padding:4px 8px;border-radius:999px}
+    .pass{background:rgba(22,163,74,.12);color:var(--ok)}
+    .fail{background:rgba(220,38,38,.12);color:var(--bad)}
+    .hint{color:var(--muted);font-size:.9rem}
+    svg{width:100%;height:520px;background:white;border-radius:var(--radius);box-shadow:var(--shadow)}
+    .legend{display:flex;gap:18px;align-items:center;color:var(--muted);font-size:.9rem}
+    .dot{width:10px;height:10px;border-radius:50%}
+    .dot.path{background:var(--path)} .dot.edge{background:var(--edge)}
+    .dot.mway{background:var(--mway)} .dot.node{background:var(--node)}
+    .pill{display:inline-flex;align-items:center;gap:8px;background:var(--bg);border-radius:999px;padding:6px 10px}
+    .pill .seq{font-weight:700;color:var(--accent)}
+    code{background:var(--bg);padding:2px 6px;border-radius:8px}
+    footer{color:var(--muted);font-size:.85rem}
+    pre{white-space:pre-wrap;background:var(--bg);padding:10px;border-radius:12px;margin:0}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>GPS Bike — Gent → Maasmechelen</h1>
+    </header>
+
+    <section class="card stack" id="answer">
+      <div class="row">
+        <button class="btn" id="run">Compute Optimal Bike Route</button>
+        <div class="hint">Shortest path computed on a bike graph (motorways excluded). Weights = great-circle (Haversine) distances.</div>
+      </div>
+      <div class="kpi">
+        <div class="k"><div class="label">Start</div><div class="val" id="startVal">—</div></div>
+        <div class="k"><div class="label">Goal</div><div class="val" id="goalVal">—</div></div>
+        <div class="k"><div class="label">Shortest distance (km)</div><div class="val" id="distVal">—</div></div>
+        <div class="k"><div class="label">Stops (nodes)</div><div class="val" id="stopsVal">—</div></div>
+      </div>
+      <div class="row" id="pathList"></div>
+    </section>
+
+    <section class="card stack" id="reason">
+      <h3 style="margin:0">Reason Why</h3>
+      <div class="hint">
+        We model cities as nodes and intercity connections as weighted, undirected edges.
+        The <b>bike graph</b> excludes edges flagged as motorways. We use <b>Dijkstra</b> to find the shortest path,
+        then verify with <b>A*</b> (admissible straight-line heuristic), <b>Bellman–Ford</b>, and <b>Floyd–Warshall</b>.
+      </div>
+      <pre id="reasonText"></pre>
+    </section>
+
+    <section class="card stack" id="checks">
+      <h3 style="margin:0">Independent Checks</h3>
+      <div class="checks" id="checksList"></div>
+    </section>
+
+    <section class="card stack">
+      <h3 style="margin:0">Route Map (SVG)</h3>
+      <div class="legend">
+        <span class="dot edge"></span> bike-allowed edges
+        <span class="dot mway"></span> motorways (not allowed)
+        <span class="dot path"></span> chosen shortest path
+        <span class="dot node"></span> city
+      </div>
+      <svg id="map" viewBox="0 0 1000 520" role="img" aria-label="Belgium bike route map"></svg>
+    </section>
+
+    <footer>Self-contained; no external libraries. No fixed sequence — the path is discovered automatically.</footer>
+  </div>
+
+  <script>
+    // ---------- Cities (approximate centers) ----------
+    const cities = {
+      "Gent":           {lat:51.0543, lon:3.7174},
+      "Lokeren":        {lat:51.1036, lon:3.9936},
+      "Dendermonde":    {lat:51.0230, lon:4.1010},
+      "Aalst":          {lat:50.9360, lon:4.0355},
+      "Mechelen":       {lat:51.0259, lon:4.4777},
+      "Vilvoorde":      {lat:50.9281, lon:4.4294},
+      "Leuven":         {lat:50.8798, lon:4.7005},
+      "Aarschot":       {lat:50.9870, lon:4.8369},
+      "Tienen":         {lat:50.8074, lon:4.9367},
+      "Diest":          {lat:50.9890, lon:5.0508},
+      "Sint-Truiden":   {lat:50.8160, lon:5.1869},
+      "Herk-de-Stad":   {lat:50.9484, lon:5.1719},
+      "Hasselt":        {lat:50.9307, lon:5.3326},
+      "Genk":           {lat:50.9669, lon:5.5000},
+      "Zutendaal":      {lat:50.9333, lon:5.5667},
+      "Maasmechelen":   {lat:50.9651, lon:5.6947},
+      "Antwerpen":      {lat:51.2194, lon:4.4025},
+      "Brussel":        {lat:50.8503, lon:4.3517}
+    };
+
+    // ---------- Links: [u, v, {motorway:boolean}] ----------
+    // Motorways are excluded from the bike graph (still drawn dashed for context).
+    const links = [
+      // Bike-allowed backbone & options (canal & regional links)
+      ["Gent","Lokeren",{motorway:false}],
+      ["Lokeren","Dendermonde",{motorway:false}],
+      ["Gent","Aalst",{motorway:false}],
+      ["Aalst","Dendermonde",{motorway:false}],
+      ["Dendermonde","Mechelen",{motorway:false}],
+      ["Mechelen","Leuven",{motorway:false}],
+      ["Mechelen","Aarschot",{motorway:false}],
+      ["Leuven","Aarschot",{motorway:false}],
+      ["Leuven","Tienen",{motorway:false}],
+      ["Tienen","Diest",{motorway:false}],
+      ["Aarschot","Diest",{motorway:false}],
+      ["Diest","Herk-de-Stad",{motorway:false}],
+      ["Herk-de-Stad","Hasselt",{motorway:false}],
+      ["Diest","Sint-Truiden",{motorway:false}],
+      ["Sint-Truiden","Hasselt",{motorway:false}],
+      ["Hasselt","Genk",{motorway:false}],
+      ["Genk","Zutendaal",{motorway:false}],
+      ["Zutendaal","Maasmechelen",{motorway:false}],
+      ["Genk","Maasmechelen",{motorway:false}],
+      // A few cross options
+      ["Vilvoorde","Mechelen",{motorway:false}],
+      ["Vilvoorde","Leuven",{motorway:false}],
+      ["Gent","Dendermonde",{motorway:false}],
+      // Motorways (not allowed for bikes)
+      ["Gent","Brussel",{motorway:true}],
+      ["Brussel","Leuven",{motorway:true}],
+      ["Mechelen","Brussel",{motorway:true}],
+      ["Gent","Antwerpen",{motorway:true}],
+      ["Antwerpen","Hasselt",{motorway:true}],
+      ["Leuven","Hasselt",{motorway:true}]
+    ];
+
+    // ---------- Build graphs ----------
+    const rad = d => d*Math.PI/180;
+    function haversine(a,b){
+      const R=6371;
+      const dLat = rad(b.lat-a.lat), dLon = rad(b.lon-a.lon);
+      const s = Math.sin(dLat/2)**2 + Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dLon/2)**2;
+      return 2*R*Math.asin(Math.sqrt(s));
+    }
+
+    function buildAdj(includeMotorways){
+      const g = {};
+      for(const [u,v,meta] of links){
+        const allow = includeMotorways || !meta.motorway;
+        if(!allow) continue;
+        const w = haversine(cities[u], cities[v]);
+        g[u]=g[u]||{}; g[v]=g[v]||{};
+        g[u][v]=Math.min(g[u][v]??Infinity, w);
+        g[v][u]=Math.min(g[v][u]??Infinity, w);
+      }
+      return g;
+    }
+
+    const bikeGraph = buildAdj(false);
+    const fullGraph = buildAdj(true);
+
+    // Active graph pointer for algos (set to bike by default)
+    let graph = bikeGraph;
+
+    // ---------- Shortest path algorithms ----------
+    function dijkstra(start,goal){
+      const dist={}, prev={}, Q=new Set(Object.keys(cities));
+      for(const n of Q) dist[n]=Infinity;
+      dist[start]=0;
+      const steps=[];
+      while(Q.size){
+        let u=null, best=Infinity;
+        for(const n of Q){ if(dist[n]<best){best=dist[n]; u=n;} }
+        if(u===null) break;
+        Q.delete(u);
+        steps.push({pick:u, d:dist[u]});
+        if(u===goal) break;
+        for(const [v,w] of Object.entries(graph[u]||{})){
+          if(!Q.has(v)) continue;
+          const alt=dist[u]+w;
+          if(alt<dist[v]){ dist[v]=alt; prev[v]=u; }
+        }
+      }
+      const path=[];
+      let u=goal;
+      if(prev[u] || u===start){
+        while(u){ path.unshift(u); if(u===start) break; u=prev[u]; }
+      }
+      return {distance:dist[goal], path, steps};
+    }
+
+    function astar(start,goal){
+      const h = n => haversine(cities[n], cities[goal]);
+      const open=new Set([start]);
+      const came={}, g={}, f={};
+      for(const n in cities){ g[n]=Infinity; f[n]=Infinity; }
+      g[start]=0; f[start]=h(start);
+      while(open.size){
+        let cur=null, best=Infinity;
+        open.forEach(n=>{ if(f[n]<best){best=f[n];cur=n;} });
+        if(cur===goal){
+          const path=[cur]; let x=cur; while(came[x]){ x=came[x]; path.unshift(x); }
+          return {distance:g[cur], path};
+        }
+        open.delete(cur);
+        for(const [nbr,w] of Object.entries(graph[cur]||{})){
+          const tentative=g[cur]+w;
+          if(tentative<g[nbr]){
+            came[nbr]=cur; g[nbr]=tentative; f[nbr]=tentative+h(nbr);
+            open.add(nbr);
+          }
+        }
+      }
+      return {distance:Infinity, path:[]};
+    }
+
+    function bellmanFord(start,goal){
+      const nodes=Object.keys(cities);
+      const dist={}, prev={};
+      nodes.forEach(n=>dist[n]=Infinity);
+      dist[start]=0;
+      const edges=[];
+      for(const u in graph)
+        for(const v in graph[u])
+          edges.push([u,v,graph[u][v]]);
+      for(let i=0;i<nodes.length-1;i++){
+        let changed=false;
+        for(const [u,v,w] of edges){
+          if(dist[u]+w<dist[v]){
+            dist[v]=dist[u]+w; prev[v]=u; changed=true;
+          }
+        }
+        if(!changed) break;
+      }
+      const path=[];
+      let u=goal;
+      if(prev[u] || u===start){
+        while(u){ path.unshift(u); if(u===start) break; u=prev[u]; }
+      }
+      return {distance:dist[goal], path};
+    }
+
+    function floydWarshall(){
+      const nodes=Object.keys(cities);
+      const idx={}, N=nodes.length;
+      nodes.forEach((n,i)=>idx[n]=i);
+      const D=Array.from({length:N},(_,i)=>Array.from({length:N},(_,j)=> i===j?0:Infinity));
+      for(const u in graph) for(const v in graph[u]) D[idx[u]][idx[v]]=Math.min(D[idx[u]][idx[v]], graph[u][v]);
+      for(let k=0;k<N;k++)
+        for(let i=0;i<N;i++)
+          for(let j=0;j<N;j++)
+            if(D[i][k]+D[k][j] < D[i][j]) D[i][j]=D[i][k]+D[k][j];
+      return {nodes, idx, D};
+    }
+
+    // Helper: motorway edge?
+    function isMotorwayEdge(u,v){
+      for(const [a,b,meta] of links){
+        if((a===u && b===v) || (a===v && b===u)) return !!meta.motorway;
+      }
+      return false;
+    }
+
+    // ---------- Checks (independent harness) ----------
+    function runChecks(result, dA, dB, fw, start, goal, carD){
+      const checks=[];
+      const add=(name, ok, detail)=>checks.push({name, ok, detail: ok?detail:(detail||"failed")});
+
+      const path = result.path;
+      const dist = result.distance;
+
+      // 1) Start/End
+      add("Starts at Gent, ends at Maasmechelen", path[0]===start && path[path.length-1]===goal, `${path[0]} → ${path[path.length-1]}`);
+
+      // 2) Path exists (every hop present)
+      let edgesOk=true;
+      for(let i=0;i<path.length-1;i++){
+        const u=path[i], v=path[i+1];
+        if(!(graph[u] && graph[u][v]>0)){ edgesOk=false; break; }
+      }
+      add("Each hop exists in the bike graph", edgesOk);
+
+      // 3) No motorways used
+      let noHighways=true, offender="";
+      for(let i=0;i<path.length-1;i++){
+        const u=path[i], v=path[i+1];
+        if(isMotorwayEdge(u,v)){ noHighways=false; offender=`${u}–${v}`; break; }
+      }
+      add("No motorways (highways) on chosen path", noHighways, offender || "ok");
+
+      // 4) Distance equals sum of edges
+      let sum=0; for(let i=0;i<path.length-1;i++) sum+=graph[path[i]][path[i+1]];
+      add("Distance equals sum of edge weights", Math.abs(sum-dist)<1e-6, `sum=${sum.toFixed(3)} vs dijkstra=${dist.toFixed(3)}`);
+
+      // 5) A* agrees
+      add("A* distance equals Dijkstra", Math.abs(dA.distance - dist)<1e-6, `A*=${dA.distance.toFixed(3)} km`);
+
+      // 6) Bellman–Ford agrees
+      add("Bellman–Ford distance equals Dijkstra", Math.abs(dB.distance - dist)<1e-6, `BF=${dB.distance.toFixed(3)} km`);
+
+      // 7) Floyd–Warshall global optimum matches
+      const i=fw.idx[start], j=fw.idx[goal];
+      add("Floyd–Warshall (all-pairs) matches", Math.abs(fw.D[i][j]-dist)<1e-6, `FW=${fw.D[i][j].toFixed(3)} km`);
+
+      // 8) Path is simple (no repeated nodes)
+      const uniq = new Set(path);
+      add("Path is simple (no repeats)", uniq.size === path.length, `uniq=${uniq.size} nodes`);
+
+      // 9) Direct lower bound (sinuosity sanity)
+      const direct = haversine(cities[start], cities[goal]);
+      add("Route ≥ direct great-circle distance", dist+1e-9 >= direct, `direct=${direct.toFixed(2)} km`);
+
+      // 10) Compare to unrestricted (car) graph
+      add("Bike distance ≥ car (unrestricted) distance", dist+1e-9 >= carD, `Bike=${dist.toFixed(1)} vs Car=${carD.toFixed(1)} km`);
+
+      // 11) Edge criticality (no single used edge removable without longer/∞ result)
+      let criticalOK=true, note="";
+      for(let k=0;k<path.length-1;k++){
+        const u=path[k], v=path[k+1], w=graph[u][v];
+        // temporarily remove
+        delete graph[u][v]; delete graph[v][u];
+        const alt = dijkstra(start, goal).distance;
+        // restore
+        graph[u][v]=w; graph[v][u]=w;
+        if(alt + 1e-9 < dist){ criticalOK=false; note=`Removing ${u}–${v} gave shorter ${alt.toFixed(3)} km`; break; }
+      }
+      add("No single edge on the path is replaceable by a shorter alternative", criticalOK, note || "ok");
+
+      return checks;
+    }
+
+    // ---------- SVG ----------
+    function project(lat,lon, box){
+      const lats = Object.values(cities).map(c=>c.lat);
+      const lons = Object.values(cities).map(c=>c.lon);
+      const minLat=Math.min(...lats), maxLat=Math.max(...lats);
+      const minLon=Math.min(...lons), maxLon=Math.max(...lons);
+      const x=(lon-minLon)/(maxLon-minLon)*box.w+box.x;
+      const y=box.y+box.h-((lat-minLat)/(maxLat-minLat)*box.h);
+      return [x,y];
+    }
+
+    function drawMap(path){
+      const svg=document.getElementById('map'); svg.innerHTML='';
+      const box={x:30,y:20,w:940,h:480};
+
+      // motorways (dashed)
+      for(const [u,v,meta] of links){
+        if(!meta.motorway) continue;
+        const [x1,y1]=project(cities[u].lat, cities[u].lon, box);
+        const [x2,y2]=project(cities[v].lat, cities[v].lon, box);
+        const line=document.createElementNS("http://www.w3.org/2000/svg","line");
+        line.setAttribute("x1",x1); line.setAttribute("y1",y1);
+        line.setAttribute("x2",x2); line.setAttribute("y2",y2);
+        line.setAttribute("stroke","var(--mway)");
+        line.setAttribute("stroke-width","3");
+        line.setAttribute("stroke-linecap","round");
+        line.setAttribute("stroke-dasharray","6 6");
+        line.setAttribute("opacity","0.9");
+        svg.appendChild(line);
+      }
+
+      // bike edges
+      for(const [u,v,meta] of links){
+        if(meta.motorway) continue;
+        const [x1,y1]=project(cities[u].lat, cities[u].lon, box);
+        const [x2,y2]=project(cities[v].lat, cities[v].lon, box);
+        const line=document.createElementNS("http://www.w3.org/2000/svg","line");
+        line.setAttribute("x1",x1); line.setAttribute("y1",y1);
+        line.setAttribute("x2",x2); line.setAttribute("y2",y2);
+        line.setAttribute("stroke","var(--edge)");
+        line.setAttribute("stroke-width","3");
+        line.setAttribute("stroke-linecap","round");
+        line.setAttribute("opacity","0.8");
+        svg.appendChild(line);
+      }
+
+      // chosen path
+      for(let i=0;i<path.length-1;i++){
+        const u=path[i], v=path[i+1];
+        const [x1,y1]=project(cities[u].lat, cities[u].lon, box);
+        const [x2,y2]=project(cities[v].lat, cities[v].lon, box);
+        const line=document.createElementNS("http://www.w3.org/2000/svg","line");
+        line.setAttribute("x1",x1); line.setAttribute("y1",y1);
+        line.setAttribute("x2",x2); line.setAttribute("y2",y2);
+        line.setAttribute("stroke","var(--path)");
+        line.setAttribute("stroke-width","6");
+        line.setAttribute("stroke-linecap","round");
+        svg.appendChild(line);
+      }
+
+      // nodes + labels
+      for(const [name,coord] of Object.entries(cities)){
+        const [x,y]=project(coord.lat,coord.lon, box);
+        const g=document.createElementNS("http://www.w3.org/2000/svg","g");
+        const c=document.createElementNS("http://www.w3.org/2000/svg","circle");
+        c.setAttribute("cx",x); c.setAttribute("cy",y); c.setAttribute("r",6);
+        c.setAttribute("fill","var(--node)");
+        c.setAttribute("opacity", path.includes(name)? "1":"0.85");
+        const t=document.createElementNS("http://www.w3.org/2000/svg","text");
+        t.setAttribute("x",x+10); t.setAttribute("y",y-10);
+        t.setAttribute("font-size","12"); t.setAttribute("fill","var(--ink)");
+        t.textContent=name;
+        g.appendChild(c); g.appendChild(t); svg.appendChild(g);
+      }
+    }
+
+    // ---------- Driver (P3) ----------
+    function run(){
+      const start="Gent", goal="Maasmechelen";
+
+      // Bike (active)
+      graph = bikeGraph;
+      const d = dijkstra(start, goal);
+      const a = astar(start, goal);
+      const b = bellmanFord(start, goal);
+      const fw = floydWarshall();
+
+      // Car (unrestricted) distance for comparison
+      const saved = graph; graph = fullGraph;
+      const car = dijkstra(start, goal);
+      graph = saved;
+
+      // Answer
+      document.getElementById('startVal').textContent = start;
+      document.getElementById('goalVal').textContent  = goal;
+      document.getElementById('distVal').textContent  = isFinite(d.distance)? d.distance.toFixed(2):"∞";
+      document.getElementById('stopsVal').textContent = d.path.length;
+
+      // Path chips
+      const pathList=document.getElementById('pathList'); pathList.innerHTML='';
+      d.path.forEach((name,idx)=>{
+        const el=document.createElement('div'); el.className='pill';
+        el.innerHTML = `<span class="seq">${idx+1}</span> ${name}`;
+        pathList.appendChild(el);
+      });
+
+      // Reason
+      const reason = [
+        `Graph: weighted, undirected; weight = Haversine distance on bike-allowed links.`,
+        `Algorithms: Dijkstra (primary), A* (admissible straight-line), Bellman–Ford, Floyd–Warshall.`,
+        `Chosen shortest path (bike): ${d.path.join(" → ")}`,
+        `Distance (bike): ${isFinite(d.distance)? d.distance.toFixed(2):"∞"} km`,
+        `Reference car (unrestricted) distance: ${isFinite(car.distance)? car.distance.toFixed(2):"∞"} km`,
+        `Dijkstra selection order: ${d.steps.map(s=>`${s.pick}(${isFinite(s.d)?s.d.toFixed(1):"∞"})`).join(" → ")}`
+      ].join("\n");
+      document.getElementById('reasonText').textContent = reason;
+
+      // Checks
+      const checks = runChecks(d, a, b, fw, start, goal, car.distance);
+      const list=document.getElementById('checksList'); list.innerHTML='';
+      checks.forEach(c=>{
+        const row=document.createElement('div'); row.className='check';
+        const name=document.createElement('div'); name.textContent=c.name;
+        const right=document.createElement('div'); right.className='row';
+        const detail=document.createElement('div'); detail.className='hint'; detail.textContent=c.detail||"";
+        const badge=document.createElement('span'); badge.className='badge '+(c.ok?'pass':'fail'); badge.textContent=c.ok?'PASS':'FAIL';
+        right.appendChild(detail); right.appendChild(badge);
+        row.appendChild(name); row.appendChild(right);
+        list.appendChild(row);
+      });
+
+      // Map
+      drawMap(d.path);
+    }
+
+    document.getElementById('run').addEventListener('click', run);
+    // Run immediately
+    run();
+  </script>
+</body>
+</html>
+
