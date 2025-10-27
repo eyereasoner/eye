@@ -20,7 +20,6 @@ If you are reading this for the first time, the best way in is straightforward: 
 
 - [A₂ (Ackermann via hyper-operations)](https://eyereasoner.github.io/eye/arc/etc/ackermann.html) — Compute A₂ with exact hyper-ops; print small, expand huge safely.
 - [Alternating binomial sum](https://eyereasoner.github.io/eye/arc/etc/alternating_binomial_sum.html) — Alternating binomial terms cancel pairwise, so the total is zero.
-- [Apollonian gasket](https://eyereasoner.github.io/eye/arc/etc/apollonian_gasket.html) — Exact tangent-circle packing via Descartes’ theorem and complex centers.
 - [Binomial Theorem](https://eyereasoner.github.io/eye/arc/etc/binomial_theorem.html) — Sum of all binomial coefficients.
 - [Body Mass Index](https://eyereasoner.github.io/eye/arc/etc/bmi.html) — Compute BMI categories with explainable thresholds and sanity checks.
 - [Chinese Remainder Theorem](https://eyereasoner.github.io/eye/arc/etc/chinese_remainder_theorem.html) — CRT: unique solution mod product of coprime moduli.
@@ -33,27 +32,21 @@ If you are reading this for the first time, the best way in is straightforward: 
 - [Euclid’s Infinitude of Primes](https://eyereasoner.github.io/eye/arc/etc/euclid_infinitude.html) — Restate the theorem, explain Euclid’s one‑line proof, and run computational checks.
 - [Euler’s characteristic](https://eyereasoner.github.io/eye/arc/etc/euler_characteristic.html) — Compute χ = V−E+F for meshes; sanity-check against topology rules.
 - [Euler’s identity](https://eyereasoner.github.io/eye/arc/etc/euler_identity.html) — Euler's identity, the most beautiful equation in mathematics.
-- [Family logic](https://eyereasoner.github.io/eye/arc/etc/family.html) — Infer kinship from base relations (parent, spouse) with consistency checks.
 - [Fermat’s Little Theorem](https://eyereasoner.github.io/eye/arc/etc/fermat_little_theorem.html) — Fermat's Little Theorem about prime numbers.
 - [Fibonacci golden spiral](https://eyereasoner.github.io/eye/arc/etc/fibonacci_golden_spiral.html) — Draw the spiral from Fibonacci rectangles and verify ratios.
 - [Fibonacci via Fast Doubling](https://eyereasoner.github.io/eye/arc/etc/fibonacci.html) — Compute big Fₙ with fast-doubling recurrences and proof-style checks.
-- [Ford circles](https://eyereasoner.github.io/eye/arc/etc/ford_circles.html) — Place circles at rationals; verify tangency and Farey-sequence links.
 - [Gauss sum](https://eyereasoner.github.io/eye/arc/etc/gauss_sum.html) — Sum of first n naturals.
 - [GPS Bike](https://eyereasoner.github.io/eye/arc/etc/gps_bike.html) — GPS Bike — Gent → Maasmechelen.
 - [Graph — French cities](https://eyereasoner.github.io/eye/arc/etc/graph_french.html) — Shortest paths and connectivity over a city graph with proofs.
-- [Kakuro (Cross Sums)](https://eyereasoner.github.io/eye/arc/etc/kakuro.html) — Fill grid sums with unique digits using constraint propagation.
 - [Kaprekar’s Constant](https://eyereasoner.github.io/eye/arc/etc/kaprekar_constant.html) — An exhaustive sweep of every 4‑digit state that runs Kaprekar’s routine.
-- [KenKen](https://eyereasoner.github.io/eye/arc/etc/kenken.html) — Latin-square + cage arithmetic solved with explainable deductions.
 - [Lee](https://eyereasoner.github.io/eye/arc/etc/lee.html) — Maze routing with Lee’s algorithm; trace optimal wavefront paths.
 - [Leg Length Discrepancy Measurement](https://eyereasoner.github.io/eye/arc/etc/lldm.html) — Leg Length Discrepancy Measurement from four landmarks.
 - [Library & Path](https://eyereasoner.github.io/eye/arc/etc/library_and_path.html) — Toggle “laws,” search a minimal path to a target observation set.
 - [Matrix basics](https://eyereasoner.github.io/eye/arc/etc/matrix.html) — Do matrix ops (add/mul/inv) with dimension and property checks.
 - [N-Queens](https://eyereasoner.github.io/eye/arc/etc/n_queens.html) — Place N queens without attacks; verify constraints per row/diag.
-- [Nonogram (Picross)](https://eyereasoner.github.io/eye/arc/etc/nonogram.html) — Fill grid cells to match run hints using logical deductions.
 - [Pentagon & pentagram — golden ratio](https://eyereasoner.github.io/eye/arc/etc/pentagon_pentagram.html) — Construct φ-relations in pentagons and star polygons with proofs.
 - [Permutation order](https://eyereasoner.github.io/eye/arc/etc/permutation_order.html) — Permutation order = LCM of disjoint cycle lengths.
 - [π (Chudnovsky)](https://eyereasoner.github.io/eye/arc/etc/pi.html) — High-precision π via Chudnovsky series with error-bound checks.
-- [Pick’s Theorem](https://eyereasoner.github.io/eye/arc/etc/picks_theorem.html) — Area = I + B/2 − 1 for lattice polygons; verify interior/boundary counts.
 - [Poincaré Rotation on the Circle](https://eyereasoner.github.io/eye/arc/etc/poincare.html) — An irrational circle rotation is non-repeating and uniform.
 - [Polynomial roots (Durand–Kerner)](https://eyereasoner.github.io/eye/arc/etc/polynomial.html) — Find all roots simultaneously; prove convergence on typical cases.
 - [Primes](https://eyereasoner.github.io/eye/arc/etc/prime.html) — Generate/test primes; log certs (e.g., trial factors or proofs) as checks.
@@ -67,5 +60,4 @@ If you are reading this for the first time, the best way in is straightforward: 
 - [Turing Machine](https://eyereasoner.github.io/eye/arc/etc/turing.html) — Run tapes with explicit transitions; verify halting and tape contents.
 - [Vandermonde’s identity](https://eyereasoner.github.io/eye/arc/etc/vandermonde_identity.html) — Vandermonde’s identity — binomial-convolution equals a single binomial.
 - [Wilson's Theorem](https://eyereasoner.github.io/eye/arc/etc/wilson_theorem.html) — Wilson's theorem about prime numbers.
-- [Wind-Turbine Maintenance](https://eyereasoner.github.io/eye/arc/etc/wind_turbines.html) — Plan maintenance from telemetry and policies with auditable outcomes.
 
