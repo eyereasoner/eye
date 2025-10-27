@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sum of all binomial coefficients</title>
+<style>
+  :root{
+    --bg:#f9fafb; --card:#ffffff; --ink:#111827; --ink-dim:#4b5563;
+    --muted:#6b7280; --border:#e5e7eb; --code:#f3f4f6;
+    --accent:#2563eb; --accent-ink:#ffffff; --ok:#16a34a; --warn:#dc2626;
+    --badge:#e2e8f0; --badge-ink:#334155;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial}
+  a{color:#1d4ed8;text-decoration:none} a:hover{text-decoration:underline}
+  .wrap{max-width:900px;margin:0 auto;padding:28px 16px 40px}
+  header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+  header h1{margin:0;font-size:20px;font-weight:700;letter-spacing:.2px}
+  .badge{background:var(--badge);color:var(--badge-ink);border:1px solid var(--border);padding:6px 10px;border-radius:999px;font-size:12px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.04);margin-top:16px}
+  .card h2{margin:0 0 12px;font-size:16px;letter-spacing:.2px}
+  .card h3{margin:16px 0 8px;font-size:14px;color:var(--ink-dim);font-weight:600}
+  .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .input{background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 12px;color:var(--ink);font-weight:600}
+  .input:focus{outline:3px solid rgba(37,99,235,.2);border-color:#93c5fd}
+  .btn{background:var(--accent);color:var(--accent-ink);border:0;padding:10px 14px;font-weight:700;border-radius:12px;cursor:pointer}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
+  .btn.copy{background:#e5e7eb;color:#111827}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+  .dim{color:var(--muted)}
+  .kpi{font-size:20px;font-weight:800}
+  code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
+  pre{background:var(--code);border:1px solid var(--border);border-radius:12px;padding:14px;overflow:auto}
+  .ok{color:var(--ok)} .bad{color:var(--warn)}
+  .log{font-size:13px;max-height:240px;overflow:auto;background:var(--code);border:1px dashed var(--border);padding:10px;border-radius:12px;white-space:pre-wrap}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--ink-dim);font-size:12px}
+  .footer{margin-top:22px;color:var(--ink-dim);font-size:13px}
+  /* Make the label and the value flow nicely; allow wrapping */
+  .stat{
+    display:grid;
+    grid-template-columns:auto 1fr; /* "B(n) =" | [value wraps here] */
+    align-items:baseline;
+    gap:8px;
+    background:#fff;
+    padding:8px 10px;
+    border-radius:12px;
+    border:1px solid var(--border);
+  }
+  /* Wrap very long numbers cleanly, no horizontal scrollbars */
+  #answer{
+    max-width:100%;
+    white-space:normal;
+    overflow-wrap:anywhere; /* modern */
+    word-break:break-word;  /* fallback */
+    line-break:anywhere;    /* better breaks for digits */
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Sum of all binomial coefficients</h1>
+      <span class="badge">Problem: B(n) = Σₖ₌₀ⁿ C(n,k)</span>
+    </header>
+
+    <!-- A · Answer -->
+    <section class="card" aria-labelledby="answer-title">
+      <h2 id="answer-title">Answer</h2>
+      <p class="dim">Compute <span class="mono">B(n)=∑<sub>k=0</sub>^n C(n,k)</span>. Default <span class="mono">n=4,000</span>.</p>
+      <div class="row" style="margin:10px 0 14px">
+        <label class="dim" for="nInput">n:</label>
+        <input id="nInput" class="input mono" type="text" value="4000" inputmode="numeric" />
+        <button id="runBtn" class="btn">Compute + Check</button>
+        <button id="copyBtn" class="btn copy">Copy ARC JSON</button>
+      </div>
+      <div class="stat" role="status" aria-live="polite">
+        <span class="dim">B(n) =</span>
+        <span id="answer" class="kpi mono">–</span>
+      </div>
+      <p class="dim" style="margin-top:8px">Uses the closed form <span class="mono">B(n)=2^n</span>.</p>
+    </section>
+
+    <!-- R · Reason why -->
+    <section class="card" aria-labelledby="reason-title">
+      <h2 id="reason-title">Reason why (Lean 4 proof)</h2>
+      <p class="dim">
+        By the binomial theorem, <span class="mono">(1+1)^n = ∑<sub>k=0</sub>^n C(n,k)·1^k·1^{n−k}</span>, hence
+        <span class="mono">∑ C(n,k) = 2^n</span>.
+      </p>
+<pre><code>-- Lean 4 (mathlib) proof of  ∑ₖ C(n,k) = 2^n
+import Mathlib
+open Finset BigOperators
+
+theorem sum_choose_pow_two (n : ℕ) :
+  (∑ k in Finset.range (n+1), Nat.choose n k) = 2^n := by
+  -- `add_pow` states: (a + b)^n = ∑ choose n k * a^k * b^(n-k)
+  -- Take a = 1, b = 1 over ℕ.
+  simpa using (add_pow (1 : ℕ) 1 n)
+</code></pre>
+      <p class="dim">The Lean snippet is auditable source; the browser doesn’t run Lean.</p>
+    </section>
+
+    <!-- C · Check (independent harness) -->
+    <section class="card" aria-labelledby="check-title">
+      <h2 id="check-title">Check (independent harness)</h2>
+      <p class="dim">
+        Independent verification (no powers of two): we sum all binomial coefficients exactly via the stable update
+        <span class="mono">C(n,0)=1</span>,
+        <span class="mono">C(n,k+1)=C(n,k)·(n−k)/(k+1)</span>. Time-sliced on the main thread with BigInt.
+      </p>
+
+      <div class="row" style="margin-bottom:8px">
+        <div id="statusPill" class="pill">idle</div>
+        <div><span class="dim">progress:</span> <span id="progress" class="mono">0%</span></div>
+      </div>
+      <div class="log mono" id="log" aria-live="polite"></div>
+
+      <h3>Result</h3>
+      <p>
+        <span class="dim">Check status:</span>
+        <strong id="checkStatus">–</strong>
+      </p>
+      <p class="dim">PASS means the binomial-sum equals the Answer exactly (BigInt precision).</p>
+    </section>
+
+    <section class="card footer">
+      <div><strong>Tips:</strong> Try n up to a few tens of thousands; it’s exact but gets slower as numbers grow huge. For small n you’ll finish almost instantly.</div>
+    </section>
+  </div>
+
+<script>
+(function () {
+  const nInput   = document.getElementById('nInput');
+  const runBtn   = document.getElementById('runBtn');
+  const copyBtn  = document.getElementById('copyBtn');
+  const answerEl = document.getElementById('answer');
+  const logEl    = document.getElementById('log');
+  const progEl   = document.getElementById('progress');
+  const checkEl  = document.getElementById('checkStatus');
+  const pillEl   = document.getElementById('statusPill');
+
+  let lastARC = null;
+
+  function parseN(raw) {
+    const s = String(raw).replace(/[, _]/g, '');
+    if (!/^\d+$/.test(s)) return null;
+    try {
+      const n = BigInt(s);
+      if (n < 0n) return null;
+      return n;
+    } catch { return null; }
+  }
+
+  function fmtBigInt(x) {
+    const s = x.toString();
+    return s.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  // Answer: 2^n
+  function computeAnswer(nBig) {
+    return 1n << nBig; // exact 2^n using bit shift
+  }
+
+  function setStatus(text, kind) {
+    pillEl.textContent = text;
+    pillEl.style.borderColor = 'var(--border)';
+    if (kind === 'ok') { pillEl.style.background = '#dcfce7'; pillEl.style.color = 'var(--ok)'; }
+    else if (kind === 'bad') { pillEl.style.background = '#fee2e2'; pillEl.style.color = 'var(--warn)'; }
+    else { pillEl.style.background = '#fff'; pillEl.style.color = 'var(--ink-dim)'; }
+  }
+
+  function resetUI() {
+    logEl.textContent = '';
+    progEl.textContent = '0%';
+    checkEl.textContent = '–';
+    checkEl.className = '';
+    setStatus('idle');
+  }
+
+  function appendLog(line) {
+    logEl.textContent += line + '\n';
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  // Main-thread, time-sliced exact summation of all C(n,k).
+  function runBinomCheck(nBig, onProgress, onDone) {
+    const start = performance.now();
+
+    let k = 0n;
+    let c = 1n;      // C(n,0)
+    let sum = 0n;
+
+    // choose a per-slice iteration count based on n
+    const targetSlices = 2000n; // try to keep about this many slices max
+    const perSlice = (() => {
+      const approx = nBig / targetSlices;
+      const v = approx < 100n ? 100n : approx; // at least 100 per slice
+      return v;
+    })();
+
+    function step() {
+      const endK = (k + perSlice - 1n <= nBig) ? k + perSlice - 1n : nBig;
+
+      while (k <= endK) {
+        sum += c;
+        if (k < nBig) {
+          // C(n,k+1) = C(n,k) * (n-k)/(k+1)   (exact division)
+          c = (c * (nBig - k)) / (k + 1n);
+        }
+        k += 1n;
+      }
+
+      const pct = nBig === 0n ? 100n : ((k * 100n) / nBig);
+      if (onProgress) onProgress(pct);
+
+      if (k <= nBig) {
+        setTimeout(step, 0);
+      } else {
+        const ms = Math.round(performance.now() - start);
+        onDone(sum, ms);
+      }
+    }
+    step();
+  }
+
+  function arcPayload(n, ans, got, ms) {
+    return {
+      question: `Compute B(n) = sum_{k=0}^n C(n,k) for n = ${n.toString()}.`,
+      answer: ans.toString(),
+      reason_lean4: [
+        "import Mathlib",
+        "open Finset BigOperators",
+        "theorem sum_choose_pow_two (n : ℕ) :",
+        "  (∑ k in Finset.range (n+1), Nat.choose n k) = 2^n := by",
+        "  simpa using (add_pow (1 : ℕ) 1 n)"
+      ].join("\\n"),
+      check: {
+        method: "Exact BigInt sum of binomial coefficients via multiplicative update",
+        result: got.toString(),
+        pass: got === ans,
+        millis: ms
+      }
+    };
+  }
+
+  function run() {
+    resetUI();
+    const n = parseN(nInput.value);
+    if (n === null) {
+      alert('Please enter a nonnegative integer n.');
+      return;
+    }
+
+    const ans = computeAnswer(n);
+    answerEl.textContent = fmtBigInt(ans);
+    setStatus('running');
+    runBtn.disabled = true;
+    appendLog(`→ summing all C(n,k) for n = ${n.toString()} (this is exact; large n can take a while)`);
+
+    runBinomCheck(n, (pct)=>{
+      progEl.textContent = `${pct.toString()}%`;
+    }, (got, ms)=>{
+      appendLog(`✓ check completed in ${ms} ms`);
+      if (got === ans) {
+        checkEl.textContent = 'PASS — binomial-sum equals Answer (2^n)';
+        checkEl.className = 'ok';
+        setStatus('verified', 'ok');
+      } else {
+        checkEl.textContent = 'FAIL — binomial-sum ≠ Answer';
+        checkEl.className = 'bad';
+        setStatus('mismatch', 'bad');
+        appendLog(`expected: ${ans.toString()}`);
+        appendLog(`got     : ${got.toString()}`);
+      }
+      runBtn.disabled = false;
+      lastARC = arcPayload(n, ans, got, ms);
+    });
+  }
+
+  function copyARC() {
+    if (!lastARC) { alert('Run the computation first to produce ARC output.'); return; }
+    const blob = new Blob([JSON.stringify(lastARC, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'arc-output.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  runBtn.addEventListener('click', run);
+  copyBtn.addEventListener('click', copyARC);
+})();
+</script>
+</body>
+</html>
+
