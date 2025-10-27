@@ -67,8 +67,9 @@ If you are reading this for the first time, the best way in is straightforward: 
 - [Socrates](https://eyereasoner.github.io/eye/arc/etc/socrates.html) — Classic syllogisms with explicit inference traces.
 - [Square tiled by 17 right triangles](https://eyereasoner.github.io/eye/arc/etc/square_triangles.html) — Dissect a square into 17 right triangles; verify tiling constraints.
 - [Sudoku](https://eyereasoner.github.io/eye/arc/etc/sudoku.html) — Explain each step of solving a 9×9 with row/col/box checks.
-- [Sum of cubes](https://eyereasoner.github.io/eye/arc/etc/sum_of_cubes.html) — Cubes sum to a perfect square — the square of the nth triangular number..
+- [Sum of cubes](https://eyereasoner.github.io/eye/arc/etc/sum_of_cubes.html) — Cubes sum to a perfect square — the square of the nth triangular number.
 - [Turing Machine](https://eyereasoner.github.io/eye/arc/etc/turing.html) — Run tapes with explicit transitions; verify halting and tape contents.
+- [Vandermonde’s identity](https://eyereasoner.github.io/eye/arc/etc/vandermonde_identity.html) — Vandermonde’s identity — binomial-convolution equals a single binomial.
 - [Wilson's Theorem](https://eyereasoner.github.io/eye/arc/etc/wilson_theorem.html) — Wilson's theorem about prime numbers.
 - [Wind-Turbine Maintenance](https://eyereasoner.github.io/eye/arc/etc/wind_turbines.html) — Plan maintenance from telemetry and policies with auditable outcomes.
 
