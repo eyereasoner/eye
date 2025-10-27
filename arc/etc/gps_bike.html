@@ -2,17 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>P3 GPS (Bike optimal + canals) — Gent → Maasmechelen</title>
+  <title>GPS Bike — Gent → Maasmechelen</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root{
       --bg:#f7fafc; --card:#ffffff; --ink:#0f172a; --muted:#475569;
       --ok:#16a34a; --bad:#dc2626; --accent:#2563eb;
-      --edge-road:#d1d5db;    /* roads (light gray) */
-      --edge-canal:#93c5fd;   /* canals/rivers (light blue) */
-      --mway:#cbd5e1;         /* motorways dashed */
-      --path:#1d4ed8;         /* chosen path */
-      --node:#020617;
+      --edge:#93c5fd; --mway:#cbd5e1; --path:#1d4ed8; --node:#020617;
       --shadow:0 8px 20px rgba(2,6,23,0.08); --radius:16px;
     }
     html,body{margin:0;background:var(--bg);color:var(--ink);
@@ -23,45 +19,42 @@
     .sub{color:var(--muted)}
     .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
     .stack{display:flex;flex-direction:column;gap:14px}
-    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-    .btn{border:0;border-radius:12px;padding:10px 14px;font-weight:600;cursor:pointer;background:var(--accent);color:white;box-shadow:var(--shadow)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .btn{border:0;border-radius:12px;padding:10px 14px;font-weight:600;cursor:pointer;
+      background:var(--accent);color:white;box-shadow:var(--shadow)}
     .kpi{display:grid;grid-template-columns:1fr 1fr;gap:14px}
     .k{background:var(--bg);border-radius:12px;padding:10px 12px}
     .k .label{font-size:.8rem;color:var(--muted)}
     .k .val{font-size:1.05rem;font-weight:700}
     .checks{display:grid;grid-template-columns:1fr;gap:10px}
-    .check{display:flex;justify-content:space-between;align-items:center;background:var(--bg);border-radius:12px;padding:10px 12px}
+    .check{display:flex;justify-content:space-between;align-items:center;background:var(--bg);
+      border-radius:12px;padding:10px 12px}
     .badge{font-size:.8rem;font-weight:700;padding:4px 8px;border-radius:999px}
     .pass{background:rgba(22,163,74,.12);color:var(--ok)}
     .fail{background:rgba(220,38,38,.12);color:var(--bad)}
     .hint{color:var(--muted);font-size:.9rem}
-    svg{width:100%;height:560px;background:white;border-radius:var(--radius);box-shadow:var(--shadow)}
+    svg{width:100%;height:520px;background:white;border-radius:var(--radius);box-shadow:var(--shadow)}
     .legend{display:flex;gap:18px;align-items:center;color:var(--muted);font-size:.9rem}
     .dot{width:10px;height:10px;border-radius:50%}
-    .dot.path{background:var(--path)} .dot.road{background:var(--edge-road)} .dot.canal{background:var(--edge-canal)} .dot.mway{background:var(--mway)} .dot.node{background:var(--node)}
+    .dot.path{background:var(--path)} .dot.edge{background:var(--edge)}
+    .dot.mway{background:var(--mway)} .dot.node{background:var(--node)}
     .pill{display:inline-flex;align-items:center;gap:8px;background:var(--bg);border-radius:999px;padding:6px 10px}
     .pill .seq{font-weight:700;color:var(--accent)}
-    input[type="range"]{width:220px}
     code{background:var(--bg);padding:2px 6px;border-radius:8px}
-    pre{white-space:pre-wrap;background:var(--bg);padding:10px;border-radius:12px;margin:0}
     footer{color:var(--muted);font-size:.85rem}
+    pre{white-space:pre-wrap;background:var(--bg);padding:10px;border-radius:12px;margin:0}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>P3 GPS (Bike optimal + canals) — Gent → Maasmechelen</h1>
-      <div class="sub">Answer • Reason Why • Check (independent harness ×12)</div>
+      <h1>GPS Bike — Gent → Maasmechelen</h1>
     </header>
 
     <section class="card stack" id="answer">
       <div class="row">
         <button class="btn" id="run">Compute Optimal Bike Route</button>
-        <div class="hint">Motorways excluded. Weights = great-circle distance, with optional <b>canal bonus</b> to prefer river/canal paths.</div>
-      </div>
-      <div class="row">
-        <label>Canal preference (bonus): <input id="canalBonus" type="range" min="0.00" max="0.15" step="0.01" value="0.08">
-          <span id="bonusVal" class="pill" title="Edge weight multiplier for canals is (1 - bonus)"><span class="seq">−</span>8%</span></label>
+        <div class="hint">Shortest path computed on a bike graph (motorways excluded). Weights = great-circle (Haversine) distances.</div>
       </div>
       <div class="kpi">
         <div class="k"><div class="label">Start</div><div class="val" id="startVal">—</div></div>
@@ -75,8 +68,9 @@
     <section class="card stack" id="reason">
       <h3 style="margin:0">Reason Why</h3>
       <div class="hint">
-        Graph has roads and <b>canal/river greenways</b> (Schelde → Rupel → <b>Dijle</b> → <b>Demer</b> → Albert Canal). Motorways are present only for context and excluded.
-        We compute the shortest path with <b>Dijkstra</b>, confirm with <b>A*</b>, <b>Bellman–Ford</b>, <b>Floyd–Warshall</b>, and report the share of canal miles.
+        We model cities as nodes and intercity connections as weighted, undirected edges.
+        The <b>bike graph</b> excludes edges flagged as motorways. We use <b>Dijkstra</b> to find the shortest path,
+        then verify with <b>A*</b> (admissible straight-line heuristic), <b>Bellman–Ford</b>, and <b>Floyd–Warshall</b>.
       </div>
       <pre id="reasonText"></pre>
     </section>
@@ -89,121 +83,91 @@
     <section class="card stack">
       <h3 style="margin:0">Route Map (SVG)</h3>
       <div class="legend">
-        <span class="dot canal"></span> canals/rivers
-        <span class="dot road"></span> roads (bike-allowed)
+        <span class="dot edge"></span> bike-allowed edges
         <span class="dot mway"></span> motorways (not allowed)
         <span class="dot path"></span> chosen shortest path
         <span class="dot node"></span> city
       </div>
-      <svg id="map" viewBox="0 0 1000 560" role="img" aria-label="Belgium bike route map"></svg>
+      <svg id="map" viewBox="0 0 1000 520" role="img" aria-label="Belgium bike route map"></svg>
     </section>
 
-    <footer>Self-contained. No external libraries. Adjust the canal bonus to influence the route (default 8% bonus).</footer>
+    <footer>Self-contained; no external libraries. No fixed sequence — the path is discovered automatically.</footer>
   </div>
 
   <script>
-    // ---------------- Cities (approximate centers) ----------------
+    // ---------- Cities (approximate centers) ----------
     const cities = {
-      // Schelde corridor
-      "Gent": {lat:51.0543, lon:3.7174},
-      "Wetteren": {lat:51.0057, lon:3.8841},
-      "Dendermonde": {lat:51.0230, lon:4.1010},
-      "Temse": {lat:51.1270, lon:4.2139},
-      "Boom": {lat:51.0929, lon:4.3649},
-      "Willebroek": {lat:51.0605, lon:4.3604},
-      // Dijle corridor
-      "Mechelen": {lat:51.0259, lon:4.4777},
-      "Haacht": {lat:50.9775, lon:4.6410},
-      "Leuven": {lat:50.8798, lon:4.7005},
-      // Demer valley
-      "Aarschot": {lat:50.9870, lon:4.8369},
-      "Zichem": {lat:51.0070, lon:4.9506},
-      "Diest": {lat:50.9890, lon:5.0508},
-      "Herk-de-Stad": {lat:50.9484, lon:5.1719},
-      "Hasselt": {lat:50.9307, lon:5.3326},
-      // Albert Canal & Meuse
-      "Genk": {lat:50.9669, lon:5.5000},
-      "Zutendaal": {lat:50.9333, lon:5.5667},
-      "Lanaken": {lat:50.8833, lon:5.6500},
-      "Maasmechelen": {lat:50.9651, lon:5.6947},
-      // Extras / alternatives
-      "Lokeren": {lat:51.1036, lon:3.9936},
-      "Aalst": {lat:50.9360, lon:4.0355},
-      "Lier": {lat:51.1313, lon:4.5709},
-      "Sint-Truiden": {lat:50.8160, lon:5.1869},
-      "Antwerpen": {lat:51.2194, lon:4.4025},
-      "Brussel": {lat:50.8503, lon:4.3517}
+      "Gent":           {lat:51.0543, lon:3.7174},
+      "Lokeren":        {lat:51.1036, lon:3.9936},
+      "Dendermonde":    {lat:51.0230, lon:4.1010},
+      "Aalst":          {lat:50.9360, lon:4.0355},
+      "Mechelen":       {lat:51.0259, lon:4.4777},
+      "Vilvoorde":      {lat:50.9281, lon:4.4294},
+      "Leuven":         {lat:50.8798, lon:4.7005},
+      "Aarschot":       {lat:50.9870, lon:4.8369},
+      "Tienen":         {lat:50.8074, lon:4.9367},
+      "Diest":          {lat:50.9890, lon:5.0508},
+      "Sint-Truiden":   {lat:50.8160, lon:5.1869},
+      "Herk-de-Stad":   {lat:50.9484, lon:5.1719},
+      "Hasselt":        {lat:50.9307, lon:5.3326},
+      "Genk":           {lat:50.9669, lon:5.5000},
+      "Zutendaal":      {lat:50.9333, lon:5.5667},
+      "Maasmechelen":   {lat:50.9651, lon:5.6947},
+      "Antwerpen":      {lat:51.2194, lon:4.4025},
+      "Brussel":        {lat:50.8503, lon:4.3517}
     };
 
-    // ---------------- Links: [u, v, {type:"canal"|"road"|"motorway"}] ----------------
-    // Canals/rivers are given a (1 - bonus) multiplier on weight.
+    // ---------- Links: [u, v, {motorway:boolean}] ----------
+    // Motorways are excluded from the bike graph (still drawn dashed for context).
     const links = [
-      // Schelde (canalized sections) Gent→Wetteren→Dendermonde→Temse
-      ["Gent","Wetteren",{type:"canal"}],
-      ["Wetteren","Dendermonde",{type:"canal"}],
-      ["Dendermonde","Temse",{type:"canal"}],
-      // Rupel Temse→Boom→Willebroek
-      ["Temse","Boom",{type:"canal"}],
-      ["Boom","Willebroek",{type:"canal"}],
-      // Dijle / Leuven–Dijle Canal Willebroek→Mechelen→Haacht→Leuven
-      ["Willebroek","Mechelen",{type:"canal"}],
-      ["Mechelen","Haacht",{type:"canal"}],
-      ["Haacht","Leuven",{type:"canal"}],
-      // Demer Leuven→Aarschot→Zichem→Diest→Herk-de-Stad→Hasselt
-      ["Leuven","Aarschot",{type:"canal"}],
-      ["Aarschot","Zichem",{type:"canal"}],
-      ["Zichem","Diest",{type:"canal"}],
-      ["Diest","Herk-de-Stad",{type:"canal"}],
-      ["Herk-de-Stad","Hasselt",{type:"canal"}],
-      // Albert Canal Hasselt→Genk→Zutendaal→Lanaken; Briegden–Neerharen→Meuse near Maasmechelen
-      ["Hasselt","Genk",{type:"canal"}],
-      ["Genk","Zutendaal",{type:"canal"}],
-      ["Zutendaal","Lanaken",{type:"canal"}],
-      ["Lanaken","Maasmechelen",{type:"canal"}],
-      // Shorter canal bypasses
-      ["Genk","Maasmechelen",{type:"canal"}],
-
-      // Bike-allowed roads to give alternatives
-      ["Gent","Lokeren",{type:"road"}],
-      ["Lokeren","Dendermonde",{type:"road"}],
-      ["Dendermonde","Aalst",{type:"road"}],
-      ["Aalst","Mechelen",{type:"road"}],
-      ["Mechelen","Lier",{type:"road"}],
-      ["Lier","Leuven",{type:"road"}],
-      ["Leuven","Diest",{type:"road"}],
-      ["Diest","Sint-Truiden",{type:"road"}],
-      ["Sint-Truiden","Hasselt",{type:"road"}],
-      ["Aarschot","Diest",{type:"road"}],
-
-      // Motorways (for context only; excluded from bike routing)
-      ["Gent","Brussel",{type:"motorway"}],
-      ["Brussel","Leuven",{type:"motorway"}],
-      ["Mechelen","Brussel",{type:"motorway"}],
-      ["Gent","Antwerpen",{type:"motorway"}],
-      ["Antwerpen","Hasselt",{type:"motorway"}],
-      ["Leuven","Hasselt",{type:"motorway"}]
+      // Bike-allowed backbone & options (canal & regional links)
+      ["Gent","Lokeren",{motorway:false}],
+      ["Lokeren","Dendermonde",{motorway:false}],
+      ["Gent","Aalst",{motorway:false}],
+      ["Aalst","Dendermonde",{motorway:false}],
+      ["Dendermonde","Mechelen",{motorway:false}],
+      ["Mechelen","Leuven",{motorway:false}],
+      ["Mechelen","Aarschot",{motorway:false}],
+      ["Leuven","Aarschot",{motorway:false}],
+      ["Leuven","Tienen",{motorway:false}],
+      ["Tienen","Diest",{motorway:false}],
+      ["Aarschot","Diest",{motorway:false}],
+      ["Diest","Herk-de-Stad",{motorway:false}],
+      ["Herk-de-Stad","Hasselt",{motorway:false}],
+      ["Diest","Sint-Truiden",{motorway:false}],
+      ["Sint-Truiden","Hasselt",{motorway:false}],
+      ["Hasselt","Genk",{motorway:false}],
+      ["Genk","Zutendaal",{motorway:false}],
+      ["Zutendaal","Maasmechelen",{motorway:false}],
+      ["Genk","Maasmechelen",{motorway:false}],
+      // A few cross options
+      ["Vilvoorde","Mechelen",{motorway:false}],
+      ["Vilvoorde","Leuven",{motorway:false}],
+      ["Gent","Dendermonde",{motorway:false}],
+      // Motorways (not allowed for bikes)
+      ["Gent","Brussel",{motorway:true}],
+      ["Brussel","Leuven",{motorway:true}],
+      ["Mechelen","Brussel",{motorway:true}],
+      ["Gent","Antwerpen",{motorway:true}],
+      ["Antwerpen","Hasselt",{motorway:true}],
+      ["Leuven","Hasselt",{motorway:true}]
     ];
 
-    // ---------------- Geometry & Graph helpers ----------------
+    // ---------- Build graphs ----------
     const rad = d => d*Math.PI/180;
     function haversine(a,b){
-      const R=6371; // km
+      const R=6371;
       const dLat = rad(b.lat-a.lat), dLon = rad(b.lon-a.lon);
       const s = Math.sin(dLat/2)**2 + Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dLon/2)**2;
       return 2*R*Math.asin(Math.sqrt(s));
     }
 
-    function buildAdj(opts){
-      const {includeMotorways, canalBonus} = opts;
+    function buildAdj(includeMotorways){
       const g = {};
       for(const [u,v,meta] of links){
-        const t = meta.type;
-        const isM = t==="motorway";
-        if(isM && !includeMotorways) continue;
-        // base weight = great-circle distance
-        let w = haversine(cities[u], cities[v]);
-        // scenic bonus for canals
-        if(t==="canal") w *= (1 - canalBonus);
+        const allow = includeMotorways || !meta.motorway;
+        if(!allow) continue;
+        const w = haversine(cities[u], cities[v]);
         g[u]=g[u]||{}; g[v]=g[v]||{};
         g[u][v]=Math.min(g[u][v]??Infinity, w);
         g[v][u]=Math.min(g[v][u]??Infinity, w);
@@ -211,7 +175,14 @@
       return g;
     }
 
-    function dijkstra(graph,start,goal){
+    const bikeGraph = buildAdj(false);
+    const fullGraph = buildAdj(true);
+
+    // Active graph pointer for algos (set to bike by default)
+    let graph = bikeGraph;
+
+    // ---------- Shortest path algorithms ----------
+    function dijkstra(start,goal){
       const dist={}, prev={}, Q=new Set(Object.keys(cities));
       for(const n of Q) dist[n]=Infinity;
       dist[start]=0;
@@ -229,12 +200,15 @@
           if(alt<dist[v]){ dist[v]=alt; prev[v]=u; }
         }
       }
-      const path=[]; let u=goal;
-      if(prev[u] || u===start){ while(u){ path.unshift(u); if(u===start) break; u=prev[u]; } }
+      const path=[];
+      let u=goal;
+      if(prev[u] || u===start){
+        while(u){ path.unshift(u); if(u===start) break; u=prev[u]; }
+      }
       return {distance:dist[goal], path, steps};
     }
 
-    function astar(graph,start,goal){
+    function astar(start,goal){
       const h = n => haversine(cities[n], cities[goal]);
       const open=new Set([start]);
       const came={}, g={}, f={};
@@ -259,106 +233,122 @@
       return {distance:Infinity, path:[]};
     }
 
-    function bellmanFord(graph,start,goal){
+    function bellmanFord(start,goal){
       const nodes=Object.keys(cities);
       const dist={}, prev={};
       nodes.forEach(n=>dist[n]=Infinity);
       dist[start]=0;
       const edges=[];
-      for(const u in graph) for(const v in graph[u]) edges.push([u,v,graph[u][v]]);
+      for(const u in graph)
+        for(const v in graph[u])
+          edges.push([u,v,graph[u][v]]);
       for(let i=0;i<nodes.length-1;i++){
         let changed=false;
         for(const [u,v,w] of edges){
-          if(dist[u]+w<dist[v]){ dist[v]=dist[u]+w; prev[v]=u; changed=true; }
+          if(dist[u]+w<dist[v]){
+            dist[v]=dist[u]+w; prev[v]=u; changed=true;
+          }
         }
         if(!changed) break;
       }
-      const path=[]; let u=goal;
-      if(prev[u] || u===start){ while(u){ path.unshift(u); if(u===start) break; u=prev[u]; } }
+      const path=[];
+      let u=goal;
+      if(prev[u] || u===start){
+        while(u){ path.unshift(u); if(u===start) break; u=prev[u]; }
+      }
       return {distance:dist[goal], path};
     }
 
-    function floydWarshall(graph){
-      const nodes=Object.keys(cities); const idx={}; const N=nodes.length;
+    function floydWarshall(){
+      const nodes=Object.keys(cities);
+      const idx={}, N=nodes.length;
       nodes.forEach((n,i)=>idx[n]=i);
       const D=Array.from({length:N},(_,i)=>Array.from({length:N},(_,j)=> i===j?0:Infinity));
       for(const u in graph) for(const v in graph[u]) D[idx[u]][idx[v]]=Math.min(D[idx[u]][idx[v]], graph[u][v]);
       for(let k=0;k<N;k++)
         for(let i=0;i<N;i++)
           for(let j=0;j<N;j++)
-            if(D[i][k]+D[k][j]<D[i][j]) D[i][j]=D[i][k]+D[k][j];
+            if(D[i][k]+D[k][j] < D[i][j]) D[i][j]=D[i][k]+D[k][j];
       return {nodes, idx, D};
     }
 
-    function linkType(u,v){
+    // Helper: motorway edge?
+    function isMotorwayEdge(u,v){
       for(const [a,b,meta] of links){
-        if((a===u && b===v) || (a===v && b===u)) return meta.type;
+        if((a===u && b===v) || (a===v && b===u)) return !!meta.motorway;
       }
-      return "road";
+      return false;
     }
 
-    // ---------------- Checks (independent harness) ----------------
-    function runChecks(activeGraph, result, aRes, bRes, fw, start, goal, carGraph){
+    // ---------- Checks (independent harness) ----------
+    function runChecks(result, dA, dB, fw, start, goal, carD){
       const checks=[];
       const add=(name, ok, detail)=>checks.push({name, ok, detail: ok?detail:(detail||"failed")});
-      const {path, distance} = result;
+
+      const path = result.path;
+      const dist = result.distance;
 
       // 1) Start/End
       add("Starts at Gent, ends at Maasmechelen", path[0]===start && path[path.length-1]===goal, `${path[0]} → ${path[path.length-1]}`);
 
-      // 2) Each hop exists
-      let ok2=true;
-      for(let i=0;i<path.length-1;i++){ if(!(activeGraph[path[i]] && activeGraph[path[i]][path[i+1]]>0)){ ok2=false; break; } }
-      add("Every hop exists in bike graph", ok2);
+      // 2) Path exists (every hop present)
+      let edgesOk=true;
+      for(let i=0;i<path.length-1;i++){
+        const u=path[i], v=path[i+1];
+        if(!(graph[u] && graph[u][v]>0)){ edgesOk=false; break; }
+      }
+      add("Each hop exists in the bike graph", edgesOk);
 
       // 3) No motorways used
-      let ok3=true, off="";
-      for(let i=0;i<path.length-1;i++){ if(linkType(path[i],path[i+1])==="motorway"){ ok3=false; off=`${path[i]}–${path[i+1]}`; break; } }
-      add("No motorways (highways) on path", ok3, off||"ok");
+      let noHighways=true, offender="";
+      for(let i=0;i<path.length-1;i++){
+        const u=path[i], v=path[i+1];
+        if(isMotorwayEdge(u,v)){ noHighways=false; offender=`${u}–${v}`; break; }
+      }
+      add("No motorways (highways) on chosen path", noHighways, offender || "ok");
 
       // 4) Distance equals sum of edges
-      let sum=0; for(let i=0;i<path.length-1;i++) sum+=activeGraph[path[i]][path[i+1]];
-      add("Distance equals sum of edge weights", Math.abs(sum-distance)<1e-6, `sum=${sum.toFixed(3)} vs dijkstra=${distance.toFixed(3)}`);
+      let sum=0; for(let i=0;i<path.length-1;i++) sum+=graph[path[i]][path[i+1]];
+      add("Distance equals sum of edge weights", Math.abs(sum-dist)<1e-6, `sum=${sum.toFixed(3)} vs dijkstra=${dist.toFixed(3)}`);
 
       // 5) A* agrees
-      add("A* distance equals Dijkstra", Math.abs(aRes.distance - distance)<1e-6, `A*=${aRes.distance.toFixed(3)} km`);
+      add("A* distance equals Dijkstra", Math.abs(dA.distance - dist)<1e-6, `A*=${dA.distance.toFixed(3)} km`);
 
       // 6) Bellman–Ford agrees
-      add("Bellman–Ford distance equals Dijkstra", Math.abs(bRes.distance - distance)<1e-6, `BF=${bRes.distance.toFixed(3)} km`);
+      add("Bellman–Ford distance equals Dijkstra", Math.abs(dB.distance - dist)<1e-6, `BF=${dB.distance.toFixed(3)} km`);
 
-      // 7) Floyd–Warshall matches
+      // 7) Floyd–Warshall global optimum matches
       const i=fw.idx[start], j=fw.idx[goal];
-      add("Floyd–Warshall global optimum matches", Math.abs(fw.D[i][j]-distance)<1e-6, `FW=${fw.D[i][j].toFixed(3)} km`);
+      add("Floyd–Warshall (all-pairs) matches", Math.abs(fw.D[i][j]-dist)<1e-6, `FW=${fw.D[i][j].toFixed(3)} km`);
 
-      // 8) Simple path
-      const uniq=new Set(path);
-      add("Path is simple (no repeats)", uniq.size===path.length, `uniq=${uniq.size}`);
+      // 8) Path is simple (no repeated nodes)
+      const uniq = new Set(path);
+      add("Path is simple (no repeats)", uniq.size === path.length, `uniq=${uniq.size} nodes`);
 
-      // 9) ≥ direct distance
+      // 9) Direct lower bound (sinuosity sanity)
       const direct = haversine(cities[start], cities[goal]);
-      add("Route ≥ direct great-circle distance", distance+1e-9 >= direct, `direct=${direct.toFixed(2)} km`);
+      add("Route ≥ direct great-circle distance", dist+1e-9 >= direct, `direct=${direct.toFixed(2)} km`);
 
-      // 10) ≥ car (unrestricted) distance
-      const carD = dijkstra(carGraph,start,goal).distance;
-      add("Bike distance ≥ Car (unrestricted) distance", distance+1e-9 >= carD, `Bike=${distance.toFixed(1)} vs Car=${carD.toFixed(1)} km`);
+      // 10) Compare to unrestricted (car) graph
+      add("Bike distance ≥ car (unrestricted) distance", dist+1e-9 >= carD, `Bike=${dist.toFixed(1)} vs Car=${carD.toFixed(1)} km`);
 
-      // 11) Path includes Dijle/Demer corridor (if any canal bonus > 0)
-      const usesDijleDemer = path.some((n,i)=> i<path.length-1 && (
-        (["Mechelen","Haacht","Leuven"].includes(path[i]) && ["Haacht","Leuven","Mechelen"].includes(path[i+1])) ||
-        (["Leuven","Aarschot","Zichem","Diest","Herk-de-Stad","Hasselt"].includes(path[i]) && ["Aarschot","Zichem","Diest","Herk-de-Stad","Hasselt","Leuven"].includes(path[i+1]))
-      ));
-      add("Uses Dijle/Demer corridor (with canal bonus)", usesDijleDemer || Number(document.getElementById('canalBonus').value)===0, usesDijleDemer?"ok":"no-canal-needed");
-
-      // 12) Canal share threshold when bonus is high
-      const canalShare = (()=>{ let c=0,t=0; for(let i=0;i<path.length-1;i++){ const w=activeGraph[path[i]][path[i+1]]; t+=w; if(linkType(path[i],path[i+1])==="canal") c+=w; } return t? c/t:0;})();
-      const bonus=Number(document.getElementById('canalBonus').value);
-      const thresh = bonus>=0.10 ? 0.50 : 0.25; // expect more canals if you strongly prefer them
-      add(`Canal-weight share ≥ ${Math.round(thresh*100)}% (bonus=${(bonus*100).toFixed(0)}%)`, canalShare+1e-9 >= thresh, `canal≈${Math.round(canalShare*100)}%`);
+      // 11) Edge criticality (no single used edge removable without longer/∞ result)
+      let criticalOK=true, note="";
+      for(let k=0;k<path.length-1;k++){
+        const u=path[k], v=path[k+1], w=graph[u][v];
+        // temporarily remove
+        delete graph[u][v]; delete graph[v][u];
+        const alt = dijkstra(start, goal).distance;
+        // restore
+        graph[u][v]=w; graph[v][u]=w;
+        if(alt + 1e-9 < dist){ criticalOK=false; note=`Removing ${u}–${v} gave shorter ${alt.toFixed(3)} km`; break; }
+      }
+      add("No single edge on the path is replaceable by a shorter alternative", criticalOK, note || "ok");
 
       return checks;
     }
 
-    // ---------------- SVG rendering ----------------
+    // ---------- SVG ----------
     function project(lat,lon, box){
       const lats = Object.values(cities).map(c=>c.lat);
       const lons = Object.values(cities).map(c=>c.lon);
@@ -371,11 +361,11 @@
 
     function drawMap(path){
       const svg=document.getElementById('map'); svg.innerHTML='';
-      const box={x:30,y:20,w:940,h:520};
+      const box={x:30,y:20,w:940,h:480};
 
       // motorways (dashed)
       for(const [u,v,meta] of links){
-        if(meta.type!=="motorway") continue;
+        if(!meta.motorway) continue;
         const [x1,y1]=project(cities[u].lat, cities[u].lon, box);
         const [x2,y2]=project(cities[v].lat, cities[v].lon, box);
         const line=document.createElementNS("http://www.w3.org/2000/svg","line");
@@ -389,37 +379,22 @@
         svg.appendChild(line);
       }
 
-      // canals first (thicker)
+      // bike edges
       for(const [u,v,meta] of links){
-        if(meta.type!=="canal") continue;
+        if(meta.motorway) continue;
         const [x1,y1]=project(cities[u].lat, cities[u].lon, box);
         const [x2,y2]=project(cities[v].lat, cities[v].lon, box);
         const line=document.createElementNS("http://www.w3.org/2000/svg","line");
         line.setAttribute("x1",x1); line.setAttribute("y1",y1);
         line.setAttribute("x2",x2); line.setAttribute("y2",y2);
-        line.setAttribute("stroke","var(--edge-canal)");
-        line.setAttribute("stroke-width","4");
-        line.setAttribute("stroke-linecap","round");
-        line.setAttribute("opacity","0.85");
-        svg.appendChild(line);
-      }
-
-      // roads (thinner)
-      for(const [u,v,meta] of links){
-        if(meta.type!=="road") continue;
-        const [x1,y1]=project(cities[u].lat, cities[u].lon, box);
-        const [x2,y2]=project(cities[v].lat, cities[v].lon, box);
-        const line=document.createElementNS("http://www.w3.org/2000/svg","line");
-        line.setAttribute("x1",x1); line.setAttribute("y1",y1);
-        line.setAttribute("x2",x2); line.setAttribute("y2",y2);
-        line.setAttribute("stroke","var(--edge-road)");
+        line.setAttribute("stroke","var(--edge)");
         line.setAttribute("stroke-width","3");
         line.setAttribute("stroke-linecap","round");
         line.setAttribute("opacity","0.8");
         svg.appendChild(line);
       }
 
-      // chosen path (bold)
+      // chosen path
       for(let i=0;i<path.length-1;i++){
         const u=path[i], v=path[i+1];
         const [x1,y1]=project(cities[u].lat, cities[u].lon, box);
@@ -449,21 +424,21 @@
       }
     }
 
-    // ---------------- Driver (P3) ----------------
+    // ---------- Driver (P3) ----------
     function run(){
       const start="Gent", goal="Maasmechelen";
-      const canalBonus = Number(document.getElementById('canalBonus').value || 0);
-      document.getElementById('bonusVal').innerHTML = `<span class="seq">−</span>${Math.round(canalBonus*100)}%`;
 
-      // Build graphs
-      const bikeGraph = buildAdj({includeMotorways:false, canalBonus});
-      const carGraph  = buildAdj({includeMotorways:true,  canalBonus:0}); // no bonus for car reference
+      // Bike (active)
+      graph = bikeGraph;
+      const d = dijkstra(start, goal);
+      const a = astar(start, goal);
+      const b = bellmanFord(start, goal);
+      const fw = floydWarshall();
 
-      // Solve
-      const d = dijkstra(bikeGraph,start,goal);
-      const a = astar(bikeGraph,start,goal);
-      const b = bellmanFord(bikeGraph,start,goal);
-      const fw = floydWarshall(bikeGraph);
+      // Car (unrestricted) distance for comparison
+      const saved = graph; graph = fullGraph;
+      const car = dijkstra(start, goal);
+      graph = saved;
 
       // Answer
       document.getElementById('startVal').textContent = start;
@@ -480,19 +455,18 @@
       });
 
       // Reason
-      const canalShare = (()=>{ let c=0,t=0; for(let i=0;i<d.path.length-1;i++){ const w=bikeGraph[d.path[i]][d.path[i+1]]; t+=w; if(linkType(d.path[i],d.path[i+1])==="canal") c+=w; } return t? c/t:0;})();
       const reason = [
-        `Weights: Haversine distance; canals multiplied by (1 − bonus) = (1 − ${canalBonus.toFixed(2)}).`,
-        `Chosen path: ${d.path.join(" → ")}`,
+        `Graph: weighted, undirected; weight = Haversine distance on bike-allowed links.`,
+        `Algorithms: Dijkstra (primary), A* (admissible straight-line), Bellman–Ford, Floyd–Warshall.`,
+        `Chosen shortest path (bike): ${d.path.join(" → ")}`,
         `Distance (bike): ${isFinite(d.distance)? d.distance.toFixed(2):"∞"} km`,
-        `Canal share of path: ~${Math.round(canalShare*100)}% of weighted distance`,
-        `Cross-checks: A*=${a.distance.toFixed(2)} km, Bellman–Ford=${b.distance.toFixed(2)} km, Floyd–Warshall agrees.`,
-        `Dijkstra pick order: ${d.steps.map(s=>`${s.pick}(${isFinite(s.d)?s.d.toFixed(1):"∞"})`).join(" → ")}`
+        `Reference car (unrestricted) distance: ${isFinite(car.distance)? car.distance.toFixed(2):"∞"} km`,
+        `Dijkstra selection order: ${d.steps.map(s=>`${s.pick}(${isFinite(s.d)?s.d.toFixed(1):"∞"})`).join(" → ")}`
       ].join("\n");
       document.getElementById('reasonText').textContent = reason;
 
       // Checks
-      const checks = runChecks(bikeGraph, d, a, b, fw, start, goal, carGraph);
+      const checks = runChecks(d, a, b, fw, start, goal, car.distance);
       const list=document.getElementById('checksList'); list.innerHTML='';
       checks.forEach(c=>{
         const row=document.createElement('div'); row.className='check';
@@ -510,8 +484,7 @@
     }
 
     document.getElementById('run').addEventListener('click', run);
-    document.getElementById('canalBonus').addEventListener('input', run);
-    // initial
+    // Run immediately
     run();
   </script>
 </body>
