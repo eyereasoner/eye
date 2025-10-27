@@ -68,5 +68,6 @@ If you are reading this for the first time, the best way in is straightforward: 
 - [Sudoku](https://eyereasoner.github.io/eye/arc/etc/sudoku.html) — Explain each step of solving a 9×9 with row/col/box checks.
 - [Sum of cubes](https://eyereasoner.github.io/eye/arc/etc/sum_of_cubes.html) — Cubes sum to a perfect square — the square of the nth triangular number..
 - [Turing Machine](https://eyereasoner.github.io/eye/arc/etc/turing.html) — Run tapes with explicit transitions; verify halting and tape contents.
+- [Wilson's Theorem](https://eyereasoner.github.io/eye/arc/etc/wilson_theorem.html) — Wilson's theorem about prime numbers.
 - [Wind-Turbine Maintenance](https://eyereasoner.github.io/eye/arc/etc/wind_turbines.html) — Plan maintenance from telemetry and policies with auditable outcomes.
 
