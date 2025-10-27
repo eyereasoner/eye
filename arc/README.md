@@ -7,7 +7,7 @@ by [Jos De Roo](https://josd.github.io/)
 
 [ARC](https://eyereasoner.github.io/eye/arc/)—short for Answer • Reason • Check—takes a question-first view of computation. Start with Data, add Logic, and pose a precise Question; the result is a self-contained program that does three things every time it runs: it produces an answer, it explains why that answer follows, and it checks itself. The method behind ARC is deliberately simple to remember—[P3: Prompt → Program → Proof](https://eyereasoner.github.io/eye/arc/p3.html). In practice, the “proof” is not a theorem in a textbook sense but an obligation the program carries with it: Proof = Reason Why + Check. The aim is to make every run auditable, reproducible, and friendly to continuous integration.
 
-The pages that follow present ARC in small, runnable pieces. Each case is compact—often “JS-only”—and renders the ARC triad in place: an Answer, the Reason Why, and a Check that can fail loudly when something is off. The subjects range widely, from mathematics and formal logic to routing problems, clinical policy, and classic puzzles. A Sudoku or a Pythagorean-theorem demonstration, for instance, appears not as a black-box result but as a traceable procedure with its own built-in harness for verification.
+The pages that follow present ARC in small, runnable pieces. Each case is compact—often “JS-only”—and renders the ARC triad in place: an Answer, the Reason Why, and a Check that can fail loudly when something is off. The subjects range widely, from mathematics and formal logic to routing problems and classic puzzles. A Sudoku or a Pythagorean-theorem demonstration, for instance, appears not as a black-box result but as a traceable procedure with its own built-in harness for verification.
 
 ARC stands alongside the EYE reasoning stack, with its roots in the Semantic Web: Notation3, explicit rules, and symbolic inference via forward and backward chaining along Euler paths. That lineage gives ARC a useful counterbalance to generative methods. Let the model help draft a procedure; keep the logic explicit and inspectable; and verify the outcome every time the code runs. In that way, synthesis and proof travel together.
 
@@ -25,7 +25,6 @@ If you are reading this for the first time, the best way in is straightforward: 
 - [Binomial Theorem](https://eyereasoner.github.io/eye/arc/etc/binomial_theorem.html) — Sum of all binomial coefficients.
 - [Body Mass Index](https://eyereasoner.github.io/eye/arc/etc/bmi.html) — Compute BMI categories with explainable thresholds and sanity checks.
 - [Building Performance](https://eyereasoner.github.io/eye/arc/etc/building_performance.html) — Reason about energy/comfort metrics and verify rule-based outcomes.
-- [Clinical Care Planning](https://eyereasoner.github.io/eye/arc/etc/clinical_care.html) — Derive care plans from observations, guidelines, and policy constraints.
 - [Collatz (3n+1)](https://eyereasoner.github.io/eye/arc/etc/collatz.html) — Generate trajectories and check invariants for the Collatz map.
 - [Combinatorics](https://eyereasoner.github.io/eye/arc/etc/combinatorics.html) — Count, choose, and permute with proofs of identities where feasible.
 - [Complex identities](https://eyereasoner.github.io/eye/arc/etc/complex.html) — Symbolic steps for complex-number equalities with auditable reasoning.
@@ -66,6 +65,7 @@ If you are reading this for the first time, the best way in is straightforward: 
 - [Socrates](https://eyereasoner.github.io/eye/arc/etc/socrates.html) — Classic syllogisms with explicit inference traces.
 - [Square tiled by 17 right triangles](https://eyereasoner.github.io/eye/arc/etc/square_triangles.html) — Dissect a square into 17 right triangles; verify tiling constraints.
 - [Sudoku](https://eyereasoner.github.io/eye/arc/etc/sudoku.html) — Explain each step of solving a 9×9 with row/col/box checks.
+- [Sum of cubes](https://eyereasoner.github.io/eye/arc/etc/sum_of_cubes.html) — Cubes sum to a perfect square — the square of the nth triangular number..
 - [Turing Machine](https://eyereasoner.github.io/eye/arc/etc/turing.html) — Run tapes with explicit transitions; verify halting and tape contents.
 - [Wind-Turbine Maintenance](https://eyereasoner.github.io/eye/arc/etc/wind_turbines.html) — Plan maintenance from telemetry and policies with auditable outcomes.
 
