@@ -29,20 +29,14 @@
     .btns{display:flex; gap:8px; flex-wrap:wrap}
     .kv{font-family:var(--mono); background:#fff; border:1px solid var(--border); border-radius:10px; padding:10px; font-size:13px}
     .muted{color:var(--muted)}
-
-    /* ARC boxes with thick colored left borders */
     .arcbox{background:#fff; border:1px solid var(--border); border-radius:12px; padding:10px; margin:10px 0}
-    .arcbox.answer{border-left:10px solid var(--good)}
-    .arcbox.reason{border-left:10px solid var(--cyan)}
-    .arcbox.check{border-left:10px solid var(--indigo)}
-    .arclabel{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:6px}
+    .arclabel{font-size:11px; text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <h1>Family logic</h1>
-      <div class="pill" id="status">Ready</div>
     </header>
 
     <div class="card">
@@ -78,7 +72,7 @@
     </div>
 
     <div class="card">
-      <div class="head"><h2>ARC Output</h2><div class="muted">Cards with left borders</div></div>
+      <div class="head"><h2>ARC Output</h2><div class="muted"></div></div>
       <div class="body">
         <div class="arcbox answer">
           <div class="arclabel">Answer</div>
@@ -309,8 +303,6 @@ function render(){
 
   // Answer
   let A = '';
-  A += 'Answer\n';
-  A += '------\n';
   A += `children('Rita')  -> ${JSON.stringify(api.children('Rita'))}\n`;
   A += `siblings('Veerle') -> ${JSON.stringify(api.siblings('Veerle'))}\n`;
   A += `uncles('Veerle')   -> ${JSON.stringify(api.uncles('Veerle'))}\n`;
@@ -325,8 +317,6 @@ function render(){
 
   // Reason
   let R = '';
-  R += 'Reason why\n';
-  R += '----------\n';
   R += '1) children(): returns OBJECTs of (parent, child) facts, unique and sorted.\n';
   R += '2) Sibling is permissive in logic; the API excludes x itself. Blood avuncular rules\n';
   R += '   include a guard x ≠ p so parents are never mis-classified as uncles/aunts.\n';
@@ -336,8 +326,6 @@ function render(){
 
   // Check
   let C = '';
-  C += 'Check (harness)\n';
-  C += '---------------\n';
   const ok_children = JSON.stringify(api.children('Rita')) === JSON.stringify(['Ann','Bart']);
   const ok_siblings = JSON.stringify(api.siblings('Veerle')) === JSON.stringify(['Goedele']);
   const ok_uncles   = JSON.stringify(api.uncles('Veerle'))   === JSON.stringify(['Paul']); // Jo is parent; excluded
