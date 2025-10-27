@@ -37,6 +37,7 @@ If you are reading this for the first time, the best way in is straightforward: 
 - [Eco-Route](https://eyereasoner.github.io/eye/arc/etc/eco_route.html) — Pick lower-emission routes by fusing traffic, grade, and policy goals.
 - [Euclid’s Infinitude of Primes](https://eyereasoner.github.io/eye/arc/etc/euclid_infinitude.html) — Restate the theorem, explain Euclid’s one‑line proof, and run computational checks.
 - [Euler’s characteristic](https://eyereasoner.github.io/eye/arc/etc/euler_characteristic.html) — Compute χ = V−E+F for meshes; sanity-check against topology rules.
+- [Euler’s identity](https://eyereasoner.github.io/eye/arc/etc/euler_identity.html) — Euler's identity, the most beautiful equation in mathematics.
 - [Family logic](https://eyereasoner.github.io/eye/arc/etc/family.html) — Infer kinship from base relations (parent, spouse) with consistency checks.
 - [Fermat’s Little Theorem](https://eyereasoner.github.io/eye/arc/etc/fermat_little_theorem.html) — Fermat's Little Theorem about prime numbers.
 - [Fibonacci golden spiral](https://eyereasoner.github.io/eye/arc/etc/fibonacci_golden_spiral.html) — Draw the spiral from Fibonacci rectangles and verify ratios.
