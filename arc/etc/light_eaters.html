@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Light Eaters — Book Brief</title>
+  <meta name="description" content="A comprehensive, self-contained book brief for The Light Eaters by Zoë Schlanger, structured with the P3 pattern (Prompt → Program → Proof).">
+  <meta name="author" content="Book: Zoë Schlanger · Page: you" />
+  <style>
+    :root{
+      --bg:#f7f7fb;
+      --card:#ffffff;
+      --ink:#1b1f24;
+      --ink-sub:#4b5563;
+      --muted:#9aa3af;
+      --accent:#2f6f4e;   /* soft green */
+      --accent-2:#6ea989; /* lighter green */
+      --border:#e8e8ef;
+      --shadow: 0 1px 2px rgba(0,0,0,.05), 0 6px 20px rgba(0,0,0,.06);
+      --radius: 16px;
+      --radius-lg: 22px;
+      --max: 900px;
+    }
+    *{box-sizing:border-box}
+    html,body{background:var(--bg); color:var(--ink); margin:0; font:16px/1.65 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji}
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:var(--max); margin:32px auto; padding:0 16px}
+    header.hero{
+      background:linear-gradient(160deg, #f4faf6, #ffffff);
+      border:1px solid var(--border);
+      padding:24px;
+      border-radius:var(--radius-lg);
+      box-shadow:var(--shadow);
+    }
+    .title{
+      display:flex; gap:18px; align-items:center; flex-wrap:wrap
+    }
+    .cover{
+      width:110px; height:160px; border-radius:10px; box-shadow:var(--shadow);
+      background:#eff7f2; display:grid; place-items:center; border:1px solid var(--border);
+      overflow:hidden;
+    }
+    .cover svg{width:100%; height:100%}
+    .title h1{font-size:1.65rem; margin:0}
+    .subtitle{color:var(--ink-sub); margin:.25rem 0 0}
+    .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+    .badge{
+      padding:4px 10px; border-radius:999px; background:#eef3ee; color:#2b5f46; font-weight:600; font-size:.8rem; border:1px solid #dfe9e2
+    }
+    nav.toc{
+      margin-top:14px; padding-top:10px; border-top:1px dashed var(--border); color:var(--ink-sub);
+      display:flex; flex-wrap:wrap; gap:10px
+    }
+    nav.toc a{font-size:.92rem; background:#f3f6f4; border:1px solid #e5eee7; padding:6px 10px; border-radius:999px}
+    .cards{display:flex; flex-direction:column; gap:16px; margin-top:18px}
+    .card{
+      background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+      box-shadow:var(--shadow); padding:18px
+    }
+    .card h2{margin:0 0 .35rem 0; font-size:1.15rem}
+    .card h3{margin:.75rem 0 .25rem; font-size:1rem}
+    .meta{color:var(--ink-sub); font-size:.95rem}
+    .muted{color:var(--muted)}
+    .key{display:grid; gap:10px}
+    .grid-2{display:grid; gap:14px}
+    @media(min-width:860px){ .grid-2{grid-template-columns:1fr 1fr} }
+    code, pre{
+      background:#f3f5f7; border:1px solid #e7e9ee; padding:.25rem .45rem; border-radius:8px; font-size:.95rem
+    }
+    pre{padding:12px; overflow:auto}
+    .list-tight li{margin:.25rem 0}
+    .footnotes{font-size:.95rem}
+    .footnotes ol{padding-left:1.15rem}
+    .pill{display:inline-flex; align-items:center; gap:.45rem; padding:4px 9px; border-radius:999px; background:#f1f7f3; border:1px solid #e3eee7; color:#22533d; font-weight:600}
+    .status-pass{color:#106941}
+    .status-fail{color:#8a2222}
+    .kicker{letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-size:.78rem; font-weight:700}
+    .quote{border-left:3px solid var(--accent-2); padding-left:10px; color:#213; background:#f9fbfa; border-radius:8px; border:1px solid var(--border)}
+    .callout{background:#f6faf7; border:1px solid #e2eee6; padding:12px; border-radius:12px}
+    .sr{position:absolute; left:-9999px}
+    .spaced p{margin:.5rem 0}
+    .small{font-size:.94rem}
+    footer{color:var(--muted); font-size:.9rem; margin-top:22px}
+  </style>
+
+  <!-- Structured data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Book",
+    "name":"The Light Eaters: How the Unseen World of Plant Intelligence Offers a New Understanding of Life on Earth",
+    "author":{"@type":"Person","name":"Zoë Schlanger"},
+    "bookFormat":"https://schema.org/Hardcover",
+    "datePublished":"2024-05-07",
+    "publisher":{"@type":"Organization","name":"Harper (HarperCollins)"},
+    "isbn":"9780063073852",
+    "numberOfPages":"304",
+    "inLanguage":"en",
+    "sameAs":[
+      "https://www.harpercollins.com/products/the-light-eaters-zoe-schlanger",
+      "https://www.zoeschlanger.com/the-light-eaters"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero" id="top">
+      <div class="title">
+        <div class="cover" aria-hidden="true">
+          <!-- Simple self-contained SVG “cover” -->
+          <svg viewBox="0 0 210 300" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#e8f5ec"/>
+                <stop offset="1" stop-color="#cfe9da"/>
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="210" height="300" fill="url(#g)"/>
+            <g font-family="Georgia, serif" fill="#204c38">
+              <text x="20" y="90" font-size="26" font-weight="700">THE LIGHT</text>
+              <text x="20" y="122" font-size="26" font-weight="700">EATERS</text>
+              <text x="20" y="155" font-size="12">How the Unseen World of Plant</text>
+              <text x="20" y="171" font-size="12">Intelligence Offers a New</text>
+              <text x="20" y="187" font-size="12">Understanding of Life on Earth</text>
+              <text x="20" y="225" font-size="13" font-weight="700">Zoë Schlanger</text>
+            </g>
+            <g stroke="#2f6f4e" stroke-width="2" fill="none" opacity=".6">
+              <path d="M180,260c-30-40-60-120-140-160" />
+              <path d="M40,230c10-25 50-55 140-85" />
+              <circle cx="65" cy="200" r="3" fill="#2f6f4e"/>
+              <circle cx="165" cy="170" r="3" fill="#2f6f4e"/>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="kicker">Book Brief · P3 (Prompt → Program → Proof)</div>
+          <h1>The Light Eaters</h1>
+          <p class="subtitle">Zoë Schlanger · Harper (HarperCollins), 304 pp · First published May 7, 2024 (hardcover)</p>
+          <div class="badges" role="list">
+            <span class="badge" role="listitem">Science & Nature</span>
+            <span class="badge" role="listitem">Plant Behavior</span>
+            <span class="badge" role="listitem">Popular Science</span>
+          </div>
+          <nav class="toc" aria-label="On this page">
+            <a href="#p3">P3 Summary</a>
+            <a href="#answer">Answer (TL;DR)</a>
+            <a href="#reasons">Reason Why (Evidence)</a>
+            <a href="#check">Check</a>
+            <a href="#ideas">Big Ideas</a>
+            <a href="#themes">Themes</a>
+            <a href="#studies">Notable Studies & Figures</a>
+            <a href="#glossary">Glossary</a>
+            <a href="#meta">Book Metadata</a>
+            <a href="#sources">Citations</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="cards">
+
+      <!-- P3: Prompt, Data, Logic, Program -->
+      <section class="card" id="p3" aria-labelledby="p3h2">
+        <h2 id="p3h2">P3 Summary: Prompt → Program → Proof</h2>
+        <div class="grid-2">
+          <div>
+            <h3>Prompt & Question</h3>
+            <p class="spaced">
+              <strong>Prompt:</strong> Create a self-contained brief of <em>The Light Eaters</em> for curious readers. <br>
+              <strong>Question:</strong> What does the book claim about plant “intelligence,” what evidence does it present, and how credible are those claims?
+            </p>
+            <h3>Data (Sources)</h3>
+            <ul class="list-tight small">
+              <li>Publisher & catalog copy (Harper/HarperCollins).<sup><a href="#fn-harper">[1]</a></sup></li>
+              <li>Author’s page for the book.<sup><a href="#fn-author">[2]</a></sup></li>
+              <li>Independent reviews: <em>Undark</em>, <em>The New Yorker</em>, <em>WSJ</em>, <em>The Guardian</em>.<sup><a href="#fn-undark">[3]</a>, <a href="#fn-newyorker">[4]</a>, <a href="#fn-wsj">[5]</a>, <a href="#fn-guardian">[6]</a></sup></li>
+            </ul>
+            <h3>Logic (How we evaluate)</h3>
+            <ol class="small">
+              <li>Prefer primary/official metadata for bibliographic facts.</li>
+              <li>Triangulate scientific claims across reputable outlets.</li>
+              <li>Paraphrase; avoid long quotes from the book (copyright).</li>
+              <li>Flag controversies and scope limits.</li>
+            </ol>
+          </div>
+          <div>
+            <h3>Program (Driver)</h3>
+            <p class="muted small">This page includes a tiny “check” harness that ensures every claim tagged <code>data-claim</code> points to at least one citation in the <em>Citations</em> section.</p>
+            <pre><code>// Pseudocode
+const claims = [...document.querySelectorAll('[data-claim]')];
+for (c of claims) assert(hasFootnoteLink(c));</code></pre>
+            <div class="callout small">
+              <strong>Proof = Reason Why + Check.</strong> Below, “Reason Why” summarizes evidence with citations; “Check” verifies the internal consistency of the page’s sources.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Answer -->
+      <section class="card" id="answer" aria-labelledby="answerh2">
+        <h2 id="answerh2">Answer (TL;DR)</h2>
+        <p data-claim="answer">
+          <em>The Light Eaters</em> argues that plants sense, process, and respond to their environments in sophisticated, sometimes surprising ways—communication via chemicals, electrical signaling, and time-keeping among them. Schlanger guides readers through past hype and backlash, then surveys recent, better-controlled research to show what’s genuinely known, what’s plausible, and what remains contested. The result isn’t “plants are people,” but that plant life exhibits forms of agency and information-processing that deserve fresh, careful attention.<sup><a href="#fn-undark">[3]</a>, <a href="#fn-newyorker">[4]</a>, <a href="#fn-wsj">[5]</a>, <a href="#fn-guardian">[6]</a></sup>
+        </p>
+      </section>
+
+      <!-- Reason Why -->
+      <section class="card" id="reasons" aria-labelledby="reasonh2">
+        <h2 id="reasonh2">Reason Why (Evidence, clearly labeled)</h2>
+        <div class="key">
+          <p class="quote" data-claim="context">
+            The book situates current research against the long shadow of <em>The Secret Life of Plants</em> (1973), which damaged the field’s credibility for decades; funding and serious inquiry have since resumed with improved methods.<sup><a href="#fn-undark">[3]</a></sup>
+          </p>
+          <p class="quote" data-claim="signals">
+            Modern studies document plant <strong>chemical signaling</strong> (e.g., distress volatiles attracting predators of herbivores), <strong>electrophysiology</strong> (action-potential-like signals upon touch/injury), and <strong>time-based responses</strong> (e.g., a nettle-family plant anticipating pollinator intervals).<sup><a href="#fn-wsj">[5]</a>, <a href="#fn-undark">[3]</a></sup>
+          </p>
+          <p class="quote" data-claim="stance">
+            Schlanger avoids overreach: rather than declaring plant “consciousness,” she maps a continuum of capacities, urging precise language and testable claims, while highlighting open debates (e.g., scope of “intelligence,” interpretation of signaling networks).<sup><a href="#fn-newyorker">[4]</a>, <a href="#fn-guardian">[6]</a></sup>
+          </p>
+        </div>
+      </section>
+
+      <!-- Check -->
+      <section class="card" id="check" aria-labelledby="checkh2">
+        <h2 id="checkh2">Check (Self-test of this page)</h2>
+        <p class="small">Automated checks verify that: (1) every claim has at least one citation link; (2) required sections exist; (3) core metadata looks sane.</p>
+        <ul id="checklist" class="list-tight small"></ul>
+        <p id="status" class="pill" aria-live="polite"><span class="sr">Status:</span> Running checks…</p>
+      </section>
+
+      <!-- Big Ideas -->
+      <section class="card" id="ideas">
+        <h2>Big Ideas</h2>
+        <ul class="list-tight">
+          <li data-claim="idea-1"><strong>Plants process information</strong>—not via brains, but distributed cells and tissues that integrate light, touch, chemicals, and time.<sup><a href="#fn-newyorker">[4]</a>, <a href="#fn-undark">[3]</a></sup></li>
+          <li data-claim="idea-2"><strong>Communication is adaptive</strong>: volatiles, root exudates, and electrical signals serve ecological strategies (defense, attraction, coordination).<sup><a href="#fn-wsj">[5]</a></sup></li>
+          <li data-claim="idea-3"><strong>Beware metaphors</strong>—“intelligence,” “memory,” and “decision” need precise definitions to avoid anthropomorphism.<sup><a href="#fn-newyorker">[4]</a>, <a href="#fn-guardian">[6]</a></sup></li>
+          <li data-claim="idea-4"><strong>Science evolves</strong>: past overclaims chilled funding; better experimental designs now produce more reliable results—though debate remains.<sup><a href="#fn-undark">[3]</a></sup></li>
+        </ul>
+      </section>
+
+      <!-- Themes (brief, paraphrased) -->
+      <section class="card" id="themes">
+        <h2>Themes (by chapter groupings & motifs)</h2>
+        <ol>
+          <li data-claim="theme-1"><strong>Rewriting the frame</strong>: From “plants as passive” to organisms with active sensing and strategy; historical baggage from 1970s pseudoscience.<sup><a href="#fn-undark">[3]</a></sup></li>
+          <li data-claim="theme-2"><strong>Channels & codes</strong>: chemicals, electricity, mechanics, and timing as information carriers; lab and field case studies.<sup><a href="#fn-wsj">[5]</a>, <a href="#fn-newyorker">[4]</a></sup></li>
+          <li data-claim="theme-3"><strong>Degrees, not binaries</strong>: careful use of “intelligence” and “agency”; what counts as evidence.<sup><a href="#fn-newyorker">[4]</a></sup></li>
+          <li data-claim="theme-4"><strong>Implications</strong>: ethics of plant-rich habitats, agriculture, and conservation; seeing plants as active participants in ecosystems.<sup><a href="#fn-guardian">[6]</a></sup></li>
+        </ol>
+        <p class="muted small">Note: This is a paraphrased guide for study; it is not a replacement for the book.</p>
+      </section>
+
+      <!-- Studies & Figures -->
+      <section class="card" id="studies">
+        <h2>Notable Studies & Figures Mentioned</h2>
+        <ul class="list-tight">
+          <li data-claim="study-1"><strong>David Rhoades</strong> and the chemistry of herbivore defense—early, controversial work later informing modern signaling research.<sup><a href="#fn-undark">[3]</a></sup></li>
+          <li data-claim="study-2"><strong>Plant electrophysiology</strong>: touch/injury-triggered electrical signals recorded and visualized; informative but distinct from animal synapses/brains.<sup><a href="#fn-undark">[3]</a>, <a href="#fn-wsj">[5]</a></sup></li>
+          <li data-claim="study-3"><strong>Nasa poissoniana</strong> (nettle family) and time-based pollen presentation anticipating pollinator visits in Peru.<sup><a href="#fn-undark">[3]</a></sup></li>
+        </ul>
+      </section>
+
+      <!-- Glossary -->
+      <section class="card" id="glossary">
+        <h2>Glossary (quick reference)</h2>
+        <dl class="small">
+          <dt><strong>Volatile organic compounds (VOCs)</strong></dt>
+          <dd>Airborne chemicals plants emit that can signal distress, attract allies, or repel herbivores.</dd>
+          <dt><strong>Action potential</strong></dt>
+          <dd>Rapid change in cell membrane voltage; plants have AP-like signals involved in touch and injury responses.</dd>
+          <dt><strong>Allelopathy</strong></dt>
+          <dd>Chemicals released by a plant that affect neighboring plants’ growth or germination.</dd>
+          <dt><strong>Mycorrhiza</strong></dt>
+          <dd>Mutualistic association between plant roots and fungi that exchanges nutrients and signals.</dd>
+          <dt><strong>Phenology</strong></dt>
+          <dd>Timing of life-cycle events (flowering, leaf-out) often tied to environmental cues.</dd>
+        </dl>
+      </section>
+
+      <!-- Metadata -->
+      <section class="card" id="meta">
+        <h2>Book Metadata</h2>
+        <ul class="list-tight small">
+          <li data-claim="meta-1"><strong>Title:</strong> <em>The Light Eaters: How the Unseen World of Plant Intelligence Offers a New Understanding of Life on Earth</em>.<sup><a href="#fn-harper">[1]</a></sup></li>
+          <li data-claim="meta-2"><strong>Author:</strong> Zoë Schlanger.<sup><a href="#fn-author">[2]</a></sup></li>
+          <li data-claim="meta-3"><strong>Publisher:</strong> Harper (HarperCollins).<sup><a href="#fn-harper">[1]</a></sup></li>
+          <li data-claim="meta-4"><strong>First publication (hardcover):</strong> May 7, 2024; <strong>Paperback:</strong> May 13, 2025.<sup><a href="#fn-mcnally">[7]</a>, <a href="#fn-harper">[1]</a></sup></li>
+          <li data-claim="meta-5"><strong>Pages:</strong> 304.<sup><a href="#fn-amazon">[8]</a></sup></li>
+          <li data-claim="meta-6"><strong>ISBN (hardcover):</strong> 978-0-06-307385-2; <strong>ISBN (paperback):</strong> 978-0-06-307386-9.<sup><a href="#fn-abe">[9]</a>, <a href="#fn-harper">[1]</a></sup></li>
+        </ul>
+      </section>
+
+      <!-- Who should read & how to use -->
+      <section class="card" id="readers">
+        <h2>Who Should Read This</h2>
+        <ul class="list-tight">
+          <li>Curious readers of science who want a clear, up-to-date tour of plant behavior research.</li>
+          <li>Educators seeking case studies that balance wonder with methodological rigor.</li>
+          <li>Designers, ecologists, and policy folks interested in plant-centric thinking for cities and agriculture.</li>
+        </ul>
+      </section>
+
+      <!-- Citations -->
+      <section class="card footnotes" id="sources" aria-labelledby="sourcesh2">
+        <h2 id="sourcesh2">Citations (for this page)</h2>
+        <ol>
+          <li id="fn-harper"><a href="https://www.harpercollins.com/products/the-light-eaters-zoe-schlanger">Harper/HarperCollins: <em>The Light Eaters</em> (official)</a>.</li>
+          <li id="fn-author"><a href="https://www.zoeschlanger.com/the-light-eaters">Zoë Schlanger — author page for the book</a>.</li>
+          <li id="fn-undark"><a href="https://undark.org/2024/05/24/book-review-light-eaters/">Undark review (May 24, 2024)</a>.</li>
+          <li id="fn-newyorker"><a href="https://www.newyorker.com/books/under-review/a-new-book-about-plant-intelligence-highlights-the-messiness-of-scientific-change">The New Yorker review (2024)</a>.</li>
+          <li id="fn-wsj"><a href="https://www.wsj.com/arts-culture/books/the-light-eaters-review-learning-to-think-like-a-plant-4bdf2bf5">WSJ review (2024)</a>.</li>
+          <li id="fn-guardian"><a href="https://www.theguardian.com/books/article/2024/may/19/in-brief-hey-zoey-sarah-crossan-you-could-make-this-place-beautiful-maggie-smith-the-light-eaters-zoe-schlanger-review">The Guardian review (May 19, 2024)</a>.</li>
+          <li id="fn-mcnally"><a href="https://www.mcnallyjackson.com/book/9780063073852">McNally Jackson listing (May 7, 2024)</a>.</li>
+          <li id="fn-amazon"><a href="https://www.amazon.com/Light-Eaters-Unseen-Intelligence-Understanding/dp/0063073854">Amazon listing (304 pp)</a>.</li>
+          <li id="fn-abe"><a href="https://www.abebooks.com/9780063073852/Light-Eaters-Unseen-World-Plant-0063073854/plp">AbeBooks listing (hardcover ISBN)</a>.</li>
+        </ol>
+        <p class="muted small">This brief paraphrases public information and reviews; it does not reproduce the book’s text.</p>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // --- Minimal “Check” harness for this page ---
+    (function(){
+      const checks = [];
+      const reqSections = ["p3","answer","reasons","check","ideas","themes","studies","glossary","meta","sources"];
+      const claims = [...document.querySelectorAll('[data-claim]')];
+
+      // 1) Sections exist
+      reqSections.forEach(id=>{
+        const ok = !!document.getElementById(id);
+        checks.push({name:`Section #${id} present`, ok});
+      });
+
+      // 2) Every claim has at least one <sup><a href="#fn-..."> link
+      claims.forEach((el,i)=>{
+        const hasFoot = el.querySelector('sup a[href^="#fn-"]');
+        checks.push({name:`Claim ${i+1} cites a source`, ok: !!hasFoot});
+      });
+
+      // 3) Metadata sanity
+      const ld = document.querySelector('script[type="application/ld+json"]');
+      let metaOk=true;
+      try{
+        const j = JSON.parse(ld.textContent);
+        metaOk = !!(j.name && j.author && j.datePublished && j.isbn);
+      }catch(e){ metaOk=false; }
+      checks.push({name:'Structured data looks valid', ok: metaOk});
+
+      // Render results
+      const ul = document.getElementById('checklist');
+      let allOk = true;
+      checks.forEach(c=>{
+        const li = document.createElement('li');
+        li.textContent = (c.ok ? '✔︎ ' : '✘ ') + c.name;
+        li.style.color = c.ok ? '#106941' : '#8a2222';
+        ul.appendChild(li);
+        allOk = allOk && c.ok;
+      });
+      const status = document.getElementById('status');
+      status.textContent = allOk ? '✔︎ Check passed' : '✘ Check failed — see list above';
+      status.className = 'pill ' + (allOk ? 'status-pass' : 'status-fail');
+    })();
+  </script>
+</body>
+</html>
+
