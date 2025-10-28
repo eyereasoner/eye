@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vandermonde's Identity</title>
+  <style>
+    :root{
+      --bg:#f7f9fc; --card:#ffffff; --text:#0f172a; --muted:#475569; --accent:#2563eb;
+      --good:#16a34a; --bad:#dc2626; --border:#e2e8f0; --chip:#eef2ff; --code:#111827;
+    }
+    html, body { background: var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; }
+    * { box-sizing: border-box; }
+    .container{ max-width: 960px; margin: 24px auto; padding: 0 16px; }
+    header{ display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    h1{ font-size: 1.8rem; margin: 0; letter-spacing: -0.02em; }
+    .subtitle{ color: var(--muted); }
+    .card{ background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 6px 20px rgba(2,6,23,0.05); }
+    .stack{ display: flex; flex-direction: column; gap: 16px; }
+    .pill{ display:inline-flex; align-items:center; gap:8px; padding:4px 10px; background:var(--chip); color:#1e3a8a; border-radius:999px; font-size:12px; font-weight:600; border:1px solid #c7d2fe; }
+    .row{ display:flex; gap:12px; align-items:center; min-width:0; }
+    input[type="number"]{ width: 140px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: #fbfdff; }
+    button{ appearance:none; border:none; background:var(--accent); color:white; padding:10px 14px; border-radius: 12px; font-weight:700; cursor:pointer; box-shadow: 0 4px 14px rgba(37,99,235,.25); }
+    button.secondary{ background:#0ea5e9; }
+    button.ghost{ background:transparent; color:var(--accent); border:1px solid var(--accent); }
+    button:disabled{ opacity:.6; cursor:not-allowed; }
+    .grid{ display:grid; grid-template-columns: 1fr; gap: 16px; }
+    .muted{ color: var(--muted); }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; color: var(--code); word-break: break-word; overflow-wrap: anywhere; white-space: normal; }
+    .kpi{ display:flex; gap: 16px; flex-wrap: wrap; }
+    .kpi .card{ padding: 12px 14px; }
+    .k{ font-weight:700; }
+    .v{ font-variant-numeric: tabular-nums; word-break: break-word; overflow-wrap: anywhere; }
+    .list{ display:flex; flex-direction: column; gap: 12px; }
+    .term{ padding:10px; background:#f8fafc; border:1px dashed var(--border); border-radius:12px; }
+    details{ border:1px solid var(--border); border-radius: 12px; padding: 10px 12px; background:#fafcff; }
+    details summary{ cursor: pointer; font-weight:700; color:#0b3eaa; }
+    .badge{ padding:2px 8px; border-radius:999px; font-weight:700; font-size:12px; border:1px solid #cbd5e1; background:#f1f5f9; color:#0f172a; }
+    .ok{ background:#dcfce7; color:#166534; border:1px solid #86efac; }
+    .fail{ background:#fee2e2; color:#991b1b; border:1px solid #fecaca; }
+    .harness{ border-left: 6px solid #c7d2fe; }
+    .h-title{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .small{ font-size: 12px; }
+    code{ background:#f1f5f9; padding:2px 6px; border-radius:6px; }
+    footer{ color: var(--muted); font-size: 12px; text-align:center; margin: 16px 0 40px; }
+    .divider{ height:1px; background: var(--border); margin: -4px 0 8px; }
+    .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+    .chips .badge{ word-break: break-all; overflow-wrap: anywhere; white-space: normal; }
+  </style>
+</head>
+<body>
+  <div class="container stack">
+    <header class="card stack">
+      <div class="row" style="justify-content:space-between; align-items:flex-start; width:100%">
+        <div>
+          <h1>Vandermonde's identity</h1>
+        </div>
+      </div>
+      <span class="badge">Problem: V(m,n,r) = Σₖ C(m,k)·C(n, r−k)</span>
+      <p class="muted">Give non‑negative integers <em>m, n, r</em> with <em>0 ≤ r ≤ m+n</em>. This page evaluates the Vandermonde convolution, explains why it equals <span class="mono">C(m+n, r)</span>, and verifies it with a built‑in test harness.</p>
+    </header>
+
+    <!-- INPUT -->
+    <section class="card stack" id="input-card">
+      <h2 style="margin:0">Input</h2>
+      <div class="divider"></div>
+      <div class="row" style="flex-wrap:wrap">
+        <label class="mono">m = </label>
+        <input id="mInput" type="number" min="0" step="1" value="5" />
+        <label class="mono">n = </label>
+        <input id="nInput" type="number" min="0" step="1" value="7" />
+        <label class="mono">r = </label>
+        <input id="rInput" type="number" min="0" step="1" value="6" />
+        <button type="button" id="solve">Evaluate V(m,n,r)</button>
+        <button type="button" id="clear">Clear</button>
+      </div>
+      <p class="small muted">Constraints: m,n,r ∈ ℕ with 0 ≤ r ≤ m+n. All arithmetic uses exact <code>BigInt</code>.</p>
+    </section>
+
+    <!-- OUTPUT -->
+    <section class="card stack" id="output-card" aria-live="polite">
+      <h2 style="margin:0">Output</h2>
+      <div class="divider"></div>
+
+      <!-- Answer KPIs -->
+      <section class="stack">
+        <div class="kpi">
+          <div class="card">
+            <div class="k">Answer</div>
+            <div id="answer" class="v mono">—</div>
+          </div>
+          <div class="card">
+            <div class="k">Closed form</div>
+            <div id="closed" class="v mono">C(m+n, r)</div>
+          </div>
+          <div class="card">
+            <div class="k">k‑range</div>
+            <div id="krange" class="v mono">—</div>
+          </div>
+          <div class="card">
+            <div class="k"># terms</div>
+            <div id="kcount" class="v mono">—</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reason Why (mathematical English) -->
+      <section class="stack">
+        <h3 style="margin:0">Reason Why</h3>
+        <div class="list">
+          <div class="term">
+            <strong>Algebraic (coefficient extraction).</strong> The product expands as
+            <span class="mono">(1+x)^m (1+x)^n = (1+x)^{m+n}</span>. The coefficient of <span class="mono">x^r</span> on the left is
+            <span class="mono">Σₖ C(m,k) C(n, r−k)</span> (choose <span class="mono">k</span> from the first factor and <span class="mono">r−k</span> from the second),
+            while on the right it is <span class="mono">C(m+n, r)</span>. Hence the two are equal.
+          </div>
+          <div class="term">
+            <strong>Combinatorial.</strong> To choose <span class="mono">r</span> elements from a disjoint union of an <span class="mono">m</span>-set and an <span class="mono">n</span>-set,
+            first decide that exactly <span class="mono">k</span> come from the first set (there are <span class="mono">C(m,k)</span> ways) and the remaining <span class="mono">r−k</span> from the second
+            (there are <span class="mono">C(n,r−k)</span> ways). Summing over all admissible <span class="mono">k</span> counts each <span class="mono">r</span>-subset exactly once, giving <span class="mono">C(m+n,r)</span>.
+          </div>
+          <div class="term">
+            <strong>Bounds of summation.</strong> Nonzero terms occur only when <span class="mono">0≤k≤m</span> and <span class="mono">0≤r−k≤n</span>, that is
+            <span class="mono">max(0, r−n) ≤ k ≤ min(r, m)</span>.
+          </div>
+        </div>
+        <details>
+          <summary>Show terms Σ C(m,k)·C(n,r−k)</summary>
+          <div id="terms" class="chips mono"></div>
+        </details>
+      </section>
+
+      <!-- Check (harness) for the user's input -->
+      <section class="stack">
+        <h3 style="margin:0">Check (harness)</h3>
+        <div id="checks" class="list"></div>
+      </section>
+    </section>
+
+    <!-- PRELOADED HARNESS CASES (≥ 8) -->
+    <section class="card stack harness" id="preloaded">
+      <div class="h-title">
+        <h2 style="margin:0">Preloaded Checks (harness)</h2>
+        <div class="row">
+          <button id="runAll">Run all</button>
+          <button class="ghost" id="clearHarness">Clear results</button>
+        </div>
+      </div>
+      <p class="small muted">Each block recomputes the Vandermonde sum and asserts equality with <span class="mono">C(m+n,r)</span>. One case is intentionally invalid.</p>
+      <div id="harnesses" class="stack"></div>
+    </section>
+
+    <footer>
+      <div>Built as a self‑checking artifact: program → <em>Answer</em>, <em>Reason Why</em>, <em>Check</em>.</div>
+      <div class="small">This page performs only on‑device computation.</div>
+    </footer>
+  </div>
+
+<script>
+  // ---------- BigInt helpers ----------
+  const ZERO = 0n, ONE = 1n;
+  const toBig = (x) => { try { return BigInt(x); } catch { return null; } };
+  const isNonNegInt = (b) => b !== null && b >= 0n;
+
+  // fast power (for spot checks if needed)
+  function pow(a, e){ let base=a, exp=e, res=1n; while (exp>0n){ if (exp & 1n) res*=base; base*=base; exp >>= 1n; } return res; }
+
+  // binomial(n,k) for 0 ≤ k ≤ n using multiplicative formula
+  function binom(n, k){
+    if (k < 0n || k > n) return 0n;
+    k = k > n - k ? n - k : k; // symmetry
+    let res = 1n;
+    for (let i = 1n; i <= k; i++){
+      res = (res * (n - k + i)) / i; // exact division
+    }
+    return res;
+  }
+
+  function vandermondeSum(m, n, r){
+    // k from L to U inclusive
+    const L = r > n ? r - n : 0n; // max(0, r-n)
+    const U = r < m ? r : m;      // min(r, m)
+    if (U < L) return { sum:0n, L, U, terms:[] };
+    const terms = [];
+    let S = 0n;
+    for (let k = L; k <= U; k++){
+      const t = binom(m, k) * binom(n, r - k);
+      terms.push({ k, left: binom(m,k), right: binom(n, r-k), value: t });
+      S += t;
+    }
+    return { sum:S, L, U, terms };
+  }
+
+  // ---------- UI helpers ----------
+  const el = (tag, attrs = {}, children = []) => {
+    const node = document.createElement(tag);
+    Object.entries(attrs).forEach(([k,v]) => {
+      if (k === 'class') node.className = v; else if (k === 'html') node.innerHTML = v; else if (k.startsWith('on')) node.addEventListener(k.slice(2).toLowerCase(), v); else node.setAttribute(k, v);
+    });
+    children.forEach(c => node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c));
+    return node;
+  };
+
+  function renderChips(div, m, n, r, data){
+    const { L, U, terms } = data;
+    const chips = terms.map((t) => el('span', { class:'badge' }, [`k=${t.k}: C(${m},${t.k})·C(${n},${r - t.k}) = ${t.value}`]));
+    if (chips.length === 0) div.replaceChildren(el('span', { class:'badge' }, ['(no admissible k)'])); else div.replaceChildren(...chips);
+  }
+
+  function renderChecks(m, n, r, data, closed){
+    const checks = document.getElementById('checks');
+    const list = [];
+
+    // bounds validity
+    const boundsOk = (r >= 0n && r <= m + n);
+    list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (boundsOk ? 'ok' : 'fail') }, [ boundsOk ? 'PASS' : 'FAIL' ]), el('span', { class:'mono' }, ['Bounds 0 ≤ r ≤ m+n']) ]));
+
+    const eq = data.sum === closed;
+    list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (eq ? 'ok' : 'fail') }, [ eq ? 'PASS' : 'FAIL' ]), document.createTextNode(' Equality '), el('span', { class:'mono' }, ['Σ C(m,k)·C(n,r−k) = C(m+n,r)']) ]));
+
+    // symmetry check
+    const swapped = vandermondeSum(n, m, r).sum;
+    const sym = data.sum === swapped;
+    list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (sym ? 'ok' : 'fail') }, [ sym ? 'PASS' : 'FAIL' ]), el('span', { class:'mono' }, ['Symmetry m↔n']) ]));
+
+    // edge cases
+    const edge0 = (r === 0n) ? (data.sum === 1n) : true;
+    list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (edge0 ? 'ok' : 'fail') }, [ edge0 ? 'PASS' : 'FAIL' ]), el('span', { class:'mono' }, ['If r=0 then result=1']) ]));
+
+    const edgemn = (r === m + n) ? (data.sum === 1n) : true;
+    list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (edgemn ? 'ok' : 'fail') }, [ edgemn ? 'PASS' : 'FAIL' ]), el('span', { class:'mono' }, ['If r=m+n then result=1']) ]));
+
+    const m0 = (m === 0n) ? (data.sum === binom(n, r)) : true;
+    list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (m0 ? 'ok' : 'fail') }, [ m0 ? 'PASS' : 'FAIL' ]), el('span', { class:'mono' }, ['If m=0 then Σ= C(n,r)']) ]));
+
+    const n0 = (n === 0n) ? (data.sum === binom(m, r)) : true;
+    list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (n0 ? 'ok' : 'fail') }, [ n0 ? 'PASS' : 'FAIL' ]), el('span', { class:'mono' }, ['If n=0 then Σ= C(m,r)']) ]));
+
+    list.push(el('div', { class:'row' }, [ el('span', { class:'badge ok' }, ['FACT']), el('span', { class:'small muted' }, ['Coefficient-of argument: coeff x^r in (1+x)^m(1+x)^n equals coeff x^r in (1+x)^{m+n}.']) ]));
+
+    checks.replaceChildren(...list);
+  }
+
+  function evaluate(){
+    const mVal = toBig(document.getElementById('mInput').value.trim());
+    const nVal = toBig(document.getElementById('nInput').value.trim());
+    const rVal = toBig(document.getElementById('rInput').value.trim());
+
+    const ans = document.getElementById('answer');
+    const closedDiv = document.getElementById('closed');
+    const krange = document.getElementById('krange');
+    const kcount = document.getElementById('kcount');
+
+    if (!isNonNegInt(mVal) || !isNonNegInt(nVal) || !isNonNegInt(rVal)){
+      ans.textContent = '—';
+      closedDiv.textContent = 'C(m+n, r)';
+      krange.textContent = '—';
+      kcount.textContent = '—';
+      document.getElementById('terms').replaceChildren();
+      document.getElementById('checks').replaceChildren(el('div', { class:'term' }, [ el('span', { class:'badge fail' }, ['FAIL']), document.createTextNode(' m, n, r must be non‑negative integers.') ]));
+      return;
+    }
+    const m = mVal, n = nVal, r = rVal;
+    if (r < 0n || r > m + n){
+      ans.textContent = '—';
+      closedDiv.textContent = `C(${m+n}, ${r}) = 0`;
+      krange.textContent = '—';
+      kcount.textContent = '—';
+      document.getElementById('terms').replaceChildren();
+      document.getElementById('checks').replaceChildren(el('div', { class:'term' }, [ el('span', { class:'badge fail' }, ['FAIL']), document.createTextNode(' Require 0 ≤ r ≤ m+n for nonzero identity.') ]));
+      return;
+    }
+
+    const data = vandermondeSum(m, n, r);
+    const closed = binom(m + n, r);
+
+    ans.textContent = `V(${m},${n},${r}) = ${data.sum.toString()}`;
+    closedDiv.textContent = `C(${m+n}, ${r}) = ${closed.toString()}`;
+    krange.textContent = `k from ${data.L.toString()} to ${data.U.toString()}`;
+    kcount.textContent = `${data.terms.length}`;
+
+    renderChips(document.getElementById('terms'), m, n, r, data);
+    renderChecks(m, n, r, data, closed);
+  }
+
+  document.getElementById('solve').onclick = evaluate;
+  document.getElementById('clear').onclick = () => {
+    document.getElementById('mInput').value = '';
+    document.getElementById('nInput').value = '';
+    document.getElementById('rInput').value = '';
+    document.getElementById('answer').textContent = '—';
+    document.getElementById('closed').textContent = 'C(m+n, r)';
+    document.getElementById('krange').textContent = '—';
+    document.getElementById('kcount').textContent = '—';
+    document.getElementById('terms').replaceChildren();
+    document.getElementById('checks').replaceChildren();
+  };
+
+  // ---------- Preloaded harnesses (≥ 8 including one invalid) ----------
+  const harnessList = [
+    { m: 0, n: 7, r: 3, title: 'm=0, n=7, r=3 ⇒ V= C(7,3)=35' },
+    { m: 5, n: 7, r: 6, title: 'm=5, n=7, r=6' },
+    { m: 10, n: 12, r: 5, title: 'm=10, n=12, r=5' },
+    { m: 50, n: 60, r: 30, title: 'm=50, n=60, r=30 (large)' },
+    { m: 100, n: 200, r: 50, title: 'm=100, n=200, r=50 (large)' },
+    { m: 20, n: 0, r: 0, title: 'm=20, n=0, r=0 ⇒ V=1' },
+    { m: 123, n: 456, r: 0, title: 'r=0 ⇒ V=1' },
+    { m: 8, n: 9, r: 17, title: 'r=m+n ⇒ V=1' },
+    { m: 5, n: 7, r: 20, title: 'Invalid (should fail): r>m+n', negative:true },
+  ];
+
+  const harnessDiv = document.getElementById('harnesses');
+
+  function makeHarnessCard(h){
+    const card = el('section', { class:'card stack' });
+    const head = el('div', { class:'h-title' }, [ el('div', {}, [ el('strong',{},[h.title]) ]), el('div', { class:'small muted' }, ['Check (harness)']) ]);
+    const kpis = el('div', { class:'kpi' });
+    const ans = el('div', { class:'card' }); ans.append(el('div', { class:'k' }, ['Answer']), el('div', { class:'v mono' }, ['—']));
+    const closed = el('div', { class:'card' }); closed.append(el('div', { class:'k' }, ['Closed form']), el('div', { class:'v mono' }, ['C(m+n, r)']));
+    const range = el('div', { class:'card' }); range.append(el('div', { class:'k' }, ['k‑range']), el('div', { class:'v mono' }, ['—']));
+    const count = el('div', { class:'card' }); count.append(el('div', { class:'k' }, ['# terms']), el('div', { class:'v mono' }, ['—']));
+    kpis.append(ans, closed, range, count);
+
+    const reason = el('p', { class:'muted small' }, [
+      'Coefficient-of argument: (1+x)^m(1+x)^n=(1+x)^{m+n}; the x^r coefficient is equal on both sides.'
+    ]);
+    const checks = el('div', { class:'list' });
+    const run = el('button', { class:'secondary' }, ['Run']);
+
+    run.onclick = () => {
+      const mB = toBig(h.m), nB = toBig(h.n), rB = toBig(h.r);
+      if (!isNonNegInt(mB) || !isNonNegInt(nB) || !isNonNegInt(rB) || rB > mB + nB){
+        ans.querySelector('.v').textContent = '—';
+        closed.querySelector('.v').textContent = `C(${mB+nB}, ${rB}) = ${rB > mB + nB ? 0 : '—'}`;
+        range.querySelector('.v').textContent = '—';
+        count.querySelector('.v').textContent = '—';
+        checks.replaceChildren(el('div', { class:'term' }, [ el('span', { class:'badge fail' }, ['FAIL']), document.createTextNode(' Require m,n,r ≥ 0 and r ≤ m+n.') ]));
+        return;
+      }
+      const data = vandermondeSum(mB, nB, rB);
+      const closedVal = binom(mB + nB, rB);
+      ans.querySelector('.v').textContent = `V(${mB},${nB},${rB}) = ${data.sum}`;
+      closed.querySelector('.v').textContent = `C(${mB+nB}, ${rB}) = ${closedVal}`;
+      range.querySelector('.v').textContent = `k from ${data.L} to ${data.U}`;
+      count.querySelector('.v').textContent = `${data.terms.length}`;
+
+      const list = [];
+      const boundsOk = (rB >= 0n && rB <= mB + nB);
+      list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (boundsOk ? 'ok' : 'fail') }, [ boundsOk ? 'PASS' : 'FAIL' ]), el('span', { class:'mono' }, ['Bounds 0 ≤ r ≤ m+n']) ]));
+      const eq = data.sum === closedVal;
+      list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (eq ? 'ok' : 'fail') }, [ eq ? 'PASS' : 'FAIL' ]), document.createTextNode(' Equality '), el('span', { class:'mono' }, ['Σ C(m,k)·C(n,r−k) = C(m+n,r)']) ]));
+      const swapped = vandermondeSum(nB, mB, rB).sum;
+      const sym = data.sum === swapped;
+      list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (sym ? 'ok' : 'fail') }, [ sym ? 'PASS' : 'FAIL' ]), el('span', { class:'mono' }, ['Symmetry m↔n']) ]));
+      const edge0 = (rB === 0n) ? (data.sum === 1n) : true;
+      list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (edge0 ? 'ok' : 'fail') }, [ edge0 ? 'PASS' : 'FAIL' ]), el('span', { class:'mono' }, ['If r=0 then result=1']) ]));
+      const edgemn = (rB === mB + nB) ? (data.sum === 1n) : true;
+      list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (edgemn ? 'ok' : 'fail') }, [ edgemn ? 'PASS' : 'FAIL' ]), el('span', { class:'mono' }, ['If r=m+n then result=1']) ]));
+      const m0 = (mB === 0n) ? (data.sum === binom(nB, rB)) : true;
+      list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (m0 ? 'ok' : 'fail') }, [ m0 ? 'PASS' : 'FAIL' ]), el('span', { class:'mono' }, ['If m=0 then Σ= C(n,r)']) ]));
+      const n0 = (nB === 0n) ? (data.sum === binom(mB, rB)) : true;
+      list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (n0 ? 'ok' : 'fail') }, [ n0 ? 'PASS' : 'FAIL' ]), el('span', { class:'mono' }, ['If n=0 then Σ= C(m,r)']) ]));
+      list.push(el('div', { class:'row' }, [ el('span', { class:'badge ok' }, ['FACT']), el('span', { class:'small muted' }, ['Combinatorial split by k: choose k from the first block and r−k from the second.']) ]));
+      checks.replaceChildren(...list);
+    };
+
+    if (h.negative){
+      const warn = el('div', { class:'small muted' }, ['This case is intentionally invalid and should report a failure.']);
+      card.append(head, kpis, reason, warn, checks, run);
+    } else {
+      card.append(head, kpis, reason, checks, run);
+    }
+    return card;
+  }
+
+  harnessList.forEach(h => harnessDiv.appendChild(makeHarnessCard(h)));
+  document.getElementById('runAll').onclick = () => {
+    const buttons = [...harnessDiv.querySelectorAll('button.secondary')];
+    buttons.forEach(b => b.click());
+  };
+  document.getElementById('clearHarness').onclick = () => {
+    harnessDiv.querySelectorAll('.list').forEach(div => div.replaceChildren());
+    harnessDiv.querySelectorAll('.v').forEach(div => div.textContent = '—');
+  };
+
+  // auto-evaluate initial sample
+  evaluate();
+</script>
+</body>
+</html>
+
