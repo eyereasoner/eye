@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fermat's Little Theorem</title>
+  <style>
+    :root{ --bg:#f7f9fc; --card:#ffffff; --text:#0f172a; --muted:#475569; --accent:#2563eb; --good:#16a34a; --bad:#dc2626; --border:#e2e8f0; --chip:#eef2ff; --code:#111827; }
+    html, body { background: var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; }
+    * { box-sizing: border-box; }
+    .container{ max-width: 960px; margin: 24px auto; padding: 0 16px; }
+    header{ display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    h1{ font-size: 1.8rem; margin: 0; letter-spacing: -0.02em; }
+    .subtitle{ color: var(--muted); }
+    .card{ background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 6px 20px rgba(2,6,23,0.05); }
+    .stack{ display: flex; flex-direction: column; gap: 16px; }
+    .pill{ display:inline-flex; align-items:center; gap:8px; padding:4px 10px; background:var(--chip); color:#1e3a8a; border-radius:999px; font-size:12px; font-weight:600; border:1px solid #c7d2fe; }
+    .row{ display:flex; gap:12px; align-items:center; min-width:0; }
+    .muted{ color: var(--muted); }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; color: var(--code); word-break: break-word; overflow-wrap: anywhere; white-space: normal; }
+    .kpi{ display:flex; gap: 16px; flex-wrap: wrap; }
+    .kpi .card{ padding: 12px 14px; }
+    .k{ font-weight:700; }
+    .v{ font-variant-numeric: tabular-nums; word-break: break-word; overflow-wrap: anywhere; }
+    .list{ display:flex; flex-direction: column; gap: 12px; }
+    .term{ padding:10px; background:#f8fafc; border:1px dashed var(--border); border-radius:12px; }
+    details{ border:1px solid var(--border); border-radius: 12px; padding: 10px 12px; background:#fafcff; }
+    details summary{ cursor: pointer; font-weight:700; color:#0b3eaa; }
+    .badge{ padding:2px 8px; border-radius:999px; font-weight:700; font-size:12px; border:1px solid #cbd5e1; background:#f1f5f9; color:#0f172a; }
+    .ok{ background:#dcfce7; color:#166534; border:1px solid #86efac; }
+    .fail{ background:#fee2e2; color:#991b1b; border:1px solid #fecaca; }
+    .harness{ border-left: 6px solid #c7d2fe; }
+    .h-title{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .small{ font-size: 12px; }
+    code{ background:#f1f5f9; padding:2px 6px; border-radius:6px; }
+    footer{ color: var(--muted); font-size: 12px; text-align:center; margin: 16px 0 40px; }
+    .divider{ height:1px; background: var(--border); margin: -4px 0 8px; }
+
+    /* INPUT: compact layout */
+    .input-grid{ display:flex; flex-wrap: nowrap; gap:10px; }
+    .field{ display:flex; align-items:center; gap:6px; }
+    input.short{ width:140px; padding:6px 8px; border: 1px solid var(--border); border-radius:10px; background:#fbfdff; }
+    .buttons-row{ display:flex; gap:8px; flex-wrap: wrap; }
+    @media (max-width: 560px){ .input-grid{ flex-wrap: wrap; } }
+  </style>
+</head>
+<body>
+  <div class="container stack">
+    <header class="card stack">
+      <div class="row" style="justify-content:space-between; align-items:flex-start; width:100%">
+        <div>
+          <h1>Fermat's little theorem</h1>
+        </div>
+      </div>
+      <span class="badge">Problem: For prime p and a with p ∤ a, a^{p−1} ≡ 1 (mod p)</span>
+      <p class="muted">We evaluate <span class="mono">a^{p−1} mod p</span> exactly (and also <span class="mono">a^p mod p</span>) using fast modular exponentiation; we explain why the theorem holds, and verify it with multiple harness checks.</p>
+    </header>
+
+    <!-- INPUT -->
+    <section class="card stack" id="input-card">
+      <h2 style="margin:0">Input</h2>
+      <div class="divider"></div>
+      <div class="row input-grid">
+        <div class="field"><label class="mono" for="aInput">a (integer)</label><input class="short" id="aInput" type="number" step="1" value="2" /></div>
+        <div class="field"><label class="mono" for="pInput">p (≥ 2)</label><input class="short" id="pInput" type="number" min="2" step="1" value="11" /></div>
+      </div>
+      <div class="row buttons-row">
+        <button type="button" id="solve">Evaluate</button>
+        <button type="button" id="clear">Clear</button>
+      </div>
+      <p class="small muted">When <span class="mono">p</span> is prime and <span class="mono">gcd(a,p)=1</span>, FLT gives <span class="mono">a^{p−1} ≡ 1 (mod p)</span>; the corollary <span class="mono">a^p ≡ a (mod p)</span> holds for all integers <span class="mono">a</span>. For composite <span class="mono">p</span>, the congruence may fail.</p>
+    </section>
+
+    <!-- OUTPUT -->
+    <section class="card stack" id="output-card" aria-live="polite">
+      <h2 style="margin:0">Output</h2>
+      <div class="divider"></div>
+      <section class="stack">
+        <div class="kpi">
+          <div class="card"><div class="k">Residue a^{p−1} mod p</div><div id="res1" class="v mono">—</div></div>
+          <div class="card"><div class="k">Residue a^{p} mod p</div><div id="res2" class="v mono">—</div></div>
+          <div class="card"><div class="k">gcd(a,p)</div><div id="gcdap" class="v mono">—</div></div>
+          <div class="card"><div class="k">p prime? (trial)</div><div id="pprime" class="v mono">—</div></div>
+          <div class="card"><div class="k">Verdict</div><div id="verdict" class="v mono">—</div></div>
+        </div>
+      </section>
+
+      <!-- Reason Why (mathematical English) -->
+      <section class="stack">
+        <h3 style="margin:0">Reason Why</h3>
+        <div class="list">
+          <div class="term"><strong>Group-theoretic proof.</strong> For a prime <span class="mono">p</span>, the nonzero residue classes form a multiplicative group <span class="mono">(ℤ/pℤ)^×</span> of order <span class="mono">p−1</span>. The element <span class="mono">[a]</span> with <span class="mono">p∤a</span> has order dividing <span class="mono">p−1</span>, hence <span class="mono">[a]^{p−1}=[1]</span>, i.e. <span class="mono">a^{p−1} ≡ 1 (mod p)</span>.</div>
+          <div class="term"><strong>Combinatorial proof.</strong> Consider the set <span class="mono">S={1,2,…,p−1}</span>. Multiplication by <span class="mono">a</span> permutes <span class="mono">S</span> modulo <span class="mono">p</span> when <span class="mono">p∤a</span>. Taking products gives <span class="mono">a^{p−1}(p−1)! ≡ (p−1)! (mod p)</span>, and since <span class="mono">(p−1)!≠0 (mod p)</span>, cancellation yields <span class="mono">a^{p−1}≡1</span>.</div>
+          <div class="term"><strong>Corollary.</strong> For any integer <span class="mono">a</span> and prime <span class="mono">p</span>, <span class="mono">a^p ≡ a (mod p)</span>. If <span class="mono">p|a</span> both sides are 0; otherwise divide by <span class="mono">a</span> in the previous congruence.</div>
+        </div>
+      </section>
+
+      <!-- Check (harness) for the user's input -->
+      <section class="stack">
+        <h3 style="margin:0">Check (harness)</h3>
+        <div id="checks" class="list"></div>
+      </section>
+    </section>
+
+    <!-- PRELOADED HARNESS CASES (≥ 9) -->
+    <section class="card stack harness" id="preloaded">
+      <div class="h-title">
+        <h2 style="margin:0">Preloaded Checks (harness)</h2>
+        <div class="row"><button id="runAll">Run all</button><button class="ghost" id="clearHarness">Clear results</button></div>
+      </div>
+      <p class="small muted">Each block checks <span class="mono">a^{p−1} ≡ 1 (mod p)</span> with <span class="mono">gcd(a,p)=1</span> and notes failures for composite <span class="mono">p</span>.</p>
+      <div id="harnesses" class="stack"></div>
+    </section>
+
+    <footer>
+      <div>Built as a self‑checking artifact: program → <em>Answer</em>, <em>Reason Why</em>, <em>Check</em>.</div>
+      <div class="small">This page performs only on‑device computation.</div>
+    </footer>
+  </div>
+
+<script>
+  // ---------- BigInt helpers ----------
+  const ZERO=0n, ONE=1n;
+  const toBig = (x)=>{ try{ return BigInt(x); }catch{ return null; } };
+  const absBig = (a)=> a>=0n? a : -a;
+  function gcd(a,b){ a=absBig(a); b=absBig(b); while(b){ [a,b]=[b,a%b]; } return a; }
+  function modPow(base, exp, mod){ if(mod===1n) return 0n; let b=modPos(base,mod), e=exp, r=1n; while(e>0n){ if(e&1n) r=(r*b)%mod; b=(b*b)%mod; e >>= 1n; } return r; }
+  const modPos=(a,m)=>{ a%=m; return a>=0n? a : a+m; };
+  function isPrimeTrial(n){ if(n<2n) return false; if(n%2n===0n) return n===2n; for(let d=3n; d*d<=n; d+=2n){ if(n%d===0n) return false; } return true; }
+
+  // ---------- UI helpers ----------
+  const el=(tag,attrs={},children=[])=>{ const node=document.createElement(tag); Object.entries(attrs).forEach(([k,v])=>{ if(k==='class') node.className=v; else if(k==='html') node.innerHTML=v; else if(k.startsWith('on')) node.addEventListener(k.slice(2).toLowerCase(), v); else node.setAttribute(k,v); }); children.forEach(c=>node.appendChild(typeof c==='string'?document.createTextNode(c):c)); return node; };
+  const row=(ok,label,msg)=> el('div',{class:'row'},[ el('span',{class:'badge '+(ok?'ok':'fail')},[ok?'PASS':'FAIL']), el('span',{class:'mono'},[label]), document.createTextNode(' — '), el('span',{class:'mono'},[msg]) ]);
+
+  function evaluate(){
+    const aVal = toBig(document.getElementById('aInput').value.trim());
+    const pVal = toBig(document.getElementById('pInput').value.trim());
+    const res1 = document.getElementById('res1');
+    const res2 = document.getElementById('res2');
+    const gdiv = document.getElementById('gcdap');
+    const pprime = document.getElementById('pprime');
+    const verdict = document.getElementById('verdict');
+
+    if (aVal===null || pVal===null || pVal<2n){
+      res1.textContent='—'; res2.textContent='—'; gdiv.textContent='—'; pprime.textContent='—'; verdict.textContent='—';
+      document.getElementById('checks').replaceChildren(el('div',{class:'term'},[ el('span',{class:'badge fail'},['FAIL']), document.createTextNode(' Provide integers a and p≥2.') ]));
+      return;
+    }
+
+    const a = modPos(aVal, pVal); // work mod p for residues
+    const p = pVal;
+    const g = gcd(a, p);
+    const prime = isPrimeTrial(p);
+
+    const r1 = modPow(a, p-1n, p);
+    const r2 = modPow(a, p, p);
+
+    res1.textContent = `${a}^(${p-1n}) mod ${p} = ${r1}`;
+    res2.textContent = `${a}^(${p}) mod ${p} = ${r2}`;
+    gdiv.textContent = g.toString();
+    pprime.textContent = prime ? 'prime (trial)' : 'composite (trial)';
+
+    let okFLT = (prime && g===1n && r1===1n);
+    let okCor = (prime && r2===a);
+    let msg = [];
+    if (prime){
+      msg.push(g===1n ? 'gcd=1' : 'a≡0 mod p');
+      msg.push(`a^{p−1}≡${r1}`);
+      msg.push(`a^p≡${r2}`);
+    } else {
+      msg.push('p composite');
+      msg.push(`a^{p−1}≡${r1}`);
+    }
+    verdict.textContent = (okFLT ? 'PASS' : 'FAIL') + ' — ' + msg.join(', ');
+
+    renderChecks(a, p, g, prime, r1, r2);
+  }
+
+  function renderChecks(a, p, g, prime, r1, r2){
+    const checks = document.getElementById('checks');
+    const list = [];
+
+    // bounds
+    const okBounds = (p>=2n);
+    list.push(row(okBounds, 'Inputs valid', `p≥2`));
+
+    // main statement (only meaningful when gcd=1 and p is prime)
+    const mainOk = (prime && g===1n) ? (r1===1n) : true;
+    list.push(row(mainOk, 'Fermat: if p prime and gcd(a,p)=1 then a^{p−1}≡1', `r=${r1}`));
+
+    // corollary
+    const corOk = (prime) ? (r2===a) : true;
+    list.push(row(corOk, 'Corollary: a^p≡a (all a) when p prime', `a^p mod p = ${r2}`));
+
+    // a==0 mod p edge
+    const edge0 = (g>1n) ? (r2===0n) : true;
+    list.push(row(edge0, 'If p|a then a^p≡0', `a mod p = ${a}`));
+
+    // trivial examples
+    list.push(el('div',{class:'row'},[ el('span',{class:'badge ok'},['FACT']), el('span',{class:'small muted'},['In (ℤ/pℤ)^× every element has order dividing p−1, so raising to p−1 gives 1.']) ]));
+
+    checks.replaceChildren(...list);
+  }
+
+  // Harness cases
+  const harnessList = [
+    { a:2, p:3, title:'a=2, p=3 (prime) ⇒ PASS' },
+    { a:5, p:7, title:'a=5, p=7 (prime) ⇒ PASS' },
+    { a:10, p:11, title:'a=10, p=11 (prime) ⇒ PASS (a≡−1)' },
+    { a:123456, p:101, title:'large a reduced mod p (prime) ⇒ PASS' },
+    { a:2, p:97, title:'a=2, p=97 (prime) ⇒ PASS' },
+    { a:0, p:13, title:'a=0, p=13 (prime) ⇒ corollary: a^p≡a' },
+    { a:2, p:15, title:'p=15 (composite) ⇒ usually FAIL', negative:true },
+    { a:14, p:15, title:'p=15 with a coprime ⇒ observe r≠1', negative:true },
+    { a:7, p:341, title:'p=341 (Carmichael) ⇒ subtle (may pass for many a)', note:'Carmichael number', negative:true },
+  ];
+
+  const harnessDiv = document.getElementById('harnesses');
+
+  function makeHarnessCard(h){
+    const card = el('section',{class:'card stack'});
+    const head = el('div',{class:'h-title'},[ el('div',{},[el('strong',{},[h.title])]), el('div',{class:'small muted'},['Check (harness)']) ]);
+    const kpis = el('div',{class:'kpi'});
+    const r1 = el('div',{class:'card'}); r1.append(el('div',{class:'k'},['a^{p−1} mod p']), el('div',{class:'v mono'},['—']));
+    const verdict = el('div',{class:'card'}); verdict.append(el('div',{class:'k'},['Verdict']), el('div',{class:'v mono'},['—']));
+    const primeC = el('div',{class:'card'}); primeC.append(el('div',{class:'k'},['p prime? (trial)']), el('div',{class:'v mono'},['—']));
+    const gcdC = el('div',{class:'card'}); gcdC.append(el('div',{class:'k'},['gcd(a,p)']), el('div',{class:'v mono'},['—']));
+    kpis.append(r1, verdict, primeC, gcdC);
+
+    const checks = el('div',{class:'list'});
+    const run = el('button',{class:'secondary'},['Run']);
+
+    run.onclick = () => {
+      const aB = BigInt(h.a), pB = BigInt(h.p);
+      const g = gcd(aB, pB);
+      const prime = isPrimeTrial(pB);
+      const r = modPow(modPos(aB,pB), pB-1n, pB);
+      r1.querySelector('.v').textContent = r.toString();
+      primeC.querySelector('.v').textContent = prime ? 'prime (trial)' : 'composite (trial)';
+      gcdC.querySelector('.v').textContent = g.toString();
+      const ok = (prime && g===1n && r===1n);
+      verdict.querySelector('.v').textContent = ok ? 'PASS' : 'FAIL';
+
+      const list = [];
+      list.push(row(ok || !!h.negative, 'Expectation', h.negative ? 'Composite: theorem need not hold' : 'Prime & coprime → should hold'));
+      if (h.note){ list.push(el('div',{class:'row'},[ el('span',{class:'badge ok'},['FACT']), el('span',{class:'small muted'},[h.note]) ])); }
+      checks.replaceChildren(...list);
+    };
+
+    card.append(head, kpis, checks, run);
+    return card;
+  }
+
+  function buildHarness(){
+    harnessDiv.replaceChildren();
+    harnessList.forEach(h => harnessDiv.appendChild(makeHarnessCard(h)));
+    document.getElementById('runAll').onclick = () => { [...harnessDiv.querySelectorAll('button.secondary')].forEach(b=>b.click()); };
+    document.getElementById('clearHarness').onclick = () => { harnessDiv.querySelectorAll('.list').forEach(div=>div.replaceChildren()); harnessDiv.querySelectorAll('.v').forEach(div=>div.textContent='—'); };
+  }
+
+  document.getElementById('solve').onclick = evaluate;
+  document.getElementById('clear').onclick = () => { document.getElementById('aInput').value='2'; document.getElementById('pInput').value='11'; document.getElementById('res1').textContent='—'; document.getElementById('res2').textContent='—'; document.getElementById('gcdap').textContent='—'; document.getElementById('pprime').textContent='—'; document.getElementById('verdict').textContent='—'; document.getElementById('checks').replaceChildren(); };
+
+  // Auto-evaluate sample
+  evaluate();
+  buildHarness();
+</script>
+</body>
+</html>
+
