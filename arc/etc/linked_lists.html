@@ -35,7 +35,21 @@
     .result{margin-top:10px;padding:10px 12px;border-radius:10px;background:#fafbff;border:1px dashed #d7dbe5}
     code, pre{font-family:var(--mono)}
     /* Your requested pre style (light) */
-    pre{color:#0f172a;padding:14px;border-radius:12px;overflow:auto}
+    pre{
+      background:#fafbff;
+      color:#0f172a;
+      padding:14px;
+      border-radius:12px;
+      /* wrap long lines inside <pre> */
+      white-space: pre-wrap;        /* preserve spaces/newlines, but wrap */
+      overflow-wrap: anywhere;      /* break very long tokens if needed */
+      word-break: break-word;       /* fallback for older browsers */
+      /* avoid the horizontal scrollbar */
+      overflow-x: hidden;
+      /* keep vertical scrolling if content is very tall (optional) */
+      overflow-y: auto;
+      max-width: 100%;
+    }
     .small{font-size:13px}
     .mono{font-family:var(--mono)}
     textarea.input{width:100%;min-height:84px;padding:10px 12px;border-radius:10px;border:1px solid #d9e1f1;background:#fdfefe;font-family:var(--mono)}

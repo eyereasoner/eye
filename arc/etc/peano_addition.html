@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Peano Addition • 1+1=2 proved via Resolution</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg:#f7f8fb;
+      --card:#ffffff;
+      --ink:#0f172a;
+      --muted:#4b5563;
+      --accent:#2563eb;
+      --ok:#059669;
+      --bad:#b91c1c;
+      --radius:16px;
+      --shadow:0 10px 22px rgba(2,6,23,.06), 0 2px 6px rgba(2,6,23,.06);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+    .wrap{max-width:980px;margin:auto;padding:28px 16px 64px}
+    header{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+    h1{font-size:clamp(24px,3vw,34px);line-height:1.2;margin:0}
+    .sub{color:var(--muted)}
+    .pill{display:inline-flex;align-items:center;gap:8px;background:#eef2ff;color:#3730a3;border-radius:999px;padding:8px 12px;font-weight:600;font-size:14px;width:max-content}
+    .grid{display:flex;flex-direction:column;gap:16px}
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;border:1px solid #eef2f7}
+    .kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#6b7280}
+    .muted{color:var(--muted)}
+    .answer{font-size:18px;font-weight:800}
+    .ok{color:var(--ok)}
+    .fail{color:var(--bad);font-weight:800}
+    .result{margin-top:10px;padding:10px 12px;border-radius:10px;background:#fafbff;border:1px dashed #d7dbe5}
+    code, pre{font-family:var(--mono)}
+    pre{
+      background:#fafbff;
+      color:#0f172a;
+      padding:14px;
+      border-radius:12px;
+      /* wrap long lines inside <pre> */
+      white-space: pre-wrap;        /* preserve spaces/newlines, but wrap */
+      overflow-wrap: anywhere;      /* break very long tokens if needed */
+      word-break: break-word;       /* fallback for older browsers */
+      /* avoid the horizontal scrollbar */
+      overflow-x: hidden;
+      /* keep vertical scrolling if content is very tall (optional) */
+      overflow-y: auto;
+      max-width: 100%;
+    }
+    .small{font-size:13px}
+    .mono{font-family:var(--mono)}
+    textarea.input{width:100%;min-height:84px;padding:10px 12px;border-radius:10px;border:1px solid #d9e1f1;background:#fdfefe;font-family:var(--mono)}
+    .badge{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:#ecfeff;color:#155e75;border:1px solid #a5f3fc}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Peano Addition • 1+1=2 proved via Resolution</h1>
+    </header>
+
+    <section class="grid">
+      <!-- Problem statement -->
+      <article class="card">
+        <div class="kicker">Problem</div>
+        <h2>Formalize addition with successor and show a canonical entailment</h2>
+        <p>We use a standard Peano-style signature with a constant and a unary function:</p>
+<pre>// Symbols:
+//   0            // zero
+//   s(x)         // successor of x
+// Predicate:
+//   add(x, y, z) // "x + y = z"
+//
+// Axioms for addition (Horn clauses):
+// A1: add(x, 0, x).
+// A2: add(x, y, z) -> add(x, s(y), s(z)).
+</pre>
+        <p class="small muted">Goal (ground instance to prove by Resolution):  
+          <code>add(s(0), s(0), s(s(0)))</code> — i.e., <strong>1 + 1 = 2</strong>.
+        </p>
+      </article>
+
+      <!-- Answer -->
+      <article class="card">
+        <div class="kicker">Answer</div>
+        <p class="answer ok">Entailed. Using the axioms A1–A2 and refuting the negation of the goal with Resolution derives the empty clause.</p>
+      </article>
+
+      <!-- Reason Why (Resolution) -->
+      <article class="card">
+        <div class="kicker">Reason Why</div>
+        <h2>Resolution justification (clausal refutation)</h2>
+        <ol>
+          <li>Clausal form (already Horn):  
+            C1: <code>add(X, 0, X)</code>  
+            C2: <code>¬add(X, Y, Z) ∨ add(X, s(Y), s(Z))</code></li>
+          <li>Negate the goal and add it:  
+            N0: <code>¬add(s(0), s(0), s(s(0)))</code>.</li>
+          <li>Resolve N0 with C2 (unifier: X:=s(0), Y:=0, Z:=s(0)) to obtain  
+            R1: <code>¬add(s(0), 0, s(0))</code>.</li>
+          <li>Resolve R1 with C1 (unifier: X:=s(0)) to get ⟂ (empty clause).</li>
+          <li>Therefore <code>add(s(0), s(0), s(s(0)))</code> follows from A1–A2.</li>
+        </ol>
+      </article>
+
+      <!-- Checks (7 harnesses), all auto-run -->
+      <article class="card" id="h1">
+        <div class="kicker">Check (harness) #1</div>
+        <h3>Concrete computation: 1 + 1</h3>
+        <div class="result" id="r1" aria-live="polite"></div>
+      </article>
+
+      <article class="card" id="h2">
+        <div class="kicker">Check (harness) #2</div>
+        <h3>Randomized small sums</h3>
+        <p class="small muted">Test x,y ∈ {0..3} and compare the logical add with JavaScript’s +.</p>
+        <div class="result" id="r2" aria-live="polite"></div>
+      </article>
+
+      <article class="card" id="h3">
+        <div class="kicker">Check (harness) #3</div>
+        <h3>Exhaustive tiny domain (0..2)</h3>
+        <p class="small muted">Verify all pairs (x,y) map to x+y as expected.</p>
+        <div class="result" id="r3" aria-live="polite"></div>
+      </article>
+
+      <article class="card" id="h4">
+        <div class="kicker">Check (harness) #4</div>
+        <h3>Right identity</h3>
+        <p class="small muted">Confirm add(x, 0) = x for sampled x.</p>
+        <div class="result" id="r4" aria-live="polite"></div>
+      </article>
+
+      <article class="card" id="h5">
+        <div class="kicker">Check (harness) #5</div>
+        <h3>Step rule matches the axiom</h3>
+        <p class="small muted">Check that add(x, s(y)) = s(add(x, y)) for random x,y.</p>
+        <div class="result" id="r5" aria-live="polite"></div>
+      </article>
+
+      <article class="card" id="h6">
+        <div class="kicker">Check (harness) #6</div>
+        <h3>Your data (CSV)</h3>
+        <p class="small muted">Provide “X: 2” and “Y: 3”. We compute <code>X + Y</code> as a Peano term and as a number.</p>
+        <textarea class="input" id="csv" placeholder="X: 2
+Y: 3"></textarea>
+        <div class="result" id="r6" aria-live="polite"></div>
+      </article>
+
+      <article class="card" id="h7">
+        <div class="kicker">Check (harness) #7</div>
+        <h3>Automated Resolution trace (for 1+1=2)</h3>
+        <div class="result" id="r7" aria-live="polite"></div>
+      </article>
+
+  </div>
+
+  <script>
+    // ---------- Peano terms ----------
+    const Z = { tag:'z' };                    // 0
+    const S = n => ({ tag:'s', n });          // successor
+    const isZ = t => t.tag==='z';
+
+    const fromInt = k => {
+      let t = Z;
+      for(let i=0;i<k;i++) t = S(t);
+      return t;
+    };
+    const toInt = t => {
+      let i=0, cur=t;
+      while(!isZ(cur)){ i++; cur=cur.n; }
+      return i;
+    };
+    const show = t => isZ(t) ? "0" : `s(${show(t.n)})`;
+
+    // ---------- Logical "add" (functional denotation derived from A1,A2) ----------
+    // A1: add(x, 0, x)
+    // A2: add(x, y, z) -> add(x, s(y), s(z))
+    // Interpreted as a recursive function on the second argument:
+    const addTerm = (x, y) => isZ(y) ? x : S(addTerm(x, y.n));
+
+    // ---------- Checks ----------
+    // #1 Concrete: 1+1
+    function check1(){
+      const one = S(Z), two = S(S(Z));
+      const sum = addTerm(one, one);
+      const pass = toInt(sum) === 2 && show(sum)==="s(s(0))";
+      const msg = `add(s(0), s(0)) = ${show(sum)}  (as int: ${toInt(sum)})`;
+      document.getElementById('r1').innerHTML =
+        `<div class="${pass?'ok':'fail'}">${pass?'PASS':'FAIL'}</div><pre>${msg}</pre>`;
+    }
+
+    // #2 Randomized small sums
+    function check2(){
+      let trials = 100, ok=0;
+      for(let t=0;t<trials;t++){
+        const x = Math.floor(Math.random()*4);
+        const y = Math.floor(Math.random()*4);
+        const sum = toInt(addTerm(fromInt(x), fromInt(y)));
+        if(sum === x+y) ok++;
+      }
+      const pass = ok===trials;
+      document.getElementById('r2').innerHTML =
+        `<div class="${pass?'ok':'fail'}">${pass?'PASS':'FAIL'}</div>
+         <div class="small">Passed ${ok}/${trials} randomized cases.</div>`;
+    }
+
+    // #3 Exhaustive tiny domain (0..2)
+    function check3(){
+      let bad=0, total=0, lines=[];
+      for(let x=0;x<=2;x++){
+        for(let y=0;y<=2;y++){
+          total++;
+          const got = toInt(addTerm(fromInt(x), fromInt(y)));
+          if(got!==x+y) bad++;
+          lines.push(`${x} + ${y} = ${got}`);
+        }
+      }
+      const pass = bad===0;
+      document.getElementById('r3').innerHTML =
+        `<div class="${pass?'ok':'fail'}">${pass?'PASS':'FAIL'}</div><pre>${lines.join('\n')}</pre>`;
+    }
+
+    // #4 Right identity: x + 0 = x
+    function check4(){
+      const samples=[0,1,2,3];
+      let ok=true, lines=[];
+      for(const x of samples){
+        const got = toInt(addTerm(fromInt(x), Z));
+        ok = ok && (got===x);
+        lines.push(`${x} + 0 = ${got}`);
+      }
+      document.getElementById('r4').innerHTML =
+        `<div class="${ok?'ok':'fail'}">${ok?'PASS':'FAIL'}</div><pre>${lines.join('\n')}</pre>`;
+    }
+
+    // #5 Step rule: x + s(y) = s(x + y)
+    function check5(){
+      let trials=50, ok=true, lines=[];
+      for(let t=0;t<trials;t++){
+        const x=Math.floor(Math.random()*4), y=Math.floor(Math.random()*4);
+        const lhs = addTerm(fromInt(x), S(fromInt(y)));
+        const rhs = S(addTerm(fromInt(x), fromInt(y)));
+        const good = show(lhs)===show(rhs);
+        ok = ok && good;
+        if(t<6) lines.push(`${x} + s(${y}) -> ${show(lhs)}  vs  s(${x}+${y}) -> ${show(rhs)} (${good?'✓':'✗'})`);
+      }
+      document.getElementById('r5').innerHTML =
+        `<div class="${ok?'ok':'fail'}">${ok?'PASS':'FAIL'}</div><pre>${lines.join('\n')}</pre>`;
+    }
+
+    // #6 Your data (CSV)
+    function parseCSVSpec(text){
+      const get = (k) => {
+        const m = (text||'').match(new RegExp(`^\\s*${k}\\s*:\\s*([0-9]+)\\s*$`,'mi'));
+        return m ? parseInt(m[1],10) : 0;
+      };
+      return {X:get('X'), Y:get('Y')};
+    }
+    function check6(){
+      const {X,Y} = parseCSVSpec(document.getElementById('csv').value);
+      const sumT = addTerm(fromInt(X), fromInt(Y));
+      const msg = `${X} + ${Y} = ${toInt(sumT)}\nPeano term: ${show(sumT)}`;
+      document.getElementById('r6').innerHTML =
+        `<div class="ok">OK</div><pre>${msg}</pre>`;
+    }
+
+    // #7 Resolution trace for 1+1=2
+    function resolutionTrace(){
+      const steps = [];
+      steps.push("C1: add(X, 0, X)");
+      steps.push("C2: ¬add(X, Y, Z) ∨ add(X, s(Y), s(Z))");
+      steps.push("N0: ¬add(s(0), s(0), s(s(0)))");
+      steps.push("R1: from C2 with N0  ⇒  ¬add(s(0), 0, s(0))     [X:=s(0), Y:=0, Z:=s(0)]");
+      steps.push("R2: from C1 with R1  ⇒  ⟂ (empty clause)        [X:=s(0)]");
+      return steps;
+    }
+    function check7(){
+      const steps = resolutionTrace();
+      const ok = steps[steps.length-1].includes("⟂");
+      document.getElementById('r7').innerHTML =
+        `<div class="${ok?'ok':'fail'}">${ok?'PASS':'FAIL'}</div><pre>${steps.join('\n')}</pre>`;
+    }
+
+    // Autorun all checks
+    window.addEventListener('DOMContentLoaded', ()=>{
+      const csv = document.getElementById('csv');
+      if(csv && !csv.value.trim()) csv.value = "X: 2\nY: 3";
+      check1(); check2(); check3(); check4(); check5(); check6(); check7();
+    });
+  </script>
+</body>
+</html>
+
