@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chinese Remainder Theorem</title>
+  <style>
+    :root{
+      --bg:#f7f9fc; --card:#ffffff; --text:#0f172a; --muted:#475569; --accent:#2563eb;
+      --good:#16a34a; --bad:#dc2626; --border:#e2e8f0; --chip:#eef2ff; --code:#111827;
+    }
+    html, body { background: var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; }
+    * { box-sizing: border-box; }
+    .container{ max-width: 960px; margin: 24px auto; padding: 0 16px; }
+    header{ display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    h1{ font-size: 1.8rem; margin: 0; letter-spacing: -0.02em; }
+    .subtitle{ color: var(--muted); }
+    .card{ background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 6px 20px rgba(2,6,23,0.05); }
+    .stack{ display: flex; flex-direction: column; gap: 16px; }
+    .pill{ display:inline-flex; align-items:center; gap:8px; padding:4px 10px; background:var(--chip); color:#1e3a8a; border-radius:999px; font-size:12px; font-weight:600; border:1px solid #c7d2fe; }
+    .row{ display:flex; gap:12px; align-items:center; }
+    input[type="number"]{ width: 120px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: #fbfdff; }
+    button{ appearance:none; border:none; background:var(--accent); color:white; padding:10px 14px; border-radius: 12px; font-weight:700; cursor:pointer; box-shadow: 0 4px 14px rgba(37,99,235,.25); }
+    button.secondary{ background:#0ea5e9; }
+    button.ghost{ background:transparent; color:var(--accent); border:1px solid var(--accent); }
+    button:disabled{ opacity:.6; cursor:not-allowed; }
+    .grid{ display:grid; grid-template-columns: 1fr; gap: 16px; }
+    .muted{ color: var(--muted); }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; color: var(--code); }
+    .kpi{ display:flex; gap: 16px; flex-wrap: wrap; }
+    .kpi .card{ padding: 12px 14px; }
+    .k{ font-weight:700; }
+    .v{ font-variant-numeric: tabular-nums; }
+    .list{ display:flex; flex-direction: column; gap: 12px; }
+    .term{ padding:10px; background:#f8fafc; border:1px dashed var(--border); border-radius:12px; }
+    details{ border:1px solid var(--border); border-radius: 12px; padding: 10px 12px; background:#fafcff; }
+    details summary{ cursor: pointer; font-weight:700; color:#0b3eaa; }
+    .badge{ padding:2px 8px; border-radius:999px; font-weight:700; font-size:12px; }
+    .ok{ background:#dcfce7; color:#166534; border:1px solid #86efac; }
+    .fail{ background:#fee2e2; color:#991b1b; border:1px solid #fecaca; }
+    .harness{ border-left: 6px solid #c7d2fe; }
+    .h-title{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .small{ font-size: 12px; }
+    code{ background:#f1f5f9; padding:2px 6px; border-radius:6px; }
+    footer{ color: var(--muted); font-size: 12px; text-align:center; margin: 16px 0 40px; }
+    .divider{ height:1px; background: var(--border); margin: -4px 0 8px; }
+  </style>
+</head>
+<body>
+  <div class="container stack">
+    <header class="card">
+      <div class="row" style="justify-content:space-between; align-items:flex-start;">
+        <div>
+          <h1>Chinese Remainder Theorem</h1>
+        </div>
+      </div>
+      <p class="muted">Enter pairwise coprime moduli <em>n<sub>i</sub></em> and residues <em>a<sub>i</sub></em>. This page synthesizes the constructive CRT solution, explains <em>why</em> it works, and verifies the result with a built-in test harness.</p>
+    </header>
+
+    <!-- INPUT PROGRAM (Prompt/Data/Logic) -->
+    <section class="card stack" id="input-card">
+      <h2 style="margin:0">Input</h2>
+      <div class="divider"></div>
+      <div id="pairs" class="stack"></div>
+      <div class="row">
+        <button type="button" id="addPair">+ Add congruence</button>
+        <button type="button" id="solve">Run CRT</button>
+        <button type="button" id="clear">Clear</button>
+      </div>
+      <p class="small muted">Format: x ≡ <span class="mono">a</span> (mod <span class="mono">n</span>), with n ≥ 2 and gcds(n<sub>i</sub>, n<sub>j</sub>) = 1.</p>
+    </section>
+
+    <!-- OUTPUT: ANSWER + REASON WHY + CHECK -->
+    <section class="card stack" id="output-card" aria-live="polite">
+      <h2 style="margin:0">Output</h2>
+      <div class="divider"></div>
+
+      <!-- Answer -->
+      <section class="stack">
+        <div class="kpi">
+          <div class="card">
+            <div class="k">Answer</div>
+            <div id="answer" class="v mono">—</div>
+          </div>
+          <div class="card">
+            <div class="k">Modulus Π n<sub>i</sub></div>
+            <div id="bigN" class="v mono">—</div>
+          </div>
+          <div class="card">
+            <div class="k">Witness terms Σ a<sub>i</sub>M<sub>i</sub>y<sub>i</sub></div>
+            <div id="termsCount" class="v mono">—</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reason Why (mathematical English) -->
+      <section class="stack">
+        <h3 style="margin:0">Reason Why</h3>
+        <p id="reason" class="muted" style="line-height:1.6">
+          Let <span class="mono">n<sub>1</sub>,…,n<sub>k</sub></span> be pairwise coprime and set <span class="mono">N = ∏ n<sub>i</sub></span>.<br>
+          For each <span class="mono">i</span>, define <span class="mono">M<sub>i</sub> = N / n<sub>i</sub></span> and choose <span class="mono">y<sub>i</sub></span> with
+          <span class="mono">M<sub>i</sub>·y<sub>i</sub> ≡ 1 (mod n<sub>i</sub>)</span> (possible since <span class="mono">gcd(M<sub>i</sub>, n<sub>i</sub>) = 1</span>).<br>
+          Consider <span class="mono">x = Σ a<sub>i</sub>M<sub>i</sub>y<sub>i</sub> (mod N)</span>.<br>
+          For fixed <span class="mono">i</span>, we have <span class="mono">M<sub>j</sub> ≡ 0 (mod n<sub>i</sub>)</span> when <span class="mono">j ≠ i</span>, hence
+          <span class="mono">x ≡ a<sub>i</sub>M<sub>i</sub>y<sub>i</sub> ≡ a<sub>i</sub> (mod n<sub>i</sub>)</span>.<br>
+          Thus the system is satisfied.<br>
+          If <span class="mono">x</span> and <span class="mono">x′</span> both satisfy all congruences, then <span class="mono">n<sub>i</sub> | (x − x′)</span>
+          for every <span class="mono">i</span>, so <span class="mono">N | (x − x′)</span>.<br>
+          Therefore the solution is unique modulo <span class="mono">N</span>.
+        </p>
+        <details>
+          <summary>Show constructive terms</summary>
+          <div id="terms" class="list"></div>
+        </details>
+      </section>
+
+      <!-- Check (harness) for the user's input -->
+      <section class="stack">
+        <h3 style="margin:0">Check (harness)</h3>
+        <div id="checks" class="list"></div>
+      </section>
+    </section>
+
+    <!-- PRELOADED HARNESS CASES -->
+    <section class="card stack harness" id="preloaded">
+      <div class="h-title">
+        <h2 style="margin:0">Preloaded Checks (harness)</h2>
+        <div class="row">
+          <button id="runAll">Run all</button>
+          <button class="ghost" id="clearHarness">Clear results</button>
+        </div>
+      </div>
+      <p class="small muted">Each block computes the constructive CRT solution, explains it, and verifies all congruences. We include a negative case to show failure on non‑coprime moduli.</p>
+      <div id="harnesses" class="stack"></div>
+    </section>
+
+    <footer>
+      <div>Built as a self‑checking artifact: program → <em>Answer</em>, <em>Reason Why</em>, <em>Check</em>.</div>
+      <div class="small">This page performs only on‑device computation.</div>
+    </footer>
+  </div>
+
+<script>
+  // ---------- Utilities (BigInt) ----------
+  const ZERO = 0n, ONE = 1n;
+  const toBig = (x) => {
+    try { return BigInt(x); } catch { return null; }
+  };
+  const mod = (a, m) => { a = a % m; return a >= 0n ? a : a + m; };
+  const gcd = (a, b) => { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) { [a, b] = [b, a % b]; } return a; };
+  const egcd = (a, b) => {
+    // returns [g, x, y] s.t. ax + by = g = gcd(a,b)
+    let x0 = 1n, y0 = 0n, x1 = 0n, y1 = 1n;
+    while (b) { const q = a / b; [a, b] = [b, a - q * b]; [x0, x1] = [x1, x0 - q * x1]; [y0, y1] = [y1, y0 - q * y1]; }
+    return [a, x0, y0];
+  };
+  const invMod = (a, m) => {
+    a = mod(a, m); const [g, x] = egcd(a, m); if (g !== 1n) return null; return mod(x, m);
+  };
+
+  // ---------- DOM helpers ----------
+  const el = (tag, attrs = {}, children = []) => {
+    const node = document.createElement(tag);
+    Object.entries(attrs).forEach(([k,v]) => {
+      if (k === 'class') node.className = v; else if (k === 'html') node.innerHTML = v; else if (k.startsWith('on')) node.addEventListener(k.slice(2).toLowerCase(), v); else node.setAttribute(k, v);
+    });
+    children.forEach(c => node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c));
+    return node;
+  };
+
+  // ---------- Input rows ----------
+  const pairsDiv = document.getElementById('pairs');
+  function addPair(aVal = '', nVal = ''){
+    const row = el('div', { class: 'row' });
+    const a = el('input', { type: 'number', placeholder: 'a (residue)', inputmode: 'numeric', value: aVal });
+    const n = el('input', { type: 'number', placeholder: 'n (modulus)', inputmode: 'numeric', value: nVal, min: '2' });
+    const rm = el('button', { class: 'ghost' }, ['Remove']);
+    rm.onclick = () => row.remove();
+    row.append(a, n, rm);
+    pairsDiv.appendChild(row);
+  }
+
+  // Seed with a classic example
+  addPair(2, 3); addPair(3, 5); addPair(2, 7);
+
+  document.getElementById('addPair').onclick = () => addPair();
+  document.getElementById('clear').onclick = () => { pairsDiv.innerHTML = ''; document.getElementById('answer').textContent = '—'; document.getElementById('bigN').textContent = '—'; document.getElementById('termsCount').textContent = '—'; document.getElementById('terms').innerHTML = ''; document.getElementById('checks').innerHTML = ''; };
+
+  // ---------- Core CRT ----------
+  function computeCRT(pairs){
+    // pairs: [{a: BigInt, n: BigInt}]
+    if (!pairs.length) return { ok:false, error:'No congruences provided.' };
+    for (const {a, n} of pairs){ if (n === null || n < 2n || a === null) return { ok:false, error:'All a, n must be integers with n ≥ 2.' }; }
+    // pairwise coprime check
+    for (let i=0;i<pairs.length;i++) for (let j=i+1;j<pairs.length;j++){
+      if (gcd(pairs[i].n, pairs[j].n) !== 1n) return { ok:false, error:`Moduli are not pairwise coprime: gcd(${pairs[i].n}, ${pairs[j].n}) ≠ 1.` };
+    }
+    const N = pairs.reduce((acc,{n})=>acc*n, 1n);
+    let x = 0n; const terms = [];
+    for (const {a, n} of pairs){
+      const Mi = N / n;
+      const yi = invMod(Mi % n, n);
+      if (yi === null) return { ok:false, error:`No inverse for Mᵢ mod nᵢ (this should not happen when moduli are coprime).` };
+      const term = a * Mi * yi;
+      terms.push({ a, n, Mi, yi, term });
+      x += term;
+    }
+    x = mod(x, N);
+    return { ok:true, x, N, terms };
+  }
+
+  function readPairsFromUI(){
+    const rows = [...pairsDiv.querySelectorAll('.row')];
+    const pairs = [];
+    for (const r of rows){
+      const [aIn, nIn] = r.querySelectorAll('input');
+      const a = toBig(aIn.value.trim()); const n = toBig(nIn.value.trim());
+      if (a !== null && n !== null) pairs.push({ a: mod(a, n), n });
+    }
+    return pairs;
+  }
+
+  function renderResult(result, checksDiv){
+    const ans = document.getElementById('answer');
+    const bigN = document.getElementById('bigN');
+    const termsCount = document.getElementById('termsCount');
+    const termsList = document.getElementById('terms');
+
+    if (!result.ok){
+      ans.textContent = '—'; bigN.textContent = '—'; termsCount.textContent = '—'; termsList.innerHTML = '';
+      const row = el('div', { class:'term' }, [ el('span', { class:'badge fail' }, ['FAIL']), document.createTextNode(' ' + result.error) ]);
+      (checksDiv || document.getElementById('checks')).replaceChildren(row);
+      return;
+    }
+
+    // Fill KPIs
+    ans.textContent = `x ≡ ${result.x.toString()} (mod ${result.N.toString()})`; 
+    bigN.textContent = result.N.toString();
+    termsCount.textContent = `${result.terms.length} terms`;
+
+    // Terms list
+    termsList.replaceChildren(...result.terms.map((t,i) => el('div', { class:'term mono' }, [
+      `i=${i+1}: aᵢ=${t.a} · Mᵢ=${t.Mi} · yᵢ=${t.yi}  ⇒  aᵢ·Mᵢ·yᵢ = ${t.term}`
+    ])));
+
+    // Check congruences
+    const cong = el('div', { class:'list' });
+    let allPass = true;
+    for (const {a, n, Mi, yi} of result.terms){
+      const lhs = mod(result.x, n);
+      const ok = lhs === mod(a, n);
+      allPass &&= ok;
+      const line = el('div', { class:'row' });
+      line.append(
+        el('span', { class: 'badge ' + (ok ? 'ok' : 'fail') }, [ ok ? 'PASS' : 'FAIL' ]),
+        el('span', { class:'mono' }, [`x mod ${n} = ${lhs}`]),
+        document.createTextNode('  →  expected '),
+        el('span', { class:'mono' }, [a.toString()]),
+        document.createTextNode('  |  Mᵢ='), el('span', { class:'mono' }, [Mi.toString()]), document.createTextNode(', yᵢ='), el('span', { class:'mono' }, [yi.toString()])
+      );
+      cong.appendChild(line);
+    }
+    const uniq = el('div', { class:'row' });
+    uniq.append(el('span', { class:'badge ok' }, ['FACT']), el('span', { class:'small muted' }, [`Uniqueness: any two solutions differ by a multiple of N=${result.N}.`]));
+
+    (checksDiv || document.getElementById('checks')).replaceChildren(cong, uniq);
+  }
+
+  document.getElementById('solve').onclick = () => {
+    const pairs = readPairsFromUI();
+    const res = computeCRT(pairs);
+    renderResult(res);
+  };
+
+  // ---------- Preloaded harnesses (≥ 6) ----------
+  const harnessList = [
+    { title: 'Classic: (2 mod 3, 3 mod 5, 2 mod 7) ⇒ 23 mod 105', pairs: [[2,3],[3,5],[2,7]] },
+    { title: 'Four primes: (3,5,7,11) with (1,2,3,4)', pairs: [[1,3],[2,5],[3,7],[4,11]] },
+    { title: 'Five primes: residues (1,2,3,4,5)', pairs: [[1,2],[2,3],[3,5],[4,7],[5,11]] },
+    { title: 'Larger coprimes: (12,5), (25,7), (49,11)', pairs: [[5,12],[7,25],[11,49]] },
+    { title: 'Two large primes: (56 mod 101, 77 mod 103)', pairs: [[56,101],[77,103]] },
+    { title: 'Mixed: (5 mod 8, 4 mod 9, 6 mod 7)', pairs: [[5,8],[4,9],[6,7]] },
+    { title: 'Six moduli: (12,11), (6,7), (4,5), (2,3), (1,2), (9,17)', pairs: [[12,13],[6,7],[4,5],[2,3],[1,2],[9,17]] },
+    { title: 'Negative test (should fail): (5 mod 6, 7 mod 8)', pairs: [[5,6],[7,8]], negative:true },
+  ];
+
+  const harnessDiv = document.getElementById('harnesses');
+
+  function makeHarnessCard(h){
+    const card = el('section', { class:'card stack' });
+    const head = el('div', { class:'h-title' }, [ el('div', {}, [ el('strong',{},[h.title]) ]), el('div', { class:'small muted' }, ['Check (harness)']) ]);
+    const kpis = el('div', { class:'kpi' });
+    const ans = el('div', { class:'card' }); ans.append(el('div', { class:'k' }, ['Answer']), el('div', { class:'v mono' }, ['—']));
+    const Ncard = el('div', { class:'card' }); Ncard.append(el('div', { class:'k' }, ['Modulus Π nᵢ']), el('div', { class:'v mono' }, ['—']));
+    const termsCard = el('div', { class:'card' }); termsCard.append(el('div', { class:'k' }, ['Witness terms']), el('div', { class:'v mono' }, ['—']));
+    kpis.append(ans, Ncard, termsCard);
+
+    const reason = el('p', { class:'muted small' }, ['Because each witness term ', el('code',{},['aᵢ·Mᵢ·yᵢ']), ' collapses to ', el('code',{},['aᵢ (mod nᵢ)']), ' and to 0 mod all other moduli, the sum matches all congruences; uniqueness holds modulo ', el('code',{},['N']), '.']);
+    const checks = el('div', { class:'list' });
+    const run = el('button', { class:'secondary' }, ['Run']);
+
+    run.onclick = () => {
+      const pairs = h.pairs.map(([a,n]) => ({ a: BigInt(a), n: BigInt(n) }));
+      const res = computeCRT(pairs);
+      if (!res.ok){
+        ans.querySelector('.v').textContent = '—';
+        Ncard.querySelector('.v').textContent = '—';
+        termsCard.querySelector('.v').textContent = '—';
+        checks.replaceChildren(el('div', { class:'term' }, [ el('span', { class: 'badge fail' }, ['FAIL']), document.createTextNode(' ' + res.error) ]));
+        return;
+      }
+      ans.querySelector('.v').textContent = `x ≡ ${res.x} (mod ${res.N})`;
+      Ncard.querySelector('.v').textContent = res.N.toString();
+      termsCard.querySelector('.v').textContent = `${res.terms.length} terms`;
+
+      // per-congruence checks
+      const list = [];
+      for (const {a, n} of res.terms){
+        const lhs = (res.x % n + n) % n;
+        const ok = lhs === (a % n + n) % n;
+        list.push(el('div', { class:'row' }, [ el('span', { class:'badge ' + (ok ? 'ok':'fail') }, [ ok ? 'PASS':'FAIL' ]), el('span', { class:'mono' }, [`x mod ${n} = ${lhs}`]), document.createTextNode(' → expected '), el('span', { class:'mono' }, [a.toString()]) ]));
+      }
+      list.push(el('div', { class:'row' }, [ el('span', { class:'badge ok' }, ['FACT']), el('span', { class:'small muted' }, [`Any two solutions differ by a multiple of N=${res.N}.`]) ]));
+      checks.replaceChildren(...list);
+    };
+
+    if (h.negative){
+      const warn = el('div', { class:'small muted' }, ['This case is intentionally non‑coprime and should report a failure.']);
+      card.append(head, kpis, reason, warn, checks, run);
+    } else {
+      card.append(head, kpis, reason, checks, run);
+    }
+    return card;
+  }
+
+  harnessList.forEach(h => harnessDiv.appendChild(makeHarnessCard(h)));
+  document.getElementById('runAll').onclick = () => {
+    const buttons = [...harnessDiv.querySelectorAll('button.secondary')];
+    buttons.forEach(b => b.click());
+  };
+  document.getElementById('clearHarness').onclick = () => {
+    harnessDiv.querySelectorAll('.list').forEach(div => div.replaceChildren());
+    harnessDiv.querySelectorAll('.v').forEach(div => div.textContent = '—');
+  };
+</script>
+</body>
+</html>
+
