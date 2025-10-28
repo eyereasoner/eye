@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wilson's Theorem</title>
+  <style>
+    :root{
+      --bg:#f7f9fc; --card:#ffffff; --text:#0f172a; --muted:#475569; --accent:#2563eb;
+      --good:#16a34a; --bad:#dc2626; --border:#e2e8f0; --chip:#eef2ff; --code:#111827;
+    }
+    html, body { background: var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; }
+    * { box-sizing: border-box; }
+    .container{ max-width: 960px; margin: 24px auto; padding: 0 16px; }
+    header{ display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    h1{ font-size: 1.8rem; margin: 0; letter-spacing: -0.02em; }
+    .subtitle{ color: var(--muted); }
+    .card{ background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 6px 20px rgba(2,6,23,0.05); }
+    .stack{ display: flex; flex-direction: column; gap: 16px; }
+    .pill{ display:inline-flex; align-items:center; gap:8px; padding:4px 10px; background:var(--chip); color:#1e3a8a; border-radius:999px; font-size:12px; font-weight:600; border:1px solid #c7d2fe; }
+    .row{ display:flex; gap:12px; align-items:center; min-width:0; }
+    .muted{ color: var(--muted); }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; color: var(--code); word-break: break-word; overflow-wrap: anywhere; white-space: normal; }
+    .kpi{ display:flex; gap: 16px; flex-wrap: wrap; }
+    .kpi .card{ padding: 12px 14px; }
+    .k{ font-weight:700; }
+    .v{ font-variant-numeric: tabular-nums; word-break: break-word; overflow-wrap: anywhere; }
+    .list{ display:flex; flex-direction: column; gap: 12px; }
+    .term{ padding:10px; background:#f8fafc; border:1px dashed var(--border); border-radius:12px; }
+    details{ border:1px solid var(--border); border-radius: 12px; padding: 10px 12px; background:#fafcff; }
+    details summary{ cursor: pointer; font-weight:700; color:#0b3eaa; }
+    .badge{ padding:2px 8px; border-radius:999px; font-weight:700; font-size:12px; border:1px solid #cbd5e1; background:#f1f5f9; color:#0f172a; }
+    .ok{ background:#dcfce7; color:#166534; border:1px solid #86efac; }
+    .fail{ background:#fee2e2; color:#991b1b; border:1px solid #fecaca; }
+    .harness{ border-left: 6px solid #c7d2fe; }
+    .h-title{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .small{ font-size: 12px; }
+    code{ background:#f1f5f9; padding:2px 6px; border-radius:6px; }
+    footer{ color: var(--muted); font-size: 12px; text-align:center; margin: 16px 0 40px; }
+    .divider{ height:1px; background: var(--border); margin: -4px 0 8px; }
+
+    /* INPUT: compact layout */
+    .input-grid{ display:flex; flex-wrap: nowrap; gap:10px; }
+    .field{ display:flex; align-items:center; gap:6px; }
+    input.short{ width:120px; padding:6px 8px; border: 1px solid var(--border); border-radius:10px; background:#fbfdff; }
+    .buttons-row{ display:flex; gap:8px; flex-wrap: wrap; }
+    @media (max-width: 560px){ .input-grid{ flex-wrap: wrap; } }
+  </style>
+</head>
+<body>
+  <div class="container stack">
+    <header class="card stack">
+      <div class="row" style="justify-content:space-between; align-items:flex-start; width:100%">
+        <div>
+          <h1>Wilson's theorem</h1>
+        </div>
+      </div>
+      <span class="badge">Problem: For n ≥ 2, W(n) = (n−1)! mod n</span>
+      <p class="muted">Wilson's theorem says: <strong>n is prime</strong> iff <span class="mono">(n−1)! ≡ −1 (mod n)</span>. This page computes the residue, explains why the theorem holds, and verifies it with harness tests.</p>
+    </header>
+
+    <!-- INPUT -->
+    <section class="card stack" id="input-card">
+      <h2 style="margin:0">Input</h2>
+      <div class="divider"></div>
+      <div class="row input-grid">
+        <div class="field"><label class="mono" for="nInput">n (integer ≥ 2)</label><input class="short" id="nInput" type="number" min="2" step="1" value="11" /></div>
+      </div>
+      <div class="row buttons-row">
+        <button type="button" id="solve">Evaluate</button>
+        <button type="button" id="clear">Clear</button>
+      </div>
+      <p class="small muted">We compute <span class="mono">(n−1)! mod n</span> exactly using modular multiplication. If the value equals <span class="mono">n−1</span> (which is <span class="mono">−1 mod n</span>), Wilson predicts that <span class="mono">n</span> is prime. We also run a basic trial‑division primality cross‑check for modest <span class="mono">n</span>.</p>
+    </section>
+
+    <!-- OUTPUT -->
+    <section class="card stack" id="output-card" aria-live="polite">
+      <h2 style="margin:0">Output</h2>
+      <div class="divider"></div>
+
+      <!-- Answer KPIs -->
+      <section class="stack">
+        <div class="kpi">
+          <div class="card">
+            <div class="k">Residue</div>
+            <div id="residue" class="v mono">—</div>
+          </div>
+          <div class="card">
+            <div class="k">Wilson verdict</div>
+            <div id="verdict" class="v mono">—</div>
+          </div>
+          <div class="card">
+            <div class="k">n prime? (trial)</div>
+            <div id="primeTrial" class="v mono">—</div>
+          </div>
+          <div class="card">
+            <div class="k">Loops executed</div>
+            <div id="loops" class="v mono">—</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reason Why (mathematical English) -->
+      <section class="stack">
+        <h3 style="margin:0">Reason Why</h3>
+        <div class="list">
+          <div class="term">
+            <strong>(⇒) If p is prime then (p−1)! ≡ −1 (mod p).</strong>
+            In the multiplicative group <span class="mono">(ℤ/pℤ)^×</span>, every element <span class="mono">a</span> has a unique inverse <span class="mono">a^{-1}</span>. All elements
+            <span class="mono">2,3,…,p−2</span> can be paired as <span class="mono">a·a^{-1} ≡ 1 (mod p)</span>. The only self‑inverse elements are <span class="mono">1</span> and <span class="mono">−1</span>,
+            so the product <span class="mono">(p−1)! ≡ 1·(−1) ≡ −1 (mod p)</span>.
+          </div>
+          <div class="term">
+            <strong>(⇐) If (n−1)! ≡ −1 (mod n) then n is prime.</strong>
+            If <span class="mono">n</span> were composite, pick a proper divisor <span class="mono">d</span> with <span class="mono">1&lt;d&lt;n</span>. Then <span class="mono">d | (n−1)!</span>,
+            hence <span class="mono">(n−1)! ≡ 0 (mod d)</span>. But congruence modulo <span class="mono">n</span> would force <span class="mono">(n−1)! ≡ −1 (mod d)</span>, a contradiction. Thus <span class="mono">n</span> must be prime.
+          </div>
+          <div class="term">
+            <strong>Edge cases.</strong> The theorem is stated for <span class="mono">n ≥ 2</span>. For <span class="mono">n=2</span>, we have <span class="mono">1!≡1≡−1 (mod 2)</span>, consistent with the claim.
+          </div>
+        </div>
+        <details>
+          <summary>Show inverse pairs (prime n only)</summary>
+          <div id="pairs" class="list mono"></div>
+        </details>
+      </section>
+
+      <!-- Check (harness) for the user's input -->
+      <section class="stack">
+        <h3 style="margin:0">Check (harness)</h3>
+        <div id="checks" class="list"></div>
+      </section>
+    </section>
+
+    <!-- PRELOADED HARNESS CASES (≥ 8) -->
+    <section class="card stack harness" id="preloaded">
+      <div class="h-title">
+        <h2 style="margin:0">Preloaded Checks (harness)</h2>
+        <div class="row">
+          <button id="runAll">Run all</button>
+          <button class="ghost" id="clearHarness">Clear results</button>
+        </div>
+      </div>
+      <p class="small muted">Each block computes <span class="mono">(n−1)! mod n</span> and checks Wilson's congruence. We also compare with a trial‑division primality test for small n.</p>
+      <div id="harnesses" class="stack"></div>
+    </section>
+
+    <footer>
+      <div>Built as a self‑checking artifact: program → <em>Answer</em>, <em>Reason Why</em>, <em>Check</em>.</div>
+      <div class="small">This page performs only on‑device computation.</div>
+    </footer>
+  </div>
+
+<script>
+  // ---------- BigInt helpers ----------
+  const ZERO = 0n, ONE = 1n;
+  const toBig = (x) => { try { return BigInt(x); } catch { return null; } };
+  const mod = (a, m) => { a %= m; return a >= 0n ? a : a + m; };
+
+  function factorialMod(n){
+    // returns {res, loops}
+    let res = 1n; let loops = 0n;
+    for (let i = 2n; i <= n - 1n; i++){
+      res = (res * i) % n; loops++;
+      if (res === 0n) break; // early exit
+    }
+    return { res, loops };
+  }
+
+  function isPrimeTrial(n){
+    if (n < 2n) return false;
+    if (n % 2n === 0n) return n === 2n;
+    for (let d = 3n; d * d <= n; d += 2n){ if (n % d === 0n) return false; }
+    return true;
+  }
+
+  // inverse pairs for prime n (limited to keep UI light)
+  function inversePairsPrime(p, limit = 60){
+    const out = [];
+    const upto = p - 2n; // 2..p-2
+    const maxShow = upto < BigInt(limit) ? upto : BigInt(limit);
+    for (let a = 2n; a <= p - 2n && a - 2n < maxShow; a++){
+      // compute inverse via extended gcd (but mod prime, use Fermat: a^{p-2} mod p would be heavy). We'll just scan small range using brute force for display.
+      // For UI, we can show the paired element a^{-1} = (p - a)^{-1}? Not directly.
+      // We'll find inv by extended gcd quickly.
+      const inv = invMod(a, p);
+      const pair = a <= inv ? `${a}·${inv} ≡ 1 (mod ${p})` : `${inv}·${a} ≡ 1 (mod ${p})`;
+      out.push(pair);
+    }
+    return out;
+  }
+
+  // Extended GCD and inverse mod
+  function egcd(a, b){
+    let x0 = 1n, y0 = 0n, x1 = 0n, y1 = 1n;
+    while (b){ const q = a / b; [a, b] = [b, a - q*b]; [x0, x1] = [x1, x0 - q*x1]; [y0, y1] = [y1, y0 - q*y1]; }
+    return [a, x0, y0];
+  }
+  function invMod(a, m){ a = mod(a, m); const [g, x] = egcd(a, m); if (g !== 1n) return null; return mod(x, m); }
+
+  // ---------- UI helpers ----------
+  const el = (tag, attrs = {}, children = []) => {
+    const node = document.createElement(tag);
+    Object.entries(attrs).forEach(([k,v]) => {
+      if (k === 'class') node.className = v; else if (k === 'html') node.innerHTML = v; else if (k.startsWith('on')) node.addEventListener(k.slice(2).toLowerCase(), v); else node.setAttribute(k, v);
+    });
+    children.forEach(c => node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c));
+    return node;
+  };
+
+  function evaluate(){
+    const nVal = toBig(document.getElementById('nInput').value.trim());
+    const residueDiv = document.getElementById('residue');
+    const verdictDiv = document.getElementById('verdict');
+    const primeDiv = document.getElementById('primeTrial');
+    const loopsDiv = document.getElementById('loops');
+    const pairsDiv = document.getElementById('pairs');
+
+    if (nVal === null || nVal < 2n){
+      residueDiv.textContent = '—'; verdictDiv.textContent = '—'; primeDiv.textContent = '—'; loopsDiv.textContent = '—'; pairsDiv.replaceChildren();
+      document.getElementById('checks').replaceChildren(el('div', { class:'term' }, [ el('span', { class:'badge fail' }, ['FAIL']), document.createTextNode(' n must be an integer ≥ 2.') ]));
+      return;
+    }
+    const n = nVal;
+
+    const { res, loops } = factorialMod(n);
+    const wilsonOK = res === (n - 1n);
+
+    residueDiv.textContent = `(n−1)! mod n = ${res.toString()}`;
+    verdictDiv.textContent = wilsonOK ? 'PASS: equals n−1 (≡ −1 mod n)' : 'FAIL: not equal to n−1';
+
+    // Trial division (skip if too large)
+    let trialMsg = '';
+    const MAX_TRIAL = 2000000n; // soft cap
+    if (n <= MAX_TRIAL){ trialMsg = isPrimeTrial(n) ? 'prime (trial)' : 'composite (trial)'; }
+    else { trialMsg = 'skipped (n too large)'; }
+    primeDiv.textContent = trialMsg;
+    loopsDiv.textContent = loops.toString();
+
+    // Show inverse pairs if n seems prime and small
+    pairsDiv.replaceChildren();
+    if (n <= 101n && (n <= MAX_TRIAL ? isPrimeTrial(n) : wilsonOK)){
+      const lines = inversePairsPrime(n, 40);
+      if (lines.length){
+        lines.forEach(s => pairsDiv.appendChild(el('div', {}, [s])));
+      } else {
+        pairsDiv.appendChild(el('div', { class:'small muted' }, ['(no pairs to show)']));
+      }
+    }
+
+    renderChecks(n, res, wilsonOK, trialMsg);
+  }
+
+  function renderChecks(n, res, wilsonOK, trialMsg){
+    const checks = document.getElementById('checks');
+    const list = [];
+
+    list.push(row(wilsonOK, 'Wilson congruence', `(n−1)! mod n = ${res}  vs  n−1 = ${n-1n}`));
+
+    // Cross‑check with trial primality (when available)
+    if (trialMsg !== 'skipped (n too large)'){
+      const trialPrime = trialMsg.startsWith('prime');
+      const agree = (wilsonOK === trialPrime);
+      list.push(row(agree, 'Consistency with trial primality', `Wilson says ${wilsonOK?'prime':'not prime'}; trial says ${trialPrime?'prime':'composite'}`));
+    }
+
+    // Simple consequences
+    const edge2 = (n === 2n) ? (res === 1n) : true;
+    list.push(row(edge2, 'Edge n=2', '1! ≡ 1 ≡ −1 (mod 2)'));
+
+    // If n is composite and squarefree? We still should not get n-1 in general.
+    const zeroHint = (res === 0n) ? true : true; // informational
+    list.push(el('div', { class:'row' }, [ el('span', { class:'badge ok' }, ['FACT']), el('span', { class:'small muted' }, ['For composite n, Wilson predicts failure; many composites give residue 0 (e.g., when n has at least two coprime factors).']) ]));
+
+    checks.replaceChildren(...list);
+  }
+
+  const row = (ok, label, msg) => el('div', { class:'row' }, [ el('span', { class:'badge ' + (ok ? 'ok' : 'fail') }, [ ok ? 'PASS' : 'FAIL' ]), el('span', { class:'mono' }, [label]), document.createTextNode(' — '), el('span', { class:'mono' }, [msg]) ]);
+
+  document.getElementById('solve').onclick = evaluate;
+  document.getElementById('clear').onclick = () => {
+    document.getElementById('nInput').value = '11';
+    document.getElementById('residue').textContent = '—';
+    document.getElementById('verdict').textContent = '—';
+    document.getElementById('primeTrial').textContent = '—';
+    document.getElementById('loops').textContent = '—';
+    document.getElementById('pairs').replaceChildren();
+    document.getElementById('checks').replaceChildren();
+  };
+
+  // ---------- Preloaded harnesses (≥ 10 with composites) ----------
+  const harnessList = [
+    { n: 2, title: 'n=2 (prime) ⇒ PASS' },
+    { n: 3, title: 'n=3 (prime) ⇒ PASS' },
+    { n: 5, title: 'n=5 (prime) ⇒ PASS' },
+    { n: 7, title: 'n=7 (prime) ⇒ PASS' },
+    { n: 11, title: 'n=11 (prime) ⇒ PASS' },
+    { n: 13, title: 'n=13 (prime) ⇒ PASS' },
+    { n: 97, title: 'n=97 (prime) ⇒ PASS' },
+    { n: 4, title: 'n=4 (composite) ⇒ FAIL' , negative:true},
+    { n: 6, title: 'n=6 (composite) ⇒ FAIL' , negative:true},
+    { n: 9, title: 'n=9 (composite) ⇒ FAIL' , negative:true},
+    { n: 21, title: 'n=21 (composite) ⇒ FAIL' , negative:true},
+  ];
+
+  const harnessDiv = document.getElementById('harnesses');
+
+  function makeHarnessCard(h){
+    const card = el('section', { class:'card stack' });
+    const head = el('div', { class:'h-title' }, [ el('div', {}, [ el('strong',{},[h.title]) ]), el('div', { class:'small muted' }, ['Check (harness)']) ]);
+    const kpis = el('div', { class:'kpi' });
+    const ans = el('div', { class:'card' }); ans.append(el('div', { class:'k' }, ['Residue']), el('div', { class:'v mono' }, ['—']));
+    const verdict = el('div', { class:'card' }); verdict.append(el('div', { class:'k' }, ['Wilson verdict']), el('div', { class:'v mono' }, ['—']));
+    const trial = el('div', { class:'card' }); trial.append(el('div', { class:'k' }, ['n prime? (trial)']), el('div', { class:'v mono' }, ['—']));
+    const loops = el('div', { class:'card' }); loops.append(el('div', { class:'k' }, ['Loops']), el('div', { class:'v mono' }, ['—']));
+    kpis.append(ans, verdict, trial, loops);
+
+    const reason = el('p', { class:'muted small' }, [ 'Elements mod prime pair with inverses leaving {1,−1}; conversely, a composite n cannot satisfy (n−1)!≡−1 (mod n).' ]);
+    const checks = el('div', { class:'list' });
+    const run = el('button', { class:'secondary' }, ['Run']);
+
+    run.onclick = () => {
+      const n = BigInt(h.n);
+      const { res, loops: L } = factorialMod(n);
+      const ok = (res === n - 1n);
+      const trialMsg = (n <= 2000000n) ? (isPrimeTrial(n) ? 'prime (trial)' : 'composite (trial)') : 'skipped (n too large)';
+
+      ans.querySelector('.v').textContent = res.toString();
+      verdict.querySelector('.v').textContent = ok ? 'PASS' : 'FAIL';
+      trial.querySelector('.v').textContent = trialMsg;
+      loops.querySelector('.v').textContent = L.toString();
+
+      const list = [];
+      list.push(row(ok, 'Wilson congruence', `(n−1)! mod n = ${res} ≟ n−1 = ${n-1n}`));
+      if (trialMsg !== 'skipped (n too large)'){
+        const agrees = (ok === (trialMsg.startsWith('prime')));
+        list.push(row(agrees, 'Consistency with trial primality', `${ok?'prime':'not prime'} vs ${trialMsg}`));
+      }
+      list.push(el('div', { class:'row' }, [ el('span', { class:'badge ok' }, ['FACT']), el('span', { class:'small muted' }, ['For p prime, inverse pairs collapse the product to −1.']) ]));
+      checks.replaceChildren(...list);
+    };
+
+    if (h.negative){
+      const warn = el('div', { class:'small muted' }, ['This case is intentionally composite and should report a failure.']);
+      card.append(head, kpis, reason, warn, checks, run);
+    } else {
+      card.append(head, kpis, reason, checks, run);
+    }
+    return card;
+  }
+
+  harnessList.forEach(h => harnessDiv.appendChild(makeHarnessCard(h)));
+  document.getElementById('runAll').onclick = () => { [...harnessDiv.querySelectorAll('button.secondary')].forEach(b => b.click()); };
+  document.getElementById('clearHarness').onclick = () => { harnessDiv.querySelectorAll('.list').forEach(div => div.replaceChildren()); harnessDiv.querySelectorAll('.v').forEach(div => div.textContent = '—'); };
+
+  // auto‑evaluate initial n
+  evaluate();
+</script>
+</body>
+</html>

@@ -72,5 +72,6 @@ If you are reading this for the first time, the best way in is straightforward: 
 - [Sudoku](https://eyereasoner.github.io/eye/arc/etc/sudoku.html) — Explain each step of solving a 9×9 with row/col/box checks.
 - [Turing Machine](https://eyereasoner.github.io/eye/arc/etc/turing.html) — Run tapes with explicit transitions; verify halting and tape contents.
 - [Vandermonde’s identity](https://eyereasoner.github.io/eye/arc/etc/vandermonde_identity.html) — Vandermonde’s identity — binomial-convolution equals a single binomial.
+- [Wilson's Theorem](https://eyereasoner.github.io/eye/arc/etc/wilson_theorem.html) — Wilson's theorem about prime numbers.
 - [Wind-Turbine Maintenance](https://eyereasoner.github.io/eye/arc/etc/wind_turbines.html) — Plan maintenance from telemetry and policies with auditable outcomes.
 
