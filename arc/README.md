@@ -52,6 +52,7 @@ If you are reading this for the first time, the best way in is straightforward: 
 - [Grass seed — molecular germination](https://eyereasoner.github.io/eye/arc/etc/grass_molecular.html) — Model germination states and transitions with rule checks.
 - [Group Theory](https://eyereasoner.github.io/eye/arc/etc/group_theory.html) — Verify closure, identity, inverses, and associativity on examples.
 - [Health Information Processing](https://eyereasoner.github.io/eye/arc/etc/health_info.html) — Transform clinical payloads with typed rules and validation.
+- [Infinite Game Math](https://eyereasoner.github.io/eye/arc/etc/infinite_game_math.html) — The Infinite Game — Math-Centric Book Brief.
 - [Kakuro (Cross Sums)](https://eyereasoner.github.io/eye/arc/etc/kakuro.html) — Fill grid sums with unique digits using constraint propagation.
 - [Kaprekar’s Constant](https://eyereasoner.github.io/eye/arc/etc/kaprekar_constant.html) — An exhaustive sweep of every 4‑digit state that runs Kaprekar’s routine.
 - [KenKen](https://eyereasoner.github.io/eye/arc/etc/kenken.html) — Latin-square + cage arithmetic solved with explainable deductions.
