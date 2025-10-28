@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Euclid’s Infinitude of Primes</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #0ea5e9;
+      --ring: rgba(14,165,233,.25);
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
+            Noto Sans, 'Helvetica Neue', Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+      color: var(--text);
+      background: radial-gradient(1400px 700px at 20% -10%, #ffffff 0, #f5fbff 40%, var(--bg) 100%);
+    }
+    .container { max-width: 980px; margin: 24px auto 80px; padding: 0 16px; }
+    header { margin: 8px 0 22px; }
+    h1 { font-size: clamp(24px, 3.6vw, 34px); margin: 0 0 6px; letter-spacing: -0.02em; }
+    .subtitle { color: var(--muted); font-size: 14px; }
+
+    /* Vertical cards */
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px clamp(16px, 2.0vw, 26px); margin: 14px 0; box-shadow: 0 10px 24px rgba(2, 8, 23, 0.04), 0 2px 6px rgba(2, 8, 23, 0.03); }
+    .card h2 { display: flex; align-items: center; gap: 10px; font-size: clamp(18px, 2.6vw, 22px); margin: 0 0 10px; }
+    .k-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; background: #eaf6fe; color: #0369a1; border: 1px solid #d7eefc; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; font-weight: 650; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 10px; }
+    .stat { background: #fcfdff; border: 1px solid var(--border); border-radius: 14px; padding: 10px 14px; }
+    .stat .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+    .stat .value { font-size: 20px; font-weight: 700; margin-top: 2px; }
+    .muted { color: var(--muted); }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .codebox { background:#0b1220; color:#d7e2ff; border-radius: 14px; padding: 14px 16px; overflow:auto; border:1px solid #1e2a44; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px 10px; text-align: left; border-bottom: 1px dashed var(--border); }
+    th { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    tbody tr:hover { background: #fafcff; }
+    details { border: 1px dashed var(--border); border-radius: 12px; padding: 10px 12px; background: #fbfdff; }
+    details + details { margin-top: 10px; }
+    summary { cursor: pointer; font-weight: 600; }
+    .chips { display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 0; }
+    .chip { background:#f1f5f9; border:1px solid var(--border); padding:6px 10px; border-radius:999px; font-variant-numeric: tabular-nums; }
+    .footer-note { font-size: 12px; color: var(--muted); margin-top: 8px; }
+    .small { font-size: 13px; }
+    .accent { color: var(--accent); font-weight: 700; }
+    .sep { height: 8px; }
+    .kbd { font-weight: 650; border:1px solid var(--border); background:#fff; padding: 2px 6px; border-radius: 6px; box-shadow: inset 0 -1px 0 rgba(0,0,0,0.05); }
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;border-radius:999px;border:1px solid var(--border);font-size:12px;font-weight:700}
+    .badge.pass{background:#ecfdf5;border-color:#bbf7d0;color:#065f46}
+    .badge.fail{background:#fef2f2;border-color:#fecaca;color:#7f1d1d}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Euclid’s Infinitude of Primes</h1>
+      <div class="subtitle">A P3-style, client‑side demo: we restate the theorem, explain Euclid’s one‑line proof, and run computational checks (sieve, Euclid constructions, and prime-count growth) to corroborate it.</div>
+    </header>
+
+    <!-- 1/ Answer -->
+    <section class="card" aria-labelledby="answer-title">
+      <h2 id="answer-title"><span class="k-pill">1/ Answer</span> Concise results</h2>
+      <p>There are <strong>infinitely many prime numbers</strong>. Below we also compute evidence up to a large bound.</p>
+      <div class="stats">
+        <div class="stat"><div class="label">Bound checked</div><div class="value mono" id="bound">—</div></div>
+        <div class="stat"><div class="label">π(x) at bound</div><div class="value mono" id="piBound">—</div></div>
+        <div class="stat"><div class="label">Largest prime ≤ bound</div><div class="value mono" id="largestPrime">—</div></div>
+        <div class="stat"><div class="label">Max prime gap ≤ bound</div><div class="value mono" id="maxGap">—</div></div>
+        <div class="stat"><div class="label">π(x) / (x / ln x)</div><div class="value mono" id="ratio">—</div></div>
+      </div>
+      <div class="footer-note">Here π(x) counts primes ≤ x. We compute all primes up to the bound in your browser via a sieve.</div>
+    </section>
+
+    <!-- 2/ Reason why -->
+    <section class="card" aria-labelledby="reason-title">
+      <h2 id="reason-title"><span class="k-pill">2/ Reason why</span> Euclid’s proof (mathematical English)</h2>
+      <div class="proofbox small">
+        <p><strong>Claim.</strong> There are infinitely many prime numbers.</p>
+        <p><strong>Proof.</strong> Assume for contradiction that only finitely many primes exist. List them as <em>p</em><sub>1</sub> ≤ <em>p</em><sub>2</sub> ≤ … ≤ <em>p</em><sub>k</sub>. Define
+        <span class="mono">N = p</span><sub>1</sub><span class="mono">p</span><sub>2</sub><span class="mono">⋯p</span><sub>k</sub><span class="mono"> + 1</span>.</p>
+        <p>For each index <em>i</em>, division of <em>N</em> by <em>p</em><sub>i</sub> leaves remainder 1; equivalently, <em>N</em> is not divisible by any of <em>p</em><sub>1</sub>, …, <em>p</em><sub>k</sub>.</p>
+        <p>Since <em>N</em> &gt; 1, it has a prime divisor <em>q</em>. Because none of <em>p</em><sub>1</sub>, …, <em>p</em><sub>k</sub> divides <em>N</em>, this prime <em>q</em> is different from every prime on the list, contradicting the assumption that the list contained all primes. Therefore the set of primes is infinite. ∎</p>
+      </div>
+      <p class="small muted">The reasoning does not search for “the last prime”: it shows that <em>every</em> finite list of primes can be extended.</p>
+    </section>
+
+    <!-- 3/ Checks (five, uncollapsed) -->
+    <section class="card" aria-labelledby="check-title">
+      <h2 id="check-title"><span class="k-pill">3/ Checks</span> Computed in the browser</h2>
+
+      <details open id="check1">
+        <summary>Check 1 — Sieve sanity (tiny set) <span class="badge" id="chk1badge">—</span></summary>
+        <p class="small">Verify some known primes/composites are classified correctly.</p>
+        <div class="chips"><span class="chip mono">primes ok: <span id="chk1p">—</span></span><span class="chip mono">composites ok: <span id="chk1c">—</span></span></div>
+      </details>
+
+      <div class="sep"></div>
+
+      <details open id="check2">
+        <summary>Check 2 — Euclid step on first k primes (k = 3…10) <span class="badge" id="chk2badge">—</span></summary>
+        <p class="small">For each k, build N = 1 + ∏<sub>i≤k</sub> pᵢ and find a prime factor q ∤ ∏ pᵢ.</p>
+        <table>
+          <thead><tr><th>k</th><th>∏ pᵢ + 1 (N)</th><th>found factor q</th><th>q in first k?</th></tr></thead>
+          <tbody id="euclid-k"></tbody>
+        </table>
+      </details>
+
+      <div class="sep"></div>
+
+      <details open id="check3">
+        <summary>Check 3 — π(10²)…π(10⁶) strictly increases <span class="badge" id="chk3badge">—</span></summary>
+        <table>
+          <thead><tr><th>x</th><th>π(x)</th><th>x/ln x</th><th>ratio</th></tr></thead>
+          <tbody id="pi-table"></tbody>
+        </table>
+      </details>
+
+      <div class="sep"></div>
+
+      <details open id="check4">
+        <summary>Check 4 — Sample Bertrand intervals contain a prime <span class="badge" id="chk4badge">—</span></summary>
+        <p class="small">For selected n, we confirm a prime exists in (n, 2n].</p>
+        <div id="bertrand" class="chips"></div>
+      </details>
+
+      <div class="sep"></div>
+
+      <details open id="check5">
+        <summary>Check 5 — Random Euclid sets (mod‑1 property) <span class="badge" id="chk5badge">—</span></summary>
+        <p class="small">Random small prime sets S ⊂ {first 15 primes}; we verify (∏S + 1) mod p = 1 for all p∈S. This guarantees every prime factor of ∏S+1 is outside S.</p>
+        <div id="rand-euclid" class="chips"></div>
+      </details>
+
+    </section>
+
+    <section class="card" aria-labelledby="appendix-title">
+      <h2 id="appendix-title"><span class="k-pill">Appendix</span> Implementation notes</h2>
+      <ul class="small">
+        <li>Sieve of Eratosthenes up to the bound; all numbers are native JS <span class="mono">Number</span> unless BigInt is needed for intermediate products.</li>
+        <li>Euclid constructions for k≤10 are easily factored with the prime list (√N is small).</li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    // ===== Utilities =====
+    const LIMIT = 1_000_000; // bound for sieve and stats
+    const isPrime = new Uint8Array(LIMIT + 1);
+    const primes = [];
+
+    function sieve(n = LIMIT){
+      for (let i=0;i<=n;i++) isPrime[i]=1; isPrime[0]=0; isPrime[1]=0;
+      for (let p=2; p*p<=n; p++) if (isPrime[p]) for (let m=p*p; m<=n; m+=p) isPrime[m]=0;
+      for (let i=2;i<=n;i++) if (isPrime[i]) primes.push(i);
+    }
+
+    function pi(x){ // count primes ≤ x
+      // primes is sorted
+      let lo=0, hi=primes.length; // count of elements ≤ x
+      while (lo<hi){ const mid=(lo+hi)>>1; if (primes[mid] <= x) lo=mid+1; else hi=mid; }
+      return lo;
+    }
+
+    function largestPrimeLE(x){
+      let idx = pi(x) - 1; return idx>=0 ? primes[idx] : null;
+    }
+
+    function maxPrimeGapUpTo(x){
+      let last = 2, mx=0;
+      for (const p of primes){ if (p> x) break; mx = Math.max(mx, p-last); last=p; }
+      return mx;
+    }
+
+    function smallestPrimeFactor(n){
+      // n is Number, n>=2
+      const r = Math.floor(Math.sqrt(n));
+      for (const p of primes){ if (p>r) break; if (n%p===0) return p; }
+      return n; // n is prime
+    }
+
+    function productFirstK(k){
+      let prod = 1; for (let i=0;i<k;i++) prod *= primes[i]; return prod;
+    }
+
+    // ===== Run computations =====
+    sieve();
+
+    // Answer stats
+    const piBound = pi(LIMIT);
+    const lp = largestPrimeLE(LIMIT);
+    const gap = maxPrimeGapUpTo(LIMIT);
+    const ratio = (piBound / (LIMIT / Math.log(LIMIT))).toFixed(4);
+    document.getElementById('bound').textContent = LIMIT.toLocaleString();
+    document.getElementById('piBound').textContent = piBound.toLocaleString();
+    document.getElementById('largestPrime').textContent = lp?.toLocaleString?.() ?? '—';
+    document.getElementById('maxGap').textContent = gap.toLocaleString();
+    document.getElementById('ratio').textContent = ratio;
+
+    // ===== Checks & badges =====
+    function setBadge(id, ok){
+      const el = document.getElementById(id+'badge');
+      if (!el) return; el.textContent = ok ? 'PASS' : 'FAIL'; el.className = 'badge ' + (ok ? 'pass':'fail');
+    }
+
+    // Check 1 — Sieve sanity
+    (function(){
+      const knownP = [2,3,5,7,11,13,17,19,23,29,97,9973].filter(x=>x<=LIMIT);
+      const knownC = [1,4,6,8,9,10,12,14,15,16,18,20,10000].filter(x=>x<=LIMIT);
+      const pOK = knownP.every(x=> isPrime[x]===1);
+      const cOK = knownC.every(x=> isPrime[x]===0);
+      document.getElementById('chk1p').textContent = pOK ? 'OK' : 'MISS';
+      document.getElementById('chk1c').textContent = cOK ? 'OK' : 'MISS';
+      setBadge('chk1', pOK && cOK);
+    })();
+
+    // Check 2 — Euclid step on first k primes
+    (function(){
+      const tbody = document.getElementById('euclid-k');
+      let allOK = true;
+      for (let k=3;k<=10;k++){
+        const prod = productFirstK(k);
+        const N = prod + 1;
+        const q = smallestPrimeFactor(N);
+        const inFirst = primes.slice(0,k).includes(q);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${k}</td><td class="mono">${N.toLocaleString()}</td><td class="mono">${q.toLocaleString()}</td><td>${inFirst? 'yes':'no'}</td>`;
+        tbody.appendChild(tr);
+        if (inFirst) allOK = false;
+      }
+      setBadge('chk2', allOK);
+    })();
+
+    // Check 3 — π(10^2)…π(10^6) strictly increases
+    (function(){
+      const xs = [1e2,1e3,1e4,1e5,1e6];
+      const tbody = document.getElementById('pi-table');
+      let ok = true, last = -1;
+      for (const x of xs){
+        const pcount = pi(x);
+        if (pcount <= last) ok = false; last = pcount;
+        const approx = x/Math.log(x);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td class="mono">${x.toLocaleString()}</td><td class="mono">${pcount.toLocaleString()}</td><td class="mono">${approx.toFixed(0)}</td><td class="mono">${(pcount/approx).toFixed(4)}</td>`;
+        tbody.appendChild(tr);
+      }
+      setBadge('chk3', ok);
+    })();
+
+    // Check 4 — Sample Bertrand intervals contain a prime
+    (function(){
+      const samples = [10,20,50,100,500,1_000,5_000,10_000,50_000,100_000,200_000,300_000,400_000];
+      const wrap = document.getElementById('bertrand');
+      let ok = true;
+      for (const n of samples){
+        const a = n+1, b = Math.min(2*n, LIMIT);
+        let has = false;
+        for (let x=a; x<=b; x++){ if (isPrime[x]) { has = true; break; } }
+        const chip = document.createElement('span');
+        chip.className = 'chip mono';
+        chip.textContent = `${n.toLocaleString()}→${(2*n).toLocaleString()}: ${has? 'prime found':'none'}`;
+        wrap.appendChild(chip);
+        if (!has) ok = false;
+      }
+      setBadge('chk4', ok);
+    })();
+
+    // Check 5 — Random Euclid sets (mod‑1 property)
+    (function(){
+      const wrap = document.getElementById('rand-euclid');
+      const base = primes.slice(0, 15);
+      const trials = 20;
+      let ok = true;
+      function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+      for (let t=0;t<trials;t++){
+        const size = randInt(2,6);
+        // build a random subset without replacement
+        const pool = base.slice();
+        for (let i=pool.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
+        const S = pool.slice(0,size);
+        let prod = 1; for (const p of S){ prod *= p; }
+        const N = prod + 1;
+        let allOne = true;
+        for (const p of S){ if (N % p !== 1){ allOne = false; break; } }
+        const chip = document.createElement('span');
+        chip.className = 'chip mono';
+        chip.textContent = `{${S.join(',')}} ⇒ Π+1=${N.toLocaleString()} (mod p = 1: ${allOne?'yes':'no'})`;
+        wrap.appendChild(chip);
+        if (!allOne) ok = false;
+      }
+      setBadge('chk5', ok);
+    })();
+  </script>
+</body>
+</html>
+

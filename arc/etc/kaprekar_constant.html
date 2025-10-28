@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kaprekar’s Constant (4‑digit)</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #0ea5e9;
+      --ring: rgba(14,165,233,.25);
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
+            Noto Sans, 'Helvetica Neue', Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+      color: var(--text);
+      background: radial-gradient(1400px 700px at 20% -10%, #ffffff 0, #f5fbff 40%, var(--bg) 100%);
+    }
+    .container { max-width: 980px; margin: 24px auto 80px; padding: 0 16px; }
+    header { margin: 8px 0 22px; }
+    h1 { font-size: clamp(24px, 3.6vw, 34px); margin: 0 0 6px; letter-spacing: -0.02em; }
+    .subtitle { color: var(--muted); font-size: 14px; }
+
+    /* Vertical cards */
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px clamp(16px, 2.0vw, 26px); margin: 14px 0; box-shadow: 0 10px 24px rgba(2, 8, 23, 0.04), 0 2px 6px rgba(2, 8, 23, 0.03); }
+    .card h2 { display: flex; align-items: center; gap: 10px; font-size: clamp(18px, 2.6vw, 22px); margin: 0 0 10px; }
+    .k-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; background: #eaf6fe; color: #0369a1; border: 1px solid #d7eefc; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; font-weight: 650; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 10px; }
+    .stat { background: #fcfdff; border: 1px solid var(--border); border-radius: 14px; padding: 10px 14px; }
+    .stat .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+    .stat .value { font-size: 20px; font-weight: 700; margin-top: 2px; }
+
+    .muted { color: var(--muted); }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .codebox { background:#0b1220; color:#d7e2ff; border-radius: 14px; padding: 14px 16px; overflow:auto; border:1px solid #1e2a44; }
+    .proofbox { background:#fbfdff; border:1px dashed var(--border); border-radius:12px; padding:12px 14px; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px 10px; text-align: left; border-bottom: 1px dashed var(--border); }
+    th { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    tbody tr:hover { background: #fafcff; }
+
+    details { border: 1px dashed var(--border); border-radius: 12px; padding: 10px 12px; background: #fbfdff; }
+    details + details { margin-top: 10px; }
+    summary { cursor: pointer; font-weight: 600; }
+
+    .chips { display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 0; }
+    .chip { background:#f1f5f9; border:1px solid var(--border); padding:6px 10px; border-radius:999px; font-variant-numeric: tabular-nums; }
+    .footer-note { font-size: 12px; color: var(--muted); margin-top: 8px; }
+    .small { font-size: 13px; }
+    .accent { color: var(--accent); font-weight: 700; }
+    .sep { height: 8px; }
+    .kbd { font-weight: 650; border:1px solid var(--border); background:#fff; padding: 2px 6px; border-radius: 6px; box-shadow: inset 0 -1px 0 rgba(0,0,0,0.05); }
+
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:2px 8px;border-radius:999px;border:1px solid var(--border);font-size:12px;font-weight:700}
+    .badge.pass{background:#ecfdf5;border-color:#bbf7d0;color:#065f46}
+    .badge.fail{background:#fef2f2;border-color:#fecaca;color:#7f1d1d}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Kaprekar’s Constant on 4‑digit States</h1>
+      <div class="subtitle">An exhaustive, client‑side sweep of every 4‑digit state (keeping leading zeros) that runs Kaprekar’s routine, summarizes the results, and verifies them with reproducible checks.</div>
+    </header>
+
+    <!-- 1/ Answer -->
+    <section class="card" aria-labelledby="answer-title">
+      <h2 id="answer-title"><span class="k-pill">1/ Answer</span> Concise results</h2>
+      <div class="stats">
+        <div class="stat"><div class="label">Universe size</div><div class="value mono" id="total">—</div></div>
+        <div class="stat"><div class="label">Converge to 6174</div><div class="value mono"><span id="convergeCount">—</span> <span class="muted small">(<span id="convergePct">—</span>%)</span></div></div>
+        <div class="stat"><div class="label">Don’t converge (rep‑digits)</div><div class="value mono"><span id="nonCount">—</span> <span class="muted small">(<span id="nonPct">—</span>%)</span></div></div>
+        <div class="stat"><div class="label">Max iterations to reach 6174</div><div class="value mono" id="maxIter">—</div></div>
+        <div class="stat"><div class="label">Average iterations (convergers)</div><div class="value mono" id="avgIter">—</div></div>
+      </div>
+      <div class="footer-note">Iterations count how many routine steps are needed until the state first equals <span class="mono">6174</span>; starting at <span class="mono">6174</span> counts as <span class="mono">0</span>.</div>
+    </section>
+
+    <!-- 2/ Reason why -->
+    <section class="card" aria-labelledby="reason-title">
+      <h2 id="reason-title"><span class="k-pill">2/ Reason why</span> Mathematical explanation</h2>
+      <div class="proofbox small">
+        <p><strong>Definition.</strong> Let <em>K</em> act on 4‑digit strings (leading zeros kept) as follows: write the digits in descending and ascending order to form two 4‑digit numbers, then subtract and pad with leading zeros to 4 digits. We denote the result by <em>K</em>(<em>x</em>).</p>
+        <p><strong>Fixed points and traps.</strong> (i) <span class="mono">6174</span> is a fixed point: <em>K</em>(6174) = 6174. (ii) For every rep‑digit <span class="mono">aaaa</span>, the ascending and descending sorts coincide, so <em>K</em>(<span class="mono">aaaa</span>) = <span class="mono">0000</span> and then <em>K</em>(<span class="mono">0000</span>) = <span class="mono">0000</span>. Thus the only non‑converging starts are the ten rep‑digits, which fall into the absorbing state <span class="mono">0000</span>.</p>
+        <p><strong>Claim.</strong> Every non‑rep‑digit 4‑digit state reaches <span class="mono">6174</span> in finitely many steps. The map <em>K</em> acts on the finite set of 10,000 states. Aside from the trap at <span class="mono">0000</span> (reached exactly by rep‑digits), there are no other cycles; consequently every orbit that avoids <span class="mono">0000</span> must flow into the fixed point <span class="mono">6174</span>. Our harness below confirms this by exhaustive enumeration and shows that the worst‑case time‑to‑reach is 7 steps.</p>
+      </div>
+      <p class="small muted">In short: rep‑digits collapse to <span class="mono">0000</span>; everything else flows to the unique fixed point <span class="mono">6174</span>.</p>
+    </section>
+
+    <!-- 3/ Checks (five, uncollapsed) -->
+    <section class="card" aria-labelledby="check-title">
+      <h2 id="check-title"><span class="k-pill">3/ Checks (harness)</span> Exhaustive sweep 0000–9999</h2>
+
+      <details open id="check1">
+        <summary>Check 1 — Universe accounting <span class="badge" id="chk1badge">—</span></summary>
+        <p class="small">Do convergers + non‑convergers add up to 10,000?</p>
+        <div class="chips">
+          <span class="chip mono">Convergers: <span id="chk1conv">—</span></span>
+          <span class="chip mono">Non‑convergers: <span id="chk1non">—</span></span>
+          <span class="chip mono">Sum: <span id="chk1sum">—</span></span>
+        </div>
+      </details>
+
+      <div class="sep"></div>
+
+      <details open id="check2">
+        <summary>Check 2 — Only rep‑digits fail to converge <span class="badge" id="chk2badge">—</span></summary>
+        <p class="footer-note">Should be exactly: {0000,1111,2222,3333,4444,5555,6666,7777,8888,9999}.</p>
+        <div id="non-list" class="chips"></div>
+      </details>
+
+      <div class="sep"></div>
+
+      <details open id="check3">
+        <summary>Check 3 — Max iterations equals 7 <span class="badge" id="chk3badge">—</span></summary>
+        <p class="footer-note">First few starting states that achieve the maximum are shown. Click to toggle a full path.</p>
+        <div class="chips"><span class="chip mono">max = <span id="maxIterAgain">—</span></span><span class="chip mono">avg = <span id="avgIter">—</span></span></div>
+        <div id="max-list" class="chips"></div>
+        <div id="max-paths"></div>
+      </details>
+
+      <div class="sep"></div>
+
+      <details open id="check4">
+        <summary>Check 4 — Distribution sums to converger count; includes k=0 <span class="badge" id="chk4badge">—</span></summary>
+        <div class="footer-note">Each row shows how many starting states first hit <span class="mono">6174</span> after exactly <span class="mono">k</span> steps.</div>
+        <div class="sep"></div>
+        <table aria-describedby="dist-caption">
+          <caption id="dist-caption" class="visually-hidden">Iteration distribution</caption>
+          <thead>
+            <tr><th>k steps</th><th>count</th><th>percent</th><th>example path</th></tr>
+          </thead>
+          <tbody id="distribution-body"></tbody>
+        </table>
+      </details>
+
+      <div class="sep"></div>
+
+      <details open id="check5">
+        <summary>Check 5 — Fixed point & zero‑padding invariant <span class="badge" id="chk5badge">—</span></summary>
+        <ul class="small">
+          <li><span class="mono">step(6174)</span> = <span class="mono" id="fpResult">—</span></li>
+          <li>All intermediate states are 4‑digit strings: <span id="padCheck">—</span></li>
+        </ul>
+      </details>
+
+    </section>
+
+    <section class="card" aria-labelledby="how-title">
+      <h2 id="how-title"><span class="k-pill">Appendix</span> How this page checks things</h2>
+      <p class="small">Everything is computed on page load by sweeping all 10,000 states with leading zeros kept. You can view source to see the tiny harness.</p>
+    </section>
+  </div>
+
+  <script>
+    // ——— Helpers ———
+    const pad4 = n => String(n).padStart(4, '0');
+    const isRepDigit = s => /^([0-9])\1{3}$/.test(s);
+    function step(s) {
+      const digits = s.split('');
+      const desc = [...digits].sort((a,b)=>Number(b)-Number(a)).join('');
+      const asc  = [...digits].sort((a,b)=>Number(a)-Number(b)).join('');
+      const diff = String(Number(desc) - Number(asc));
+      return pad4(diff);
+    }
+
+    function pathTo6174(start) {
+      // Returns { iter, path, converges }
+      if (isRepDigit(start)) return { iter: null, path: [start, '0000'], converges: false };
+      if (start === '6174') return { iter: 0, path: ['6174'], converges: true };
+      const path = [start];
+      let s = start, i = 0;
+      const seen = new Set([start]);
+      while (s !== '6174' && i < 50) {
+        s = step(s); i++; path.push(s);
+        if (seen.has(s)) break; // safety
+        seen.add(s);
+      }
+      return { iter: (s === '6174' ? i : null), path, converges: (s === '6174') };
+    }
+
+    // ——— Exhaustive sweep ———
+    const TOTAL = 10000;
+    const dist = new Map(); // iter -> count
+    const examplePath = new Map(); // iter -> path array (one example)
+    const maxExamples = []; // list of starting states achieving max
+    const convergerStarts = [];
+    const nonConvergers = [];
+
+    let maxIter = 0;
+    let iterSum = 0;
+
+    for (let n = 0; n < TOTAL; n++) {
+      const s = pad4(n);
+      if (isRepDigit(s)) { nonConvergers.push(s); continue; }
+      const { iter, path, converges } = pathTo6174(s);
+      if (!converges) { continue; }
+      convergerStarts.push(s);
+      iterSum += iter;
+      if (!dist.has(iter)) dist.set(iter, 0);
+      dist.set(iter, dist.get(iter) + 1);
+      if (!examplePath.has(iter)) examplePath.set(iter, path);
+      if (iter > maxIter) maxIter = iter;
+    }
+
+    // Gather a few examples for the max-iteration set
+    for (let n = 0; n < TOTAL && maxExamples.length < 24; n++) {
+      const s = pad4(n);
+      if (isRepDigit(s)) continue;
+      const { iter } = pathTo6174(s);
+      if (iter === maxIter) maxExamples.push(s);
+    }
+
+    // ——— Render Answer ———
+    const convergeCount = convergerStarts.length;
+    const nonCount = nonConvergers.length;
+    const convergePct = ((convergeCount / TOTAL) * 100).toFixed(1);
+    const nonPct = ((nonCount / TOTAL) * 100).toFixed(1);
+    const avgIter = (iterSum / convergeCount).toFixed(3);
+
+    document.getElementById('total').textContent = TOTAL.toLocaleString();
+    document.getElementById('convergeCount').textContent = convergeCount.toLocaleString();
+    document.getElementById('convergePct').textContent = convergePct;
+    document.getElementById('nonCount').textContent = nonCount.toLocaleString();
+    document.getElementById('nonPct').textContent = nonPct;
+    document.getElementById('maxIter').textContent = String(maxIter);
+    document.getElementById('avgIter').textContent = avgIter;
+    document.getElementById('maxIterAgain').textContent = String(maxIter);
+
+    // ——— Render Distribution table ———
+    const tbody = document.getElementById('distribution-body');
+    const maxK = Math.max(...Array.from(dist.keys()));
+    for (let k = 0; k <= maxK; k++) {
+      const count = dist.get(k) || 0;
+      const pct = ((count / convergeCount) * 100).toFixed(2);
+      const tr = document.createElement('tr');
+      const tdK = document.createElement('td'); tdK.textContent = k;
+      const tdC = document.createElement('td'); tdC.textContent = count.toLocaleString();
+      const tdP = document.createElement('td'); tdP.textContent = pct + '%';
+      const tdE = document.createElement('td');
+      const ex = examplePath.get(k);
+      tdE.textContent = ex ? ex.join(' → ') : '—';
+      [tdK, tdC, tdP, tdE].forEach(td => tr.appendChild(td));
+      tbody.appendChild(tr);
+    }
+
+    // ——— Render max-iteration examples (chips + expandable paths) ———
+    const maxList = document.getElementById('max-list');
+    const maxPaths = document.getElementById('max-paths');
+    maxExamples.forEach(s => {
+      const chip = document.createElement('button');
+      chip.className = 'chip mono';
+      chip.textContent = s;
+      chip.setAttribute('aria-label', `Show path for ${s}`);
+      chip.style.cursor = 'pointer';
+      chip.addEventListener('click', () => {
+        const { path } = pathTo6174(s);
+        const boxId = `path-${s}`;
+        let box = document.getElementById(boxId);
+        if (box) { box.remove(); return; }
+        box = document.createElement('div');
+        box.id = boxId;
+        box.className = 'codebox mono small';
+        box.style.marginTop = '8px';
+        box.textContent = path.join(' → ');
+        maxPaths.appendChild(box);
+      });
+      maxList.appendChild(chip);
+    });
+
+    // ——— Render non-convergers ———
+    const nonList = document.getElementById('non-list');
+    nonConvergers.forEach(s => {
+      const chip = document.createElement('span');
+      chip.className = 'chip mono';
+      chip.textContent = s;
+      nonList.appendChild(chip);
+    });
+
+    // ——— Checks & badges ———
+    function setBadge(id, ok){
+      const el = document.getElementById(id+'badge');
+      if (!el) return;
+      el.textContent = ok ? 'PASS' : 'FAIL';
+      el.className = 'badge ' + (ok ? 'pass' : 'fail');
+    }
+
+    // Check 1: universe accounting
+    document.getElementById('chk1conv').textContent = convergerStarts.length.toLocaleString();
+    document.getElementById('chk1non').textContent = nonConvergers.length.toLocaleString();
+    document.getElementById('chk1sum').textContent = (convergerStarts.length + nonConvergers.length).toLocaleString();
+    setBadge('chk1', (convergerStarts.length + nonConvergers.length) === TOTAL);
+
+    // Check 2: only rep-digits fail
+    const repRef = Array.from({length:10}, (_,d)=> String(d).repeat(4));
+    const setA = new Set(nonConvergers);
+    const onlyRepDigits = repRef.every(x=>setA.has(x)) && nonConvergers.length === 10;
+    setBadge('chk2', onlyRepDigits);
+
+    // Check 3: max iterations equals 7
+    setBadge('chk3', maxIter === 7);
+
+    // Check 4: distribution sums to converger count and has k=0 = 1
+    const sumDist = Array.from(dist.values()).reduce((a,b)=>a+b,0);
+    const hasZero = (dist.get(0) || 0) === 1;
+    setBadge('chk4', sumDist === convergerStarts.length && hasZero);
+
+    // Check 5: fixed point & padding invariant
+    const fp = step('6174');
+    document.getElementById('fpResult').textContent = fp;
+    let paddingOk = true;
+    for (let n = 0; n < TOTAL && paddingOk; n++) {
+      const { path } = pathTo6174(pad4(n));
+      for (const t of path) { if (!/^\d{4}$/.test(t)) { paddingOk = false; break; } }
+    }
+    document.getElementById('padCheck').textContent = paddingOk ? 'OK' : 'Violation found';
+    setBadge('chk5', fp === '6174' && paddingOk);
+
+  </script>
+</body>
+</html>
+

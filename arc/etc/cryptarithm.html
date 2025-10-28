@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Math Puzzle — Alphametic Cryptarithm</title>
+  <style>
+    :root { --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --border:#e5e7eb; --accent:#0ea5e9; }
+    html,body{height:100%;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
+    h1{font-weight:700;letter-spacing:.2px;margin:18px 0 6px}
+    h2{font-size:13px;color:var(--muted);margin:0 0 8px;letter-spacing:.2px;text-transform:uppercase}
+    .wrap{max-width:980px;margin:0 auto;padding:24px}
+    .stack{display:grid;grid-template-columns:1fr;gap:14px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:0 6px 20px rgba(0,0,0,.04)}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    button{border:0;background:linear-gradient(180deg,#7dd3fc,#38bdf8);color:#052436;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(56,189,248,.35)}
+    button.secondary{background:#f3f4f6;color:#111827;border:1px solid var(--border);box-shadow:none}
+    .output{min-height:0;white-space:pre-wrap;background:#fbfdff;border:1px solid var(--border);border-radius:10px;padding:10px;overflow:auto}
+    .output.tall{min-height:180px}
+    .muted{color:var(--muted)}
+    .tiny{font-size:12px}
+    .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.3px;border:1px solid var(--border);background:#f5f7fb;color:#334155}
+    textarea,pre,code,input,button{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
+    textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:#0f172a;box-sizing:border-box;white-space:pre-wrap}
+    .sum{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
+    .sum .line{display:flex;justify-content:flex-end;gap:10px}
+    .sum .num{white-space:pre}
+    .sum .sep{border-bottom:2px solid #cbd5e1;margin:2px 0}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Alphametic Cryptarithm</h1>
+
+  <div class="stack">
+
+    <!-- What this is? -->
+    <div class="card">
+      <h2>What this is?</h2>
+      <p>A one-file, pure JS + JSON solver for alphametic cryptarithms (e.g., <b>SEND + MORE = MONEY</b>).</p>
+      <ul>
+        <li><b>Data</b> — base (10) and the words: <code>addends</code> and <code>result</code>.</li>
+        <li><b>Policies</b> — declarative families: all letters map to distinct digits, leading letters ≠ 0 (now enforced <em>globally</em>), and column-wise addition with carry.</li>
+        <li><b>Answer</b> — the letter→digit mapping and derived numeric equation.</li>
+        <li><b>Reason Why</b> — column-by-column arithmetic (with carries) in mathematical English.</li>
+        <li><b>Check</b> — distinctness, non-zero leaders, numeric equality, and per-column identities (<span id="checksCountInline" class="badge">…</span> items).</li>
+      </ul>
+      <p class="tiny muted">Solver: depth-first search on columns (least-significant to most-significant) assigning digits consistent with carries; prunes with used digits & leading-zero bans.</p>
+    </div>
+
+    <div class="card">
+      <h2>Puzzle Details</h2>
+      <ul>
+        <li><b>Alphabet</b>: uppercase English letters A–Z; each maps to a digit once.</li>
+        <li><b>Base</b>: 10 for this demo.</li>
+        <li><b>Leading rule</b>: first letter of each word cannot be 0 (enforced globally across all occurrences).</li>
+        <li><b>Tip</b>: Try classics like SEND+MORE=MONEY, TWO+TWO=FOUR, CROSS+ROADS=DANGER, etc.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Data (JSON)</h2>
+      <textarea id="dataTA" spellcheck="false">{
+  "base": 10,
+  "addends": ["SEND", "MORE"],
+  "result": "MONEY"
+}</textarea>
+      <p class="tiny muted">All words must be uppercase A–Z. Base must be 10 (this demo).</p>
+    </div>
+
+    <div class="card">
+      <h2>Policies (declarative JSON rules)</h2>
+      <textarea id="policyTA" spellcheck="false">[
+  { "id":"D1-AllDifferent",
+    "explain":"All letters denote distinct digits (injective mapping letters→{0..9})."
+  },
+  { "id":"D2-LeadingNonZero",
+    "explain":"The first letter of each word does not map to 0."
+  },
+  { "id":"D3-ColumnAddition",
+    "explain":"For each column i from right to left: (sum of addend digits at i) + carry(i) = resultDigit(i) + 10·carry(i+1)."
+  },
+  { "id":"D4-Equation",
+    "explain":"value(addends) sum equals value(result) in base 10."
+  }
+]</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Controls</h2>
+      <div class="row">
+        <button id="runBtn">▶ Run ARC</button>
+        <label class="switch"><input id="uniqChk" type="checkbox"/> Probe uniqueness (second solution)</label>
+        <button id="reasonBtn" class="secondary">Show Reason only</button>
+        <span id="status" class="muted tiny" style="margin-left:auto"></span>
+      </div>
+      <div id="diag" class="tiny" style="color:#6b7280"></div>
+    </div>
+
+    <div class="card">
+      <h2>Puzzle Solution Summary</h2>
+      <div id="summary" class="output sum">(run to populate)</div>
+    </div>
+
+    <div class="card">
+      <h2>Uniqueness Probe</h2>
+      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
+    </div>
+
+    <div class="card">
+      <h2>Answer (newly derived facts)</h2>
+      <div id="answer" class="output tall">computing…</div>
+    </div>
+
+    <div class="card">
+      <h2>Reason Why (mathematical English)</h2>
+      <div id="reason" class="output tall">(click “Run ARC”)</div>
+    </div>
+
+    <div class="card">
+      <h2>Check <span id="checksCount" class="badge">0</span></h2>
+      <div id="checks" class="output tall">computing…</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const els = {
+    dataTA: $("dataTA"), policyTA: $("policyTA"),
+    runBtn: $("runBtn"), reasonBtn: $("reasonBtn"), uniqChk: $("uniqChk"),
+    status: $("status"), diag: $("diag"),
+    answer: $("answer"), reason: $("reason"), checks: $("checks"),
+    checksCount: $("checksCount"), checksCountInline: $("checksCountInline"),
+    summary: $("summary"), uniqOut: $("uniqOut")
+  };
+
+  // Auto-grow textareas
+  function autoResize(el){ el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
+  ["dataTA","policyTA"].forEach(id=>{
+    const el=$(id); el.addEventListener('input',()=>autoResize(el)); setTimeout(()=>autoResize(el),0);
+  });
+
+  // Parse helpers
+  function parseJSON(text, label){
+    try { return JSON.parse(text); }
+    catch(e){ throw new Error(`${label} JSON error: ${e.message}`); }
+  }
+
+  // Core solver (base 10)
+  function lettersFrom(words, result){
+    const set = new Set();
+    for(const w of words) for(const ch of w) set.add(ch);
+    for(const ch of result) set.add(ch);
+    return [...set];
+  }
+  function leadingSet(words, result){
+    const s = new Set();
+    for(const w of words) s.add(w[0]);
+    s.add(result[0]);
+    return s;
+  }
+
+  function solveAlphametic(addends, result, base, forbid=null){
+    const A = addends.map(w=>w.split("").reverse());
+    const R = result.split("").reverse();
+    const maxLen = Math.max(...A.map(w=>w.length), R.length);
+    const leaders = leadingSet(addends, result);              // GLOBAL leading letters
+    const allLetters = lettersFrom(addends, result);
+    if(allLetters.length > base) throw new Error(`Too many distinct letters (${allLetters.length}) for base ${base}.`);
+
+    const assign = Object.create(null); // L -> digit
+    const used = new Array(base).fill(false);
+    const steps = []; // for reasons (column summaries)
+
+    function equalMapping(a,b){
+      const keys = new Set([...Object.keys(a), ...Object.keys(b)]);
+      for(const k of keys){ if(a[k]!==b[k]) return false; }
+      return true;
+    }
+
+    function dfs(col, carry){
+      if(col===maxLen){
+        if(carry!==0) return false;
+        if(forbid && equalMapping(assign, forbid)) return false;
+        return true;
+      }
+
+      // Collect addend letters at this column
+      const cols = [];
+      for(let i=0;i<A.length;i++){
+        const ch = A[i][col];
+        if(ch) cols.push(ch);
+      }
+      const resCh = R[col]; // may be undefined
+
+      // Build unknowns and partial sum
+      const unknown = [];
+      let addSum = 0;
+      for(const ch of cols){
+        if(assign[ch]===undefined){
+          if(!unknown.includes(ch)) unknown.push(ch);
+        } else {
+          addSum += assign[ch];
+        }
+      }
+
+      function tryUnknown(k, sumSoFar){
+        if(k===unknown.length){
+          const total = sumSoFar + carry;
+          const outDigit = total % base;
+          const newCarry = Math.floor(total / base);
+
+          if(resCh===undefined){
+            if(outDigit!==0) return false;
+            steps.push({col, addends:[...cols], res:null, carryIn:carry, outDigit, carryOut:newCarry});
+            const ok = dfs(col+1, newCarry);
+            if(ok) return true; else { steps.pop(); return false; }
+          } else {
+            if(assign[resCh]!==undefined){
+              if(assign[resCh]!==outDigit) return false;
+              if(outDigit===0 && leaders.has(resCh)) return false; // enforce global leading≠0
+              steps.push({col, addends:[...cols], res:resCh, carryIn:carry, outDigit, carryOut:newCarry});
+              const ok = dfs(col+1, newCarry);
+              if(ok) return true; else { steps.pop(); return false; }
+            } else {
+              if(used[outDigit]) return false;
+              if(outDigit===0 && leaders.has(resCh)) return false; // enforce global leading≠0
+              assign[resCh]=outDigit; used[outDigit]=true;
+              steps.push({col, addends:[...cols], res:resCh, carryIn:carry, outDigit, carryOut:newCarry});
+              const ok = dfs(col+1, newCarry);
+              if(ok) return true;
+              // backtrack
+              steps.pop();
+              used[outDigit]=false; delete assign[resCh];
+              return false;
+            }
+          }
+        } else {
+          const L = unknown[k];
+          for(let d=0; d<base; d++){
+            if(used[d]) continue;
+            if(d===0 && leaders.has(L)) continue; // GLOBAL leading≠0
+            assign[L]=d; used[d]=true;
+            if(tryUnknown(k+1, sumSoFar + d)) return true;
+            used[d]=false; delete assign[L];
+          }
+          return false;
+        }
+      }
+
+      return tryUnknown(0, addSum);
+    }
+
+    const ok = dfs(0,0);
+    if(!ok) return null;
+    return { assign: {...assign}, steps };
+  }
+
+  // Formatting & checks
+  function mapWord(assign, w){ return w.split("").map(ch=>assign[ch]).join(""); }
+  function toInt(str){ return parseInt(str,10); }
+
+  function reasonText(assign, steps){
+    // steps are from col 0 (units) upward
+    const lines = [];
+    for(const s of steps){
+      const terms = s.addends.map(ch => `${ch}=${assign[ch]}`);
+      const lhs = (terms.length ? terms.join(" + ") : "0") + ` + carry_in(${s.carryIn})`;
+      if(s.res===null){
+        lines.push(`Col ${s.col+1}: ${lhs} gives outDigit=0 and carry_out=${s.carryOut}.`);
+      } else {
+        lines.push(`Col ${s.col+1}: ${lhs} = ${s.outDigit} (→ ${s.res}=${assign[s.res]}) + 10·carry_out(${s.carryOut}).`);
+      }
+    }
+    return lines.join("\n");
+  }
+
+  function answerText(assign, addends, result){
+    const pairs = Object.keys(assign).sort().map(k=>`${k} = ${assign[k]}`).join("\n");
+    const nums = addends.map(w=>mapWord(assign,w));
+    const res = mapWord(assign, result);
+    const eq = `${nums.join(" + ")} = ${res}`;
+    return pairs + "\n\n" + eq;
+  }
+
+  function renderSum(assign, addends, result){
+    const nums = addends.map(w=>mapWord(assign,w));
+    const res = mapWord(assign, result);
+    const width = Math.max(...nums.map(n=>n.length), res.length);
+    const lines = [];
+    for(let i=0;i<nums.length;i++){
+      const s = nums[i].padStart(width," ");
+      const sign = (i===nums.length-1) ? " +" : "  ";
+      lines.push(`<div class="line"><div class="num">${sign} ${s}</div></div>`);
+    }
+    lines.push(`<div class="sep"></div>`);
+    lines.push(`<div class="line"><div class="num"> = ${res.padStart(width," ")}</div></div>`);
+    return lines.join("\n");
+  }
+
+  function checks(assign, addends, result, base, steps){
+    const out = [];
+    const letters = new Set();
+    addends.forEach(w=>w.split("").forEach(ch=>letters.add(ch)));
+    result.split("").forEach(ch=>letters.add(ch));
+    const L = [...letters];
+
+    // 1) All assigned and distinct
+    out.push({name:"All letters assigned", pass: L.every(ch=>assign[ch]!==undefined)});
+    const usedDigits = new Set(Object.values(assign));
+    out.push({name:"All digits distinct", pass: usedDigits.size === L.length});
+
+    // 2) Leading nonzero (GLOBAL)
+    const leaders = leadingSet(addends, result);
+    let leadOK = true;
+    for(const ch of leaders){ if(assign[ch]===0) { leadOK=false; break; } }
+    out.push({name:"Leading letters non-zero", pass: leadOK});
+
+    // 3) Numeric equality
+    const numAdd = addends.map(w=>toInt(mapWord(assign,w)));
+    const numRes = toInt(mapWord(assign,result));
+    const sumOK = numAdd.reduce((a,b)=>a+b,0) === numRes;
+    out.push({name:"Numeric equation holds", pass: sumOK});
+
+    // 4) Per-column identities (from steps)
+    for(const s of steps){
+      const sumTerms = s.addends.reduce((acc,ch)=>acc + assign[ch], 0) + s.carryIn;
+      const outDigit = sumTerms % base;
+      const carryOut = Math.floor(sumTerms / base);
+      let pass;
+      if(s.res===null){
+        pass = (outDigit===0 && carryOut===s.carryOut);
+      } else {
+        pass = (assign[s.res]===outDigit && carryOut===s.carryOut);
+      }
+      out.push({name:`Column ${s.col+1} arithmetic`, pass});
+    }
+
+    return out;
+  }
+
+  function renderChecks(list){
+    const lines = list.map((r,i)=> `${r.pass? "✅":"❌"} ${String(i+1).padStart(2," ")} — ${r.name}`);
+    const passCt = list.filter(x=>x.pass).length;
+    lines.push(`\nSummary: ${passCt}/${list.length} PASS`);
+    return lines.join("\n");
+  }
+
+  // Orchestration
+  function runARC(){
+    els.status.textContent = "Parsing JSON…";
+    els.answer.textContent = els.reason.textContent = els.checks.textContent = "computing…";
+    els.summary.innerHTML = "(run to populate)";
+    els.uniqOut.textContent = "(toggle “Probe uniqueness” then Run)";
+    els.diag.textContent = "";
+
+    try{
+      const data = parseJSON(els.dataTA.value, "Data");
+      parseJSON(els.policyTA.value, "Policies");
+      const base = data.base;
+      const addends = data.addends;
+      const result = data.result;
+
+      if(base !== 10) throw new Error("This demo supports base 10 only.");
+      if(!Array.isArray(addends) || addends.length<2) throw new Error("Provide at least two addends.");
+      if(typeof result!=="string" || !result.length) throw new Error("Result word required.");
+      const allWords = addends.concat([result]);
+      if(!allWords.every(w=>/^[A-Z]+$/.test(w))) throw new Error("Words must be uppercase A–Z only.");
+
+      els.status.textContent = "Solving…";
+      const sol = solveAlphametic(addends, result, base, null);
+      if(!sol) throw new Error("No solution found.");
+      const {assign, steps} = sol;
+
+      // Answer
+      els.answer.textContent = answerText(assign, addends, result);
+
+      // Reason
+      els.reason.textContent = reasonText(assign, steps);
+
+      // Checks
+      const chk = checks(assign, addends, result, base, steps);
+      els.checks.textContent = renderChecks(chk);
+      els.checksCount.textContent = String(chk.length);
+      if(els.checksCountInline) els.checksCountInline.textContent = String(chk.length);
+
+      // Summary (pretty sum)
+      els.summary.innerHTML = renderSum(assign, addends, result);
+
+      // Uniqueness
+      if(els.uniqChk.checked){
+        els.status.textContent = "Probing uniqueness…";
+        const alt = solveAlphametic(addends, result, base, assign);
+        if(alt){
+          els.uniqOut.textContent = "Multiple solutions found (a different mapping exists).";
+        } else {
+          els.uniqOut.textContent = "Unique — no second distinct solution found.";
+        }
+      }
+
+      els.status.textContent = "Done.";
+    } catch(e){
+      els.status.textContent = "Error";
+      els.answer.textContent = "(failed)";
+      els.reason.textContent = "(failed)";
+      els.checks.textContent = "(failed)";
+      els.summary.innerHTML = "(failed)";
+      els.uniqOut.textContent = "(failed)";
+      els.diag.textContent = e.message;
+      console.error(e);
+    }
+
+    autoResize(els.dataTA); autoResize(els.policyTA);
+  }
+
+  function showReasonOnly(){
+    runARC();
+    setTimeout(()=> window.scrollTo({top: $("reason").getBoundingClientRect().top + window.scrollY - 12, behavior:"smooth"}), 50);
+  }
+
+  els.runBtn.addEventListener('click', runARC);
+  els.reasonBtn.addEventListener('click', showReasonOnly);
+  window.addEventListener('DOMContentLoaded', runARC);
+</script>
+</body>
+</html>
+

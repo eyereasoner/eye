@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Nonogram (Picross)</title>
+  <style>
+    :root { --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --border:#e5e7eb; --accent:#0ea5e9; --ink:#111827; }
+    html,body{height:100%;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
+    h1{font-weight:700;margin:18px 0 6px}
+    h2{font-size:13px;color:var(--muted);margin:0 0 8px;letter-spacing:.2px;text-transform:uppercase}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    .stack{display:grid;grid-template-columns:1fr;gap:14px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:0 6px 20px rgba(0,0,0,.04)}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    button{border:0;background:linear-gradient(180deg,#7dd3fc,#38bdf8);color:#052436;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(56,189,248,.35)}
+    button.secondary{background:#f3f4f6;color:#111827;border:1px solid var(--border);box-shadow:none}
+    .output{min-height:0;white-space:pre-wrap;background:#fbfdff;border:1px solid var(--border);border-radius:10px;padding:10px;overflow:auto}
+    .output.tall{min-height:180px}
+    .muted{color:var(--muted)}
+    .tiny{font-size:12px}
+    .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.3px;border:1px solid var(--border);background:#f5f7fb;color:#334155}
+    textarea,pre,code,input,button{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
+    textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:#0f172a;box-sizing:border-box;white-space:pre-wrap}
+    .gridWrap{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:flex-start}
+    .grid{display:grid;gap:0;justify-start}
+    .cell{width:26px;height:26px;border:1px solid #cbd5e1;background:#fff;box-sizing:border-box}
+    .cell.fill{background:#0f172a}
+    .cell.empty{background:#ffffff}
+    .cluesCols{display:grid;gap:0;justify-self:start}
+    .cluesCols .col{display:flex;align-items:end;justify-content:center;border:0;height:26px}
+    .cluesCols .stackCol{display:grid;gap:0;align-items:end;justify-items:center}
+    .cluesRows{display:grid;gap:0;justify-self:end}
+    .clue{font-size:11px;color:#475569;min-width:26px;text-align:right;padding-right:4px}
+    .clue.top{writing-mode:vertical-rl;transform:rotate(180deg);text-align:left;min-height:26px;padding:0 2px}
+    .legend{display:flex;flex-wrap:wrap;gap:8px}
+    .legend .chip{border:1px solid var(--border);border-radius:999px;padding:2px 8px;background:#f7fafc}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Nonogram (Picross)</h1>
+
+  <div class="stack">
+
+    <!-- What this is? -->
+    <div class="card">
+      <h2>What this is?</h2>
+      <p>A one-file, pure JS + JSON solver for a 10×10 Nonogram (Picross). You provide row/column run clues; the solver constructs all line patterns consistent with clues and current assignments, propagates forced cells, and backtracks only if needed.</p>
+      <ul>
+        <li><b>Data</b> — grid size and <code>rows</code>/<code>cols</code> clues (arrays of run lengths).</li>
+        <li><b>Policies</b> — declarative constraints: each row/column’s runs must match its clue; cells are either <code>fill</code> or <code>empty</code>.</li>
+        <li><b>Answer</b> — derived facts (<code>cell(r,c)=fill/empty</code>).</li>
+        <li><b>Reason Why</b> — mathematical-English explanations per propagation step (line candidates → forced cells).</li>
+        <li><b>Check</b> — row/column validity, full assignment, and candidate sanity (<span id="checksCountInline" class="badge">…</span> items).</li>
+      </ul>
+      <p class="tiny muted">Tech: complete enumeration of line patterns from clues; intersection forcing; alternating row/column propagation; DFS with smallest-domain branching; proofs are recorded as “forced by line X”.</p>
+    </div>
+
+    <!-- Puzzle details -->
+    <div class="card">
+      <h2>Puzzle Details</h2>
+      <ul>
+        <li><b>Size</b>: 10×10. Values are <code>fill</code> (■) or <code>empty</code> (□).</li>
+        <li><b>Clues</b>: Each clue list [a,b,c,…] means contiguous runs of <code>fill</code> with ≥1 <code>empty</code> between runs.</li>
+        <li><b>Editing</b>: Change the JSON clues; keep rows = 10 and cols = 10 for this demo.</li>
+        <li><b>Tip</b>: Larger puzzles work too (12–15), but the solver is exponential if clues are loose.</li>
+      </ul>
+      <div class="legend tiny">
+        <span class="chip">■ = fill</span>
+        <span class="chip">□ = empty</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Data (JSON)</h2>
+      <textarea id="dataTA" spellcheck="false">{
+  "size": 10,
+  "rows": [[2,2],[1,1,1,1],[1,1,1,1],[8],[4],[1,1],[4],[8],[1,1,1,1],[2,2]],
+  "cols": [[2,1],[1,1,1,1],[1,1,1,1],[8],[2,2],[2,2],[8],[1,1,1,1],[1,1,1,1],[2,1]]
+}</textarea>
+      <p class="tiny muted">All arrays must be valid JSON. Coordinates are 1-based in the Answer section.</p>
+    </div>
+
+    <div class="card">
+      <h2>Policies (declarative JSON rules)</h2>
+      <textarea id="policyTA" spellcheck="false">[
+  { "id":"P1-RowRuns", "type":"rowRuns",
+    "explain":"For each row r, the contiguous fill runs equal rows[r]."
+  },
+  { "id":"P2-ColRuns", "type":"colRuns",
+    "explain":"For each column c, the contiguous fill runs equal cols[c]."
+  },
+  { "id":"P3-Binary", "type":"binary",
+    "explain":"Every cell is either fill (1) or empty (0)."
+  }
+]</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Controls</h2>
+      <div class="row">
+        <button id="runBtn">▶ Run ARC</button>
+        <label class="switch"><input id="uniqChk" type="checkbox"/> Probe uniqueness (second solution)</label>
+        <button id="reasonBtn" class="secondary">Show Reason only</button>
+        <span id="status" class="muted tiny" style="margin-left:auto"></span>
+      </div>
+      <div id="diag" class="tiny" style="color:#6b7280"></div>
+    </div>
+
+    <div class="card">
+      <h2>Solution Summary</h2>
+      <div id="gridHost" class="output">
+        <div id="gridMount"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Uniqueness Probe</h2>
+      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
+    </div>
+
+    <div class="card">
+      <h2>Answer (newly derived facts)</h2>
+      <div id="answer" class="output tall">computing…</div>
+    </div>
+
+    <div class="card">
+      <h2>Reason Why (mathematical English)</h2>
+      <div id="reason" class="output tall">(click “Run ARC”)</div>
+    </div>
+
+    <div class="card">
+      <h2>Check <span id="checksCount" class="badge">0</span></h2>
+      <div id="checks" class="output tall">computing…</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const els = {
+    dataTA: $("dataTA"), policyTA: $("policyTA"),
+    runBtn: $("runBtn"), reasonBtn: $("reasonBtn"), uniqChk: $("uniqChk"),
+    status: $("status"), diag: $("diag"),
+    answer: $("answer"), reason: $("reason"), checks: $("checks"),
+    checksCount: $("checksCount"), checksCountInline: $("checksCountInline"),
+    gridMount: $("gridMount"), uniqOut: $("uniqOut")
+  };
+
+  // Auto-grow textareas
+  function autoResize(el){ el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
+  ["dataTA","policyTA"].forEach(id=>{
+    const el=$(id); el.addEventListener('input',()=>autoResize(el)); setTimeout(()=>autoResize(el),0);
+  });
+
+  // --- Utilities
+  function parseJSON(text, label){
+    try { return JSON.parse(text); }
+    catch(e){ throw new Error(`${label} JSON error: ${e.message}`); }
+  }
+  const FILL=1, EMPTY=0, UNK=-1;
+  const deepClone = g => g.map(row=>row.slice());
+
+  // Run extraction from a 0/1 line
+  function runsFromLine(line){
+    const out=[]; let cnt=0;
+    for(const v of line){
+      if(v===FILL) cnt++;
+      else { if(cnt>0){ out.push(cnt); cnt=0; } }
+    }
+    if(cnt>0) out.push(cnt);
+    return out.length? out : [];
+  }
+
+  // Generate all 0/1 patterns of length N that realize clue runs [a,b,c,...]
+  function linePatterns(N, clue){
+    if(clue.length===0) return [Array(N).fill(EMPTY)];
+    const total = clue.reduce((a,b)=>a+b,0);
+    const minZerosBetween = clue.length-1;
+    const free = N - total - minZerosBetween;
+    if(free<0) return []; // impossible
+    const res=[];
+    function place(idx, start, prefix){
+      if(idx === clue.length){
+        const tail = Array(N - prefix.length).fill(EMPTY);
+        res.push(prefix.concat(tail));
+        return;
+      }
+      const len = clue[idx];
+      for(let z= (idx===0? 0:1); ; z++){
+        if(start + z + len + (clue.slice(idx+1).reduce((a,b)=>a+b,0)) + (clue.length-idx-1) > N) break;
+        const zeros = Array(z).fill(EMPTY);
+        const ones  = Array(len).fill(FILL);
+        const nextPrefix = prefix.concat(zeros, ones);
+        const nextStart = start + z + len;
+        place(idx+1, nextStart, nextPrefix);
+      }
+    }
+    place(0,0,[]);
+    return res;
+  }
+
+  // Filter patterns by consistency with a partial line (UNK/0/1)
+  function filterBy(line, patterns){
+    const L = line.length;
+    return patterns.filter(p=>{
+      for(let i=0;i<L;i++){
+        if(line[i]===UNK) continue;
+        if(line[i]!==p[i]) return false;
+      }
+      return true;
+    });
+  }
+
+  // Given admissible patterns, infer forced cells via intersection
+  function forcedFrom(patterns){
+    if(patterns.length===0) return null; // contradiction
+    const L = patterns[0].length;
+    const out = new Array(L).fill(UNK);
+    for(let i=0;i<L;i++){
+      let all1=true, all0=true;
+      for(const p of patterns){
+        if(p[i]!==FILL) all1=false;
+        if(p[i]!==EMPTY) all0=false;
+        if(!all1 && !all0) break;
+      }
+      if(all1) out[i]=FILL;
+      else if(all0) out[i]=EMPTY;
+    }
+    return out;
+  }
+
+  // Propagation engine: alternate over rows and columns recording reasons
+  function propagate(grid, rows, cols, reasons){
+    const N = grid.length;
+    while(true){
+      let changed=false;
+
+      // Rows
+      for(let r=0;r<N;r++){
+        const patAll = linePatterns(N, rows[r]);
+        const admiss = filterBy(grid[r], patAll);
+        if(admiss.length===0) return {progress:false, contradiction:true};
+        const forced = forcedFrom(admiss);
+        let forcedCells=[];
+        for(let c=0;c<N;c++){
+          if(forced[c]!==UNK && grid[r][c]===UNK){
+            grid[r][c]=forced[c]; changed=true;
+            forcedCells.push({c:c+1,val:forced[c]});
+          }
+        }
+        reasons && reasons.push(`Row ${r+1}: ${admiss.length} candidates → ${forcedCells.length? forcedCells.map(f=>`c${f.c}=${f.val? "fill":"empty"}`).join(", "):"no new info"}.`);
+      }
+
+      // Columns
+      for(let c=0;c<N;c++){
+        const col = grid.map(row=>row[c]);
+        const patAll = linePatterns(N, cols[c]);
+        const admiss = filterBy(col, patAll);
+        if(admiss.length===0) return {progress:false, contradiction:true};
+        const forced = forcedFrom(admiss);
+        let forcedCells=[];
+        for(let r=0;r<N;r++){
+          if(forced[r]!==UNK && grid[r][c]===UNK){
+            grid[r][c]=forced[r]; changed=true;
+            forcedCells.push({r:r+1,val:forced[r]});
+          }
+        }
+        reasons && reasons.push(`Col ${c+1}: ${admiss.length} candidates → ${forcedCells.length? forcedCells.map(f=>`r${f.r}=${f.val? "fill":"empty"}`).join(", "):"no new info"}.`);
+      }
+
+      if(!changed) return {progress:false, contradiction:false};
+    }
+  }
+
+  // Choose a line (row/col) with fewest candidates > 1 for branching
+  function pickBestLine(grid, rows, cols){
+    const N = grid.length;
+    let best = null;
+
+    for(let r=0;r<N;r++){
+      const patAll = linePatterns(N, rows[r]);
+      const admiss = filterBy(grid[r], patAll).length;
+      if(admiss>1 && (!best || admiss<best.adm)) best = {kind:"row", idx:r, adm:admiss};
+    }
+    for(let c=0;c<N;c++){
+      const col = grid.map(row=>row[c]);
+      const patAll = linePatterns(N, cols[c]);
+      const adm = filterBy(col, patAll).length;
+      if(adm>1 && (!best || adm<best.adm)) best = {kind:"col", idx:c, adm};
+    }
+    return best;
+  }
+
+  function applyPatternToRow(grid, r, pat){
+    grid[r] = pat.slice();
+  }
+  function applyPatternToCol(grid, c, pat){
+    for(let r=0;r<grid.length;r++) grid[r][c]=pat[r];
+  }
+
+  function getAdmissible(grid, kind, idx, rows, cols){
+    const N=grid.length;
+    if(kind==="row"){
+      const pats = linePatterns(N, rows[idx]);
+      return filterBy(grid[idx], pats);
+    } else {
+      const col = grid.map(row=>row[idx]);
+      const pats = linePatterns(N, cols[idx]);
+      return filterBy(col, pats);
+    }
+  }
+
+  function isComplete(grid){
+    for(const row of grid) for(const v of row) if(v===UNK) return false;
+    return true;
+  }
+
+  function equalGrids(a,b){
+    const N=a.length;
+    for(let r=0;r<N;r++) for(let c=0;c<N;c++) if(a[r][c]!==b[r][c]) return false;
+    return true;
+  }
+
+  // DFS solver with reasons
+  function solve(grid0, rows, cols, forbid=null){
+    const N = grid0.length;
+    const grid = deepClone(grid0);
+    const reasons=[];
+    const step1 = propagate(grid, rows, cols, reasons);
+    if(step1.contradiction) return null;
+
+    if(isComplete(grid)){
+      if(forbid && equalGrids(grid, forbid)) return null;
+      return {grid, reasons};
+    }
+
+    const pick = pickBestLine(grid, rows, cols);
+    if(!pick) return null; // stuck but incomplete
+    const candidates = getAdmissible(grid, pick.kind, pick.idx, rows, cols);
+
+    for(let i=0;i<candidates.length;i++){
+      const g2 = deepClone(grid);
+      if(pick.kind==="row") applyPatternToRow(g2, pick.idx, candidates[i]);
+      else applyPatternToCol(g2, pick.idx, candidates[i]);
+
+      const sub = solve(g2, rows, cols, forbid);
+      if(sub){
+        sub.reasons.unshift(`Branch on ${pick.kind} ${pick.idx+1}: choose candidate ${i+1}/${candidates.length}.`);
+        return sub;
+      }
+    }
+    return null;
+  }
+
+  // Rendering
+  function renderGrid(grid, rows, cols){
+    const N = grid.length;
+    const host = document.createElement('div');
+    host.className = 'gridWrap';
+
+    // Top clues
+    const top = document.createElement('div');
+    top.className = 'cluesCols';
+    top.style.gridTemplateColumns = `repeat(${N}, 26px)`;
+    const topInner = document.createElement('div');
+    topInner.className = 'grid';
+    topInner.style.gridTemplateColumns = `repeat(${N}, 26px)`;
+
+    // We stack per-column clues vertically
+    for(let c=0;c<N;c++){
+      const stack = document.createElement('div');
+      stack.className = 'stackCol';
+      const maxH = Math.max(...cols.map(cl=>cl.length));
+      for(let k=0;k<maxH - cols[c].length;k++){
+        const ph = document.createElement('div'); ph.className='clue top'; ph.textContent=''; stack.appendChild(ph);
+      }
+      for(const n of cols[c]){
+        const el = document.createElement('div'); el.className='clue top'; el.textContent=String(n); stack.appendChild(el);
+      }
+      topInner.appendChild(stack);
+    }
+    host.appendChild(document.createElement('div')); // empty spacer at left
+    host.appendChild(topInner);
+
+    // Left clues + grid
+    const left = document.createElement('div');
+    left.className = 'cluesRows';
+    left.style.gridTemplateRows = `repeat(${N}, 26px)`;
+    for(let r=0;r<N;r++){
+      const el = document.createElement('div'); el.className='clue'; el.style.height='26px';
+      el.textContent = rows[r].join(' ');
+      left.appendChild(el);
+    }
+
+    const gridEl = document.createElement('div');
+    gridEl.className = 'grid';
+    gridEl.style.gridTemplateColumns = `repeat(${N}, 26px)`;
+    for(let r=0;r<N;r++){
+      for(let c=0;c<N;c++){
+        const d = document.createElement('div');
+        d.className = 'cell ' + (grid[r][c]===FILL? 'fill':'empty');
+        gridEl.appendChild(d);
+      }
+    }
+
+    host.appendChild(left);
+    host.appendChild(gridEl);
+    return host;
+  }
+
+  // Reporting
+  function answerFacts(grid){
+    const N = grid.length, out=[];
+    for(let r=0;r<N;r++)
+      for(let c=0;c<N;c++)
+        out.push(`cell(${r+1},${c+1}) = ${grid[r][c]===FILL? "fill":"empty"}`);
+    return out.join("\n");
+  }
+
+  function explainReason(reasons){
+    return reasons.join("\n");
+  }
+
+  function checks(grid, rows, cols){
+    const N = grid.length, out=[];
+    // All assigned
+    out.push({name:"All cells assigned", pass:isComplete(grid)});
+    // Row runs
+    for(let r=0;r<N;r++){
+      const ok = JSON.stringify(runsFromLine(grid[r])) === JSON.stringify(rows[r]);
+      out.push({name:`Row ${r+1} runs`, pass:ok});
+    }
+    // Col runs
+    for(let c=0;c<N;c++){
+      const col = grid.map(row=>row[c]);
+      const ok = JSON.stringify(runsFromLine(col)) === JSON.stringify(cols[c]);
+      out.push({name:`Col ${c+1} runs`, pass:ok});
+    }
+    // Sanity: row/col counts match totals
+    for(let r=0;r<N;r++){
+      const sum = grid[r].reduce((a,b)=>a+(b===FILL?1:0),0);
+      const target = rows[r].reduce((a,b)=>a+b,0);
+      out.push({name:`Row ${r+1} fill count`, pass: sum===target});
+    }
+    for(let c=0;c<N;c++){
+      const sum = grid.map(row=>row[c]).reduce((a,b)=>a+(b===FILL?1:0),0);
+      const target = cols[c].reduce((a,b)=>a+b,0);
+      out.push({name:`Col ${c+1} fill count`, pass: sum===target});
+    }
+    return out;
+  }
+
+  function renderChecks(list){
+    const lines = list.map((r,i)=> `${r.pass? "✅":"❌"} ${String(i+1).padStart(2," ")} — ${r.name}`);
+    const passCt = list.filter(x=>x.pass).length;
+    lines.push(`\nSummary: ${passCt}/${list.length} PASS`);
+    return lines.join("\n");
+  }
+
+  // Orchestrate
+  function runARC(){
+    els.status.textContent = "Parsing JSON…";
+    els.answer.textContent = els.reason.textContent = els.checks.textContent = "computing…";
+    els.gridMount.innerHTML = ""; els.uniqOut.textContent = "(toggle “Probe uniqueness” then Run)";
+    els.diag.textContent = "";
+
+    try{
+      const data = parseJSON(els.dataTA.value, "Data");
+      parseJSON(els.policyTA.value, "Policies");
+
+      const N = data.size|0;
+      if(!(Number.isInteger(N) && N>0)) throw new Error("size must be a positive integer");
+      if(!Array.isArray(data.rows) || !Array.isArray(data.cols)) throw new Error("rows/cols must be arrays");
+      if(data.rows.length!==N || data.cols.length!==N) throw new Error("rows/cols length must equal size");
+      for(const arr of data.rows.concat(data.cols))
+        if(!arr.every(x=>Number.isInteger(x)&&x>=1)) throw new Error("clues must be arrays of positive integers");
+
+      // Init grid as unknown
+      const grid = Array.from({length:N},()=>Array(N).fill(UNK));
+
+      els.status.textContent = "Solving…";
+      const sol = solve(grid, data.rows, data.cols, null);
+      if(!sol) throw new Error("No solution found (check clues).");
+      const {grid:solution, reasons} = sol;
+
+      // Answer
+      els.answer.textContent = answerFacts(solution);
+
+      // Reason
+      els.reason.textContent = explainReason(reasons);
+
+      // Checks
+      const chk = checks(solution, data.rows, data.cols);
+      els.checks.textContent = renderChecks(chk);
+      els.checksCount.textContent = String(chk.length);
+      if(els.checksCountInline) els.checksCountInline.textContent = String(chk.length);
+
+      // Summary grid
+      els.gridMount.appendChild(renderGrid(solution, data.rows, data.cols));
+
+      // Uniqueness
+      if(els.uniqChk.checked){
+        els.status.textContent = "Probing uniqueness…";
+        const alt = solve(Array.from({length:N},()=>Array(N).fill(UNK)), data.rows, data.cols, solution);
+        if(alt){
+          els.uniqOut.textContent = "Multiple solutions found — clues do not enforce uniqueness.";
+        } else {
+          els.uniqOut.textContent = "Unique — no second distinct solution found.";
+        }
+      }
+
+      els.status.textContent = "Done.";
+    } catch(e){
+      els.status.textContent = "Error";
+      els.answer.textContent = "(failed)";
+      els.reason.textContent = "(failed)";
+      els.checks.textContent = "(failed)";
+      els.gridMount.innerHTML = "";
+      els.uniqOut.textContent = "(failed)";
+      els.diag.textContent = e.message;
+      console.error(e);
+    }
+
+    autoResize(els.dataTA); autoResize(els.policyTA);
+  }
+
+  function showReasonOnly(){
+    runARC();
+    setTimeout(()=> window.scrollTo({top: $("reason").getBoundingClientRect().top + window.scrollY - 12, behavior:"smooth"}), 50);
+  }
+
+  els.runBtn.addEventListener('click', runARC);
+  els.reasonBtn.addEventListener('click', showReasonOnly);
+  window.addEventListener('DOMContentLoaded', runARC);
+</script>
+</body>
+</html>
+

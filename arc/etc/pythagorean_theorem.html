@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pythagorean Theorem</title>
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#111827; --muted:#6b7280; --panel:#f8fafc; --border:#e5e7eb;
+      --accent:#0ea5e9; --good:#16a34a; --amber:#f59e0b; --blue:#3b82f6;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.6 var(--ui); }
+    .wrap{max-width:980px; margin:36px auto; padding:0 16px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
+    h1{font-size:22px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .row{display:flex; flex-direction:column; gap:16px}
+    .card{background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13.25px}
+    .arc-grid{display:flex; flex-direction:column; gap:12px}
+    .arc-card{background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .arc-card .ac-head{display:flex; align-items:center; gap:8px; padding:10px 12px; border-bottom:1px solid var(--border); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+    .arc-card .ac-body{padding:12px}
+    .arc-card.answer{border-left:4px solid var(--good)}
+    .arc-card.reason{border-left:4px solid var(--blue)}
+    .arc-card.check{border-left:4px solid var(--amber)}
+    .btn{all:unset; background:#fff; border:1px solid var(--border); padding:8px 12px; border-radius:10px; cursor:pointer}
+    .btn:hover{border-color:#cbd5e1}
+    code{background:#fff; border:1px solid var(--border); border-radius:6px; padding:0 6px}
+    ul{margin:8px 0 0 20px; padding:0}
+    li{margin:4px 0}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Pythagorean Theorem</h1>
+      <div class="pill" id="status">Ready</div>
+    </header>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained, browser‑only rendition of the
+        Pythagorean Theorem proof by triangle similarity (altitude to hypotenuse). It mirrors
+        the structure of the reference case and includes a silent numeric harness.</p>
+        <ul>
+          <li><em>Answer</em>: states the theorem for legs <code>a,b</code> and hypotenuse <code>c</code>.</li>
+          <li><em>Reason why</em>: uses similarity to show <code>p=b²/c</code>, <code>q=a²/c</code>, <code>p+q=c</code> and concludes <code>a²+b²=c²</code>. Also notes <code>h=(ab)/c</code> and <code>h²=pq</code>.</li>
+          <li><em>Check</em>: runs many triangles across scales to verify all identities within a tight tolerance.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="card">
+        <div class="head"><h2>Controls</h2>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="btn" onclick="run()">▶ Run</button>
+            <button class="btn" onclick="downloadARC()">⬇ Export .txt</button>
+          </div>
+        </div>
+        <div class="body">Deterministic run (no inputs). Auto‑runs on load.</div>
+      </div>
+
+      <div class="card">
+        <div class="head"><h2>ARC Output</h2></div>
+        <div class="body">
+          <div class="arc-grid">
+            <div class="arc-card answer">
+              <div class="ac-head">Answer</div>
+              <div class="ac-body"><pre id="ans">(no run yet)</pre></div>
+              <figure class="pythagoras-figure" style="max-width: 760px; margin: 1rem auto;">
+                <svg id="pythagoras-svg" viewBox="-140 -180 500 520" role="img" aria-labelledby="pythagoras-title pythagoras-desc" width="100%">
+                  <title id="pythagoras-title">Colored SVG illustrating the Pythagorean theorem</title>
+                  <desc id="pythagoras-desc">A 3–4–5 right triangle with colored squares on each side: red on the vertical leg a (length 3×), blue on the horizontal leg b (length 4×), and green on the hypotenuse c (length 5×). It shows that the combined area of the two small squares equals the big one.</desc>
+
+                  <style>
+                    #pythagoras-svg .sqA { fill: #ff6b6b; fill-opacity: .35; stroke: #c0392b; stroke-width: 2; }
+                    #pythagoras-svg .sqB { fill: #4da3ff; fill-opacity: .35; stroke: #1b6fd1; stroke-width: 2; }
+                    #pythagoras-svg .sqC { fill: #6bd66b; fill-opacity: .35; stroke: #238823; stroke-width: 2; }
+                    #pythagoras-svg .tri { fill: none; stroke: #222; stroke-width: 2.5; }
+                    #pythagoras-svg .right-angle { fill: none; stroke: #222; stroke-width: 2; }
+                    #pythagoras-svg .label { font: 600 18px system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #111; }
+                    #pythagoras-svg .caption { font: 600 20px system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #111; }
+                    #pythagoras-svg .note { font: 14px system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; fill: #333; }
+                  </style>
+
+                  <!-- Coordinates use a 3–4–5 triangle scaled by 40: A(0,0), B(160,0), C(0,120); c = 200. -->
+                  <!-- Squares on each side (a: vertical AC, b: horizontal AB, c: hypotenuse BC). -->
+                  <polygon class="sqB" points="0,0 160,0 160,-160 0,-160"/>
+                  <polygon class="sqA" points="0,0 0,120 -120,120 -120,0"/>
+                  <polygon class="sqC" points="160,0 0,120 120,280 280,160"/>
+
+                  <!-- Right triangle -->
+                  <polygon class="tri" points="0,0 160,0 0,120"/>
+
+                  <!-- Right-angle tick at A -->
+                  <path class="right-angle" d="M0 0 h20 v20"/>
+
+                  <!-- Side labels -->
+                  <text class="label" x="80" y="18" text-anchor="middle">b</text>
+                  <text class="label" x="-8" y="64" text-anchor="end">a</text>
+                  <text class="label" x="88" y="64" text-anchor="start">c</text>
+
+                  <!-- Square area labels -->
+                  <text class="label" x="80" y="-80" text-anchor="middle">b²</text>
+                  <text class="label" x="-60" y="60" text-anchor="middle">a²</text>
+                  <text class="label" x="140" y="140" text-anchor="middle">c²</text>
+
+                  <!-- Formula caption -->
+                  <text class="caption" x="-120" y="310">a² + b² = c²</text>
+                  <text class="note" x="-120" y="330">(Areas add: red + blue = green)</text>
+                </svg>
+                <figcaption style="text-align:center; margin-top:.25rem; color:#444; font: 14px/1.4 system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                  Pythagorean theorem visual: squares on the legs (a, b) match the square on the hypotenuse (c).
+                </figcaption>
+              </figure>
+            </div>
+            <div class="arc-card reason">
+              <div class="ac-head">Reason why</div>
+              <div class="ac-body"><pre id="why">(no run yet)</pre></div>
+            </div>
+            <div class="arc-card check">
+              <div class="ac-head">Check (harness)</div>
+              <div class="ac-body"><pre id="chk">(no run yet)</pre></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// Minimal numeric toolbox (no imports)
+function sqrtNR(x){
+  if(x===0) return 0;
+  let g = x>=1 ? x : 1;
+  for(let i=0;i<25;i++){ g = 0.5*(g + x/g); }
+  return g;
+}
+function absf(x){ return x<0 ? -x : x; }
+function fmtExp(x){ return x.toExponential(3); }
+
+// Geometry helpers
+function hypotenuse(a,b){ return sqrtNR(a*a + b*b); }
+function derive_p_q(a,b){
+  const c = hypotenuse(a,b);
+  if(c===0) throw new Error("Degenerate triangle (a=b=0) is not allowed.");
+  return {p:(b*b)/c, q:(a*a)/c, c};
+}
+function altitude(a,b,c){ return (a*b)/c; }
+
+function check_all(a,b,tol){
+  if(!(a>0 && b>0)) throw new Error("Leg lengths must be positive.");
+  const {p,q,c} = derive_p_q(a,b);
+  const h = altitude(a,b,c);
+  const res = [];
+  // 1) Core similarity equalities
+  res.push(absf(b*b - c*p)); // b^2 = c p
+  res.push(absf(a*a - c*q)); // a^2 = c q
+  // 2) Partition
+  res.push(absf((p+q) - c)); // p + q = c
+  // 3) Ratio forms
+  res.push(absf((p/b) - (b/c))); // p/b = b/c
+  res.push(absf((q/a) - (a/c))); // q/a = a/c
+  // 4) Altitude & geometric mean
+  res.push(absf((h*h) - (p*q))); // h^2 = p q
+  // 5) Area consistency
+  res.push(absf(0.5*a*b - 0.5*c*h)); // ½ab = ½ch
+  // 6) Pythagoras
+  res.push(absf(a*a + b*b - c*c)); // a^2 + b^2 = c^2
+  const worst = res.reduce((m,v)=>v>m?v:m,0);
+  const ok = res.every(r => r <= tol);
+  return {worst, c, ok};
+}
+
+function run_harness(){
+  const max_leg = 12;
+  const scales = [0.5, 1.0, 1.7, 3.0];
+  const tol = 1e-11;
+  let tested=0, worst=0;
+  for(const s of scales){
+    for(let A=1; A<=max_leg; A++){
+      for(let B=1; B<=max_leg; B++){
+        const a = s*A, b = s*B;
+        const r = check_all(a,b,tol);
+        tested++;
+        if(r.worst>worst) worst=r.worst;
+        if(!r.ok){ throw new Error("Identity residual exceeded tolerance"); }
+      }
+    }
+  }
+  return {tested, scales: scales.length, worst};
+}
+
+// ARC sections
+function arc_answer(){
+  return [
+    "For any right triangle with legs a, b and hypotenuse c,",
+    "the Pythagorean Theorem holds: a² + b² = c²."
+  ].join("\n");
+}
+function arc_reason(){
+  return [
+"Drop the altitude from the right angle to the hypotenuse, splitting it into",
+"segments of lengths p and q. By AA similarity:",
+" p/b = b/c ⇒ p = b²/c, q/a = a/c ⇒ q = a²/c, and p + q = c.",
+"Adding c·p and c·q gives b² + a² = c(p+q) = c².",
+"The altitude satisfies h = (ab)/c and h² = pq, consistent with the similarity."
+  ].join("\n");
+}
+function arc_check(summary){
+  return [
+    "Cases tested: " + summary.tested + " across " + summary.scales + " scale factors.",
+    "Worst absolute residual among all identities: " + fmtExp(summary.worst),
+    "All similarity relations and Pythagoras verified. ✔"
+  ].join("\n");
+}
+
+// Runner + UI
+function run(){
+  const summary = run_harness();
+  document.getElementById('ans').textContent = arc_answer();
+  document.getElementById('why').textContent = arc_reason();
+  document.getElementById('chk').textContent = arc_check(summary);
+  document.getElementById('status').textContent = 'Computed';
+}
+function downloadARC(){
+  const blob = new Blob([
+    "Answer\n------\n", arc_answer(), "\n\n",
+    "Reason why\n----------\n", arc_reason(), "\n\n",
+    "Check (harness)\n---------------\n", document.getElementById('chk').textContent
+  ], {type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='pythagorean_theorem_output.txt'; a.click();
+}
+
+window.addEventListener('DOMContentLoaded', run);
+</script>
+</body>
+</html>

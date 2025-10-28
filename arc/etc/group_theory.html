@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Group Theory</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#111827;
+      --muted:#6b7280;
+      --panel:#f8fafc;
+      --border:#e5e7eb;
+      --accent:#0ea5e9;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    html,body{height:100%}
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 var(--ui); }
+    .wrap{max-width:980px; margin:36px auto; padding:0 16px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
+    h1{font-size:22px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .row{display:flex; flex-direction:column; gap:16px}
+    .card{flex:1 1 auto; background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px}
+    .bar{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
+    button{all:unset; background:#fff; border:1px solid var(--border); padding:8px 12px; border-radius:10px; cursor:pointer}
+    button:hover{border-color:#cbd5e1}
+    .small{color:var(--muted); text-decoration:none}
+    .accent{color:var(--accent)}
+  
+    /* ARC v2 (Cards) */
+    .arc-grid{display:flex; flex-direction:column; gap:12px}
+    .arc-card{background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .arc-card .ac-head{display:flex; align-items:center; gap:8px; padding:10px 12px; border-bottom:1px solid var(--border); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+    .arc-card .ac-body{padding:12px}
+    .arc-card pre{margin:0; white-space:pre-wrap; background:#fff; border:1px solid #eef2f7; border-radius:10px; padding:10px; font-family:var(--mono); font-size:13px}
+    .arc-card.answer{border-left:4px solid #10b981}
+    .arc-card.reason{border-left:4px solid #3b82f6}
+    .arc-card.check{border-left:4px solid #f59e0b}
+    .toolbar{display:flex; gap:8px; align-items:center}
+    </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Group Theory</h1>
+      <div class="pill">Self‑contained • No deps</div>
+    </header>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained, browser‑only <em>ARC harness</em> that
+        demonstrates finite group theory with three small groups: Z/12Z (addition mod 12),
+        S₄ (permutations on 4 symbols), and GL(2, Z₅) (invertible 2×2 matrices mod 5). It
+        prints results and a verification harness entirely on this page—no network, no libraries.</p>
+        <p><strong>How to use it:</strong> Press <em>Run</em> to generate the analysis and optionally
+        export the ARC report. The output is organized as <em>Answer</em> (results),
+        <em>Reason why</em> (explanations), and <em>Check</em> (axioms/homomorphisms and sanity tests).</p>
+        <p class="small">This page is for reproducibility and documentation; it is not a substitute for a group theory text.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="card">
+        <div class="head">
+          <h2>Run</h2>
+          <div class="bar">
+            <button onclick="run()">▶ Run</button>
+            <a href="#" class="small" onclick="copyARC();return false;">Copy ARC</a>
+          </div>
+        </div>
+        <div class="body">
+          <div class="small">Deterministic sampling with a fixed seed; computation happens locally in your browser.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="head">
+  <h2>ARC Output</h2>
+  <div class="toolbar">
+    <button onclick="toggleArcStyle()" id="styleBtn">Style: Cards</button>
+    <button onclick="downloadARC()">⬇ Export .txt</button>
+  </div>
+</div>
+<div class="body">
+  <div id="arc-cards" class="arc-grid">
+    <div class="arc-card answer">
+      <div class="ac-head">Answer</div>
+      <div class="ac-body"><pre id="arc_ans">(no run yet)</pre></div>
+    </div>
+    <div class="arc-card reason">
+      <div class="ac-head">Reason why</div>
+      <div class="ac-body"><pre id="arc_reason">(no run yet)</pre></div>
+    </div>
+    <div class="arc-card check">
+      <div class="ac-head">Check (harness)</div>
+      <div class="ac-body"><pre id="arc_check">(no run yet)</pre></div>
+    </div>
+  </div>
+  <pre id="arc" style="display:none">(no run yet)</pre>
+</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ---------- Utilities ----------
+function downloadText(name, text){
+  const blob=new Blob([text],{type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove();
+}
+function copyARC(){
+  navigator.clipboard.writeText(document.getElementById('arc').textContent);
+}
+
+// Deterministic PRNG (LCG) for repeatable sampling
+function makeRand(seed=0xC0FFEE){
+  let s = seed >>> 0;
+  return function(){
+    s = (1664525 * s + 1013904223) >>> 0;
+    return (s >>> 0) / 4294967296;
+  };
+}
+function choice(arr, rand){ return arr[Math.floor(rand()*arr.length)]; }
+
+// ---------- Generic FiniteGroup shell ----------
+class FiniteGroup{
+  elements(){ throw new Error("Not implemented"); }
+  op(a,b){ throw new Error("Not implemented"); }
+  e(){ throw new Error("Not implemented"); }
+  inv(a){ throw new Error("Not implemented"); }
+  name(){ return this.constructor.name; }
+  pow(a,n){
+    if(n<0) throw new Error("Exponent must be non-negative.");
+    let r=this.e(), b=a, k=n;
+    while(k){
+      if(k & 1) r=this.op(r,b);
+      b=this.op(b,b);
+      k >>= 1;
+    }
+    return r;
+  }
+}
+
+// ---------- Concrete groups ----------
+// Z/nZ under addition
+class Zmod extends FiniteGroup{
+  constructor(n){ super(); this.n=n; this._elems=null; }
+  elements(){ return this._elems ??= Array.from({length:this.n}, (_,i)=>i); }
+  op(a,b){ return (a+b)%this.n; }
+  e(){ return 0; }
+  inv(a){ return ((-a)%this.n + this.n)%this.n; }
+  name(){ return `Z/${this.n}Z`; }
+}
+
+// S_n as permutations (arrays), op = composition (apply right then left)
+class SymmetricGroup extends FiniteGroup{
+  constructor(n){ super(); this.n=n; this._elems=null; }
+  elements(){ return this._elems ??= permute(Array.from({length:this.n}, (_,i)=>i)); }
+  op(p,q){ // i ↦ p[q[i]]
+    const n=this.n, r=new Array(n);
+    for(let i=0;i<n;i++) r[i]=p[q[i]];
+    return r;
+  }
+  e(){ return Array.from({length:this.n}, (_,i)=>i); }
+  inv(p){
+    const n=this.n, inv=new Array(n);
+    for(let i=0;i<n;i++) inv[p[i]] = i;
+    return inv;
+  }
+  name(){ return `S_${this.n}`; }
+}
+function permute(arr){
+  const res=[];
+  function backtrack(a, i){
+    if(i===a.length){ res.push(a.slice()); return; }
+    for(let j=i;j<a.length;j++){
+      [a[i],a[j]]=[a[j],a[i]];
+      backtrack(a,i+1);
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+  }
+  backtrack(arr.slice(),0);
+  return res;
+}
+
+// GL(2, Z_p): matrices [A,B,C,D] with det ≠ 0 mod p
+class GL2Zp extends FiniteGroup{
+  constructor(p){ super(); this.p=p; this._elems=null; }
+  _mod(x){ const p=this.p; x%=p; return x<0?x+p:x; }
+  _det(M){ const [A,B,C,D]=M; return this._mod(A*D - B*C); }
+  _inv_mod(a){
+    const p=this.p; a%=p; if(a<0) a+=p;
+    if(a===0) throw new Error("no inverse mod p");
+    let t=0, newt=1, r=p, newr=a;
+    while(newr!==0){ const q=Math.floor(r/newr); [t,newt]=[newt, t - q*newt]; [r,newr]=[newr, r - q*newr]; }
+    if(r!==1) throw new Error("not invertible mod p");
+    t%=p; if(t<0) t+=p; return t;
+  }
+  elements(){
+    if(this._elems) return this._elems;
+    const p=this.p, elems=[];
+    for(let A=0;A<p;A++)for(let B=0;B<p;B++)for(let C=0;C<p;C++)for(let D=0;D<p;D++){
+      if(((A*D - B*C)%p + p)%p !== 0) elems.push([A,B,C,D]);
+    }
+    this._elems=elems;
+    return elems;
+  }
+  op(M,N){
+    const p=this.p;
+    const [A,B,C,D]=M, [E,F,G,H]=N;
+    return [ (A*E + B*G)%p, (A*F + B*H)%p, (C*E + D*G)%p, (C*F + D*H)%p ].map(x=> (x%p + p)%p );
+  }
+  e(){ return [1,0,0,1]; }
+  inv(M){
+    const [A,B,C,D]=M;
+    const det=this._det(M), inv_det=this._inv_mod(det);
+    return [ ( D*inv_det)%this.p, (-B*inv_det)%this.p, (-C*inv_det)%this.p, ( A*inv_det)%this.p ].map(x=> (x%this.p + this.p)%this.p );
+  }
+  name(){ return `GL(2, Z_${this.p})`; }
+}
+
+// ---------- Checks & helpers ----------
+function permutation_parity(p){ // 0 even, 1 odd
+  let inv=0, n=p.length;
+  for(let i=0;i<n;i++) for(let j=i+1;j<n;j++) if(p[i]>p[j]) inv++;
+  return inv & 1;
+}
+function check_homomorphism(G, H, phi, {exhaustive=false, samples=5000, rand=Math.random}={}){
+  const elemsG = G.elements();
+  if(exhaustive || elemsG.length<=200){
+    for(const a of elemsG) for(const b of elemsG){
+      const lhs = phi(G.op(a,b)), rhs = H.op(phi(a), phi(b));
+      if(!eq(lhs, rhs)) return false;
+    }
+    return true;
+  }else{
+    for(let k=0;k<samples;k++){
+      const a = choice(elemsG, rand), b = choice(elemsG, rand);
+      const lhs = phi(G.op(a,b)), rhs = H.op(phi(a), phi(b));
+      if(!eq(lhs, rhs)) return false;
+    }
+    return true;
+  }
+}
+function element_order(G, a){
+  const e = G.e();
+  let acc = Array.isArray(a) ? a.slice() : a; // clone arrays
+  let k=1, safety=10000;
+  while(!eq(acc, e)){
+    acc = G.op(acc, a);
+    k++; if(k> safety) return -1;
+  }
+  return k;
+}
+function find_noncommuting_pair(G){
+  const elems = G.elements();
+  for(const a of elems) for(const b of elems){
+    if(!eq(G.op(a,b), G.op(b,a))) return [a,b];
+  }
+  return null;
+}
+function all_orders_divide_group_order(G){
+  const n = G.elements().length;
+  for(const g of G.elements()){
+    const k = element_order(G, g);
+    if(n % k !== 0) return false;
+  }
+  return true;
+}
+function eq(a,b){
+  if(Array.isArray(a) && Array.isArray(b)){
+    if(a.length!==b.length) return false;
+    for(let i=0;i<a.length;i++) if(a[i]!==b[i]) return false;
+    return true;
+  }
+  return a===b;
+}
+function show(obj){ return JSON.stringify(obj); }
+
+// ---------- ARC run ----------
+function run(){
+  const rnd = makeRand(0xC0FFEE);
+
+  // Groups
+  const Z12 = new Zmod(12);
+  const S4 = new SymmetricGroup(4);
+  const GL25 = new GL2Zp(5);
+
+  // Sample operations / elements
+  const aZ=7, bZ=10, abZ=Z12.op(aZ,bZ), invZ=Z12.inv(aZ);
+  const p=[1,0,2,3], q=[2,1,0,3];
+  const pq=S4.op(p,q), invp=S4.inv(p);
+  const M=[2,1,0,1], N=[1,1,1,2];
+  const MN=GL25.op(M,N), invM=GL25.inv(M);
+  const noncomm_pair_S4 = find_noncommuting_pair(S4);
+  const noncomm_pair_GL = find_noncommuting_pair(GL25);
+
+  // Homomorphisms
+  const Z4 = new Zmod(4);
+  const phi = x => x % 4;
+  const phi_is_hom = check_homomorphism(Z12, Z4, phi, {exhaustive:true});
+  const ker_phi = Z12.elements().filter(x => phi(x)===Z4.e());
+  const im_phi = Array.from(new Set(Z12.elements().map(x => phi(x)))).sort((a,b)=>a-b);
+  const fit_ok = (Z12.elements().length / ker_phi.length) === im_phi.length;
+
+  const C2 = new Zmod(2);
+  const sgn = perm => permutation_parity(perm);
+  const sgn_is_hom = check_homomorphism(S4, C2, sgn, {exhaustive:true});
+  const ker_sgn = S4.elements().filter(s => sgn(s)===0);
+  const index_A4 = S4.elements().length / ker_sgn.length;
+
+  // Orders & Cauchy witnesses
+  const orders_Z12 = Object.fromEntries(Z12.elements().map(x => [x, element_order(Z12, x)]));
+  const elem_order2_S4 = S4.elements().find(g => element_order(S4,g)===2) ?? null;
+  const elem_order3_S4 = S4.elements().find(g => element_order(S4,g)===3) ?? null;
+  const elem_order2_GL = GL25.elements().find(g => element_order(GL25,g)===2) ?? null;
+  const elem_order3_GL = GL25.elements().find(g => element_order(GL25,g)===3) ?? null;
+  const elem_order5_GL = GL25.elements().find(g => element_order(GL25,g)===5) ?? null;
+
+  // Lagrange sanity
+  const lagrange_Z12 = all_orders_divide_group_order(Z12);
+  const lagrange_S4 = all_orders_divide_group_order(S4);
+  const lagrange_GL25 = all_orders_divide_group_order(GL25);
+
+  // ---- Build ARC sections separately ----
+  const A=[]; const R=[]; const C=[];
+
+  // Answer
+  A.push(`Groups: ${Z12.name()} (|G|=${Z12.elements().length}), ${S4.name()} (|G|=${S4.elements().length}), ${GL25.name()} (|G|=${GL25.elements().length})`);
+  A.push("");
+  A.push("Sample operations:");
+  A.push(`Z/12Z: ${aZ} + ${bZ} ≡ ${abZ} (mod 12); inverse(${aZ}) = ${invZ}`);
+  A.push(`S4: compose p=${JSON.stringify(p)} after q=${JSON.stringify(q)} → p∘q=${JSON.stringify(pq)}; inv(p)=${JSON.stringify(invp)}`);
+  A.push(`GL(2,5): M=${JSON.stringify(M)}, N=${JSON.stringify(N)}, M·N=${JSON.stringify(MN)}; M⁻¹=${JSON.stringify(invM)}`);
+  if(noncomm_pair_S4){ const [a,b]=noncomm_pair_S4; A.push(`Non-abelian witness for S4: a*b ≠ b*a for a=${JSON.stringify(a)}, b=${JSON.stringify(b)}`); }
+  if(noncomm_pair_GL){ const [a,b]=noncomm_pair_GL; A.push(`Non-abelian witness for GL(2,5): a*b ≠ b*a for a=${JSON.stringify(a)}, b=${JSON.stringify(b)}`); }
+
+  // Reason why
+  R.push("We model groups directly: a finite set, an operation, identity, and inverses.");
+  R.push("Each concrete group implements these and we verify the axioms by computation.");
+  R.push("Homomorphisms preserve structure (φ(a*b)=φ(a)·φ(b)); we check this for:");
+  R.push(" • φ: Z/12Z→Z/4Z (reduction mod 4), and • sgn: S4→C2 (parity).");
+  R.push("The First Isomorphism Theorem claims Z12/ker(φ) ≅ im(φ); we validate the size relation.");
+  R.push("Cauchy’s theorem predicts elements with prime orders dividing |G|; we find examples.");
+  R.push("Lagrange’s theorem predicts order(g) | |G|; we confirm this holds for all g in each group.");
+
+  // Check (harness)
+  C.push("Axiom checks (associativity exhaustive for small groups; sampled for GL(2,5)):");
+  const res_Z12 = check_group_axioms(Z12, {exhaustive_assoc:true});
+  C.push(` ${Z12.name()}: ${JSON.stringify(res_Z12)}`);
+  const res_S4 = check_group_axioms(S4, {exhaustive_assoc:true});
+  C.push(` ${S4.name()}: ${JSON.stringify(res_S4)}`);
+  const res_GL25 = check_group_axioms(GL25, {exhaustive_assoc:false, assoc_samples:8000, rand:rnd});
+  C.push(` ${GL25.name()}: ${JSON.stringify(res_GL25)} (associativity via 8000 random triples)`);
+  C.push("");
+  C.push("Abelian?");
+  C.push(` ${Z12.name()}: ${is_abelian(Z12)}`);
+  C.push(` ${S4.name()}: ${is_abelian(S4)}`);
+  C.push(` ${GL25.name()}: ${is_abelian(GL25)}`);
+  C.push("");
+  const Z4b = new Zmod(4);
+  const phi2 = x => x % 4;
+  const ok_phi = check_homomorphism(Z12, Z4b, phi2, {exhaustive:true});
+  const C2b = new Zmod(2);
+  const sgn2 = perm => permutation_parity(perm);
+  const ok_sgn = check_homomorphism(S4, C2b, sgn2, {exhaustive:true});
+  C.push(`Homomorphism laws hold? φ: ${ok_phi}, sgn: ${ok_sgn}`);
+  let ok_inv_samples=true;
+  for(let t=0;t<10;t++){ const g = choice(GL25.elements(), rnd); if(!eq(GL25.op(g, GL25.inv(g)), GL25.e()) || !eq(GL25.op(GL25.inv(g), g), GL25.e())) { ok_inv_samples=false; break; } }
+  C.push(`GL(2,5) random inverse sanity (10 samples): ${ok_inv_samples}`);
+
+  // Populate the new card view
+  document.getElementById("arc_ans").textContent = A.join("\n");
+  document.getElementById("arc_reason").textContent = R.join("\n");
+  document.getElementById("arc_check").textContent = C.join("\n");
+
+  // Keep a combined plain-text for copy/export
+  const combined = ["Answer","------", ...A, "", "Reason why","----------", ...R, "", "Check (harness)","---------------", ...C].join("\n");
+  document.getElementById("arc").textContent = combined;
+}
+
+// Supporting checks used in the harness
+function check_group_axioms(G, {exhaustive_assoc=false, assoc_samples=5000, rand=Math.random}={}){
+  const elems = G.elements();
+  const e = G.e();
+  let ok_assoc = true;
+  if(exhaustive_assoc){
+    outer: for(const a of elems){ for(const b of elems){ for(const c of elems){
+      if(!eq(G.op(G.op(a,b),c), G.op(a, G.op(b,c)))){ ok_assoc=false; break outer; }
+    } } }
+  }else{
+    for(let i=0;i<assoc_samples;i++){
+      const a=choice(elems, rand), b=choice(elems, rand), c=choice(elems, rand);
+      if(!eq(G.op(G.op(a,b),c), G.op(a, G.op(b,c)))){ ok_assoc=false; break; }
+    }
+  }
+  const ok_ident = elems.every(a => eq(G.op(e,a), a) && eq(G.op(a,e), a));
+  const ok_inv = elems.every(a => eq(G.op(a, G.inv(a)), e) && eq(G.op(G.inv(a), a), e));
+  let ok_closure = true;
+  const limit = Math.min(1000, elems.length*elems.length);
+  for(let i=0;i<limit;i++){ const a=choice(elems, rand), b=choice(elems, rand); if(!contains(elems, G.op(a,b))){ ok_closure=false; break; } }
+  return {associativity: ok_assoc, identity: ok_ident, inverses: ok_inv, closure: ok_closure};
+}
+function is_abelian(G){
+  const elems = G.elements();
+  for(const a of elems) for(const b of elems){
+    if(!eq(G.op(a,b), G.op(b,a))) return false;
+  }
+  return true;
+}
+function contains(arr, x){
+  if(Array.isArray(x)) return arr.some(y => eq(y,x));
+  return arr.includes(x);
+}
+
+function toggleArcStyle(){
+  const pre = document.getElementById('arc');
+  const cards = document.getElementById('arc-cards');
+  const btn = document.getElementById('styleBtn');
+  const showingCards = cards.style.display !== 'none';
+  if(showingCards){
+    cards.style.display = 'none';
+    pre.style.display = 'block';
+    btn.textContent = 'Style: Plain';
+  }else{
+    cards.style.display = 'block';
+    pre.style.display = 'none';
+    btn.textContent = 'Style: Cards';
+  }
+}
+function downloadARC(){
+  const text = document.getElementById('arc').textContent;
+  downloadText('group_theory_arc.txt', text);
+}
+
+// bootstrap
+run();
+</script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Descartes’ circle theorem — four mutually tangent circles</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --ink:#0f172a; --sub:#334155; --line:#d5dbe7;
+    --cOuter:#b8c7ff40; --cA:#a5d8ff80; --cB:#c9f2ff80; --cC:#b4f0cf80;
+    --edge:#6577c5; --ghost:#9aa4d1; --ok:#059669; --bad:#dc2626;
+  }
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+            font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  header{padding:18px 20px;border-bottom:1px solid var(--line)}
+  h1{margin:0 0 6px;font-size:22px}
+  main{display:block;padding:18px 20px 40px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 0 rgba(15,23,42,.04);margin:0 0 18px}
+  .card header{padding:12px 14px;border-bottom:1px solid var(--line);border-radius:12px 12px 0 0}
+  .card section{padding:14px}
+  .muted{color:var(--sub)}
+  .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+  .ok{color:#059669} .bad{color:#dc2626}
+  svg{max-width:50%;height:auto;display:block;margin:0 auto;}  /* half width */
+  .lbl{font:12px ui-monospace,monospace; fill:#0f172a; paint-order:stroke fill; stroke:#ffffff; stroke-width:3px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Descartes’ circle theorem — four mutually tangent circles</h1>
+  <p class="muted"><strong>What this is?</strong> An SVG construction of four mutually tangent circles
+    (one outer circle enclosing three inner ones). We show their curvatures (bend)
+    <em>k = ± 1/r</em> and automatically check Descartes’ theorem:
+    <em>(k1 + k2 + k3 + k4)² = 2 · (k1² + k2² + k3² + k4²)</em>.</p>
+</header>
+
+<main>
+
+  <!-- DRAWING -->
+  <article class="card">
+    <header><h2>Drawing</h2></header>
+    <section>
+      <svg id="fig" viewBox="0 0 240 240" aria-label="Four mutually tangent circles (Descartes)">
+        <defs>
+          <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+            <path d="M10 0H0V10" fill="none" stroke="#eef2f7"/>
+          </pattern>
+        </defs>
+        <rect x="10" y="10" width="220" height="220" fill="url(#grid)" stroke="#c7d2e5"/>
+        <g id="layer"></g>
+      </svg>
+    </section>
+  </article>
+
+  <!-- REASON -->
+  <article class="card">
+    <header><h2>Reason</h2></header>
+    <section>
+      <ol>
+        <li>For four mutually tangent circles with curvatures <em>kᵢ = ± 1/rᵢ</em>
+            (negative for the enclosing circle), Descartes’ circle theorem says:
+            <em>(k1 + k2 + k3 + k4)² = 2 · (k1² + k2² + k3² + k4²)</em>.</li>
+        <li>Given three tangent circles with curvatures <em>k1, k2, k3</em>, the fourth curvature is
+            <em>k4 = k1 + k2 + k3 ± 2 · sqrt(k1·k2 + k2·k3 + k3·k1)</em>.</li>
+      </ol>
+    </section>
+  </article>
+
+  <!-- CHECK -->
+  <article class="card">
+    <header><h2>Check</h2></header>
+    <section>
+      <ul id="checks" class="mono"></ul>
+      <div id="summary" class="mono" style="white-space:pre-wrap;margin-top:8px"></div>
+    </section>
+  </article>
+
+</main>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  const NS = 'http://www.w3.org/2000/svg';
+  const layer = document.getElementById('layer');
+
+  // --- Geometry (four circles only) ---
+  const cx = 120, cy = 120, R = 100;
+  const rA = R/2, rB = R/2, rC = R/3;
+  const A = { x: cx - (R - rA), y: cy };
+  const B = { x: cx + (R - rB), y: cy };
+  const C = { x: cx, y: cy - (R - rC) };
+
+  const circles = [
+    { id: 'Outer', cx,      cy,      r: R,  k: -1 / R,  fill: 'none' },
+    { id: 'A',     cx: A.x, cy: A.y, r: rA, k:  1 / rA, fill: 'var(--cA)' },
+    { id: 'B',     cx: B.x, cy: B.y, r: rB, k:  1 / rB, fill: 'var(--cB)' },
+    { id: 'C',     cx: C.x, cy: C.y, r: rC, k:  1 / rC, fill: 'var(--cC)' },
+  ];
+
+  // --- Draw circles + labels ---
+  circles.forEach(c => {
+    const e = document.createElementNS(NS, 'circle');
+    e.setAttribute('cx', c.cx);
+    e.setAttribute('cy', c.cy);
+    e.setAttribute('r',  c.r);
+    e.setAttribute('fill', c.fill);
+    e.setAttribute('stroke', 'var(--edge, #6577c5)'); // fallback so it's visible
+    e.setAttribute('stroke-width', '2');
+    layer.appendChild(e);
+
+    // label (centered; move "Outer" away from center so it doesn't collide)
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', c.id === 'Outer' ? cx - R * 0.7 : c.cx);
+    t.setAttribute('y', c.id === 'Outer' ? cy - R * 0.7 : c.cy);
+    t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('dominant-baseline', 'middle');
+    t.setAttribute('class', 'lbl');
+    t.textContent = c.id;
+    layer.appendChild(t);
+  });
+
+  // --- Checks ---
+  const checks = document.getElementById('checks');
+  const summary = document.getElementById('summary');
+  const ok  = t => `<li><span class="ok">OK</span> — ${t}</li>`;
+  const bad = t => `<li><span class="bad">FAIL</span> — ${t}</li>`;
+  const dist = (p,q) => Math.hypot(p.x - q.x, p.y - q.y);
+
+  // pairwise tangencies
+  const eps = 1e-6; let tang = 0;
+  for (let i = 0; i < circles.length; i++) {
+    for (let j = i + 1; j < circles.length; j++) {
+      const ci = circles[i], cj = circles[j];
+      const d = dist({x:ci.cx,y:ci.cy}, {x:cj.cx,y:cj.cy});
+      const ext = Math.abs(d - (ci.r + cj.r)) < eps;
+      const intl = Math.abs(d - Math.abs(ci.r - cj.r)) < eps;
+      const good = ext || intl; if (good) tang++;
+      checks.insertAdjacentHTML('beforeend', good
+        ? ok(`Tangency ${ci.id}–${cj.id} (${ext ? 'external' : 'internal'})`)
+        : bad(`Not tangent: ${ci.id}–${cj.id}`));
+    }
+  }
+  checks.insertAdjacentHTML('beforeend',
+    tang === 6 ? ok('All 6 pairwise tangencies confirmed')
+               : bad(`Tangency count = ${tang} (expected 6)`));
+
+  // Descartes equation
+  const ks = circles.map(c => c.k);
+  const S  = ks.reduce((a,b) => a + b, 0);
+  const S2 = ks.reduce((a,b) => a + b*b, 0);
+  const L  = S*S, Rv = 2*S2;
+  checks.insertAdjacentHTML('beforeend',
+    Math.abs(L - Rv) < 1e-9
+      ? ok('Descartes equation holds: (sum k)² equals 2 times the sum of squares')
+      : bad(`Descartes mismatch: LHS=${L}, RHS=${Rv}`));
+
+  // Soddy roots comparison (from A, B, C)
+  const [kA, kB, kC] = [circles[1].k, circles[2].k, circles[3].k];
+  const s = kA + kB + kC, t = Math.sqrt(kA*kB + kB*kC + kC*kA);
+  const kPlus = s + 2*t, kMinus = s - 2*t, kOuter = circles[0].k;
+  checks.insertAdjacentHTML('beforeend',
+    Math.abs(kMinus - kOuter) < 1e-12
+      ? ok('Minus root equals the enclosing circle curvature')
+      : bad('Minus root does not match the enclosing circle curvature'));
+
+  // Summary
+  const fmt = x => (Math.round(x*1e6)/1e6).toString();
+  const lines = [];
+  circles.forEach(c => lines.push(`${c.id}: r=${fmt(c.r)}  k=${fmt(c.k)}`));
+  lines.push(`Soddy roots from A, B, C:  k_plus=${fmt(kPlus)},  k_minus=${fmt(kMinus)} (outer)`);
+  summary.textContent = lines.join('\n');
+});
+</script>
+</body>
+</html>
+

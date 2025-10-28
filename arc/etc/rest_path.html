@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>REST‑path</title>
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#111827; --muted:#6b7280; --panel:#f8fafc; --border:#e5e7eb;
+      --accent:#0ea5e9; --good:#16a34a; --amber:#f59e0b; --blue:#3b82f6;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 var(--ui); }
+    .wrap{max-width:980px; margin:36px auto; padding:0 16px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
+    h1{font-size:22px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .row{display:flex; flex-direction:column; gap:16px}
+    .card{background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13.25px}
+    button{all:unset; background:#fff; border:1px solid var(--border); padding:8px 12px; border-radius:10px; cursor:pointer}
+    button:hover{border-color:#cbd5e1}
+    .arc-grid{display:flex; flex-direction:column; gap:12px}
+    .arc-card{background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .arc-card .ac-head{display:flex; align-items:center; gap:8px; padding:10px 12px; border-bottom:1px solid var(--border); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+    .arc-card .ac-body{padding:12px}
+    .arc-card.answer{border-left:4px solid var(--good)}
+    .arc-card.reason{border-left:4px solid var(--blue)}
+    .arc-card.check{border-left:4px solid var(--amber)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>REST‑path</h1>
+      <div class="pill" id="status">Ready</div>
+    </header>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained harness of the <em>REST‑path</em> example.
+        It starts from the fact <code>&lt;x&gt; ex:rel1 &lt;y&gt;</code>, creates three lanes, promotes them across
+        <code>rel2…rel10</code> in nine steps while emitting an HTTP GET per step on lane‑1, and finally asserts
+        <code>&lt;x&gt; ex:relGoal &lt;y&gt;</code>. ARC cards below summarize the result, proof, and checks.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="card">
+        <div class="head"><h2>Controls</h2>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button onclick="run()">▶ Run</button>
+            <button onclick="downloadARC()">⬇ Export .txt</button>
+          </div>
+        </div>
+        <div class="body">
+          Deterministic run (no inputs). Auto‑runs on load.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head"><h2>ARC Output</h2></div>
+        <div class="body">
+          <div class="arc-grid">
+            <div class="arc-card answer">
+              <div class="ac-head">Answer</div>
+              <div class="ac-body"><pre id="ans">(no run yet)</pre></div>
+            </div>
+            <div class="arc-card reason">
+              <div class="ac-head">Reason why</div>
+              <div class="ac-body"><pre id="why">(no run yet)</pre></div>
+            </div>
+            <div class="arc-card check">
+              <div class="ac-head">Check (harness)</div>
+              <div class="ac-body"><pre id="chk">(no run yet)</pre></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ------- Tiny RDF-like KB -------
+class KB{
+  constructor(){ this._triples=new Set(); this._gens={req:1, resp:1, a:1, b:1}; }
+  key(s,p,o){ return s+'|'+p+'|'+o; }
+  add(s,p,o){ this._triples.add(this.key(s,p,o)); }
+  ask(s=null,p=null,o=null){
+    const out=[];
+    for(const k of this._triples){
+      const [S,P,O]=k.split('|');
+      if((s===null||s===S)&&(p===null||p===P)&&(o===null||o===O)) out.push([S,P,O]);
+    }
+    return out;
+  }
+  has(s=null,p=null,o=null){ return this.ask(s,p,o).length>0; }
+  fresh(stem){ return '_:'+stem+(this._gens[stem]++); }
+}
+
+// ------- Pretty proof scaffold -------
+class Conclusion{ constructor(kind,payload){this.kind=kind;this.payload=payload;} pretty(){return String(this.payload);} }
+class Step{ constructor(id,rule,premises,conclusion,notes=null){this.id=id;this.rule=rule;this.premises=premises;this.conclusion=conclusion;this.notes=notes;} }
+class Proof{
+  constructor(){ this.steps=[]; }
+  add(rule,premises,conclusion,notes=null){ const id=this.steps.length+1; this.steps.push(new Step(id,rule,premises,conclusion,notes)); return id; }
+  pretty(){
+    const lines=[];
+    for(const s of this.steps){
+      const prem = s.premises && s.premises.length ? ` [${s.premises.join(', ')}]` : '';
+      const note = s.notes ? ` // ${s.notes}` : '';
+      lines.push(`[${s.id}] ${s.rule}${prem}: ${s.conclusion.pretty()}${note}`);
+    }
+    return lines.join('\n');
+  }
+}
+
+// ------- Rule applications -------
+const X = '<x>', Y = '<y>'; // IRI placeholders to mirror reference printout
+
+function apply_step1(kb, proof){
+  const req=kb.fresh('req'), resp=kb.fresh('resp');
+  const a2=kb.fresh('a'), b2=kb.fresh('b');
+  const a3=kb.fresh('a'), b3=kb.fresh('b');
+
+  kb.add(req,'http:methodName','"GET"');
+  kb.add(req,'http:requestURI',X);
+  kb.add(req,'http:resp',resp);
+  kb.add(resp,'http:body',Y);
+
+  kb.add(X,'ex:rel2',Y);
+  kb.add(a2,'ex:rel2',b2);
+  kb.add(a3,'ex:rel2',b3);
+
+  proof.add('Step-1 (rel1→rel2)', [], new Conclusion('text',
+    `emit GET(req=${req}, uri=${X}, body=${Y}); create lanes: (a1,b1)=(${X},${Y}), (a2,b2)=(${a2},${b2}), (a3,b3)=(${a3},${b3})`),
+    'Existential a2,b2,a3,b3'
+  );
+  return [[X,Y],[a2,b2],[a3,b3]];
+}
+
+function apply_mid_step(kb, k, lanes_k, proof){
+  const [a1,b1] = lanes_k[0];
+  const req=kb.fresh('req'), resp=kb.fresh('resp');
+  kb.add(req,'http:methodName','"GET"');
+  kb.add(req,'http:requestURI',a1);
+  kb.add(req,'http:resp',resp);
+  kb.add(resp,'http:body',b1);
+
+  const lanes_next=[];
+  for(const [ai,bi] of lanes_k){
+    kb.add(ai,`ex:rel${k+1}`,bi);
+    lanes_next.push([ai,bi]);
+  }
+  proof.add(`Step-${k} (rel${k}→rel${k+1})`, [], new Conclusion('text',
+    `emit GET(req=${req}, uri=${a1}, body=${b1}); promote 3 lanes to rel${k+1}`
+  ));
+  return lanes_next;
+}
+
+function apply_final_step(kb, lanes9, proof){
+  const [a1,b1] = lanes9[0];
+  const req=kb.fresh('req'), resp=kb.fresh('resp');
+  kb.add(req,'http:methodName','"GET"');
+  kb.add(req,'http:requestURI',a1);
+  kb.add(req,'http:resp',resp);
+  kb.add(resp,'http:body',b1);
+
+  for(const [ai,bi] of lanes9){ kb.add(ai,'ex:rel10',bi); }
+  kb.add(X,'ex:relGoal',Y);
+  proof.add('Step-9 (rel9→rel10 + relGoal)', [], new Conclusion('text',
+    `emit GET(req=${req}, uri=${a1}, body=${b1}); promote to rel10; assert relGoal(${X},${Y})`
+  ));
+}
+
+// ------- Pipeline orchestration -------
+function run_pipeline(){
+  const kb = new KB();
+  const proof = new Proof();
+
+  // seed fact and goal sketch to match reference style
+  kb.add(X,'ex:rel1',Y);
+  proof.add('Facts', [], new Conclusion('text', `${X} ex:rel1 ${Y}`));
+  proof.add('Goal', [], new Conclusion('text', `{ ${X} ex:relGoal ${Y} }`));
+  proof.add('Premise-Rule', [], new Conclusion('text', 'Chain: rel1→rel2 (create 3 lanes), then relk→rel{k+1} for k=2..9; final also asserts relGoal'), 'Each step emits a GET on lane-1');
+
+  const lanes2 = apply_step1(kb, proof);
+  let lanes = lanes2;
+  for(let k=2;k<=8;k++) lanes = apply_mid_step(kb, k, lanes, proof);
+  apply_final_step(kb, lanes, proof);
+
+  return {kb, proof};
+}
+
+// ------- Formatting helpers -------
+function list_gets(kb){
+  const gets = kb.ask(null,'http:methodName','"GET"').sort((a,b)=> a[0].localeCompare(b[0]));
+  const out=[];
+  for(const [req] of gets){
+    const uri = (kb.ask(req,'http:requestURI',null)[0]||['','','?'])[2];
+    const resp = (kb.ask(req,'http:resp',null)[0]||['','',''])[2];
+    const body = resp ? (kb.ask(resp,'http:body',null)[0]||['','','?'])[2] : '?';
+    out.push([req, uri, body]);
+  }
+  return out;
+}
+
+// ------- ARC sections (no duplicate headings) -------
+function arc_answer(kb){
+  const parts = [];
+  const goals = kb.ask(null,'ex:relGoal',null).sort();
+  for(const [s,_,o] of goals){ parts.push(`${s} ex:relGoal ${o}`); }
+  const gets = list_gets(kb);
+  parts.push('', 'Emitted GET requests: ' + gets.length);
+  for(const [req,uri,body] of gets){ parts.push(` ${req}: GET ${uri}  → body ${body}`); }
+  return parts.join('\n');
+}
+function arc_reason(proof){ return proof.pretty(); }
+function arc_check(kb, proof){
+  const parts=[];
+
+  // (1) Exactly one relGoal and it is (<x>,<y>)
+  const goals = kb.ask(null,'ex:relGoal',null);
+  if(!(goals.length===1 && goals[0][0]===X && goals[0][2]===Y)){
+    parts.push('✗ Unexpected ex:relGoal facts: ' + JSON.stringify(goals));
+  }
+
+  // (2) Exactly 9 GETs; lane‑1 uses <x>/<y>
+  const gets = list_gets(kb);
+  if(gets.length!==9) parts.push(`✗ Expected 9 GETs, found ${gets.length}`);
+  for(const [_,uri,body] of gets){
+    if(!(uri===X && body===Y)) parts.push('✗ GET should use lane‑1 URI <x> and body <y>');
+  }
+
+  // (3) For each level k=2..10 exactly 3 lanes; lane‑1 present
+  for(let k=2;k<=10;k++){
+    const triples = kb.ask(null, `ex:rel${k}`, null);
+    if(triples.length!==3) parts.push(`✗ Expected 3 lanes at rel${k}, found ${triples.length}`);
+    if(!triples.some(t => t[0]===X && t[2]===Y)) parts.push(`✗ Missing lane‑1 at rel${k}`);
+  }
+
+  // (4) Proof shape
+  if(proof.steps.length!==12) parts.push(`✗ Unexpected number of proof steps: ${proof.steps.length}`);
+  if(!(proof.steps[0].rule.startsWith('Facts'))) parts.push('✗ First proof step should record Facts');
+  if(!(proof.steps[1].rule==='Goal')) parts.push('✗ Second proof step should record Goal');
+  if(!(proof.steps[2].rule.indexOf('Premise-Rule')>=0)) parts.push('✗ Third step should sketch the rule chain');
+  for(let i=1;i<=9;i++){
+    const s = proof.steps[2+i];
+    if(!s.rule.startsWith(`Step-${i}`)) parts.push(`✗ Expected Step-${i}, got ${s.rule}`);
+  }
+
+  if(parts.length===0){
+    parts.push('OK: goal fact, GET count/linking, lane counts per level, and proof shape verified.');
+  }
+  return parts.join('\n');
+}
+
+// ------- Runner + UI -------
+function run(){
+  const {kb, proof} = run_pipeline();
+  document.getElementById('ans').textContent = arc_answer(kb);
+  document.getElementById('why').textContent = arc_reason(proof);
+  document.getElementById('chk').textContent = arc_check(kb, proof);
+  document.getElementById('status').textContent = 'Computed';
+}
+function downloadARC(){
+  const blob = new Blob([
+    'Answer\n------\n',
+    document.getElementById('ans').textContent, '\n\n',
+    'Reason why\n----------\n',
+    document.getElementById('why').textContent, '\n\n',
+    'Check (harness)\n---------------\n',
+    document.getElementById('chk').textContent
+  ],{type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='restpath_output.txt'; a.click();
+}
+window.addEventListener('DOMContentLoaded', run);
+</script>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Control System</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#111827;
+      --muted:#6b7280;
+      --panel:#f8fafc;
+      --border:#e5e7eb;
+      --accent:#0ea5e9;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    html,body{height:100%}
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 var(--ui); }
+    .wrap{max-width:980px; margin:36px auto; padding:0 16px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
+    h1{font-size:22px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .row{display:flex; flex-direction:column; gap:16px}
+    .card{background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px}
+    button{all:unset; background:#fff; border:1px solid var(--border); padding:8px 12px; border-radius:10px; cursor:pointer}
+    button:hover{border-color:#cbd5e1}
+    .small{color:var(--muted); text-decoration:none}
+    .accent{color:var(--accent)}
+    /* ARC v2 (Cards) */
+    .arc-grid{display:flex; flex-direction:column; gap:12px}
+    .arc-card{background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .arc-card .ac-head{display:flex; align-items:center; gap:8px; padding:10px 12px; border-bottom:1px solid var(--border); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+    .arc-card .ac-body{padding:12px}
+    .arc-card pre{margin:0; white-space:pre-wrap; background:#fff; border:1px solid #eef2f7; border-radius:10px; padding:10px; font-family:var(--mono); font-size:13px}
+    .arc-card.answer{border-left:4px solid #10b981}
+    .arc-card.reason{border-left:4px solid #3b82f6}
+    .arc-card.check{border-left:4px solid #f59e0b}
+    .toolbar{display:flex; gap:8px; align-items:center}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Control System</h1>
+      <div class="pill">Self‑contained • No deps</div>
+    </header>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained, browser‑only <em>ARC harness</em> for a toy closed‑loop control system.
+        It embeds a small set of measurable facts and computes two actuator commands with simple control laws.
+        Everything runs on this page—no network and no external libraries.</p>
+        <p><strong>How to use it:</strong> Review the embedded facts, press <em>Run</em> to generate the analysis, and optionally export
+        the ARC report. The output is organized as <em>Answer</em> (final values), <em>Reason why</em> (explanations),
+        <em>Trace</em> (step‑by‑step derivations), and <em>Check</em> (a small harness that re‑derives the results and verifies identities).</p>
+        <p class="small">This page is provided for reproducibility and documentation; it is not guidance for real‑world control design.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="card">
+        <div class="head"><h2>Facts (embedded)</h2><a href="#" class="small" onclick="copyFacts();return false;">Copy facts</a></div>
+        <div class="body">
+          <div id="facts" style="font-family:var(--mono); font-size:12px; background:#fff; border:1px dashed var(--border); border-radius:10px; padding:10px; white-space:pre-wrap"></div>
+          <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap">
+            <button onclick="run()">▶ Run</button>
+            <a href="#" class="small" onclick="copyARC();return false;">Copy ARC</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head">
+          <h2>Trace</h2>
+          <button onclick="downloadText('control_system_trace.txt', document.getElementById('trace').textContent)">⬇ Export .txt</button>
+        </div>
+        <div class="body"><pre id="trace">(no run yet)</pre></div>
+      </div>
+
+      <div class="card">
+        <div class="head">
+          <h2>ARC Output</h2>
+          <div class="toolbar">
+            <button onclick="toggleArcStyle()" id="styleBtn">Style: Cards</button>
+            <button onclick="downloadARC()">⬇ Export .txt</button>
+          </div>
+        </div>
+        <div class="body">
+          <div id="arc-cards" class="arc-grid">
+            <div class="arc-card answer">
+              <div class="ac-head">Answer</div>
+              <div class="ac-body"><pre id="arc_ans">(no run yet)</pre></div>
+            </div>
+            <div class="arc-card reason">
+              <div class="ac-head">Reason why</div>
+              <div class="ac-body"><pre id="arc_reason">(no run yet)</pre></div>
+            </div>
+            <div class="arc-card check">
+              <div class="ac-head">Check (harness)</div>
+              <div class="ac-body"><pre id="arc_check">(no run yet)</pre></div>
+            </div>
+          </div>
+          <pre id="arc" style="display:none">(no run yet)</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ---------------- Facts (embedded) ----------------
+const measurement1 = { "input1": [6, 11], "disturbance2": [45, 39] };
+const measurement2 = { "input2": true };
+const measurement3 = { "disturbance1": 35766 };
+const measurement4 = { "output2": 24 };
+const observation1 = { "state1": 80 };
+const observation2 = { "state2": false };
+const observation3 = { "state3": 22 };
+const target2 = { "output2": 29 };
+
+function measurement10(I){
+  // PND feedback control
+  const [M1, M2] = measurement1[I];
+  if (M1 < M2){
+    const M3 = M2 - M1;
+    return Math.sqrt(M3);
+  } else {
+    return M1;
+  }
+}
+
+// ---------------- Control rules ----------------
+function control1_actuator1(){
+  // control1(actuator1, C)
+  const steps = [];
+  const M1 = measurement10("input1");
+  if (measurement2["input2"] !== true) throw new Error("input2 must be true");
+  const D1 = Number(measurement3["disturbance1"]);
+  const C1 = M1 * 19.6;
+  const C2 = Math.log(D1) / Math.log(10.0); // ≡ Math.log10(D1)
+  const C = C1 - C2;
+
+  steps.push(`[actuator1] M1 = measurement10(input1) = sqrt(11-6) = ${M1.toFixed(12)} (PND feedback control)`);
+  steps.push(`[actuator1] C1 = M1 * 19.6 = ${C1.toFixed(12)} % proportional part`);
+  steps.push(`[actuator1] C2 = log(D1)/log(10) = log(35766)/log(10) = ${C2.toFixed(12)} % compensation part`);
+  steps.push(`[actuator1] C = C1 - C2 = ${C.toFixed(12)} % simple feedforward control`);
+
+  return { actuator: "actuator1", C, steps };
+}
+
+function control1_actuator2(){
+  // control1(actuator2, C)
+  const steps = [];
+  const P3 = Number(observation3["state3"]);
+  const M4 = Number(measurement4["output2"]);
+  const T2 = Number(target2["output2"]);
+  const E = T2 - M4;
+  const D = P3 - M4;
+  const C1 = 5.8 * E;
+  const N = 7.3 / E;
+  const C2 = N * D;
+  const C = C1 + C2;
+
+  steps.push(`[actuator2] E = T2 - M4 = ${T2.toFixed(0)} - ${M4.toFixed(0)} = ${E.toFixed(12)} % error`);
+  steps.push(`[actuator2] D = P3 - M4 = ${P3.toFixed(0)} - ${M4.toFixed(0)} = ${D.toFixed(12)} % differential error`);
+  steps.push(`[actuator2] C1 = 5.8 * E = 5.8*${E.toFixed(0)} = ${C1.toFixed(12)} % proportional part`);
+  steps.push(`[actuator2] N = 7.3 / E = 7.3/${E.toFixed(0)} = ${N.toFixed(12)} % nonlinear factor`);
+  steps.push(`[actuator2] C2 = N * D = ${N.toFixed(12)}*${D.toFixed(0)} = ${C2.toFixed(12)} % nonlinear differential part`);
+  steps.push(`[actuator2] C = C1 + C2 = ${C1.toFixed(12)} + ${C2.toFixed(12)} = ${C.toFixed(12)}`);
+
+  return { actuator: "actuator2", C, steps };
+}
+
+function control1_all(){ return [control1_actuator1(), control1_actuator2()]; }
+
+// ---------------- ARC printing ----------------
+function run(){
+  const sols = control1_all();
+
+  // ----- Answer / Reason / Check -----
+  const A=[], R=[], C=[], T=[];
+
+  // Answer
+  for(const s of sols){
+    A.push(`control1(${s.actuator}, C) → C = ${s.C.toFixed(12)}`);
+  }
+
+  // Reason why (conceptual, short; details live in Trace)
+  R.push("Two simple control laws produce actuator setpoints:");
+  R.push(" • actuator1 uses feedback (sqrt of difference) plus a proportional term and a log-based compensation, then subtracts the compensation.");
+  R.push(" • actuator2 uses proportional-on-error plus a nonlinear differential part (7.3/E)×(P3−M4), then adds both.");
+  R.push("Values are computed from the embedded facts shown above.");
+
+  // Trace: stitch both step lists
+  for(const s of sols) for(const line of s.steps) T.push(line);
+
+  // Check (harness)
+  try{
+    check_harness(sols);
+    C.push("OK: derivations match the rules; identities and PND logic verified.");
+  }catch(e){
+    C.push("FAILED: " + e.message);
+  }
+
+  // Populate Trace
+  document.getElementById("trace").textContent = T.join("\n");
+
+  // Populate Cards
+  document.getElementById("arc_ans").textContent = A.join("\n");
+  document.getElementById("arc_reason").textContent = R.join("\n");
+  document.getElementById("arc_check").textContent = C.join("\n");
+
+  // Keep a combined plain-text for copy/export
+  const combined = ["Answer","------", ...A, "", "Reason why","----------", ...R, "", "Check (harness)","---------------", ...C].join("\n");
+  document.getElementById("arc").textContent = combined;
+}
+
+// ---------------- Harness ----------------
+function check_harness(solutions){
+  const eps = 1e-12;
+  // PND feedback control checks
+  if(Math.abs(measurement10("input1") - Math.sqrt(11-6)) >= eps) throw new Error("measurement10('input1') mismatch");
+  if(Math.abs(measurement10("disturbance2") - 45.0) >= eps) throw new Error("measurement10('disturbance2') mismatch");
+  // log identity
+  const D1 = Number(measurement3["disturbance1"]);
+  if(Math.abs((Math.log(D1)/Math.log(10.0)) - Math.log10(D1)) >= eps) throw new Error("log identity mismatch");
+  // recompute C values
+  const recomputed = {};
+  recomputed["actuator1"] = (measurement10("input1") * 19.6) - (Math.log(D1)/Math.log(10.0));
+  const E = target2["output2"] - measurement4["output2"]; // 29-24 = 5
+  const D = observation3["state3"] - measurement4["output2"]; // 22-24 = -2
+  recomputed["actuator2"] = (5.8 * E) + ((7.3 / E) * D);
+  for(const s of solutions){
+    if(Math.abs(s.C - recomputed[s.actuator]) >= eps) throw new Error(`Mismatch for ${s.actuator}`);
+  }
+}
+
+// ---------------- Pretty facts ----------------
+function showFacts(){
+  const obj = {
+    measurement1, measurement2, measurement3, measurement4,
+    observation1, observation2, observation3, target2
+  };
+  document.getElementById("facts").textContent = JSON.stringify(obj, null, 2);
+}
+
+// Utilities
+function downloadText(name, text){
+  const blob=new Blob([text],{type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove();
+}
+function copyARC(){
+  navigator.clipboard.writeText(document.getElementById('arc').textContent);
+}
+function copyFacts(){
+  navigator.clipboard.writeText(document.getElementById('facts').textContent);
+}
+function toggleArcStyle(){
+  const pre = document.getElementById('arc');
+  const cards = document.getElementById('arc-cards');
+  const btn = document.getElementById('styleBtn');
+  const showingCards = cards.style.display !== 'none';
+  if(showingCards){
+    cards.style.display = 'none';
+    pre.style.display = 'block';
+    btn.textContent = 'Style: Plain';
+  }else{
+    cards.style.display = 'block';
+    pre.style.display = 'none';
+    btn.textContent = 'Style: Cards';
+  }
+}
+function downloadARC(){
+  const text = document.getElementById('arc').textContent;
+  downloadText('control_system_arc.txt', text);
+}
+
+// bootstrap
+showFacts();
+run();
+</script>
+</body>
+</html>

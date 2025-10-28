@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Combinatorics</title>
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#111827; --muted:#6b7280; --panel:#f8fafc; --border:#e5e7eb; --accent:#0ea5e9;
+      --good:#16a34a; --cyan:#06b6d4; --indigo:#6366f1; --warn:#dc2626;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    html,body{height:100%}
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 var(--ui); }
+    .wrap{max-width:980px; margin:28px auto; padding:0 14px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px}
+    h1{font-size:20px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .card{width:100%; background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:14px}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    input[type="text"], input[type="number"]{width:100%; background:#fff; color:#0f172a; border:1px solid var(--border); border-radius:10px; padding:10px; font-family:var(--ui); font-size:14px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px; margin:0}
+    button{all:unset; background:#fff; border:1px solid var(--border); padding:9px 13px; border-radius:10px; cursor:pointer}
+    button:hover{border-color:#cbd5e1}
+    .warn{color:var(--warn)}
+    .accent{color:var(--accent)}
+    .btns{display:flex; gap:8px; flex-wrap:wrap}
+    .kv{font-family:var(--mono); background:#fff; border:1px solid var(--border); border-radius:10px; padding:10px; font-size:13px}
+    .muted{color:var(--muted)}
+    .row{display:grid; grid-template-columns: 1fr; gap:14px}
+    @media (min-width: 900px){ .row{ grid-template-columns: 1fr 1fr; } }
+
+    /* ARC boxes with thick colored left borders */
+    .arcbox{background:#fff; border:1px solid var(--border); border-radius:12px; padding:10px; margin:10px 0}
+    .arcbox.answer{border-left:10px solid var(--good)}
+    .arcbox.reason{border-left:10px solid var(--cyan)}
+    .arcbox.check{border-left:10px solid var(--indigo)}
+    .arclabel{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:6px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Combinatorics</h1>
+      <div class="pill" id="status">Ready</div>
+    </header>
+
+    <div class="card">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained, browser‑only page that computes the power set,
+        all k‑combinations and k‑permutations (k = 1..n), and combinations‑with‑replacement for a chosen k.
+        The ARC section mirrors the script’s <em>Answer • Reason • Check</em> output.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="card">
+        <div class="head"><h2>Input</h2></div>
+        <div class="body">
+          <label class="muted">Elements (comma‑separated)</label>
+          <input id="els" type="text" value="A, B, C, D, E" />
+          <div style="height:8px"></div>
+          <label class="muted">k for combinations‑with‑replacement</label>
+          <input id="k" type="number" min="0" value="2" />
+          <div class="btns" style="margin-top:10px">
+            <button onclick="run()">▶ Run</button>
+            <button onclick="loadSample()">⟲ Load sample</button>
+            <button onclick="copyAnswer()">Copy ARC</button>
+            <button onclick="downloadTxt()">⬇ Export .txt</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head"><h2>Case — Parameters</h2></div>
+        <div class="body">
+          <pre class="kv" id="caseBox"></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <h2>ARC Output</h2>
+        <div class="muted">Cards with left borders</div>
+      </div>
+      <div class="body">
+        <div class="arcbox answer">
+          <div class="arclabel">Answer</div>
+          <pre id="ans">(no run yet)</pre>
+        </div>
+        <div class="arcbox reason">
+          <div class="arclabel">Reason why</div>
+          <pre id="why">(no run yet)</pre>
+        </div>
+        <div class="arcbox check">
+          <div class="arclabel">Check (harness)</div>
+          <pre id="chk">(no run yet)</pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+// ---------- helpers ----------
+const S = (id)=>document.getElementById(id);
+const setText = (id, txt)=>{ const el=S(id); if(el) el.textContent = txt; };
+function status(msg, isWarn=false){ const el=S('status'); if(!el) return; el.textContent=msg; el.classList.toggle('warn', !!isWarn); }
+const tup = (arr)=> '(' + arr.join(', ') + ')';
+const listOfTuples = (L)=> L.length ? '[ ' + L.map(tup).join(', ') + ' ]' : '[]';
+function parseElements(v){
+  return v.split(',').map(x=>x.trim()).filter(x=>x.length>0);
+}
+
+// ---------- math: counts ----------
+function nCk(n,k){
+  if(k<0||k>n) return 0;
+  k = Math.min(k, n-k);
+  let res = 1;
+  for(let i=1;i<=k;i++){
+    res = (res * (n - k + i)) / i;
+  }
+  return Math.round(res);
+}
+function nPk(n,k){
+  if(k<0||k>n) return 0;
+  let res=1;
+  for(let i=0;i<k;i++) res *= (n - i);
+  return res;
+}
+
+// ---------- generators ----------
+function combinations(arr, k, start=0, prefix=[], acc=[]){
+  if(k===0){ acc.push(prefix.slice()); return acc; }
+  for(let i=start; i<=arr.length-k; i++){
+    prefix.push(arr[i]);
+    combinations(arr, k-1, i+1, prefix, acc);
+    prefix.pop();
+  }
+  return acc;
+}
+function permutationsK(arr, k, used=new Array(arr.length).fill(false), prefix=[], acc=[]){
+  if(prefix.length===k){ acc.push(prefix.slice()); return acc; }
+  for(let i=0;i<arr.length;i++){
+    if(used[i]) continue;
+    used[i]=true;
+    prefix.push(arr[i]);
+    permutationsK(arr, k, used, prefix, acc);
+    prefix.pop();
+    used[i]=false;
+  }
+  return acc;
+}
+function combinationsWithReplacement(arr, k, start=0, prefix=[], acc=[]){
+  if(k===0){ acc.push(prefix.slice()); return acc; }
+  for(let i=start;i<arr.length;i++){
+    prefix.push(arr[i]);
+    combinationsWithReplacement(arr, k-1, i, prefix, acc);
+    prefix.pop();
+  }
+  return acc;
+}
+
+// ---------- core ----------
+function compute(elements, cwr_k){
+  const n = elements.length;
+  // power set via combinations r=0..n
+  const subsets = [];
+  for(let r=0;r<=n;r++) subsets.push(...combinations(elements, r));
+  // per-k
+  const combos = {};
+  const perms  = {};
+  for(let k=1;k<=n;k++){
+    combos[k] = combinations(elements, k);
+    perms[k]  = permutationsK(elements, k);
+  }
+  const cwr_list = combinationsWithReplacement(elements, cwr_k);
+  return { elements, subsets, combos, perms, cwr_k, cwr_list };
+}
+
+// ---------- ARC sections ----------
+function render(elements, cwr_k){
+  const n = elements.length;
+  const res = compute(elements, cwr_k);
+
+  // Case
+  setText('caseBox', `Elements: [ ${elements.join(', ')} ]
+n = ${n}
+cwr_k = ${cwr_k}`);
+
+  // Answer
+  let A = '';
+  A += `Elements: [ ${elements.join(', ')} ]\n`;
+  A += `Total number of subsets: 2^${n} = ${2**n}\n\n`;
+  A += 'All subsets (power set):\n';
+  for(const s of res.subsets) A += tup(s) + '\\n';
+  A += '\\n---\\n\\n';
+  for(let k=1;k<=n;k++){
+    A += `k = ${k}:\n`;
+    A += ` Number of combinations C(${n},${k}) = ${nCk(n,k)}\n`;
+    A += ` All combinations of size ${k}: ${listOfTuples(res.combos[k])}\n`;
+    A += ` Number of permutations P(${n},${k}) = ${nPk(n,k)}\n`;
+    A += ` All permutations of length ${k}: ${listOfTuples(res.perms[k])}\n\n`;
+  }
+  const cwr = nCk(n + cwr_k - 1, cwr_k);
+  A += `Combinations with repetition: choosing ${cwr_k} from ${n} with repetition allowed\n`;
+  A += ` Number of multiset combinations: C(${n + cwr_k - 1},${cwr_k}) = ${cwr}\n`;
+  A += ` List: ${listOfTuples(res.cwr_list)}\n`;
+  setText('ans', A);
+
+  // Reason
+  let R = '';
+  R += 'Power set:\n';
+  R += ` |P([${elements.join(', ')}])| = 2^${n} because each element is either included or not included.\n\n`;
+  R += 'Combinations (order doesn’t matter):\n';
+  R += ' C(n, k) = n! / (k! (n-k)!).\n\n';
+  R += 'Permutations (order matters, no repetition):\n';
+  R += ' P(n, k) = n! / (n-k)! (i.e., n · (n-1) · … · (n-k+1)).\n\n';
+  R += 'Combinations with repetition (multiset combinations):\n';
+  R += ' # = C(n+k-1, k) — stars and bars.\n\n';
+  R += 'Numeric summary for your input:\n';
+  R += ` Power set size: 2^${n} = ${2**n}\n`;
+  R += ' For k = 1..n:\n';
+  for(let k=1;k<=n;k++){
+    R += ` C(${n},${k}) = ${nCk(n,k)}, P(${n},${k}) = ${nPk(n,k)}\n`;
+  }
+  R += ` With repetition (k=${cwr_k}): C(${n + cwr_k - 1},${cwr_k}) = ${nCk(n + cwr_k - 1, cwr_k)}\n`;
+  setText('why', R);
+
+  // Check
+  let C = '';
+  try{
+    // Distinctness
+    if(new Set(elements).size !== n) throw new Error('Input elements should be distinct.');
+    const subsetsCount = res.subsets.length;
+    if(subsetsCount !== 2**n) throw new Error(`Power set size mismatch: ${subsetsCount} != 2^${n}`);
+    let sumBinoms=0; for(let k=0;k<=n;k++) sumBinoms += nCk(n,k);
+    if(sumBinoms !== subsetsCount) throw new Error('Sum_k C(n,k) should equal 2^n.');
+    for(let k=1;k<=n;k++){
+      if(res.combos[k].length !== nCk(n,k)) throw new Error(`C(${n},${k}) count mismatch.`);
+      if(res.perms[k].length !== nPk(n,k)) throw new Error(`P(${n},${k}) count mismatch.`);
+      if(!res.combos[k].every(t=>t.length===k)) throw new Error(`Some ${k}-combination has wrong length.`);
+      if(!res.perms[k].every(t=>t.length===k && (new Set(t)).size===k)) throw new Error(`Some ${k}-permutation invalid.`);
+    }
+    const expectedCWR = nCk(n + cwr_k - 1, cwr_k);
+    if(res.cwr_list.length !== expectedCWR) throw new Error(`CWR count mismatch: ${res.cwr_list.length} != C(${n + cwr_k - 1},${cwr_k})`);
+    C += 'OK: counts, formulas, and listings are mutually consistent.';
+  }catch(e){
+    C += 'FAILED: ' + e.message;
+  }
+  setText('chk', C);
+  status('Done');
+}
+
+// ---------- buttons ----------
+function run(){
+  const elements = parseElements(S('els').value);
+  const k = Math.max(0, parseInt(S('k').value || '2', 10));
+  render(elements, k);
+}
+function loadSample(){
+  S('els').value = 'A, B, C, D, E';
+  S('k').value = '2';
+  run();
+}
+function copyAnswer(){
+  const out = [S('ans').textContent, S('why').textContent, S('chk').textContent].join('\n\n');
+  navigator.clipboard?.writeText(out).catch(()=>{});
+}
+function downloadTxt(){
+  const blob=new Blob([S('ans').textContent, '\n\n', S('why').textContent, '\n\n', S('chk').textContent], {type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='combinatorics_output.txt'; a.click();
+}
+
+// auto-run
+window.addEventListener('DOMContentLoaded', run);
+</script>
+</body>
+</html>

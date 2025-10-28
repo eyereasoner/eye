@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Square tiled by 17 right triangles</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --ink:#0f172a; --sub:#334155; --line:#d5dbe7;
+    --c1:#a5d8ff; --c2:#cfe8ff; --edge:#7fb6e0; --ok:#059669; --bad:#dc2626;
+  }
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+            font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  header{padding:18px 20px;border-bottom:1px solid var(--line)}
+  h1{margin:0 0 6px;font-size:22px}
+  h2{margin:18px 0 10px;font-size:17px}
+  p,li,small{line-height:1.45}
+  main{display:block;padding:18px 20px 40px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;
+        box-shadow:0 1px 0 rgba(15,23,42,.04);margin:0 0 18px}
+  .card header{padding:12px 14px;border-bottom:1px solid var(--line);
+               border-radius:12px 12px 0 0}
+  .card section{padding:14px}
+  .muted{color:var(--sub)}
+  .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .sw{display:inline-flex;align-items:center;gap:6px}
+  .sw i{display:inline-block;width:14px;height:14px;border-radius:4px;border:1px solid var(--line)}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .ok{color:var(--ok)} .bad{color:var(--bad)}
+  svg{max-width:50%;height:auto;display:block;margin:0 auto;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Square tiled by 17 right triangles</h1>
+  <p class="muted"><strong>What this is?</strong> A square is exactly tiled by
+    <strong>17</strong> pairwise similar <strong>right</strong> triangles whose legs are in the
+    ratio <strong>1:2</strong>. I generate the triangles algorithmically (using repeated
+    altitude-splits inside four base 1:2 triangles), and a checker verifies
+    rightness, the 1:2 ratio, coverage, and the count of distinct areas.</p>
+</header>
+
+<main>
+
+  <!-- ANSWER -->
+  <article class="card">
+    <header><h2>Answer — drawn (fills the square, no overlaps)</h2></header>
+    <section>
+      <svg id="tiling" viewBox="0 0 190 190" aria-label="17 similar right triangles with 10 distinct areas">
+        <defs>
+          <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+            <path d="M10 0H0V10" fill="none" stroke="#eef2f7"/>
+          </pattern>
+        </defs>
+        <!-- square -->
+        <rect x="10" y="10" width="160" height="160" fill="url(#grid)" stroke="#c7d2e5"/>
+        <rect x="10" y="10" width="160" height="160" fill="none" stroke="#9fb3d1" stroke-width="2"/>
+        <!-- triangles will be injected by JS -->
+        <g id="tri-layer"></g>
+      </svg>
+
+      <div class="legend">
+        <div class="sw"><i style="background:#a5d8ff"></i> 1:2 right triangle</div>
+        <div class="sw"><i style="background:#cfe8ff"></i> 1:2 right triangle (rotated)</div>
+      </div>
+    </section>
+  </article>
+
+  <!-- REASON -->
+  <article class="card">
+    <header><h2>Reason (how it’s constructed)</h2></header>
+    <section>
+      <ol>
+        <li>Split the square into two horizontal strips 160×80 each. Each strip becomes one
+            2:1 rectangle; cutting it on a diagonal yields two 1:2 right triangles.</li>
+        <li>Inside each of the four base triangles, repeatedly drop the altitude from the right angle
+            to the hypotenuse. This splits a 1:2 right triangle of area <em>A</em> into two
+            smaller 1:2 right triangles with areas <em>A/5</em> and <em>4A/5</em>. Repeating this in
+            a controlled pattern creates many different areas while preserving similarity.</li>
+        <li>The four bases are split to depths 6, 4, 3, and 3 pieces respectively
+            (i.e., 5, 3, 2, 2 extra splits), totalling 17 triangles.
+            Because every split stays inside its parent, the union is exactly the square.</li>
+      </ol>
+    </section>
+  </article>
+
+  <!-- CHECK -->
+  <article class="card">
+    <header><h2>Check</h2></header>
+    <section>
+      <p class="muted">Automatic verification of every triangle and the whole tiling:</p>
+      <ul id="checks" class="mono"></ul>
+      <div id="areas" class="mono" style="margin-top:8px"></div>
+      <small class="muted">We verify: (1) 17 triangles, (2) right angle + legs 1:2,
+        (3) total area equals the square, (4) exact coverage (no gaps/overlaps),
+        (5) number of distinct areas (target ≥ 10).</small>
+    </section>
+  </article>
+
+</main>
+
+<script>
+/* ---------- Geometry helpers ---------- */
+function dot(a,b){return a.x*b.x+a.y*b.y;}
+function sub(a,b){return {x:a.x-b.x,y:a.y-b.y};}
+function add(a,b){return {x:a.x+b.x,y:a.y+b.y};}
+function mul(v,s){return {x:v.x*s,y:v.y*s};}
+function area(T){const [A,B,C]=T; return Math.abs(A.x*(B.y-C.y)+B.x*(C.y-A.y)+C.x*(A.y-B.y))/2;}
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
+function rightVertex(T){
+  const [A,B,C]=T;
+  const ab=sub(B,A), ac=sub(C,A);
+  const ba=sub(A,B), bc=sub(C,B);
+  const ca=sub(A,C), cb=sub(B,C);
+  const d=[Math.abs(dot(ab,ac)), Math.abs(dot(ba,bc)), Math.abs(dot(ca,cb))];
+  const k=d.indexOf(Math.min(...d));
+  return k; // 0=A,1=B,2=C
+}
+function footOnLine(A,B,P){ // projection of P onto line AB
+  const v=sub(B,A), w=sub(P,A);
+  const t=dot(w,v)/dot(v,v);
+  return add(A,mul(v,t));
+}
+function splitAltitude(T){ // returns [small, big] (by area)
+  const k=rightVertex(T);
+  const R=T[k], H1=T[(k+1)%3], H2=T[(k+2)%3];
+  const F=footOnLine(H1,H2,R);
+  const t1=[R,F,H1], t2=[R,H2,F];
+  return (area(t1)<area(t2)) ? [t1,t2] : [t2,t1];
+}
+
+/* ---------- Build the tiling ---------- */
+(function build(){
+  const triLayer=document.getElementById('tri-layer');
+  const tris=[];
+
+  // Base square offset and sizes
+  const x0=10, y0=10, W=160, H=160, h=80;
+
+  // Two strips (top y:10..90, bottom y:90..170), diagonals opposite
+  // Top rectangle diagonal: (x0, y0+h) -> (x0+W, y0)
+  const T1=[{x:x0, y:y0}, {x:x0+W, y:y0}, {x:x0, y:y0+h}];          // right at top-left
+  const T2=[{x:x0+W, y:y0}, {x:x0+W, y:y0+h}, {x:x0, y:y0+h}];      // right at top-right
+  // Bottom rectangle diagonal: (x0, y0+H) -> (x0+W, y0+h)
+  const T3=[{x:x0, y:y0+h}, {x:x0+W, y:y0+h}, {x:x0, y:y0+H}];      // right at bottom-left
+  const T4=[{x:x0+W, y:y0+h}, {x:x0+W, y:y0+H}, {x:x0, y:y0+H}];    // right at bottom-right
+
+  // Split depths (pieces after splitting each base): [6,4,3,4]
+  const targetPieces=[6,4,3,4]; // sums to 17
+  const bases=[T1,T2,T3,T4];
+
+  bases.forEach((base, idx)=>{
+    let parts=[base];
+    while(parts.length<targetPieces[idx]){
+      // always split the currently largest piece to create many distinct areas
+      let maxi=0, maxA=area(parts[0]);
+      for(let i=1;i<parts.length;i++){
+        const a=area(parts[i]); if(a>maxA){maxA=a; maxi=i;}
+      }
+      const [small,big]=splitAltitude(parts[maxi]);
+      parts.splice(maxi,1,small,big);
+    }
+    parts.forEach(p=>tris.push(p));
+  });
+
+  // draw triangles
+  tris.forEach((T,i)=>{
+    const pts=T.map(p=>`${p.x},${p.y}`).join(' ');
+    const fill=(i%2===0)?'var(--c1)':'var(--c2)';
+    const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+    poly.setAttribute('class','tri');
+    poly.setAttribute('points',pts);
+    poly.setAttribute('fill',fill);
+    poly.setAttribute('stroke','var(--edge)');
+    triLayer.appendChild(poly);
+  });
+
+  /* ---------- Checker ---------- */
+  const list=document.getElementById('checks');
+  const areasEl=document.getElementById('areas');
+  const ok=t=>`<li><span class="ok">OK</span> — ${t}</li>`;
+  const bad=t=>`<li><span class="bad">FAIL</span> — ${t}</li>`;
+  const polys=[...document.querySelectorAll('polygon.tri')];
+
+  // 1) count
+  list.insertAdjacentHTML('beforeend', polys.length===17 ? ok('17 triangles present')
+                                                         : bad(`expected 17, found ${polys.length}`));
+
+  // helpers
+  function parse(points){
+    return points.trim().split(/\s+/).map(s=>{const [x,y]=s.split(',').map(Number);return{x,y};});
+  }
+  function rightRatio(pts){
+    const [A,B,C]=pts;
+    const ab=dist(A,B), bc=dist(B,C), ca=dist(C,A);
+    const sides=[ab,bc,ca].sort((x,y)=>x-y);
+    const [s1,s2,hyp]=sides; // s1<=s2
+    const rightOK=Math.abs(hyp*hyp-(s1*s1+s2*s2))<1e-9;
+    const ratioOK=Math.abs(s1/s2-0.5)<1e-9;
+    return {rightOK, ratioOK};
+  }
+
+  // 2) per-triangle checks + area list
+  let pass=true, total=0; const Avals=[];
+  polys.forEach((p,i)=>{
+    const T=parse(p.getAttribute('points'));
+    const {rightOK,ratioOK}=rightRatio(T);
+    const A=area(T); total+=A; Avals.push(A);
+    list.insertAdjacentHTML('beforeend',
+      (rightOK && ratioOK)
+        ? ok(`T${i+1}: right, legs 1:2, area=${A.toFixed(6)}`)
+        : bad(`T${i+1}: not right and/or not 1:2`));
+    pass = pass && rightOK && ratioOK;
+  });
+  list.insertAdjacentHTML('beforeend', pass
+    ? ok('All triangles are right and mutually similar (legs 1:2).')
+    : bad('Some triangles failed the right/ratio test.'));
+
+  // 3) area equals square
+  const squareArea = 160*160;
+  list.insertAdjacentHTML('beforeend',
+    Math.abs(total - squareArea) < 1e-6
+    ? ok(`Areas match: Σ = ${total} = square ${squareArea}`)
+    : bad(`Area mismatch: triangles ${total} vs square ${squareArea}`));
+
+  // 4) coverage test (sample interior grid)
+  const xmin=10, ymin=10, xmax=170, ymax=170, step=2, offset=1;
+  function inside(p,T){
+    const [a,b,c]=T;
+    const v0=sub(c,a), v1=sub(b,a), v2=sub(p,a);
+    const den=v0.x*v1.y-v1.x*v0.y;
+    const u=(v2.x*v1.y-v1.x*v2.y)/den;
+    const v=(v0.x*v2.y-v2.x*v0.y)/den;
+    const w=1-u-v, eps=1e-9;
+    return u>-eps && v>-eps && w>-eps;
+  }
+  const Tparsed=polys.map(p=>parse(p.getAttribute('points')));
+  let badPts=0, samples=0;
+  for(let y=ymin+offset; y<ymax; y+=step){
+    for(let x=xmin+offset; x<xmax; x+=step){
+      samples++;
+      let c=0;
+      for(const T of Tparsed) if(inside({x,y},T)) c++;
+      if(c!==1) badPts++;
+    }
+  }
+  list.insertAdjacentHTML('beforeend',
+    badPts===0 ? ok('Coverage perfect: every interior point is covered exactly once.')
+               : bad(`Coverage problem: ${badPts}/${samples} points not covered once.`));
+
+  // 5) distinct areas
+  const key=a=>Math.round(a*1e6)/1e6;
+  const distinct=[...new Set(Avals.map(key))].sort((a,b)=>a-b);
+  areasEl.textContent = `Distinct triangle areas: ${distinct.length} (target ≥ 10)\n`+
+                        `Values: ${distinct.map(v=>v.toFixed(6)).join(', ')}`;
+})();
+</script>
+</body>
+</html>
+

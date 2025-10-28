@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Collatz (3n+1)</title>
+  <style>
+    :root { --fg:#101014; --bg:#ffffff; --muted:#666; --accent:#2563eb; --chip:#eef2ff; }
+    @media (prefers-color-scheme: dark) {
+      :root { --fg:#eaeaf0; --bg:#0b0b10; --muted:#a0a0b0; --accent:#60a5fa; --chip:#0e1a32; }
+    }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font: 15px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+    main { max-width: 1100px; margin: 0 auto; padding: 28px 16px 80px; }
+    h1 { font-size: clamp(1.6rem, 2.6vw + 1rem, 2.2rem); margin: 0 0 6px; }
+    header p { margin: 0; color: var(--muted); }
+    section { margin: 18px 0 22px; padding: 14px 14px 16px; border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent); border-radius: 14px;
+              background: color-mix(in srgb, var(--accent) 4%, transparent); }
+    section h2 { margin: 0 0 8px; font-size: 1.15rem; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:10px; }
+    .chip { display:inline-block; padding:2px 8px; border-radius:999px; background:var(--chip); font-weight:600; }
+    .muted { color: var(--muted); }
+    .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .btn { appearance:none; border:1px solid color-mix(in srgb, var(--accent) 35%, transparent); background: color-mix(in srgb, var(--accent) 8%, transparent);
+           color: var(--fg); border-radius: 10px; padding: 8px 12px; font-weight: 700; cursor: pointer; }
+    .btn:disabled { opacity:.6; cursor:not-allowed; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    .tbl { width:100%; border-collapse: collapse; }
+    .tbl th, .tbl td { padding: 6px 8px; border-bottom: 1px dashed color-mix(in srgb, var(--fg) 18%, transparent); vertical-align: top; }
+    .tbl th { text-align:left; }
+    .ok { color: #16a34a; }
+    .bad { color: #dc2626; }
+    .small { font-size: 0.92em; }
+    code { background: color-mix(in srgb, var(--accent) 10%, transparent); padding: .1rem .35rem; border-radius: .35rem; }
+    input[type="number"], input[type="text"] { padding: 8px 10px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); min-width: 160px; }
+    .nowrap { white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="row">
+      <div>
+        <h1>Collatz (3n+1)</h1>
+      </div>
+      <div style="margin-left:auto" class="row">
+        <label for="nInput" class="muted small">Try n:</label>
+        <input id="nInput" type="text" value="27" inputmode="numeric" pattern="[0-9]*" />
+        <button id="runBtn" class="btn">Compute</button>
+      </div>
+    </header>
+
+    <section>
+      <h2>What this is?</h2>
+      <p>
+        A single‑file explainer for the <em>Collatz</em> process a.k.a. the “3n+1 problem”. For a positive integer n,
+        iterate: if n is even, divide by 2; if n is odd, set n ← 3n+1. This page computes trajectories,
+        shows the <strong>Answer</strong> (stopping time, total stopping time, and peak), the <strong>Reason why</strong>
+        (definitions and identities), and a <strong>Check</strong> harness that verifies basic properties
+        (e.g., powers‑of‑two chains and termination for a range), all locally in JavaScript.
+      </p>
+      <p class="small muted">Note: The Collatz conjecture (that all n reach 1) is open; here we only check finite ranges.</p>
+    </section>
+
+    <section id="answer">
+      <h2>Answer</h2>
+      <div id="answer-body"></div>
+    </section>
+
+    <section id="reason">
+      <h2>Reason why</h2>
+      <div class="mono small">
+        <p>Transition:</p>
+        <p class="nowrap">T(n) = { n/2 &nbsp; if n is even; &nbsp; 3n+1 &nbsp; if n is odd }.</p>
+        <p>For a start value n<sub>0</sub> = n, define the trajectory n<sub>0</sub>, n<sub>1</sub>, … with n<sub>k+1</sub> = T(n<sub>k</sub>).</p>
+        <ul>
+          <li><strong>Total stopping time</strong> σ∞(n): least k ≥ 0 with n<sub>k</sub> = 1 (if it exists).</li>
+          <li><strong>Stopping time</strong> σ(n): least k ≥ 0 with n<sub>k</sub> &lt; n.</li>
+          <li><strong>Peak</strong>: max value over the trajectory until 1 (inclusive).</li>
+        </ul>
+        <p>For powers of two, the sequence halves straight to 1, so σ∞(2<sup>k</sup>) = k and the peak is 2<sup>k</sup>.</p>
+      </div>
+    </section>
+
+    <section id="check">
+      <h2>Check (harness)</h2>
+      <div id="check-body"></div>
+    </section>
+  </main>
+
+  <script>
+  (function(){
+    "use strict";
+
+    // ------------------ Core Collatz utilities (BigInt) ------------------
+    const ZERO = 0n, ONE = 1n, TWO = 2n, THREE = 3n;
+
+    function isEven(n){ return (n & ONE) === ZERO; }
+    function T(n){ return isEven(n) ? (n / TWO) : (THREE * n + ONE); }
+
+    function collatzStats(n0, maxSteps = 1000000) {
+      // Returns {stepsTo1, stoppingTime, peak, trajectory}
+      // All values BigInt except step counts (Number). Trajectory capped if huge.
+      n0 = BigInt(n0);
+      if (n0 <= ZERO) throw new Error("n must be a positive integer");
+
+      let n = n0;
+      let stepsTo1 = 0;
+      let stoppingTime = null;
+      let peak = n0;
+      const traj = [n0];
+
+      for (let k = 0; k < maxSteps; k++) {
+        if (n === ONE) { stepsTo1 = k; break; }
+        n = T(n);
+        if (n > peak) peak = n;
+        if (stoppingTime === null && n < n0) stoppingTime = k + 1;
+        if (traj.length < 512) traj.push(n); // keep first 512 for display
+        if (k + 1 === maxSteps) throw new Error("Exceeded max steps without reaching 1");
+      }
+      if (stoppingTime === null) stoppingTime = stepsTo1; // if it only dipped below once it hit 1
+
+      return { stepsTo1, stoppingTime, peak, trajectory: traj };
+    }
+
+    // memoization for total stopping time (optional speedup)
+    const memo = new Map([[ONE, 0]]); // stepsTo1(1) = 0
+    function stepsTo1Memo(n) {
+      n = BigInt(n);
+      if (memo.has(n)) return memo.get(n);
+      const nxt = T(n);
+      const v = 1 + stepsTo1Memo(nxt);
+      memo.set(n, v);
+      return v;
+    }
+
+    // Format helpers
+    const fmt = {
+      int: (x) => x.toString(),
+      commas: (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    };
+
+    // ------------------ Answer: sample table + interactive n ------------------
+    const samples = [1,2,3,6,7,9,13,27,97,871,6171,77031,837799];
+    const answerBody = document.getElementById("answer-body");
+
+    function renderSamples() {
+      let html = '<table class="tbl mono small"><thead><tr><th>n</th><th>σ(n)</th><th>σ∞(n)</th><th>peak</th><th>prefix of trajectory</th></tr></thead><tbody>';
+      for (const n of samples) {
+        const s = collatzStats(n);
+        const prefix = s.trajectory.slice(0, 20).map(fmt.int).join(" → ");
+        html += `<tr>
+          <td>${fmt.commas(BigInt(n))}</td>
+          <td>${s.stoppingTime}</td>
+          <td>${s.stepsTo1}</td>
+          <td>${fmt.commas(s.peak)}</td>
+          <td>${prefix}${s.trajectory.length >= 512 ? " → …" : ""}</td>
+        </tr>`;
+      }
+      html += '</tbody></table>';
+
+      // Interactive panel
+      html += `<div class="row" style="margin-top:10px">
+        <span class="muted small">Computed trajectory length is capped to the first 512 terms for display.</span>
+      </div>
+      <div id="interactive" class="mono small" style="margin-top:8px"></div>`;
+
+      answerBody.innerHTML = html;
+    }
+
+    function computeInteractive() {
+      const input = document.getElementById("nInput");
+      let raw = (input.value || "").trim();
+      if (!/^\d+$/.test(raw) || raw === "0") {
+        document.getElementById("interactive").textContent = "Please enter a positive integer.";
+        return;
+      }
+      const n = BigInt(raw);
+      const s = collatzStats(n);
+      const traj = s.trajectory.map(fmt.int).join(" → ") + (s.trajectory[s.trajectory.length-1] !== 1n ? " → …" : "");
+      const lines = [
+        `n = ${fmt.commas(n)}`,
+        `stopping time σ(n) = ${s.stoppingTime}`,
+        `total stopping time σ∞(n) = ${s.stepsTo1}`,
+        `peak = ${fmt.commas(s.peak)}`,
+        `trajectory (prefix) = ${traj}`
+      ];
+      const pre = document.createElement('pre');
+      pre.className = 'mono';
+      pre.style.whiteSpace = 'pre-wrap';
+      pre.textContent = lines.join('\n');
+      const host = document.getElementById("interactive");
+      host.replaceChildren(pre);
+    }
+
+    // ------------------ Check (harness) ------------------
+    function runChecks() {
+      const out = [];
+      let okAll = true;
+
+      // (1) Powers of two
+      let okPow2 = true;
+      for (let k = 0; k <= 40; k++) {
+        const n = 1n << BigInt(k);
+        const s = collatzStats(n);
+        const cond = (s.stepsTo1 === k) && (s.peak === n);
+        if (!cond) { okPow2 = false; out.push(`  power-of-two failed at 2^${k}`); break; }
+      }
+      out.push(`Powers-of-two check σ∞(2^k)=k and peak=2^k for k=0..40: ${okPow2}`);
+      okAll = okAll && okPow2;
+
+      // (2) Termination for n in [1..20000]
+      let okTerm = true;
+      const LIMIT = 20000;
+      for (let i = 1; i <= LIMIT; i++) {
+        const steps = stepsTo1Memo(i);
+        if (typeof steps !== "number") { /* steps is Number */ }
+        if (steps < 0 || !Number.isFinite(steps)) { okTerm = false; out.push(`  bad steps at ${i}`); break; }
+      }
+      out.push(`Terminates to 1 for n ∈ [1, ${LIMIT}]: ${okTerm}`);
+      okAll = okAll && okTerm;
+
+      // (3) Parity transition sanity (random sample)
+      function rndInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+      let okParity = true;
+      for (let j=0;j<200 && okParity;j++){
+        const n = BigInt(rndInt(1, 1000000));
+        const next = T(n);
+        if (isEven(n)) {
+          if (next !== n/2n) { okParity = false; out.push(`  parity mismatch at even n=${n}`); }
+        } else {
+          if (next !== 3n*n+1n) { okParity = false; out.push(`  parity mismatch at odd n=${n}`); }
+        }
+      }
+      out.push(`Parity rule T(n) consistency on random sample: ${okParity}`);
+      okAll = okAll && okParity;
+
+      out.push("");
+      out.push(`All checks passed? ${okAll}`);
+      return out;
+    }
+
+    function renderChecks(){
+      const lines = runChecks();
+      const wrap = document.getElementById("check-body");
+      const pre = document.createElement('pre');
+      pre.className = 'mono';
+      pre.style.whiteSpace = 'pre-wrap';
+      pre.textContent = lines.join('\n');
+      wrap.replaceChildren(pre);
+    }
+
+    // Wire up
+    document.getElementById("runBtn").addEventListener("click", computeInteractive);
+
+    // Render initial content
+    renderSamples();
+    computeInteractive();
+    renderChecks();
+  })();
+  </script>
+</body>
+</html>

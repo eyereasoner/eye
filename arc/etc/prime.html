@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Primes</title>
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#111827; --muted:#6b7280; --panel:#f8fafc; --border:#e5e7eb; --accent:#0ea5e9;
+      --good:#16a34a; --cyan:#06b6d4; --indigo:#6366f1; --warn:#dc2626;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    html,body{height:100%}
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 var(--ui); }
+    .wrap{max-width:980px; margin:28px auto; padding:0 14px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px}
+    h1{font-size:20px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .card{width:100%; background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:14px}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px; margin:0}
+    input[type="number"]{width:120px; padding:8px 10px; border:1px solid var(--border); border-radius:10px; font:14px var(--ui); background:#fff}
+    button{all:unset; background:#fff; border:1px solid var(--border); padding:9px 13px; border-radius:10px; cursor:pointer}
+    button:hover{border-color:#cbd5e1}
+    .btns{display:flex; gap:8px; flex-wrap:wrap}
+    .muted{color:var(--muted)}
+
+    /* ARC boxes with thick colored left borders */
+    .arcbox{background:#fff; border:1px solid var(--border); border-radius:12px; padding:10px; margin:10px 0}
+    .arcbox.answer{border-left:10px solid var(--good)}
+    .arcbox.reason{border-left:10px solid var(--cyan)}
+    .arcbox.check{border-left:10px solid var(--indigo)}
+    .arclabel{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:6px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Primes</h1>
+      <div class="pill" id="status">Ready</div>
+    </header>
+
+    <div class="card">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained, browser‑only demo that lists primes up to a limit
+        using a Sieve of Eratosthenes and explains one proof of primality by trial division. The ARC section
+        reports <em>Answer • Reason • Check</em>.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head"><h2>Settings</h2></div>
+      <div class="body" style="display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+        <label>Max n: <input id="limit" type="number" min="2" value="100"></label>
+        <div class="btns">
+          <button onclick="run()">▶ Run</button>
+          <button onclick="copyARC()">Copy ARC</button>
+          <button onclick="downloadTxt()">⬇ Export .txt</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <h2>ARC Output</h2>
+        <div class="muted">Cards with left borders</div>
+      </div>
+      <div class="body">
+        <div class="arcbox answer">
+          <div class="arclabel">Answer</div>
+          <pre id="ans">(no run yet)</pre>
+        </div>
+        <div class="arcbox reason">
+          <div class="arclabel">Reason why</div>
+          <pre id="why">(no run yet)</pre>
+        </div>
+        <div class="arcbox check">
+          <div class="arclabel">Check (harness)</div>
+          <pre id="chk">(no run yet)</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ====== Number helpers ======
+function sieve(n){
+  const isPrime = new Uint8Array(n+1);
+  isPrime.fill(1, 2); // assume 0/1 false, 2..n true
+  const lim = Math.floor(Math.sqrt(n));
+  for(let p=2;p<=lim;p++){
+    if(isPrime[p]){
+      for(let k=p*p; k<=n; k+=p) isPrime[k]=0;
+    }
+  }
+  const ps=[]; for(let i=2;i<=n;i++) if(isPrime[i]) ps.push(i);
+  return ps;
+}
+function isPrimeTrial(n){
+  if(n<2) return false;
+  if(n%2===0) return n===2;
+  if(n%3===0) return n===3;
+  const lim = Math.floor(Math.sqrt(n));
+  for(let f=5; f<=lim; f+=6){
+    if(n%f===0 || n%(f+2)===0) return false;
+  }
+  return true;
+}
+
+// ====== ARC ======
+function setText(id, s){ const el=document.getElementById(id); if(el) el.textContent=s; }
+function status(msg, warn=false){ const el=document.getElementById('status'); if(!el) return; el.textContent=msg; el.classList.toggle('warn', !!warn); }
+function fmtArr(a, wrapAt=16){
+  const parts=[]; let line=[];
+  for(const x of a){
+    line.push(String(x).padStart(2,' '));
+    if(line.length===wrapAt){ parts.push(line.join(' ')); line=[]; }
+  }
+  if(line.length) parts.push(line.join(' '));
+  return parts.join('\n'); // placeholder, will be replaced
+}
+
+// ====== fixed newline helper to avoid "\n" showing in output ======
+const NL = "\n".replace("\\n", "\n"); // ensures a single JS newline escape
+
+function fmtArrFixed(a, wrapAt=16){
+  const parts=[]; let line=[];
+  for(const x of a){
+    line.push(String(x).padStart(2,' '));
+    if(line.length===wrapAt){ parts.push(line.join(' ')); line=[]; }
+  }
+  if(line.length) parts.push(line.join(' '));
+  return parts.join(NL);
+}
+
+// Replacing functions to output real newlines
+function proofTrace(n){
+  if(n<2) return `n = ${n} < 2 → not prime`;
+  const tests = [];
+  if(n%2===0){ tests.push('try 2 → divides'); return tests.join(NL); }
+  if(n%3===0){ tests.push('try 3 → divides'); return tests.join(NL); }
+  tests.push('try 2 → no');
+  tests.push('try 3 → no');
+  const lim = Math.floor(Math.sqrt(n));
+  for(let f=5; f<=lim; f+=6){
+    tests.push(`try ${f} → ${n%f===0?'divides':'no'}`);
+    if(n%f===0) return tests.join(NL);
+    tests.push(`try ${f+2} → ${n%(f+2)===0?'divides':'no'}`);
+    if(n%(f+2)===0) return tests.join(NL);
+  }
+  tests.push(`no divisors ≤ √${n} = ${lim}`);
+  return tests.join(NL);
+}
+
+function run(){
+  const N = Math.max(2, Math.floor(Number(document.getElementById('limit').value)||100));
+  const primes = sieve(N);
+  // Answer
+  let A = "".replaceAll("\\n", "\n");
+  A += `All primes ≤ ${N} (count = ${primes.length}):\n`.replaceAll("\\n", "\n");
+  A += fmtArrFixed(primes) + "\n".replaceAll("\\n", "\n");
+  setText('ans', A);
+
+  // Reason
+  let R = "".replaceAll("\\n", "\n");
+  R += "We generate primes by the Sieve of Eratosthenes and justify primality of one example by\n".replaceAll("\\n", "\n");
+  R += "trial division up to √ n, using 6k±1 candidates after checking 2 and 3.\n\n".replaceAll("\\n", "\n");
+  // Pick a demo number close to N (prefer prime), trace trial division proof
+  let demo = N;
+  while(demo>=2 && !isPrimeTrial(demo)) demo--;
+  if(demo<2) demo = 97;
+  R += `Demo: show ${demo} is prime\n`.replaceAll("\\n", "\n");
+  R += proofTrace(demo);
+  setText('why', R);
+
+  // Check
+  let C = "".replaceAll("\\n", "\n");
+  // A) Sieve set equals trial-division filter
+  const tv = []; for(let i=2;i<=N;i++) if(isPrimeTrial(i)) tv.push(i);
+  const same = JSON.stringify(primes)===JSON.stringify(tv);
+  C += `sieve == trial-division up to ${N}? ${same}\n`.replaceAll("\\n", "\n");
+  // B) 6k±1 property for primes > 3
+  const kprop = primes.filter(p=>p>3).every(p => (p-1)%6===0 || (p+1)%6===0);
+  C += `all p>3 satisfy p ∈ {6k±1}? ${kprop}\n`.replaceAll("\\n", "\n");
+  // C) sanity: first few primes and last prime ≤ N
+  const firstFewOK = [2,3,5,7,11,13,17,19,23,29].every((v,i)=> primes[i]===v || i>=primes.length);
+  const lastOK = primes.length? primes[primes.length-1]===tv[tv.length-1] : true;
+  C += `first few OK? ${firstFewOK} ; last OK? ${lastOK}`;
+  setText('chk', C);
+
+  status('Done');
+}
+
+function copyARC(){
+  const txt = [document.getElementById('ans').textContent,
+               document.getElementById('why').textContent,
+               document.getElementById('chk').textContent].join("\n\n".replaceAll("\\n","\n"));
+  navigator.clipboard?.writeText(txt).catch(()=>{});
+}
+function downloadTxt(){
+  const blob=new Blob([document.getElementById('ans').textContent, "\n\n".replaceAll("\\n","\n"),
+                       document.getElementById('why').textContent, "\n\n".replaceAll("\\n","\n"),
+                       document.getElementById('chk').textContent], {type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='primes_output.txt'; a.click();
+}
+
+// auto-run
+window.addEventListener('DOMContentLoaded', run);
+</script>
+</body>
+</html>

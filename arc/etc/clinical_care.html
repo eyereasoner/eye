@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Clinical Care Planning</title>
+  <style>
+    :root { --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --accent:#0ea5e9; --ok:#16a34a; --bad:#dc2626; --border:#e5e7eb; }
+    html,body{height:100%;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
+    h1{font-weight:700;letter-spacing:.2px;margin:18px 0 6px}
+    h2{font-size:13px;color:var(--muted);margin:0 0 8px;letter-spacing:.2px;text-transform:uppercase}
+    .wrap{max-width:980px;margin:0 auto;padding:24px}
+    .stack{display:grid;grid-template-columns:1fr;gap:14px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:0 6px 20px rgba(0,0,0,.04)}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    button{border:0;background:linear-gradient(180deg,#7dd3fc,#38bdf8);color:#052436;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(56,189,248,.35)}
+    button.secondary{background:#f3f4f6;color:#111827;border:1px solid var(--border);box-shadow:none}
+    .output{min-height:0;white-space:pre-wrap;background:#fbfdff;border:1px solid var(--border);border-radius:10px;padding:10px;overflow:auto}
+    .output.tall{min-height:160px}
+    .muted{color:var(--muted)}
+    .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.3px;border:1px solid var(--border)}
+    .ok{background:rgba(22,163,74,.08);color:var(--ok);border-color:rgba(22,163,74,.35)}
+    .bad{background:rgba(220,38,38,.08);color:var(--bad);border-color:rgba(220,38,38,.35)}
+    .tiny{font-size:12px}
+    .diag{font-size:12px;color:#6b7280}
+    textarea,pre,code,input,button{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
+    textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:#var(--text);box-sizing:border-box;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Clinical Care Planning</h1>
+
+  <div class="stack">
+
+    <!-- What this is? -->
+    <div class="card" id="what">
+      <h2>What this is?</h2>
+      <p>One-file, pure JS + JSON clinical reasoning demo using ARC:
+        <strong>Answer</strong> • <strong>Reason</strong> • <strong>Check</strong>.</p>
+      <ul>
+        <li><strong>Data</strong> — JSON patients, body parts, observations.</li>
+        <li><strong>Policies</strong> — declarative JSON rules (<code>if</code> atoms, optional <code>"not": true</code> negations ⇒ <code>then</code> atoms).</li>
+        <li><strong>Answer</strong> — only <em>newly derived</em> facts (keeps strongest priority per patient).</li>
+        <li><strong>Reason Why</strong> — mathematical-English templates with variable bindings.</li>
+        <li><strong>Check</strong> — ≥10 JSON assertions against the full fact set.</li>
+        <li><strong>Care Plan Summary</strong> — per-patient priority & planned interventions (chooses strongest priority).</li>
+      </ul>
+      <p class="tiny muted">
+        Engine: small forward-chainer with unification, subclassing (<code>subClass</code>), transitive <code>partOf</code>,
+        observation → patient mapping, and negation-as-failure for <code>"not": true</code>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Data (JSON)</h2>
+      <textarea id="dataTA" spellcheck="false">{
+  "classes": ["Patient","BodyPart",
+              "Observation","RedFlag","MajorConcern","MinorConcern",
+              "ChestPain","Hypoxia","Fever","Cough","Wheeze","HighBP","Headache","SoreThroat",
+              "CarePriority","Emergency","High","Routine","CareTask","RequiresImmediateCare"],
+
+  "subclassOf": [
+    ["ChestPain","RedFlag"],
+    ["Hypoxia","RedFlag"],
+    ["Fever","MajorConcern"],
+    ["Cough","MinorConcern"],
+    ["Wheeze","MinorConcern"],
+    ["HighBP","MinorConcern"],
+    ["Headache","MinorConcern"],
+    ["RedFlag","Observation"],
+    ["MajorConcern","Observation"],
+    ["MinorConcern","Observation"]
+  ],
+
+  "assets": {
+    "P1": {"type":"Patient"},
+    "Heart1": {"type":"BodyPart","partOf":"P1"},
+    "Lung1":  {"type":"BodyPart","partOf":"P1"},
+
+    "P2": {"type":"Patient"},
+    "Lung2": {"type":"BodyPart","partOf":"P2"},
+
+    "P3": {"type":"Patient"}
+  },
+
+  "observations": [
+    {"id":"ObsCP1","type":"ChestPain","about":"Heart1"},
+    {"id":"ObsO2P1","type":"Hypoxia","about":"Lung1"},
+    {"id":"ObsFeverP1","type":"Fever","about":"P1"},
+
+    {"id":"ObsCoughP2","type":"Cough","about":"P2"},
+    {"id":"ObsWheezeP2","type":"Wheeze","about":"P2"},
+    {"id":"ObsFeverP2","type":"Fever","about":"P2"},
+
+    {"id":"ObsBP3","type":"HighBP","about":"P3"},
+    {"id":"ObsHeadache3","type":"Headache","about":"P3"}
+  ]
+}</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Policies (declarative JSON rules)</h2>
+      <textarea id="policyTA" spellcheck="false">[
+  {
+    "id": "R1-Subclass",
+    "if":  [ {"pred":"subClass","s":"?A","o":"?B"}, {"pred":"isA","s":"?S","o":"?A"} ],
+    "then":[ {"pred":"isA","s":"?S","o":"?B"} ],
+    "explain": "Since ?A ⊑ ?B and ?S ∈ ?A, infer ?S ∈ ?B."
+  },
+  {
+    "id": "R2-PartOfTransitive",
+    "if":  [ {"pred":"partOf","s":"?x","o":"?y"}, {"pred":"partOf","s":"?y","o":"?z"} ],
+    "then":[ {"pred":"partOf","s":"?x","o":"?z"} ],
+    "explain": "Because ?x is part of ?y and ?y is part of ?z, by transitivity ?x is part of ?z."
+  },
+  {
+    "id": "R3-ObsToPatient",
+    "if":  [ {"pred":"about","s":"?obs","o":"?part"}, {"pred":"partOf","s":"?part","o":"?P"} ],
+    "then":[ {"pred":"aboutPatient","s":"?obs","o":"?P"} ],
+    "explain": "Observation ?obs concerns body part ?part of patient ?P; therefore ?obs is about patient ?P."
+  },
+
+  {
+    "id": "T-ChestPain",
+    "if":  [ {"pred":"isA","s":"?obs","o":"ChestPain"}, {"pred":"aboutPatient","s":"?obs","o":"?P"} ],
+    "then":[ {"pred":"requiresTask","s":"?P","o":"EKG"},
+             {"pred":"requiresTask","s":"?P","o":"TroponinLab"} ],
+    "explain": "Chest pain in ?P implies EKG and troponin testing."
+  },
+  {
+    "id": "T-Hypoxia",
+    "if":  [ {"pred":"isA","s":"?obs","o":"Hypoxia"}, {"pred":"aboutPatient","s":"?obs","o":"?P"} ],
+    "then":[ {"pred":"requiresTask","s":"?P","o":"OxygenTherapy"},
+             {"pred":"requiresTask","s":"?P","o":"ChestXRay"} ],
+    "explain": "Hypoxia in ?P implies oxygen therapy and chest radiography."
+  },
+  {
+    "id": "T-Fever",
+    "if":  [ {"pred":"isA","s":"?obs","o":"Fever"}, {"pred":"aboutPatient","s":"?obs","o":"?P"} ],
+    "then":[ {"pred":"requiresTask","s":"?P","o":"Antipyretic"},
+             {"pred":"requiresTask","s":"?P","o":"RepeatVitals"} ],
+    "explain": "Fever in ?P implies antipyretic treatment and repeat vitals."
+  },
+  {
+    "id": "T-Fever+Cough→COVIDTest",
+    "if":  [ {"pred":"isA","s":"?o1","o":"Fever"}, {"pred":"aboutPatient","s":"?o1","o":"?P"},
+             {"pred":"isA","s":"?o2","o":"Cough"}, {"pred":"aboutPatient","s":"?o2","o":"?P"} ],
+    "then":[ {"pred":"requiresTask","s":"?P","o":"COVIDTest"} ],
+    "explain": "Fever and cough in the same patient ?P suggest COVID testing."
+  },
+  {
+    "id": "T-Wheeze",
+    "if":  [ {"pred":"isA","s":"?obs","o":"Wheeze"}, {"pred":"aboutPatient","s":"?obs","o":"?P"} ],
+    "then":[ {"pred":"requiresTask","s":"?P","o":"Nebulizer"} ],
+    "explain": "Wheezing in ?P suggests bronchodilator (nebulizer) therapy."
+  },
+  {
+    "id": "T-HighBP",
+    "if":  [ {"pred":"isA","s":"?obs","o":"HighBP"}, {"pred":"aboutPatient","s":"?obs","o":"?P"} ],
+    "then":[ {"pred":"requiresTask","s":"?P","o":"BPRecheck"},
+             {"pred":"requiresTask","s":"?P","o":"Hydration"} ],
+    "explain": "Isolated high BP in ?P suggests BP recheck and hydration."
+  },
+
+  {
+    "id": "P-RedFlag→Emergency",
+    "if":  [ {"pred":"isA","s":"?obs","o":"RedFlag"}, {"pred":"aboutPatient","s":"?obs","o":"?P"} ],
+    "then":[ {"pred":"isA","s":"?P","o":"RequiresImmediateCare"},
+             {"pred":"priority","s":"?P","o":"Emergency"} ],
+    "explain": "Any red flag for ?P warrants immediate care and Emergency priority."
+  },
+  {
+    "id": "P-Major-NotRedFlag→High",
+    "if":  [ {"pred":"isA","s":"?obs","o":"MajorConcern"}, {"pred":"aboutPatient","s":"?obs","o":"?P"},
+             {"not":true, "pred":"isA","s":"?obs","o":"RedFlag"} ],
+    "then":[ {"pred":"priority","s":"?P","o":"High"} ],
+    "explain": "A major (but not red-flag) concern for ?P implies High priority."
+  },
+  {
+    "id": "P-Default-Routine",
+    "if":  [ {"pred":"requiresTask","s":"?P","o":"?X"},
+             {"not":true, "pred":"priority","s":"?P","o":"?Any"} ],
+    "then":[ {"pred":"priority","s":"?P","o":"Routine"} ],
+    "explain": "If ?P has a care task and no assigned priority, default to Routine."
+  }
+]</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Checks (JSON)</h2>
+      <textarea id="checksTA" spellcheck="false">[
+  {"name":"ObsCP1 is about patient P1",      "pattern":{"pred":"aboutPatient","s":"ObsCP1","o":"P1"}},
+  {"name":"ObsO2P1 is about patient P1",     "pattern":{"pred":"aboutPatient","s":"ObsO2P1","o":"P1"}},
+  {"name":"ObsFeverP1 is about patient P1",  "pattern":{"pred":"aboutPatient","s":"ObsFeverP1","o":"P1"}},
+  {"name":"ObsCoughP2 is about patient P2",  "pattern":{"pred":"aboutPatient","s":"ObsCoughP2","o":"P2"}},
+  {"name":"ObsWheezeP2 is about patient P2", "pattern":{"pred":"aboutPatient","s":"ObsWheezeP2","o":"P2"}},
+
+  {"name":"P1 requires EKG",           "pattern":{"pred":"requiresTask","s":"P1","o":"EKG"}},
+  {"name":"P1 requires TroponinLab",   "pattern":{"pred":"requiresTask","s":"P1","o":"TroponinLab"}},
+  {"name":"P1 requires OxygenTherapy", "pattern":{"pred":"requiresTask","s":"P1","o":"OxygenTherapy"}},
+  {"name":"P1 requires ChestXRay",     "pattern":{"pred":"requiresTask","s":"P1","o":"ChestXRay"}},
+  {"name":"P1 requires Antipyretic",   "pattern":{"pred":"requiresTask","s":"P1","o":"Antipyretic"}},
+
+  {"name":"P1 Emergency priority",     "pattern":{"pred":"priority","s":"P1","o":"Emergency"}},
+  {"name":"P2 High priority",          "pattern":{"pred":"priority","s":"P2","o":"High"}},
+  {"name":"P3 Routine priority",       "pattern":{"pred":"priority","s":"P3","o":"Routine"}},
+
+  {"name":"P2 requires COVIDTest",     "pattern":{"pred":"requiresTask","s":"P2","o":"COVIDTest"}},
+  {"name":"P2 requires Nebulizer",     "pattern":{"pred":"requiresTask","s":"P2","o":"Nebulizer"}},
+  {"name":"P2 requires Antipyretic",   "pattern":{"pred":"requiresTask","s":"P2","o":"Antipyretic"}},
+
+  {"name":"P3 requires BPRecheck",     "pattern":{"pred":"requiresTask","s":"P3","o":"BPRecheck"}}
+]</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Controls</h2>
+      <div class="row">
+        <button id="runBtn">▶ Run ARC</button>
+        <button id="reasonBtn" class="secondary">Show Reason only</button>
+        <span id="status" class="muted tiny" style="margin-left:auto"></span>
+      </div>
+      <div id="diag" class="diag"></div>
+    </div>
+
+    <div class="card">
+      <h2>Answer (newly derived facts)</h2>
+      <div id="answer" class="output tall">computing…</div>
+    </div>
+
+    <div class="card">
+      <h2>Reason Why (mathematical English)</h2>
+      <div id="reason" class="output tall">(click “Run ARC”)</div>
+    </div>
+
+    <div class="card">
+      <h2>Check</h2>
+      <div id="checks" class="output tall">computing…</div>
+    </div>
+
+    <div class="card">
+      <h2>Care Plan Summary</h2>
+      <div id="summary" class="output">(run to populate)</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const els = {
+    dataTA: $("dataTA"), policyTA: $("policyTA"), checksTA: $("checksTA"),
+    runBtn: $("runBtn"), reasonBtn: $("reasonBtn"),
+    status: $("status"), diag: $("diag"),
+    answer: $("answer"), reason: $("reason"), checks: $("checks"), summary: $("summary")
+  };
+
+  // Auto-grow textareas
+  function autoResize(el){ el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
+  ["dataTA","policyTA","checksTA"].forEach(id=>{
+    const el=$(id); el.addEventListener('input',()=>autoResize(el)); setTimeout(()=>autoResize(el),0);
+  });
+
+  // ---- Tiny fact KB
+  function key(f){ return `${f.pred}|${f.s}|${f.o}`; }
+
+  function buildFactsFromData(data){
+    const facts = [];
+    (data.subclassOf||[]).forEach(([a,b])=>facts.push({pred:"subClass",s:a,o:b,_base:true}));
+    for(const [id,info] of Object.entries(data.assets||{})){
+      if(info.type) facts.push({pred:"isA",s:id,o:info.type,_base:true});
+      if(info.partOf) facts.push({pred:"partOf",s:id,o:info.partOf,_base:true});
+    }
+    (data.observations||[]).forEach(o=>{
+      facts.push({pred:"isA",s:o.id,o:o.type,_base:true});
+      facts.push({pred:"about",s:o.id,o:o.about,_base:true});
+      if ((data.assets[o.about]?.type) === "Patient") {
+        facts.push({pred:"aboutPatient",s:o.id,o:o.about,_base:true});
+      }
+    });
+    return facts;
+  }
+
+  function indexFacts(facts){
+    const byPred = new Map();
+    for(const f of facts){
+      if(!byPred.has(f.pred)) byPred.set(f.pred, []);
+      byPred.get(f.pred).push(f);
+    }
+    return { byPred };
+  }
+
+  function isVar(x){ return typeof x==="string" && x.startsWith("?"); }
+
+  function unifyAtomWithFact(atom, f, env){
+    const out = {...env};
+    const slots = ["pred","s","o"];
+    for(const slot of slots){
+      const val = atom[slot];
+      const factVal = f[slot] ?? (slot==="pred"? f.pred : slot==="s"? f.s : f.o);
+      if(isVar(val)){
+        if(out[val]!==undefined && out[val]!==factVal) return null;
+        out[val]=factVal;
+      } else {
+        if(val!==factVal) return null;
+      }
+    }
+    return out;
+  }
+
+  function matchPositives(rule, factsIdx, env={}, i=0){
+    if(i>=rule.if.length) return [env];
+    const atom = rule.if[i];
+    if(atom.not) return matchPositives(rule, factsIdx, env, i+1);
+    const candidates = factsIdx.byPred.get(atom.pred)||[];
+    const out = [];
+    for(const f of candidates){
+      const env2 = unifyAtomWithFact(atom,f,env);
+      if(env2) out.push(...matchPositives(rule, factsIdx, env2, i+1));
+    }
+    return out;
+  }
+
+  function negHolds(atom, factsIdx, env){
+    const candidates = factsIdx.byPred.get(atom.pred)||[];
+    for(const f of candidates){
+      if(unifyAtomWithFact(atom,f,env)) return true;
+    }
+    return false;
+  }
+
+  function substitute(t, env){
+    const sub = v => isVar(v) ? env[v] : v;
+    return { pred: t.pred, s: sub(t.s), o: sub(t.o) };
+  }
+
+  // ---- Priority handling
+  const PRIORITY_RANK = { Emergency: 3, High: 2, Routine: 1 };
+
+  function bestPriorities(facts) {
+    const best = new Map();
+    for (const f of facts) {
+      if (f.pred !== "priority") continue;
+      const cur = best.get(f.s);
+      if (!cur || (PRIORITY_RANK[f.o]||0) > (PRIORITY_RANK[cur]||0)) {
+        best.set(f.s, f.o);
+      }
+    }
+    return best;
+  }
+
+  function derive(data, policies){
+    let facts = buildFactsFromData(data);
+    const baseSet = new Set(facts.map(key));
+    const factSet = new Set(baseSet);
+    const factsIdx = indexFacts(facts);
+    const proofs = new Map();
+
+    let changed=true, guard=0;
+    while(changed && guard++<200){
+      changed=false;
+      for(const rule of policies){
+        const posBindings = matchPositives(rule, factsIdx, {}, 0);
+        for(const env of posBindings){
+          const negs = rule.if.filter(a=>a.not);
+          let ok=true, negUsed=[];
+          for(const n of negs){
+            const nSub = substitute(n, env);
+            if(negHolds(nSub, factsIdx, env)){ ok=false; break; }
+            negUsed.push(nSub);
+          }
+          if(!ok) continue;
+
+          for(const t of rule.then){
+            const concl = substitute(t, env);
+            const k = key(concl);
+            if(!factSet.has(k)){
+              facts.push({...concl,_base:false});
+              factSet.add(k);
+              changed=true;
+              if(!factsIdx.byPred.has(concl.pred)) factsIdx.byPred.set(concl.pred,[]);
+              factsIdx.byPred.get(concl.pred).push({...concl,_base:false});
+              const exp = buildExplanation(rule, env, negUsed);
+              proofs.set(k, exp);
+            }
+          }
+        }
+      }
+    }
+
+    const derived = facts.filter(f=>!f._base);
+
+    // Keep only strongest priority per patient for Answer/Reason
+    const best = bestPriorities(facts);
+    const derivedFiltered = derived.filter(f =>
+      f.pred !== "priority" || best.get(f.s) === f.o
+    );
+
+    const answerLines = formatFacts(derivedFiltered);
+
+    const reasonLines = [];
+    for(const f of derivedFiltered){
+      const k = key(f);
+      const exp = proofs.get(k);
+      if(exp) reasonLines.push(`• ${exp} ⇒ therefore ${prettyFact(f)}.`);
+      else reasonLines.push(`• Derived ${prettyFact(f)}.`);
+    }
+
+    return { facts, derived, answerText: answerLines.join("\n"), reasonText: reasonLines.join("\n") };
+  }
+
+  function buildExplanation(rule, env, negUsed){
+    const fill = s => s.replace(/\?[A-Za-z0-9_]+/g, m => env[m] ?? m);
+    let text = fill(rule.explain || `Applied ${rule.id}`);
+    if(negUsed && negUsed.length){
+      const negBits = negUsed.map(n=>`no fact ${n.pred}(${n.s}, ${n.o})`).join(" and ");
+      text += `, and ${negBits}`;
+    }
+    return text;
+  }
+
+  function prettyFact(f){
+    const p = f.pred, s=f.s, o=f.o;
+    const tri = {
+      "isA":    `${s} ∈ ${o}`,
+      "subClass": `${s} ⊑ ${o}`,
+      "partOf": `${s} partOf ${o}`,
+      "about": `${s} about ${o}`,
+      "aboutPatient": `${s} aboutPatient ${o}`,
+      "requiresTask": `${s} requires ${o}`,
+      "priority": `${s} priority ${o}`
+    };
+    return tri[p] || `${s} ${p} ${o}`;
+  }
+
+  function formatFacts(facts){
+    const groups = {};
+    for(const f of facts){
+      (groups[f.pred] ||= []).push(f);
+    }
+    const order = ["isA","subClass","partOf","about","aboutPatient","requiresTask","priority"];
+    const lines = [];
+    for(const pred of order){
+      if(!groups[pred]) continue;
+      const sorted = groups[pred].slice().sort((a,b)=> (a.s+a.o).localeCompare(b.s+b.o));
+      for(const f of sorted) lines.push(prettyFact(f));
+    }
+    for(const pred of Object.keys(groups)){
+      if(order.includes(pred)) continue;
+      const sorted = groups[pred].slice().sort((a,b)=> (a.s+a.o).localeCompare(b.s+b.o));
+      for(const f of sorted) lines.push(prettyFact(f));
+    }
+    return lines;
+  }
+
+  // ---- Checks
+  function runChecks(facts, checksSpec){
+    const factSet = new Set(facts.map(key));
+    const out = [];
+    for(let i=0;i<checksSpec.length;i++){
+      const chk = checksSpec[i];
+      const k = key(chk.pattern);
+      const passed = factSet.has(k);
+      out.push({i:i+1, name: chk.name, passed});
+    }
+    return out;
+  }
+
+  function renderChecks(results){
+    if(!results.length) return "(no checks)";
+    const lines = [];
+    for(const r of results){
+      lines.push(`${r.passed ? "✅" : "❌"} ${String(r.i).padStart(2," ")} — ${r.name}`);
+    }
+    const passCt = results.filter(r=>r.passed).length;
+    lines.push(`\nSummary: ${passCt}/${results.length} PASS`);
+    return lines.join("\n");
+  }
+
+  // ---- Care Plan Summary (uses strongest priority per patient)
+  function summarizeCare(facts){
+    const tasksByP = new Map();
+    for (const f of facts) {
+      if (f.pred === "requiresTask") {
+        if (!tasksByP.has(f.s)) tasksByP.set(f.s, new Set());
+        tasksByP.get(f.s).add(f.o);
+      }
+    }
+    const best = bestPriorities(facts);
+    const patients = new Set([...tasksByP.keys(), ...best.keys()]);
+    if (!patients.size) return "(no patients with derived care tasks)";
+    const lines = [];
+    for (const p of [...patients].sort()) {
+      const pr = best.get(p) || "Routine";
+      const tasks = [...(tasksByP.get(p) || [])].sort().join(", ");
+      lines.push(`${p}: priority ${pr}${tasks ? " — tasks: " + tasks : ""}`);
+    }
+    return lines.join("\n");
+  }
+
+  // ---- Orchestration
+  function parseJSON(text, label){
+    try { return JSON.parse(text); }
+    catch(e){ throw new Error(`${label} JSON error: ${e.message}`); }
+  }
+
+  function toPolicies(spec){
+    return spec.map(r => ({
+      id: r.id || "(unnamed)",
+      if: r.if || [],
+      then: r.then || [],
+      explain: r.explain || ""
+    }));
+  }
+
+  function buildDataObj(spec){ return spec; }
+
+  async function runARC(){
+    els.status.textContent = "Parsing JSON…";
+    els.answer.textContent = els.reason.textContent = els.checks.textContent = "computing…";
+    els.summary.textContent = "(run to populate)";
+    els.diag.textContent = "";
+    try{
+      const dataSpec = parseJSON(els.dataTA.value, "Data");
+      const polSpec  = parseJSON(els.policyTA.value, "Policies");
+      const checksSpec = parseJSON(els.checksTA.value, "Checks");
+      const data = buildDataObj(dataSpec);
+      const policies = toPolicies(polSpec);
+
+      els.status.textContent = "Reasoning…";
+      const { facts, derived, answerText, reasonText } = derive(data, policies);
+
+      els.answer.textContent = answerText || "(no new derivations)";
+      els.reason.textContent = reasonText || "(no explanations available)";
+
+      els.status.textContent = "Running checks…";
+      const checkResults = runChecks(facts, checksSpec);
+      els.checks.textContent = renderChecks(checkResults);
+
+      // Summary (strongest priority)
+      els.summary.textContent = summarizeCare(facts);
+
+      els.status.textContent = "Done.";
+    }catch(e){
+      console.error(e);
+      els.status.textContent = "Error";
+      els.answer.textContent = "(failed)";
+      els.reason.textContent = "(failed)";
+      els.checks.textContent = "(failed)";
+      els.summary.textContent = "(failed)";
+      els.diag.textContent = e.message;  // see parse error here if any
+    }
+    autoResize(els.dataTA); autoResize(els.policyTA); autoResize(els.checksTA);
+  }
+
+  function showReasonOnly(){
+    runARC().then(()=> {
+      window.scrollTo({top: $("reason").getBoundingClientRect().top + window.scrollY - 12, behavior: "smooth"});
+    });
+  }
+
+  els.runBtn.addEventListener('click', runARC);
+  els.reasonBtn.addEventListener('click', showReasonOnly);
+  window.addEventListener('DOMContentLoaded', runARC);
+</script>
+</body>
+</html>
+

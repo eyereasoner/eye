@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Math Puzzle — 5×5 KenKen-style Latin</title>
+  <style>
+    :root { --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --border:#e5e7eb; --accent:#0ea5e9; }
+    html,body{height:100%;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
+    h1{font-weight:700;letter-spacing:.2px;margin:18px 0 6px}
+    h2{font-size:13px;color:var(--muted);margin:0 0 8px;letter-spacing:.2px;text-transform:uppercase}
+    .wrap{max-width:980px;margin:0 auto;padding:24px}
+    .stack{display:grid;grid-template-columns:1fr;gap:14px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:0 6px 20px rgba(0,0,0,.04)}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    button{border:0;background:linear-gradient(180deg,#7dd3fc,#38bdf8);color:#052436;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(56,189,248,.35)}
+    button.secondary{background:#f3f4f6;color:#111827;border:1px solid var(--border);box-shadow:none}
+    .output{min-height:0;white-space:pre-wrap;background:#fbfdff;border:1px solid var(--border);border-radius:10px;padding:10px;overflow:auto}
+    .output.tall{min-height:180px}
+    .muted{color:var(--muted)}
+    .tiny{font-size:12px}
+    .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.3px;border:1px solid var(--border);background:#f5f7fb;color:#334155}
+    .grid{display:grid;gap:0}
+    .cell{
+      position:relative;
+      display:flex;align-items:center;justify-content:center;
+      border:1px solid var(--border);
+      border-width:1px;
+      width:56px;height:56px;border-radius:0;
+      background:#fff;font-weight:700
+    }
+    .cageLabel{
+      position:absolute;top:3px;left:6px;
+      font-size:10px;color:#6b7280;font-weight:700;pointer-events:none;
+      background:transparent;
+    }
+    textarea,pre,code,input,button{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
+    textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:#0f172a;box-sizing:border-box;white-space:pre-wrap}
+    .switch{display:inline-flex;align-items:center;gap:8px}
+    .switch input{transform:scale(1.1)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>5×5 KenKen-style Latin</h1>
+
+  <div class="stack">
+
+    <!-- What this is? -->
+    <div class="card">
+      <h2>What this is?</h2>
+      <p>One-file, pure JS + JSON solver for a 5×5 KenKen-style Latin puzzle. Edit the JSON, then click <b>Run ARC</b>.</p>
+      <ul>
+        <li><b>Data</b> — grid <code>N=5</code> and <em>cages</em>. A cage has an operator (<code>= + - × ÷</code>) and a target applied to its cells.</li>
+        <li><b>Policies</b> — declarative constraint families: row/column all-different and cage arithmetic.</li>
+        <li><b>Answer</b> — newly derived facts (the solved digits), with a checks summary.</li>
+        <li><b>Reason Why</b> — mathematical-English explanations per cage and row/column uniqueness.</li>
+        <li><b>Check</b> — auto-generated assertions (rows, columns, cages): <span id="checksCountInline" class="badge">…</span> items.</li>
+      </ul>
+      <p class="tiny muted">Engine: domain propagation (1..N), cage tuple filtering, Latin all-different, and DFS backtracking. Works well up to N≈6 for typical puzzles.</p>
+    </div>
+
+    <!-- Puzzle details / meta -->
+    <div class="card">
+      <h2>Puzzle Details</h2>
+      <ul>
+        <li><b>Size</b>: 5×5 (values 1..5). Latin rule: each row/column has each number exactly once.</li>
+        <li><b>Operators</b>: <code>=</code> (singleton), <code>+</code> (sum), <code>-</code> (absolute diff, two cells), <code>×</code> (product), <code>÷</code> (integer division, two cells, no remainder).</li>
+        <li><b>Design</b>: Mixed singletons, sum pairs, and difference pairs for medium difficulty.</li>
+        <li><b>Editing</b>: You can alter <code>size</code> (2..6) and cages. Ensure every cell appears in exactly one cage.</li>
+        <li><b>Tip</b>: Singletons seed values; all-different prunes domains; cages do arithmetic pruning; backtracking finishes.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Data (JSON)</h2>
+      <textarea id="dataTA" spellcheck="false">{
+  "size": 5,
+  "cages": [
+    { "id": "A", "op": "+", "target": 3,  "cells": [ [1,1], [1,2] ] },
+    { "id": "B", "op": "=", "target": 3,  "cells": [ [1,3] ] },
+    { "id": "C", "op": "-", "target": 1,  "cells": [ [1,4], [2,4] ] },
+    { "id": "D", "op": "+", "target": 6,  "cells": [ [1,5], [2,5] ] },
+    { "id": "E", "op": "=", "target": 2,  "cells": [ [2,1] ] },
+    { "id": "F", "op": "+", "target": 7,  "cells": [ [2,2], [3,2] ] },
+    { "id": "G", "op": "+", "target": 9,  "cells": [ [2,3], [3,3] ] },
+    { "id": "H", "op": "-", "target": 1,  "cells": [ [3,1], [4,1] ] },
+    { "id": "I", "op": "+", "target": 3,  "cells": [ [3,4], [3,5] ] },
+    { "id": "J", "op": "+", "target": 6,  "cells": [ [4,2], [4,3] ] },
+    { "id": "K", "op": "=", "target": 2,  "cells": [ [4,4] ] },
+    { "id": "L", "op": "-", "target": 1,  "cells": [ [4,5], [5,5] ] },
+    { "id": "M", "op": "+", "target": 6,  "cells": [ [5,1], [5,2] ] },
+    { "id": "N", "op": "+", "target": 5,  "cells": [ [5,3], [5,4] ] }
+  ]
+}</textarea>
+      <p class="tiny muted">Coordinates are 1-based: <code>[row, col]</code>. Every cell belongs to exactly one cage.</p>
+    </div>
+
+    <div class="card">
+      <h2>Policies (declarative JSON rules)</h2>
+      <textarea id="policyTA" spellcheck="false">[
+  { "id":"P1-RowAllDiff", "type":"allDiffRows",
+    "explain":"Each row r ∈ {1..N} is a permutation of {1..N} (all-different)."
+  },
+  { "id":"P2-ColAllDiff", "type":"allDiffCols",
+    "explain":"Each column c ∈ {1..N} is a permutation of {1..N} (all-different)."
+  },
+  { "id":"P3-CageArithmetic", "type":"cages",
+    "explain":"Every cage satisfies its operator and target over its cells."
+  }
+]</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Controls</h2>
+      <div class="row">
+        <button id="runBtn">▶ Run ARC</button>
+        <label class="switch"><input id="colorChk" type="checkbox" checked/> Color cages</label>
+        <label class="switch"><input id="uniqChk" type="checkbox"/> Probe uniqueness (second solution)</label>
+        <button id="reasonBtn" class="secondary">Show Reason only</button>
+        <span id="status" class="muted tiny" style="margin-left:auto"></span>
+      </div>
+      <div id="diag" class="tiny" style="color:#6b7280"></div>
+    </div>
+
+    <div class="card">
+      <h2>Puzzle Solution Summary</h2>
+      <div id="gridMount" class="output"></div>
+    </div>
+
+    <div class="card">
+      <h2>Uniqueness Probe</h2>
+      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
+      <div id="altGridMount" class="output" style="margin-top:8px"></div>
+    </div>
+
+    <div class="card">
+      <h2>Answer (newly derived facts)</h2>
+      <div id="answer" class="output tall">computing…</div>
+    </div>
+
+    <div class="card">
+      <h2>Reason Why (mathematical English)</h2>
+      <div id="reason" class="output tall">(click “Run ARC”)</div>
+    </div>
+
+    <div class="card">
+      <h2>Check <span id="checksCount" class="badge">0</span></h2>
+      <div id="checks" class="output tall">computing…</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const els = {
+    dataTA: $("dataTA"), policyTA: $("policyTA"),
+    runBtn: $("runBtn"), reasonBtn: $("reasonBtn"), uniqChk: $("uniqChk"), colorChk: $("colorChk"),
+    status: $("status"), diag: $("diag"),
+    answer: $("answer"), reason: $("reason"), checks: $("checks"),
+    checksCount: $("checksCount"), checksCountInline: $("checksCountInline"),
+    gridMount: $("gridMount"), uniqOut: $("uniqOut"), altGridMount: $("altGridMount")
+  };
+
+  // Auto-grow textareas
+  function autoResize(el){ el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
+  ["dataTA","policyTA"].forEach(id=>{
+    const el=$(id); el.addEventListener('input',()=>autoResize(el)); setTimeout(()=>autoResize(el),0);
+  });
+
+  // ---- Parsing
+  function parseJSON(text, label){
+    try { return JSON.parse(text); }
+    catch(e){ throw new Error(`${label} JSON error: ${e.message}`); }
+  }
+
+  // ---- CSP helpers
+  const ops = {
+    "+": (vals,t)=> vals.reduce((a,b)=>a+b,0) === t,
+    "-": (vals,t)=> vals.length===2 && Math.abs(vals[0]-vals[1])===t,
+    "*": (vals,t)=> vals.reduce((a,b)=>a*b,1) === t,
+    "×": (vals,t)=> ops["*"](vals,t),
+    "/": (vals,t)=> {
+      if(vals.length!==2) return false;
+      const [a,b] = vals;
+      const max=Math.max(a,b), min=Math.min(a,b);
+      return min!==0 && max%min===0 && (max/min)===t;
+    },
+    "÷": (vals,t)=> ops["/"](vals,t),
+    "=": (vals,t)=> vals.length===1 && vals[0]===t
+  };
+
+  function cloneGrid(grid){ return grid.map(row=>row.map(cell=>new Set([...cell]))); }
+
+  function domainsInit(N){
+    const all = new Set([...Array(N)].map((_,i)=>i+1));
+    return Array.from({length:N},()=> Array.from({length:N},()=> new Set(all)));
+  }
+
+  function assigned(vset){ return vset.size===1 ? [...vset][0] : null; }
+
+  function rowValues(grid,r){ return grid[r].map(s=>assigned(s)).filter(v=>v!==null); }
+  function colValues(grid,c){ return grid.map(row=>assigned(row[c])).filter(v=>v!==null); }
+
+  function applyLatinConstraints(grid){
+    const N = grid.length;
+    let changed=false;
+    for(let r=0;r<N;r++){
+      const used = new Set(rowValues(grid,r));
+      for(let c=0;c<N;c++){
+        for(const v of used){ if(grid[r][c].size>1 && grid[r][c].has(v)){ grid[r][c].delete(v); changed=true; } }
+      }
+    }
+    for(let c=0;c<N;c++){
+      const used = new Set(colValues(grid,c));
+      for(let r=0;r<N;r++){
+        for(const v of used){ if(grid[r][c].size>1 && grid[r][c].has(v)){ grid[r][c].delete(v); changed=true; } }
+      }
+    }
+    return changed;
+  }
+
+  function cartesian(arrays){
+    return arrays.reduce((acc,cur)=>{
+      const out=[];
+      for(const a of acc){ for(const b of cur){ out.push(a.concat([b])); } }
+      return out;
+    }, [[]]);
+  }
+
+  function applyCageConstraints(grid, cages){
+    const N = grid.length;
+    let changed=false;
+    for(const cage of cages){
+      const opFn = ops[cage.op];
+      if(!opFn) throw new Error(`Unsupported op: ${cage.op}`);
+      const cells = cage.cells.map(([r,c])=> grid[r-1][c-1]);
+      const domains = cells.map(set=>[...set]);
+
+      // Candidate tuples consistent with current domains:
+      let tuples = cartesian(domains).filter(t => opFn(t, cage.target));
+
+      // Filter tuples that violate row/col used values
+      tuples = tuples.filter(t=>{
+        for(let i=0;i<t.length;i++){
+          const [r,c] = cage.cells[i];
+          const v = t[i];
+          // Row conflict
+          for(let cc=0; cc<N; cc++){
+            if(cc===c-1) continue;
+            const av = assigned(grid[r-1][cc]);
+            if(av===v) return false;
+          }
+          // Column conflict
+          for(let rr=0; rr<N; rr++){
+            if(rr===r-1) continue;
+            const av = assigned(grid[rr][c-1]);
+            if(av===v) return false;
+          }
+        }
+        return true;
+      });
+
+      if(tuples.length===0) return {changed:false, contradiction:true};
+
+      // Prune domains: keep only values that appear in some surviving tuple
+      for(let i=0;i<cells.length;i++){
+        const allowed = new Set(tuples.map(t=>t[i]));
+        const cell = cells[i];
+        for(const v of [...cell]){
+          if(!allowed.has(v)){ cell.delete(v); changed=true; }
+        }
+        if(cell.size===0) return {changed, contradiction:true};
+      }
+    }
+    return {changed, contradiction:false};
+  }
+
+  function propagate(grid, cages){
+    while(true){
+      const before = JSON.stringify(grid.map(row=>row.map(set=>[...set].sort())));
+      let any=false;
+      any = applyLatinConstraints(grid) || any;
+      const {changed, contradiction} = applyCageConstraints(grid, cages);
+      if(contradiction) return {progress:false, contradiction:true};
+      any = changed || any;
+      const after = JSON.stringify(grid.map(row=>row.map(set=>[...set].sort())));
+      if(before===after) return {progress:any, contradiction:false};
+    }
+  }
+
+  function pickCell(grid){
+    let bestR=-1, bestC=-1, bestSize=1e9;
+    for(let r=0;r<grid.length;r++){
+      for(let c=0;c<grid.length;c++){
+        const s = grid[r][c];
+        if(s.size>1 && s.size<bestSize){ bestSize=s.size; bestR=r; bestC=c; }
+      }
+    }
+    return bestR===-1? null : {r:bestR,c:bestC};
+  }
+
+  function equalSolutionMatrix(a, b){
+    const N = a.length;
+    for(let r=0;r<N;r++){
+      for(let c=0;c<N;c++){
+        const va = [...a[r][c]][0], vb = [...b[r][c]][0];
+        if(va !== vb) return false;
+      }
+    }
+    return true;
+  }
+
+  function solve(grid, cages, forbidMatrix=null){
+    const {contradiction} = propagate(grid, cages);
+    if(contradiction) return null;
+
+    // All assigned?
+    if(grid.every(row=>row.every(s=>s.size===1))){
+      if(forbidMatrix && equalSolutionMatrix(grid, forbidMatrix)) return null; // forbid exact prior solution
+      return grid;
+    }
+
+    const cell = pickCell(grid);
+    if(!cell) return null;
+    const choices = [...grid[cell.r][cell.c]];
+    for(const v of choices){
+      const next = cloneGrid(grid);
+      next[cell.r][cell.c] = new Set([v]);
+      const sol = solve(next, cages, forbidMatrix);
+      if(sol) return sol;
+    }
+    return null;
+  }
+
+  // ---- Cage color helpers
+  function hsl(h,s,l){ return `hsl(${h} ${s}% ${l}%)`; }
+  function generateCageColors(cages){
+    const ids = cages.map(c=>c.id);
+    const n = ids.length || 1;
+    const map = new Map();
+    // evenly spaced hues, slight offset
+    for(let i=0;i<ids.length;i++){
+      const hue = Math.round((i*360/n + 12) % 360);
+      const bg  = hsl(hue, 85, 92);   // pastel background
+      const lab = hsl(hue, 55, 30);   // darker label text
+      map.set(ids[i], {bg, lab});
+    }
+    return map;
+  }
+
+  // ---- Cage rendering helpers
+  function buildCageIndex(cages){
+    const cell2cage = new Map(); // "r,c" -> id
+    const cageById = new Map();
+    const topLeft = new Map(); // id -> [r,c]
+    for(const cg of cages){
+      cageById.set(cg.id, cg);
+      let tl = null;
+      for(const [r,c] of cg.cells){
+        const k = `${r},${c}`;
+        cell2cage.set(k, cg.id);
+        if(!tl || r<tl[0] || (r===tl[0] && c<tl[1])) tl = [r,c];
+      }
+      topLeft.set(cg.id, tl);
+    }
+    return {cell2cage, cageById, topLeft};
+  }
+
+  function opPretty(op){ return op==="*" ? "×" : op; }
+  function labelForCage(cg){
+    const sym = opPretty(cg.op);
+    return (cg.op === "=") ? `${cg.id} ${cg.target}` : `${cg.id} ${cg.target}${sym}`;
+  }
+
+  function computeBorders(N, cell2cage){
+    const borders = new Map(); // "r,c" -> {t,l,r,b}
+    for(let r=1;r<=N;r++){
+      for(let c=1;c<=N;c++){
+        const k = `${r},${c}`;
+        const id = cell2cage.get(k);
+        const up    = (r===1) ? null : cell2cage.get(`${r-1},${c}`);
+        const down  = (r===N) ? null : cell2cage.get(`${r+1},${c}`);
+        const left  = (c===1) ? null : cell2cage.get(`${r},${c-1}`);
+        const right = (c===N) ? null : cell2cage.get(`${r},${c+1}`);
+        borders.set(k, {
+          t: (r===1 || up    !== id) ? "3px" : "1px",
+          b: (r===N || down  !== id) ? "3px" : "1px",
+          l: (c===1 || left  !== id) ? "3px" : "1px",
+          r: (c===N || right !== id) ? "3px" : "1px"
+        });
+      }
+    }
+    return borders;
+  }
+
+  function renderGridWithCages(sol, cages, colorize){
+    const N = sol.length;
+    const g = document.createElement('div');
+    g.className = 'grid';
+    g.style.gridTemplateColumns = `repeat(${N}, 56px)`;
+    const {cell2cage, cageById, topLeft} = buildCageIndex(cages);
+    const borders = computeBorders(N, cell2cage);
+    const colors = generateCageColors(cages);
+
+    for(let r=1;r<=N;r++){
+      for(let c=1;c<=N;c++){
+        const div = document.createElement('div');
+        div.className = 'cell';
+        const val = [...sol[r-1][c-1]][0];
+        div.textContent = val;
+
+        const k = `${r},${c}`;
+        const cageId = cell2cage.get(k);
+        if(colorize && cageId && colors.has(cageId)){
+          div.style.backgroundColor = colors.get(cageId).bg;
+        }
+
+        const b = borders.get(k);
+        if(b){
+          div.style.borderTopWidth = b.t;
+          div.style.borderBottomWidth = b.b;
+          div.style.borderLeftWidth = b.l;
+          div.style.borderRightWidth = b.r;
+        }
+
+        // label on cage's top-left cell
+        const tl = cageId && topLeft.get(cageId);
+        if(tl && tl[0]===r && tl[1]===c){
+          const lab = document.createElement('div');
+          lab.className = 'cageLabel';
+          lab.textContent = labelForCage(cageById.get(cageId));
+          if(colorize) lab.style.color = colors.get(cageId).lab;
+          div.appendChild(lab);
+        }
+
+        g.appendChild(div);
+      }
+    }
+    return g;
+  }
+
+  // ---- Reporting
+  function factsFromSolution(sol){
+    const N = sol.length;
+    const lines = [];
+    for(let r=0;r<N;r++){
+      for(let c=0;c<N;c++){
+        lines.push(`cell(${r+1},${c+1}) = ${[...sol[r][c]][0]}`);
+      }
+    }
+    return lines.join("\n");
+  }
+
+  function explainReason(sol, cages){
+    const N = sol.length;
+    const lines = [];
+
+    // Cages
+    for(const cage of cages){
+      const vals = cage.cells.map(([r,c])=>[...sol[r-1][c-1]][0]);
+      const show = (op)=>{
+        if(op==="+" || op==="*"){
+          const res = op==="+"? vals.reduce((a,b)=>a+b,0) : vals.reduce((a,b)=>a*b,1);
+          return vals.join(` ${op} `) + ` = ` + res;
+        } else if(op==="="){
+          return `${vals[0]} = ${cage.target}`;
+        } else if(op==="-" ){
+          return `|${vals[0]} - ${vals[1]}| = ${Math.abs(vals[0]-vals[1])}`;
+        } else if(op==="/" || op==="÷"){
+          const max=Math.max(vals[0],vals[1]), min=Math.min(vals[0],vals[1]);
+          return `${max} ÷ ${min} = ${max/min}`;
+        } else if(op==="×"){
+          const res = vals.reduce((a,b)=>a*b,1);
+          return vals.join(" × ") + " = " + res;
+        } else return vals.join(",");
+      };
+      lines.push(`Cage ${cage.id||"?"}: ${show(cage.op)} ⇒ target ${cage.target} ✓`);
+    }
+
+    // Rows & Columns
+    for(let r=0;r<N;r++){
+      const row = sol[r].map(s=>[...s][0]);
+      lines.push(`Row ${r+1}: ${JSON.stringify(row)} is all-different ✓`);
+    }
+    for(let c=0;c<N;c++){
+      const col = sol.map(row=>[...row[c]][0]);
+      lines.push(`Col ${c+1}: ${JSON.stringify(col)} is all-different ✓`);
+    }
+
+    return lines.join("\n");
+  }
+
+  function autoChecks(sol, cages){
+    const N = sol.length;
+    const results = [];
+    // Rows
+    for(let r=0;r<N;r++){
+      const row = sol[r].map(s=>[...s][0]);
+      results.push({name:`Row ${r+1} all-different`, pass:(new Set(row)).size===N});
+    }
+    // Cols
+    for(let c=0;c<N;c++){
+      const col = sol.map(row=>[...row[c]][0]);
+      results.push({name:`Col ${c+1} all-different`, pass:(new Set(col)).size===N});
+    }
+    // Cages
+    for(const cage of cages){
+      const vals = cage.cells.map(([r,c])=>[...sol[r-1][c-1]][0]);
+      results.push({name:`Cage ${cage.id||"?"} ${cage.op} ${cage.target}`, pass: ops[cage.op](vals, cage.target)});
+    }
+    return results;
+  }
+
+  function renderChecks(results){
+    const lines = results.map((r,i)=> `${r.pass? "✅":"❌"} ${String(i+1).padStart(2," ")} — ${r.name}`);
+    const passCt = results.filter(r=>r.pass).length;
+    lines.push(`\nSummary: ${passCt}/${results.length} PASS`);
+    return lines.join("\n");
+  }
+
+  // ---- Orchestrate
+  function runARC(){
+    els.status.textContent = "Parsing JSON…";
+    els.answer.textContent = els.reason.textContent = els.checks.textContent = "computing…";
+    els.gridMount.innerHTML = ""; els.altGridMount.innerHTML = "";
+    els.uniqOut.textContent = "(toggle “Probe uniqueness” then Run)";
+    els.diag.textContent = "";
+
+    try{
+      const data = parseJSON(els.dataTA.value, "Data");
+      parseJSON(els.policyTA.value, "Policies"); // validate JSON; solver uses fixed families
+
+      const N = data.size;
+      if(!(Number.isInteger(N) && N>=2 && N<=6)) throw new Error("Use size N between 2 and 6 for demo performance.");
+      const grid = domainsInit(N);
+
+      // Pre-assign '=' cages immediately
+      for(const cage of data.cages){
+        if(cage.op==="="){
+          const [r,c] = cage.cells[0];
+          grid[r-1][c-1] = new Set([cage.target]);
+        }
+      }
+
+      els.status.textContent = "Solving…";
+      const sol = solve(grid, data.cages);
+      if(!sol) throw new Error("No solution found (check Data).");
+
+      // Answer
+      els.answer.textContent = factsFromSolution(sol);
+
+      // Reason
+      els.reason.textContent = explainReason(sol, data.cages);
+
+      // Checks
+      const checks = autoChecks(sol, data.cages);
+      els.checks.textContent = renderChecks(checks);
+      els.checksCount.textContent = String(checks.length);
+      if($("checksCountInline")) $("checksCountInline").textContent = String(checks.length);
+
+      // Summary grid with cages (+color)
+      els.gridMount.appendChild(renderGridWithCages(sol, data.cages, els.colorChk.checked));
+
+      // Uniqueness probe
+      if(els.uniqChk.checked){
+        els.status.textContent = "Probing uniqueness…";
+        const forbid = sol; // exact solution to avoid
+        const grid2 = domainsInit(N);
+        for(const cage of data.cages){
+          if(cage.op==="="){
+            const [r,c] = cage.cells[0];
+            grid2[r-1][c-1] = new Set([cage.target]);
+          }
+        }
+        const alt = solve(grid2, data.cages, forbid);
+        if(alt){
+          els.uniqOut.textContent = "Multiple solutions found — here’s an alternate:";
+          els.altGridMount.appendChild(renderGridWithCages(alt, data.cages, els.colorChk.checked));
+        } else {
+          els.uniqOut.textContent = "Unique — no second distinct solution found.";
+        }
+      }
+
+      els.status.textContent = "Done.";
+    } catch(e){
+      els.status.textContent = "Error";
+      els.answer.textContent = "(failed)";
+      els.reason.textContent = "(failed)";
+      els.checks.textContent = "(failed)";
+      els.gridMount.innerHTML = ""; els.altGridMount.innerHTML = "";
+      els.uniqOut.textContent = "(failed)";
+      els.diag.textContent = e.message;
+      console.error(e);
+    }
+
+    autoResize(els.dataTA); autoResize(els.policyTA);
+  }
+
+  function showReasonOnly(){
+    runARC();
+    setTimeout(()=> window.scrollTo({top: $("reason").getBoundingClientRect().top + window.scrollY - 12, behavior:"smooth"}), 50);
+  }
+
+  els.runBtn.addEventListener('click', runARC);
+  els.reasonBtn.addEventListener('click', showReasonOnly);
+  window.addEventListener('DOMContentLoaded', runARC);
+</script>
+</body>
+</html>
+

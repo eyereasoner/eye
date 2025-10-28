@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A₂ (Ackermann via hyper-operations)</title>
+  <style>
+    :root { --fg:#101014; --bg:#ffffff; --muted:#666; --accent:#2563eb; --chip:#eef2ff; --ok:#16a34a; --bad:#dc2626; --warn:#ca8a04; }
+    @media (prefers-color-scheme: dark) {
+      :root { --fg:#eaeaf0; --bg:#0b0b10; --muted:#a0a0b0; --accent:#60a5fa; --chip:#0e1a32; }
+    }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font: 15px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+    main { max-width: 1100px; margin: 0 auto; padding: 28px 16px 80px; }
+    h1 { font-size: clamp(1.6rem, 2.6vw + 1rem, 2.2rem); margin: 0 0 6px; }
+    header p { margin: 0; color: var(--muted); }
+    section { margin: 18px 0 22px; padding: 14px 14px 16px; border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent); border-radius: 14px;
+              background: color-mix(in srgb, var(--accent) 4%, transparent); }
+    section h2 { margin: 0 0 8px; font-size: 1.15rem; }
+    .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .btn { appearance:none; border:1px solid color-mix(in srgb, var(--accent) 35%, transparent); background: color-mix(in srgb, var(--accent) 8%, transparent);
+           color: var(--fg); border-radius: 10px; padding: 8px 12px; font-weight: 700; cursor: pointer; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    .muted { color: var(--muted); }
+    .small { font-size: .92em; }
+    .chip { display:inline-block; padding:2px 8px; border-radius:999px; background:var(--chip); font-weight:600; }
+    input[type="number"] { width: 100px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); padding: 8px 10px; }
+    label { user-select:none; }
+    code { background: color-mix(in srgb, var(--accent) 10%, transparent); padding: .1rem .35rem; border-radius: .35rem; }
+    details > summary { cursor: pointer; }
+    .ok { color: var(--ok); }
+    .bad { color: var(--bad); }
+    .spinner { display:inline-block; width:1em; height:1em; border:2px solid color-mix(in srgb, var(--accent) 30%, transparent); border-top-color:var(--accent); border-radius:50%; animation:spin 1s linear infinite; vertical-align:middle; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  
+    /* Ensure the Answer card can scroll horizontally for long lines */
+    #answer { overflow-x: auto; }
+    #answer pre { white-space: pre !important; overflow-x: auto; overflow-y: auto; max-width: 100%; }
+
+  </style>
+</head>
+<body>
+  <main>
+    <header class="row">
+      <div>
+        <h1>A₂ (Ackermann via hyper-operations)</h1>
+      </div>
+      <div class="row" style="margin-left:auto;">
+        <label class="muted small">x: <input id="x" type="number" min="0" max="6" value="3"></label>
+        <label class="muted small">y: <input id="y" type="number" min="0" max="100000" value="4"></label>
+        <button id="compute" class="btn">Compute</button>
+        <button id="demo" class="btn">Run demo set</button>
+      </div>
+    </header>
+
+    <section>
+      <h2>What this is?</h2>
+      <p>This page mirrors the case file definition:</p>
+      <p class="mono">A₂(x, y) = H(x, y+3, 2) − 3</p>
+      <p class="small">
+        with hyper‑operations <code>H</code> defined by
+        <code>H(0,y,z)=y+1</code>,
+        <code>H(1,y,z)=y+z</code>,
+        <code>H(2,y,z)=y·z</code>,
+        <code>H(x≥3,0,z)=1</code>,
+        <code>H(x≥3,y>0,z)</code>: repeat <code>y</code> times <code>result = H(x−1, result, z)</code> starting from <code>1</code>.
+        For <code>z=2</code>, this yields exponentiation for <code>x=3</code> and tetration for <code>x=4</code>.
+      </p>
+    </section>
+
+    <section id="answer">
+      <h2>Answer</h2>
+      <div id="chips" class="row small" style="gap:8px"></div>
+      <div id="one"></div>
+      <details id="demos"><summary>Demo queries (12)</summary><div id="demosBody" class="mono small"></div></details>
+    </section>
+
+    <section id="reason">
+      <h2>Reason why</h2>
+      <div class="small">
+        <p>Closed forms: <code>A₂(0,y)=y+1</code>, <code>A₂(1,y)=y+2</code>, <code>A₂(2,y)=2y+3</code>, <code>A₂(3,y)=2^(y+3)−3</code>.</p>
+        <p>For <code>x=4</code> we hit <code>2^^(y+3)</code>. When that’s still realistically printable (like <code>2^65536−3</code>), we expand it exactly using a background worker.</p>
+      </div>
+    </section>
+
+    <section id="check">
+      <h2>Check (harness)</h2>
+      <div id="check-body"></div>
+    </section>
+  </main>
+
+  <script>
+  (function(){
+    "use strict";
+    const $ = id => document.getElementById(id);
+    const setHTML = (id, html) => { const el = $(id); if (el) el.innerHTML = html; };
+    const now = () => performance.now();
+
+    // ---------- Limits ----------
+    const DECIMAL_LIMIT = 70000; // auto-expand if decimal digits <= this
+
+    // ---------- Worker for heavy expansion ----------
+    function createPow2Minus3Worker(){
+      const code = `
+        self.onmessage = function(e){
+          const expStr = e.data && e.data.exp;
+          try{
+            const exp = BigInt(expStr);
+            function pow2ExactExp(e){
+              try { return (1n << e); }
+              catch (_){
+                // fallback to exponentiation by squaring
+                let base = 2n, res = 1n, x = e;
+                while (x > 0n){
+                  if (x & 1n) res *= base;
+                  x >>= 1n;
+                  if (x > 0n) base *= base;
+                }
+                return res;
+              }
+            }
+            const t0 = Date.now();
+            const val = pow2ExactExp(exp) - 3n;
+            const s = val.toString();
+            const t1 = Date.now();
+            self.postMessage({ ok:true, digits: s.length, ms: t1 - t0, text: s });
+          } catch(err){
+            self.postMessage({ ok:false, error: (err && err.message) || String(err) });
+          }
+        };
+      `;
+      const blob = new Blob([code], {type: 'application/javascript'});
+      return new Worker(URL.createObjectURL(blob));
+    }
+
+    // ---------- Representations ----------
+    // {kind:'bigint', value: BigInt}
+    // {kind:'pow2', exp: BigInt}         // represents 2^exp
+    // After A2: {kind:'pow2minus3', exp: BigInt}
+
+    // Hyper-operations (z fixed to 2)
+    function hyper2(x, y){
+      x = Number(x); y = Number(y);
+      if (x === 0) return {kind:'bigint', value: BigInt(y) + 1n};
+      if (x === 1) return {kind:'bigint', value: BigInt(y) + 2n};
+      if (x === 2) return {kind:'bigint', value: BigInt(y) * 2n};
+      if (y === 0) return {kind:'bigint', value: 1n};
+      let result = {kind:'bigint', value: 1n};
+      for (let i=0; i<y; i++){
+        if (x === 3){
+          result = {kind:'bigint', value: (result.kind==='bigint' ? result.value*2n : (1n << result.exp))}; // safe for small
+        } else if (x === 4){
+          if (result.kind === 'bigint'){
+            const k = result.value;
+            // If k is modest, compute 2^k exactly; otherwise keep symbolic
+            if (k <= 4096n){
+              result = {kind:'bigint', value: (1n << k)};
+            } else {
+              result = {kind:'pow2', exp: k};
+            }
+          } else {
+            // result is already 2^k; next step would be astronomical; keep symbolic
+            result = {kind:'pow2', exp: result.exp > 4096n ? result.exp : (1n << result.exp)};
+          }
+        } else {
+          if (result.kind !== 'bigint') return result;
+          result = hyper2(x-1, Number(result.value));
+        }
+      }
+      return result;
+    }
+
+    function A2_repr(x, y){
+      if (x < 0 || y < 0) throw new Error("x and y must be non-negative integers.");
+      const h = hyper2(x, y + 3);
+      if (h.kind === 'bigint'){
+        return {kind:'bigint', value: h.value - 3n};
+      } else if (h.kind === 'pow2'){
+        return {kind:'pow2minus3', exp: h.exp};
+      } else {
+        return h;
+      }
+    }
+
+    // ---------- Meta ----------
+    function bitLengthBig(x){ return x.toString(2).length; }
+    function digitsOfPow2(exp){ return Math.floor(Number(exp) * Math.LOG10E * Math.log(2)) + 1; }
+    function chips(pairs){
+      return pairs.map(([k,v,cls]) => '<span class="chip ' + (cls||'') + '">' + k + ': ' + v + '</span>').join(' ');
+    }
+
+    // ---------- Render one (uses worker if needed) ----------
+    function renderOne(x, y){
+      const t0 = now();
+      let rep, err=null;
+      try { rep = A2_repr(x, y); } catch(e){ err = e.message || String(e); }
+      const t1 = now();
+      if (err){ setHTML('one', '<p class="bad">Error: ' + err + '</p>'); return; }
+
+      if (rep.kind === 'bigint'){
+        const v = rep.value;
+        const s = v.toString();
+        const digits = s.length;
+        const bits = bitLengthBig(v + 3n);
+        setHTML('chips', chips([['x',x],['y',y],['time',(t1-t0).toFixed(2)+' ms'],['digits',digits],['bit_length(A₂+3)',bits]]));
+        setHTML('one', '<p><strong>A₂(' + x + ',' + y + ')</strong></p><pre class="mono" style="white-space:pre-wrap;overflow:auto">' + s + '</pre>');
+      } else if (rep.kind === 'pow2minus3'){
+        const digits = digitsOfPow2(rep.exp);
+        const bits = Number(rep.exp) + 1;
+        if (digits <= DECIMAL_LIMIT){
+          // Expand in a worker so the UI stays responsive
+          setHTML('chips', chips([['x',x],['y',y],['time',(t1-t0).toFixed(2)+' ms'],['digits',digits],['bit_length(A₂+3)',bits]]));
+          setHTML('one', '<p><strong>A₂(' + x + ',' + y + ')</strong> <span class="small muted"><span class="spinner"></span> expanding…</span></p>');
+          const w = createPow2Minus3Worker();
+          w.onmessage = (ev)=>{
+            const d = ev.data || {};
+            if (d.ok){
+              setHTML('chips', chips([['x',x],['y',y],['time',(t1-t0).toFixed(2)+' ms'],['expand',d.ms.toFixed?d.ms.toFixed(1)+' ms':(d.ms+' ms')],['digits',d.digits],['bit_length(A₂+3)',bits]]));
+              setHTML('one', '<p><strong>A₂(' + x + ',' + y + ')</strong></p><pre class="mono" style="white-space:pre-wrap;overflow:auto">' + d.text + '</pre>');
+            } else {
+              setHTML('one', '<p class="bad">Expansion failed: ' + (d.error||'unknown') + '</p><div class="small mono muted">A₂(' + x + ',' + y + ') = 2^(' + String(rep.exp) + ') − 3</div>');
+            }
+            w.terminate();
+          };
+          w.postMessage({exp: String(rep.exp)});
+        } else {
+          setHTML('chips', chips([['x',x],['y',y],['time',(t1-t0).toFixed(2)+' ms'],['digits',digits],['bit_length(A₂+3)',bits]]));
+          setHTML('one', '<p><strong>A₂(' + x + ',' + y + ')</strong> <em>(not expanded)</em></p><div class="small mono muted">A₂(' + x + ',' + y + ') = 2^(' + String(rep.exp) + ') − 3</div>');
+        }
+      } else {
+        setHTML('one', '<p class="bad">Unexpected representation.</p>');
+      }
+    }
+
+    // ---------- Demo set (expand safe heavy case via worker) ----------
+    const DEMO = [
+      [0,0], [0,6], [1,2], [1,7], [2,2], [2,9],
+      [3,4], [3,14], [4,0], [4,1], [4,2], [5,0],
+    ];
+
+    function runDemos(){
+      const lines = new Array(DEMO.length);
+      for (let i=0;i<DEMO.length;i++){
+        const x = DEMO[i][0], y = DEMO[i][1];
+        try {
+          const rep = A2_repr(x,y);
+          if (rep.kind === 'bigint'){
+            const s = rep.value.toString();
+            lines[i] = 'A' + String(i).padStart(2,'0') + ' = A₂(' + x + ',' + y + ') = ' + s + '  (digits=' + s.length + ')';
+          } else if (rep.kind === 'pow2minus3'){
+            const digits = digitsOfPow2(rep.exp);
+            if (digits <= DECIMAL_LIMIT){
+              // placeholder; expand via worker
+              lines[i] = 'A' + String(i).padStart(2,'0') + ' = A₂(' + x + ',' + y + ') = (expanding …)  (digits≈' + digits + ')';
+              // kick off worker for this line
+              const w = createPow2Minus3Worker();
+              ((idx, X, Y)=>{
+                w.onmessage = (ev)=>{
+                  const d = ev.data || {};
+                  if (d.ok){
+                    const s = d.text;
+                    lines[idx] = 'A' + String(idx).padStart(2,'0') + ' = A₂(' + X + ',' + Y + ') = ' + s + '  (digits=' + s.length + ')';
+                  } else {
+                    lines[idx] = 'A' + String(idx).padStart(2,'0') + ' = A₂(' + X + ',' + Y + ') = (expand failed)  (digits≈' + digits + ')';
+                  }
+                  setHTML('demosBody', '<pre class="mono" style="white-space:pre-wrap">' + lines.join('\n') + '</pre>');
+                  w.terminate();
+                };
+              })(i, x, y);
+              w.postMessage({exp: String(rep.exp)});
+            } else {
+              lines[i] = 'A' + String(i).padStart(2,'0') + ' = A₂(' + x + ',' + y + ') = (2^' + String(rep.exp) + ' − 3)  (digits≈' + digits + ')';
+            }
+          } else {
+            lines[i] = 'A' + String(i).padStart(2,'0') + ' = A₂(' + x + ',' + y + ') = [unexpected rep]';
+          }
+        } catch(e){
+          lines[i] = 'A' + String(i).padStart(2,'0') + ' = A₂(' + x + ',' + y + ') = [error: ' + (e.message||e) + ']';
+        }
+      }
+      setHTML('demosBody', '<pre class="mono" style="white-space:pre-wrap">' + lines.join('\n') + '</pre>');
+      $('demos').open = true;
+    }
+
+    // ---------- Check (unchanged from previous version) ----------
+    function runChecks(){
+      const lines = [];
+      const ok = b => b ? '✓' : '✗';
+      const t0 = now();
+      let okAll = true;
+
+      // Closed forms
+      let o = true;
+      for (let y=0;y<=50;y++){ const r=A2_repr(0,y); if (r.kind!=='bigint' || r.value !== BigInt(y)+1n){ o=false; break; } }
+      lines.push('A₂(0,y) = y+1 on y∈[0,50]? ' + ok(o)); okAll = okAll && o;
+
+      o = true;
+      for (let y=0;y<=50;y++){ const r=A2_repr(1,y); if (r.kind!=='bigint' || r.value !== BigInt(y)+2n){ o=false; break; } }
+      lines.push('A₂(1,y) = y+2 on y∈[0,50]? ' + ok(o)); okAll = okAll && o;
+
+      o = true;
+      for (let y=0;y<=200;y++){ const r=A2_repr(2,y); if (r.kind!=='bigint' || r.value !== 2n*BigInt(y)+3n){ o=false; break; } }
+      lines.push('A₂(2,y) = 2y+3 on y∈[0,200]? ' + ok(o)); okAll = okAll && o;
+
+      o = true;
+      for (let y=0;y<=20;y++){ const r=A2_repr(3,y); const want=(1n<<BigInt(y+3))-3n; if (r.kind!=='bigint' || r.value !== want){ o=false; break; } }
+      lines.push('A₂(3,y) = 2^(y+3)−3 on y∈[0,20]? ' + ok(o)); okAll = okAll && o;
+
+      // Spot checks (11/12 exact)
+      const expected = new Map([
+        ['0,0', 1n], ['0,6', 7n], ['1,2', 4n], ['1,7', 9n],
+        ['2,2', 7n], ['2,9', 21n], ['3,4', 125n], ['3,14', (1n<<17n)-3n],
+        ['4,0', 13n], ['4,1', 65533n], ['5,0', 65533n],
+      ]);
+      o = true;
+      for (const [key, want] of expected){
+        const parts = key.split(',');
+        const x = Number(parts[0]), y = Number(parts[1]);
+        const r = A2_repr(x,y);
+        if (r.kind!=='bigint' || r.value !== want){ o=false; }
+      }
+      lines.push('Exact checks for 11/12 queries OK? ' + ok(o)); okAll = okAll && o;
+
+      // Big one handled symbolically in the rep (we expand later via worker if needed)
+      const r = A2_repr(4,2);
+      const pass = (r.kind==='pow2minus3' && String(r.exp)==='65536');
+      lines.push('A₂(4,2) handled as 2^65536−3 symbolically? ' + ok(pass));
+      okAll = okAll && pass;
+
+      const t1 = now();
+      lines.push('');
+      lines.push('All checks passed? ' + ok(okAll) + '   (' + (t1-t0).toFixed(1) + ' ms)');
+      const pre = document.createElement('pre');
+      pre.className = 'mono';
+      pre.style.whiteSpace = 'pre-wrap';
+      pre.textContent = lines.join('\n');
+      $('check-body').replaceChildren(pre);
+    }
+
+    // ---------- Wire up ----------
+    $('compute').addEventListener('click', function(){
+      const x = Math.max(0, Math.floor(Number($('x').value)));
+      const y = Math.max(0, Math.floor(Number($('y').value)));
+      renderOne(x, y);
+    });
+    $('demo').addEventListener('click', runDemos);
+
+    // Initial
+    renderOne(3,4);
+    runChecks();
+  })();
+  </script>
+</body>
+</html>

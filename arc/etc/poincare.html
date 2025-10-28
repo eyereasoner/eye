@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Poincaré Rotation</title>
+  <style>
+    :root{
+      --bg: #f7f7fb;
+      --card: #ffffff;
+      --text: #222222;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --ok: #16a34a;
+      --bad: #dc2626;
+      --warn: #d97706;
+      --shadow: 0 6px 18px rgba(0,0,0,.08);
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+    .container{max-width:980px;margin:40px auto;padding:0 18px}
+    h1{font-size:clamp(1.6rem,2.5vw,2.2rem);margin:.2rem 0 1rem 0}
+    h2{font-size:1.25rem;margin:0 0 .6rem 0}
+    p{margin:.35rem 0 .6rem}
+    code, pre{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .muted{color:var(--muted)}
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:20px;
+      margin:14px 0;
+    }
+    .row{display:flex; gap:14px; flex-wrap:wrap}
+    .pill{display:inline-flex; align-items:center; gap:.5ch; padding:.35rem .7rem; border-radius:999px; font-weight:600; font-size:.9rem}
+    .ok{background:#ecfdf5; color:var(--ok);}
+    .bad{background:#fef2f2; color:var(--bad)}
+    .warn{background:#fffbeb; color:var(--warn)}
+    .btn{cursor:pointer; user-select:none; border:none; border-radius:10px; padding:.6rem .9rem; font-weight:600; background:var(--accent); color:#fff; box-shadow:var(--shadow)}
+    .btn:active{transform:translateY(1px)}
+    .grid{display:grid; gap:10px}
+    .checks{display:grid; gap:12px}
+    details{border:1px solid #eee; border-radius:12px; padding:.4rem .8rem; background:#fafafa}
+    details[open]{background:#fff}
+    summary{cursor:pointer; font-weight:600; outline:none}
+    .mono{font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1}
+    .small{font-size:.9rem}
+    .footer{margin-top:20px; color:var(--muted); font-size:.9rem}
+    .kpi{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .kpi .box{background:#f9fafb; border:1px solid #eee; border-radius:12px; padding:.6rem .8rem}
+    .codeblock{background:#0f172a; color:#e5e7eb; padding:14px 16px; border-radius:12px; overflow:auto}
+    .badge{background:#eef2ff; color:#3730a3; border-radius:8px; padding:.2rem .45rem; font-size:.8rem; font-weight:700}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="card">
+      <h1>Poincaré Rotation on the Circle</h1>
+      <p class="muted">Inspired by <strong>Henri Poincaré</strong> (qualitative dynamics). We study the irrational rotation map <code>T(x) = (x + α) mod 1</code> with <code>α = (3−√5)/2</code> and ask whether the orbit behaves as theory predicts. Following <span class="badge">P3</span>, the page delivers an <em>Answer</em>, a <em>Reason Why</em>, and an independent <em>Check</em> suite.</p>
+      <div class="row">
+        <span class="pill warn">Question-first</span>
+        <span class="pill ok">Self-checking</span>
+        <span class="pill" style="background:#eef2ff;color:#1f2937">JS-only</span>
+      </div>
+    </header>
+
+    <section class="card" id="answer">
+      <h2>Answer</h2>
+      <p>We rotate the unit circle by a fixed irrational angle <strong>α = (3−√5)/2</strong> — the golden angle — which is about 0.381966 of a full turn, i.e., ≈ 137.5°. The orbit of 0 never repeats, returns arbitrarily close to its start, and spreads evenly around the circle. In finite data (<em>N</em> = 5,000 steps) this appears as near‑uniform bin counts, at most three distinct gap lengths, and tiny low‑order Fourier modes. The checks below confirm this behaviour.</p>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" id="rerun">Re‑run checks</button>
+        <div id="passpill" class="pill ok" style="display:none"></div>
+      </div>
+    </section>
+
+    <section class="card" id="reason">
+      <h2>Reason</h2>
+      <p><strong>Rotation by an irrational angle preserves length and never closes up.</strong> Because α is irrational, the points {nα mod 1} do not repeat; they become evenly spread (equidistributed). A length‑preserving map on a bounded space also has the Poincaré recurrence property: some iterates come back arbitrarily close to where they started. For any finite N, the circular gaps between the sorted points take at most three sizes (the three‑gap theorem). These facts explain why the orbit looks uniform and why our specific tests should pass.</p>
+
+
+    <p class="small muted">Unit circle, marked with the first 60 orbit points starting at 0. Each step advances by a fixed angle α; the blue arrow shows one such step. The cloud of points hints at equidistribution while the arc lengths suggest the three‑gap phenomenon.</p>
+      <svg id="orbitSVG" viewBox="0 0 360 280" width="100%" height="auto" role="img" aria-label="Orbit illustration"></svg>
+    </section>
+
+    <section class="card" id="checks">
+      <h2>Check</h2>
+      <p class="small muted">Each diagnostic targets a different facet: validity, bijection, nonperiodicity, coverage, distribution, recurrence, structure, and spectral flatness. Expand any row to see details.</p>
+      <div class="checks" id="checksList"></div>
+      <div class="footer">These checks are independent and auditable; thresholds are conservative so failures indicate something worth inspecting.</div>
+    </section>
+    <footer class="card">
+      <div class="small">P3: <em>Prompt → Program → Proof</em>. Here, <strong>Proof = Reason Why + Check</strong>. This page is self-contained; no external libraries.</div>
+    </footer>
+  </div>
+
+<script>
+(function(){
+  // ————— Parameters —————
+  const params = {
+    alpha: (3 - Math.sqrt(5)) / 2, // golden ratio conjugate ≈ 0.618…
+    N: 5000,                        // number of steps (excluding x0)
+    bins: 50,                       // histogram bins
+    tol: 1e-12,                     // numerical tolerance
+    seed: 42                        // RNG seed for randomized sub-checks
+  };
+
+  // ————— Utilities —————
+  const frac = x => x - Math.floor(x);
+  const circleDist = (a,b) => { const d = Math.abs(a-b); return Math.min(d, 1-d); };
+  function mulberry32(a){ return function(){ let t = a += 0x6D2B79F5; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+  const rng = mulberry32(params.seed);
+
+  function makeOrbit(alpha, N, x0=0){
+    const xs = new Array(N+1);
+    xs[0] = frac(x0);
+    for(let i=1;i<=N;i++) xs[i] = frac(xs[i-1] + alpha);
+    return xs;
+  }
+
+  function uniqueRoundedCount(arr, places=14){
+    const S = new Set(arr.map(v => v.toFixed(places)));
+    return S.size;
+  }
+
+  function binCounts(arr, bins){
+    const c = new Array(bins).fill(0);
+    for(const v of arr){
+      let b = Math.floor(v * bins);
+      if(b === bins) b = bins - 1; // just in case v==1 (shouldn't happen)
+      c[b]++;
+    }
+    return c;
+  }
+
+  function maxAbsDeviation(counts){
+    const n = counts.reduce((a,b)=>a+b,0);
+    const bins = counts.length;
+    const exp = n / bins;
+    let maxdev = 0;
+    for(const k of counts){ maxdev = Math.max(maxdev, Math.abs(k - exp)); }
+    const sigma = Math.sqrt(n * (1/bins) * (1 - 1/bins));
+    return {maxdev, exp, sigma};
+  }
+
+  function nearestReturn(xs){
+    const x0 = xs[0];
+    let best = 1;
+    for(let i=1;i<xs.length;i++) best = Math.min(best, circleDist(xs[i], x0));
+    return best;
+  }
+
+  function threeGapCount(points){
+    // Use the classic set {n*alpha mod 1} for n=1..N (exclude x0)
+    const arr = points.slice(1); // x1..xN
+    const sorted = arr.slice().sort((a,b)=>a-b);
+    const gaps = new Array(sorted.length);
+    for(let i=0;i<sorted.length-1;i++) gaps[i] = sorted[i+1] - sorted[i];
+    gaps[gaps.length-1] = 1 - sorted[sorted.length-1] + sorted[0];
+    gaps.sort((a,b)=>a-b);
+    // Cluster gaps with tolerance
+    const tol = 1e-9;
+    const clusters = [];
+    for(const g of gaps){
+      if(clusters.length === 0 || Math.abs(g - clusters[clusters.length-1]) > tol) clusters.push(g);
+    }
+    return clusters.length;
+  }
+
+  function mean(arr){ return arr.reduce((a,b)=>a+b,0)/arr.length; }
+
+  function fourierMagnitude(xs, k){
+    const N = xs.length-1; // ignore x0 for spectral test
+    let re=0, im=0;
+    for(let i=1;i<xs.length;i++){
+      const ang = 2*Math.PI*k*xs[i];
+      re += Math.cos(ang);
+      im += Math.sin(ang);
+    }
+    re /= N; im /= N;
+    return Math.hypot(re, im);
+  }
+
+  function fmt(x, digits=6){ return (typeof x === 'number') ? x.toFixed(digits) : String(x); }
+
+  // ————— Run all checks —————
+  function run(){
+    const xs = makeOrbit(params.alpha, params.N, 0);
+    const counts = binCounts(xs.slice(1), params.bins); // exclude x0 from histogram
+
+    // ——— Illustration (SVG) ———
+    const svg = document.getElementById('orbitSVG');
+    if (svg) {
+      const cx = 180, cy = 135, r = 95;
+      const M = Math.min(60, xs.length - 1);
+      let content = '<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><polygon points="0 0,6 3,0 6"></polygon></marker></defs>';
+      content += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#e5e7eb" stroke-width="2" />`;
+      for (let i = 1; i <= M; i++) {
+        const theta = 2 * Math.PI * xs[i];
+        const X = cx + r * Math.cos(theta);
+        const Y = cy + r * Math.sin(theta);
+        content += `<circle cx="${X}" cy="${Y}" r="2.5" fill="#2563eb" />`;
+      }
+      const i0 = 10;
+      const theta1 = 2 * Math.PI * xs[i0];
+      const theta2 = 2 * Math.PI * xs[i0 + 1];
+      const x1 = cx + r * Math.cos(theta1), y1 = cy + r * Math.sin(theta1);
+      const x2 = cx + r * Math.cos(theta2), y2 = cy + r * Math.sin(theta2);
+      content += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)" />`;
+      const xm = (x1 + x2) / 2, ym = (y1 + y2) / 2;
+      content += `<text x="${xm}" y="${ym - 6}" font-size="12" fill="#374151">α ≈ 137.5°</text>`;
+      svg.innerHTML = content;
+    }
+
+    // 1) Domain bounds
+    const inBounds = xs.every(v => v >= -1e-15 && v < 1 + 1e-15);
+
+    // 2) Step reversibility (determinism)
+    let revOK = true;
+    for(let i=1;i<Math.min(200, xs.length); i++){
+      const prev = frac(xs[i] - params.alpha + 1); // inverse rotation
+      if(Math.abs(prev - xs[i-1]) > params.tol) { revOK = false; break; }
+    }
+
+    // 3) No duplicates (mod rounding)
+    const uniq = uniqueRoundedCount(xs, 14) === xs.length;
+
+    // 4) Coverage: every bin hit at least once (with N >> bins this should pass)
+    const covered = counts.every(c => c > 0);
+
+    // 5) Uniformity: max deviation within 5σ
+    const dev = maxAbsDeviation(counts);
+    const uniformOK = dev.maxdev <= 5 * dev.sigma; // counts within 5σ
+
+    // 6) Recurrence: exists n with d(x_n, x_0) < 1/N
+    const near = nearestReturn(xs);
+    const recOK = near <= 1/params.N;
+
+    // 7) Three-gap theorem: at most 3 distinct circular gaps
+    const gapKinds = threeGapCount(xs);
+    const threeGapOK = gapKinds <= 3;
+
+    // 8) Mean ≈ 0.5 within 5σ for Uniform(0,1)
+    const m = mean(xs.slice(1));
+    const sigmaMean = Math.sqrt(1/(12*params.N));
+    const meanOK = Math.abs(m - 0.5) <= 5 * sigmaMean;
+
+    // 9) Low Fourier mode k=1 small
+    const f1 = fourierMagnitude(xs, 1);
+    const f1OK = f1 <= 0.05;
+
+    // 10) Low Fourier mode k=2 small
+    const f2 = fourierMagnitude(xs, 2);
+    const f2OK = f2 <= 0.05;
+
+    const results = [
+      {name:'Domain bounds [0,1)', pass: inBounds, explain:'All iterates lie on the unit circle interval.', detail:`min=${fmt(Math.min(...xs))}, max=${fmt(Math.max(...xs))}`},
+      {name:'Step reversibility', pass: revOK, explain:'Rotation is bijective: the inverse step recovers the previous value.', detail:`checked first ${Math.min(200, xs.length-1)} steps within tol=${params.tol}`},
+      {name:'No duplicates (irrationality)', pass: uniq, explain:'With irrational \u03B1 there is no exact cycle in the first N steps.', detail:`unique=${uniq}`},
+      {name:'Coverage of bins', pass: covered, explain:`With N \u226B bins, every histogram bin should be visited.`, detail:`bins without hits: ${counts.filter(c=>c===0).length}`},
+      {name:'Uniformity within 5σ', pass: uniformOK, explain:'Counts per bin close to N/bins; deviations bounded.', detail:`maxΔ=${fmt(dev.maxdev)}; 5σ≈${fmt(5*dev.sigma)} (counts)`},
+      {name:'Poincaré recurrence (near 0)', pass: recOK, explain:'Some iterate returns within 1/N of the start.', detail:`nearest=${fmt(near)} ≤ ${fmt(1/params.N)}`},
+      {name:'Three-gap structure', pass: threeGapOK, explain:'The circular gaps between sorted points take ≤ 3 sizes.', detail:`distinct gaps=${gapKinds}`},
+      {name:'Mean ≈ 0.5 (5σ)', pass: meanOK, explain:'Sample mean of a uniform orbit should be near 0.5.', detail:`mean=${fmt(m)}; 5σ=${fmt(5*sigmaMean)}`},
+      {name:'Fourier k=1 small', pass: f1OK, explain:'Low-order Fourier mode near 0 for equidistribution.', detail:`|F₁|=${fmt(f1)} ≤ 0.05`},
+      {name:'Fourier k=2 small', pass: f2OK, explain:'Another independent uniformity probe.', detail:`|F₂|=${fmt(f2)} ≤ 0.05`},
+    ];
+
+    // KPIs & Answer text
+    {const e=document.getElementById('kpiPoints'); if(e) e.textContent=(params.N).toLocaleString('en-US');}
+    {const e=document.getElementById('kpiGaps'); if(e) e.textContent=gapKinds;}
+    {const e=document.getElementById('kpiReturn'); if(e) e.textContent=fmt(near);}
+    {const e=document.getElementById('kpiF1'); if(e) e.textContent=fmt(f1);}
+
+    const passed = results.filter(r=>r.pass).length;
+    const passpill = document.getElementById('passpill');
+    passpill.style.display = 'inline-flex';
+    passpill.className = 'pill ' + (passed===results.length? 'ok':'bad');
+    passpill.textContent = `${passed}/${results.length} checks ${passed===results.length? 'passed ✅' : 'passed ❌'}`;
+
+    const atext = (passed===results.length)
+      ? `All ${results.length} checks passed. Empirically consistent with Poincaré-style behavior for irrational rotation by α≈${fmt(params.alpha,6)} over N=${params.N} steps.`
+      : `${passed}/${results.length} checks passed. One or more diagnostics failed — inspect details below.`;
+    {const e=document.getElementById('answerText'); if(e) e.textContent = atext;}
+
+    // Render checks list
+    const list = document.getElementById('checksList');
+    list.innerHTML = '';
+    for(const r of results){
+      const el = document.createElement('details');
+      const sum = document.createElement('summary');
+      sum.innerHTML = `${r.pass? '✅':'❌'} ${r.name}`;
+      const body = document.createElement('div');
+      body.innerHTML = `<div class="small">${r.explain}</div><div class="mono small muted">${r.detail}</div>`;
+      el.appendChild(sum); el.appendChild(body);
+      list.appendChild(el);
+    }
+
+    // Update labels
+    {const e=document.getElementById('Nlabel'); if(e) e.textContent=params.N;}
+    {const e=document.getElementById('binslabel'); if(e) e.textContent=params.bins;}
+    {const e=document.getElementById('tollabel'); if(e) e.textContent=params.tol;}
+
+    // Show source code (pretty-ish)
+    /* program card removed */
+  }
+
+  // Wire up re-run (with a tiny jitter in N for variability)
+  document.getElementById('rerun').addEventListener('click', ()=>{
+    // Optionally perturb N a little to see stability
+    const delta = Math.floor((rng()-0.5)*20); // ±10
+    params.N = Math.max(1000, 5000 + delta);
+    run();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  // initial run
+  run();
+})();
+</script>
+</body>
+</html>
+

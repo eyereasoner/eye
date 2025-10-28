@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Health Info Processing (FHIR + LOINC/SNOMED)</title>
+  <style>
+    :root { --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --accent:#0ea5e9; --ok:#16a34a; --bad:#dc2626; --border:#e5e7eb; }
+    html,body{height:100%;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
+    h1{font-weight:700;letter-spacing:.2px;margin:18px 0 6px}
+    h2{font-size:13px;color:var(--muted);margin:0 0 8px;letter-spacing:.2px;text-transform:uppercase}
+    .wrap{max-width:980px;margin:0 auto;padding:24px}
+    .stack{display:grid;grid-template-columns:1fr;gap:14px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:0 6px 20px rgba(0,0,0,.04)}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    button{border:0;background:linear-gradient(180deg,#7dd3fc,#38bdf8);color:#052436;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(56,189,248,.35)}
+    button.secondary{background:#f3f4f6;color:#111827;border:1px solid var(--border);box-shadow:none}
+    .output{min-height:0;white-space:pre-wrap;background:#fbfdff;border:1px solid var(--border);border-radius:10px;padding:10px;overflow:auto}
+    .output.tall{min-height:160px}
+    .muted{color:var(--muted)}
+    .tiny{font-size:12px}
+    .diag{font-size:12px;color:#6b7280}
+    /* badges */
+    .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.3px;border:1px solid var(--border);background:#f5f7fb;color:#334155}
+    /* textareas */
+    textarea,pre,code,input,button{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
+    textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:var(--text);box-sizing:border-box;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Health Info Processing — FHIR + LOINC/SNOMED</h1>
+
+  <div class="stack">
+
+    <!-- What this is? -->
+    <div class="card" id="what">
+      <h2>What this is?</h2>
+      <p>One-file, pure JS + JSON demo that mimics FHIR-ish resources and coding. Edit the JSON below and click <b>Run ARC</b>:</p>
+      <ul>
+        <li><b>Data</b> — FHIR-flavored resources: <code>Patient</code>, <code>Encounter</code>, <code>DocumentReference</code>,
+            <code>Observation</code>, <code>Condition</code>, <code>Consent</code>; lab codes (LOINC), condition codes (SNOMED).</li>
+        <li><b>Policies</b> — declarative JSON rules: an array of objects with <code>if</code> atoms (allowing <code>"not": true</code>) ⇒ <code>then</code> atoms, plus an <code>explain</code> template.</li>
+        <li><b>Answer</b> — the <em>newly derived</em> facts only (keeps the strongest <code>priority</code> per patient).</li>
+        <li><b>Reason Why</b> — mathematical-English derivations based on bound variables per rule firing.</li>
+        <li><b>Check</b> — JSON assertions evaluated against the full fact set (<span id="checksCountInline" class="badge">…</span> items).</li>
+        <li><b>Health Info Summary</b> — per-patient strongest priority and tasks. Priority order: Blocked &gt; High &gt; Normal &gt; Low.</li>
+      </ul>
+      <p class="tiny muted">Engine: tiny forward-chainer with unification, subclassing (<code>subClass</code>), transitive <code>partOf</code>, observation→patient mapping, and negation-as-failure for <code>"not": true</code>.</p>
+    </div>
+
+    <div class="card">
+      <h2>Data (JSON)</h2>
+      <textarea id="dataTA" spellcheck="false">{
+  "classes": [
+    "Patient","Encounter","DocumentReference","Observation","Condition","Consent","Component",
+    "ObservationClass","ClinicalIssue","PrivacyIssue","DataQualityIssue","WorkflowEvent",
+    "ShareRequested",
+    "Task","Priority","Blocked","High","Normal","Low"
+  ],
+
+  "subclassOf": [
+    ["Encounter","Component"], ["DocumentReference","Component"],
+    ["ObservationClass","Observation"],
+    ["ShareRequested","WorkflowEvent"],
+    ["PrivacyIssue","Observation"], ["DataQualityIssue","Observation"], ["ClinicalIssue","Observation"], ["WorkflowEvent","Observation"]
+  ],
+
+  "assets": {
+    "P1":  {"type":"Patient"},
+    "Enc1":{"type":"Encounter","partOf":"P1"},
+    "Note1":{"type":"DocumentReference","partOf":"Enc1"},
+
+    "P2":  {"type":"Patient"},
+    "Enc2":{"type":"Encounter","partOf":"P2"},
+    "Note2":{"type":"DocumentReference","partOf":"Enc2"}
+  },
+
+  "consents": [
+    {"id":"C1","type":"Consent","partOf":"P1","scope":"treatment","status":"active"},
+    {"id":"C3","type":"Consent","partOf":"P2","scope":"research","status":"active","permittedOrg":"OrgR1"}
+  ],
+
+  "conditions": [
+    {"id":"CondDM2","type":"Condition","partOf":"P2","codeSystem":"unknown","code":"E11"}
+  ],
+
+  "observations": [
+    {"id":"ObsPHI1","type":"PrivacyIssue","about":"Note1","codeSystem":"custom","code":"PHIInNote"},
+    {"id":"SR1","type":"ShareRequested","about":"P1","sharePurpose":"treatment","shareOrg":"OrgH1"},
+    {"id":"ObsHb1","type":"Observation","about":"Enc1","codeSystem":"loinc","code":"718-7","category":"laboratory","valueFlag":"criticalLow"},
+    {"id":"ObsCovid1","type":"Observation","about":"Enc1","codeSystem":"loinc","code":"94531-1","category":"laboratory","valueFlag":"positive"},
+
+    {"id":"SR2","type":"ShareRequested","about":"P2","sharePurpose":"research","shareOrg":"OrgR1"},
+    {"id":"ObsUnknownLab2","type":"Observation","about":"Enc2","codeSystem":"unknown","code":"X123","category":"laboratory"},
+    {"id":"ObsPHI2","type":"PrivacyIssue","about":"Note2","codeSystem":"custom","code":"PHIInNote"}
+  ]
+}</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Policies (declarative JSON rules)</h2>
+      <textarea id="policyTA" spellcheck="false">[
+  { "id":"R1-Subclass",
+    "if":[{"pred":"subClass","s":"?A","o":"?B"},{"pred":"isA","s":"?S","o":"?A"}],
+    "then":[{"pred":"isA","s":"?S","o":"?B"}],
+    "explain":"Since ?A ⊑ ?B and ?S ∈ ?A, infer ?S ∈ ?B."
+  },
+  { "id":"R2-PartOfTransitive",
+    "if":[{"pred":"partOf","s":"?x","o":"?y"},{"pred":"partOf","s":"?y","o":"?z"}],
+    "then":[{"pred":"partOf","s":"?x","o":"?z"}],
+    "explain":"Because ?x is part of ?y and ?y is part of ?z, ?x is part of ?z."
+  },
+  { "id":"R3-ObsToPatient",
+    "if":[{"pred":"about","s":"?obs","o":"?comp"},{"pred":"partOf","s":"?comp","o":"?P"}],
+    "then":[{"pred":"aboutPatient","s":"?obs","o":"?P"}],
+    "explain":"Observation ?obs concerns component ?comp of patient ?P; thus aboutPatient(?obs,?P)."
+  },
+
+  { "id":"R4-ConsentToPatient",
+    "if":[{"pred":"isA","s":"?C","o":"Consent"},{"pred":"partOf","s":"?C","o":"?P"}],
+    "then":[{"pred":"consentOfPatient","s":"?C","o":"?P"}],
+    "explain":"Consent ?C belongs to patient ?P."
+  },
+
+  { "id":"R5-ActiveResearchConsent-Org",
+    "if":[{"pred":"isA","s":"?C","o":"Consent"},{"pred":"consentOfPatient","s":"?C","o":"?P"},
+          {"pred":"consentScope","s":"?C","o":"research"},{"pred":"consentStatus","s":"?C","o":"active"},
+          {"pred":"consentPermittedOrg","s":"?C","o":"?Org"}],
+    "then":[{"pred":"hasActiveResearchConsentFor","s":"?P","o":"?Org"}],
+    "explain":"?P has an active research consent permitting org ?Org."
+  },
+  { "id":"R6-ActiveResearchConsent-AnyOrg",
+    "if":[{"pred":"isA","s":"?C","o":"Consent"},{"pred":"consentOfPatient","s":"?C","o":"?P"},
+          {"pred":"consentScope","s":"?C","o":"research"},{"pred":"consentStatus","s":"?C","o":"active"},
+          {"not":true,"pred":"consentPermittedOrg","s":"?C","o":"?x"}],
+    "then":[{"pred":"hasActiveResearchConsentFor","s":"?P","o":"ANY"}],
+    "explain":"?P has an active research consent without org restriction."
+  },
+  { "id":"R7-ActiveTreatmentConsent",
+    "if":[{"pred":"isA","s":"?C","o":"Consent"},{"pred":"consentOfPatient","s":"?C","o":"?P"},
+          {"pred":"consentScope","s":"?C","o":"treatment"},{"pred":"consentStatus","s":"?C","o":"active"}],
+    "then":[{"pred":"hasActiveTreatmentConsent","s":"?P","o":"yes"}],
+    "explain":"?P has an active treatment consent."
+  },
+
+  { "id":"C-PHI-Handling",
+    "if":[{"pred":"isA","s":"?obs","o":"PrivacyIssue"},{"pred":"aboutPatient","s":"?obs","o":"?P"}],
+    "then":[{"pred":"requiresTask","s":"?P","o":"DeidentifyText"}],
+    "explain":"PHI present for ?P requires de-identification."
+  },
+
+  { "id":"Share-Research-Allow-Org",
+    "if":[{"pred":"isA","s":"?sr","o":"ShareRequested"},{"pred":"aboutPatient","s":"?sr","o":"?P"},
+          {"pred":"sharePurpose","s":"?sr","o":"research"},{"pred":"shareOrg","s":"?sr","o":"?Org"},
+          {"pred":"hasActiveResearchConsentFor","s":"?P","o":"?Org"}],
+    "then":[{"pred":"requiresTask","s":"?P","o":"AllowResearchShare"},{"pred":"priority","s":"?P","o":"Normal"}],
+    "explain":"Research share for ?P allowed via matching active consent to org ?Org."
+  },
+  { "id":"Share-Research-Allow-Any",
+    "if":[{"pred":"isA","s":"?sr","o":"ShareRequested"},{"pred":"aboutPatient","s":"?sr","o":"?P"},
+          {"pred":"sharePurpose","s":"?sr","o":"research"},{"pred":"shareOrg","s":"?sr","o":"?Org"},
+          {"pred":"hasActiveResearchConsentFor","s":"?P","o":"ANY"}],
+    "then":[{"pred":"requiresTask","s":"?P","o":"AllowResearchShare"},{"pred":"priority","s":"?P","o":"Normal"}],
+    "explain":"Research share for ?P allowed by active consent without org restriction."
+  },
+  { "id":"Share-Research-Block",
+    "if":[{"pred":"isA","s":"?sr","o":"ShareRequested"},{"pred":"aboutPatient","s":"?sr","o":"?P"},
+          {"pred":"sharePurpose","s":"?sr","o":"research"},{"pred":"shareOrg","s":"?sr","o":"?Org"},
+          {"not":true,"pred":"hasActiveResearchConsentFor","s":"?P","o":"?Org"},
+          {"not":true,"pred":"hasActiveResearchConsentFor","s":"?P","o":"ANY"}],
+    "then":[{"pred":"requiresTask","s":"?P","o":"ObtainResearchConsent"},{"pred":"priority","s":"?P","o":"Blocked"}],
+    "explain":"Research share for ?P is blocked: no suitable active research consent."
+  },
+
+  { "id":"Share-Treatment-Allow",
+    "if":[{"pred":"isA","s":"?sr","o":"ShareRequested"},{"pred":"aboutPatient","s":"?sr","o":"?P"},
+          {"pred":"sharePurpose","s":"?sr","o":"treatment"},{"pred":"hasActiveTreatmentConsent","s":"?P","o":"yes"}],
+    "then":[{"pred":"requiresTask","s":"?P","o":"AllowTreatmentShare"},{"pred":"priority","s":"?P","o":"Normal"}],
+    "explain":"Treatment share for ?P allowed by active consent."
+  },
+  { "id":"Share-Treatment-Block",
+    "if":[{"pred":"isA","s":"?sr","o":"ShareRequested"},{"pred":"aboutPatient","s":"?sr","o":"?P"},
+          {"pred":"sharePurpose","s":"?sr","o":"treatment"},
+          {"not":true,"pred":"hasActiveTreatmentConsent","s":"?P","o":"yes"}],
+    "then":[{"pred":"requiresTask","s":"?P","o":"ObtainTreatmentConsent"},{"pred":"priority","s":"?P","o":"Blocked"}],
+    "explain":"Treatment share for ?P is blocked: no active treatment consent."
+  },
+
+  { "id":"Map-UnknownLab→LOINC",
+    "if":[{"pred":"isA","s":"?obs","o":"Observation"},{"pred":"aboutPatient","s":"?obs","o":"?P"},
+          {"pred":"category","s":"?obs","o":"laboratory"},{"pred":"codeSystem","s":"?obs","o":"unknown"}],
+    "then":[{"pred":"requiresTask","s":"?P","o":"MapToLOINC"}],
+    "explain":"Lab observation for ?P has unknown coding; map to LOINC."
+  },
+  { "id":"Map-UnknownCondition→SNOMED",
+    "if":[{"pred":"isA","s":"?cond","o":"Condition"},{"pred":"partOf","s":"?cond","o":"?P"},
+          {"pred":"codeSystem","s":"?cond","o":"unknown"}],
+    "then":[{"pred":"requiresTask","s":"?P","o":"MapToSNOMED"}],
+    "explain":"Condition for ?P has unknown code; map to SNOMED CT."
+  },
+
+  { "id":"Clinical-COVIDPCR-Positive",
+    "if":[{"pred":"isA","s":"?obs","o":"Observation"},{"pred":"aboutPatient","s":"?obs","o":"?P"},
+          {"pred":"codeSystem","s":"?obs","o":"loinc"},{"pred":"code","s":"?obs","o":"94531-1"},
+          {"pred":"valueFlag","s":"?obs","o":"positive"}],
+    "then":[{"pred":"requiresTask","s":"?P","o":"IsolatePatient"},
+            {"pred":"requiresTask","s":"?P","o":"NotifyPublicHealth"},
+            {"pred":"priority","s":"?P","o":"High"}],
+    "explain":"LOINC 94531-1 is positive for ?P → isolation, public health notification (High)."
+  },
+  { "id":"Clinical-Hb-CriticalLow",
+    "if":[{"pred":"isA","s":"?obs","o":"Observation"},{"pred":"aboutPatient","s":"?obs","o":"?P"},
+          {"pred":"codeSystem","s":"?obs","o":"loinc"},{"pred":"code","s":"?obs","o":"718-7"},
+          {"pred":"valueFlag","s":"?obs","o":"criticalLow"}],
+    "then":[{"pred":"requiresTask","s":"?P","o":"UrgentTransfusionConsult"},
+            {"pred":"priority","s":"?P","o":"High"}],
+    "explain":"LOINC 718-7 critical low for ?P → urgent transfusion consult (High)."
+  },
+
+  { "id":"P-Default-Normal",
+    "if":[{"pred":"requiresTask","s":"?P","o":"?X"},
+          {"not":true,"pred":"priority","s":"?P","o":"?Any"}],
+    "then":[{"pred":"priority","s":"?P","o":"Normal"}],
+    "explain":"If ?P has tasks but no priority, default to Normal."
+  }
+]</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Checks <span id="checksCount" class="badge">0</span></h2>
+      <textarea id="checksTA" spellcheck="false">[
+  {"name":"PHI in Note1 → about P1",                 "pattern":{"pred":"aboutPatient","s":"ObsPHI1","o":"P1"}},
+  {"name":"SR1 (treatment) → about P1",              "pattern":{"pred":"aboutPatient","s":"SR1","o":"P1"}},
+  {"name":"P1 has active treatment consent",         "pattern":{"pred":"hasActiveTreatmentConsent","s":"P1","o":"yes"}},
+  {"name":"Allow treatment share for P1",            "pattern":{"pred":"requiresTask","s":"P1","o":"AllowTreatmentShare"}},
+  {"name":"P1 priority High (labs)",                 "pattern":{"pred":"priority","s":"P1","o":"High"}},
+  {"name":"P1 needs UrgentTransfusionConsult",       "pattern":{"pred":"requiresTask","s":"P1","o":"UrgentTransfusionConsult"}},
+  {"name":"P1 needs Isolation (COVID+)",             "pattern":{"pred":"requiresTask","s":"P1","o":"IsolatePatient"}},
+  {"name":"P1 notify public health",                 "pattern":{"pred":"requiresTask","s":"P1","o":"NotifyPublicHealth"}},
+  {"name":"P2 has active research consent for OrgR1","pattern":{"pred":"hasActiveResearchConsentFor","s":"P2","o":"OrgR1"}},
+  {"name":"Allow research share for P2",             "pattern":{"pred":"requiresTask","s":"P2","o":"AllowResearchShare"}},
+  {"name":"P2 map unknown lab to LOINC",             "pattern":{"pred":"requiresTask","s":"P2","o":"MapToLOINC"}},
+  {"name":"P2 map unknown condition to SNOMED",      "pattern":{"pred":"requiresTask","s":"P2","o":"MapToSNOMED"}},
+  {"name":"P2 deidentify text",                      "pattern":{"pred":"requiresTask","s":"P2","o":"DeidentifyText"}},
+  {"name":"P2 priority Normal",                      "pattern":{"pred":"priority","s":"P2","o":"Normal"}}
+]</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Controls</h2>
+      <div class="row">
+        <button id="runBtn">▶ Run ARC</button>
+        <button id="reasonBtn" class="secondary">Show Reason only</button>
+        <span id="status" class="muted tiny" style="margin-left:auto"></span>
+      </div>
+      <div id="diag" class="diag"></div>
+    </div>
+
+    <div class="card">
+      <h2>Answer (newly derived facts)</h2>
+      <div id="answer" class="output tall">computing…</div>
+    </div>
+
+    <div class="card">
+      <h2>Reason Why (mathematical English)</h2>
+      <div id="reason" class="output tall">(click “Run ARC”)</div>
+    </div>
+
+    <div class="card">
+      <h2>Check</h2>
+      <div id="checks" class="output tall">computing…</div>
+    </div>
+
+    <div class="card" id="summaryCard">
+      <h2>Health Info Summary</h2>
+      <div id="summary" class="output">(run to populate)</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const els = {
+    dataTA: $("dataTA"), policyTA: $("policyTA"), checksTA: $("checksTA"),
+    runBtn: $("runBtn"), reasonBtn: $("reasonBtn"),
+    status: $("status"), diag: $("diag"),
+    answer: $("answer"), reason: $("reason"), checks: $("checks"), summary: $("summary"),
+    checksCount: $("checksCount"), checksCountInline: $("checksCountInline")
+  };
+
+  // Auto-grow textareas
+  function autoResize(el){ el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
+  ["dataTA","policyTA","checksTA"].forEach(id=>{
+    const el=$(id); el.addEventListener('input',()=>autoResize(el)); setTimeout(()=>autoResize(el),0);
+  });
+
+  // ---- KB helpers
+  function key(f){ return `${f.pred}|${f.s}|${f.o}`; }
+
+  function buildFactsFromData(spec){
+    const facts = [];
+    // subclass axioms
+    (spec.subclassOf||[]).forEach(([a,b])=>facts.push({pred:"subClass",s:a,o:b,_base:true}));
+    // core assets
+    for(const [id,info] of Object.entries(spec.assets||{})){
+      if(info.type) facts.push({pred:"isA",s:id,o:info.type,_base:true});
+      if(info.partOf) facts.push({pred:"partOf",s:id,o:info.partOf,_base:true});
+    }
+    // consents
+    (spec.consents||[]).forEach(c=>{
+      facts.push({pred:"isA",s:c.id,o:c.type||"Consent",_base:true});
+      if(c.partOf) facts.push({pred:"partOf",s:c.id,o:c.partOf,_base:true});
+      if(c.scope)  facts.push({pred:"consentScope",s:c.id,o:c.scope,_base:true});
+      if(c.status) facts.push({pred:"consentStatus",s:c.id,o:c.status,_base:true});
+      if(c.permittedOrg) facts.push({pred:"consentPermittedOrg",s:c.id,o:c.permittedOrg,_base:true});
+    });
+    // conditions
+    (spec.conditions||[]).forEach(d=>{
+      facts.push({pred:"isA",s:d.id,o:d.type||"Condition",_base:true});
+      if(d.partOf) facts.push({pred:"partOf",s:d.id,o:d.partOf,_base:true});
+      if(d.codeSystem) facts.push({pred:"codeSystem",s:d.id,o:d.codeSystem,_base:true});
+      if(d.code)       facts.push({pred:"code",s:d.id,o:d.code,_base:true});
+    });
+    // observations/events
+    (spec.observations||[]).forEach(o=>{
+      facts.push({pred:"isA",s:o.id,o:o.type||"Observation",_base:true});
+      if(o.about) facts.push({pred:"about",s:o.id,o:o.about,_base:true});
+      if ((spec.assets[o.about]?.type) === "Patient") {
+        facts.push({pred:"aboutPatient",s:o.id,o:o.about,_base:true});
+      }
+      if(o.codeSystem) facts.push({pred:"codeSystem",s:o.id,o:o.codeSystem,_base:true});
+      if(o.code)       facts.push({pred:"code",s:o.id,o:o.code,_base:true});
+      if(o.category)   facts.push({pred:"category",s:o.id,o:o.category,_base:true});
+      if(o.valueFlag)  facts.push({pred:"valueFlag",s:o.id,o:o.valueFlag,_base:true});
+      if(o.sharePurpose) facts.push({pred:"sharePurpose",s:o.id,o:o.sharePurpose,_base:true});
+      if(o.shareOrg)     facts.push({pred:"shareOrg",s:o.id,o:o.shareOrg,_base:true});
+    });
+    return facts;
+  }
+
+  function indexFacts(facts){
+    const byPred = new Map();
+    for(const f of facts){
+      if(!byPred.has(f.pred)) byPred.set(f.pred, []);
+      byPred.get(f.pred).push(f);
+    }
+    return { byPred };
+  }
+
+  function isVar(x){ return typeof x==="string" && x.startsWith("?"); }
+
+  function unifyAtomWithFact(atom, f, env){
+    const out = {...env};
+    const slots = ["pred","s","o"];
+    for(const slot of slots){
+      const val = atom[slot];
+      const factVal = f[slot] ?? (slot==="pred"? f.pred : slot==="s"? f.s : f.o);
+      if(isVar(val)){
+        if(out[val]!==undefined && out[val]!==factVal) return null;
+        out[val]=factVal;
+      } else {
+        if(val!==factVal) return null;
+      }
+    }
+    return out;
+  }
+
+  function matchPositives(rule, factsIdx, env={}, i=0){
+    if(i>=rule.if.length) return [env];
+    const atom = rule.if[i];
+    if(atom.not) return matchPositives(rule, factsIdx, env, i+1);
+    const candidates = factsIdx.byPred.get(atom.pred)||[];
+    const out = [];
+    for(const f of candidates){
+      const env2 = unifyAtomWithFact(atom,f,env);
+      if(env2) out.push(...matchPositives(rule, factsIdx, env2, i+1));
+    }
+    return out;
+  }
+
+  function negHolds(atom, factsIdx, env){
+    const candidates = factsIdx.byPred.get(atom.pred)||[];
+    for(const f of candidates){
+      if(unifyAtomWithFact(atom,f,env)) return true;
+    }
+    return false;
+  }
+
+  function substitute(t, env){
+    const sub = v => isVar(v) ? env[v] : v;
+    return { pred: t.pred, s: sub(t.s), o: sub(t.o) };
+  }
+
+  // ---- Priority handling (Blocked > High > Normal > Low)
+  const PRIORITY_RANK = { Blocked: 4, High: 3, Normal: 2, Low: 1 };
+
+  function bestPriorities(facts) {
+    const best = new Map();
+    for (const f of facts) {
+      if (f.pred !== "priority") continue;
+      const cur = best.get(f.s);
+      if (!cur || (PRIORITY_RANK[f.o]||0) > (PRIORITY_RANK[cur]||0)) {
+        best.set(f.s, f.o);
+      }
+    }
+    return best;
+  }
+
+  function derive(data, policies){
+    let facts = buildFactsFromData(data);
+    const baseSet = new Set(facts.map(key));
+    const factSet = new Set(baseSet);
+    const factsIdx = indexFacts(facts);
+    const proofs = new Map();
+
+    let changed=true, guard=0;
+    while(changed && guard++<200){
+      changed=false;
+      for(const rule of policies){
+        const posBindings = matchPositives(rule, factsIdx, {}, 0);
+        for(const env of posBindings){
+          const negs = rule.if.filter(a=>a.not);
+          let ok=true, negUsed=[];
+          for(const n of negs){
+            const nSub = substitute(n, env);
+            if(negHolds(nSub, factsIdx, env)){ ok=false; break; }
+            negUsed.push(nSub);
+          }
+          if(!ok) continue;
+
+          for(const t of rule.then){
+            const concl = substitute(t, env);
+            const k = key(concl);
+            if(!factSet.has(k)){
+              facts.push({...concl,_base:false});
+              factSet.add(k);
+              changed=true;
+              if(!factsIdx.byPred.has(concl.pred)) factsIdx.byPred.set(concl.pred,[]);
+              factsIdx.byPred.get(concl.pred).push({...concl,_base:false});
+              const exp = buildExplanation(rule, env, negUsed);
+              proofs.set(k, exp);
+            }
+          }
+        }
+      }
+    }
+
+    const derived = facts.filter(f=>!f._base);
+
+    // Only keep strongest priority per patient in Answer/Reason
+    const best = bestPriorities(facts);
+    const derivedFiltered = derived.filter(f => f.pred !== "priority" || best.get(f.s) === f.o);
+
+    const answerLines = formatFacts(derivedFiltered);
+    const reasonLines = [];
+    for(const f of derivedFiltered){
+      const k = key(f);
+      const exp = proofs.get(k);
+      if(exp) reasonLines.push(`• ${exp} ⇒ therefore ${prettyFact(f)}.`);
+      else    reasonLines.push(`• Derived ${prettyFact(f)}.`);
+    }
+
+    return { facts, derived, answerText: answerLines.join("\n"), reasonText: reasonLines.join("\n") };
+  }
+
+  function buildExplanation(rule, env, negUsed){
+    const fill = s => s.replace(/\?[A-Za-z0-9_]+/g, m => env[m] ?? m);
+    let text = fill(rule.explain || `Applied ${rule.id}`);
+    if(negUsed && negUsed.length){
+      const negBits = negUsed.map(n=>`no fact ${n.pred}(${n.s}, ${n.o})`).join(" and ");
+      text += `, and ${negBits}`;
+    }
+    return text;
+  }
+
+  function prettyFact(f){
+    const tri = {
+      "isA":            (s,o)=>`${s} ∈ ${o}`,
+      "subClass":       (s,o)=>`${s} ⊑ ${o}`,
+      "partOf":         (s,o)=>`${s} partOf ${o}`,
+      "about":          (s,o)=>`${s} about ${o}`,
+      "aboutPatient":   (s,o)=>`${s} aboutPatient ${o}`,
+      "consentOfPatient": (s,o)=>`${s} consentOfPatient ${o}`,
+      "consentScope":   (s,o)=>`${s} consentScope ${o}`,
+      "consentStatus":  (s,o)=>`${s} consentStatus ${o}`,
+      "consentPermittedOrg": (s,o)=>`${s} consentPermittedOrg ${o}`,
+      "hasActiveResearchConsentFor": (s,o)=>`${s} hasActiveResearchConsentFor ${o}`,
+      "hasActiveTreatmentConsent": (s,o)=>`${s} hasActiveTreatmentConsent ${o}`,
+      "sharePurpose":   (s,o)=>`${s} sharePurpose ${o}`,
+      "shareOrg":       (s,o)=>`${s} shareOrg ${o}`,
+      "codeSystem":     (s,o)=>`${s} codeSystem ${o}`,
+      "code":           (s,o)=>`${s} code ${o}`,
+      "category":       (s,o)=>`${s} category ${o}`,
+      "valueFlag":      (s,o)=>`${s} valueFlag ${o}`,
+      "requiresTask":   (s,o)=>`${s} requires ${o}`,
+      "priority":       (s,o)=>`${s} priority ${o}`
+    };
+    const fn = tri[f.pred] || ((s,o)=>`${s} ${f.pred} ${o}`);
+    return fn(f.s, f.o);
+  }
+
+  function formatFacts(facts){
+    const groups = {};
+    for(const f of facts){ (groups[f.pred] ||= []).push(f); }
+    const order = ["isA","subClass","partOf","about","aboutPatient","consentOfPatient",
+                   "consentScope","consentStatus","consentPermittedOrg",
+                   "sharePurpose","shareOrg","codeSystem","code","category","valueFlag",
+                   "hasActiveResearchConsentFor","hasActiveTreatmentConsent",
+                   "requiresTask","priority"];
+    const lines = [];
+    for(const pred of order){
+      if(!groups[pred]) continue;
+      const sorted = groups[pred].slice().sort((a,b)=> (a.s+a.o).localeCompare(b.s+b.o));
+      for(const f of sorted) lines.push(prettyFact(f));
+    }
+    for(const pred of Object.keys(groups)){
+      if(order.includes(pred)) continue;
+      const sorted = groups[pred].slice().sort((a,b)=> (a.s+a.o).localeCompare(b.s+b.o));
+      for(const f of sorted) lines.push(prettyFact(f));
+    }
+    return lines;
+  }
+
+  // Checks
+  function runChecks(facts, checksSpec){
+    const factSet = new Set(facts.map(key));
+    const out = [];
+    for(let i=0;i<checksSpec.length;i++){
+      const chk = checksSpec[i];
+      const k = key(chk.pattern);
+      out.push({i:i+1, name: chk.name, passed: factSet.has(k)});
+    }
+    return out;
+  }
+  function renderChecks(results){
+    if(!results.length) return "(no checks)";
+    const lines = [];
+    for(const r of results){ lines.push(`${r.passed ? "✅" : "❌"} ${String(r.i).padStart(2," ")} — ${r.name}`); }
+    const passCt = results.filter(r=>r.passed).length;
+    lines.push(`\nSummary: ${passCt}/${results.length} PASS`);
+    return lines.join("\n");
+  }
+
+  // Summary
+  function summarizePatients(facts){
+    const PRIORITY_RANK = { Blocked:4, High:3, Normal:2, Low:1 };
+    const tasksByP = new Map();
+    for (const f of facts) {
+      if (f.pred === "requiresTask") {
+        if (!tasksByP.has(f.s)) tasksByP.set(f.s, new Set());
+        tasksByP.get(f.s).add(f.o);
+      }
+    }
+    // best priority
+    const best = new Map();
+    for (const f of facts) {
+      if (f.pred !== "priority") continue;
+      const cur = best.get(f.s);
+      if (!cur || (PRIORITY_RANK[f.o]||0) > (PRIORITY_RANK[cur]||0)) best.set(f.s, f.o);
+    }
+    const patients = new Set([...tasksByP.keys(), ...best.keys()]);
+    if (!patients.size) return "(no derived tasks/priority)";
+    const lines = [];
+    for (const p of [...patients].sort()) {
+      const pr = best.get(p) || "Normal";
+      const tasks = [...(tasksByP.get(p) || [])].sort().join(", ");
+      lines.push(`${p}: priority ${pr}${tasks ? " — tasks: " + tasks : ""}`);
+    }
+    return lines.join("\n");
+  }
+
+  // Orchestration
+  function parseJSON(text, label){
+    try { return JSON.parse(text); }
+    catch(e){ throw new Error(`${label} JSON error: ${e.message}`); }
+  }
+  function toPolicies(spec){
+    return spec.map(r => ({ id:r.id||"(unnamed)", if:r.if||[], then:r.then||[], explain:r.explain||"" }));
+  }
+  function buildDataObj(spec){ return spec; }
+
+  async function runARC(){
+    els.status.textContent = "Parsing JSON…";
+    els.answer.textContent = els.reason.textContent = els.checks.textContent = "computing…";
+    els.summary.textContent = "(run to populate)";
+    els.diag.textContent = "";
+    try{
+      const dataSpec = parseJSON(els.dataTA.value, "Data");
+      const polSpec  = parseJSON(els.policyTA.value, "Policies");
+      const checksSpec = parseJSON(els.checksTA.value, "Checks");
+
+      // Update checks count badges
+      els.checksCount.textContent = String(checksSpec.length);
+      if (els.checksCountInline) els.checksCountInline.textContent = String(checksSpec.length);
+
+      const data = buildDataObj(dataSpec);
+      const policies = toPolicies(polSpec);
+
+      els.status.textContent = "Reasoning…";
+      const { facts, derived, answerText, reasonText } = derive(data, policies);
+
+      els.answer.textContent = answerText || "(no new derivations)";
+      els.reason.textContent = reasonText || "(no explanations available)";
+
+      els.status.textContent = "Running checks…";
+      const checkResults = runChecks(facts, checksSpec);
+      els.checks.textContent = renderChecks(checkResults);
+
+      els.summary.textContent = summarizePatients(facts);
+
+      els.status.textContent = "Done.";
+    } catch(e){
+      console.error(e);
+      els.status.textContent = "Error";
+      els.answer.textContent = "(failed)";
+      els.reason.textContent = "(failed)";
+      els.checks.textContent = "(failed)";
+      els.summary.textContent = "(failed)";
+      els.diag.textContent = e.message;
+    }
+    // re-auto-size textareas after run
+    autoResize(els.dataTA); autoResize(els.policyTA); autoResize(els.checksTA);
+  }
+
+  function showReasonOnly(){
+    runARC().then(()=> {
+      window.scrollTo({top: $("reason").getBoundingClientRect().top + window.scrollY - 12, behavior: "smooth"});
+    });
+  }
+
+  els.runBtn.addEventListener('click', runARC);
+  els.reasonBtn.addEventListener('click', showReasonOnly);
+  window.addEventListener('DOMContentLoaded', runARC);
+</script>
+</body>
+</html>
+

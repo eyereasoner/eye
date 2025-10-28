@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" aria-hidden="true">
+  <defs>
+    <linearGradient id="spectrum" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#ff0077"/>
+      <stop offset="16%"  stop-color="#7a00ff"/>
+      <stop offset="33%"  stop-color="#0066ff"/>
+      <stop offset="50%"  stop-color="#00c2ff"/>
+      <stop offset="66%"  stop-color="#00d47b"/>
+      <stop offset="83%"  stop-color="#ffd400"/>
+      <stop offset="100%" stop-color="#ff6a00"/>
+    </linearGradient>
+
+    <linearGradient id="spectrumDiag" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(28)">
+      <stop offset="0%"   stop-color="#ff6a00"/>
+      <stop offset="20%"  stop-color="#ffd400"/>
+      <stop offset="40%"  stop-color="#00d47b"/>
+      <stop offset="60%"  stop-color="#00c2ff"/>
+      <stop offset="80%"  stop-color="#7a00ff"/>
+      <stop offset="100%" stop-color="#ff0077"/>
+    </linearGradient>
+
+    <radialGradient id="bokeh" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="bloom" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+  </defs>
+
+  <!-- layered abstract arcs -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlow)">
+    <g stroke="url(#spectrum)" opacity="0.95">
+      <path d="M 90 320 A 560 240 0 0 1 1110 320" stroke-width="10"/>
+      <path d="M 110 295 A 520 210 0 0 1 1090 295" stroke-width="9" opacity="0.9"/>
+      <path d="M 140 270 A 480 180 0 0 1 1060 270" stroke-width="8" opacity="0.85"/>
+      <path d="M 180 250 A 440 160 0 0 1 1020 250" stroke-width="7.5" opacity="0.8"/>
+      <path d="M 230 230 A 390 140 0 0 1 970 230"  stroke-width="7" opacity="0.75"/>
+      <path d="M 300 210 A 320 120 0 0 1 900 210"  stroke-width="6.5" opacity="0.7"/>
+    </g>
+
+    <!-- sweeping “swooshes” -->
+    <path d="M 120 350 C 420 180, 780 460, 1080 240" stroke="url(#spectrumDiag)" stroke-width="8" opacity="0.7"/>
+    <path d="M 95 220 C 380 110, 730 310, 1050 180"  stroke="url(#spectrumDiag)" stroke-width="6" opacity="0.6"/>
+
+    <!-- orbital ellipse -->
+    <ellipse cx="600" cy="260" rx="380" ry="120" stroke="url(#spectrumDiag)" stroke-width="5" opacity="0.6" fill="none"/>
+    <ellipse cx="600" cy="260" rx="300" ry="96"  stroke="url(#spectrum)"     stroke-width="4" opacity="0.5" fill="none"/>
+  </g>
+
+  <!-- soft bokeh lights -->
+  <g filter="url(#bloom)">
+    <circle cx="240" cy="170" r="90"  fill="url(#bokeh)"/>
+    <circle cx="980" cy="120" r="70"  fill="url(#bokeh)"/>
+    <circle cx="380" cy="340" r="60"  fill="url(#bokeh)"/>
+    <circle cx="760" cy="330" r="80"  fill="url(#bokeh)"/>
+    <circle cx="610" cy="140" r="55"  fill="url(#bokeh)"/>
+  </g>
+</svg>
+

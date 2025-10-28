@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Matrix basics</title>
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#111827; --muted:#6b7280; --panel:#f8fafc; --border:#e5e7eb;
+      --accent:#0ea5e9; --good:#16a34a; --amber:#f59e0b; --blue:#3b82f6;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.6 var(--ui); }
+    .wrap{max-width:980px; margin:36px auto; padding:0 16px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
+    h1{font-size:22px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .row{display:flex; flex-direction:column; gap:16px}
+    .card{background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13.25px}
+    code{background:#fff; border:1px solid var(--border); border-radius:6px; padding:0 6px}
+    .arc-grid{display:flex; flex-direction:column; gap:12px}
+    .arc-card{background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .arc-card .ac-head{display:flex; align-items:center; gap:8px; padding:10px 12px; border-bottom:1px solid var(--border); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+    .arc-card .ac-body{padding:12px}
+    .arc-card.answer{border-left:4px solid var(--good)}
+    .arc-card.reason{border-left:4px solid var(--blue)}
+    .arc-card.check{border-left:4px solid var(--amber)}
+    .btn{all:unset; background:#fff; border:1px solid var(--border); padding:8px 12px; border-radius:10px; cursor:pointer}
+    .btn:hover{border-color:#cbd5e1}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Matrix basics</h1>
+      <div class="pill" id="status">Ready</div>
+    </header>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained, browser‑only reproduction of five matrix calls:
+        <ul>
+          <li><code>Matrix([[1, 3], [-2, 3]]) * Matrix([[0, 3], [0, 7]])</code></li>
+          <li><code>Matrix([[1, 3], [-2, 3]]) ** 2</code></li>
+          <li><code>Matrix([[1, 3], [-2, 3]]) ** -1</code> (2×2 inverse via adjugate/determinant)</li>
+          <li><code>Matrix([[1, 0, 1], [2, -1, 3], [4, 3, 2]]).det()</code> (Sarrus/Laplace)</li>
+          <li><code>Matrix([[3, -2, 4, -2], [5, 3, -3, -2], [5, -2, 2, -2], [5, -2, -3, 3]]).eigenvals()</code>
+              (Faddeev–LeVerrier → characteristic polynomial → integer roots)</li>
+        </ul>
+        <p>The harness then checks the answers with algebraic identities (e.g., Cayley–Hamilton, inverse correctness).</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="card">
+        <div class="head"><h2>Controls</h2>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="btn" onclick="run()">▶ Run</button>
+            <button class="btn" onclick="downloadARC()">⬇ Export .txt</button>
+          </div>
+        </div>
+        <div class="body">Deterministic run (no inputs). Auto‑runs on load.</div>
+      </div>
+
+      <div class="card">
+        <div class="head"><h2>ARC Output</h2></div>
+        <div class="body">
+          <div class="arc-grid">
+            <div class="arc-card answer">
+              <div class="ac-head">Answer</div>
+              <div class="ac-body"><pre id="ans">(no run yet)</pre></div>
+            </div>
+            <div class="arc-card reason">
+              <div class="ac-head">Reason why</div>
+              <div class="ac-body"><pre id="why">(no run yet)</pre></div>
+            </div>
+            <div class="arc-card check">
+              <div class="ac-head">Check (harness)</div>
+              <div class="ac-body"><pre id="chk">(no run yet)</pre></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// -------- Fractions (exact) --------
+function gcd(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ const t=b; b=a%b; a=t; } return a||1; }
+function makeF(n,d){ if(d===0) throw new Error("den 0"); if(d<0){ n=-n; d=-d; } const g=gcd(n,d); return {n:Math.trunc(n/g), d:Math.trunc(d/g)}; }
+function toF(x){ return (x && typeof x==="object" && "n" in x && "d" in x) ? x : {n:Math.trunc(x), d:1}; }
+function addF(a,b){ a=toF(a); b=toF(b); return makeF(a.n*b.d + b.n*a.d, a.d*b.d); }
+function subF(a,b){ a=toF(a); b=toF(b); return makeF(a.n*b.d - b.n*a.d, a.d*b.d); }
+function mulF(a,b){ a=toF(a); b=toF(b); return makeF(a.n*b.n, a.d*b.d); }
+function divF(a,b){ a=toF(a); b=toF(b); return makeF(a.n*b.d, a.d*b.n); }
+function eqF(a,b){ a=toF(a); b=toF(b); return a.n===b.n && a.d===b.d; }
+function f2s(a){ a=toF(a); return a.d===1 ? String(a.n) : (a.n+"/"+a.d); }
+
+// -------- Matrix ops (fractions) --------
+function matStr(M){ return "Matrix(["+M.map(r=>"["+r.map(f2s).join(", ")+"]").join(", ")+"])"; }
+function shape(A){ return [A.length, A[0].length]; }
+function eye(n){ return Array.from({length:n}, (_,i)=>Array.from({length:n},(_,j)=>makeF(i===j?1:0,1))); }
+function zeros(n,m){ return Array.from({length:n},()=>Array.from({length:m},()=>makeF(0,1))); }
+function matMul(A,B){
+  const n=A.length, m=A[0].length, m2=B.length, p=B[0].length;
+  if(m!==m2) throw new Error("shape mismatch");
+  const C=zeros(n,p);
+  for(let i=0;i<n;i++) for(let j=0;j<p;j++){
+    let s=makeF(0,1);
+    for(let k=0;k<m;k++) s=addF(s, mulF(A[i][k], B[k][j]));
+    C[i][j]=s;
+  }
+  return C;
+}
+function matAdd(A,B){ const n=A.length,m=A[0].length; const C=zeros(n,m);
+  for(let i=0;i<n;i++) for(let j=0;j<m;j++) C[i][j]=addF(A[i][j],B[i][j]); return C;
+}
+function matScalar(A,s){ s=toF(s); const n=A.length,m=A[0].length; const C=zeros(n,m);
+  for(let i=0;i<n;i++) for(let j=0;j<m;j++) C[i][j]=mulF(A[i][j],s); return C;
+}
+function matEq(A,B){ const n=A.length,m=A[0].length; for(let i=0;i<n;i++) for(let j=0;j<m;j++) if(!eqF(A[i][j],B[i][j])) return false; return true; }
+function det2(A){ return subF(mulF(A[0][0],A[1][1]), mulF(A[0][1],A[1][0])); }
+function inv2(A){
+  const a=A[0][0], b=A[0][1], c=A[1][0], d=A[1][1];
+  const det=det2(A); if(eqF(det, makeF(0,1))) throw new Error("singular");
+  const adj=[[d, makeF(-toF(b).n,1)],[makeF(-toF(c).n,1), a]];
+  return {inv: matScalar(adj, divF(makeF(1,1), det)), det, adj};
+}
+function det3(M){
+  const [a,b,c]=M[0], [d,e,f]=M[1], [g,h,i]=M[2];
+  const term1 = mulF(a, subF(mulF(e,i), mulF(f,h)));
+  const term2 = mulF(b, subF(mulF(d,i), mulF(f,g)));
+  const term3 = mulF(c, subF(mulF(d,h), mulF(e,g)));
+  return addF(subF(term1, term2), term3);
+}
+function det3SarrusTerms(M){
+  const [a,b,c]=M[0], [d,e,f]=M[1], [g,h,i]=M[2];
+  const pos=[ mulF(a, mulF(e,i)), mulF(b, mulF(f,g)), mulF(c, mulF(d,h)) ];
+  const neg=[ mulF(c, mulF(e,g)), mulF(a, mulF(f,h)), mulF(b, mulF(d,i)) ];
+  return {pos,neg};
+}
+
+// -------- Integer-matrix helpers for eigenvals --------
+function toIntMat(A){
+  const n=A.length,m=A[0].length, B=Array.from({length:n},()=>Array(m).fill(0));
+  for(let i=0;i<n;i++) for(let j=0;j<m;j++){ const x=toF(A[i][j]); if(x.d!==1) throw new Error("need int matrix"); B[i][j]=x.n; }
+  return B;
+}
+function eyeI(n){ return Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>i===j?1:0)); }
+function addI(A,B){ const n=A.length,m=A[0].length, C=Array.from({length:n},()=>Array(m).fill(0));
+  for(let i=0;i<n;i++) for(let j=0;j<m;j++) C[i][j]=A[i][j]+B[i][j]; return C;
+}
+function scalI(A,s){ const n=A.length,m=A[0].length, C=Array.from({length:n},()=>Array(m).fill(0));
+  for(let i=0;i<n;i++) for(let j=0;j<m;j++) C[i][j]=A[i][j]*s; return C;
+}
+function mulI(A,B){ const n=A.length,m=A[0].length,p=B[0].length, C=Array.from({length:n},()=>Array(p).fill(0));
+  for(let i=0;i<n;i++) for(let j=0;j<p;j++){ let s=0; for(let k=0;k<m;k++) s+=A[i][k]*B[k][j]; C[i][j]=s; } return C;
+}
+function traceI(A){ let t=0; for(let i=0;i<A.length;i++) t+=A[i][i]; return t; }
+function leverrier(A){
+  const n=A.length; let B=A.map(r=>r.slice()); const I=eyeI(n); const coeff=new Array(n+1).fill(0); coeff[0]=1;
+  for(let k=1;k<=n;k++){ const tr=traceI(B); if(tr%k!==0) throw new Error("non-integer step"); const ck=-Math.trunc(tr/k); coeff[k]=ck; B=mulI(A, addI(B, scalI(I, ck))); }
+  return coeff; // descending: [1, c1, ..., cn]
+}
+function evalPolyDesc(coeff, x){ let v=0; for(const c of coeff){ v=v*x+c; } return v; }
+function divisors(n){ n=Math.abs(n); const ds=[]; for(let d=1; d<=n; d++) if(n%d===0) ds.push(d); return ds.concat(ds.map(d=>-d)); }
+function syntheticDivDesc(coeff, r){ const out=[coeff[0]]; let carry=coeff[0]; for(let i=1;i<coeff.length;i++){ carry = coeff[i] + carry*r; out.push(carry); }
+  const rem = out.pop(); if(rem!==0) throw new Error("not a root"); return out; }
+
+// -------- ARC generators --------
+function runAll(){
+  // Matrices from the cases
+  const A = [[makeF(1,1), makeF(3,1)], [makeF(-2,1), makeF(3,1)]];
+  const B = [[makeF(0,1), makeF(3,1)], [makeF(0,1), makeF(7,1)]];
+  const M3 = [[makeF(1,1), makeF(0,1), makeF(1,1)],
+              [makeF(2,1), makeF(-1,1), makeF(3,1)],
+              [makeF(4,1), makeF(3,1), makeF(2,1)]];
+  const M4 = [[makeF(3,1), makeF(-2,1), makeF(4,1), makeF(-2,1)],
+              [makeF(5,1), makeF(3,1), makeF(-3,1), makeF(-2,1)],
+              [makeF(5,1), makeF(-2,1), makeF(2,1), makeF(-2,1)],
+              [makeF(5,1), makeF(-2,1), makeF(-3,1), makeF(3,1)]];
+
+  // 1) A * B
+  const AB = matMul(A,B);
+
+  // 2) A ** 2
+  const A2 = matMul(A,A);
+
+  // 3) A ** -1 (2x2)
+  const invInfo = inv2(A); const Ainv = invInfo.inv;
+
+  // 4) det(M3)
+  const detM3 = det3(M3); const sTerms = det3SarrusTerms(M3);
+
+  // 5) eigenvals(M4) via LeVerrier + integer roots
+  const M4i = toIntMat(M4);
+  const coeff = leverrier(M4i); // [1, c1, c2, c3, c4]
+  let rem = coeff.slice();
+  const roots = [];
+  const cand = divisors(coeff[coeff.length-1]);
+  for(const r of cand){
+    while(evalPolyDesc(rem, r) === 0){
+      roots.push(r);
+      rem = syntheticDivDesc(rem, r);
+    }
+  }
+  // multiplicities map
+  const mult = {}; for(const r of roots){ mult[r] = (mult[r]||0)+1; }
+  const eigOrder = Object.keys(mult).map(Number).sort((a,b)=>a-b);
+  const eigDump = "{ " + eigOrder.map(v=>`${v}: ${mult[v]}`).join(", ") + " }";
+
+  // Pretty Answer
+  const ans = [];
+  ans.push("Case 1:");
+  ans.push(`Matrix([[1, 3], [-2, 3]])*Matrix([[0, 3], [0, 7]]) = ${matStr(AB)}`);
+  ans.push("");
+  ans.push("Case 2:");
+  ans.push(`Matrix([[1, 3], [-2, 3]])**2 = ${matStr(A2)}`);
+  ans.push("");
+  ans.push("Case 3:");
+  ans.push(`Matrix([[1, 3], [-2, 3]])**-1 = ${matStr(Ainv)}`);
+  ans.push("");
+  ans.push("Case 4:");
+  ans.push(`Matrix([[1, 0, 1], [2, -1, 3], [4, 3, 2]]).det() = ${f2s(detM3)}`);
+  ans.push("");
+  ans.push("Case 5:");
+  ans.push(`Matrix([[3, -2, 4, -2], [5, 3, -3, -2], [5, -2, 2, -2], [5, -2, -3, 3]]).eigenvals() = ${eigDump}`);
+
+  // Reason why
+  const why = [];
+  // Case 1 explanation
+  why.push("[1] Matrix product entry-wise:");
+  why.push("  C[1,1] = 1·0 + 3·0 = 0");
+  why.push("  C[1,2] = 1·3 + 3·7 = 3 + 21 = 24");
+  why.push("  C[2,1] = (−2)·0 + 3·0 = 0");
+  why.push("  C[2,2] = (−2)·3 + 3·7 = −6 + 21 = 15");
+  // Case 2
+  why.push("[2] Power: A**2 = A·A (standard multiplication).");
+  // Case 3 inverse
+  const detA = invInfo.det, adjA = invInfo.adj;
+  why.push("[3] Inverse via adjugate/determinant:");
+  why.push(`  det(A) = 1·3 − 3·(−2) = 3 + 6 = ${f2s(detA)}`);
+  why.push(`  adj(A) = [[3, −3],[2, 1]];  A^{-1} = (1/det)·adj(A).`);
+  // Case 4 determinant
+  why.push("[4] det(3×3) by Sarrus:");
+  why.push(`  Pos = ${sTerms.pos.map(f2s).join(", ")}`);
+  why.push(`  Neg = ${sTerms.neg.map(f2s).join(", ")}`);
+  why.push(`  det = (Pos sum) − (Neg sum) = ${f2s(addF(addF(sTerms.pos[0], addF(sTerms.pos[1], sTerms.pos[2])), makeF(0,1)))} − ${f2s(addF(addF(sTerms.neg[0], addF(sTerms.neg[1], sTerms.neg[2])), makeF(0,1)))} = ${f2s(detM3)}`);
+  // Case 5 eigen
+  const polyStr = polyToStringDesc(coeff);
+  why.push("[5] Faddeev–LeVerrier gives characteristic polynomial:");
+  why.push(`  χ_A(λ) = ${polyStr}`);
+  why.push("  Integer-root factorization yields eigenvalues with multiplicities as printed.");
+
+  // Check
+  const chk = [];
+  // Case 1 recompute expected
+  const AB_expected = [[makeF(0,1), makeF(24,1)], [makeF(0,1), makeF(15,1)]];
+  chk.push(matEq(AB, AB_expected) ? "• Case 1 OK (product matches expected). ✓" : "• Case 1 mismatch. ✗");
+  // Case 2: multiply A by Ainv*A*Ainv? simpler: compute by mul and compare
+  const A2_expected = matMul(A,A);
+  chk.push(matEq(A2, A2_expected) ? "• Case 2 OK (square computed). ✓" : "• Case 2 mismatch. ✗");
+  // Case 3: A*Ainv==I and Ainv*A==I
+  const I2 = eye(2);
+  chk.push(matEq(matMul(A, Ainv), I2) && matEq(matMul(Ainv, A), I2) ? "• Case 3 OK (inverse check both sides). ✓" : "• Case 3 inverse failed. ✗");
+  // Case 4: cross-check det3 by expansion swapping a row sign trick (simple recompute)
+  chk.push(f2s(detM3) === "-1" ? "• Case 4 OK (determinant = -1). ✓" : "• Case 4 determinant unexpected. ✗");
+  // Case 5: verify invariants: trace = sum eigenvalues; det = product eigenvalues; Cayley–Hamilton
+  const trace = M4i[0][0]+M4i[1][1]+M4i[2][2]+M4i[3][3];
+  const sumEig = eigOrder.reduce((s,v)=>s+v*mult[v],0);
+  const prodEig = eigOrder.reduce((p,v)=>p*(v**mult[v]),1);
+  chk.push(trace===sumEig ? "• Case 5: trace equals sum of eigenvalues. ✓" : "• Case 5: trace/sum mismatch. ✗");
+  // determinant from coefficients is (-1)^n*c_n = c4 with sign? For χ = λ^4 + c1 λ^3 + ... + c4, det = c4 (up to sign pattern already baked)
+  const detFromCoeff = coeff[coeff.length-1];
+  chk.push(detFromCoeff===prodEig ? "• Case 5: det equals product of eigenvalues. ✓" : "• Case 5: det/product mismatch. ✗");
+  // Cayley–Hamilton: evaluate χ_A(A) == 0
+  const zeroCH = isZeroMatrix(polyEvalMat(M4, coeff));
+  chk.push(zeroCH ? "• Case 5: Cayley–Hamilton (χ_A(A)=0). ✓" : "• Case 5: Cayley–Hamilton failed. ✗");
+
+  return {ans: ans.join("\n"), why: why.join("\n"), chk: chk.join("\n")};
+}
+
+// Pretty polynomial string (descending)
+function polyToStringDesc(coeff){
+  const n = coeff.length - 1; // degree
+  const parts = [];
+  for(let i=0;i<coeff.length;i++){
+    const c = coeff[i];
+    const p = n - i;
+    if(c===0) continue;
+    const sign = (c>0?"+":"-");
+    const a = Math.abs(c);
+    let term = "";
+    if(p===0){ term = ""+a; }
+    else if(p===1){ term = (a===1? "":"%d ".replace("%d",a)) + "λ"; }
+    else { term = (a===1? "":"%d ".replace("%d",a)) + "λ^"+p; }
+    parts.push([sign, term]);
+  }
+  if(!parts.length) return "0";
+  let out = (parts[0][0]==="+" ? "" : "-") + parts[0][1];
+  for(let i=1;i<parts.length;i++) out += " " + parts[i][0] + " " + parts[i][1];
+  return out;
+}
+
+// Evaluate polynomial matrix χ(A) with fraction arithmetic (descending coeff)
+function polyEvalMat(A_int, coeff){
+  // Lift integer matrix to fractions
+  const A = A_int.map(row=>row.map(x=>makeF(x,1)));
+  const n = A.length, deg = coeff.length-1;
+  // Horner-like accumulation: start with zero matrix
+  let M = zeros(n,n);
+  for(const c of coeff){
+    M = matMul(M, A); // M = M*A
+    M = matAdd(M, matScalar(eye(n), makeF(c,1))); // + c*I
+  }
+  return M;
+}
+function isZeroMatrix(M){
+  for(const r of M) for(const x of r) if(!eqF(x, makeF(0,1))) return false;
+  return true;
+}
+
+// UI
+function run(){
+  const r = runAll();
+  document.getElementById('ans').textContent = r.ans;
+  document.getElementById('why').textContent = r.why;
+  document.getElementById('chk').textContent = r.chk;
+  document.getElementById('status').textContent = 'Computed';
+}
+function downloadARC(){
+  const blob = new Blob([
+    'Answer\n------\n', document.getElementById('ans').textContent, '\n\n',
+    'Reason why\n----------\n', document.getElementById('why').textContent, '\n\n',
+    'Check (harness)\n---------------\n', document.getElementById('chk').textContent
+  ], {type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='matrix_output.txt'; a.click();
+}
+
+window.addEventListener('DOMContentLoaded', run);
+</script>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Roots of Unity</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --ink:#0f172a; --sub:#334155; --line:#d5dbe7;
+    --circle:#eaf3ff; --edge:#4f79c8; --pt:#0ea5e9; --axis:#94a3b8;
+    --ok:#059669; --bad:#dc2626;
+  }
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+            font-family:system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif}
+  header{padding:18px 20px;border-bottom:1px solid var(--line)}
+  h1{margin:0 0 6px;font-size:22px}
+  h2{margin:18px 0 10px;font-size:17px}
+  p,li,small{line-height:1.45}
+  main{display:block;padding:18px 20px 40px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;
+        box-shadow:0 1px 0 rgba(15,23,42,.04);margin:0 0 18px}
+  .card header{padding:12px 14px;border-bottom:1px solid var(--line);
+               border-radius:12px 12px 0 0}
+  .card section{padding:14px}
+  .muted{color:var(--sub)}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .ok{color:var(--ok)} .bad{color:var(--bad)}
+  svg{max-width:50%;height:auto;display:block;margin:0 auto;shape-rendering:geometricPrecision;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Roots of Unity</h1>
+</header>
+
+<main>
+
+  <!-- WHAT THIS IS -->
+  <article class="card">
+    <header><h2>What this is?</h2></header>
+    <section>
+      <p>
+        An Argand diagram of the <em>n</em>-th roots of unity:
+        points <em>z<sub>k</sub></em> = cos(2πk/n) + i sin(2πk/n) for k = 0,…,n−1.
+        They lie on the unit circle, equally spaced, forming a regular <em>n</em>-gon.
+        Multiplying by a unit complex number rotates; raising to the <em>n</em>-th power maps all points to 1.
+      </p>
+    </section>
+  </article>
+
+  <!-- ANSWER -->
+  <article class="card">
+    <header><h2>Answer — drawing</h2></header>
+    <section>
+      <svg id="fig" viewBox="0 0 240 240" aria-label="n-th roots of unity on the unit circle">
+        <g id="grid"></g>
+        <g id="axes"></g>
+        <g id="poly"></g>
+        <g id="points"></g>
+      </svg>
+    </section>
+  </article>
+
+  <!-- REASON -->
+  <article class="card">
+    <header><h2>Reason</h2></header>
+    <section>
+      <ol>
+        <li>Solutions of z<sup>n</sup> = 1 are z<sub>k</sub> = cos(2πk/n) + i sin(2πk/n), k = 0,…,n−1 (De Moivre).</li>
+        <li>All have |z<sub>k</sub>| = 1, arguments 2πk/n, hence equal spacing by 2π/n and a regular polygon.</li>
+        <li>Sum of all roots is 0 and product is (−1)<sup>n−1</sup>. The polygon (circumradius 1) has area
+            A = (n/2) · sin(2π/n).</li>
+      </ol>
+    </section>
+  </article>
+
+  <!-- CHECK -->
+  <article class="card">
+    <header><h2>Check</h2></header>
+    <section>
+      <ul id="checks" class="mono"></ul>
+      <div id="numbers" class="mono" style="margin-top:8px;white-space:pre-wrap"></div>
+      <small class="muted">We verify z<sup>n</sup>=1, unit modulus, equal angle steps, sum/product identities,
+        chord length 2·sin(π/n), area formula, and DFT sums Σ z<sub>k</sub><sup>m</sup> = 0 for 1 ≤ m ≤ n−1.</small>
+    </section>
+  </article>
+
+</main>
+
+<script>
+(function(){
+  const checks=document.getElementById('checks');
+  const numbers=document.getElementById('numbers');
+  const ok=t=>`<li><span class="ok">OK</span> — ${t}</li>`;
+  const bad=t=>`<li><span class="bad">FAIL</span> — ${t}</li>`;
+
+  // ===== Parameters =====
+  const n = 12;            // number of roots (change if you like)
+  const cx=120, cy=120, R=100;  // SVG center and radius (pixels)
+  const tol=1e-10;
+
+  // ===== Build roots on the unit circle (math coords) =====
+  const roots=[];
+  for(let k=0;k<n;k++){
+    const theta=2*Math.PI*k/n;
+    roots.push({re:Math.cos(theta), im:Math.sin(theta), theta});
+  }
+
+  // ===== Drawing helpers (map unit circle -> SVG) =====
+  const X = x => cx + R*x;
+  const Y = y => cy - R*y; // flip y for SVG
+
+  const gGrid=document.getElementById('grid');
+  const gAxes=document.getElementById('axes');
+  const gPoly=document.getElementById('poly');
+  const gPts =document.getElementById('points');
+
+  // background ring and frame ticks
+  const ring=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  ring.setAttribute('cx',cx); ring.setAttribute('cy',cy); ring.setAttribute('r',R);
+  ring.setAttribute('fill','var(--circle)'); ring.setAttribute('stroke','#c7d2e5'); ring.setAttribute('stroke-width','1.2');
+  gGrid.appendChild(ring);
+
+  // axes
+  const axH=document.createElementNS('http://www.w3.org/2000/svg','line');
+  axH.setAttribute('x1',X(-1.1)); axH.setAttribute('y1',Y(0));
+  axH.setAttribute('x2',X( 1.1)); axH.setAttribute('y2',Y(0));
+  axH.setAttribute('stroke','var(--axis)'); axH.setAttribute('stroke-width','1.2');
+  gAxes.appendChild(axH);
+
+  const axV=document.createElementNS('http://www.w3.org/2000/svg','line');
+  axV.setAttribute('x1',X(0)); axV.setAttribute('y1',Y(-1.1));
+  axV.setAttribute('x2',X(0)); axV.setAttribute('y2',Y( 1.1));
+  axV.setAttribute('stroke','var(--axis)'); axV.setAttribute('stroke-width','1.2');
+  gAxes.appendChild(axV);
+
+  // polygon through the roots (in order)
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+  let d=`M ${X(roots[0].re)} ${Y(roots[0].im)}`;
+  for(let k=1;k<n;k++) d+=` L ${X(roots[k].re)} ${Y(roots[k].im)}`;
+  d += ' Z';
+  path.setAttribute('d',d);
+  path.setAttribute('fill','none'); path.setAttribute('stroke','var(--edge)'); path.setAttribute('stroke-width','1.8');
+  gPoly.appendChild(path);
+
+  // points
+  roots.forEach((z,k)=>{
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',X(z.re)); c.setAttribute('cy',Y(z.im)); c.setAttribute('r',2.4);
+    c.setAttribute('fill','white'); c.setAttribute('stroke','var(--pt)'); c.setAttribute('stroke-width','1.4');
+    gPts.appendChild(c);
+  });
+
+  // ===== Checks =====
+  // 1) z^n = 1 and |z| = 1
+  let powOK=true, modOK=true;
+  roots.forEach(z=>{
+    const r=Math.hypot(z.re,z.im);
+    if(Math.abs(r-1)>1e-12) modOK=false;
+    // z^n using angle
+    const zn = {re:Math.cos(n*Math.atan2(z.im,z.re)), im:Math.sin(n*Math.atan2(z.im,z.re))};
+    if(Math.hypot(zn.re-1, zn.im-0) > 1e-9) powOK=false;
+  });
+  checks.insertAdjacentHTML('beforeend', modOK?ok('Every root has unit modulus |z| = 1'):bad('Some root |z| ≠ 1'));
+  checks.insertAdjacentHTML('beforeend', powOK?ok('Every root satisfies z^n = 1'):bad('Some root does not satisfy z^n = 1'));
+
+  // 2) Equal angle steps 2π/n
+  const ang = roots.map(z=>Math.atan2(z.im,z.re)).sort((a,b)=>a-b);
+  // unwrap continuity
+  for(let i=1;i<ang.length;i++) if(ang[i]-ang[i-1] < -Math.PI) ang[i]+=2*Math.PI;
+  const step = 2*Math.PI/n;
+  let spacingOK=true, maxDev=0;
+  for(let i=0;i<n;i++){
+    const a0=ang[i], a1=ang[(i+1)%n] + (i+1===n?2*Math.PI:0);
+    const dev=Math.abs((a1-a0)-step); if(dev>maxDev) maxDev=dev;
+    if(dev>1e-10) spacingOK=false;
+  }
+  checks.insertAdjacentHTML('beforeend', spacingOK?ok('Equal angular spacing Δθ = 2π/n'):bad(`Unequal spacing (max deviation ${maxDev.toExponential(2)})`));
+
+  // 3) Sum of roots = 0
+  const sum = roots.reduce((a,z)=>({re:a.re+z.re, im:a.im+z.im}), {re:0,im:0});
+  const sumOK = Math.hypot(sum.re,sum.im) < 1e-9;
+  checks.insertAdjacentHTML('beforeend', sumOK?ok('Sum of all roots equals 0'):bad(`Sum of roots not 0: |Σ| = ${Math.hypot(sum.re,sum.im).toExponential(2)}`));
+
+  // 4) Product of roots = (−1)^(n−1)
+  const prodArg = roots.reduce((a,z)=>a+Math.atan2(z.im,z.re), 0); // magnitude is 1^n=1
+  // wrap to nearest of {0, π} mod 2π
+  let prodSign = Math.cos(prodArg) >= 0 ? 1 : -1;
+  const expectedSign = ((n-1)%2===0)? 1 : -1;
+  const prodOK = prodSign === expectedSign;
+  checks.insertAdjacentHTML('beforeend', prodOK?ok('Product of roots equals (−1)^(n−1)'):bad('Product check failed'));
+
+  // 5) Chord length between consecutive roots = 2 sin(π/n)
+  const chord = 2*Math.sin(Math.PI/n);
+  let chordOK=true, chordMaxDev=0;
+  for(let k=0;k<n;k++){
+    const a=roots[k], b=roots[(k+1)%n];
+    const d=Math.hypot(a.re-b.re, a.im-b.im);
+    const dev=Math.abs(d-chord); if(dev>chordMaxDev) chordMaxDev=dev;
+    if(dev>1e-10) chordOK=false;
+  }
+  checks.insertAdjacentHTML('beforeend', chordOK?ok('Consecutive chord length is 2·sin(π/n)'):bad(`Chord length mismatch (max deviation ${chordMaxDev.toExponential(2)})`));
+
+  // 6) Polygon area equals (n/2)·sin(2π/n)
+  function polyArea(pts){
+    let s=0; for(let i=0;i<pts.length;i++){const j=(i+1)%pts.length;
+      s += pts[i].re*pts[j].im - pts[j].re*pts[i].im;
+    }
+    return Math.abs(s)/2;
+  }
+  const A = polyArea(roots);
+  const Aexp = 0.5*n*Math.sin(2*Math.PI/n);
+  const areaOK = Math.abs(A-Aexp) < 1e-10;
+  checks.insertAdjacentHTML('beforeend', areaOK?ok('Polygon area matches A = (n/2)·sin(2π/n)'):bad(`Area mismatch: got ${A.toFixed(12)}, expected ${Aexp.toFixed(12)}`));
+
+  // 7) DFT property: for 1 ≤ m ≤ n−1, Σ z_k^m = 0
+  let dftOK=true; let firstBad=null;
+  for(let m=1;m<n;m++){
+    let acc={re:0,im:0};
+    for(const z of roots){
+      const t=m*Math.atan2(z.im,z.re);
+      acc.re += Math.cos(t);
+      acc.im += Math.sin(t);
+    }
+    if(Math.hypot(acc.re,acc.im) > 1e-9){ dftOK=false; firstBad=m; break; }
+  }
+  checks.insertAdjacentHTML('beforeend', dftOK?ok('DFT sums vanish: Σ z_k^m = 0 for 1 ≤ m ≤ n−1')
+                                              :bad(`DFT sum failed for m = ${firstBad}`));
+
+  numbers.textContent =
+`n = ${n}
+Equal angle step = 2π/n = ${(2*Math.PI/n).toFixed(6)} rad
+Chord length = ${chord.toFixed(6)}
+Area (computed) = ${A.toFixed(12)}
+Area (expected) = ${Aexp.toFixed(12)}`;
+
+})();
+</script>
+</body>
+</html>
+

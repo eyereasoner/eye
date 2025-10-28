@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kakuro (Cross Sums)</title>
+<style>
+  :root {
+    --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --border:#e5e7eb; --accent:#0ea5e9; --ink:#111827;
+    --cell: 72px; /* larger solution grid cells */
+  }
+  html,body{height:100%;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
+  h1{font-weight:700;margin:18px 0 6px}
+  h2{font-size:13px;color:var(--muted);margin:0 0 8px;letter-spacing:.2px;text-transform:uppercase}
+  .wrap{max-width:1150px;margin:0 auto;padding:24px}
+  .stack{display:grid;grid-template-columns:1fr;gap:14px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:0 6px 20px rgba(0,0,0,.04)}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  button{border:0;background:linear-gradient(180deg,#7dd3fc,#38bdf8);color:#052436;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(56,189,248,.35)}
+  button.secondary{background:#f3f4f6;color:#111827;border:1px solid var(--border);box-shadow:none}
+  .output{min-height:0;white-space:pre-wrap;background:#fbfdff;border:1px solid var(--border);border-radius:10px;padding:10px;overflow:auto}
+  .output.tall{min-height:200px}
+  .muted{color:var(--muted)}
+  .tiny{font-size:12px}
+  .badge{display:inline-block;border:1px solid var(--border);background:#f5f7fb;color:#334155;border-radius:999px;padding:2px 8px;font-size:12px;font-weight:700;letter-spacing:.3px}
+  textarea,pre,code,input,button{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
+  textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:#0f172a;box-sizing:border-box;white-space:pre-wrap}
+
+  /* Solution grid */
+  .grid{display:grid;gap:8px;overflow:visible} /* overflow visible so labels can sit above */
+  .cell{
+    width:var(--cell);height:var(--cell);
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid #cbd5e1;background:#fff;
+    font-weight:800;color:#0f172a;position:relative;border-radius:8px;
+    box-shadow:0 2px 12px rgba(0,0,0,.06);
+  }
+  .cell .num{position:relative;z-index:1;font-size:20px}
+
+  /* Soft, patterned blanks instead of heavy black */
+  .black{
+    background: repeating-linear-gradient(
+      135deg,
+      #f1f5f9 0, #f1f5f9 12px,
+      #eef2f7 12px, #eef2f7 24px
+    );
+    border:1px solid #d9e2ee;
+    color:#94a3b8;
+    border-radius:8px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.7);
+  }
+  .blankMark{ width:20px;height:20px;border:2px solid #94a3b8;border-radius:5px;opacity:.85 }
+
+  /* Run labels – now placed just ABOVE the cell so they never overlap the number */
+  .label{
+    position:absolute;top:-12px;left:2px;
+    font-size:11px; font-weight:800; color:#334155;
+    padding:0 6px;border-radius:999px; border:1px solid #dbe2ea;
+    background:#ffffffcc; backdrop-filter:saturate(1.1) blur(1px);
+    pointer-events:none; white-space:nowrap; max-width:calc(var(--cell) + 36px); overflow:hidden; text-overflow:ellipsis;
+  }
+
+  .legend{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:999px;padding:2px 8px;background:#f5f7fb}
+  .dot{width:12px;height:12px;border-radius:999px;border:1px solid rgba(0,0,0,.1)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Kakuro (Cross Sums)</h1>
+
+  <div class="stack">
+
+    <!-- What this is? -->
+    <div class="card">
+      <h2>What this is?</h2>
+      <p>Pure JS + JSON Kakuro. Runs (contiguous white cells) must sum to their clue with <b>distinct digits 1–9</b>. We generate valid tuples per run, propagate across intersections, and DFS if needed. Labels no longer overlap numbers: they’re shown <em>above</em> the first cell of each run.</p>
+      <ul>
+        <li><b>Auto-tighten:</b> If the puzzle has multiple solutions, the solver adds ≤3 single-cell “pin runs” at differing cells, then re-solves for a unique answer. Pins are reported below.</li>
+        <li><b>Answer</b> — derived facts (<code>cell(r,c)=d</code>).</li>
+        <li><b>Reason Why</b> — which runs/tuples forced which digits.</li>
+        <li><b>Check</b> — sums, distinctness, bounds, coverage.</li>
+      </ul>
+    </div>
+
+    <!-- Puzzle details -->
+    <div class="card">
+      <h2>Puzzle Details</h2>
+      <ul>
+        <li><b>Size:</b> 6×6 default (editable).</li>
+        <li><b>Layout:</b> “diamond-ish” with irregular blanks.</li>
+        <li><b>Editing:</b> each white cell should belong to one H-run and one V-run (engine tolerates helper pins if present).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Data (JSON)</h2>
+      <textarea id="dataTA" spellcheck="false">{
+  "size": 6,
+  "runs": [
+    { "id": "H1",  "sum": 4,  "cells": [[1,3],[1,4]] },
+    { "id": "H2",  "sum": 20, "cells": [[2,2],[2,3],[2,4],[2,5]] },
+    { "id": "H3a", "sum": 9,  "cells": [[3,1],[3,2]] },
+    { "id": "H3b", "sum": 16, "cells": [[3,4],[3,5],[3,6]] },
+    { "id": "H4a", "sum": 14, "cells": [[4,1],[4,2],[4,3]] },
+    { "id": "H4b", "sum": 10, "cells": [[4,5],[4,6]] },
+    { "id": "H5",  "sum": 18, "cells": [[5,2],[5,3],[5,4],[5,5]] },
+    { "id": "H6",  "sum": 13, "cells": [[6,3],[6,4]] },
+
+    { "id": "V1",  "sum": 15, "cells": [[3,1],[4,1]] },
+    { "id": "V2",  "sum": 22, "cells": [[2,2],[3,2],[4,2],[5,2]] },
+    { "id": "V3a", "sum": 5,  "cells": [[1,3],[2,3]] },
+    { "id": "V3b", "sum": 9,  "cells": [[4,3],[5,3],[6,3]] },
+    { "id": "V4a", "sum": 11, "cells": [[1,4],[2,4],[3,4]] },
+    { "id": "V4b", "sum": 12, "cells": [[5,4],[6,4]] },
+    { "id": "V5",  "sum": 14, "cells": [[2,5],[3,5],[4,5],[5,5]] },
+    { "id": "V6",  "sum": 16, "cells": [[3,6],[4,6]] }
+  ]
+}</textarea>
+      <p class="tiny muted">If you prefer strict hand-crafted uniqueness, leave Auto-tighten off in code (see <code>AUTO_TIGHTEN</code>), or add one-cell “pin” runs yourself.</p>
+    </div>
+
+    <div class="card">
+      <h2>Policies (declarative JSON rules)</h2>
+      <textarea id="policyTA" spellcheck="false">[
+  { "id":"K1-RunSumAllDiff",
+    "explain":"In every run, digits are in {1..9}, pairwise distinct, and their sum equals the run clue."
+  },
+  { "id":"K2-Intersections",
+    "explain":"Each white cell belongs to 1 horizontal and 1 vertical run; the digit must satisfy both runs."
+  },
+  { "id":"K3-Propagation",
+    "explain":"A digit not supported by any valid run tuple is removed from the cell's domain."
+  }
+]</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Controls</h2>
+      <div class="row">
+        <button id="runBtn">▶ Run ARC</button>
+        <label class="switch"><input id="uniqChk" type="checkbox" checked/> Probe uniqueness (second solution)</label>
+        <button id="reasonBtn" class="secondary">Show Reason only</button>
+        <span id="status" class="muted tiny" style="margin-left:auto"></span>
+      </div>
+      <div id="diag" class="tiny" style="color:#6b7280"></div>
+    </div>
+
+    <div class="card">
+      <h2>Solution Summary</h2>
+      <div id="gridHost" class="output">
+        <div id="gridMount"></div>
+        <div class="legend tiny" id="legend"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Uniqueness Probe</h2>
+      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
+    </div>
+
+    <div class="card">
+      <h2>Answer (newly derived facts)</h2>
+      <div id="answer" class="output tall">computing…</div>
+    </div>
+
+    <div class="card">
+      <h2>Reason Why (mathematical English)</h2>
+      <div id="reason" class="output tall">(click “Run ARC”)</div>
+    </div>
+
+    <div class="card">
+      <h2>Check <span id="checksCount" class="badge">0</span></h2>
+      <div id="checks" class="output tall">computing…</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const AUTO_TIGHTEN = true;        // <= set false if you don't want automatic pinning
+const AUTO_TIGHTEN_MAX_PINS = 3;  // <= up to how many single-cell pins to add
+
+const $ = id => document.getElementById(id);
+const els = {
+  dataTA: $("dataTA"), policyTA: $("policyTA"),
+  runBtn: $("runBtn"), reasonBtn: $("reasonBtn"), uniqChk: $("uniqChk"),
+  status: $("status"), diag: $("diag"),
+  answer: $("answer"), reason: $("reason"), checks: $("checks"),
+  checksCount: $("checksCount"), checksCountInline: $("checksCountInline"),
+  gridMount: $("gridMount"), legend: $("legend"), uniqOut: $("uniqOut")
+};
+
+// Auto-grow textareas
+function autoResize(el){ el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
+["dataTA","policyTA"].forEach(id=>{
+  const el=$(id); el.addEventListener('input',()=>autoResize(el)); setTimeout(()=>autoResize(el),0);
+});
+
+// ---- Utils
+function parseJSON(text, label){
+  try { return JSON.parse(text); }
+  catch(e){ throw new Error(`${label} JSON error: ${e.message}`); }
+}
+function setEq(a,b){ if(a.size!==b.size) return false; for(const x of a) if(!b.has(x)) return false; return true; }
+function key(r,c){ return `${r},${c}`; }
+function keyParts(k){ return k.split(',').map(Number); }
+
+// Generate strictly increasing combinations of digits 1..9 length k summing to S
+function combos(k, S, start=1){
+  const out=[];
+  function rec(pos, next, sum, acc){
+    if(pos===k){ if(sum===S) out.push(acc.slice()); return; }
+    for(let d=next; d<=9; d++){
+      if(sum + d + (k-pos-1)*(d+1) > S) break; // optimistic bound
+      if(sum + d + (k-pos-1)*9 < S) continue;  // pessimistic bound
+      acc.push(d); rec(pos+1, d+1, sum+d, acc); acc.pop();
+    }
+  }
+  rec(0, start, 0, []);
+  return out;
+}
+
+// All permutations (for small k)
+function perms(arr){
+  const out=[];
+  function rec(a, l){
+    if(l===a.length-1){ out.push(a.slice()); return; }
+    for(let i=l;i<a.length;i++){
+      [a[l],a[i]]=[a[i],a[l]];
+      rec(a,l+1);
+      [a[l],a[i]]=[a[i],a[l]];
+    }
+  }
+  rec(arr.slice(),0);
+  return out;
+}
+
+// Build cell map and run index
+function buildIndex(size, runs){
+  const cellRuns = new Map(); // "r,c" -> [runIds...]
+  const runById = new Map();
+  const runOrient = new Map(); // id -> "H" or "V"
+  for(const run of runs){
+    runById.set(run.id, run);
+    let orient="H";
+    if(run.cells.length>=2){
+      const [r1,c1] = run.cells[0], [r2,c2] = run.cells[1];
+      orient = (r1===r2) ? "H" : "V";
+    } else {
+      orient="P"; // pin/helper
+    }
+    runOrient.set(run.id, orient);
+    for(const [r,c] of run.cells){
+      const k = key(r,c);
+      if(!cellRuns.has(k)) cellRuns.set(k, []);
+      cellRuns.get(k).push(run.id);
+    }
+  }
+  return {cellRuns, runById, runOrient};
+}
+
+// Compute valid tuples for a run given cell domains
+function validTuples(run, domains){
+  const k = run.cells.length;
+  const base = combos(k, run.sum);
+  const tuples=[];
+  const cells = run.cells.map(([r,c])=> domains.get(key(r,c)));
+  for(const comb of base){
+    // prune by domain feasibility before permuting
+    let unionOK = true;
+    const allVals = new Set(comb);
+    for(const s of cells){
+      let has=false;
+      for(const v of s){ if(allVals.has(v)){ has=true; break; } }
+      if(!has){ unionOK=false; break; }
+    }
+    if(!unionOK) continue;
+    // expand to permutations and filter by per-cell domain
+    for(const p of perms(comb)){
+      let ok=true;
+      for(let i=0;i<k;i++){ if(!cells[i].has(p[i])){ ok=false; break; } }
+      if(ok) tuples.push(p);
+    }
+  }
+  return tuples;
+}
+
+// Propagation
+function propagate(size, runs, domains, reasons){
+  while(true){
+    let changed=false;
+    for(const run of runs){
+      const tups = validTuples(run, domains);
+      if(tups.length===0) return {progress:false, contradiction:true};
+      const k = run.cells.length;
+      const support = Array.from({length:k}, ()=> new Set());
+      for(const t of tups){
+        for(let i=0;i<k;i++) support[i].add(t[i]);
+      }
+      for(let i=0;i<k;i++){
+        const [r,c] = run.cells[i];
+        const K = key(r,c);
+        const dom = domains.get(K);
+        const before = new Set(dom);
+        for(const v of [...dom]) if(!support[i].has(v)) dom.delete(v);
+        if(dom.size===0) return {progress:false, contradiction:true};
+        if(dom.size !== before.size){
+          const removed = [...before].filter(v=>!dom.has(v));
+          reasons.push(`Run ${run.id} (sum=${run.sum}, len=${k}) prunes cell(${r},${c}) ← remove {${removed.join(",")}}.`);
+          changed=true;
+        }
+        if(dom.size===1 && before.size!==1){
+          reasons.push(`Run ${run.id} forces cell(${r},${c}) = ${[...dom][0]}.`);
+        }
+      }
+    }
+    if(!changed) return {progress:false, contradiction:false};
+  }
+}
+
+function cloneDomains(domains){
+  const m = new Map();
+  for(const [k,v] of domains) m.set(k, new Set(v));
+  return m;
+}
+
+function isSolved(domains){
+  for(const s of domains.values()) if(s.size!==1) return false;
+  return true;
+}
+
+function pickCell(domains){
+  let pick=null, min=99;
+  for(const [k,s] of domains){
+    if(s.size>1 && s.size<min){ min=s.size; pick=k; }
+  }
+  return pick;
+}
+
+function equalSolutions(a,b){
+  for(const [k,s] of a){
+    const t=b.get(k); if(!t || !setEq(s,t)) return false;
+  }
+  return true;
+}
+
+function solve(size, runs, domains, forbid=null){
+  const reasons=[];
+  const step = propagate(size, runs, domains, reasons);
+  if(step.contradiction) return null;
+
+  if(isSolved(domains)){
+    if(forbid && equalSolutions(domains, forbid)) return null;
+    return {domains, reasons};
+  }
+
+  const cell = pickCell(domains);
+  if(!cell) return null;
+  const options = Array.from(domains.get(cell));
+  for(const v of options){
+    const next = cloneDomains(domains);
+    next.get(cell).clear(); next.get(cell).add(v);
+    const sub = solve(size, runs, next, forbid);
+    if(sub){
+      sub.reasons.unshift(`Branch on cell(${cell}) = ${v}.`);
+      return sub;
+    }
+  }
+  return null;
+}
+
+// Build initial domains (1..9 for every white cell)
+function initDomains(size, runs){
+  const white = new Set();
+  for(const run of runs) for(const [r,c] of run.cells) white.add(key(r,c));
+  const domains = new Map();
+  for(let r=1;r<=size;r++){
+    for(let c=1;c<=size;c++){
+      const k = key(r,c);
+      if(white.has(k)) domains.set(k, new Set([1,2,3,4,5,6,7,8,9]));
+    }
+  }
+  return {domains, white};
+}
+
+// Pretty colors for runs
+function hsl(h,s,l){ return `hsl(${h} ${s}% ${l}%)`; }
+function runColors(runs){
+  const ids = runs.map(r=>r.id);
+  const n = ids.length||1;
+  const map = new Map();
+  for(let i=0;i<ids.length;i++){
+    const hue = Math.round((i*360/n + 12) % 360);
+    map.set(ids[i], {
+      bg: hsl(hue, 85, 90),
+      stroke: hsl(hue, 55, 42)
+    });
+  }
+  return map;
+}
+
+// Render grid with diagonal color blend (H vs V) and soft blanks; labels above the cell
+function renderGrid(size, runs, domains){
+  const g = document.createElement('div');
+  g.className = 'grid';
+  g.style.gridTemplateColumns = `repeat(${size}, var(--cell))`;
+
+  const {cellRuns, runById, runOrient} = buildIndex(size, runs);
+  const colors = runColors(runs);
+
+  const white = new Set();
+  for(const run of runs) for(const [r,c] of run.cells) white.add(key(r,c));
+
+  // Label map at first cell of each run
+  const labelAt = new Map(); // "r,c" -> ["H1=15", "V3=23", ...]
+  for(const run of runs){
+    const [r,c] = run.cells[0];
+    const k = key(r,c);
+    if(!labelAt.has(k)) labelAt.set(k, []);
+    const abbrev = run.id + "=" + run.sum;
+    labelAt.get(k).push(abbrev);
+  }
+
+  for(let r=1;r<=size;r++){
+    for(let c=1;c<=size;c++){
+      const k = key(r,c);
+      const cellDiv = document.createElement('div');
+      cellDiv.className = 'cell';
+
+      if(!white.has(k)){
+        cellDiv.classList.add('black');
+        const mark = document.createElement('div');
+        mark.className = 'blankMark';
+        cellDiv.appendChild(mark);
+        g.appendChild(cellDiv);
+        continue;
+      }
+
+      // Value
+      const dom = domains.get(k);
+      const val = dom && dom.size===1 ? [...dom][0] : '';
+      const num = document.createElement('div');
+      num.className = 'num';
+      num.textContent = val;
+      cellDiv.appendChild(num);
+
+      // Colors: blend horizontal (↘) and vertical (↗)
+      const runsHere = (cellRuns.get(k) || []);
+      let colH = null, colV = null;
+      for(const rid of runsHere){
+        const o = runOrient.get(rid);
+        if(o==="H") colH = colors.get(rid)?.bg || colH;
+        if(o==="V") colV = colors.get(rid)?.bg || colV;
+      }
+      if(!colH && colV) colH = colV;
+      if(!colV && colH) colV = colH;
+      if(!colH && !colV){ colH = '#fff'; colV = '#fff'; }
+      cellDiv.style.background = `linear-gradient(135deg, ${colH} 0 50%, ${colV} 50% 100%)`;
+
+      // Label above the cell (never covers number)
+      if(labelAt.has(k)){
+        const lab = document.createElement('div');
+        lab.className = 'label';
+        lab.textContent = labelAt.get(k).join(' • ');
+        cellDiv.appendChild(lab);
+      }
+
+      g.appendChild(cellDiv);
+    }
+  }
+  return g;
+}
+
+// Reporting
+function facts(domains){
+  const out=[];
+  for(const [k,s] of domains){
+    const [r,c] = keyParts(k);
+    out.push(`cell(${r},${c}) = ${[...s][0]}`);
+  }
+  return out.sort().join("\n");
+}
+function explain(reasons){ return reasons.join("\n"); }
+
+function checks(size, runs, domains){
+  const out=[];
+  let allAssigned = true, inRange = true;
+  for(const [k,s] of domains){ if(s.size!==1) allAssigned=false; const v=[...s][0]; if(v<1||v>9) inRange=false; }
+  out.push({name:"All white cells assigned", pass:allAssigned});
+  out.push({name:"Digits within 1..9", pass:inRange});
+
+  for(const run of runs){
+    const vals = run.cells.map(([r,c])=>[...domains.get(key(r,c))][0]);
+    const sumOK = vals.reduce((a,b)=>a+b,0)===run.sum;
+    const distinct = (new Set(vals)).size===vals.length;
+    out.push({name:`Run ${run.id} sum`, pass:sumOK});
+    out.push({name:`Run ${run.id} all-different`, pass:distinct});
+  }
+
+  const white = new Set(); for(const run of runs) for(const [r,c] of run.cells) white.add(key(r,c));
+  out.push({name:"White cell coverage consistent", pass: domains.size===white.size});
+
+  return out;
+}
+
+function renderChecks(list){
+  const lines = list.map((r,i)=> `${r.pass? "✅":"❌"} ${String(i+1).padStart(2," ")} — ${r.name}`);
+  const passCt = list.filter(x=>x.pass).length;
+  lines.push(`\nSummary: ${passCt}/${list.length} PASS`);
+  return lines.join("\n");
+}
+
+// ---- Uniqueness helpers (auto-tighten)
+function domainsToValueMap(dom){
+  const map = new Map();
+  for(const [k,s] of dom) map.set(k, [...s][0]);
+  return map;
+}
+function differingCells(solA, solB){
+  const a = domainsToValueMap(solA), b = domainsToValueMap(solB);
+  const diffs=[];
+  for(const [k,v] of a){ if(b.get(k)!==v) diffs.push([k,v]); }
+  return diffs;
+}
+function addPinRun(runs, k, v, pinIdx){
+  const [r,c] = keyParts(k);
+  const id = `PIN${pinIdx}@${r},${c}`;
+  runs.push({ id, sum: v, cells: [[r,c]] });
+  return id;
+}
+
+// Orchestrate
+function runARC(){
+  els.status.textContent = "Parsing JSON…";
+  els.answer.textContent = els.reason.textContent = els.checks.textContent = "computing…";
+  els.gridMount.innerHTML = ""; els.uniqOut.textContent = "(toggle “Probe uniqueness” then Run)";
+  els.legend.innerHTML = ""; els.diag.textContent = "";
+
+  try{
+    const data = parseJSON(els.dataTA.value, "Data");
+    parseJSON(els.policyTA.value, "Policies");
+    const size = data.size|0;
+    if(!(Number.isInteger(size) && size>0)) throw new Error("size must be a positive integer");
+    if(!Array.isArray(data.runs) || data.runs.length===0) throw new Error("runs must be a non-empty array");
+
+    // Try original data
+    let baseRuns = structuredClone(data.runs);
+    let {domains} = initDomains(size, baseRuns);
+    let sol = solve(size, baseRuns, domains, null);
+    if(!sol) throw new Error("No solution found (check runs).");
+
+    let pinsAdded = [];
+    if(els.uniqChk.checked){
+      // Probe uniqueness
+      let {domains:dom2} = initDomains(size, baseRuns);
+      let alt = solve(size, baseRuns, dom2, sol.domains);
+      // Auto-tighten if multiple and allowed
+      let pinCount = 0;
+      while(AUTO_TIGHTEN && alt && pinCount < AUTO_TIGHTEN_MAX_PINS){
+        const diffs = differingCells(sol.domains, alt.domains);
+        // choose the first differing cell to pin to sol's value
+        const [k,v] = diffs[0];
+        const pinId = addPinRun(baseRuns, k, v, pinCount+1);
+        pinsAdded.push(`${pinId}=${v}`);
+        // re-solve with new pin
+        const s1 = initDomains(size, baseRuns);
+        sol = solve(size, baseRuns, s1.domains, null);
+        if(!sol) throw new Error("Auto-tighten made the puzzle inconsistent. Undo a pin or lower AUTO_TIGHTEN_MAX_PINS.");
+        const s2 = initDomains(size, baseRuns);
+        alt = solve(size, baseRuns, s2.domains, sol.domains);
+        pinCount++;
+      }
+      els.uniqOut.textContent = (pinsAdded.length>0)
+        ? `Unique after auto-tighten (${pinsAdded.length} pin${pinsAdded.length>1?'s':''}): ${pinsAdded.join(', ')}`
+        : (alt ? "Multiple solutions found — under-constrained." : "Unique — no second distinct solution found.");
+    }
+
+    // Report
+    els.answer.textContent = facts(sol.domains);
+    els.reason.textContent = explain(sol.reasons);
+
+    const chk = checks(size, baseRuns, sol.domains);
+    els.checks.textContent = renderChecks(chk);
+    els.checksCount.textContent = String(chk.length);
+    if(els.checksCountInline) els.checksCountInline.textContent = String(chk.length);
+
+    els.gridMount.appendChild(renderGrid(size, baseRuns, sol.domains));
+
+    // tiny legend (optional color chips)
+    els.legend.innerHTML = ""; // left empty; per-run chips are less readable here
+
+    // Status & diagnostics
+    if(pinsAdded.length){
+      els.status.textContent = `Done. Auto-tightened (${pinsAdded.length} pin${pinsAdded.length>1?'s':''}).`;
+      els.diag.textContent = `Pins added: ${pinsAdded.join(', ')}\n(Note: pins are single-cell runs injected by the solver to guarantee uniqueness.)`;
+    } else {
+      els.status.textContent = "Done.";
+    }
+  } catch(e){
+    els.status.textContent = "Error";
+    els.answer.textContent = "(failed)";
+    els.reason.textContent = "(failed)";
+    els.checks.textContent = "(failed)";
+    els.gridMount.innerHTML = "";
+    els.uniqOut.textContent = "(failed)";
+    els.diag.textContent = e.message;
+    console.error(e);
+  }
+
+  autoResize(els.dataTA); autoResize(els.policyTA);
+}
+
+function showReasonOnly(){
+  runARC();
+  setTimeout(()=> window.scrollTo({top: $("reason").getBoundingClientRect().top + window.scrollY - 12, behavior:"smooth"}), 50);
+}
+
+els.runBtn.addEventListener('click', runARC);
+els.reasonBtn.addEventListener('click', showReasonOnly);
+window.addEventListener('DOMContentLoaded', runARC);
+</script>
+</body>
+</html>
+

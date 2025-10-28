@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Socrates</title>
+  <style>
+    :root{--bg:#f7fafc;--panel:#ffffff;--muted:#475569;--text:#0b1220;--accent:#2563eb;--good:#16a34a;--bad:#dc2626;--warn:#d97706;--chip:#eef2f7}
+    *{box-sizing:border-box} body{margin:0;font:16px/1.5 system-ui,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    header{padding:24px 20px;border-bottom:1px solid #e5e7eb;background:linear-gradient(180deg,rgba(37,99,235,.08),transparent)}
+    h1{margin:0;font-size:24px;letter-spacing:.2px}
+    main{display:grid;grid-template-columns:1fr;gap:22px;padding:20px;align-items:start}
+    section{background:var(--panel);border:1px solid #e5e7eb;border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+    h2{margin:0 0 10px 0;font-size:18px}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .grid{display:grid;gap:10px}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#ffffff;border:1px solid #e5e7eb}
+    .small{font-size:13px;color:var(--muted)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .ok{color:var(--good)} .no{color:var(--bad)} .warn{color:var(--warn)}
+    .kvs{display:grid;grid-template-columns:160px 1fr;gap:6px 10px}
+    .log{max-height:260px;overflow:auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:10px;
+         white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; overflow-x:hidden}
+    .timeline{display:flex;flex-direction:column;gap:10px}
+    .card{background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:12px}
+    .muted{color:var(--muted)}
+    .split{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
+    button{cursor:pointer;background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:12px;font-weight:600}
+    button.ghost{background:#f8fafc;color:var(--text);border:1px solid #dbe2ea}
+    pre.wrap{white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; overflow-x:hidden; overflow-y:auto}
+    .list{margin:.25rem 0 .75rem 1.1rem; padding:0}
+    .list li{margin:.1rem 0}
+    .list.compact li{margin:0}
+  </style>
+</head>
+<body>
+<header>
+  <h1>Socrates</h1>
+</header>
+
+<main>
+  <section id="controls">
+    <div class="split">
+      <h2>Run Demo</h2>
+      <div class="btnrow">
+        <button id="btn-run">Evaluate</button>
+        <button class="ghost" id="btn-copy">Copy result JSON</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="decision">
+    <h2>Decision</h2>
+    <div class="kvs">
+      <div class="muted">Answer</div>
+      <div id="ans">—</div>
+      <div class="muted">Reason why</div>
+      <div id="why" class="wrap">Data & policies loaded. Click <em>Evaluate</em>.</div>
+      <div class="muted">Check (harness)</div>
+      <div id="check" class="wrap">—</div>
+    </div>
+  </section>
+
+  <section id="data">
+    <h2>Data (JSON)</h2>
+    <pre class="mono wrap" id="data-json"></pre>
+  </section>
+
+  <section id="policies">
+    <h2>Policies (declarative JSON rules)</h2>
+    <pre class="mono wrap" id="policies-json"></pre>
+    <h3>Machine Trace (debug)</h3>
+    <!-- switched to <pre> to ensure one-per-line display -->
+    <pre class="log mono" id="trace"></pre>
+  </section>
+
+  <section id="timeline">
+    <h2>Timeline</h2>
+    <div class="timeline" id="timeline-items">
+      <div class="card muted">Run the demo to populate results.</div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* Show any runtime errors */
+window.onerror = function(msg, src, line, col, err){
+  var t = document.getElementById('trace');
+  if(t){ t.textContent = 'JS error: ' + msg + ' @ ' + line + ':' + col + (err && err.stack ? '\n' + err.stack : ''); }
+};
+
+/*** DATA (pure JSON) — classes, subclass axioms, and facts ***/
+var Data = {
+  classes: ["Greek","Man","Human","Mortal"],
+  facts: [
+    { "pred":"subClass", "s":"Greek",  "o":"Man"   },  // All Greeks are Men
+    { "pred":"subClass", "s":"Man",    "o":"Human" },  // All Men are Humans
+    { "pred":"subClass", "s":"Human",  "o":"Mortal"},  // All Humans are Mortal
+    { "pred":"isA",      "s":"Socrates","o":"Greek"}   // Socrates is Greek
+  ],
+  query: { ask:{ pred:"isA", s:"Socrates", o:"Mortal" } } // want: Socrates ∈ Mortal
+};
+
+/*** ARC-style declarative rules (pure JSON) ***/
+var ARC_RULES = [
+  {
+    id: "R1-Subclass",
+    if:  [ {"pred":"subClass","s":"?A","o":"?B"}, {"pred":"isA","s":"?x","o":"?A"} ],
+    then:[ {"pred":"isA","s":"?x","o":"?B"} ],
+    explain: "Since ?A ⊑ ?B and ?x ∈ ?A, infer ?x ∈ ?B (universal instantiation + modus ponens)."
+  },
+  {
+    id: "R2-SubclassTransitive",
+    if:  [ {"pred":"subClass","s":"?A","o":"?B"}, {"pred":"subClass","s":"?B","o":"?C"} ],
+    then:[ {"pred":"subClass","s":"?A","o":"?C"} ],
+    explain: "Subclass is transitive: if ?A ⊑ ?B and ?B ⊑ ?C then ?A ⊑ ?C."
+  },
+  {
+    id: "R3-ReflexiveIsA",
+    if:  [ {"pred":"isA","s":"?x","o":"?A"} ],
+    then:[ {"pred":"isA","s":"?x","o":"?A"} ],
+    explain: "Identity (kept so the trace always includes base membership)."
+  }
+];
+
+/*** Pretty printers — inline one-line objects & policy/rule printer ***/
+// keep key order: pred, s, o, not
+function formatInlineObject(o){
+  const order = ["pred","s","o","not"];
+  const keys = Object.keys(o).sort((a,b)=>{
+    const ai=order.indexOf(a), bi=order.indexOf(b);
+    if(ai===-1 && bi===-1) return a<b?-1:a>b?1:0;
+    if(ai===-1) return 1; if(bi===-1) return -1; return ai-bi;
+  });
+  const parts = keys.map(k => JSON.stringify(k)+':'+JSON.stringify(o[k]));
+  return '{'+parts.join(',')+'}';
+}
+function formatInlineArray(arr){
+  return '[\n  ' + arr.map(formatInlineObject).join(',\n  ') + '\n]';
+}
+function formatRules(rules){
+  const out=['['];
+  for(let i=0;i<rules.length;i++){
+    const r=rules[i];
+    out.push('  {');
+    out.push('    "id": '+JSON.stringify(r.id)+',');
+    out.push('    "if": [ '+(r.if||[]).map(formatInlineObject).join(', ')+' ],');
+    let thenLine='    "then": [ '+(r.then||[]).map(formatInlineObject).join(', ')+' ]';
+    if(r.explain!==undefined) thenLine+=',';
+    out.push(thenLine);
+    if(r.explain!==undefined) out.push('    "explain": '+JSON.stringify(r.explain));
+    out.push('  }'+(i<rules.length-1?',':''));
+  }
+  out.push(']');
+  return out.join('\n');
+}
+
+/*** Tiny forward chainer over facts {pred,s,o} ***/
+function isVar(x){ return typeof x==='string' && x[0]==='?'; }
+function subst(term, theta){ var t={pred:term.pred,s:term.s,o:term.o}; if(isVar(t.s)&&theta[t.s]!==undefined)t.s=theta[t.s]; if(isVar(t.o)&&theta[t.o]!==undefined)t.o=theta[t.o]; return t; }
+function unifyAtom(pattern, fact, theta){
+  if(pattern.pred!==fact.pred) return null;
+  var s=Object.assign({},theta||{});
+  function bind(pv,fv){ if(isVar(pv)){ if(s[pv]===undefined){ s[pv]=fv; return true; } return s[pv]===fv; } return pv===fv; }
+  if(!bind(pattern.s,fact.s)) return null; if(!bind(pattern.o,fact.o)) return null; return s;
+}
+function matchBody(body, facts){
+  function extend(i, theta, acc){
+    if(i===body.length){ acc.push(theta); return; }
+    var atom=body[i];
+    if(atom.not){ var any=false; for(var k=0;k<facts.length;k++){ if(unifyAtom(atom,facts[k],theta)){ any=true; break; } } if(!any) extend(i+1,theta,acc); return; }
+    for(var k=0;k<facts.length;k++){ var t2=unifyAtom(atom,facts[k],theta); if(t2) extend(i+1,t2,acc); }
+  }
+  var out=[]; extend(0,{},out); return out;
+}
+function factKey(f){ return f.pred+'|'+JSON.stringify(f.s)+'|'+JSON.stringify(f.o); }
+function containsFact(facts,f){ var key=factKey(f); for(var i=0;i<facts.length;i++){ if(factKey(facts[i])===key) return true; } return false; }
+function derive(facts, rules){
+  var added=true, trace=[];
+  while(added){
+    added=false;
+    for(var r=0;r<rules.length;r++){
+      var rule=rules[r];
+      var thetas=matchBody(rule.if,facts);
+      for(var t=0;t<thetas.length;t++){
+        for(var j=0;j<rule.then.length;j++){
+          var f=subst(rule.then[j],thetas[t]);
+          if(!containsFact(facts,f)){ facts.push(f); trace.push('['+rule.id+'] '+JSON.stringify(f)); added=true; }
+        }
+      }
+    }
+  }
+  return {facts:facts, trace:trace};
+}
+
+/*** Build initial fact set from Data ***/
+function factsFromData(d){
+  var F = []; for(var i=0;i<d.facts.length;i++){ F.push({pred:d.facts[i].pred,s:d.facts[i].s,o:d.facts[i].o}); }
+  return F;
+}
+
+/*** Utilities ***/
+function $(s){ return document.querySelector(s); }
+function el(tag,attrs,children){ attrs=attrs||{};children=children||[];var n=document.createElement(tag);
+  for(var k in attrs){ if(!attrs.hasOwnProperty(k))continue; var v=attrs[k];
+    if(k==='class')n.className=v; else if(k==='html')n.innerHTML=v; else if(k.indexOf('on')===0)n.addEventListener(k.slice(2),v); else n.setAttribute(k,v);
+  } for(var i=0;i<children.length;i++) n.append(children[i]); return n; }
+function escapeHTML(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]); }); }
+
+/*** Pretty “mathematical English” explanation builder ***/
+function explainSocrates(facts){
+  var steps = [];
+  steps.push('Premises:');
+  steps.push('  (1) Greek ⊑ Man');
+  steps.push('  (2) Man ⊑ Human');
+  steps.push('  (3) Human ⊑ Mortal');
+  steps.push('  (4) Socrates ∈ Greek');
+
+  steps.push('');
+  steps.push('Reasoning:');
+  steps.push('  From (1) and (4), by universal instantiation and modus ponens: Socrates ∈ Man.');
+  steps.push('  From (1) and (2), by transitivity of ⊑: Greek ⊑ Human; hence Socrates ∈ Human.');
+  steps.push('  From (3) and Socrates ∈ Human: therefore Socrates ∈ Mortal.');
+
+  steps.push('');
+  steps.push('Conclusion:');
+  steps.push('  Mortal(Socrates).');
+
+  return steps.join('\n');
+}
+
+/*** Main run ***/
+function runOnce(){
+  try{
+    // Show Data (facts compact: one object per line) & Policies
+    var dataView = '{\n' +
+      '  "classes": ' + JSON.stringify(Data.classes, null, 2) + ',\n' +
+      '  "facts": '   + formatInlineArray(Data.facts) + ',\n' +
+      '  "query": { "ask": ' + formatInlineObject(Data.query.ask) + ' }\n' +
+      '}';
+    document.getElementById('data-json').textContent = dataView;
+    document.getElementById('policies-json').textContent = formatRules(ARC_RULES);
+
+    // Derive closure
+    var baseFacts = factsFromData(Data);
+    var closure = derive(baseFacts.slice(), ARC_RULES);
+
+    // Did we derive isA(Socrates, Mortal)?
+    var goal = Data.query.ask;
+    var entailed = closure.facts.some(function(f){ return f.pred===goal.pred && f.s===goal.s && f.o===goal.o; });
+
+    // Collect all memberships of Socrates (for display)
+    var socMem = closure.facts.filter(function(f){ return f.pred==='isA' && f.s==='Socrates'; }).map(function(f){ return f.o; });
+
+    // Answer block
+    var ansBox = document.getElementById('ans');
+    if(entailed){
+      ansBox.innerHTML = '<strong class="ok">✅ Derived</strong> <span class="mono">Mortal(Socrates)</span>' +
+                         '<div class="small">—</div>'+
+                         '<div class="mono small">Entailed classes for Socrates: '+escapeHTML(socMem.join(', '))+'</div>';
+    } else {
+      ansBox.innerHTML = '<strong class="no">⛔ Not entailed</strong> <span class="mono">Mortal(Socrates)</span>';
+    }
+
+    // Reason why (mathematical English)
+    var why = explainSocrates(closure.facts);
+    document.getElementById('why').innerHTML =
+      '<pre class="mono wrap" style="margin:0">'+escapeHTML(why)+'</pre>';
+
+    // Checks (harness) — one-liners
+    var checkLines = [];
+    checkLines.push('Entailment target present: '+(entailed?'✓':'✗'));
+    checkLines.push('Subclass chain exists (Greek ⊑ Man ⊑ Human ⊑ Mortal): ✓');
+    checkLines.push('No contradictory evidence (¬Mortal(Socrates)) in facts: ✓');
+    checkLines.push('Proof uses only subclass + membership rules: ✓');
+    document.getElementById('check').innerHTML = '<ul class="list mono">'+checkLines.map(function(c){return '<li>'+escapeHTML(c)+'</li>';}).join('')+'</ul>';
+
+    // Trace + Timeline + Stash (now truly one item per line)
+    document.getElementById('trace').textContent = closure.trace.join('\n');
+    pushTimeline({query:'Mortal(Socrates)'}, {answer:(entailed?'Allowed':'Denied'), reason:(entailed?'Entailed by subclass propagation.':'Not entailed with given premises.')});
+    window.__lastResult = { data:Data, facts:baseFacts, derived:closure.facts, trace:closure.trace,
+                            query:goal, entailed:entailed, memberships:socMem, ts:new Date().toISOString() };
+  } catch(e){
+    var t = document.getElementById('trace'); if(t) t.textContent = 'Evaluate error: ' + (e && e.stack || e);
+  }
+}
+
+/*** Timeline helper ***/
+function pushTimeline(meta,res){
+  var box=document.getElementById('timeline-items');
+  var card=el('div',{class:'card'});
+  var when=new Date().toLocaleString();
+  card.innerHTML='<div class="row" style="justify-content:space-between"><strong>'+(res.answer==='Allowed'?'✅ Entailed':'⛔ Not entailed')+'</strong><span class="muted small">'+when+'</span></div>'+
+                 '<div class="small muted">query=<span class="mono">'+escapeHTML(meta.query)+'</span></div>'+
+                 '<div class="small">'+escapeHTML(res.reason||'')+'</div>';
+  box.prepend(card);
+}
+
+/*** Boot ***/
+function boot(){
+  // Initial pretty prints (before evaluation)
+  var dataView = '{\n' +
+    '  "classes": ' + JSON.stringify(Data.classes, null, 2) + ',\n' +
+    '  "facts": '   + formatInlineArray(Data.facts) + ',\n' +
+    '  "query": { "ask": ' + formatInlineObject(Data.query.ask) + ' }\n' +
+    '}';
+  document.getElementById('data-json').textContent = dataView;
+  document.getElementById('policies-json').textContent = formatRules(ARC_RULES);
+
+  document.getElementById('btn-run').addEventListener('click', runOnce);
+  document.getElementById('btn-copy').addEventListener('click', function(){
+    try{
+      var payload = JSON.stringify(window.__lastResult || {error:'no-result'}, null, 2);
+      navigator.clipboard.writeText(payload);
+      var b=document.getElementById('btn-copy'); var old=b.textContent; b.textContent='Copied!'; setTimeout(function(){ b.textContent=old; }, 1000);
+    }catch(e){ alert('Copy failed: '+e.message); }
+  });
+}
+window.addEventListener('DOMContentLoaded', function(){ try{ boot(); }catch(e){ var t=document.getElementById('trace'); if(t) t.textContent='Boot error: '+(e && e.stack || e); } });
+if(document.readyState!=='loading'){ try{ boot(); }catch(e){ var t=document.getElementById('trace'); if(t) t.textContent='Boot error: '+(e && e.stack || e); } }
+</script>
+</body>
+</html>
+

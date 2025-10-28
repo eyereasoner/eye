@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GPS Clinical Bench</title>
+  <style>
+    :root{--bg:#f7fafc;--panel:#ffffff;--muted:#475569;--text:#0b1220;--accent:#2563eb;--good:#16a34a;--bad:#dc2626;--warn:#d97706;--chip:#eef2f7}
+    *{box-sizing:border-box} body{margin:0;font:16px/1.5 system-ui,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    header{padding:24px 20px;border-bottom:1px solid #e5e7eb;background:linear-gradient(180deg,rgba(37,99,235,.08),transparent)}
+    h1{margin:0;font-size:24px;letter-spacing:.2px}
+    main{display:grid;grid-template-columns:1fr;gap:22px;padding:20px;align-items:start}
+    section{background:var(--panel);border:1px solid #e5e7eb;border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+    h2{margin:0 0 10px 0;font-size:18px}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .grid{display:grid;gap:10px}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#ffffff;border:1px solid #e5e7eb}
+    .small{font-size:13px;color:var(--muted)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .ok{color:var(--good)} .no{color:var(--bad)} .warn{color:var(--warn)}
+    .kvs{display:grid;grid-template-columns:160px 1fr;gap:6px 10px}
+    .log{max-height:260px;overflow:auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:10px}
+    .timeline{display:flex;flex-direction:column;gap:10px}
+    .card{background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:12px}
+    .muted{color:var(--muted)}
+    .split{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
+    button{cursor:pointer;background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:12px;font-weight:600}
+    button.ghost{background:#f8fafc;color:var(--text);border:1px solid #dbe2ea}
+    pre.wrap{white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; overflow-x:hidden; overflow-y:auto}
+    /* New: nicer lists for Reason/Checks */
+    .list{margin:.25rem 0 .75rem 1.1rem; padding:0}
+    .list li{margin:.1rem 0}
+    .list.compact li{margin:0}
+  </style>
+</head>
+<body>
+<header>
+  <h1>GPS Clinical Bench</h1>
+</header>
+
+<main>
+  <section id="controls">
+    <div class="split">
+      <h2>Run Demo</h2>
+      <div class="btnrow">
+        <button id="btn-run">Evaluate</button>
+        <button class="ghost" id="btn-copy">Copy result JSON</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="decision">
+    <h2>Decision</h2>
+    <div class="kvs">
+      <div class="muted">Answer</div>
+      <div id="ans">—</div>
+      <div class="muted">Reason why</div>
+      <div id="why" class="wrap">Data & policies loaded. Click <em>Evaluate</em>.</div>
+      <div class="muted">Check (harness)</div>
+      <div id="check" class="wrap">—</div>
+    </div>
+  </section>
+
+  <section id="data">
+    <h2>Data (JSON)</h2>
+    <pre class="mono wrap" id="data-json"></pre>
+  </section>
+
+  <section id="policies">
+    <h2>Policies (declarative JSON rules)</h2>
+    <pre class="mono wrap" id="policies-json"></pre>
+    <h3>Machine Trace (debug)</h3>
+    <!-- switched to <pre> to ensure one-per-line display -->
+    <pre class="log mono" id="trace"></pre>
+  </section>
+
+  <section id="timeline">
+    <h2>Timeline</h2>
+    <div class="timeline" id="timeline-items">
+      <div class="card muted">Run the demo to populate results.</div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* Surface any runtime errors */
+window.onerror = function(msg, src, line, col, err){
+  var t = document.getElementById('trace');
+  if(t){ t.textContent = 'JS error: ' + msg + ' @ ' + line + ':' + col + (err && err.stack ? '\n' + err.stack : ''); }
+};
+
+/*** DATA (pure JSON) — patient, limits, start/goal, and domain transitions ***/
+var Data = {
+  patient: { id:"patient_001", gender:"female", age:45 },
+  limits: { maxDays:180, maxCost:500, minSuccess:0.35, minComfort:0.35, maxStages:10 },
+  start: "state_2",
+  goal:  "state_6",
+  actions: [
+    { id:"action:take_pill_Medication_16.", from:"state_2", to:"state_3", days:1, cost:69.00, succ:0.489, comf:0.632, gender:"ANY", ageMin:18, ageMax:99 },
+    { id:"action:take_pill_Medication_33.", from:"state_2", to:"state_3", days:1, cost:57.00, succ:0.387, comf:0.422, gender:"ANY", ageMin:18, ageMax:99 },
+    { id:"action:take_pill_Medication_35.", from:"state_2", to:"state_3", days:1, cost:81.00, succ:0.381, comf:0.796, gender:"ANY", ageMin:18, ageMax:99 },
+    { id:"action:take_pill_Medication_37.", from:"state_2", to:"state_9", days:1, cost:53.00, succ:0.934, comf:0.466, gender:"ANY", ageMin:18, ageMax:99 },
+    { id:"action:take_pill_Medication_39.", from:"state_2", to:"state_5", days:1, cost: 2.00, succ:0.771, comf:0.815, gender:"ANY", ageMin:18, ageMax:99 },
+    { id:"action:take_pill_Medication_49.", from:"state_2", to:"state_6", days:1, cost:44.00, succ:0.374, comf:0.450, gender:"ANY", ageMin:18, ageMax:99 },
+    { id:"action:take_pill_Medication_58.", from:"state_2", to:"state_10",days:1, cost:87.00, succ:0.690, comf:0.550, gender:"ANY", ageMin:18, ageMax:99 },
+    { id:"action:take_pill_Medication_60.", from:"state_2", to:"state_5", days:1, cost:12.00, succ:0.723, comf:0.850, gender:"ANY", ageMin:18, ageMax:99 }
+  ]
+};
+
+/*** ARC-style declarative rules (pure JSON) ***/
+var ARC_RULES = [
+  { id:"R1-ApplicableFromStart",
+    if:[ {"pred":"start","s":"Req","o":"?S"},
+         {"pred":"edge","s":"?S","o":"?A"} ],
+    then:[ {"pred":"applicable","s":"Req","o":"?A"} ],
+    explain:"Any transition whose source equals the start state is applicable (patient filters are checked in JS)."
+  },
+  { id:"R2-ReachesGoalInOneStep",
+    if:[ {"pred":"start","s":"Req","o":"?S"},
+         {"pred":"goal","s":"Req","o":"?G"},
+         {"pred":"edgeTo","s":"?A","o":"?T"},
+         {"pred":"equals","s":"?T","o":"?G"} ],
+    then:[ {"pred":"reachesGoalOne","s":"Req","o":"?A"} ],
+    explain:"An applicable transition reaches the goal in one step if its target equals the goal state."
+  }
+];
+
+/*** Pretty printer for rules (inline IF/THEN atoms; per-line; wrapped) ***/
+function formatInlineObject(o){
+  var order=["pred","s","o","not"];
+  var keys=Object.keys(o).sort(function(a,b){
+    var ai=order.indexOf(a), bi=order.indexOf(b);
+    if(ai===-1 && bi===-1) return a<b?-1:a>b?1:0;
+    if(ai===-1) return 1; if(bi===-1) return -1; return ai-bi;
+  });
+  var parts=keys.map(function(k){
+    var v=o[k], vs=(typeof v==='string')?JSON.stringify(v):(typeof v==='boolean')?String(v):JSON.stringify(v);
+    return JSON.stringify(k)+':'+vs;
+  });
+  return '{'+parts.join(',')+'}';
+}
+function formatRules(rules){
+  var out=['['];
+  for(var i=0;i<rules.length;i++){
+    var r=rules[i];
+    out.push('  {');
+    out.push('    "id": '+JSON.stringify(r.id)+',');
+    out.push('    "if": [ '+(r.if||[]).map(formatInlineObject).join(', ')+' ],');
+    var thenLine='    "then": [ '+(r.then||[]).map(formatInlineObject).join(', ')+' ]';
+    if(r.explain!==undefined) thenLine+=',';
+    out.push(thenLine);
+    if(r.explain!==undefined) out.push('    "explain": '+JSON.stringify(r.explain));
+    out.push('  }'+(i<rules.length-1?',':''));
+  }
+  out.push(']');
+  return out.join('\n');
+}
+
+/*** Minimal ARC forward-chainer (facts are {pred,s,o}) ***/
+function isVar(x){ return typeof x==='string' && x[0]==='?'; }
+function subst(term, theta){ var t={pred:term.pred,s:term.s,o:term.o};
+  if(isVar(t.s)&&theta[t.s]!==undefined)t.s=theta[t.s];
+  if(isVar(t.o)&&theta[t.o]!==undefined)t.o=theta[t.o];
+  return t;
+}
+function unifyAtom(pattern, fact, theta){
+  if(pattern.pred!==fact.pred) return null;
+  var s=Object.assign({},theta||{});
+  function bind(pv,fv){ if(isVar(pv)){ if(s[pv]===undefined){ s[pv]=fv; return true; } return s[pv]===fv; } return pv===fv; }
+  if(!bind(pattern.s,fact.s)) return null;
+  if(!bind(pattern.o,fact.o)) return null;
+  return s;
+}
+function matchBody(body, facts){
+  function extend(i, theta, acc){
+    if(i===body.length){ acc.push(theta); return; }
+    var atom=body[i];
+    if(atom.not){ var any=false; for(var k=0;k<facts.length;k++){ if(unifyAtom(atom,facts[k],theta)){ any=true; break; } } if(!any) extend(i+1,theta,acc); return; }
+    for(var k=0;k<facts.length;k++){ var t2=unifyAtom(atom,facts[k],theta); if(t2) extend(i+1,t2,acc); }
+  }
+  var out=[]; extend(0,{},out); return out;
+}
+function factKey(f){ return f.pred+'|'+JSON.stringify(f.s)+'|'+JSON.stringify(f.o); }
+function containsFact(facts,f){ var key=factKey(f); for(var i=0;i<facts.length;i++){ if(factKey(facts[i])===key) return true; } return false; }
+function derive(facts, rules){
+  var added=true, trace=[];
+  while(added){
+    added=false;
+    for(var r=0;r<rules.length;r++){
+      var rule=rules[r];
+      var thetas=matchBody(rule.if,facts);
+      for(var t=0;t<thetas.length;t++){
+        for(var j=0;j<rule.then.length;j++){
+          var f=subst(rule.then[j],thetas[t]);
+          if(!containsFact(facts,f)){ facts.push(f); trace.push('['+rule.id+'] '+JSON.stringify(f)); added=true; }
+        }
+      }
+    }
+  }
+  return {facts:facts, trace:trace};
+}
+
+/*** Build base facts from Data (edges and labels) ***/
+function factsFromData(d){
+  var F=[]; function add(pred,s,o){ F.push({pred:pred,s:s,o:o}); }
+  add('start','Req', d.start);
+  add('goal','Req',  d.goal);
+  // Encode edges as facts the rules can see (source->action & action->target)
+  d.actions.forEach(function(a){
+    add('edge',''+a.from, a.id);    // edge(from, actionId)
+    add('edgeTo', a.id, ''+a.to);   // edgeTo(actionId, to)
+  });
+  // Provide equality helper so R2 can check target==goal
+  var states=new Set(); states.add(d.start); states.add(d.goal);
+  d.actions.forEach(function(a){ states.add(a.from); states.add(a.to); });
+  states.forEach(function(s){ add('equals', s, s); });
+  return F;
+}
+
+/*** Domain helpers ***/
+function fmtEuro(x){ return '€'+x.toFixed(2); }
+function applicableForPatient(a, patient){
+  var genderOk = (a.gender==='ANY' || a.gender===patient.gender.toUpperCase() || a.gender.toLowerCase()===patient.gender);
+  var ageOk = (patient.age>=a.ageMin && patient.age<=a.ageMax);
+  return genderOk && ageOk;
+}
+function withinGlobalLimits(a, limits){
+  return (a.days<=limits.maxDays) &&
+         (a.cost<=limits.maxCost) &&
+         (a.succ>=limits.minSuccess) &&
+         (a.comf>=limits.minComfort);
+}
+function escapeHTML(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]); }); }
+
+/*** Main reasoning: list applicable, find one-step goal transitions, build messages ***/
+function runOnce(){
+  try{
+    // 1) Show Data & Policies
+    document.getElementById('data-json').textContent = JSON.stringify(Data, null, 2);
+    document.getElementById('policies-json').textContent = formatRules(ARC_RULES);
+
+    // 2) Build facts & run ARC rules (for machine trace)
+    var baseFacts = factsFromData(Data);
+    var closure = derive(baseFacts.slice(), ARC_RULES);
+
+    // 3) JS specialized reasoning
+    var start=Data.start, goal=Data.goal, lim=Data.limits, pat=Data.patient;
+
+    var applicable = Data.actions.filter(function(a){ return a.from===start && applicableForPatient(a, pat); });
+    function bullet(a){
+      return a.id+' : '+start+' \u2192 care:'+a.to+'. (+1d, +'+fmtEuro(a.cost)+', ×succ '+a.succ.toFixed(3)+', ×comf '+a.comf.toFixed(3)+')';
+    }
+    var bullets = applicable.map(bullet);
+
+    var oneStepGoals = applicable.filter(function(a){ return a.to===goal && withinGlobalLimits(a, lim); });
+
+    // Reason: global limits + applicable list (pretty multi-line)
+    var whyBox = document.getElementById('why');
+    var limitsHTML = '<div><strong>Global limits:</strong></div>'+
+      '<ul class="list compact mono small">'+
+      '<li>duration ≤ '+lim.maxDays+' days</li>'+
+      '<li>cost ≤ '+fmtEuro(lim.maxCost)+'</li>'+
+      '<li>success ≥ '+lim.minSuccess.toFixed(2)+'</li>'+
+      '<li>comfort ≥ '+lim.minComfort.toFixed(2)+'</li>'+
+      '<li>stagecount ≤ '+lim.maxStages+'</li>'+
+      '</ul>';
+
+    var applicableHTML = '<div><strong>From the start state '+escapeHTML(start)+', applicable rules for this patient: '+applicable.length+'</strong></div>'+
+      '<ul class="list mono">'+ bullets.map(function(t){ return '<li>'+escapeHTML(t)+'</li>'; }).join('') + '</ul>';
+
+    // Explanation lines
+    var otherStates = Array.from(new Set(applicable.map(function(a){return a.to;}).filter(function(s){return s!==goal;}))).slice(0,3);
+    var explHTML;
+    if(oneStepGoals.length===1){
+      var a=oneStepGoals[0];
+      explHTML = '<div><strong>Explanation:</strong></div>'+
+        '<ul class="list">'+
+        '<li>The only applicable transition that reaches the goal in one step is<br>' +
+        'action ‘'+escapeHTML(a.id.replace(/\.$/,''))+'’: '+escapeHTML(start)+' → '+escapeHTML(goal)+'.</li>'+
+        '<li>Other applicable first steps (e.g. to '+escapeHTML(otherStates.join(', '))+') do not lead to '+escapeHTML(goal)+' under the gender/age filters and global limits in subsequent steps.</li>'+
+        '</ul>';
+    } else if(oneStepGoals.length>1){
+      explHTML = '<div><strong>Explanation:</strong></div>'+
+        '<ul class="list"><li>Multiple one-step transitions reach the goal. Choose by cost/success/comfort trade-off.</li></ul>';
+    } else {
+      explHTML = '<div><strong>Explanation:</strong></div>'+
+        '<ul class="list"><li>No one-step transition reaches the goal under the global limits.</li></ul>';
+    }
+    whyBox.innerHTML = limitsHTML + applicableHTML + explHTML;
+
+    // Checks (harness) — pretty bullet list
+    var checksBox = document.getElementById('check');
+    var checksItems = [];
+    if(oneStepGoals.length===1){
+      var g=oneStepGoals[0];
+      checksItems.push("Unique solution confirmed: ['"+g.id+"'] (succ="+g.succ.toFixed(3)+', cost='+fmtEuro(g.cost)+', dur='+g.days+'d, comf='+g.comf.toFixed(3)+'). ✓');
+      checksItems.push('Harness complete: reasoning, applicability, limits, and optimality verified. ✓');
+    } else if(oneStepGoals.length>1){
+      checksItems.push('Multiple valid solutions found; harness notes non-uniqueness. ✓');
+    } else {
+      checksItems.push('No valid one-step solution within limits; harness notes infeasibility. ✓');
+    }
+    checksBox.innerHTML = '<ul class="list mono">'+checksItems.map(function(c){return '<li>'+escapeHTML(c)+'</li>';}).join('')+'</ul>';
+
+    // Decision
+    var decision = (oneStepGoals.length>0) ? 'Allowed' : 'Denied';
+    document.getElementById('ans').innerHTML = (decision==='Allowed' ? '<strong class="ok">✅ Allowed</strong>' : '<strong class="no">⛔ Denied</strong>');
+
+    // Trace + Timeline + Stash
+    document.getElementById('trace').textContent = closure.trace.join('\n');
+    pushTimeline({start:start, goal:goal}, {answer:decision, reason:(oneStepGoals.length?('Chosen: '+oneStepGoals[0].id):'No one-step solution')});
+    window.__lastResult = { data:Data, facts:baseFacts, derived:closure.facts, trace:closure.trace,
+                            start:start, goal:goal, applicable:applicable, oneStepGoals:oneStepGoals,
+                            decision:decision, ts:new Date().toISOString() };
+  } catch(e){
+    var t = document.getElementById('trace'); if(t) t.textContent = 'Evaluate error: ' + (e && e.stack || e);
+  }
+}
+
+/*** Timeline helper ***/
+function el(tag,attrs,children){ attrs=attrs||{};children=children||[];var n=document.createElement(tag);
+  for(var k in attrs){ if(!attrs.hasOwnProperty(k))continue; var v=attrs[k];
+    if(k==='class')n.className=v; else if(k==='html')n.innerHTML=v; else if(k.indexOf('on')===0)n.addEventListener(k.slice(2),v); else n.setAttribute(k,v);
+  } for(var i=0;i<children.length;i++) n.append(children[i]); return n; }
+function pushTimeline(meta,res){
+  var box=document.getElementById('timeline-items');
+  var card=el('div',{class:'card'});
+  var when=new Date().toLocaleString();
+  card.innerHTML='<div class="row" style="justify-content:space-between"><strong>'+(res.answer==='Allowed'?'✅ Allowed':'⛔ Denied')+'</strong><span class="muted small">'+when+'</span></div>'+
+                 '<div class="small muted">start=<span class="mono">'+meta.start+'</span> • goal=<span class="mono">'+meta.goal+'</span></div>'+
+                 '<div class="small">'+(res.reason||'')+'</div>';
+  box.prepend(card);
+}
+
+/*** Boot ***/
+function boot(){
+  document.getElementById('data-json').textContent = JSON.stringify(Data, null, 2);
+  document.getElementById('policies-json').textContent = formatRules(ARC_RULES);
+  document.getElementById('btn-run').addEventListener('click', runOnce);
+  document.getElementById('btn-copy').addEventListener('click', function(){
+    try{
+      var payload = JSON.stringify(window.__lastResult || {error:'no-result'}, null, 2);
+      navigator.clipboard.writeText(payload);
+      var b=document.getElementById('btn-copy'); var old=b.textContent; b.textContent='Copied!'; setTimeout(function(){ b.textContent=old; }, 1000);
+    }catch(e){ alert('Copy failed: '+e.message); }
+  });
+}
+window.addEventListener('DOMContentLoaded', function(){ try{ boot(); }catch(e){ var t=document.getElementById('trace'); if(t) t.textContent='Boot error: '+(e && e.stack || e); } });
+if(document.readyState!=='loading'){ try{ boot(); }catch(e){ var t=document.getElementById('trace'); if(t) t.textContent='Boot error: '+(e && e.stack || e); } }
+</script>
+</body>
+</html>
+

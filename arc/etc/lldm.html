@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Leg Length Discrepancy Measurement</title>
+  <style>
+    :root{
+      --bg: #f8fafc;
+      --fg: #0f172a;
+      --muted:#475569;
+      --soft:#e2e8f0;
+      --card:#ffffff;
+      --accent:#0ea5e9;
+      --accent2:#ef4444;
+      --accent3:#22c55e;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    }
+    html, body { height: 100%; }
+    body{ margin:0; background:var(--bg); color:var(--fg); font: 16px/1.5 var(--sans); }
+    .wrap{ max-width: 960px; margin: 28px auto; padding: 0 16px; }
+    header{ margin-bottom: 16px; }
+    h1{ font-size: 22px; font-weight: 700; margin: 0 0 4px; }
+    .sub{ color: var(--muted); font-size: 14px; }
+    .card{ background:var(--card); border: 1px solid var(--soft); border-radius: 14px; padding: 16px; margin: 14px 0; box-shadow: 0 6px 16px rgba(15, 23, 42, .06); }
+    .inputs{ display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
+    label{ font-size: 12px; color: var(--muted); display:block; margin-bottom: 6px; }
+    input[type="number"]{ width:100%; box-sizing:border-box; background:#fff; color:var(--fg); border:1px solid var(--soft); border-radius:10px; padding:8px 10px; font: 14px var(--mono); }
+    button{ appearance:none; border:0; background: var(--accent); color:#fff; font-weight:700; padding:10px 14px; border-radius:12px; cursor:pointer; }
+    .btn-row { display:flex; gap:10px; align-items:center; flex-wrap: wrap; margin-top: 12px; }
+    .hint { color: var(--muted); font-size: 12px; }
+
+    h2{ font-size: 18px; margin: 6px 0 10px; }
+    pre{ font: 14px/1.5 var(--mono); background:#fff; border:1px solid var(--soft); border-radius: 12px; padding: 12px; overflow:auto; }
+    code{ font-family: var(--mono); background: #fff; border:1px solid var(--soft); padding: 2px 6px; border-radius: 8px; }
+    .answer{ padding: 12px; border:1px solid var(--soft); border-radius: 12px; background:#fff; }
+    .answer pre{ margin: 0; border: 0; }
+
+    /* Archived image panel (no internal scrollbars) */
+    .img-panel{ position: relative; border:1px solid var(--soft); border-radius:12px; overflow:hidden; background:#fff; }
+    .img-panel img{ display:block; width:100%; height:auto; }
+    .annos{ position:absolute; inset:0; pointer-events:none; }
+    .callout{ position:absolute; background:#ffffffcc; border:1px solid var(--soft); border-radius:10px; padding:8px 10px; font: 13px var(--mono); color:var(--fg); pointer-events:auto; }
+    .callout .hd{ font-weight:700; margin-bottom:4px; }
+
+    table{ width:100%; border-collapse: collapse; font:14px var(--mono); background:#fff; border:1px solid var(--soft); border-radius:12px; overflow:hidden; }
+    th, td{ padding:8px 10px; border-bottom:1px solid var(--soft); text-align:left; }
+    tr:last-child td{ border-bottom:0; }
+    .ok{ color:#16a34a; font-weight:700; }
+    .bad{ color:#dc2626; font-weight:700; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Leg Length Discrepancy Measurement</h1>
+      <div class="sub">Leg-Length Discrepancy Measurement (LLDM) by orthogonal projection onto pelvic baseline L1.</div>
+    </header>
+
+    <section class="card">
+      <h2>Landmarks (cm)</h2>
+      <div class="inputs">
+        <div><label for="p1x">p1x</label><input id="p1x" type="number" step="0.1" value="10.1"></div>
+        <div><label for="p1y">p1y</label><input id="p1y" type="number" step="0.1" value="7.8"></div>
+        <div><label for="p2x">p2x</label><input id="p2x" type="number" step="0.1" value="45.1"></div>
+        <div><label for="p2y">p2y</label><input id="p2y" type="number" step="0.1" value="5.6"></div>
+        <div><label for="p3x">p3x</label><input id="p3x" type="number" step="0.1" value="3.6"></div>
+        <div><label for="p3y">p3y</label><input id="p3y" type="number" step="0.1" value="29.8"></div>
+        <div><label for="p4x">p4x</label><input id="p4x" type="number" step="0.1" value="54.7"></div>
+        <div><label for="p4y">p4y</label><input id="p4y" type="number" step="0.1" value="28.5"></div>
+      </div>
+      <div class="btn-row">
+        <button id="run">Compute</button>
+        <span class="hint">Rounding to 4 decimals; internal math in full precision. Slope convention: <span class="mono">cL3 = -(-1/cL1)</span>.</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Answer</h2>
+      <div class="answer"><pre id="answerTxt"></pre></div>
+    </section>
+
+    <section class="card">
+      <h2>Reason why</h2>
+      <pre id="trace"></pre>
+    </section>
+
+    <section class="card">
+      <h2>Figure (photo with annotations)</h2>
+      <div class="img-panel">
+        <img src="https://web.archive.org/web/20110103134005im_/http://www.agfa.com/w3c/2002/10/medicad/op/lldmD.jpg" alt="LLDM illustration (archived Agfa page)">
+        <div class="annos">
+          <div class="callout" style="top:14px; left:14px; max-width: 320px;">
+            <div class="hd">Computed results</div>
+            <div class="mono" id="callNumbers">d53=?, d64=?, dCm=?</div>
+            <div class="mono" id="callAlarm">LLDAlarm: ?</div>
+          </div>
+          <div class="callout" style="bottom:14px; right:14px; max-width: 360px;">
+            <div class="hd">Notes</div>
+            <div>Values overlay the image. Landmarks drive the math.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Check (harness)</h2>
+      <p class="hint">
+        Each line: <code>p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4y[,expected_dCm[,expected_alarm]]</code>.
+        Expected columns are optional; when present they’re validated (|Δ| &lt; 0.001 cm).
+      </p>
+      <pre id="cases" contenteditable="true"></pre>
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:8px;">
+        <button id="runChecks">Run checks</button>
+        <button id="addRow">Add current landmarks</button>
+        <button id="clearRows" style="background:#64748b">Clear</button>
+      </div>
+      <div id="checkTableWrap" style="margin-top:10px"></div>
+    </section>
+  </div>
+
+<script>
+(function(){
+  const EN_DASH = "–";
+  const fmt = (num, dec=4, width=7) => {
+    const sgn = num >= 0 ? "+" : EN_DASH;
+    const mag = Math.abs(num).toFixed(dec);
+    return (sgn + mag).padStart(width + dec + 2, " ");
+  };
+  const line1 = (buf, step, lhs, rhs) => buf.push(`Step ${String(step).padStart(2,"0")} ${lhs} = ${rhs}`);
+  const cont  = (buf, expr) => buf.push(`          = ${expr}`);
+  const sep   = (buf) => buf.push("─".repeat(76));
+
+  function compute(p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4y){
+    let step = 1, out = [];
+    // Deltas
+    const dx12 = p1x - p2x;
+    const dy12 = p1y - p2y;
+    const dy13 = p1y - p3y;
+    const dy24 = p2y - p4y;
+    line1(out, step, "dx12Cm", "p1x − p2x"); cont(out, `${p1x} − ${p2x}`); cont(out, `${fmt(dx12)} cm`); step++;
+    line1(out, step, "dy12Cm", "p1y − p2y"); cont(out, `${p1y} − ${p2y}`); cont(out, `${fmt(dy12)} cm`); step++;
+    line1(out, step, "dy13Cm", "p1y − p3y"); cont(out, `${p1y} − ${p3y}`); cont(out, `${fmt(dy13)} cm`); step++;
+    line1(out, step, "dy24Cm", "p2y − p4y"); cont(out, `${p2y} − ${p4y}`); cont(out, `${fmt(dy24)} cm`); step++;
+    sep(out);
+
+    // Slopes
+    const cL1 = dy12 / dx12;
+    const dL3m = -1 / cL1;
+    const cL3 = -dL3m;
+    line1(out, step, "cL1 ", "dy12 / dx12"); cont(out, `${fmt(dy12)} / ${fmt(dx12)}`); cont(out, `${fmt(cL1,6)}`); step++;
+    line1(out, step, "dL3m", EN_DASH+"1 / cL1"); cont(out, `${EN_DASH}1 / ${fmt(cL1,6)}`); cont(out, `${fmt(dL3m,4)}`); step++;
+    line1(out, step, "cL3 ", EN_DASH+"dL3m"); cont(out, `${EN_DASH}(${fmt(dL3m,4)})`); cont(out, `${fmt(cL3,4)}`); step++;
+    sep(out);
+
+    // m·x items
+    const pL1x1 = cL1 * p1x, pL1x2 = cL1 * p2x;
+    const pL3x3 = cL3 * p3x, pL3x4 = cL3 * p4x;
+    line1(out, step, "pL1x1", "cL1 · p1x"); cont(out, `${fmt(cL1,6)} · ${p1x}`); cont(out, `${fmt(pL1x1)} cm`); step++;
+    line1(out, step, "pL1x2", "cL1 · p2x"); cont(out, `${fmt(cL1,6)} · ${p2x}`); cont(out, `${fmt(pL1x2)} cm`); step++;
+    line1(out, step, "pL3x3", "cL3 · p3x"); cont(out, `${fmt(cL3,4)} · ${p3x}`); cont(out, `${fmt(pL3x3)} cm`); step++;
+    line1(out, step, "pL3x4", "cL3 · p4x"); cont(out, `${fmt(cL3,4)} · ${p4x}`); cont(out, `${fmt(pL3x4)} cm`); step++;
+    sep(out);
+
+    // Diagonal helpers
+    const dd13 = pL1x1 - pL3x3, ddy13 = dd13 - dy13;
+    const dd24 = pL1x2 - pL3x4, ddy24 = dd24 - dy24;
+    const ddL13 = cL1 - cL3;
+    line1(out, step, "dd13Cm", "pL1x1 − pL3x3"); cont(out, `${fmt(pL1x1)} − ${fmt(pL3x3)}`); cont(out, `${fmt(dd13)} cm`); step++;
+    line1(out, step, "ddy13Cm", "dd13Cm − dy13Cm"); cont(out, `${fmt(dd13)} − (${fmt(dy13)})`); cont(out, `${fmt(ddy13)} cm`); step++;
+    line1(out, step, "dd24Cm", "pL1x2 − pL3x4"); cont(out, `${fmt(pL1x2)} − ${fmt(pL3x4)}`); cont(out, `${fmt(dd24)} cm`); step++;
+    line1(out, step, "ddy24Cm", "dd24Cm − dy24Cm"); cont(out, `${fmt(dd24)} − (${fmt(dy24)})`); cont(out, `${fmt(ddy24)} cm`); step++;
+    line1(out, step, "ddL13", "cL1 − cL3"); cont(out, `${fmt(cL1,6)} − ${fmt(cL3,4)}`); cont(out, `${fmt(ddL13)}`); step++;
+    sep(out);
+
+    // Feet p5/p6 on L1
+    const p5x = ddy13 / ddL13;
+    const dx51 = p5x - p1x;
+    const p5y = cL1 * dx51 + p1y;
+    const p6x = ddy24 / ddL13;
+    const dx62 = p6x - p2x;
+    const p6y = cL1 * dx62 + p2y;
+    line1(out, step, "p5xCm", "ddy13Cm / ddL13"); cont(out, `${fmt(ddy13)} / ${fmt(ddL13)}`); cont(out, `${fmt(p5x)} cm`); step++;
+    line1(out, step, "p5yCm", "cL1·(p5x−p1x)+p1y"); cont(out, `(${fmt(cL1,6)})(${fmt(dx51)}) + ${p1y}`); cont(out, `${fmt(p5y)} cm`); step++;
+    line1(out, step, "p6xCm", "ddy24Cm / ddL13"); cont(out, `${fmt(ddy24)} / ${fmt(ddL13)}`); cont(out, `${fmt(p6x)} cm`); step++;
+    line1(out, step, "p6yCm", "cL1·(p6x−p2x)+p2y"); cont(out, `(${fmt(cL1,6)})(${fmt(dx62)}) + ${p2y}`); cont(out, `${fmt(p6y)} cm`); step++;
+    sep(out);
+
+    // Distances
+    const dx53 = p5x - p3x, dy53 = p5y - p3y;
+    const dx64 = p6x - p4x, dy64 = p6y - p4y;
+    const d53 = Math.hypot(dx53, dy53);
+    const d64 = Math.hypot(dx64, dy64);
+    line1(out, step, "d53Cm", "√(dx53² + dy53²)"); cont(out, `√(${fmt(dx53)}² + ${fmt(dy53)}²)`); cont(out, `${fmt(d53)} cm`); step++;
+    line1(out, step, "d64Cm", "√(dx64² + dy64²)"); cont(out, `√(${fmt(dx64)}² + ${fmt(dy64)}²)`); cont(out, `${fmt(d64)} cm`); step++;
+
+    // Discrepancy & alarm
+    const dCm = d53 - d64;
+    const alarm = Math.abs(dCm) > 1.25;
+    line1(out, step, "dCm ", "d53 − d64"); cont(out, `${d53.toFixed(4)} − ${d64.toFixed(4)}`); cont(out, `${fmt(dCm)} cm`); step++;
+    line1(out, step, "LLDAlarm", "|dCm| > 1.25 ?"); cont(out, `|${fmt(dCm)}| > 1.25 → ${alarm}`); cont(out, `${alarm ? "  1.000000" : "  0.000000"}`);
+
+    return { out: out.join("\n"), d: {p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4y,p5x,p5y,p6x,p6y,d53,d64,dCm,alarm} };
+  }
+
+  function renderAnswer(d){
+    const sgn = (x) => (x>=0?"+":EN_DASH) + Math.abs(x).toFixed(4);
+    return [
+      "Answer",
+      "======",
+      "LLDAlarm = |dCm| > 1.25 ?",
+      `        = |${sgn(d.dCm).padStart(10)}| > 1.25  →  ${d.alarm ? "True" : "False"}`,
+      `        =   ${(d.alarm ? 1.0 : 0.0).toFixed(6)}    # ${d.alarm ? "Alarm raised: discrepancy exceeds ±1.25 cm" : "No alarm: within ±1.25 cm"}`
+    ].join("\n");
+  }
+
+  function updateCallouts(d){
+    const num = (x)=> (x>=0?"+":EN_DASH) + Math.abs(x).toFixed(4);
+    document.getElementById('callNumbers').textContent = `d53=${d.d53.toFixed(4)} cm, d64=${d.d64.toFixed(4)} cm, dCm=${num(d.dCm)} cm`;
+    document.getElementById('callAlarm').textContent = `LLDAlarm: ${d.alarm ? 'True' : 'False'}`;
+  }
+
+  function run(){
+    const val = id => parseFloat(document.getElementById(id).value);
+    const res = compute(val("p1x"),val("p1y"),val("p2x"),val("p2y"),val("p3x"),val("p3y"),val("p4x"),val("p4y"));
+    document.getElementById("trace").textContent = res.out;
+    document.getElementById("answerTxt").textContent = renderAnswer(res.d);
+    updateCallouts(res.d);
+  }
+
+  document.getElementById("run").addEventListener("click", run);
+  run();
+
+  // ---- Harness ----------------------------------------------------
+  function parseLine(line){
+    const parts = line.split(/\s*,\s*/).filter(Boolean);
+    if(parts.length < 8) return null;
+    const nums = parts.slice(0,8).map(parseFloat);
+    const expDCm = parts[8] !== undefined && parts[8] !== '' ? parseFloat(parts[8]) : null;
+    const expAlarm = parts[9] !== undefined ? /true/i.test(String(parts[9])) : null;
+    return { nums, expDCm, expAlarm };
+  }
+
+  function runChecks(){
+    const lines = document.getElementById('cases').textContent.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+    const rows = [];
+    for(const line of lines){
+      const rec = parseLine(line); if(!rec) continue;
+      const [p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4y] = rec.nums;
+      const { d } = compute(p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4y);
+      const diff = rec.expDCm==null ? null : (d.dCm - rec.expDCm);
+      const passDCm = rec.expDCm==null ? null : Math.abs(diff) < 1e-3; // within 0.001 cm
+      const passAlarm = rec.expAlarm==null ? null : (d.alarm === rec.expAlarm);
+      rows.push({p1x,p1y,p2x,p2y,p3x,p3y,p4x,p4y, d53:d.d53, d64:d.d64, dCm:d.dCm,
+                 alarm:d.alarm, expDCm:rec.expDCm, expAlarm:rec.expAlarm, diff, passDCm, passAlarm});
+    }
+    renderTable(rows);
+  }
+
+  function renderTable(rows){
+    const wrap = document.getElementById('checkTableWrap');
+    if(!rows.length){ wrap.innerHTML = '<p class="hint">No rows.</p>'; return; }
+    let html = '<table style="width:100%; border-collapse:collapse; font:14px var(--mono); background:#fff; border:1px solid var(--soft)">' +
+               '<thead><tr>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">p1x</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">p1y</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">p2x</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">p2y</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">p3x</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">p3y</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">p4x</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">p4y</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">d53</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">d64</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">dCm</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">|dCm|>1.25</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">exp dCm</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">Δ</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">exp alarm</th>' +
+               '<th style="text-align:left;padding:8px 10px;border-bottom:1px solid var(--soft)">pass?</th>' +
+               '</tr></thead><tbody>';
+    for(const r of rows){
+      const pass = (r.passDCm===null || r.passDCm) && (r.passAlarm===null || r.passAlarm);
+      const cells = [
+        r.p1x,r.p1y,r.p2x,r.p2y,r.p3x,r.p3y,r.p4x,r.p4y,
+        r.d53.toFixed(4), r.d64.toFixed(4), r.dCm.toFixed(4), (Math.abs(r.dCm)>1.25),
+        r.expDCm==null?'':r.expDCm, r.diff==null?'':r.diff.toFixed(4), r.expAlarm==null?'':r.expAlarm,
+        pass?'<span style="color:#16a34a;font-weight:700">OK</span>':'<span style="color:#dc2626;font-weight:700">FAIL</span>'
+      ];
+      html += '<tr>' + cells.map(x=>`<td style="padding:8px 10px;border-bottom:1px solid var(--soft)">${x}</td>`).join('') + '</tr>';
+    }
+    html += '</tbody></table>';
+    wrap.innerHTML = html;
+  }
+
+  // Buttons
+  document.getElementById('runChecks').addEventListener('click', runChecks);
+  document.getElementById('addRow').addEventListener('click', ()=>{
+    const id = s=>document.getElementById(s).value;
+    const line = [id('p1x'),id('p1y'),id('p2x'),id('p2y'),id('p3x'),id('p3y'),id('p4x'),id('p4y')].join(',');
+    const pre = document.getElementById('cases');
+    pre.textContent += (pre.textContent.endsWith('\n')?'':'\n') + line + '\n';
+  });
+  document.getElementById('clearRows').addEventListener('click', ()=>{
+    document.getElementById('cases').textContent = '';
+    document.getElementById('checkTableWrap').innerHTML = '';
+  });
+
+  // Seed a few checks and AUTO-RUN them on load
+  (function seedAndAutoRun(){
+    const tests = [
+      [10.1,7.8,45.1,5.6,3.6,29.8,54.7,28.5],                 // baseline (page)
+      [10.1,7.8,45.1,5.6,3.6,29.8,54.7,29.5],                 // p4y +1cm
+      [10.1,7.8,45.1,5.6,3.6,28.8,54.7,28.5],                 // p3y -1cm
+      [10.1,8.8,45.1,5.6,3.6,29.8,54.7,28.5],                 // p1y +1cm (tilt L1)
+      [8.1,7.8,47.1,5.6,3.6,29.8,54.7,28.5]                   // widen pelvis
+    ];
+    const lines = tests.map(t=>{
+      const { d } = compute(...t);
+      return t.join(',') + ',' + d.dCm.toFixed(4) + ',' + (Math.abs(d.dCm)>1.25);
+    }).join('\n') + '\n';
+    document.getElementById('cases').textContent = lines;
+    runChecks(); // <-- auto-run now
+  })();
+})();
+</script>
+</body>
+</html>
+

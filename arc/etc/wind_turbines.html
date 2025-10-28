@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Wind-Turbine Maintenance</title>
+  <style>
+    :root { --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --accent:#0ea5e9; --ok:#16a34a; --bad:#dc2626; --border:#e5e7eb; }
+    html,body{height:100%;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
+    h1{font-weight:700;letter-spacing:.2px;margin:18px 0 6px}
+    h2{font-size:13px;color:var(--muted);margin:0 0 8px;letter-spacing:.2px;text-transform:uppercase}
+    .wrap{max-width:980px;margin:0 auto;padding:24px}
+    .stack{display:grid;grid-template-columns:1fr;gap:14px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:0 6px 20px rgba(0,0,0,.04)}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    button{border:0;background:linear-gradient(180deg,#7dd3fc,#38bdf8);color:#052436;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(56,189,248,.35)}
+    button.secondary{background:#f3f4f6;color:#111827;border:1px solid var(--border);box-shadow:none}
+    /* outputs */
+    .output{min-height:0;white-space:pre-wrap;background:#fbfdff;border:1px solid var(--border);border-radius:10px;padding:10px;overflow:auto}
+    .output.tall{min-height:160px}
+    .muted{color:var(--muted)}
+    .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.3px;border:1px solid var(--border)}
+    .ok{background:rgba(22,163,74,.08);color:var(--ok);border-color:rgba(22,163,74,.35)}
+    .bad{background:rgba(220,38,38,.08);color:var(--bad);border-color:rgba(220,38,38,.35)}
+    .tiny{font-size:12px}
+    .diag{font-size:12px;color:#6b7280}
+    /* Auto-growing textareas */
+    textarea,pre,code,input,button{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
+    textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:var(--text);box-sizing:border-box;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Wind-Turbine Maintenance</h1>
+
+  <div class="stack">
+
+    <!-- What this is? -->
+    <div class="card" id="what">
+      <h2>What this is?</h2>
+      <p>One-file, pure JS + JSON reasoning demo for wind-turbine maintenance using ARC:
+        <strong>Answer</strong> • <strong>Reason</strong> • <strong>Check</strong>.</p>
+      <ul>
+        <li><strong>Data</strong> — JSON assets, components, and observations.</li>
+        <li><strong>Policies</strong> — declarative JSON rules
+          (<code>if</code> atoms with optional <code>"not": true</code> negations ⇒ <code>then</code> atoms).</li>
+        <li><strong>Answer</strong> — only the <em>newly derived</em> facts (strongest priority kept per turbine).</li>
+        <li><strong>Reason Why</strong> — explanations in mathematical English (rule templates with variable bindings).</li>
+        <li><strong>Check</strong> — runs JSON assertions (≥ 10) against the full fact set.</li>
+        <li><strong>Maintenance Summary</strong> — per-turbine priority and task roll-up (chooses strongest priority).</li>
+      </ul>
+      <p class="tiny muted">
+        Engine: small forward-chainer with unification, subclassing (<code>subClass</code>), transitive <code>partOf</code>,
+        observation-to-turbine mapping, and negation-as-failure for <code>"not": true</code>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Data (JSON)</h2>
+      <textarea id="dataTA" spellcheck="false">{
+  "classes": ["Turbine","Component","Gearbox","Generator","MainBearing","Blade","YawSystem",
+              "Condition","CriticalCondition","MajorCondition","EarlyWarningCondition",
+              "HighVibration","Overheat","OilDebris","PitchError","YawMisalign",
+              "RequiresShutdown","Priority","Urgent","High","Normal","Task"],
+  "subclassOf": [
+    ["Gearbox","Component"], ["Generator","Component"], ["MainBearing","Component"], ["Blade","Component"], ["YawSystem","Component"],
+    ["HighVibration","CriticalCondition"],
+    ["Overheat","MajorCondition"],
+    ["OilDebris","EarlyWarningCondition"],
+    ["PitchError","MajorCondition"],
+    ["YawMisalign","EarlyWarningCondition"],
+    ["CriticalCondition","Condition"], ["MajorCondition","Condition"], ["EarlyWarningCondition","Condition"]
+  ],
+  "assets": {
+    "T1": {"type":"Turbine"},
+    "GB1": {"type":"Gearbox","partOf":"T1"},
+    "MB1": {"type":"MainBearing","partOf":"T1"},
+
+    "T2": {"type":"Turbine"},
+    "GEN2": {"type":"Generator","partOf":"T2"},
+    "B2": {"type":"Blade","partOf":"T2"},
+    "YS2": {"type":"YawSystem","partOf":"T2"},
+
+    "T3": {"type":"Turbine"},
+    "GEN3": {"type":"Generator","partOf":"T3"},
+    "GB3": {"type":"Gearbox","partOf":"T3"}
+  },
+  "observations": [
+    {"id":"ObsVibGB1","type":"HighVibration","about":"GB1"},
+    {"id":"ObsTempGEN2","type":"Overheat","about":"GEN2"},
+    {"id":"ObsOilMB1","type":"OilDebris","about":"MB1"},
+    {"id":"ObsPitchB2","type":"PitchError","about":"B2"},
+    {"id":"ObsYawYS2","type":"YawMisalign","about":"YS2"}
+  ]
+}</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Policies (declarative JSON rules)</h2>
+      <textarea id="policyTA" spellcheck="false">[
+  {
+    "id": "R1-Subclass",
+    "if": [ {"pred":"subClass","s":"?A","o":"?B"}, {"pred":"isA","s":"?S","o":"?A"} ],
+    "then": [ {"pred":"isA","s":"?S","o":"?B"} ],
+    "explain": "Since ?A ⊑ ?B and ?S ∈ ?A, infer ?S ∈ ?B."
+  },
+  {
+    "id": "R2-PartOfTransitive",
+    "if": [ {"pred":"partOf","s":"?x","o":"?y"}, {"pred":"partOf","s":"?y","o":"?z"} ],
+    "then": [ {"pred":"partOf","s":"?x","o":"?z"} ],
+    "explain": "Because ?x is part of ?y and ?y is part of ?z, by transitivity ?x is part of ?z."
+  },
+  {
+    "id": "R3-ObsToTurbine",
+    "if": [ {"pred":"about","s":"?obs","o":"?comp"}, {"pred":"partOf","s":"?comp","o":"?T"} ],
+    "then": [ {"pred":"aboutTurbine","s":"?obs","o":"?T"} ],
+    "explain": "Observation ?obs concerns component ?comp of turbine ?T; therefore ?obs is about turbine ?T."
+  },
+  {
+    "id": "P-HV-Tasks",
+    "if": [ {"pred":"isA","s":"?obs","o":"HighVibration"}, {"pred":"aboutTurbine","s":"?obs","o":"?T"} ],
+    "then": [
+      {"pred":"requiresTask","s":"?T","o":"BalanceRotor"},
+      {"pred":"requiresTask","s":"?T","o":"InspectGearbox"},
+      {"pred":"requiresTask","s":"?T","o":"TightenFoundation"}
+    ],
+    "explain": "High vibration on ?T implies balancing, gearbox inspection, and foundation tightening tasks."
+  },
+  {
+    "id": "P-Overheat-Tasks",
+    "if": [ {"pred":"isA","s":"?obs","o":"Overheat"}, {"pred":"aboutTurbine","s":"?obs","o":"?T"} ],
+    "then": [
+      {"pred":"requiresTask","s":"?T","o":"ThermalScanGenerator"},
+      {"pred":"requiresTask","s":"?T","o":"ChangeFilter"}
+    ],
+    "explain": "Overheating on ?T implies a thermal scan and filter change."
+  },
+  {
+    "id": "P-Oil-Tasks",
+    "if": [ {"pred":"isA","s":"?obs","o":"OilDebris"}, {"pred":"aboutTurbine","s":"?obs","o":"?T"} ],
+    "then": [
+      {"pred":"requiresTask","s":"?T","o":"OilAnalysis"},
+      {"pred":"requiresTask","s":"?T","o":"InspectMainBearing"}
+    ],
+    "explain": "Oil debris on ?T implies oil analysis and main bearing inspection."
+  },
+  {
+    "id": "P-Pitch-Task",
+    "if": [ {"pred":"isA","s":"?obs","o":"PitchError"}, {"pred":"aboutTurbine","s":"?obs","o":"?T"} ],
+    "then": [ {"pred":"requiresTask","s":"?T","o":"InspectPitchActuator"} ],
+    "explain": "Pitch error on ?T implies pitch actuator inspection."
+  },
+  {
+    "id": "P-Yaw-Task",
+    "if": [ {"pred":"isA","s":"?obs","o":"YawMisalign"}, {"pred":"aboutTurbine","s":"?obs","o":"?T"} ],
+    "then": [ {"pred":"requiresTask","s":"?T","o":"CalibrateYawCompass"} ],
+    "explain": "Yaw misalignment on ?T implies yaw compass calibration."
+  },
+  {
+    "id": "P-Safety-Critical",
+    "if": [ {"pred":"isA","s":"?obs","o":"CriticalCondition"}, {"pred":"aboutTurbine","s":"?obs","o":"?T"} ],
+    "then": [ {"pred":"isA","s":"?T","o":"RequiresShutdown"}, {"pred":"priority","s":"?T","o":"Urgent"} ],
+    "explain": "If some observation of ?T is critical, then ?T must be shut down and prioritized as Urgent."
+  },
+  {
+    "id": "P-Major-NotCritical",
+    "if": [
+      {"pred":"isA","s":"?obs","o":"MajorCondition"},
+      {"pred":"aboutTurbine","s":"?obs","o":"?T"},
+      {"not": true, "pred":"isA","s":"?obs","o":"CriticalCondition"}
+    ],
+    "then": [ {"pred":"priority","s":"?T","o":"High"} ],
+    "explain": "If an observation on ?T is major and not critical, assign High priority to ?T."
+  },
+  {
+    "id": "P-Default-Normal",
+    "if": [
+      {"pred":"requiresTask","s":"?T","o":"?X"},
+      {"not": true, "pred":"priority","s":"?T","o":"?P"}
+    ],
+    "then": [ {"pred":"priority","s":"?T","o":"Normal"} ],
+    "explain": "If ?T has tasks but no priority yet, assign the default Normal priority."
+  }
+]</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Checks (JSON)</h2>
+      <textarea id="checksTA" spellcheck="false">[
+  {"name":"GB1 is Component", "pattern":{"pred":"isA","s":"GB1","o":"Component"}},
+  {"name":"GB3 is Component", "pattern":{"pred":"isA","s":"GB3","o":"Component"}},
+  {"name":"GEN2 is Component", "pattern":{"pred":"isA","s":"GEN2","o":"Component"}},
+  {"name":"GEN3 is Component", "pattern":{"pred":"isA","s":"GEN3","o":"Component"}},
+  {"name":"MB1 is Component", "pattern":{"pred":"isA","s":"MB1","o":"Component"}},
+  {"name":"B2 is Component", "pattern":{"pred":"isA","s":"B2","o":"Component"}},
+  {"name":"YS2 is Component", "pattern":{"pred":"isA","s":"YS2","o":"Component"}},
+
+  {"name":"ObsVibGB1 about T1", "pattern":{"pred":"aboutTurbine","s":"ObsVibGB1","o":"T1"}},
+  {"name":"ObsTempGEN2 about T2", "pattern":{"pred":"aboutTurbine","s":"ObsTempGEN2","o":"T2"}},
+  {"name":"ObsOilMB1 about T1", "pattern":{"pred":"aboutTurbine","s":"ObsOilMB1","o":"T1"}},
+  {"name":"ObsPitchB2 about T2", "pattern":{"pred":"aboutTurbine","s":"ObsPitchB2","o":"T2"}},
+  {"name":"ObsYawYS2 about T2", "pattern":{"pred":"aboutTurbine","s":"ObsYawYS2","o":"T2"}},
+
+  {"name":"T1 RequiresShutdown", "pattern":{"pred":"isA","s":"T1","o":"RequiresShutdown"}},
+  {"name":"T1 Urgent priority", "pattern":{"pred":"priority","s":"T1","o":"Urgent"}},
+  {"name":"T2 High priority", "pattern":{"pred":"priority","s":"T2","o":"High"}},
+
+  {"name":"T1 BalanceRotor", "pattern":{"pred":"requiresTask","s":"T1","o":"BalanceRotor"}},
+  {"name":"T2 ThermalScanGenerator", "pattern":{"pred":"requiresTask","s":"T2","o":"ThermalScanGenerator"}},
+  {"name":"T1 OilAnalysis", "pattern":{"pred":"requiresTask","s":"T1","o":"OilAnalysis"}},
+  {"name":"T2 CalibrateYawCompass", "pattern":{"pred":"requiresTask","s":"T2","o":"CalibrateYawCompass"}}
+]</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Controls</h2>
+      <div class="row">
+        <button id="runBtn">▶ Run ARC</button>
+        <button id="reasonBtn" class="secondary">Show Reason only</button>
+        <span id="status" class="muted tiny" style="margin-left:auto"></span>
+      </div>
+      <div id="diag" class="diag"></div>
+    </div>
+
+    <div class="card">
+      <h2>Answer (newly derived facts)</h2>
+      <div id="answer" class="output tall">computing…</div>
+    </div>
+
+    <div class="card">
+      <h2>Reason Why (mathematical English)</h2>
+      <div id="reason" class="output tall">(click “Run ARC”)</div>
+    </div>
+
+    <div class="card">
+      <h2>Check</h2>
+      <div id="checks" class="output tall">computing…</div>
+    </div>
+
+    <div class="card" id="summaryCard">
+      <h2>Maintenance Summary</h2>
+      <div id="summary" class="output">(run to populate)</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const els = {
+    dataTA: $("dataTA"), policyTA: $("policyTA"), checksTA: $("checksTA"),
+    runBtn: $("runBtn"), reasonBtn: $("reasonBtn"),
+    status: $("status"), diag: $("diag"),
+    answer: $("answer"), reason: $("reason"), checks: $("checks"), summary: $("summary")
+  };
+
+  // Auto-grow textareas
+  function autoResize(el){ el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
+  ["dataTA","policyTA","checksTA"].forEach(id=>{
+    const el=$(id); el.addEventListener('input',()=>autoResize(el)); setTimeout(()=>autoResize(el),0);
+  });
+
+  // ---- Tiny fact KB
+  function key(f){ return `${f.pred}|${f.s}|${f.o}`; }
+
+  function buildFactsFromData(data){
+    const facts = [];
+    (data.subclassOf||[]).forEach(([a,b])=>facts.push({pred:"subClass",s:a,o:b,_base:true}));
+    for(const [id,info] of Object.entries(data.assets||{})){
+      if(info.type) facts.push({pred:"isA",s:id,o:info.type,_base:true});
+      if(info.partOf) facts.push({pred:"partOf",s:id,o:info.partOf,_base:true});
+    }
+    (data.observations||[]).forEach(o=>{
+      facts.push({pred:"isA",s:o.id,o:o.type,_base:true});
+      facts.push({pred:"about",s:o.id,o:o.about,_base:true});
+    });
+    return facts;
+  }
+
+  function indexFacts(facts){
+    const byPred = new Map();
+    for(const f of facts){
+      if(!byPred.has(f.pred)) byPred.set(f.pred, []);
+      byPred.get(f.pred).push(f);
+    }
+    return { byPred };
+  }
+
+  function isVar(x){ return typeof x==="string" && x.startsWith("?"); }
+
+  function unifyAtomWithFact(atom, f, env){
+    const out = {...env};
+    const slots = ["pred","s","o"];
+    for(const slot of slots){
+      const val = atom[slot];
+      const factVal = f[slot] ?? (slot==="pred"? f.pred : slot==="s"? f.s : f.o);
+      if(isVar(val)){
+        if(out[val]!==undefined && out[val]!==factVal) return null;
+        out[val]=factVal;
+      } else {
+        if(val!==factVal) return null;
+      }
+    }
+    return out;
+  }
+
+  function matchPositives(rule, factsIdx, env={}, i=0){
+    if(i>=rule.if.length) return [env];
+    const atom = rule.if[i];
+    if(atom.not) return matchPositives(rule, factsIdx, env, i+1);
+    const candidates = factsIdx.byPred.get(atom.pred)||[];
+    const out = [];
+    for(const f of candidates){
+      const env2 = unifyAtomWithFact(atom,f,env);
+      if(env2) out.push(...matchPositives(rule, factsIdx, env2, i+1));
+    }
+    return out;
+  }
+
+  function negHolds(atom, factsIdx, env){
+    const candidates = factsIdx.byPred.get(atom.pred)||[];
+    for(const f of candidates){
+      if(unifyAtomWithFact(atom,f,env)) return true;
+    }
+    return false;
+  }
+
+  function substitute(t, env){
+    const sub = v => isVar(v) ? env[v] : v;
+    return { pred: t.pred, s: sub(t.s), o: sub(t.o) };
+  }
+
+  // ---- Priority handling
+  const PRIORITY_RANK = { Urgent: 3, High: 2, Normal: 1 };
+
+  function bestPriorities(facts) {
+    const best = new Map();
+    for (const f of facts) {
+      if (f.pred !== "priority") continue;
+      const cur = best.get(f.s);
+      if (!cur || (PRIORITY_RANK[f.o]||0) > (PRIORITY_RANK[cur]||0)) {
+        best.set(f.s, f.o);
+      }
+    }
+    return best;
+  }
+
+  function derive(data, policies){
+    let facts = buildFactsFromData(data);
+    const baseSet = new Set(facts.map(key));
+    const factSet = new Set(baseSet);
+    const factsIdx = indexFacts(facts);
+    const proofs = new Map(); // key -> explanation
+
+    let changed=true, guard=0;
+    while(changed && guard++<200){
+      changed=false;
+      for(const rule of policies){
+        const posBindings = matchPositives(rule, factsIdx, {}, 0);
+        for(const env of posBindings){
+          const negs = rule.if.filter(a=>a.not);
+          let ok=true, negUsed=[];
+          for(const n of negs){
+            const nSub = substitute(n, env);
+            if(negHolds(nSub, factsIdx, env)){ ok=false; break; }
+            negUsed.push(nSub);
+          }
+          if(!ok) continue;
+
+          for(const t of rule.then){
+            const concl = substitute(t, env);
+            const k = key(concl);
+            if(!factSet.has(k)){
+              facts.push({...concl,_base:false});
+              factSet.add(k);
+              changed=true;
+              if(!factsIdx.byPred.has(concl.pred)) factsIdx.byPred.set(concl.pred,[]);
+              factsIdx.byPred.get(concl.pred).push({...concl,_base:false});
+
+              const exp = buildExplanation(rule, env, negUsed);
+              proofs.set(k, exp);
+            }
+          }
+        }
+      }
+    }
+
+    const derived = facts.filter(f=>!f._base);
+
+    // Keep only strongest priority per turbine for Answer/Reason
+    const best = bestPriorities(facts);
+    const derivedFiltered = derived.filter(f =>
+      f.pred !== "priority" || best.get(f.s) === f.o
+    );
+
+    const answerLines = formatFacts(derivedFiltered);
+
+    const reasonLines = [];
+    for(const f of derivedFiltered){
+      const k = key(f);
+      const exp = proofs.get(k);
+      if(exp) reasonLines.push(`• ${exp} ⇒ therefore ${prettyFact(f)}.`);
+      else reasonLines.push(`• Derived ${prettyFact(f)}.`);
+    }
+
+    return { facts, baseSet, derived, answerText: answerLines.join("\n"), reasonText: reasonLines.join("\n") };
+  }
+
+  function buildExplanation(rule, env, negUsed){
+    const fill = s => s.replace(/\?[A-Za-z0-9_]+/g, m => env[m] ?? m);
+    let text = fill(rule.explain || `Applied ${rule.id}`);
+    if(negUsed && negUsed.length){
+      const negBits = negUsed.map(n=>`no fact ${n.pred}(${n.s}, ${n.o})`).join(" and ");
+      text += `, and ${negBits}`;
+    }
+    return text;
+  }
+
+  function prettyFact(f){
+    const p = f.pred, s=f.s, o=f.o;
+    const tri = {
+      "isA":    `${s} ∈ ${o}`,
+      "subClass": `${s} ⊑ ${o}`,
+      "partOf": `${s} partOf ${o}`,
+      "about": `${s} about ${o}`,
+      "aboutTurbine": `${s} aboutTurbine ${o}`,
+      "requiresTask": `${s} requires ${o}`,
+      "priority": `${s} priority ${o}`
+    };
+    return tri[p] || `${s} ${p} ${o}`;
+  }
+
+  function formatFacts(facts){
+    const groups = {};
+    for(const f of facts){
+      (groups[f.pred] ||= []).push(f);
+    }
+    const order = ["isA","subClass","partOf","about","aboutTurbine","requiresTask","priority"];
+    const lines = [];
+    for(const pred of order){
+      if(!groups[pred]) continue;
+      const sorted = groups[pred].slice().sort((a,b)=> (a.s+a.o).localeCompare(b.s+b.o));
+      for(const f of sorted) lines.push(prettyFact(f));
+    }
+    for(const pred of Object.keys(groups)){
+      if(order.includes(pred)) continue;
+      const sorted = groups[pred].slice().sort((a,b)=> (a.s+a.o).localeCompare(b.s+b.o));
+      for(const f of sorted) lines.push(prettyFact(f));
+    }
+    return lines;
+  }
+
+  // ---- Checks
+  function runChecks(facts, checksSpec){
+    const factSet = new Set(facts.map(key));
+    const out = [];
+    for(let i=0;i<checksSpec.length;i++){
+      const chk = checksSpec[i];
+      const k = key(chk.pattern);
+      const passed = factSet.has(k);
+      out.push({i:i+1, name: chk.name, passed});
+    }
+    return out;
+  }
+
+  function renderChecks(results){
+    if(!results.length) return "(no checks)";
+    const lines = [];
+    for(const r of results){
+      lines.push(`${r.passed ? "✅" : "❌"} ${String(r.i).padStart(2," ")} — ${r.name}`);
+    }
+    const passCt = results.filter(r=>r.passed).length;
+    lines.push(`\nSummary: ${passCt}/${results.length} PASS`);
+    return lines.join("\n");
+  }
+
+  // ---- Maintenance Summary (uses strongest priority per turbine)
+  function summarizeMaintenance(facts){
+    const tasksByT = new Map();
+    for (const f of facts) {
+      if (f.pred === "requiresTask") {
+        if (!tasksByT.has(f.s)) tasksByT.set(f.s, new Set());
+        tasksByT.get(f.s).add(f.o);
+      }
+    }
+    const best = bestPriorities(facts);
+    const turbines = new Set([...tasksByT.keys(), ...best.keys()]);
+    if (!turbines.size) return "(no turbines require maintenance)";
+    const lines = [];
+    for (const t of [...turbines].sort()) {
+      const pr = best.get(t) || "Normal";
+      const tasks = [...(tasksByT.get(t) || [])].sort().join(", ");
+      lines.push(`${t}: priority ${pr}${tasks ? " — tasks: " + tasks : ""}`);
+    }
+    return lines.join("\n");
+  }
+
+  // ---- Orchestration
+  function parseJSON(text, label){
+    try { return JSON.parse(text); }
+    catch(e){ throw new Error(`${label} JSON error: ${e.message}`); }
+  }
+
+  function toPolicies(spec){
+    return spec.map(r => ({
+      id: r.id || "(unnamed)",
+      if: r.if || [],
+      then: r.then || [],
+      explain: r.explain || ""
+    }));
+  }
+
+  function buildDataObj(spec){ return spec; }
+
+  async function runARC(){
+    els.status.textContent = "Parsing JSON…";
+    els.answer.textContent = els.reason.textContent = els.checks.textContent = "computing…";
+    els.summary.textContent = "(run to populate)";
+    els.diag.textContent = "";
+    try{
+      const dataSpec = parseJSON(els.dataTA.value, "Data");
+      const polSpec  = parseJSON(els.policyTA.value, "Policies");
+      const checksSpec = parseJSON(els.checksTA.value, "Checks");
+      const data = buildDataObj(dataSpec);
+      const policies = toPolicies(polSpec);
+
+      els.status.textContent = "Reasoning…";
+      const { facts, derived, answerText, reasonText } = derive(data, policies);
+
+      els.answer.textContent = answerText || "(no new derivations)";
+      els.reason.textContent = reasonText || "(no explanations available)";
+
+      els.status.textContent = "Running checks…";
+      const checkResults = runChecks(facts, checksSpec);
+      els.checks.textContent = renderChecks(checkResults);
+
+      // Summary (strongest priority)
+      els.summary.textContent = summarizeMaintenance(facts);
+
+      els.status.textContent = "Done.";
+    }catch(e){
+      console.error(e);
+      els.status.textContent = "Error";
+      els.answer.textContent = "(failed)";
+      els.reason.textContent = "(failed)";
+      els.checks.textContent = "(failed)";
+      els.summary.textContent = "(failed)";
+      els.diag.textContent = e.message;
+    }
+    // keep textareas height fresh
+    autoResize(els.dataTA); autoResize(els.policyTA); autoResize(els.checksTA);
+  }
+
+  function showReasonOnly(){
+    runARC().then(()=> {
+      window.scrollTo({top: $("reason").getBoundingClientRect().top + window.scrollY - 12, behavior: "smooth"});
+    });
+  }
+
+  els.runBtn.addEventListener('click', runARC);
+  els.reasonBtn.addEventListener('click', showReasonOnly);
+  window.addEventListener('DOMContentLoaded', runARC);
+</script>
+</body>
+</html>
+

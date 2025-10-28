@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BMI</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#111827;
+      --muted:#6b7280;
+      --panel:#f8fafc;
+      --border:#e5e7eb;
+      --accent:#0ea5e9;
+      --good:#16a34a;
+      --warn:#d97706;
+      --bad:#dc2626;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    html,body{height:100%}
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 var(--ui); }
+    .wrap{max-width:980px; margin:36px auto; padding:0 16px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
+    h1{font-size:22px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .row{display:flex; flex-direction:column; gap:16px}
+    .card{background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px}
+    .bar{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
+    button{all:unset; background:#fff; border:1px solid var(--border); padding:8px 12px; border-radius:10px; cursor:pointer}
+    button:hover{border-color:#cbd5e1}
+    .small{color:var(--muted); text-decoration:none}
+    .accent{color:var(--accent)}
+    .grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
+    label{font-size:12px; color:var(--muted)}
+    input{width:100%; box-sizing:border-box; padding:8px; border:1px solid var(--border); border-radius:10px; background:#fff; font-family:var(--mono); font-size:12px}
+    select{width:100%; box-sizing:border-box; padding:8px; border:1px solid var(--border); border-radius:10px; background:#fff; font-family:var(--mono); font-size:12px}
+    /* ARC v2 (Cards) */
+    .arc-grid{display:flex; flex-direction:column; gap:12px}
+    .arc-card{background:#fff; border:1px solid var(--border); border-radius:14px; overflow:hidden}
+    .arc-card .ac-head{display:flex; align-items:center; gap:8px; padding:10px 12px; border-bottom:1px solid var(--border); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+    .arc-card .ac-body{padding:12px}
+    .arc-card pre{margin:0; white-space:pre-wrap; background:#fff; border:1px solid #eef2f7; border-radius:10px; padding:10px; font-family:var(--mono); font-size:13px}
+    .arc-card.answer{border-left:4px solid #10b981}
+    .arc-card.reason{border-left:4px solid #3b82f6}
+    .arc-card.check{border-left:4px solid #f59e0b}
+    .toolbar{display:flex; gap:8px; align-items:center}
+    .badge{display:inline-block; padding:2px 8px; border-radius:999px; font:12px/1 var(--ui); border:1px solid var(--border); margin-left:8px}
+    .b-good{color:var(--good); border-color:#bbf7d0; background:#f0fdf4}
+    .b-warn{color:var(--warn); border-color:#fde68a; background:#fffbeb}
+    .b-bad{color:var(--bad); border-color:#fecaca; background:#fff1f2}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>BMI</h1>
+      <div class="pill">Self‑contained • No deps</div>
+    </header>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained, browser‑only <em>ARC harness</em> for body mass index (BMI). Enter height and weight (metric or US units), then press <em>Run</em>. The page prints a step‑by‑step Trace and an ARC report (<em>Answer • Reason • Check</em>), including category and a healthy‑range weight band for the given height.</p>
+        <p class="small">For reproducibility and documentation only; not medical advice.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="card">
+        <div class="head"><h2>Inputs</h2><a href="#" class="small" onclick="demo();run();return false;">Demo &amp; Run</a></div>
+        <div class="body">
+          <div class="grid">
+            <div>
+              <label>Unit system</label>
+              <select id="unit" onchange="syncUnits()">
+                <option value="metric">Metric (kg, cm)</option>
+                <option value="us">US (lb, ft+in)</option>
+              </select>
+            </div>
+            <div>
+              <label>Weight (<span id="wUnit">kg</span>)</label>
+              <input id="weight" type="number" step="0.01">
+            </div>
+            <div>
+              <label>Height (<span id="hUnit">cm</span>)</label>
+              <input id="height" type="number" step="0.01">
+            </div>
+          </div>
+          <div class="bar">
+            <button onclick="run()">▶ Run</button>
+            <a href="#" class="small" onclick="copyBoth();return false;">Copy both outputs</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head">
+          <h2>Trace</h2>
+          <button onclick="downloadText('bmi_trace.txt', document.getElementById('trace').textContent)">⬇ Export .txt</button>
+        </div>
+        <div class="body"><pre id="trace">(no run yet)</pre></div>
+      </div>
+
+      <div class="card">
+        <div class="head">
+          <h2>ARC Output</h2>
+          <div class="toolbar">
+            <button onclick="toggleArcStyle()" id="styleBtn">Style: Cards</button>
+            <button onclick="downloadARC()">⬇ Export .txt</button>
+          </div>
+        </div>
+        <div class="body">
+          <div id="arc-cards" class="arc-grid">
+            <div class="arc-card answer">
+              <div class="ac-head">Answer <span id="catBadge" class="badge"></span></div>
+              <div class="ac-body"><pre id="arc_ans">(no run yet)</pre></div>
+            </div>
+            <div class="arc-card reason">
+              <div class="ac-head">Reason why</div>
+              <div class="ac-body"><pre id="arc_reason">(no run yet)</pre></div>
+            </div>
+            <div class="arc-card check">
+              <div class="ac-head">Check (harness)</div>
+              <div class="ac-body"><pre id="arc_check">(no run yet)</pre></div>
+            </div>
+          </div>
+          <pre id="arc" style="display:none">(no run yet)</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ---------- units & helpers ----------
+function syncUnits(){
+  const u = document.getElementById('unit').value;
+  document.getElementById('wUnit').textContent = (u==='metric'?'kg':'lb');
+  document.getElementById('hUnit').textContent = (u==='metric'?'cm':'in');
+}
+function demo(){
+  // A typical adult example ~ BMI ~ 22.7
+  document.getElementById('unit').value = 'metric';
+  syncUnits();
+  document.getElementById('weight').value = 72.0; // kg
+  document.getElementById('height').value = 178.0; // cm
+}
+function kg_from(weight, unit){ return unit==='metric' ? weight : (weight * 0.45359237); }
+function m_from(height, unit){ return unit==='metric' ? (height/100.0) : (height * 0.0254); }
+function round(n, d=2){ return Number(n.toFixed(d)); }
+
+const WHO = [
+  {name:"Underweight",  min:null,  max:18.5},
+  {name:"Normal",       min:18.5,  max:25.0},
+  {name:"Overweight",   min:25.0,  max:30.0},
+  {name:"Obesity I",    min:30.0,  max:35.0},
+  {name:"Obesity II",   min:35.0,  max:40.0},
+  {name:"Obesity III",  min:40.0,  max:null}
+];
+function classify(bmi){
+  for(const c of WHO){
+    const ge = (c.min===null) ? true : (bmi >= c.min);
+    const lt = (c.max===null) ? true : (bmi <  c.max);
+    if(ge && lt) return c;
+  }
+  return WHO[WHO.length-1];
+}
+function healthy_weight_range_for_height_m(m){
+  // BMI 18.5..24.9 (upper bound <25)
+  const min = 18.5 * m*m;
+  const max = 24.9 * m*m;
+  return [min, max];
+}
+
+// ---------- ARC run ----------
+function run(){
+  const unit = document.getElementById('unit').value;
+  const w = parseFloat(document.getElementById('weight').value);
+  const h = parseFloat(document.getElementById('height').value);
+  if(!Number.isFinite(w) || !Number.isFinite(h) || w<=0 || h<=0){
+    document.getElementById('trace').textContent = "Please fill weight and height with positive numbers (or use Demo).";
+    ['arc','arc_ans','arc_reason','arc_check'].forEach(id => document.getElementById(id).textContent="(no run)");
+    return;
+  }
+
+  const kg = kg_from(w, unit);
+  const m  = m_from(h, unit);
+  const bmi = kg/(m*m);
+  const cat = classify(bmi);
+  const [hw_min, hw_max] = healthy_weight_range_for_height_m(m);
+
+  // Trace
+  const T = [];
+  T.push(`Step 01: Normalize units → kg = ${unit==='metric'?w:round(kg,2)} ${unit==='metric'?'(metric input)':'(from lb)'}, m = ${unit==='metric'?round(m,2):round(m,2)} ${unit==='metric'?'(from cm)':'(from in)'}`);
+  T.push(`Step 02: BMI = weight_kg / (height_m)^2 = ${round(kg,2)} / (${round(m,2)}^2) = ${round(bmi,2)}`);
+  T.push(`Step 03: Category = ${cat.name} (WHO thresholds)`);
+  T.push(`Step 04: Healthy weight range at this height (BMI 18.5–24.9): ${round(hw_min,1)} kg .. ${round(hw_max,1)} kg`);
+  document.getElementById('trace').textContent = T.join("\n");
+
+  // ARC sections
+  const A=[]; const R=[]; const C=[];
+  A.push(`BMI = ${round(bmi,2)}`);
+  A.push(`Category = ${cat.name}`);
+  A.push(`At height ${round(m*100,0)} cm, a “healthy range” is ≈ ${round(hw_min,1)}–${round(hw_max,1)} kg (BMI 18.5–24.9)`);
+
+  R.push("BMI is defined as weight (kg) divided by height (m) squared.");
+  R.push("We normalize the inputs to SI units (kg, m), compute BMI, then map it to WHO adult categories.");
+  R.push("Boundaries are interpreted as half-open intervals:");
+  R.push("  Underweight: BMI < 18.5");
+  R.push("  Normal:     18.5 ≤ BMI < 25");
+  R.push("  Overweight: 25 ≤ BMI < 30");
+  R.push("  Obesity I:  30 ≤ BMI < 35;  Obesity II: 35 ≤ BMI < 40;  Obesity III: BMI ≥ 40");
+  R.push("We also translate the healthy BMI band (18.5..24.9) into a corresponding weight range for the given height.");
+
+  const ok_eq_185 = classify(18.5).name === "Normal";
+  const ok_lt_185 = classify(18.49).name === "Underweight";
+  const ok_eq_25  = classify(25.0).name === "Overweight";
+  const ok_eq_30  = classify(30.0).name === "Obesity I";
+  const ok_mon    = (classify(22.0).name==="Normal") && (classify(27.0).name==="Overweight") && (classify(41.0).name.startsWith("Obesity"));
+  C.push(`Boundary checks: BMI=18.49 → Underweight (${ok_lt_185}), 18.5 → Normal (${ok_eq_185}), 25.0 → Overweight (${ok_eq_25}), 30.0 → Obesity I (${ok_eq_30})`);
+  C.push(`Monotonicity example (22→Normal, 27→Overweight, 41→Obesity*): ${ok_mon}`);
+
+  // Populate
+  document.getElementById('arc_ans').textContent = A.join("\n");
+  document.getElementById('arc_reason').textContent = R.join("\n");
+  document.getElementById('arc_check').textContent = C.join("\n");
+
+  // Badge
+  const b = document.getElementById('catBadge');
+  b.textContent = cat.name;
+  b.className = "badge " + (cat.name==="Normal" ? "b-good" : (cat.name.startsWith("Obesity") ? "b-bad" : "b-warn"));
+
+  // Combined plain text
+  const combined = ["Answer","------", ...A, "", "Reason why","----------", ...R, "", "Check (harness)","---------------", ...C].join("\n");
+  document.getElementById('arc').textContent = combined;
+}
+
+function toggleArcStyle(){
+  const pre = document.getElementById('arc');
+  const cards = document.getElementById('arc-cards');
+  const btn = document.getElementById('styleBtn');
+  const showingCards = cards.style.display !== 'none';
+  if(showingCards){
+    cards.style.display = 'none';
+    pre.style.display = 'block';
+    btn.textContent = 'Style: Plain';
+  }else{
+    cards.style.display = 'block';
+    pre.style.display = 'none';
+    btn.textContent = 'Style: Cards';
+  }
+}
+function downloadText(name, text){
+  const blob=new Blob([text],{type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove();
+}
+function downloadARC(){
+  const text = document.getElementById('arc').textContent;
+  downloadText('bmi_arc.txt', text);
+}
+function copyBoth(){
+  const text = document.getElementById('trace').textContent + "\n\n" + document.getElementById('arc').textContent;
+  navigator.clipboard.writeText(text);
+}
+
+// bootstrap
+syncUnits();
+demo();
+run();
+</script>
+</body>
+</html>

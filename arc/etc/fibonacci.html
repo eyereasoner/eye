@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fibonacci via Fast Doubling</title>
+  <style>
+    :root { --fg:#101014; --bg:#ffffff; --muted:#666; --accent:#2563eb; --chip:#eef2ff; }
+    @media (prefers-color-scheme: dark) {
+      :root { --fg:#eaeaf0; --bg:#0b0b10; --muted:#a0a0b0; --accent:#60a5fa; --chip:#0e1a32; }
+    }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font: 15px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+    main { max-width: 1100px; margin: 0 auto; padding: 28px 16px 80px; }
+    h1 { font-size: clamp(1.6rem, 2.6vw + 1rem, 2.2rem); margin: 0 0 6px; }
+    header p { margin: 0; color: var(--muted); }
+    section { margin: 18px 0 22px; padding: 14px 14px 16px; border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent); border-radius: 14px;
+              background: color-mix(in srgb, var(--accent) 4%, transparent); }
+    section h2 { margin: 0 0 8px; font-size: 1.15rem; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:10px; }
+    .chip { display:inline-block; padding:2px 8px; border-radius:999px; background:var(--chip); font-weight:600; }
+    .muted { color: var(--muted); }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    .tbl { width:100%; border-collapse: collapse; }
+    .tbl th, .tbl td { padding: 6px 8px; border-bottom: 1px dashed color-mix(in srgb, var(--fg) 18%, transparent); vertical-align: top; }
+    .tbl th { text-align:left; }
+    .ok { color: #16a34a; }
+    .bad { color: #dc2626; }
+    .small { font-size: 0.92em; }
+    code { background: color-mix(in srgb, var(--accent) 10%, transparent); padding: .1rem .35rem; border-radius: .35rem; }
+    details { border-radius: 10px; padding: 10px 12px; background: color-mix(in srgb, var(--accent) 6%, transparent); }
+    summary { cursor:pointer; font-weight:700; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Fibonacci via Fast Doubling</h1>
+    </header>
+
+    <section>
+      <h2>What this is?</h2>
+      <p>
+        A self‑contained explainer that computes selected Fibonacci numbers exactly using the
+        <em>fast‑doubling</em> identities. It shows the <strong>Answer</strong> (exact values and digit counts),
+        the <strong>Reason why</strong> (the identities used), and a <strong>Check</strong> harness that verifies
+        base cases, the recurrence, an addition identity, and cross‑checks against a simple linear iterator.
+      </p>
+      <p class="small muted">Time per F<sub>n</sub> is O(log n); everything is integer‑exact with BigInt.</p>
+    </section>
+
+    <section id="answer">
+      <h2>Answer</h2>
+      <div id="answer-body"></div>
+    </section>
+
+    <section id="reason">
+      <h2>Reason why</h2>
+      <div>
+        <p>Define Fibonacci by F<sub>0</sub>=0, F<sub>1</sub>=1, and F<sub>n+2</sub>=F<sub>n+1</sub>+F<sub>n</sub>.</p>
+        <p>A standard addition identity (provable by induction) is:</p>
+        <p class="mono">(A) &nbsp; F<sub>m+n</sub> = F<sub>m</sub>·F<sub>n+1</sub> + F<sub>m−1</sub>·F<sub>n</sub> &nbsp; (for m,n ≥ 1)</p>
+        <p>Specializing (A) yields fast‑doubling from (F<sub>k</sub>, F<sub>k+1</sub>):</p>
+        <ul class="mono">
+          <li>F<sub>2k</sub> = F<sub>k</sub> ( 2F<sub>k+1</sub> − F<sub>k</sub> )</li>
+          <li>F<sub>2k+1</sub> = F<sub>k+1</sub><sup>2</sup> + F<sub>k</sub><sup>2</sup></li>
+        </ul>
+        <p>One recursive call on k=⌊n/2⌋ computes both F<sub>2k</sub> and F<sub>2k+1</sub>, then picks (F<sub>n</sub>, F<sub>n+1</sub>) by parity.</p>
+      </div>
+    </section>
+
+    <section id="check">
+      <h2>Check (harness)</h2>
+      <div id="check-body"></div>
+    </section>
+  </main>
+
+  <script>
+  (function(){
+    "use strict";
+
+    // ------------------ BigInt fast-doubling core ------------------
+    const Z0 = 0n, Z1 = 1n, Z2 = 2n;
+
+    function fibFastDoubling(n) {
+      // returns [F_n, F_{n+1}] as BigInts
+      if (n === 0) return [Z0, Z1];
+      const [fk, fk1] = fibFastDoubling(n >> 1);
+      const c = fk * (Z2*fk1 - fk);        // F_{2k}
+      const d = fk*fk + fk1*fk1;           // F_{2k+1}
+      if (n & 1) {                         // odd
+        return [d, c + d];
+      } else {                             // even
+        return [c, d];
+      }
+    }
+
+    function fibLinear(n) {
+      let a = Z0, b = Z1;
+      for (let i = 0; i < n; i++) { const t = a + b; a = b; b = t; }
+      return a;
+    }
+
+    function digitsOf(x) {
+      // x is BigInt, nonnegative
+      return x === Z0 ? 1 : x.toString().length;
+    }
+
+    // ------------------ Answer ------------------
+    const indices = [0, 1, 6, 91, 283, 3674];
+    const answerBody = document.getElementById("answer-body");
+
+    (function renderAnswer(){
+      let html = '<table class="tbl mono small"><thead><tr><th>n</th><th>F_n (exact)</th><th>digits</th></tr></thead><tbody>';
+      for (const n of indices) {
+        const [fn] = fibFastDoubling(n);
+        html += `<tr><td>${n}</td><td style="word-break:break-all">${fn.toString()}</td><td>${digitsOf(fn)}</td></tr>`;
+      }
+      html += '</tbody></table>';
+      answerBody.innerHTML = html;
+    })();
+
+    // ------------------ Harness (checks) ------------------
+    function runChecks() {
+      let okAll = true;
+      const lines = [];
+
+      // 1) Base pair
+      const [f0, f1] = fibFastDoubling(0);
+      const okBase = (f0 === Z0 && f1 === Z1);
+      lines.push(`Base pair correct? ${okBase}`);
+      okAll = okAll && okBase;
+
+      // 2) Recurrence on n in [0,1000)
+      let okRecur = true;
+      for (let n = 0; n < 1000; n++) {
+        const [fn, fn1] = fibFastDoubling(n);
+        const [fn2] = fibFastDoubling(n + 2);
+        if (fn + fn1 !== fn2) { okRecur = false; lines.push(` Recurrence failed at n=${n}`); break; }
+      }
+      lines.push(`Recurrence holds on n ∈ [0,1000)? ${okRecur}`);
+      okAll = okAll && okRecur;
+
+      // 3) Addition identity grid
+      let okAdd = true;
+      for (let m = 1; m < 60 && okAdd; m++) {
+        const [fm, fm1] = fibFastDoubling(m);
+        const [fm_1] = fibFastDoubling(m - 1);
+        for (let n = 0; n < 60; n++) {
+          const [lhs] = fibFastDoubling(m + n);
+          const [fn, fn1] = fibFastDoubling(n);
+          const rhs = fm * fn1 + fm_1 * fn;
+          if (lhs !== rhs) { okAdd = false; lines.push(` (A) failed at m=${m}, n=${n}`); break; }
+        }
+      }
+      lines.push(`Addition identity (A) holds on m∈[1,60), n∈[0,60)? ${okAdd}`);
+      okAll = okAll && okAdd;
+
+      // 4) Cross-check vs linear on n in [0,2000)
+      let okCross = true;
+      for (let n = 0; n < 2000; n++) {
+        if (fibFastDoubling(n)[0] !== fibLinear(n)) { okCross = false; lines.push(` Cross-check failed at n=${n}`); break; }
+      }
+      lines.push(`Cross-check vs linear on n ∈ [0,2000)? ${okCross}`);
+      okAll = okAll && okCross;
+
+      lines.push("");
+      lines.push(`All checks passed? ${okAll}`);
+
+      return lines;
+    }
+
+    (function renderChecks(){
+      const out = runChecks();
+      const wrap = document.getElementById("check-body");
+      const pre = document.createElement('pre');
+      pre.className = 'mono';
+      pre.style.whiteSpace = 'pre-wrap';
+      pre.textContent = out.join('\n');   // use real newlines
+      wrap.replaceChildren(pre);
+    })();
+
+  })();
+  </script>
+</body>
+</html>

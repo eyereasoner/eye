@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Euler’s Characteristic — Tetrahedron</title>
+  <style>
+    :root{
+      --bg: #f7f9fc;
+      --panel:#ffffff;
+      --ink:#0e1320;
+      --muted:#5f6b7a;
+      --accent:#2d6cdf;
+      --line:#3a5169;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink); background: radial-gradient(1200px 800px at 60% -20%, #ffffff 0%, var(--bg) 60%);
+    }
+    header{padding:48px 24px 8px; text-align:center}
+    h1{margin:.2em 0; font-size:clamp(1.6rem, 2.8vw + 1rem, 2.6rem); letter-spacing:.3px}
+    .sub{color:var(--muted); max-width:900px; margin:0 auto}
+    main{max-width:1000px; margin:24px auto 72px; padding:0 20px}
+    section{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(136,170,204,.25); border-radius:18px; padding:22px 20px; margin:16px 0; box-shadow:0 10px 35px rgba(0,0,0,.25)}
+    h2{margin:0 0 8px; font-size:1.25rem}
+    .flex{display:flex; gap:18px; flex-wrap:wrap; align-items:center}
+    .panel{background:var(--panel); border-radius:16px; border:1px solid rgba(136,170,204,.18); padding:16px}
+    .kpi{display:grid; grid-template-columns: repeat(4, minmax(110px,1fr)); gap:12px}
+    .kpi .card{background:rgba(255,255,255,.04); border:1px solid rgba(136,170,204,.2); border-radius:14px; padding:12px 14px}
+    .kpi h3{margin:0; font-size:0.95rem; color:var(--muted); font-weight:600}
+    .kpi .val{font-weight:800; font-size:1.6rem}
+    code, .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    .eq{font-size:1.2rem}
+    .note{color:var(--muted)}
+
+    /* SVG styling */
+    .stage{width:100%; display:flex; justify-content:center}
+    svg{max-width:720px; width:100%; height:auto; border-radius:16px; background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); border:1px solid rgba(136,170,204,.2)}
+    .tetra .edge{stroke:var(--line); stroke-width:2.5}
+    .tetra .edge.hidden{stroke-dasharray:7 6; opacity:.65}
+    .tetra .vertex{fill:#f4f9ff; stroke:var(--line); stroke-width:2.2}
+    .tetra .label{font-size:13px; fill:var(--ink)}
+    .tetra .face{stroke:var(--line); stroke-width:1.4; fill-opacity:.25}
+    .tetra .face.base{fill-opacity:.12; stroke-dasharray:4 4}
+    .legend{font-size:13px; fill:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Euler’s characteristic χ for a tetrahedron</h1>
+    <p class="sub">For a convex polyhedron (topologically a sphere), Euler’s relation says <span class="mono">χ = V − E + F = 2</span>. Below we draw a tetrahedron, count its vertices <span class="mono">V</span>, edges <span class="mono">E</span>, and faces <span class="mono">F</span>, and verify the identity.</p>
+  </header>
+
+  <main>
+    <section aria-labelledby="what">
+      <h2 id="what">What this is</h2>
+      <p>A regular tetrahedron (the simplest polyhedron). It has four vertices, six edges, and four triangular faces. We include dashed strokes for edges that are visually “behind” the solid.</p>
+    </section>
+
+    <section class="flex" aria-labelledby="answer">
+      <div class="panel" style="flex:2 1 520px">
+        <h2 id="answer">Answer — drawing</h2>
+        <div class="stage">
+          <!-- Nice, annotated SVG tetrahedron -->
+          <svg viewBox="0 0 340 260" role="img" aria-label="Wireframe tetrahedron with three visible triangular faces and one base face shown subtly">
+            <defs>
+              <linearGradient id="faceA" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#7cc0ff" stop-opacity="0.55"/>
+                <stop offset="100%" stop-color="#69a6e0" stop-opacity="0.15"/>
+              </linearGradient>
+              <linearGradient id="faceB" x1="1" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#8be1d4" stop-opacity="0.55"/>
+                <stop offset="100%" stop-color="#4bb3a6" stop-opacity="0.15"/>
+              </linearGradient>
+              <linearGradient id="faceC" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0%" stop-color="#d8b3ff" stop-opacity="0.50"/>
+                <stop offset="100%" stop-color="#a987e0" stop-opacity="0.13"/>
+              </linearGradient>
+              <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity="0.35"/>
+              </filter>
+            </defs>
+
+            <g class="tetra" filter="url(#softShadow)">
+              <!-- Coordinates -->
+              <!-- Base triangle: A, B, C -->
+              <!-- A(70,220), B(270,220), C(170,120); Apex D(170,40) -->
+
+              <!-- Faces (polygons) -->
+              <polygon class="face base" points="70,220 270,220 170,120" fill="url(#faceA)"/>
+              <polygon class="face" points="70,220 270,220 170,40" fill="url(#faceB)"/>
+              <polygon class="face" points="270,220 170,120 170,40" fill="url(#faceC)"/>
+              <polygon class="face" points="170,120 70,220 170,40" fill="url(#faceA)"/>
+
+              <!-- Edges (lines) -->
+              <line class="edge" x1="70" y1="220" x2="270" y2="220"/><!-- AB -->
+              <line class="edge hidden" x1="270" y1="220" x2="170" y2="120"/><!-- BC (hidden-ish) -->
+              <line class="edge" x1="170" y1="120" x2="70" y2="220"/><!-- CA -->
+              <line class="edge" x1="70" y1="220" x2="170" y2="40"/><!-- AD -->
+              <line class="edge" x1="270" y1="220" x2="170" y2="40"/><!-- BD -->
+              <line class="edge" x1="170" y1="120" x2="170" y2="40"/><!-- CD -->
+
+              <!-- Vertices (circles) -->
+              <circle class="vertex" cx="70" cy="220" r="5"/>
+              <circle class="vertex" cx="270" cy="220" r="5"/>
+              <circle class="vertex" cx="170" cy="120" r="5"/>
+              <circle class="vertex" cx="170" cy="40" r="5"/>
+
+              <!-- Labels -->
+              <text class="label" x="60" y="238">A</text>
+              <text class="label" x="276" y="238">B</text>
+              <text class="label" x="178" y="122">C</text>
+              <text class="label" x="178" y="42">D</text>
+
+              <!-- Caption -->
+              <text class="legend" x="12" y="18">Dashed = visually hidden edge</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="panel" style="flex:1 1 280px">
+        <h2>Counts</h2>
+        <div class="kpi">
+          <div class="card"><h3>Vertices V</h3><div class="val" id="vCount">—</div></div>
+          <div class="card"><h3>Edges E</h3><div class="val" id="eCount">—</div></div>
+          <div class="card"><h3>Faces F</h3><div class="val" id="fCount">—</div></div>
+          <div class="card"><h3>Euler χ</h3><div class="val" id="chi">—</div></div>
+        </div>
+        <p class="eq mono" id="eqLine">χ = V − E + F = ?</p>
+        <p class="note">The counts are computed directly from the SVG elements (<span class="mono">.vertex</span>, <span class="mono">.edge</span>, <span class="mono">.face</span>).</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="reason">
+      <h2 id="reason">Reason</h2>
+      <ol>
+        <li><strong>Vertices.</strong> A tetrahedron has 4 vertices.</li>
+        <li><strong>Edges.</strong> Every pair of vertices is connected (graph <span class="mono">K₄</span>): choose 2 from 4 gives <span class="mono">E = C(4,2) = 6</span>.</li>
+        <li><strong>Faces.</strong> Each triangular face is determined by 3 vertices: <span class="mono">F = C(4,3) = 4</span>. Equivalently, use <span class="mono">3F = 2E</span> (each of 4 faces has 3 edges, each edge borders 2 faces): <span class="mono">F = 2E/3 = 4</span>.</li>
+        <li>Therefore <strong>χ = V − E + F = 4 − 6 + 4 = 2</strong>.</li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="check">
+      <h2 id="check">Check</h2>
+      <p>This page programmatically reads the SVG and verifies the identity. You can inspect the DOM: there are <span class="mono">4</span> <code>&lt;circle class="vertex"&gt;</code> nodes, <span class="mono">6</span> <code>&lt;line class="edge"&gt;</code> nodes, and <span class="mono">4</span> <code>&lt;polygon class="face"&gt;</code> nodes.</p>
+      <div class="panel mono" id="log" style="white-space:pre-wrap"></div>
+    </section>
+
+    
+  </main>
+
+  <script>
+    (function(){
+      const $ = (sel,root=document)=>Array.from(root.querySelectorAll(sel));
+      const v = $('.tetra .vertex').length;
+      const e = $('.tetra .edge').length;
+      const f = $('.tetra .face').length;
+      const chi = v - e + f;
+      const byId = id => document.getElementById(id);
+      byId('vCount').textContent = v;
+      byId('eCount').textContent = e;
+      byId('fCount').textContent = f;
+      byId('chi').textContent = chi;
+      byId('eqLine').textContent = `χ = V − E + F = ${v} − ${e} + ${f} = ${chi}`;
+      byId('log').textContent = [
+        `Vertices (V): ${v} — counted from .vertex circles`,
+        `Edges (E):    ${e} — counted from .edge lines`,
+        `Faces (F):    ${f} — counted from .face polygons`,
+        `Euler χ:      ${chi}`
+      ].join('\n');
+    })();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sudoku</title>
+  <style>
+    :root { --fg:#101014; --bg:#ffffff; --muted:#666; --accent:#2563eb; --chip:#eef2ff; --ok:#16a34a; --bad:#dc2626; --warn:#ca8a04; --card: color-mix(in srgb, var(--accent) 4%, transparent); }
+    @media (prefers-color-scheme: dark) {
+      :root { --fg:#eaeaf0; --bg:#0b0b10; --muted:#a0a0b0; --accent:#60a5fa; --chip:#0e1a32; --card: color-mix(in srgb, var(--accent) 6%, transparent); }
+    }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font: 15px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+    main { max-width: 1100px; margin: 0 auto; padding: 28px 16px 80px; }
+    h1 { font-size: clamp(1.6rem, 2.6vw + 1rem, 2.2rem); margin: 0 0 6px; }
+    header p { margin: 0; color: var(--muted); }
+    section { margin: 18px 0 22px; padding: 14px 14px 16px; border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent); border-radius: 14px;
+              background: var(--card); }
+    section h2 { margin: 0 0 8px; font-size: 1.15rem; }
+    .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .col { display:flex; flex-direction:column; gap:10px; }
+    .btn { appearance:none; border:1px solid color-mix(in srgb, var(--accent) 35%, transparent); background: color-mix(in srgb, var(--accent) 8%, transparent);
+           color: var(--fg); border-radius: 10px; padding: 8px 12px; font-weight: 700; cursor: pointer; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    .muted { color: var(--muted); }
+    .small { font-size: .92em; }
+    .chip { display:inline-block; padding:2px 8px; border-radius:999px; background:var(--chip); font-weight:600; }
+    input[type="text"] { width: 330px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); padding: 8px 10px; }
+    textarea { width:100%; min-height: 120px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); padding: 8px 10px; }
+    label { user-select:none; }
+    .grid { display:grid; grid-template-columns: repeat(9, 32px); grid-auto-rows: 32px; gap:3px; }
+    .cell { width:32px; height:32px; text-align:center; font-weight:700; border-radius:6px; border:1px solid color-mix(in srgb, var(--accent) 35%, transparent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+    .cell[given="true"] { background: color-mix(in srgb, var(--accent) 18%, transparent); }
+    .cell:focus { outline: 2px solid color-mix(in srgb, var(--accent) 50%, transparent); }
+    .tbl { width:100%; border-collapse: collapse; }
+    .tbl th, .tbl td { padding: 6px 8px; border-bottom: 1px dashed color-mix(in srgb, var(--fg) 18%, transparent); vertical-align: top; }
+    .ok { color: var(--ok); }
+    .bad { color: var(--bad); }
+    .warn { color: var(--warn); }
+    #answer { overflow-x: auto; }
+    #answer pre { white-space: pre !important; overflow-x: auto; overflow-y: auto; max-width: 100%; }
+
+    /* Pretty 9×9 solved grid in Answer */
+    .sudoku-grid { border-collapse: collapse; margin-top: 8px; }
+    .sudoku-grid td {
+      width: 32px; height: 32px; text-align: center; font-weight: 700;
+      border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+      background: color-mix(in srgb, var(--accent) 8%, transparent);
+    }
+    .sudoku-grid tr:nth-child(3n) td { border-bottom-width: 2px; }
+    .sudoku-grid td:nth-child(3n) { border-right-width: 2px; }
+    .sudoku-grid tr:nth-child(1) td { border-top-width: 2px; }
+    .sudoku-grid td:nth-child(1) { border-left-width: 2px; }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="row">
+      <div>
+        <h1>Sudoku</h1>
+        <p>Self‑contained Sudoku solver (JS only). Paste a puzzle, click <em>Solve</em>, and inspect correctness in the harness.</p>
+      </div>
+      <div class="row" style="margin-left:auto;">
+        <button id="loadDemo" class="btn">Load demo</button>
+        <button id="clear" class="btn">Clear</button>
+        <button id="solve" class="btn">Solve</button>
+        <button id="checkBtn" class="btn">Check</button>
+      </div>
+    </header>
+
+    <section>
+      <h2>What this is?</h2>
+      <p>A clean, browser‑only Sudoku implementation inspired by the same case study. It supports text or grid input
+         and uses constraint propagation (naked & hidden singles) plus backtracking with a smallest‑domain heuristic,
+         guaranteeing a solution if it exists.</p>
+      <div class="small muted">Input: digits 1–9; use <code>.</code>, <code>0</code> or a space for blanks. Length 81 if pasted as a line.</div>
+    </section>
+
+    <section class="row" style="align-items:flex-start">
+      <div class="col" style="min-width:340px">
+        <h2>Grid</h2>
+        <div id="grid" class="grid"></div>
+      </div>
+      <div class="col" style="flex:1">
+        <h2>Text</h2>
+        <textarea id="txt" class="mono" spellcheck="false" placeholder="81 chars of 1-9 and . or 0 for blanks"></textarea>
+        <div class="small muted">Syncs both ways. Pasting 9 lines is fine; we’ll strip whitespace.</div>
+      </div>
+    </section>
+
+    <section id="answer">
+      <h2>Answer</h2>
+      <div id="chips" class="row small" style="gap:8px"></div>
+      <div id="solvedGrid"></div>
+      <div id="steps"></div>
+      <div id="solutionText" class="mono small"></div>
+    </section>
+
+    <section id="reason">
+      <h2>Reason why</h2>
+      <div class="small">
+        <p>We represent candidates as a 9‑bit mask per cell. Propagation removes digits already seen in peers
+           (same row/column/box) and applies <em>hidden singles</em> per unit when a digit can go in exactly one place.</p>
+        <p>When stuck, we pick the cell with the fewest candidates and try them in order (depth‑first). Each guess
+           triggers another round of propagation. This is complete and typically fast for standard puzzles.</p>
+      </div>
+    </section>
+
+    <section id="check">
+      <h2>Check (harness)</h2>
+      <div id="check-body"></div>
+    </section>
+  </main>
+
+  <script>
+  (function(){
+    "use strict";
+    const $ = (id) => document.getElementById(id);
+    const setHTML = (id, html) => { const el = $(id); if (el) el.innerHTML = html; };
+    const now = () => performance.now();
+
+    // ---- Utils ----
+    const DIGITS = '123456789';
+    const ALL = 0x1FF; // 9 bits
+    const POPCOUNT = Array.from({length:512}, (_,m)=>m.toString(2).split('0').join('').length);
+    const MASKS = Array.from({length:10}, (_,d)=> d? (1<<(d-1)) : 0);
+
+    const rows = Array.from({length:9}, (_,r)=> Array.from({length:9},(_,c)=> r*9+c));
+    const cols = Array.from({length:9}, (_,c)=> Array.from({length:9},(_,r)=> r*9+c));
+    const boxes = Array.from({length:9}, (_,b)=> {
+      const br = Math.floor(b/3)*3, bc = (b%3)*3;
+      const arr=[]; for(let r=0;r<3;r++) for(let c=0;c<3;c++) arr.push((br+r)*9 + (bc+c)); return arr;
+    });
+    const UNITS = rows.concat(cols, boxes);
+    const PEERS = Array.from({length:81}, ()=> new Set());
+    for (const unit of UNITS){
+      for (const i of unit){
+        for (const j of unit){ if (i!==j) PEERS[i].add(j); }
+      }
+    }
+    for (let i=0;i<81;i++) PEERS[i] = Array.from(PEERS[i]);
+
+    function cleanText(s){
+      return (s||'').replace(/[^0-9.]/g,'').replace(/0/g,'.');
+    }
+    function textToArray(s){
+      s = cleanText(s);
+      if (s.length !== 81) return null;
+      return Array.from(s, ch => (ch==='.'?0: Number(ch)));
+    }
+    function arrayToText(a){
+      return a.map(v=> v?String(v):'.').join('');
+    }
+
+    // ---- Solver core ----
+    function makeState(){
+      return {
+        cand: Array(81).fill(ALL),
+        val: Array(81).fill(0),
+        fixed: Array(81).fill(false),
+        steps:0, guesses:0, backtracks:0
+      };
+    }
+
+    function cloneState(st){
+      return {
+        cand: st.cand.slice(),
+        val: st.val.slice(),
+        fixed: st.fixed.slice(),
+        steps: st.steps, guesses: st.guesses, backtracks: st.backtracks
+      };
+    }
+
+    function setValue(st, idx, dMask){
+      // assign digit mask to cell idx; propagate to peers
+      const prev = st.cand[idx];
+      if ((prev & dMask) === 0) return false; // contradiction
+      if (prev === dMask){
+        // already set
+      } else {
+        st.cand[idx] = dMask;
+      }
+      const d = 1 + Math.log2(dMask)|0;
+      st.val[idx] = d;
+      st.steps++;
+
+      // Eliminate d from peers
+      for (const j of PEERS[idx]){
+        const pj = st.cand[j];
+        if (pj & dMask){
+          const nv = pj & ~dMask;
+          if (nv === 0) return false; // no candidates left
+          if (nv !== pj){
+            st.cand[j] = nv;
+          }
+        }
+      }
+      return true;
+    }
+
+    function propagate(st){
+      // Queue of singles to assign
+      const q = [];
+      for (let i=0;i<81;i++) if (POPCOUNT[st.cand[i]]===1 && st.val[i]===0) q.push(i);
+
+      while (q.length){
+        const i = q.pop();
+        if (st.val[i]!==0) continue;
+        const m = st.cand[i];
+        if (!setValue(st, i, m)) return false;
+
+        // update neighbors, push new singles
+        for (const j of PEERS[i]){
+          if (st.val[j]===0 && POPCOUNT[st.cand[j]]===1) q.push(j);
+        }
+        // hidden singles in units containing i
+        for (const unit of UNITS){
+          if (unit.indexOf(i) === -1) continue;
+          for (let d=1; d<=9; d++){
+            const mask = MASKS[d];
+            let spot = -1, count = 0;
+            for (const cell of unit){
+              if (st.val[cell]===0 && (st.cand[cell] & mask)){
+                count++; if (count===1) spot = cell;
+              }
+            }
+            if (count===1 && st.val[spot]===0){
+              if (!setValue(st, spot, mask)) return false;
+              q.push(spot);
+            }
+          }
+        }
+      }
+      return true;
+    }
+
+    function isSolved(st){ return st.val.every(v=>v!==0); }
+
+    function pickCell(st){
+      // Choose empty cell with smallest candidates
+      let best = -1, bestCount = 10;
+      for (let i=0;i<81;i++){
+        if (st.val[i]===0){
+          const c = POPCOUNT[st.cand[i]];
+          if (c < bestCount){ best = i; bestCount = c; if (c===2) break; }
+        }
+      }
+      return best;
+    }
+
+    function solveFrom(st, limitSolutions=1){
+      const solutions = [];
+      function dfs(state){
+        if (!propagate(state)) { state.backtracks++; return; }
+        if (isSolved(state)){ solutions.push(state); return; }
+        const i = pickCell(state);
+        const cand = state.cand[i];
+        const options = [];
+        for (let d=1; d<=9; d++){ const m = MASKS[d]; if (cand & m) options.push(m); }
+        for (const m of options){
+          const next = cloneState(state);
+          next.guesses++;
+          if (!setValue(next, i, m)) { next.backtracks++; continue; }
+          dfs(next);
+          if (solutions.length >= limitSolutions) return;
+        }
+      }
+      dfs(cloneState(st));
+      return solutions;
+    }
+
+    function validateGrid(arr){
+      const rowsOK = rows.every(rc => {
+        const seen = new Set();
+        for (const i of rc){ const v=arr[i]; if (v<1||v>9||seen.has(v)) return false; seen.add(v); }
+        return true;
+      });
+      const colsOK = cols.every(cc => {
+        const seen = new Set();
+        for (const i of cc){ const v=arr[i]; if (v<1||v>9||seen.has(v)) return false; seen.add(v); }
+        return true;
+      });
+      const boxesOK = boxes.every(bb => {
+        const seen = new Set();
+        for (const i of bb){ const v=arr[i]; if (v<1||v>9||seen.has(v)) return false; seen.add(v); }
+        return true;
+      });
+      return rowsOK && colsOK && boxesOK;
+    }
+
+    function countSolutions(initial, max=2){
+      const st = makeState();
+      for (let i=0;i<81;i++){
+        const v = initial[i];
+        if (v){
+          st.fixed[i]=true;
+          if (!setValue(st, i, MASKS[v])) return {n:0};
+        }
+      }
+      const sols = solveFrom(st, max);
+      return {n: sols.length};
+    }
+
+    // ---- UI: grid + text sync ----
+    function buildGrid(){
+      const g = $('grid');
+      g.innerHTML = '';
+      for (let i=0;i<81;i++){
+        const inp = document.createElement('input');
+        inp.className = 'cell mono';
+        inp.maxLength = 1;
+        inp.setAttribute('data-idx', String(i));
+        inp.addEventListener('input', e=>{
+          const v = inp.value.replace(/[^1-9]/g,'');
+          inp.value = v;
+          syncTextFromGrid();
+        });
+        g.appendChild(inp);
+      }
+      syncTextFromGrid();
+    }
+
+    function loadArrayToGrid(arr){
+      const g = $('grid');
+      for (let i=0;i<81;i++){
+        const v = arr[i];
+        const el = g.children[i];
+        el.value = v? String(v): '';
+        el.setAttribute('given', v? 'true':'false');
+      }
+      syncTextFromGrid();
+    }
+
+    function readGridToArray(){
+      const g = $('grid');
+      const arr = Array(81).fill(0);
+      for (let i=0;i<81;i++){
+        const v = g.children[i].value.trim();
+        arr[i] = v ? Number(v) : 0;
+      }
+      return arr;
+    }
+
+    function syncTextFromGrid(){
+      const arr = readGridToArray();
+      $('txt').value = arrayToText(arr);
+    }
+
+    function syncGridFromText(){
+      const arr = textToArray($('txt').value);
+      if (!arr) return;
+      loadArrayToGrid(arr);
+    }
+
+    // ---- Render solved grid (pretty table) ----
+    function renderSolvedGrid(arr){
+      const rowsHtml = [];
+      for (let r=0;r<9;r++){
+        const tds = [];
+        for (let c=0;c<9;c++){
+          const v = arr[r*9+c];
+          tds.push('<td>' + v + '</td>');
+        }
+        rowsHtml.push('<tr>' + tds.join('') + '</tr>');
+      }
+      const table = '<table class="sudoku-grid mono"><tbody>' + rowsHtml.join('') + '</tbody></table>';
+      $('solvedGrid').innerHTML = table;
+    }
+
+    // ---- Solve action ----
+    function doSolve(){
+      const t0 = now();
+      const arr = textToArray($('txt').value) || readGridToArray();
+      if (!arr || arr.length!==81){ setHTML('solutionText','<span class="bad">Please provide 81 characters of 1-9 and .</span>'); return; }
+
+      const st = makeState();
+      let givens = 0;
+      for (let i=0;i<81;i++){
+        const v = arr[i];
+        if (v){
+          givens++;
+          st.fixed[i]=true;
+          if (!setValue(st, i, MASKS[v])){
+            setHTML('solutionText','<span class="bad">Contradiction in givens.</span>');
+            $('chips').innerHTML = '';
+            return;
+          }
+        }
+      }
+
+      const sols = solveFrom(st, 1);
+      const t1 = now();
+      if (sols.length === 0){
+        setHTML('solutionText','<span class="bad">No solution found.</span>');
+        $('chips').innerHTML = '';
+        $('solvedGrid').innerHTML = '';
+        return;
+      }
+      const S = sols[0];
+      renderSolvedGrid(S.val);
+      const uniq = countSolutions(arr, 2).n === 1;
+      const summary = [
+        ['givens', givens],
+        ['time', (t1-t0).toFixed(2)+' ms'],
+        ['steps', S.steps],
+        ['guesses', S.guesses],
+        ['backtracks', S.backtracks],
+        ['unique', uniq? 'yes':'no', uniq?'ok':'warn']
+      ];
+      $('chips').innerHTML = summary.map(([k,v,cls])=>`<span class="chip ${cls||''}">${k}: ${v}</span>`).join(' ');
+      setHTML('solutionText', `<pre class="mono">Solved string:\n${arrayToText(S.val)}</pre>`);
+    }
+
+    // ---- Check (harness) ----
+    function runChecks(){
+      const lines = [];
+      const ok = b => b ? '✓' : '✗';
+
+      const arr = textToArray($('txt').value) || readGridToArray();
+      if (!arr){ lines.push('Input length is not 81.'); renderChecks(lines); return; }
+
+      // 1) Givens are valid (no duplicates per unit)
+      let givensOK = true;
+      const givenIndices = [];
+      for (let i=0;i<81;i++) if (arr[i]) givenIndices.push(i);
+
+      function unitValid(unit){
+        const seen = new Set();
+        for (const i of unit){
+          const v = arr[i];
+          if (!v) continue;
+          const key = v;
+          if (seen.has(key)) return false;
+          seen.add(key);
+        }
+        return true;
+      }
+      const rowsOk = rows.every(unitValid), colsOk = cols.every(unitValid), boxesOk = boxes.every(unitValid);
+      givensOK = rowsOk && colsOk && boxesOk;
+      lines.push(`Givens consistent across units: ${ok(givensOK)}`);
+
+      // 2) Solve and verify
+      const st = makeState();
+      for (let i=0;i<81;i++){ const v=arr[i]; if (v){ st.fixed[i]=true; if (!setValue(st,i,MASKS[v])){ lines.push('Contradiction in givens.'); renderChecks(lines); return; } } }
+      const sols = solveFrom(st, 2);
+      if (sols.length === 0){
+        lines.push('Solver found no solution.');
+      } else {
+        const S = sols[0];
+        const valid = validateGrid(S.val);
+        lines.push(`First solution is a valid Sudoku: ${ok(valid)}`);
+        const fitsGivens = givenIndices.every(i => S.val[i] === arr[i]);
+        lines.push(`First solution respects givens: ${ok(fitsGivens)}`);
+        lines.push(`Uniqueness: ${ok(sols.length===1)} (solutions found up to 2 = ${sols.length})`);
+      }
+
+      renderChecks(lines);
+    }
+
+    function renderChecks(lines){
+      const pre = document.createElement('pre');
+      pre.className = 'mono';
+      pre.style.whiteSpace = 'pre-wrap';
+      pre.textContent = lines.join('\n');
+      $('check-body').replaceChildren(pre);
+    }
+
+    // ---- Demo puzzle ----
+    const DEMO = (
+      '53..7....' +
+      '6..195...' +
+      '.98....6.' +
+      '8...6...3' +
+      '4..8.3..1' +
+      '7...2...6' +
+      '.6....28.' +
+      '...419..5' +
+      '....8..79'
+    );
+
+    function loadDemo(){
+      $('txt').value = DEMO;
+      syncGridFromText();
+    }
+
+    // ---- Wire up ----
+    $('loadDemo').addEventListener('click', loadDemo);
+    $('clear').addEventListener('click', ()=>{ $('txt').value=''; buildGrid(); });
+    $('solve').addEventListener('click', doSolve);
+    $('checkBtn').addEventListener('click', runChecks);
+    $('txt').addEventListener('input', syncGridFromText);
+
+    buildGrid();
+    loadDemo();
+    doSolve();
+    runChecks();
+  })();
+  </script>
+</body>
+</html>

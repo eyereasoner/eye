@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Graph reachability (French cities)</title>
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#111827; --muted:#6b7280; --panel:#f8fafc; --border:#e5e7eb; --accent:#0ea5e9;
+      --good:#16a34a; --cyan:#06b6d4; --indigo:#6366f1; --warn:#dc2626;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    html,body{height:100%}
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 var(--ui); }
+    .wrap{max-width:980px; margin:28px auto; padding:0 14px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px}
+    h1{font-size:20px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .card{width:100%; background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:14px}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px; margin:0}
+    button{all:unset; background:#fff; border:1px solid var(--border); padding:9px 13px; border-radius:10px; cursor:pointer}
+    button:hover{border-color:#cbd5e1}
+    .warn{color:var(--warn)}
+    .accent{color:var(--accent)}
+    .btns{display:flex; gap:8px; flex-wrap:wrap}
+    .kv{font-family:var(--mono); background:#fff; border:1px solid var(--border); border-radius:10px; padding:10px; font-size:13px}
+    .muted{color:var(--muted)}
+
+    /* ARC boxes with thick colored left borders */
+    .arcbox{background:#fff; border:1px solid var(--border); border-radius:12px; padding:10px; margin:10px 0}
+    .arcbox.answer{border-left:10px solid var(--good)}
+    .arcbox.reason{border-left:10px solid var(--cyan)}
+    .arcbox.check{border-left:10px solid var(--indigo)}
+    .arclabel{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:6px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Graph reachability</h1>
+      <div class="pill" id="status">Ready</div>
+    </header>
+
+    <div class="card">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained, browser‑only demo that answers the query
+        <code>?- path(X, nantes)</code> over a small directed graph of French cities using two Horn clauses:</p>
+        <pre class="kv">C1: path(U,V) :- oneway(U,V).
+C2: path(U,V) :- oneway(U,Z), path(Z,V).</pre>
+        <p class="muted">Answer lists every city X that reaches <code>nantes</code> with one shortest chain.
+        Reason shows a backward‑chaining proof for <code>X = paris</code>. Check validates the results by
+        independent forward search and shortest‑path minimality.</p>
+      </div>
+    </div>
+
+    <!-- Vertical layout: all cards stacked -->
+    <div class="card">
+      <div class="head"><h2>Graph (fixed)</h2></div>
+      <div class="body">
+        <pre class="kv" id="graphBox"></pre>
+        <div class="btns" style="margin-top:10px">
+          <button onclick="run()">▶ Run</button>
+          <button onclick="copyARC()">Copy ARC</button>
+          <button onclick="downloadTxt()">⬇ Export .txt</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head"><h2>Query & Goal</h2></div>
+      <div class="body">
+        <pre class="kv" id="caseBox"></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <h2>ARC Output</h2>
+        <div class="muted">Cards with left borders</div>
+      </div>
+      <div class="body">
+        <div class="arcbox answer">
+          <div class="arclabel">Answer</div>
+          <pre id="ans">(no run yet)</pre>
+        </div>
+        <div class="arcbox reason">
+          <div class="arclabel">Reason why</div>
+          <pre id="why">(no run yet)</pre>
+        </div>
+        <div class="arcbox check">
+          <div class="arclabel">Check (harness)</div>
+          <pre id="chk">(no run yet)</pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+// ----- 0) Data -----
+const EDGES = [
+  ["paris","orleans"],
+  ["paris","chartres"],
+  ["paris","amiens"],
+  ["orleans","blois"],
+  ["orleans","bourges"],
+  ["blois","tours"],
+  ["chartres","lemans"],
+  ["lemans","angers"],
+  ["lemans","tours"],
+  ["angers","nantes"],
+];
+const GOAL = "nantes";
+
+// Build succs, preds, nodes
+const oneway = new Set(EDGES.map(e=>JSON.stringify(e)));
+const succs = new Map();
+const preds = new Map();
+const NODES = new Set();
+for(const [u,v] of EDGES){
+  if(!succs.has(u)) succs.set(u, new Set());
+  succs.get(u).add(v);
+  if(!preds.has(v)) preds.set(v, new Set());
+  preds.get(v).add(u);
+  NODES.add(u); NODES.add(v);
+}
+
+// ----- 1) Reverse BFS from goal -----
+function bfsParentsAndDist(goal){
+  const parent = {};                // parent[u] = next hop towards goal
+  const dist = {[goal]: 0};
+  const dq = [goal];
+  let head = 0;
+  while(head < dq.length){
+    const v = dq[head++];
+    const Ps = [...(preds.get(v) || [])].sort(); // deterministic
+    for(const u of Ps){
+      if(!(u in dist)){
+        dist[u] = dist[v] + 1;
+        parent[u] = v;
+        dq.push(u);
+      }
+    }
+  }
+  return {parent, dist};
+}
+const {parent: PARENT, dist: DIST} = bfsParentsAndDist(GOAL);
+function shortestPath(src, goal){
+  const chain = [src];
+  while(chain[chain.length-1] !== goal){
+    const cur = chain[chain.length-1];
+    chain.push(PARENT[cur]);
+  }
+  return chain;
+}
+
+// ----- 2) Tiny backward chainer (trace only) -----
+function bc_path(u, v, depth, seenEdges, stepCounter){
+  const indent = " ".repeat(depth);
+  logWhy(`${indent}Step ${String(stepCounter()).padStart(2,"0")}: prove path(${u}, ${v})`);
+  // C1
+  if(oneway.has(JSON.stringify([u,v]))){
+    logWhy(`${indent} ✓ by fact oneway(${u}, ${v})`);
+    return true;
+  }
+  // C2
+  const succ = [...(succs.get(u) || [])].sort();
+  for(const z of succ){
+    if(seenEdges.has(u+"→"+z)) continue;
+    logWhy(`${indent} → try oneway(${u}, ${z}), then prove path(${z}, ${v})`);
+    const ok = bc_path(z, v, depth+1, new Set([...seenEdges, u+"→"+z]), stepCounter);
+    if(ok) return true;
+  }
+  return false;
+}
+
+// ----- 3) ARC writers -----
+function setText(id, s){ const el=document.getElementById(id); if(el) el.textContent=s; }
+function status(msg, warn=false){ const el=document.getElementById('status'); if(!el) return; el.textContent=msg; el.classList.toggle('warn', !!warn); }
+let WHY_BUFFER = [];
+function logWhy(line){ WHY_BUFFER.push(line); }
+
+function run(){
+  WHY_BUFFER = [];
+  // Boxes
+  const Gtxt = EDGES.map(([u,v])=>`oneway(${u}, ${v}).`).join("\n");
+  setText('graphBox', Gtxt);
+  setText('caseBox', `Query : ?- path(X, ${GOAL})
+Goal  : ${GOAL}
+Rules : C1, C2 (see above)`);
+
+  // Answer
+  let A = "Answer\n======\n";
+  A += `Query: ?- path(X, ${GOAL})\n\n`;
+  const solutions = Object.keys(PARENT).sort();
+  if(!solutions.length){
+    A += "No solutions.";
+  }else{
+    A += "All solutions (with one shortest chain each):\n";
+    for(const src of solutions){
+      const chain = shortestPath(src, GOAL);
+      const hops  = chain.length - 1;
+      A += ` X = ${src.padEnd(9,' ')} path: ${chain.join(" → ")} (hops = ${hops})\n`;
+    }
+    A += `\nTotal solutions: ${solutions.length}`;
+  }
+  setText('ans', A);
+
+  // Reason
+  let R = "\nReason why\n==========\n";
+  R += "We use two Horn clauses:\n";
+  R += " C1 path(U,V) :- oneway(U,V).\n";
+  R += " C2 path(U,V) :- oneway(U,Z), path(Z,V).\n";
+  R += "Backward-chaining tries C1 (a fact) or applies C2 by choosing a\n";
+  R += "successor Z of U and recursively proving path(Z,V).\n\n";
+  const demo_src = "paris";
+  if(!(demo_src in PARENT)){
+    R += `(Demo: ${demo_src} does not reach ${GOAL} in this graph.)`;
+  }else{
+    R += `Demo proof for X = ${demo_src}:\n`;
+    let step = 0; const stepper = ()=>++step;
+    const ok = bc_path(demo_src, GOAL, 0, new Set(), stepper);
+    R += WHY_BUFFER.join("\n") + "\n";
+    R += ok ? " ✔ PROVED\n" : " ✗ NOT PROVED\n";
+    R += `Shortest chain: ${shortestPath(demo_src, GOAL).join(" → ")}`;
+  }
+  setText('why', R);
+
+  // Check
+  let C = "\nCheck (harness)\n===============\n";
+  // A) independent forward search from each node
+  function reaches_goal_forward(u){
+    if(u === GOAL) return false; // by convention exclude the goal as X
+    const seen = new Set([u]);
+    const dq = [u]; let head=0;
+    while(head<dq.length){
+      const x = dq[head++];
+      for(const y of (succs.get(x) || [])){
+        if(y === GOAL) return true;
+        if(!seen.has(y)){ seen.add(y); dq.push(y); }
+      }
+    }
+    return false;
+  }
+  const forward_reach = [...NODES].filter(reaches_goal_forward).sort();
+  const solver_reach  = Object.keys(PARENT).sort();
+  const same = JSON.stringify(forward_reach) === JSON.stringify(solver_reach);
+  C += `Forward search nodes == solver nodes ? ${same}\n`;
+  if(!same){
+    C += ` forward: ${JSON.stringify(forward_reach)}\n`;
+    C += ` solver : ${JSON.stringify(solver_reach)}\n`;
+  }
+  // B) Validate each shortest path
+  function is_valid_chain(chain){
+    for(let i=0;i<chain.length-1;i++)
+      if(!oneway.has(JSON.stringify([chain[i], chain[i+1]]))) return false;
+    return true;
+  }
+  let all_valid = true, all_minimal = true;
+  for(const src of solver_reach){
+    const chain = shortestPath(src, GOAL);
+    if(!is_valid_chain(chain)){ all_valid = false; }
+    if(chain.length - 1 !== DIST[src]){ all_minimal = false; }
+  }
+  C += `All chains follow oneway edges? ${all_valid}\n`;
+  C += `All chains are hop-minimal? ${all_minimal}`;
+  setText('chk', C);
+
+  status('Done');
+}
+
+function copyARC(){
+  const txt = [document.getElementById('ans').textContent,
+               document.getElementById('why').textContent,
+               document.getElementById('chk').textContent].join('\n\n');
+  navigator.clipboard?.writeText(txt).catch(()=>{});
+}
+function downloadTxt(){
+  const blob=new Blob([document.getElementById('ans').textContent, '\n\n',
+                       document.getElementById('why').textContent, '\n\n',
+                       document.getElementById('chk').textContent], {type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='graph_french_output.txt'; a.click();
+}
+
+// auto-run
+window.addEventListener('DOMContentLoaded', run);
+</script>
+</body>
+</html>

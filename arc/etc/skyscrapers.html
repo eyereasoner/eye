@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Skyscrapers</title>
+<style>
+  :root {
+    --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --border:#e5e7eb; --accent:#0ea5e9;
+    --cell: 58px; /* size of solution cells */
+    --clue: 28px; /* size of clue bubbles */
+  }
+  html,body{height:100%;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
+  h1{font-weight:700;margin:18px 0 6px}
+  h2{font-size:13px;color:var(--muted);margin:0 0 8px;letter-spacing:.2px;text-transform:uppercase}
+  .wrap{max-width:1180px;margin:0 auto;padding:24px}
+  .stack{display:grid;grid-template-columns:1fr;gap:14px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:0 6px 20px rgba(0,0,0,.04)}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  button{border:0;background:linear-gradient(180deg,#7dd3fc,#38bdf8);color:#052436;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(56,189,248,.35)}
+  button.secondary{background:#f3f4f6;color:#111827;border:1px solid var(--border);box-shadow:none}
+  .output{min-height:0;white-space:pre-wrap;background:#fbfdff;border:1px solid var(--border);border-radius:10px;padding:10px;overflow:auto}
+  .output.tall{min-height:180px}
+  .muted{color:var(--muted)}
+  .tiny{font-size:12px}
+  .badge{display:inline-block;border:1px solid var(--border);background:#f5f7fb;color:#334155;border-radius:999px;padding:2px 8px;font-size:12px;font-weight:700;letter-spacing:.3px}
+  textarea,pre,code,input,button{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
+  textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:#0f172a;box-sizing:border-box;white-space:pre-wrap}
+
+  /* Newspaper-style board layout: clues wrapped around grid */
+  .board {
+    display:grid;
+    grid-template-areas:
+      "tl   top   tr"
+      "left grid  right"
+      "bl   bottom br";
+    /* We'll override columns/rows inline with N so alignment stays perfect */
+    grid-template-columns: var(--clue) calc(var(--cell) * 6) var(--clue);
+    grid-template-rows: var(--clue) calc(var(--cell) * 6) var(--clue);
+    gap:6px; align-items:center; justify-items:center; margin:6px 0;
+  }
+  .place-top{grid-area: top}
+  .place-bottom{grid-area: bottom}
+  .place-left{grid-area: left}
+  .place-right{grid-area: right}
+  .place-grid{grid-area: grid}
+  .corner{width:var(--clue);height:var(--clue)}
+  .corner.tl{grid-area: tl} .corner.tr{grid-area: tr}
+  .corner.bl{grid-area: bl} .corner.br{grid-area: br}
+
+  /* Aligned clue rows/cols: one slot per grid cell */
+  .clueRow, .clueCol { display:grid; gap:0; }
+  .slotRow, .slotCol { display:flex; align-items:center; justify-content:center; }
+  .slotRow { width: var(--cell); height: var(--clue); }
+  .slotCol { width: var(--clue); height: var(--cell); }
+
+  .clueBubble{
+    min-width: var(--clue); height: var(--clue);
+    display:flex; align-items:center; justify-content:center;
+    padding: 0 8px; border:1px solid #dbe2ea; border-radius:7px;
+    background:#f8fafc; color:#334155; font-weight:800; font-size:12px;
+  }
+  .clueBubble.dim { color:#94a3b8; background:#f9fbff; }
+
+  /* Solution grid cells */
+  .grid{display:grid;gap:0}
+  .cell{
+    width:var(--cell);height:var(--cell);
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid #cbd5e1;background:#fff;
+    font-weight:800;color:#0f172a;position:relative;border-radius:6px;
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+  }
+  .num{position:relative;z-index:1}
+
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:999px;padding:2px 8px;background:#f5f7fb}
+  .dot{width:12px;height:12px;border-radius:999px;border:1px solid rgba(0,0,0,.1)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Skyscrapers</h1>
+
+  <div class="stack">
+
+    <!-- What this is? -->
+    <div class="card">
+      <h2>What this is?</h2>
+      <p>One-file, pure JS + JSON solver for a <b>Skyscrapers</b> puzzle. Fill an N×N grid with heights 1..N so each row/column is a permutation, and the edge clues state how many buildings are visible from that side (taller buildings block smaller ones behind them).</p>
+      <ul>
+        <li><b>Data</b> — <code>size</code> N and four arrays of length N: <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>. Use 0 for “no clue”.</li>
+        <li><b>Policies</b> — row/column all-different; visibility must match clues where given; values in 1..N.</li>
+        <li><b>Answer</b> — derived facts (<code>cell(r,c)=h</code>).</li>
+        <li><b>Reason Why</b> — line candidate filtering + intersection forcing (and branches if needed).</li>
+        <li><b>Check</b> — row/col permutations, visibility matches, sums, ranges (<span id="checksCountInline" class="badge">…</span> items).</li>
+      </ul>
+      <p class="tiny muted">Engine: precompute permutations of 1..N; filter by clues; alternate row/column propagation via position-wise intersections; branch on the smallest candidate line if needed.</p>
+    </div>
+
+    <!-- Puzzle details -->
+    <div class="card">
+      <h2>Puzzle Details</h2>
+      <ul>
+        <li><b>Size:</b> 6×6 (editable).</li>
+        <li><b>Sparser clues:</b> moderate density — solvable by propagation with small search.</li>
+        <li><b>Editing tips:</b> keep each clue array length = N and entries 0..N; fewer clues ⇒ more branching; more clues ⇒ faster/unique.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Data (JSON)</h2>
+      <textarea id="dataTA" spellcheck="false">{
+  "size": 6,
+  "top":    [0, 0, 3, 1, 4, 2],
+  "bottom": [0, 0, 0, 3, 0, 4],
+  "left":   [0, 0, 4, 0, 0, 4],
+  "right":  [0, 0, 0, 0, 5, 0]
+}</textarea>
+      <p class="tiny muted">0 means no clue. Coordinates in the Answer are 1-based.</p>
+    </div>
+
+    <div class="card">
+      <h2>Policies (declarative JSON rules)</h2>
+      <textarea id="policyTA" spellcheck="false">[
+  { "id":"S1-RowAllDiff",
+    "explain":"Each row r is a permutation of {1..N} (all-different)."
+  },
+  { "id":"S2-ColAllDiff",
+    "explain":"Each column c is a permutation of {1..N} (all-different)."
+  },
+  { "id":"S3-Visibility",
+    "explain":"If a clue k is given, the number of visible buildings from that side equals k."
+  },
+  { "id":"S4-Range",
+    "explain":"Every cell value is in 1..N."
+  }
+]</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Controls</h2>
+      <div class="row">
+        <button id="runBtn">▶ Run ARC</button>
+        <label class="switch"><input id="uniqChk" type="checkbox"/> Probe uniqueness (second solution)</label>
+        <button id="reasonBtn" class="secondary">Show Reason only</button>
+        <span id="status" class="muted tiny" style="margin-left:auto"></span>
+      </div>
+      <div id="diag" class="tiny" style="color:#6b7280"></div>
+    </div>
+
+    <div class="card">
+      <h2>Solution Summary</h2>
+      <div id="gridHost" class="">
+        <div id="boardMount" class="output" style="overflow:hidden"></div>
+        <div class="legend tiny" id="legend"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Uniqueness Probe</h2>
+      <div id="uniqOut" class="output">(toggle “Probe uniqueness” then Run)</div>
+    </div>
+
+    <div class="card">
+      <h2>Answer (newly derived facts)</h2>
+      <div id="answer" class="output tall">computing…</div>
+    </div>
+
+    <div class="card">
+      <h2>Reason Why (mathematical English)</h2>
+      <div id="reason" class="output tall">(click “Run ARC”)</div>
+    </div>
+
+    <div class="card">
+      <h2>Check <span id="checksCount" class="badge">0</span></h2>
+      <div id="checks" class="output tall">computing…</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const els = {
+  dataTA: $("dataTA"), policyTA: $("policyTA"),
+  runBtn: $("runBtn"), reasonBtn: $("reasonBtn"), uniqChk: $("uniqChk"),
+  status: $("status"), diag: $("diag"),
+  answer: $("answer"), reason: $("reason"), checks: $("checks"),
+  checksCount: $("checksCount"), checksCountInline: $("checksCountInline"),
+  boardMount: $("boardMount"), legend: $("legend"), uniqOut: $("uniqOut")
+};
+
+// Auto-grow textareas
+function autoResize(el){ el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
+["dataTA","policyTA"].forEach(id=>{
+  const el=$(id); el.addEventListener('input',()=>autoResize(el)); setTimeout(()=>autoResize(el),0);
+});
+
+// ---------- Helpers
+function parseJSON(text, label){
+  try { return JSON.parse(text); }
+  catch(e){ throw new Error(`${label} JSON error: ${e.message}`); }
+}
+function range(n){ return Array.from({length:n},(_,i)=>i+1); }
+
+function permutations(arr){
+  const out=[];
+  function heap(a, n){
+    if(n===1){ out.push(a.slice()); return; }
+    heap(a, n-1);
+    for(let i=0;i<n-1;i++){
+      if(n%2===0){ [a[i],a[n-1]] = [a[n-1],a[i]]; }
+      else { [a[0],a[n-1]] = [a[n-1],a[0]]; }
+      heap(a, n-1);
+    }
+  }
+  heap(arr.slice(), arr.length);
+  return out;
+}
+
+function visibleCount(seq){
+  let max=0, seen=0;
+  for(const h of seq){ if(h>max){ max=h; seen++; } }
+  return seen;
+}
+function okSide(seq, clueLR){ // [left,right]
+  const [L,R] = clueLR;
+  if(L && visibleCount(seq)!==L) return false;
+  if(R && visibleCount(seq.slice().reverse())!==R) return false;
+  return true;
+}
+function okTopBottom(seq, clueTB){ // [top,bottom]
+  const [T,B] = clueTB;
+  if(T && visibleCount(seq)!==T) return false;
+  if(B && visibleCount(seq.slice().reverse())!==B) return false;
+  return true;
+}
+
+// ---------- CSP state
+function initState(N, clues){
+  const basePerms = permutations(range(N));
+  const rowClues = clues.row; // [L[i], R[i]]
+  const colClues = clues.col; // [T[j], B[j]]
+
+  const rowCands = Array.from({length:N}, (_,r)=> basePerms.filter(p=> okSide(p, rowClues[r])));
+  const colCands = Array.from({length:N}, (_,c)=> basePerms.filter(p=> okTopBottom(p, colClues[c])));
+
+  const domains = Array.from({length:N},()=> Array.from({length:N},()=> new Set(range(N))));
+  return {rowCands, colCands, domains, basePerms};
+}
+
+function cloneState(state){
+  const N = state.domains.length;
+  return {
+    rowCands: state.rowCands.map(list=>list.map(p=>p.slice())),
+    colCands: state.colCands.map(list=>list.map(p=>p.slice())),
+    domains: state.domains.map(row=>row.map(s=> new Set([...s]))),
+    basePerms: state.basePerms
+  };
+}
+
+function allAssigned(domains){
+  return domains.every(row=>row.every(s=>s.size===1));
+}
+
+function setEq(a,b){ if(a.size!==b.size) return false; for(const x of a) if(!b.has(x)) return false; return true; }
+function equalSolutions(a,b){
+  const N = a.length;
+  for(let r=0;r<N;r++) for(let c=0;c<N;c++){
+    const sa = a[r][c], sb = b[r][c];
+    if(!setEq(sa,sb)) return false;
+  }
+  return true;
+}
+
+// ---------- Propagation
+function propagate(state, clues, reasons){
+  const N = state.domains.length;
+  const {rowCands, colCands, domains} = state;
+
+  while(true){
+    let changed=false;
+
+    // Row → domains
+    for(let r=0;r<N;r++){
+      const cands = rowCands[r];
+      if(cands.length===0) return {contradiction:true};
+      const support = Array.from({length:N}, ()=> new Set());
+      for(const p of cands){ for(let c=0;c<N;c++) support[c].add(p[c]); }
+      for(let c=0;c<N;c++){
+        const before = new Set(domains[r][c]);
+        for(const v of [...domains[r][c]]) if(!support[c].has(v)) domains[r][c].delete(v);
+        if(domains[r][c].size===0) return {contradiction:true};
+        if(domains[r][c].size !== before.size){
+          const removed = [...before].filter(v=>!domains[r][c].has(v));
+          reasons.push(`Row ${r+1} candidates prune cell(${r+1},${c+1}) ← remove {${removed.join(",")}}.`);
+          changed=true;
+        }
+        if(domains[r][c].size===1 && before.size!==1){
+          reasons.push(`Row ${r+1} forces cell(${r+1},${c+1}) = ${[...domains[r][c]][0]}.`);
+        }
+      }
+    }
+
+    // Filter row candidates by domains
+    for(let r=0;r<N;r++){
+      const before = rowCands[r].length;
+      rowCands[r] = rowCands[r].filter(p=>{
+        for(let c=0;c<N;c++) if(!domains[r][c].has(p[c])) return false;
+        return true;
+      });
+      if(rowCands[r].length===0) return {contradiction:true};
+      if(rowCands[r].length !== before){ reasons.push(`Row ${r+1} candidate count: ${before} → ${rowCands[r].length}.`); changed=true; }
+    }
+
+    // Column → domains
+    for(let c=0;c<N;c++){
+      const cands = colCands[c];
+      if(cands.length===0) return {contradiction:true};
+      const support = Array.from({length:N}, ()=> new Set());
+      for(const p of cands){ for(let r=0;r<N;r++) support[r].add(p[r]); }
+      for(let r=0;r<N;r++){
+        const before = new Set(domains[r][c]);
+        for(const v of [...domains[r][c]]) if(!support[r].has(v)) domains[r][c].delete(v);
+        if(domains[r][c].size===0) return {contradiction:true};
+        if(domains[r][c].size !== before.size){
+          const removed = [...before].filter(v=>!domains[r][c].has(v));
+          reasons.push(`Col ${c+1} candidates prune cell(${r+1},${c+1}) ← remove {${removed.join(",")}}.`);
+          changed=true;
+        }
+        if(domains[r][c].size===1 && before.size!==1){
+          reasons.push(`Col ${c+1} forces cell(${r+1},${c+1}) = ${[...domains[r][c]][0]}.`);
+        }
+      }
+    }
+
+    // Filter col candidates by domains
+    for(let c=0;c<N;c++){
+      const before = colCands[c].length;
+      colCands[c] = colCands[c].filter(p=>{
+        for(let r=0;r<N;r++) if(!domains[r][c].has(p[r])) return false;
+        return true;
+      });
+      if(colCands[c].length===0) return {contradiction:true};
+      if(colCands[c].length !== before){ reasons.push(`Col ${c+1} candidate count: ${before} → ${colCands[c].length}.`); changed=true; }
+    }
+
+    if(!changed) return {contradiction:false};
+  }
+}
+
+// ---------- Branching solve
+function pickLine(state){
+  const N = state.domains.length;
+  let best=null, count=1e9;
+  for(let r=0;r<N;r++){
+    const k = state.rowCands[r].length;
+    if(k>1 && k<count){ best={kind:"row", idx:r, k}; count=k; }
+  }
+  for(let c=0;c<N;c++){
+    const k = state.colCands[c].length;
+    if(k>1 && k<count){ best={kind:"col", idx:c, k}; count=k; }
+  }
+  return best;
+}
+
+function solve(state, clues, forbid=null){
+  const reasons=[];
+  const step = propagate(state, clues, reasons);
+  if(step.contradiction) return null;
+
+  if(allAssigned(state.domains)){
+    if(forbid && equalSolutions(state.domains, forbid)) return null;
+    return {domains: state.domains, reasons};
+  }
+
+  const pick = pickLine(state);
+  if(!pick) return null;
+  const nexts = (pick.kind==="row" ? state.rowCands[pick.idx] : state.colCands[pick.idx]);
+
+  for(let i=0;i<nexts.length;i++){
+    const child = cloneState(state);
+    const perm = nexts[i];
+
+    if(pick.kind==="row"){
+      for(let c=0;c<child.domains.length;c++){ child.domains[pick.idx][c] = new Set([perm[c]]); }
+      child.rowCands[pick.idx] = [perm];
+    } else {
+      for(let r=0;r<child.domains.length;r++){ child.domains[r][pick.idx] = new Set([perm[r]]); }
+      child.colCands[pick.idx] = [perm];
+    }
+
+    const sub = solve(child, clues, forbid);
+    if(sub){
+      sub.reasons.unshift(`Branch on ${pick.kind} ${pick.idx+1}: choose candidate ${i+1}/${nexts.length}.`);
+      return sub;
+    }
+  }
+  return null;
+}
+
+// ---------- Colors & rendering
+function hsl(h,s,l){ return `hsl(${h} ${s}% ${l}%)`; }
+function colorForHeight(h, N){
+  const hue = 200 - (180*(h-1)/(N-1||1));
+  const sat = 85, light = 88 - (h-1)*(40/(N-1||1));
+  return hsl(Math.round(hue), Math.round(sat), Math.round(light));
+}
+function renderLegend(N){
+  const cont = els.legend; cont.innerHTML = "";
+  for(let h=1; h<=N; h++){
+    const chip = document.createElement('span');
+    chip.className = 'chip';
+    const dot = document.createElement('span');
+    dot.className = 'dot';
+    dot.style.background = colorForHeight(h,N);
+    const txt = document.createElement('span');
+    txt.textContent = `height ${h}`;
+    chip.appendChild(dot); chip.appendChild(txt);
+    cont.appendChild(chip);
+  }
+}
+function renderGridOnly(domains){
+  const N = domains.length;
+  const g = document.createElement('div');
+  g.className = 'grid';
+  g.style.gridTemplateColumns = `repeat(${N}, var(--cell))`;
+  for(let r=0;r<N;r++){
+    for(let c=0;c<N;c++){
+      const d = document.createElement('div');
+      d.className = 'cell';
+      const v = [...domains[r][c]][0];
+      d.style.background = colorForHeight(v, N);
+      const num = document.createElement('div');
+      num.className = 'num';
+      num.textContent = v;
+      d.appendChild(num);
+      g.appendChild(d);
+    }
+  }
+  return g;
+}
+
+/* Aligned clue renderers */
+function renderClueRow(arr, N){
+  const row = document.createElement('div');
+  row.className = 'clueRow';
+  row.style.gridTemplateColumns = `repeat(${N}, var(--cell))`;
+  row.style.gridTemplateRows    = `var(--clue)`;
+  for(let i=0;i<N;i++){
+    const slot   = document.createElement('div'); slot.className = 'slotRow';
+    const bubble = document.createElement('div');
+    bubble.className = 'clueBubble' + (arr[i] ? '' : ' dim');
+    bubble.textContent = arr[i] ? String(arr[i]) : '·';
+    slot.appendChild(bubble);
+    row.appendChild(slot);
+  }
+  return row;
+}
+function renderClueCol(arr, N){
+  const col = document.createElement('div');
+  col.className = 'clueCol';
+  col.style.gridTemplateColumns = `var(--clue)`;
+  col.style.gridTemplateRows    = `repeat(${N}, var(--cell))`;
+  for(let i=0;i<N;i++){
+    const slot   = document.createElement('div'); slot.className = 'slotCol';
+    const bubble = document.createElement('div');
+    bubble.className = 'clueBubble' + (arr[i] ? '' : ' dim');
+    bubble.textContent = arr[i] ? String(arr[i]) : '·';
+    slot.appendChild(bubble);
+    col.appendChild(slot);
+  }
+  return col;
+}
+
+function renderBoard(domains, data){
+  const N = domains.length;
+  const board = document.createElement('div');
+  board.className = 'board';
+  // override template sizes to match N exactly
+  board.style.gridTemplateColumns = `var(--clue) calc(var(--cell) * ${N}) var(--clue)`;
+  board.style.gridTemplateRows    = `var(--clue) calc(var(--cell) * ${N}) var(--clue)`;
+
+  // Corners (empty)
+  ['tl','tr','bl','br'].forEach(pos=>{
+    const d=document.createElement('div'); d.className=`corner ${pos}`; board.appendChild(d);
+  });
+
+  // Top / Bottom
+  const topRow    = renderClueRow(data.top,    N); topRow.classList.add('place-top');     board.appendChild(topRow);
+  const bottomRow = renderClueRow(data.bottom, N); bottomRow.classList.add('place-bottom');board.appendChild(bottomRow);
+
+  // Left / Right
+  const leftCol   = renderClueCol(data.left,   N); leftCol.classList.add('place-left');   board.appendChild(leftCol);
+  const rightCol  = renderClueCol(data.right,  N); rightCol.classList.add('place-right'); board.appendChild(rightCol);
+
+  // Grid
+  const grid = renderGridOnly(domains); grid.classList.add('place-grid'); board.appendChild(grid);
+
+  return board;
+}
+
+// ---------- Reporting
+function facts(domains){
+  const N = domains.length, out=[];
+  for(let r=0;r<N;r++) for(let c=0;c<N;c++) out.push(`cell(${r+1},${c+1}) = ${[...domains[r][c]][0]}`);
+  return out.join("\n");
+}
+function explain(reasons){ return reasons.join("\n"); }
+
+function checks(domains, clues){
+  const N = domains.length;
+  const out=[];
+  // All assigned & in range
+  let allAss=true, inRange=true;
+  for(let r=0;r<N;r++) for(let c=0;c<N;c++){
+    const v=[...domains[r][c]][0];
+    if(v===undefined) allAss=false;
+    if(v<1 || v>N) inRange=false;
+  }
+  out.push({name:"All cells assigned", pass:allAss});
+  out.push({name:"Values within 1..N", pass:inRange});
+
+  // Rows/Cols all-diff and sums
+  const targetSum = N*(N+1)/2;
+  for(let r=0;r<N;r++){
+    const row = domains[r].map(s=>[...s][0]);
+    out.push({name:`Row ${r+1} all-different`, pass:(new Set(row)).size===N});
+    out.push({name:`Row ${r+1} sum`, pass: row.reduce((a,b)=>a+b,0)===targetSum});
+  }
+  for(let c=0;c<N;c++){
+    const col = domains.map(row=>[...row[c]][0]);
+    out.push({name:`Col ${c+1} all-different`, pass:(new Set(col)).size===N});
+    out.push({name:`Col ${c+1} sum`, pass: col.reduce((a,b)=>a+b,0)===targetSum});
+  }
+
+  // Visibility checks
+  for(let r=0;r<N;r++){
+    const row = domains[r].map(s=>[...s][0]);
+    const L = clues.row[r][0], R = clues.row[r][1];
+    if(L) out.push({name:`Row ${r+1} left clue`, pass: visibleCount(row)===L});
+    if(R) out.push({name:`Row ${r+1} right clue`, pass: visibleCount(row.slice().reverse())===R});
+  }
+  for(let c=0;c<N;c++){
+    const col = domains.map(row=>[...row[c]][0]);
+    const T = clues.col[c][0], B = clues.col[c][1];
+    if(T) out.push({name:`Col ${c+1} top clue`, pass: visibleCount(col)===T});
+    if(B) out.push({name:`Col ${c+1} bottom clue`, pass: visibleCount(col.slice().reverse())===B});
+  }
+
+  return out;
+}
+
+function renderChecks(list){
+  const lines = list.map((r,i)=> `${r.pass? "✅":"❌"} ${String(i+1).padStart(2," ")} — ${r.name}`);
+  const passCt = list.filter(x=>x.pass).length;
+  lines.push(`\nSummary: ${passCt}/${list.length} PASS`);
+  return lines.join("\n");
+}
+
+// ---------- Orchestration
+function buildClues(data){
+  const N = data.size|0;
+  const left   = data.left   ?? Array(N).fill(0);
+  const right  = data.right  ?? Array(N).fill(0);
+  const top    = data.top    ?? Array(N).fill(0);
+  const bottom = data.bottom ?? Array(N).fill(0);
+  if([left,right,top,bottom].some(a=>!Array.isArray(a)||a.length!==N)) throw new Error("All clue arrays must have length size.");
+  const row = Array.from({length:N},(_,i)=>[left[i]|0, right[i]|0]);
+  const col = Array.from({length:N},(_,j)=>[top[j]|0, bottom[j]|0]);
+  return {row, col};
+}
+
+function runARC(){
+  els.status.textContent = "Parsing JSON…";
+  els.answer.textContent = els.reason.textContent = els.checks.textContent = "computing…";
+  els.boardMount.innerHTML = ""; els.legend.innerHTML=""; els.uniqOut.textContent = "(toggle “Probe uniqueness” then Run)";
+  els.diag.textContent = "";
+
+  try{
+    const data = parseJSON(els.dataTA.value, "Data");
+    parseJSON(els.policyTA.value, "Policies");
+
+    const N = data.size|0;
+    if(!(Number.isInteger(N) && N>=3 && N<=7)) throw new Error("Use size N between 3 and 7 for this demo.");
+    const clues = buildClues(data);
+
+    els.status.textContent = "Solving…";
+    const init = initState(N, clues);
+    const solved = solve(init, clues, null);
+    if(!solved) throw new Error("No solution found (check clues).");
+
+    // Answer
+    els.answer.textContent = facts(solved.domains);
+
+    // Reason
+    els.reason.textContent = explain(solved.reasons);
+
+    // Checks
+    const chk = checks(solved.domains, clues);
+    els.checks.textContent = renderChecks(chk);
+    els.checksCount.textContent = String(chk.length);
+    if(els.checksCountInline) els.checksCountInline.textContent = String(chk.length);
+
+    // Solution board + legend (with side clues)
+    els.boardMount.appendChild(renderBoard(solved.domains, data));
+    renderLegend(N);
+
+    // Uniqueness
+    if(els.uniqChk.checked){
+      els.status.textContent = "Probing uniqueness…";
+      const init2 = initState(N, clues);
+      const alt = solve(init2, clues, solved.domains);
+      els.uniqOut.textContent = alt ? "Multiple solutions found — under-constrained." : "Unique — no second distinct solution found.";
+    }
+
+    els.status.textContent = "Done.";
+  } catch(e){
+    els.status.textContent = "Error";
+    els.answer.textContent = "(failed)";
+    els.reason.textContent = "(failed)";
+    els.checks.textContent = "(failed)";
+    els.boardMount.innerHTML = ""; els.legend.innerHTML="";
+    els.uniqOut.textContent = "(failed)";
+    els.diag.textContent = e.message;
+    console.error(e);
+  }
+
+  autoResize(els.dataTA); autoResize(els.policyTA);
+}
+
+function showReasonOnly(){
+  runARC();
+  setTimeout(()=> window.scrollTo({top: $("reason").getBoundingClientRect().top + window.scrollY - 12, behavior:"smooth"}), 50);
+}
+
+els.runBtn.addEventListener('click', runARC);
+els.reasonBtn.addEventListener('click', showReasonOnly);
+window.addEventListener('DOMContentLoaded', runARC);
+</script>
+</body>
+</html>
+

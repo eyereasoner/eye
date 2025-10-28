@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>π — Chudnovsky</title>
+<style>
+  :root{
+    --bg:#f7fafc;--ink:#0b1220;--muted:#5b6780;--accent:#0b6cff;--panel:#fff;
+    --border:#dfe6ee;--card:#f3f6fb;--ok:#15803d;--fail:#c2410c;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  h1{margin:18px 0 4px;font-size:20px;letter-spacing:-.01em}
+  .wrap{max-width:860px;margin:0 auto;padding:16px}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--panel);
+    border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:14px}
+  .controls input{width:120px;padding:8px 10px;border-radius:10px;border:1px solid var(--border)}
+  .controls button{padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:#fff;cursor:pointer}
+  .controls button.primary{background:linear-gradient(180deg,#4da3ff,#0b6cff);border-color:#0b6cff;color:#fff}
+  .hint{color:var(--muted);font-size:12px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:12px}
+  .card h3{margin:0 0 8px;color:var(--muted);text-transform:uppercase;font-size:12px;letter-spacing:.08em}
+  .answer{font-family:var(--mono);background:var(--card);border:1px dashed #cfd8e3;border-radius:10px;
+    padding:10px;white-space:pre-wrap;word-break:break-word}
+  .small{color:var(--muted);font-size:12px}
+  .check{border-left:6px solid var(--border);background:var(--card);border:1px solid #e2e8f0;
+    border-radius:10px;padding:8px 10px;margin:6px 0}
+  .check.ok{border-left-color:var(--ok)} .check.fail{border-left-color:var(--fail)}
+  .check b{display:block;margin-bottom:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>π — Chudnovsky</h1>
+  <p class="small">Computes π to N decimals in your browser (BigInt, fixed-point). Shows Answer • Reason • Checks.</p>
+
+  <div class="controls">
+    <label for="digits">Digits:</label>
+    <input id="digits" type="number" min="1" max="2000" value="100">
+    <button id="run" class="primary">Run</button>
+    <button id="copy">Copy</button>
+    <span class="hint">Up to 2 000 digits. Uses guard digits, then <b>truncates</b> to N.</span>
+  </div>
+
+  <section class="card">
+    <h3>Answer</h3>
+    <div id="answer" class="answer">—</div>
+    <div class="small" id="meta">–</div>
+  </section>
+
+  <section class="card">
+    <h3>Reason</h3>
+    <div id="reason" class="small">—</div>
+  </section>
+
+  <section class="card">
+    <h3>Checks</h3>
+    <div id="checks"></div>
+  </section>
+</div>
+
+<script>
+/* ---------- Utils ---------- */
+const $ = s => document.querySelector(s);
+function pow10n(e){ let E=BigInt(e), b=10n, r=1n; while(E>0n){ if(E&1n) r*=b; E>>=1n; if(E) b*=b; } return r; }
+function isqrt(n){ if(n<0n) throw Error("isqrt neg"); if(n<2n) return n; let x=n,y=(n>>1n)+1n; while(y<x){x=y;y=(y+n/y)>>1n;} return x; }
+function formatScaled(S,prec){ const s=S.toString(), p=s.length-prec; return p<=0?("0."+ "0".repeat(-p)+s):(s.slice(0,p)+"."+s.slice(p)); }
+function prettyBreak(s){ const i=s.indexOf("."); return i<0?s:s.slice(0,i+1)+s.slice(i+1).replace(/.{1,100}/g,"$&\n"); }
+
+/* ---------- π via Chudnovsky (fixed-point, truncate) ---------- */
+function chudnovskyPi(digits, guard=20){
+  if(!Number.isFinite(digits)||digits<1) throw Error("digits >= 1");
+  const A=13591409n, B=545140134n, C3=262537412640768000n, K=426880n; // 640320^3
+  const prec=digits+guard, scale=pow10n(prec);
+  const sqrt10005 = isqrt(10005n*scale*scale); // floor(sqrt(10005)*10^prec)
+
+  const terms = Math.ceil((digits+guard)/14)+2; // ~14 digits/term
+  let S = 0n, M=1n, X=1n, sign=1n;
+  for(let k=0;k<terms;k++){
+    const kk=BigInt(k), L=A+B*kk;
+    const term = (M*L*scale)/X;  // floor((M*L/X)*10^prec)
+    S += sign*term;
+    const k1=kk+1n, sixk=6n*kk;
+    const num=(sixk+1n)*(sixk+2n)*(sixk+3n)*(sixk+4n)*(sixk+5n)*(sixk+6n);
+    const den=(3n*kk+1n)*(3n*kk+2n)*(3n*kk+3n)*(k1*k1*k1);
+    M=(M*num)/den; X=X*C3; sign=-sign;
+  }
+  if(S===0n) throw Error("internal sum zero");
+  // pi_full is scaled by 10^(digits+guard)
+  let pi_full = (K*sqrt10005*scale)/S;
+  // TRUNCATE guard digits to match reference prefixes
+  if(guard>0) pi_full = pi_full / pow10n(guard);
+  return { text: formatScaled(pi_full, digits), raw: pi_full, prec, terms, guard };
+}
+
+/* ---------- Independent Machin cross-check (truncate) ---------- */
+// π = 16*atan(1/5) − 4*atan(1/239)
+function arctan_inv_scaled(m, prec){ // floor(atan(1/m) * 10^prec)
+  const scale=pow10n(prec), x=scale/BigInt(m);
+  let t=x, sum=t;
+  for(let n=0;n<40000;n++){
+    // t_{n+1} = - t_n * x^2 * (2n+1)/(2n+3), with per-step rounding to reduce drift
+    let t1 = (t*x + scale/2n)/scale;  // round
+    t1 = (t1*x + scale/2n)/scale;     // round again => *x^2
+    t1 = (t1*BigInt(2*n+1) + BigInt(2*n+3)/2n) / BigInt(2*n+3); // round ratio
+    t = -t1;
+    if(t===0n) break;
+    sum += t;
+  }
+  return sum; // scaled by 10^prec
+}
+function machinPiTrunc(digits){
+  const guard=50, prec=digits+guard;
+  let p = 16n*arctan_inv_scaled(5,prec) - 4n*arctan_inv_scaled(239,prec);
+  p = p / pow10n(guard);                      // TRUNCATE to digits
+  return formatScaled(p, digits);
+}
+
+/* ---------- Checks ---------- */
+const PI_PREFIX_200 =
+  "3.14159265358979323846264338327950288419716939937510"+
+  "58209749445923078164062862089986280348253421170679"+
+  "82148086513282306647093844609550582231725359408128";
+
+function runChecks(answerText, digits){
+  const out=[], clean=answerText.replace(/[^0-9.]/g,"");
+
+  // 0) Format / length
+  const okBegins=clean.startsWith("3."), okLen=clean.length===2+digits;
+  out.push({name:"Format check", ok:okBegins&&okLen,
+            detail: okBegins? (okLen?"starts with 3. and length OK":`length ${clean.length} ≠ ${2+digits}`) : "does not start with 3."});
+
+  // 1) Prefix (≤200 digits)
+  const upto=Math.min(clean.length, PI_PREFIX_200.length);
+  const okPrefix=clean.slice(0,upto)===PI_PREFIX_200.slice(0,upto);
+  out.push({name:`Prefix check (≤ ${Math.max(0,upto-2)} decimals)`, ok:okPrefix,
+            detail: okPrefix?"prefix matches":"prefix differs"});
+
+  // 2) Stability (guard +10, still truncated)
+  const b = chudnovskyPi(digits, 30).text.replace(/[^0-9.]/g,"");
+  const okStable = clean.slice(0,2+digits)===b.slice(0,2+digits);
+  out.push({name:"Stability check (guard +10)", ok:okStable,
+            detail: okStable?"first N digits unchanged":"leading digits changed"});
+
+  // 3) Machin cross-check (truncate; first K decimals)
+  const K=Math.min(60,digits);
+  if(K>=10){
+    const m = machinPiTrunc(K).replace(/[^0-9.]/g,"");
+    const okMach = clean.slice(0,2+K)===m.slice(0,2+K);
+    out.push({name:`Machin cross-check (${K} dec)`, ok:okMach, detail: okMach?"matches":"differs"});
+  }
+  return out;
+}
+
+/* ---------- UI ---------- */
+const ans=$("#answer"), meta=$("#meta"), reason=$("#reason"), list=$("#checks");
+function renderChecks(items){
+  list.innerHTML = items.map(r=>`<div class="check ${r.ok?'ok':'fail'}"><b>${r.ok?'✓':'✗'} ${r.name}</b><span>${r.detail}</span></div>`).join("");
+}
+function compute(){
+  const n=Math.max(1,Math.min(2000,parseInt($("#digits").value||"100",10)));
+  const t0=performance.now();
+  let out;
+  try{ out=chudnovskyPi(n,20); }
+  catch(e){ ans.textContent="Error: "+(e.message||e); reason.textContent=""; list.innerHTML=""; meta.textContent=""; return; }
+  const ms=performance.now()-t0;
+  ans.textContent=prettyBreak(out.text);
+  meta.textContent=`"3." + ${n} decimals (truncated)`;
+  reason.textContent=`Chudnovsky; terms=${out.terms}; guard=${out.guard}; precision=${out.prec}; time=${ms.toFixed(0)} ms.`;
+  renderChecks(runChecks(out.text,n));
+}
+$("#run").addEventListener("click", compute);
+$("#copy").addEventListener("click", async ()=>{
+  try{ await navigator.clipboard.writeText(ans.textContent.replace(/\n/g,""));
+       $("#copy").textContent="Copied!"; setTimeout(()=>$("#copy").textContent="Copy",1000); }
+  catch{ $("#copy").textContent="Copy failed"; setTimeout(()=>$("#copy").textContent="Copy",1200); }
+});
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", compute); else compute();
+
+/* ---------- Error surfacing ---------- */
+window.addEventListener("error", e => { ans.textContent="Error: "+(e.message||"script error"); });
+window.addEventListener("unhandledrejection", e => { ans.textContent="Error: "+(e.reason&&e.reason.message||e.reason); });
+</script>
+</body>
+</html>
+

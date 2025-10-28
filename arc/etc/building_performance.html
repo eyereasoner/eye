@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Building Performance</title>
+  <style>
+    :root { --bg:#f7f9fc; --card:#ffffff; --muted:#5b6b87; --text:#0f172a; --accent:#0ea5e9; --ok:#16a34a; --bad:#dc2626; --border:#e5e7eb; }
+    html,body{height:100%;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
+    h1{font-weight:700;letter-spacing:.2px;margin:18px 0 6px}
+    h2{font-size:13px;color:var(--muted);margin:0 0 8px;letter-spacing:.2px;text-transform:uppercase}
+    .wrap{max-width:980px;margin:0 auto;padding:24px}
+    .stack{display:grid;grid-template-columns:1fr;gap:14px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:0 6px 20px rgba(0,0,0,.04)}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    button{border:0;background:linear-gradient(180deg,#7dd3fc,#38bdf8);color:#052436;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(56,189,248,.35)}
+    button.secondary{background:#f3f4f6;color:#111827;border:1px solid var(--border);box-shadow:none}
+    .output{min-height:0;white-space:pre-wrap;background:#fbfdff;border:1px solid var(--border);border-radius:10px;padding:10px;overflow:auto}
+    .output.tall{min-height:160px}
+    .muted{color:var(--muted)}
+    .tiny{font-size:12px}
+    .diag{font-size:12px;color:#6b7280}
+    textarea,pre,code,input,button{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
+    textarea{width:100%;min-height:0;height:auto;overflow:hidden;resize:none;border-radius:10px;padding:10px;border:1px solid var(--border);background:#fbfdff;color:var(--text);box-sizing:border-box;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Building Performance</h1>
+
+  <div class="stack">
+
+    <!-- What this is? -->
+    <div class="card" id="what">
+      <h2>What this is?</h2>
+      <p>One-file, pure JS + JSON building-performance reasoning using ARC:
+        <strong>Answer</strong> • <strong>Reason</strong> • <strong>Check</strong>.</p>
+      <ul>
+        <li><strong>Data</strong> — buildings, zones, envelope/equipment, observations, tags.</li>
+        <li><strong>Policies</strong> — declarative JSON rules (<code>if</code> atoms, optional <code>"not": true</code> ⇒ <code>then</code> atoms).</li>
+        <li><strong>Answer</strong> — newly derived facts (keeps strongest priority per building).</li>
+        <li><strong>Reason Why</strong> — mathematical-English derivation snippets.</li>
+        <li><strong>Check</strong> — ≥10 JSON assertions over the full fact set.</li>
+        <li><strong>Building Performance Summary</strong> — per-building best priority & tasks.</li>
+      </ul>
+      <p class="tiny muted">Engine: small forward-chainer with unification, subclassing (<code>subClass</code>), transitive <code>partOf</code>,
+        observation→building mapping, and negation-as-failure for <code>"not": true</code>.</p>
+    </div>
+
+    <div class="card">
+      <h2>Data (JSON)</h2>
+      <textarea id="dataTA" spellcheck="false">{
+  "classes": [
+    "Building","Component","Zone","Equipment","Envelope","Window","Wall","Roof",
+    "Observation","LifeSafety","MajorIssue","MinorIssue",
+    "CO2VeryHigh","HighEnergyUse","Overheating","Underheating","HighHumidity","AirLeakage","LowInsulation","FilterDirty",
+    "Tag","NoShading","SingleGlazed","HighSolarGain",
+    "Task","Priority","Critical","High","Normal","Low"
+  ],
+
+  "subclassOf": [
+    ["Zone","Component"], ["Equipment","Component"], ["Envelope","Component"], ["Window","Envelope"], ["Wall","Envelope"], ["Roof","Envelope"],
+    ["CO2VeryHigh","LifeSafety"],
+    ["HighEnergyUse","MajorIssue"],
+    ["Overheating","MajorIssue"],
+    ["Underheating","MajorIssue"],
+    ["HighHumidity","MajorIssue"],
+    ["AirLeakage","MajorIssue"],
+    ["LowInsulation","MajorIssue"],
+    ["FilterDirty","MinorIssue"],
+    ["LifeSafety","Observation"], ["MajorIssue","Observation"], ["MinorIssue","Observation"]
+  ],
+
+  "assets": {
+    "B1": {"type":"Building"},
+    "Z1": {"type":"Zone","partOf":"B1"},
+    "WN1": {"type":"Window","partOf":"B1"},
+    "AHU1": {"type":"Equipment","partOf":"B1"},
+
+    "B2": {"type":"Building"},
+    "Z2": {"type":"Zone","partOf":"B2"},
+    "WN2": {"type":"Window","partOf":"B2"},
+
+    "B3": {"type":"Building"},
+    "AHU3": {"type":"Equipment","partOf":"B3"}
+  },
+
+  "componentTags": [
+    ["WN2","NoShading"],
+    ["Z2","HighSolarGain"],
+    ["WN1","SingleGlazed"]
+  ],
+
+  "observations": [
+    {"id":"ObsCO2Z1","type":"CO2VeryHigh","about":"Z1"},
+    {"id":"ObsHumZ1","type":"HighHumidity","about":"Z1"},
+    {"id":"ObsLeakWN1","type":"AirLeakage","about":"WN1"},
+
+    {"id":"ObsEnergyB2","type":"HighEnergyUse","about":"B2"},
+    {"id":"ObsHeatZ2","type":"Overheating","about":"Z2"},
+
+    {"id":"ObsFilterAHU3","type":"FilterDirty","about":"AHU3"}
+  ]
+}</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Policies (declarative JSON rules)</h2>
+      <textarea id="policyTA" spellcheck="false">[
+  {
+    "id":"R1-Subclass",
+    "if":[ {"pred":"subClass","s":"?A","o":"?B"}, {"pred":"isA","s":"?S","o":"?A"} ],
+    "then":[ {"pred":"isA","s":"?S","o":"?B"} ],
+    "explain":"Since ?A ⊑ ?B and ?S ∈ ?A, infer ?S ∈ ?B."
+  },
+  {
+    "id":"R2-PartOfTransitive",
+    "if":[ {"pred":"partOf","s":"?x","o":"?y"}, {"pred":"partOf","s":"?y","o":"?z"} ],
+    "then":[ {"pred":"partOf","s":"?x","o":"?z"} ],
+    "explain":"Because ?x is part of ?y and ?y is part of ?z, by transitivity ?x is part of ?z."
+  },
+  {
+    "id":"R3-ObsToBuilding",
+    "if":[ {"pred":"about","s":"?obs","o":"?comp"}, {"pred":"partOf","s":"?comp","o":"?B"} ],
+    "then":[ {"pred":"aboutBuilding","s":"?obs","o":"?B"} ],
+    "explain":"Observation ?obs concerns component ?comp of building ?B; therefore it is about ?B."
+  },
+  {
+    "id":"R4-TagExpose",
+    "if":[ {"pred":"tag","s":"?S","o":"?T"} ],
+    "then":[ {"pred":"hasTag","s":"?S","o":"?T"} ],
+    "explain":"Expose component tag ?T on ?S as a fact."
+  },
+
+  {
+    "id":"T-CO2-Critical",
+    "if":[ {"pred":"isA","s":"?obs","o":"CO2VeryHigh"}, {"pred":"aboutBuilding","s":"?obs","o":"?B"} ],
+    "then":[ {"pred":"requiresTask","s":"?B","o":"IncreaseVentilation"},
+             {"pred":"requiresTask","s":"?B","o":"CheckHVAC"},
+             {"pred":"priority","s":"?B","o":"Critical"} ],
+    "explain":"Severely elevated CO₂ for ?B requires increased ventilation, HVAC check, and Critical priority."
+  },
+  {
+    "id":"T-Humidity",
+    "if":[ {"pred":"isA","s":"?obs","o":"HighHumidity"}, {"pred":"aboutBuilding","s":"?obs","o":"?B"} ],
+    "then":[ {"pred":"requiresTask","s":"?B","o":"Dehumidify"} ],
+    "explain":"High humidity for ?B suggests dehumidification."
+  },
+  {
+    "id":"T-AirLeakage",
+    "if":[ {"pred":"isA","s":"?obs","o":"AirLeakage"}, {"pred":"aboutBuilding","s":"?obs","o":"?B"} ],
+    "then":[ {"pred":"requiresTask","s":"?B","o":"SealEnvelope"} ],
+    "explain":"Air leakage for ?B implies sealing envelope."
+  },
+  {
+    "id":"T-LowInsulation",
+    "if":[ {"pred":"isA","s":"?obs","o":"LowInsulation"}, {"pred":"aboutBuilding","s":"?obs","o":"?B"} ],
+    "then":[ {"pred":"requiresTask","s":"?B","o":"AddInsulation"} ],
+    "explain":"Low insulation for ?B implies adding insulation."
+  },
+  {
+    "id":"T-EnergyUse",
+    "if":[ {"pred":"isA","s":"?obs","o":"HighEnergyUse"}, {"pred":"aboutBuilding","s":"?obs","o":"?B"} ],
+    "then":[ {"pred":"requiresTask","s":"?B","o":"EnergyAudit"},
+             {"pred":"requiresTask","s":"?B","o":"TuneBAS"} ],
+    "explain":"High energy use for ?B implies an energy audit and BAS tuning."
+  },
+  {
+    "id":"T-Overheating",
+    "if":[ {"pred":"isA","s":"?obs","o":"Overheating"}, {"pred":"aboutBuilding","s":"?obs","o":"?B"} ],
+    "then":[ {"pred":"requiresTask","s":"?B","o":"CalibrateThermostat"},
+             {"pred":"requiresTask","s":"?B","o":"EvaluateGlazing"} ],
+    "explain":"Overheating for ?B suggests thermostat calibration and glazing evaluation."
+  },
+  {
+    "id":"T-Overheat-NoShading",
+    "if":[ {"pred":"isA","s":"?obs","o":"Overheating"}, {"pred":"aboutBuilding","s":"?obs","o":"?B"},
+           {"pred":"hasTag","s":"?S","o":"NoShading"}, {"pred":"partOf","s":"?S","o":"?B"} ],
+    "then":[ {"pred":"requiresTask","s":"?B","o":"AddExternalShading"} ],
+    "explain":"Overheating and an unshaded component in ?B imply adding external shading."
+  },
+  {
+    "id":"T-FilterDirty",
+    "if":[ {"pred":"isA","s":"?obs","o":"FilterDirty"}, {"pred":"aboutBuilding","s":"?obs","o":"?B"} ],
+    "then":[ {"pred":"requiresTask","s":"?B","o":"CleanFilters"} ],
+    "explain":"Dirty filters in ?B require cleaning."
+  },
+
+  {
+    "id":"P-LifeSafety→Critical",
+    "if":[ {"pred":"isA","s":"?obs","o":"LifeSafety"}, {"pred":"aboutBuilding","s":"?obs","o":"?B"} ],
+    "then":[ {"pred":"priority","s":"?B","o":"Critical"} ],
+    "explain":"Any life-safety issue for ?B sets Critical priority."
+  },
+  {
+    "id":"P-Major-NotLife→High",
+    "if":[ {"pred":"isA","s":"?obs","o":"MajorIssue"}, {"pred":"aboutBuilding","s":"?obs","o":"?B"},
+           {"not":true, "pred":"isA","s":"?obs","o":"LifeSafety"} ],
+    "then":[ {"pred":"priority","s":"?B","o":"High"} ],
+    "explain":"A major (but not life-safety) issue for ?B sets High priority."
+  },
+  {
+    "id":"P-MinorOnly→Low",
+    "if":[ {"pred":"isA","s":"?obs","o":"MinorIssue"}, {"pred":"aboutBuilding","s":"?obs","o":"?B"},
+           {"not":true, "pred":"isA","s":"?any","o":"MajorIssue"},
+           {"not":true, "pred":"isA","s":"?any2","o":"LifeSafety"} ],
+    "then":[ {"pred":"priority","s":"?B","o":"Low"} ],
+    "explain":"If ?B has only minor issues, set Low priority."
+  },
+  {
+    "id":"P-Default-Normal",
+    "if":[ {"pred":"requiresTask","s":"?B","o":"?X"},
+           {"not":true, "pred":"priority","s":"?B","o":"?Any"} ],
+    "then":[ {"pred":"priority","s":"?B","o":"Normal"} ],
+    "explain":"If ?B has tasks but no priority, default to Normal."
+  }
+]</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Checks (JSON)</h2>
+      <textarea id="checksTA" spellcheck="false">[
+  {"name":"ObsCO2Z1 about B1",          "pattern":{"pred":"aboutBuilding","s":"ObsCO2Z1","o":"B1"}},
+  {"name":"ObsHumZ1 about B1",          "pattern":{"pred":"aboutBuilding","s":"ObsHumZ1","o":"B1"}},
+  {"name":"ObsLeakWN1 about B1",        "pattern":{"pred":"aboutBuilding","s":"ObsLeakWN1","o":"B1"}},
+  {"name":"ObsEnergyB2 about B2",       "pattern":{"pred":"aboutBuilding","s":"ObsEnergyB2","o":"B2"}},
+  {"name":"ObsHeatZ2 about B2",         "pattern":{"pred":"aboutBuilding","s":"ObsHeatZ2","o":"B2"}},
+
+  {"name":"B1 IncreaseVentilation",     "pattern":{"pred":"requiresTask","s":"B1","o":"IncreaseVentilation"}},
+  {"name":"B1 Dehumidify",              "pattern":{"pred":"requiresTask","s":"B1","o":"Dehumidify"}},
+  {"name":"B1 SealEnvelope",            "pattern":{"pred":"requiresTask","s":"B1","o":"SealEnvelope"}},
+
+  {"name":"B2 EnergyAudit",             "pattern":{"pred":"requiresTask","s":"B2","o":"EnergyAudit"}},
+  {"name":"B2 TuneBAS",                 "pattern":{"pred":"requiresTask","s":"B2","o":"TuneBAS"}},
+  {"name":"B2 CalibrateThermostat",     "pattern":{"pred":"requiresTask","s":"B2","o":"CalibrateThermostat"}},
+  {"name":"B2 AddExternalShading",      "pattern":{"pred":"requiresTask","s":"B2","o":"AddExternalShading"}},
+
+  {"name":"B3 CleanFilters",            "pattern":{"pred":"requiresTask","s":"B3","o":"CleanFilters"}},
+
+  {"name":"B1 priority Critical",       "pattern":{"pred":"priority","s":"B1","o":"Critical"}},
+  {"name":"B2 priority High",           "pattern":{"pred":"priority","s":"B2","o":"High"}},
+  {"name":"B3 priority Low",            "pattern":{"pred":"priority","s":"B3","o":"Low"}}
+]</textarea>
+    </div>
+
+    <div class="card">
+      <h2>Controls</h2>
+      <div class="row">
+        <button id="runBtn">▶ Run ARC</button>
+        <button id="reasonBtn" class="secondary">Show Reason only</button>
+        <span id="status" class="muted tiny" style="margin-left:auto"></span>
+      </div>
+      <div id="diag" class="diag"></div>
+    </div>
+
+    <div class="card">
+      <h2>Answer (newly derived facts)</h2>
+      <div id="answer" class="output tall">computing…</div>
+    </div>
+
+    <div class="card">
+      <h2>Reason Why (mathematical English)</h2>
+      <div id="reason" class="output tall">(click “Run ARC”)</div>
+    </div>
+
+    <div class="card">
+      <h2>Check</h2>
+      <div id="checks" class="output tall">computing…</div>
+    </div>
+
+    <div class="card" id="summaryCard">
+      <h2>Building Performance Summary</h2>
+      <div id="summary" class="output">(run to populate)</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const els = {
+    dataTA: $("dataTA"), policyTA: $("policyTA"), checksTA: $("checksTA"),
+    runBtn: $("runBtn"), reasonBtn: $("reasonBtn"),
+    status: $("status"), diag: $("diag"),
+    answer: $("answer"), reason: $("reason"), checks: $("checks"), summary: $("summary")
+  };
+
+  // Auto-grow textareas
+  function autoResize(el){ el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
+  ["dataTA","policyTA","checksTA"].forEach(id=>{
+    const el=$(id); el.addEventListener('input',()=>autoResize(el)); setTimeout(()=>autoResize(el),0);
+  });
+
+  // --- KB helpers
+  function key(f){ return `${f.pred}|${f.s}|${f.o}`; }
+
+  function buildFactsFromData(spec){
+    const facts = [];
+    (spec.subclassOf||[]).forEach(([a,b])=>facts.push({pred:"subClass",s:a,o:b,_base:true}));
+    for(const [id,info] of Object.entries(spec.assets||{})){
+      if(info.type) facts.push({pred:"isA",s:id,o:info.type,_base:true});
+      if(info.partOf) facts.push({pred:"partOf",s:id,o:info.partOf,_base:true});
+    }
+    // component tags
+    (spec.componentTags||[]).forEach(([s,t])=>facts.push({pred:"tag",s:s,o:t,_base:true}));
+    // observations
+    (spec.observations||[]).forEach(o=>{
+      facts.push({pred:"isA",s:o.id,o:o.type,_base:true});
+      facts.push({pred:"about",s:o.id,o:o.about,_base:true});
+      // if directly about a Building, also expose aboutBuilding
+      if ((spec.assets[o.about]?.type) === "Building") {
+        facts.push({pred:"aboutBuilding",s:o.id,o:o.about,_base:true});
+      }
+    });
+    return facts;
+  }
+
+  function indexFacts(facts){
+    const byPred = new Map();
+    for(const f of facts){
+      if(!byPred.has(f.pred)) byPred.set(f.pred, []);
+      byPred.get(f.pred).push(f);
+    }
+    return { byPred };
+  }
+
+  function isVar(x){ return typeof x==="string" && x.startsWith("?"); }
+
+  function unifyAtomWithFact(atom, f, env){
+    const out = {...env};
+    const slots = ["pred","s","o"];
+    for(const slot of slots){
+      const val = atom[slot];
+      const factVal = f[slot] ?? (slot==="pred"? f.pred : slot==="s"? f.s : f.o);
+      if(isVar(val)){
+        if(out[val]!==undefined && out[val]!==factVal) return null;
+        out[val]=factVal;
+      } else {
+        if(val!==factVal) return null;
+      }
+    }
+    return out;
+  }
+
+  function matchPositives(rule, factsIdx, env={}, i=0){
+    if(i>=rule.if.length) return [env];
+    const atom = rule.if[i];
+    if(atom.not) return matchPositives(rule, factsIdx, env, i+1);
+    const candidates = factsIdx.byPred.get(atom.pred)||[];
+    const out = [];
+    for(const f of candidates){
+      const env2 = unifyAtomWithFact(atom,f,env);
+      if(env2) out.push(...matchPositives(rule, factsIdx, env2, i+1));
+    }
+    return out;
+  }
+
+  function negHolds(atom, factsIdx, env){
+    const candidates = factsIdx.byPred.get(atom.pred)||[];
+    for(const f of candidates){
+      if(unifyAtomWithFact(atom,f,env)) return true;
+    }
+    return false;
+  }
+
+  function substitute(t, env){
+    const sub = v => isVar(v) ? env[v] : v;
+    return { pred: t.pred, s: sub(t.s), o: sub(t.o) };
+  }
+
+  // ---- Priority handling (Critical > High > Low > Normal)
+  const PRIORITY_RANK = { Critical: 4, High: 3, Low: 2, Normal: 1 };
+
+  function bestPriorities(facts) {
+    const best = new Map();
+    for (const f of facts) {
+      if (f.pred !== "priority") continue;
+      const cur = best.get(f.s);
+      if (!cur || (PRIORITY_RANK[f.o]||0) > (PRIORITY_RANK[cur]||0)) {
+        best.set(f.s, f.o);
+      }
+    }
+    return best;
+  }
+
+  function derive(data, policies){
+    let facts = buildFactsFromData(data);
+    const baseSet = new Set(facts.map(key));
+    const factSet = new Set(baseSet);
+    const factsIdx = indexFacts(facts);
+    const proofs = new Map(); // key -> explanation
+
+    let changed=true, guard=0;
+    while(changed && guard++<200){
+      changed=false;
+      for(const rule of policies){
+        const posBindings = matchPositives(rule, factsIdx, {}, 0);
+        for(const env of posBindings){
+          const negs = rule.if.filter(a=>a.not);
+          let ok=true, negUsed=[];
+          for(const n of negs){
+            const nSub = substitute(n, env);
+            if(negHolds(nSub, factsIdx, env)){ ok=false; break; }
+            negUsed.push(nSub);
+          }
+          if(!ok) continue;
+
+          for(const t of rule.then){
+            const concl = substitute(t, env);
+            const k = key(concl);
+            if(!factSet.has(k)){
+              facts.push({...concl,_base:false});
+              factSet.add(k);
+              changed=true;
+              if(!factsIdx.byPred.has(concl.pred)) factsIdx.byPred.set(concl.pred,[]);
+              factsIdx.byPred.get(concl.pred).push({...concl,_base:false});
+              const exp = buildExplanation(rule, env, negUsed);
+              proofs.set(k, exp);
+            }
+          }
+        }
+      }
+    }
+
+    const derived = facts.filter(f=>!f._base);
+
+    // Keep only strongest priority per building for Answer/Reason
+    const best = bestPriorities(facts);
+    const derivedFiltered = derived.filter(f =>
+      f.pred !== "priority" || best.get(f.s) === f.o
+    );
+
+    const answerLines = formatFacts(derivedFiltered);
+
+    const reasonLines = [];
+    for(const f of derivedFiltered){
+      const k = key(f);
+      const exp = proofs.get(k);
+      if(exp) reasonLines.push(`• ${exp} ⇒ therefore ${prettyFact(f)}.`);
+      else reasonLines.push(`• Derived ${prettyFact(f)}.`);
+    }
+
+    return { facts, derived, answerText: answerLines.join("\n"), reasonText: reasonLines.join("\n") };
+  }
+
+  function buildExplanation(rule, env, negUsed){
+    const fill = s => s.replace(/\?[A-Za-z0-9_]+/g, m => env[m] ?? m);
+    let text = fill(rule.explain || `Applied ${rule.id}`);
+    if(negUsed && negUsed.length){
+      const negBits = negUsed.map(n=>`no fact ${n.pred}(${n.s}, ${n.o})`).join(" and ");
+      text += `, and ${negBits}`;
+    }
+    return text;
+  }
+
+  function prettyFact(f){
+    const p = f.pred, s=f.s, o=f.o;
+    const tri = {
+      "isA":            `${s} ∈ ${o}`,
+      "subClass":       `${s} ⊑ ${o}`,
+      "partOf":         `${s} partOf ${o}`,
+      "about":          `${s} about ${o}`,
+      "aboutBuilding":  `${s} aboutBuilding ${o}`,
+      "tag":            `${s} tag ${o}`,
+      "hasTag":         `${s} hasTag ${o}`,
+      "requiresTask":   `${s} requires ${o}`,
+      "priority":       `${s} priority ${o}`
+    };
+    return tri[p] || `${s} ${p} ${o}`;
+  }
+
+  function formatFacts(facts){
+    const groups = {};
+    for(const f of facts){ (groups[f.pred] ||= []).push(f); }
+    const order = ["isA","subClass","partOf","tag","hasTag","about","aboutBuilding","requiresTask","priority"];
+    const lines = [];
+    for(const pred of order){
+      if(!groups[pred]) continue;
+      const sorted = groups[pred].slice().sort((a,b)=> (a.s+a.o).localeCompare(b.s+b.o));
+      for(const f of sorted) lines.push(prettyFact(f));
+    }
+    for(const pred of Object.keys(groups)){
+      if(order.includes(pred)) continue;
+      const sorted = groups[pred].slice().sort((a,b)=> (a.s+a.o).localeCompare(b.s+b.o));
+      for(const f of sorted) lines.push(prettyFact(f));
+    }
+    return lines;
+  }
+
+  // ---- Checks
+  function runChecks(facts, checksSpec){
+    const factSet = new Set(facts.map(key));
+    const out = [];
+    for(let i=0;i<checksSpec.length;i++){
+      const chk = checksSpec[i];
+      const k = key(chk.pattern);
+      const passed = factSet.has(k);
+      out.push({i:i+1, name: chk.name, passed});
+    }
+    return out;
+  }
+  function renderChecks(results){
+    if(!results.length) return "(no checks)";
+    const lines = [];
+    for(const r of results){ lines.push(`${r.passed ? "✅" : "❌"} ${String(r.i).padStart(2," ")} — ${r.name}`); }
+    const passCt = results.filter(r=>r.passed).length;
+    lines.push(`\nSummary: ${passCt}/${results.length} PASS`);
+    return lines.join("\n");
+  }
+
+  // ---- Summary (uses strongest priority per building)
+  function summarizeBuildings(facts){
+    const tasksByB = new Map();
+    for (const f of facts) {
+      if (f.pred === "requiresTask") {
+        if (!tasksByB.has(f.s)) tasksByB.set(f.s, new Set());
+        tasksByB.get(f.s).add(f.o);
+      }
+    }
+    const best = bestPriorities(facts);
+    const buildings = new Set([...tasksByB.keys(), ...best.keys()]);
+    if (!buildings.size) return "(no derived tasks/priority)";
+    const lines = [];
+    for (const b of [...buildings].sort()) {
+      const pr = best.get(b) || "Normal";
+      const tasks = [...(tasksByB.get(b) || [])].sort().join(", ");
+      lines.push(`${b}: priority ${pr}${tasks ? " — tasks: " + tasks : ""}`);
+    }
+    return lines.join("\n");
+  }
+
+  // ---- Orchestration
+  function parseJSON(text, label){
+    try { return JSON.parse(text); }
+    catch(e){ throw new Error(`${label} JSON error: ${e.message}`); }
+  }
+  function toPolicies(spec){
+    return spec.map(r => ({ id:r.id||"(unnamed)", if:r.if||[], then:r.then||[], explain:r.explain||"" }));
+  }
+  function buildDataObj(spec){ return spec; }
+
+  async function runARC(){
+    els.status.textContent = "Parsing JSON…";
+    els.answer.textContent = els.reason.textContent = els.checks.textContent = "computing…";
+    els.summary.textContent = "(run to populate)";
+    els.diag.textContent = "";
+    try{
+      const dataSpec = parseJSON(els.dataTA.value, "Data");
+      const polSpec  = parseJSON(els.policyTA.value, "Policies");
+      const checksSpec = parseJSON(els.checksTA.value, "Checks");
+      const data = buildDataObj(dataSpec);
+      const policies = toPolicies(polSpec);
+
+      els.status.textContent = "Reasoning…";
+      const { facts, derived, answerText, reasonText } = derive(data, policies);
+
+      els.answer.textContent = answerText || "(no new derivations)";
+      els.reason.textContent = reasonText || "(no explanations available)";
+
+      els.status.textContent = "Running checks…";
+      const checkResults = runChecks(facts, checksSpec);
+      els.checks.textContent = renderChecks(checkResults);
+
+      els.summary.textContent = summarizeBuildings(facts);
+
+      els.status.textContent = "Done.";
+    } catch(e){
+      console.error(e);
+      els.status.textContent = "Error";
+      els.answer.textContent = "(failed)";
+      els.reason.textContent = "(failed)";
+      els.checks.textContent = "(failed)";
+      els.summary.textContent = "(failed)";
+      els.diag.textContent = e.message;
+    }
+    autoResize(els.dataTA); autoResize(els.policyTA); autoResize(els.checksTA);
+  }
+
+  function showReasonOnly(){
+    runARC().then(()=> {
+      window.scrollTo({top: $("reason").getBoundingClientRect().top + window.scrollY - 12, behavior: "smooth"});
+    });
+  }
+
+  els.runBtn.addEventListener('click', runARC);
+  els.reasonBtn.addEventListener('click', showReasonOnly);
+  window.addEventListener('DOMContentLoaded', runARC);
+</script>
+</body>
+</html>
+

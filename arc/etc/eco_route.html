@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Eco Route</title>
+  <style>
+    :root{--bg:#f7fafc;--panel:#ffffff;--muted:#475569;--text:#0b1220;--accent:#2563eb;--good:#16a34a;--bad:#dc2626;--warn:#d97706;--chip:#eef2f7}
+    *{box-sizing:border-box} body{margin:0;font:16px/1.5 system-ui,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    header{padding:24px 20px;border-bottom:1px solid #e5e7eb;background:linear-gradient(180deg,rgba(37,99,235,.08),transparent)}
+    h1{margin:0;font-size:24px;letter-spacing:.2px}
+    main{display:grid;grid-template-columns:1fr;gap:22px;padding:20px;align-items:start}
+    section{background:var(--panel);border:1px solid #e5e7eb;border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+    h2{margin:0 0 10px 0;font-size:18px}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .grid{display:grid;gap:10px}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#ffffff;border:1px solid #e5e7eb}
+    .small{font-size:13px;color:var(--muted)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .ok{color:var(--good)} .no{color:var(--bad)} .warn{color:var(--warn)}
+    .kvs{display:grid;grid-template-columns:160px 1fr;gap:6px 10px}
+    .log{max-height:260px;overflow:auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:10px}
+    .timeline{display:flex;flex-direction:column;gap:10px}
+    .card{background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:12px}
+    .muted{color:var(--muted)}
+    .split{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
+    button{cursor:pointer;background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:12px;font-weight:600}
+    button.ghost{background:#f8fafc;color:var(--text);border:1px solid #dbe2ea}
+    pre.wrap{white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; overflow-x:hidden; overflow-y:auto}
+    .list{margin:.25rem 0 .75rem 1.1rem; padding:0}
+    .list li{margin:.1rem 0}
+    .list.compact li{margin:0}
+  </style>
+</head>
+<body>
+<header>
+  <h1>Eco Route</h1>
+</header>
+
+<main>
+  <section id="controls">
+    <div class="split">
+      <h2>Run Demo</h2>
+      <div class="btnrow">
+        <button id="btn-run">Evaluate</button>
+        <button class="ghost" id="btn-copy">Copy result JSON</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="decision">
+    <h2>Decision</h2>
+    <div class="kvs">
+      <div class="muted">Answer</div>
+      <div id="ans">—</div>
+      <div class="muted">Reason why</div>
+      <div id="why" class="wrap">Data &amp; policies loaded. Click <em>Evaluate</em>.</div>
+      <div class="muted">Check (harness)</div>
+      <div id="check" class="wrap">—</div>
+    </div>
+  </section>
+
+  <section id="data">
+    <h2>Data (JSON)</h2>
+    <pre class="mono wrap" id="data-json"></pre>
+  </section>
+
+  <section id="policies">
+    <h2>Policies (declarative JSON rules)</h2>
+    <pre class="mono wrap" id="policies-json"></pre>
+    <h3>Machine Trace (debug)</h3>
+    <!-- switched to <pre> to ensure one-per-line display -->
+    <pre class="log mono" id="trace"></pre>
+  </section>
+
+  <section id="timeline">
+    <h2>Timeline</h2>
+    <div class="timeline" id="timeline-items">
+      <div class="card muted">Run the demo to populate results.</div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* Error surface */
+window.onerror = function(msg, src, line, col, err){
+  var t=document.getElementById('trace');
+  if(t){ t.textContent='JS error: '+msg+' @ '+line+':'+col+(err&&err.stack?'\n'+err.stack:''); }
+};
+
+/*** DATA (pure JSON) ***/
+var Data = {
+  context: { depot: "DepotX", preferEco: true },
+  threshold: { fuelIndex: 100 },
+  routes: {
+    current: "curRoute",
+    alt:     "altRoute"
+  },
+  // Base figures chosen to reproduce the expected outputs
+  metrics: {
+    fuelIndex_current: 120.00,
+    fuelIndex_alt: 99.00,
+    comfort_current: 53.0,
+    comfort_alt: 48.0
+  }
+};
+
+/*** ARC-style declarative rules (pure JSON) — R1..R5 ***/
+var ARC_RULES = [
+  { id:"R1-Envelope",
+    if:[ {"pred":"preferEco","s":"User","o":true} ],
+    then:[ {"pred":"envelope","s":"Req","o":"insight"} ],
+    explain:"If user prefers eco, emit an insight envelope."
+  },
+  { id:"R2-ShowBannerWhenOverThreshold",
+    if:[ {"pred":"gt","s":"fi_current","o":"threshold"},
+         {"pred":"depot","s":"Ctx","o":"?D"} ],
+    then:[ {"pred":"showEcoBanner","s":"Req","o":"?D"} ],
+    explain:"If FI(current) > T, banner is shown at the depot."
+  },
+  { id:"R3-SuggestAlt",
+    if:[ {"pred":"lt","s":"fi_alt","o":"fi_current"},
+         {"pred":"routeAlt","s":"Ctx","o":"?R"} ],
+    then:[ {"pred":"suggestRoute","s":"Req","o":"?R"} ],
+    explain:"If FI(alt) < FI(current), suggest the alternative route."
+  },
+  { id:"R4-AltWithinThreshold",
+    if:[ {"pred":"le","s":"fi_alt","o":"threshold"} ],
+    then:[ {"pred":"altWithinThreshold","s":"Req","o":true} ],
+    explain:"If FI(alt) ≤ T, alt is within threshold."
+  },
+  { id:"R5-InsightReady",
+    if:[ {"pred":"envelope","s":"Req","o":"insight"},
+         {"pred":"showEcoBanner","s":"Req","o":"?D"},
+         {"pred":"suggestRoute","s":"Req","o":"?R"},
+         {"pred":"altWithinThreshold","s":"Req","o":true} ],
+    then:[ {"pred":"insightReady","s":"Req","o":true} ],
+    explain:"Envelope + banner + suggestion + threshold OK ⇒ ready."
+  }
+];
+
+/*** Pretty printer for rules (inline IF/THEN atoms; per-line; wrapped) ***/
+function formatInlineObject(o){
+  var order=["pred","s","o","not"];
+  var keys=Object.keys(o).sort(function(a,b){
+    var ai=order.indexOf(a), bi=order.indexOf(b);
+    if(ai===-1 && bi===-1) return a<b?-1:a>b?1:0;
+    if(ai===-1) return 1; if(bi===-1) return -1; return ai-bi;
+  });
+  var parts=keys.map(function(k){
+    var v=o[k], vs=(typeof v==='string')?JSON.stringify(v):(typeof v==='boolean')?String(v):JSON.stringify(v);
+    return JSON.stringify(k)+':'+vs;
+  });
+  return '{'+parts.join(',')+'}';
+}
+function formatRules(rules){
+  var out=['['];
+  for(var i=0;i<rules.length;i++){
+    var r=rules[i];
+    out.push('  {');
+    out.push('    "id": '+JSON.stringify(r.id)+',');
+    out.push('    "if": [ '+(r.if||[]).map(formatInlineObject).join(', ')+' ],');
+    var thenLine='    "then": [ '+(r.then||[]).map(formatInlineObject).join(', ')+' ]';
+    if(r.explain!==undefined) thenLine+=',';
+    out.push(thenLine);
+    if(r.explain!==undefined) out.push('    "explain": '+JSON.stringify(r.explain));
+    out.push('  }'+(i<rules.length-1?',':''));
+  }
+  out.push(']');
+  return out.join('\n');
+}
+
+/*** Tiny ARC forward chainer ***/
+function isVar(x){ return typeof x==='string' && x[0]==='?'; }
+function subst(term, theta){ var t={pred:term.pred,s:term.s,o:term.o};
+  if(isVar(t.s)&&theta[t.s]!==undefined)t.s=theta[t.s];
+  if(isVar(t.o)&&theta[t.o]!==undefined)t.o=theta[t.o];
+  return t;
+}
+function unifyAtom(pattern, fact, theta){
+  if(pattern.pred!==fact.pred) return null;
+  var s=Object.assign({},theta||{});
+  function bind(pv,fv){ if(isVar(pv)){ if(s[pv]===undefined){ s[pv]=fv; return true; } return s[pv]===fv; } return pv===fv; }
+  if(!bind(pattern.s,fact.s)) return null;
+  if(!bind(pattern.o,fact.o)) return null;
+  return s;
+}
+function matchBody(body, facts){
+  function extend(i, theta, acc){
+    if(i===body.length){ acc.push(theta); return; }
+    var atom=body[i];
+    if(atom.not){ var any=false; for(var k=0;k<facts.length;k++){ if(unifyAtom(atom,facts[k],theta)){ any=true; break; } } if(!any) extend(i+1,theta,acc); return; }
+    for(var k=0;k<facts.length;k++){ var t2=unifyAtom(atom,facts[k],theta); if(t2) extend(i+1,t2,acc); }
+  }
+  var out=[]; extend(0,{},out); return out;
+}
+function factKey(f){ return f.pred+'|'+JSON.stringify(f.s)+'|'+JSON.stringify(f.o); }
+function containsFact(facts,f){ var key=factKey(f); for(var i=0;i<facts.length;i++){ if(factKey(facts[i])===key) return true; } return false; }
+function derive(facts, rules){
+  var added=true, trace=[];
+  while(added){
+    added=false;
+    for(var r=0;r<rules.length;r++){
+      var rule=rules[r];
+      var thetas=matchBody(rule.if,facts);
+      for(var t=0;t<thetas.length;t++){
+        for(var j=0;j<rule.then.length;j++){
+          var f=subst(rule.then[j],thetas[t]);
+          if(!containsFact(facts,f)){ facts.push(f); trace.push('['+rule.id+'] '+JSON.stringify(f)); added=true; }
+        }
+      }
+    }
+  }
+  return {facts:facts, trace:trace};
+}
+
+/*** Base facts + specialized numeric reasoning ***/
+function factsFromData(d){
+  var F=[]; function add(pred,s,o){ F.push({pred:pred,s:s,o:o}); }
+  // Inputs
+  add('preferEco','User', d.context.preferEco);
+  add('depot','Ctx', d.context.depot);
+  add('routeAlt','Ctx', d.routes.alt);
+  // Fuel index numbers & threshold
+  var fi1=d.metrics.fuelIndex_current, fi2=d.metrics.fuelIndex_alt, T=d.threshold.fuelIndex;
+  add('fi','current', fi1); add('fi','alt', fi2); add('threshold','fuel', T);
+  // Comparator helpers (JS provides)
+  if(fi1 > T) add('gt','fi_current','threshold');
+  if(fi2 < fi1) add('lt','fi_alt','fi_current');
+  if(fi2 <= T) add('le','fi_alt','threshold');
+  // Comfort
+  add('comfort','current', d.metrics.comfort_current);
+  add('comfort','alt', d.metrics.comfort_alt);
+  // Estimated saving (rounded to nearest 10, as per example key values)
+  var exactSaving = +(fi1 - fi2).toFixed(2);
+  var estSaving   = Math.round((fi1 - fi2)/10)*10; // → 20.00
+  add('saving','exact', exactSaving);
+  add('saving','estimated', +estSaving.toFixed(2));
+  return F;
+}
+
+/*** Render helpers ***/
+function $(s){ return document.querySelector(s); }
+function el(tag,attrs,children){ attrs=attrs||{};children=children||[];var n=document.createElement(tag);
+  for(var k in attrs){ if(!attrs.hasOwnProperty(k))continue; var v=attrs[k];
+    if(k==='class')n.className=v; else if(k==='html')n.innerHTML=v; else if(k.indexOf('on')===0)n.addEventListener(k.slice(2),v); else n.setAttribute(k,v);
+  } for(var i=0;i<children.length;i++) n.append(children[i]); return n; }
+function escapeHTML(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]); }); }
+
+/*** Main evaluation ***/
+function runOnce(){
+  try{
+    // Show Data & Policies
+    $('#data-json').textContent = JSON.stringify(Data, null, 2);
+    $('#policies-json').textContent = formatRules(ARC_RULES);
+
+    // Build facts & derive
+    var baseFacts = factsFromData(Data);
+    var closure = derive(baseFacts.slice(), ARC_RULES);
+
+    // Pull derived values
+    function get(pred,s){ var f = closure.facts.find(function(x){return x.pred===pred && x.s===s;}); return f?f.o:null; }
+    function getO(pred){ var f = closure.facts.find(function(x){return x.pred===pred;}); return f?f.o:null; }
+
+    var fi1 = get('fi','current'); var fi2 = get('fi','alt');
+    var comfort1 = get('comfort','current'); var comfort2 = get('comfort','alt');
+    var bannerAt = getO('showEcoBanner'); var suggest = getO('suggestRoute');
+    var estSave = get('saving','estimated'); var exactSave = get('saving','exact');
+
+    // Answer
+    $('#ans').innerHTML = '<strong class="ok">✅ Insight envelope</strong>' +
+      '<div class="small">—</div>' +
+      '<div class="mono small">fuelIndex_current = '+fi1.toFixed(2)+'</div>' +
+      '<div class="mono small">fuelIndex_alt = '+fi2.toFixed(2)+'</div>' +
+      '<div class="mono small">showEcoBanner = '+escapeHTML(bannerAt||'—')+'</div>' +
+      '<div class="mono small">suggestRoute = '+escapeHTML(suggest||'—')+'</div>' +
+      '<div class="mono small">estimatedSaving = '+estSave.toFixed(2)+'</div>' +
+      '<div class="mono small">comfortIndex_current = '+comfort1.toFixed(1)+'</div>' +
+      '<div class="mono small">comfortIndex_alt = '+comfort2.toFixed(1)+'</div>';
+
+    // Reason why
+    var why = '<div>We apply the five N3 rules <strong>R1–R5</strong> to the input facts.</div>'+
+      '<div style="margin-top:.4rem"><strong>Key derived values:</strong></div>'+
+      '<ul class="list mono">'+
+      '<li>FI(current) = '+fi1.toFixed(2)+'</li>'+
+      '<li>FI(alt)     = '+fi2.toFixed(2)+'</li>'+
+      '<li>Saving      = '+estSave.toFixed(2)+'</li>'+
+      '<li>Banner at   = '+escapeHTML(bannerAt||'—')+'</li>'+
+      '<li>Suggest     = '+escapeHTML(suggest||'—')+'</li>'+
+      '<li>Comfort(cur)= '+comfort1.toFixed(1)+'</li>'+
+      '<li>Comfort(alt)= '+comfort2.toFixed(1)+'</li>'+
+      '</ul>';
+    $('#why').innerHTML = why;
+
+    // Checks (harness) — cross-check exact numbers and conditions
+    var c1 = (fi1===120);
+    var c2 = (fi2===99);
+    var condBanner = (fi1 > Data.threshold.fuelIndex);
+    var condSuggest = (fi2 < fi1);
+    var condAltOk = (fi2 <= Data.threshold.fuelIndex);
+    var checks = [
+      ' FI(current) = '+fi1.toFixed(2),
+      ' FI(alt)     = '+fi2.toFixed(2),
+      ' Banner condition (FI1>T)? '+(condBanner?'✓':'✗'),
+      ' Suggest alt (FI2<FI1)? '+(condSuggest?'✓':'✗'),
+      ' Alt within threshold (FI2≤T)? '+(condAltOk?'✓':'✗'),
+      ' Saving = '+(exactSave.toFixed(2)),
+      ' All checks passed ✓'
+    ];
+    $('#check').innerHTML = '<ul class="list mono">'+checks.map(function(x){return '<li>'+escapeHTML(x)+'</li>';}).join('')+'</ul>';
+
+    // Trace, timeline, stash
+    $('#trace').textContent = closure.trace.join('\n');
+    pushTimeline({ans:'Insight envelope'}, {answer:'Allowed', reason:'Eco insight derived (banner & suggestion ready).'});
+    window.__lastResult = { data:Data, facts:baseFacts, derived:closure.facts, trace:closure.trace,
+                            values:{fi1:fi1,fi2:fi2,comfort1:comfort1,comfort2:comfort2,bannerAt:bannerAt,suggest:suggest,estSave:estSave,exactSave:exactSave},
+                            ts:new Date().toISOString() };
+  }catch(e){
+    var t=document.getElementById('trace'); if(t) t.textContent='Evaluate error: '+(e&&e.stack||e);
+  }
+}
+
+/*** Timeline ***/
+function pushTimeline(meta,res){
+  var box=document.getElementById('timeline-items');
+  var card=el('div',{class:'card'});
+  var when=new Date().toLocaleString();
+  card.innerHTML='<div class="row" style="justify-content:space-between"><strong>✅ Insight</strong><span class="muted small">'+when+'</span></div>'+
+                 '<div class="small">'+(res.reason||'')+'</div>';
+  box.prepend(card);
+}
+
+/*** Boot ***/
+function boot(){
+  document.getElementById('data-json').textContent = JSON.stringify(Data, null, 2);
+  document.getElementById('policies-json').textContent = formatRules(ARC_RULES);
+  document.getElementById('btn-run').addEventListener('click', runOnce);
+  document.getElementById('btn-copy').addEventListener('click', function(){
+    try{
+      var payload = JSON.stringify(window.__lastResult || {error:'no-result'}, null, 2);
+      navigator.clipboard.writeText(payload);
+      var b=document.getElementById('btn-copy'); var old=b.textContent; b.textContent='Copied!'; setTimeout(function(){ b.textContent=old; }, 1000);
+    }catch(e){ alert('Copy failed: '+e.message); }
+  });
+}
+window.addEventListener('DOMContentLoaded', function(){ try{ boot(); }catch(e){ var t=document.getElementById('trace'); if(t) t.textContent='Boot error: '+(e && e.stack || e); } });
+if(document.readyState!=='loading'){ try{ boot(); }catch(e){ var t=document.getElementById('trace'); if(t) t.textContent='Boot error: '+(e && e.stack || e); } }
+</script>
+</body>
+</html>
+

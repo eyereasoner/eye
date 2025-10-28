@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Polynomial roots (Durand–Kerner)</title>
+  <style>
+    :root { --fg:#101014; --bg:#ffffff; --muted:#666; --accent:#2563eb; --chip:#eef2ff; --ok:#16a34a; --bad:#dc2626; --warn:#ca8a04; --card: color-mix(in srgb, var(--accent) 4%, transparent); }
+    @media (prefers-color-scheme: dark) {
+      :root { --fg:#eaeaf0; --bg:#0b0b10; --muted:#a0a0b0; --accent:#60a5fa; --chip:#0e1a32; --card: color-mix(in srgb, var(--accent) 6%, transparent); }
+    }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font: 15px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+    main { max-width: 1100px; margin: 0 auto; padding: 28px 16px 80px; }
+    h1 { font-size: clamp(1.6rem, 2.6vw + 1rem, 2.2rem); margin: 0 0 6px; }
+    header p { margin: 0; color: var(--muted); }
+    section { margin: 18px 0 22px; padding: 14px 14px 16px; border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent); border-radius: 14px;
+              background: var(--card); }
+    section h2 { margin: 0 0 8px; font-size: 1.15rem; }
+    .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .col { display:flex; flex-direction:column; gap:10px; }
+    .btn { appearance:none; border:1px solid color-mix(in srgb, var(--accent) 35%, transparent); background: color-mix(in srgb, var(--accent) 8%, transparent);
+           color: var(--fg); border-radius: 10px; padding: 8px 12px; font-weight: 700; cursor: pointer; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    .muted { color: var(--muted); }
+    .small { font-size: .92em; }
+    .chip { display:inline-block; padding:2px 8px; border-radius:999px; background:var(--chip); font-weight:600; }
+    input[type="text"] { width: 540px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); padding: 8px 10px; }
+    label { user-select:none; }
+    code { background: color-mix(in srgb, var(--accent) 10%, transparent); padding: .1rem .35rem; border-radius: .35rem; }
+    .ok { color: var(--ok); }
+    .bad { color: var(--bad); }
+    .warn { color: var(--warn); }
+    #answer { overflow-x:auto; }
+    #answer pre { white-space: pre !important; overflow-x:auto; overflow-y:auto; max-width:100%; }
+    table.tbl { border-collapse: collapse; width:100%; }
+    .tbl th, .tbl td { padding: 6px 8px; border-bottom: 1px dashed color-mix(in srgb, var(--fg) 18%, transparent); vertical-align: top; text-align: left; }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="row">
+      <div>
+        <h1>Polynomial roots (Durand–Kerner)</h1>
+        <p>Self‑contained complex root solver with an “explain & check” harness. Enter coefficients; get roots, residuals, Vieta checks, and a rebuild test.</p>
+      </div>
+      <div class="row" style="margin-left:auto;">
+        <label class="muted small">Coefficients (descending powers): <input id="coeffs" type="text" class="mono" value="1, -10, 35, -50, 24"></label>
+        <button id="solve" class="btn">Solve</button>
+        <button id="loadP1" class="btn">Load P1</button>
+        <button id="loadP2" class="btn">Load P2</button>
+        <button id="checkBtn" class="btn">Check</button>
+      </div>
+    </header>
+
+    <section>
+      <h2>What this is?</h2>
+      <p>This tool finds all complex roots of a polynomial using the <em>Durand–Kerner</em> (Weierstrass) method.</p>
+      <div class="small">
+        <p><strong>How it works:</strong> normalize to monic; choose distinct complex seeds; iterate
+        <code>x_k ← x_k − P(x_k) / ∏_{j≠k}(x_k − x_j)</code> simultaneously. For simple roots and generic starting points,
+        all roots converge quickly.</p>
+        <p><strong>Why it’s correct (sketch):</strong> roots are fixed points of this map; locally it behaves like a simultaneous Newton step.
+        We stop when all updates are &lt; <code>1e‑14</code> or after a hard iteration cap.</p>
+        <p><strong>Proof harness:</strong> after solving we compute tiny residuals <code>|P(r)|</code>, check Vieta’s identities on the monic form,
+        and rebuild the polynomial from the roots to compare coefficients.</p>
+      </div>
+    </section>
+
+    <section id="answer">
+      <h2>Answer</h2>
+      <div id="chips" class="row small" style="gap:8px"></div>
+      <div id="prettyPoly" class="mono small"></div>
+      <div id="roots"></div>
+      <div id="vieta" class="mono small"></div>
+      <div id="rebuild" class="mono small"></div>
+    </section>
+
+    <section id="reason">
+      <h2>Reason why</h2>
+      <div class="small">
+        <p><strong>Sorting & formatting.</strong> Roots are shown in a deterministic order (by rounded real, then imag parts).
+        Near‑integers snap to integers; we hide <code>±0i</code> and print <code>i</code> or <code>−i</code> for <code>±1·i</code>.</p>
+        <p><strong>Limits.</strong> Multiple roots converge slower; here, the two included test polynomials have simple roots,
+        so quadratic convergence is typical. Complexity per iteration is O(n²) (each update divides by a product).</p>
+      </div>
+    </section>
+
+    <section id="check">
+      <h2>Check (harness)</h2>
+      <div id="check-body"></div>
+    </section>
+  </main>
+
+  <script>
+  (function(){
+    "use strict";
+    const $ = (id) => document.getElementById(id);
+    const setHTML = (id, html) => { const el = $(id); if (el) el.innerHTML = html; };
+    const now = () => performance.now();
+
+    // -------- Complex numbers (double) --------
+    function C(re, im){ return {re: +re, im: +im}; }
+    const C0 = C(0,0), C1 = C(1,0);
+    function cAdd(a,b){ return C(a.re+b.re, a.im+b.im); }
+    function cSub(a,b){ return C(a.re-b.re, a.im-b.im); }
+    function cMul(a,b){ return C(a.re*b.re - a.im*b.im, a.re*b.im + a.im*b.re); }
+    function cDiv(a,b){
+      const d = b.re*b.re + b.im*b.im;
+      return C((a.re*b.re + a.im*b.im)/d, (a.im*b.re - a.re*b.im)/d);
+    }
+    function cAbs(a){ return Math.hypot(a.re, a.im); }
+    function cEq(a,b,eps=1e-12){ return cAbs(cSub(a,b)) <= eps; }
+    function cScale(a,s){ return C(a.re*s, a.im*s); }
+    function cHorner(coeffs, x){ // coeffs in DESC order
+      let v = C0;
+      for (const c of coeffs){ v = cAdd(cMul(v,x), c); }
+      return v;
+    }
+    function cPow(base, k){
+      let r = C1;
+      for (let i=0;i<k;i++) r = cMul(r, base);
+      return r;
+    }
+
+    // Parse complex from text like "3", "-2+5i", "7- i", "i", "-i", "(14+33i)"
+    function parseComplex(s){
+      s = (s||'').trim();
+      if (!s) return C0;
+      // strip outer parens
+      if (s[0]==='(' && s[s.length-1]===')') s = s.slice(1,-1);
+      s = s.replace(/\s+/g,'');
+      s = s.replace(/·/g,''); // just in case
+      s = s.replace(/\*?i$/,'i'); // normalize "*i" -> "i" at end
+      s = s.replace(/−/g,'-'); // minus symbol
+      if (!/i/i.test(s)){
+        const x = Number(s);
+        if (!Number.isFinite(x)) throw new Error('Bad coefficient: ' + s);
+        return C(x,0);
+      }
+      // handle pure imag "i" or "-i"
+      if (s==='i' || s==='+i') return C(0,1);
+      if (s==='-i') return C(0,-1);
+      // split real and imag (look for last + or - not at start)
+      const body = s.endsWith('i') ? s.slice(0,-1) : s; // drop trailing i
+      let split=-1;
+      for (let i=body.length-1;i>0;i--){
+        const ch = body[i];
+        if ((ch==='+' || ch==='-')){ split=i; break; }
+      }
+      if (split===-1){
+        // no explicit real part: like "5i" or "-2.5i"
+        const b = Number(body);
+        if (!Number.isFinite(b)) throw new Error('Bad imag: ' + s);
+        return C(0,b);
+      } else {
+        const ra = body.slice(0,split);
+        const ib = body.slice(split); // includes sign
+        const a = Number(ra);
+        const b = Number(ib);
+        if (!Number.isFinite(a) || !Number.isFinite(b)) throw new Error('Bad complex: ' + s);
+        return C(a,b);
+      }
+    }
+
+    function fmtNearInt(x, eps=1e-12){ const r = Math.round(x); return Math.abs(x-r)<=eps ? r : +x; }
+    function fmtC(z, eps=1e-12){
+      const a0 = fmtNearInt(z.re, eps), b0 = fmtNearInt(z.im, eps);
+      const a = +a0, b = +b0;
+      if (Math.abs(b) <= eps) return String(a);
+      if (Math.abs(a) <= eps){
+        if (b===1) return 'i'; if (b===-1) return '-i';
+        return String(b) + '*i';
+      }
+      const sb = b >= 0 ? '+' : '-';
+      const bb = Math.abs(b);
+      const ib = (bb===1) ? 'i' : (bb + '*i');
+      return a + sb + ib;
+    }
+
+    function prettyPoly(coeffs){
+      const n = coeffs.length - 1;
+      const terms = [];
+      for (let i=0;i<coeffs.length;i++){
+        const p = n - i;
+        const c = coeffs[i];
+        const isZero = (cAbs(c) <= 0);
+        if (isZero) continue;
+        const name = (p===0)? '' : (p===1? 'x' : ('x^' + p));
+        const coef = fmtC(c);
+        terms.push( (name? (coef==='1' ? '' : (coef==='-1' ? '-' : (coef + '*'))) : '') + name + (name?'':coef) );
+      }
+      return 'P(x) = ' + (terms.length? terms.join(' + ').replace(/\+\s-\s/g,' - ') : '0');
+    }
+
+    // -------- Durand–Kerner --------
+    function normalizeMonic(coeffs){
+      const lc = coeffs[0];
+      return { lc, monic: coeffs.map(c=> cDiv(c, lc)) };
+    }
+
+    function durandKerner(coeffs, maxIter=2000, tol=1e-14){
+      // coeffs: array of complex (DESC powers). Leading coeff can be anything.
+      const n = coeffs.length - 1;
+      if (n<=0) return {roots:[], it:0};
+      const {lc, monic} = normalizeMonic(coeffs);
+      const base = C(0.4, 0.9);
+      let roots = Array.from({length:n}, (_,k)=> cPow(base, k));
+      let it = 0;
+      for (it=1; it<=maxIter; it++){
+        let done = true;
+        const next = roots.slice();
+        for (let k=0;k<n;k++){
+          const xk = roots[k];
+          const px = cHorner(monic, xk);
+          let denom = C1;
+          for (let j=0;j<n;j++){
+            if (j===k) continue;
+            let diff = cSub(xk, roots[j]);
+            if (cAbs(diff) === 0){
+              diff = cAdd(diff, C(1e-12*(k+1), 1e-12*(j+1))); // deterministic micro-perturbation
+            }
+            denom = cMul(denom, diff);
+          }
+          if (cAbs(denom) === 0) denom = C(1e-18, 0);
+          const step = cDiv(px, denom);
+          const xnew = cSub(xk, step);
+          next[k] = xnew;
+          if (cAbs(cSub(xnew, xk)) > tol) done = false;
+        }
+        roots = next;
+        if (done) break;
+      }
+      return { roots, it };
+    }
+
+    // Symmetric sums e1..en via DP (elementary symmetric polynomials)
+    function symmetricSums(roots){
+      const n = roots.length;
+      const e = Array(n+1).fill(C0); e[0] = C1;
+      for (const r of roots){
+        for (let k=n; k>=1; k--){
+          e[k] = cAdd(e[k], cMul(r, e[k-1]));
+        }
+      }
+      // e[1]=sum, e[2]=sum pairs, ..., e[n]=product
+      return e.slice(1);
+    }
+
+    // Convolution (descending)
+    function convolveDesc(a, b){
+      const da = a.length - 1, db = b.length - 1;
+      const out = Array(da + db + 1).fill(C0);
+      for (let i=0;i<a.length;i++){
+        for (let j=0;j<b.length;j++){
+          out[i+j] = cAdd(out[i+j], cMul(a[i], b[j]));
+        }
+      }
+      return out;
+    }
+    function rebuildFromRoots(roots){
+      let coeffs = [C1];
+      for (const r of roots){
+        coeffs = convolveDesc(coeffs, [C1, C(-r.re, -r.im)]); // (x - r)
+      }
+      return coeffs;
+    }
+
+    // -------- UI actions --------
+    function parseCoeffList(text){
+      // Comma-separated complex numbers using "i" notation, descending powers
+      const parts = (text||'').split(',').map(s=>s.trim()).filter(s=>s.length>0);
+      if (parts.length===0) throw new Error('Please enter coefficients, e.g. "1, -10, 35, -50, 24"');
+      return parts.map(parseComplex);
+    }
+
+    function sortRoots(roots){
+      return roots.slice().sort((a,b)=>{
+        const ra = Math.round(a.re*1e12)/1e12;
+        const rb = Math.round(b.re*1e12)/1e12;
+        if (ra !== rb) return ra - rb;
+        const ia = Math.round(a.im*1e12)/1e12;
+        const ib = Math.round(b.im*1e12)/1e12;
+        return ia - ib;
+      });
+    }
+
+    function magnitude(x){ return (typeof x==='number') ? Math.abs(x) : cAbs(x); }
+
+    function solveAndExplain(coeffs){
+      const t0 = now();
+      const {roots, it} = durandKerner(coeffs);
+      const t1 = now();
+      const rootsSorted = sortRoots(roots);
+      const residuals = rootsSorted.map(r => cAbs(cHorner(coeffs, r)));
+      const maxRes = Math.max(...residuals);
+      const pretty = prettyPoly(coeffs);
+      setHTML('prettyPoly', '<pre>'+pretty+'</pre>');
+      const chips = [
+        ['degree', coeffs.length-1],
+        ['iter', it],
+        ['tol', '1e-14'],
+        ['max |P(r)|', maxRes.toExponential(3)],
+        ['time', (t1-t0).toFixed(2)+' ms']
+      ].map(([k,v])=> `<span class="chip">${k}: ${v}</span>`).join(' ');
+      $('chips').innerHTML = chips;
+
+      // Roots table
+      const rows = rootsSorted.map((r,i)=> `<tr><td>${i+1}</td><td class="mono">${fmtC(r)}</td><td class="mono muted">${r.re.toFixed(12)} ${r.im>=0?'+':'−'} ${Math.abs(r.im).toFixed(12)}i</td><td class="mono small">${residuals[i].toExponential(3)}</td></tr>`);
+      const table = `<table class="tbl"><thead><tr><th>#</th><th>root</th><th>as complex</th><th>|P(r)|</th></tr></thead><tbody>${rows.join('\n')}</tbody></table>`;
+      setHTML('roots', table);
+
+      // Vieta on monic
+      const {lc, monic} = normalizeMonic(coeffs);
+      const e = symmetricSums(rootsSorted); // e[0]=sum, ..., e[n-1]=product
+      const n = monic.length -1;
+      const targets = [];
+      for (let k=1;k<=n;k++){
+        // expected e_k = (-1)^k * a_{n-k}, where monic = [1, a_{n-1}, ..., a_0]
+        const a = monic[k];
+        const want = (k%2===1) ? C(-a.re, -a.im) : C(a.re, a.im);
+        targets.push(want);
+      }
+      // Build lines
+      const lines = [];
+      for (let k=1;k<=n;k++){
+        const got = e[k-1], want = targets[k-1];
+        const err = cAbs(cSub(got, want));
+        const tag = (k===n) ? 'product' : (k===1?'sum':'e'+k);
+        lines.push(`${tag.padEnd(7)}: ${fmtC(got)}   vs   ${fmtC(want)}   |Δ|=${err.toExponential(3)}`);
+      }
+      setHTML('vieta', '<pre>Vieta checks (monic):\n' + lines.join('\n') + '</pre>');
+
+      // Rebuild
+      const rebuiltMonic = rebuildFromRoots(rootsSorted);
+      // rescale
+      const rebuilt = rebuiltMonic.map(c=> cMul(c, normalizeMonic(coeffs).lc));
+      // Pad to match length and compare
+      const A = coeffs, B = rebuilt;
+      const m = Math.max(A.length, B.length);
+      const diffs = [];
+      let maxCoefErr = 0;
+      for (let i=0;i<m;i++){
+        const a = A[i] || C0, b = B[i] || C0;
+        const d = cAbs(cSub(a,b)); maxCoefErr = Math.max(maxCoefErr, d);
+        diffs.push(`a[${i}] ${fmtC(a)}`.padEnd(24) + ` vs  b[${i}] ${fmtC(b)}`.padEnd(24) + `  |Δ|=${d.toExponential(3)}`);
+      }
+      setHTML('rebuild', '<pre>Rebuild from roots (coeff comparison):\n' + diffs.join('\n') + '\n' + `Max coefficient error: ${maxCoefErr.toExponential(3)}` + '</pre>');
+    }
+
+    // -------- Check (harness) --------
+    function runChecks(){
+      const lines = [];
+      const ok = b => b ? '✓' : '✗';
+      const tol = 1e-9;
+
+      // P1: x^4 - 10x^3 + 35x^2 - 50x + 24 (roots 1,2,3,4)
+      const P1 = [C(1,0), C(-10,0), C(35,0), C(-50,0), C(24,0)];
+      const r1 = durandKerner(P1);
+      const roots1 = sortRoots(r1.roots);
+      const want1 = [1,2,3,4].map(x=>C(x,0));
+      const match1 = roots1.length===4 && want1.every((w,i)=> cEq(roots1[i], w, 1e-10));
+      const res1 = Math.max(...roots1.map(r=> cAbs(cHorner(P1, r))));
+      lines.push(`P1 roots correct (1,2,3,4): ${ok(match1)}   |  max |P(r)| = ${res1.toExponential(3)}   |  it=${r1.it}`);
+
+      // P2: (x - i)(x - (1+i))(x - (3+2i))(x - (5+i))
+      const P2 = [C(1,0), C(-(9), -5), C(14,33), C(24,-44), C(-26,0)];
+      const r2 = durandKerner(P2);
+      const roots2 = sortRoots(r2.roots);
+      const want2 = [C(0,1), C(1,1), C(3,2), C(5,1)];
+      const match2 = roots2.length===4 && want2.every((w,i)=> cEq(roots2[i], w, 1e-9));
+      const res2 = Math.max(...roots2.map(r=> cAbs(cHorner(P2, r))));
+      lines.push(`P2 roots correct (i, 1+i, 3+2i, 5+i): ${ok(match2)}   |  max |P(r)| = ${res2.toExponential(3)}   |  it=${r2.it}`);
+
+      // Vieta checks for both
+      function vietaOK(coeffs, roots){
+        const {monic} = normalizeMonic(coeffs);
+        const e = symmetricSums(roots);
+        const n = monic.length-1;
+        let all=true;
+        for (let k=1;k<=n;k++){
+          const a = monic[k];
+          const want = (k%2===1) ? C(-a.re, -a.im) : C(a.re, a.im);
+          const got = e[k-1];
+          if (cAbs(cSub(got, want)) > tol) { all=false; break; }
+        }
+        return all;
+      }
+      lines.push(`P1 Vieta equalities hold: ${ok(vietaOK(P1, roots1))}`);
+      lines.push(`P2 Vieta equalities hold: ${ok(vietaOK(P2, roots2))}`);
+
+      // Rebuild comparisons
+      function rebuildErr(coeffs, roots){
+        const rebMon = rebuildFromRoots(roots);
+        const reb = rebMon.map(c=> cMul(c, normalizeMonic(coeffs).lc));
+        let maxE=0;
+        for (let i=0;i<coeffs.length;i++){
+          const e = cAbs(cSub(coeffs[i], reb[i]));
+          if (e > maxE) maxE = e;
+        }
+        return maxE;
+      }
+      const e1 = rebuildErr(P1, roots1);
+      const e2 = rebuildErr(P2, roots2);
+      lines.push(`P1 rebuild max-coefficient error: ${e1.toExponential(3)}  (${ok(e1<1e-10)})`);
+      lines.push(`P2 rebuild max-coefficient error: ${e2.toExponential(3)}  (${ok(e2<1e-10)})`);
+
+      // Determinism (seed & sort): running twice gives same ordered roots
+      const r1b = durandKerner(P1);
+      const sameOrder = roots1.every((z,i)=> cEq(z, sortRoots(r1b.roots)[i], 1e-12));
+      lines.push(`Deterministic ordering (repeat run): ${ok(sameOrder)}`);
+
+      const pre = document.createElement('pre');
+      pre.className = 'mono';
+      pre.style.whiteSpace = 'pre-wrap';
+      pre.textContent = lines.join('\n');
+      $('check-body').replaceChildren(pre);
+    }
+
+    // Wire up
+    function doSolve(){
+      const txt = $('coeffs').value;
+      let coeffs;
+      try {
+        coeffs = parseCoeffList(txt);
+      } catch(e){
+        setHTML('prettyPoly', '<span class="bad">'+ (e.message || String(e)) +'</span>');
+        $('chips').innerHTML = '';
+        $('roots').innerHTML = '';
+        $('vieta').innerHTML = '';
+        $('rebuild').innerHTML = '';
+        return;
+      }
+      solveAndExplain(coeffs);
+    }
+
+    $('solve').addEventListener('click', doSolve);
+    $('loadP1').addEventListener('click', ()=>{
+      $('coeffs').value = '1, -10, 35, -50, 24';
+      doSolve();
+    });
+    $('loadP2').addEventListener('click', ()=>{
+      $('coeffs').value = '1, (-9-5i), (14+33i), (24-44i), -26';
+      doSolve();
+    });
+    $('checkBtn').addEventListener('click', runChecks);
+
+    // Initial
+    doSolve(); // with default P1
+    runChecks();
+  })();
+  </script>
+</body>
+</html>

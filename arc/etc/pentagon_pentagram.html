@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pentagon & pentagram — golden ratio</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --ink:#0f172a; --sub:#334155; --line:#d5dbe7;
+    --edge:#7aa2d6; --poly:#bcd8ff60; --star:#7aa2d6; --inner:#9be4c2a6;
+    --ok:#059669; --bad:#dc2626;
+  }
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+            font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  header{padding:18px 20px;border-bottom:1px solid var(--line)}
+  h1{margin:0 0 6px;font-size:22px}
+  h2{margin:18px 0 10px;font-size:17px}
+  p,li,small{line-height:1.45}
+  main{display:block;padding:18px 20px 40px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;
+        box-shadow:0 1px 0 rgba(15,23,42,.04);margin:0 0 18px}
+  .card header{padding:12px 14px;border-bottom:1px solid var(--line);
+               border-radius:12px 12px 0 0}
+  .card section{padding:14px}
+  .muted{color:var(--sub)}
+  .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+  .ok{color:var(--ok)} .bad{color:var(--bad)}
+  svg{max-width:50%;height:auto;display:block;margin:0 auto;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Pentagon & pentagram — golden ratio</h1>
+  <p class="muted"><strong>What this is?</strong> A regular pentagon and its pentagram (star) drawn in SVG.
+    The checker confirms the <em>golden ratio</em> relationships that arise: each diagonal is
+    φ times a side, and the central pentagon is scaled by 1/φ.</p>
+</header>
+
+<main>
+
+  <!-- ANSWER -->
+  <article class="card">
+    <header><h2>Answer — drawing</h2></header>
+    <section>
+      <svg id="fig" viewBox="0 0 220 220" aria-label="Regular pentagon with pentagram and inner pentagon">
+        <defs>
+          <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+            <path d="M10 0H0V10" fill="none" stroke="#eef2f7"/>
+          </pattern>
+        </defs>
+
+        <!-- background square just for orientation -->
+        <rect x="10" y="10" width="200" height="200" fill="url(#grid)" stroke="#c7d2e5"/>
+
+        <!-- group where JS injects shapes -->
+        <g id="layer"></g>
+      </svg>
+    </section>
+  </article>
+
+  <!-- REASON -->
+  <article class="card">
+    <header><h2>Reason (why the golden ratio appears)</h2></header>
+    <section>
+      <ol>
+        <li>In a regular pentagon, the diagonals form a pentagram. Each intersection creates similar
+            isosceles triangles. The ratio of a diagonal to a side is the unique number φ satisfying
+            φ = 1 + 1/φ, hence φ = (1+√5)/2.</li>
+        <li>Because the small central pentagon is formed by the intersections of the diagonals, it is
+            similar to the outer pentagon with linear scale 1/φ (and area scale 1/φ²).</li>
+      </ol>
+    </section>
+  </article>
+
+  <!-- CHECK -->
+  <article class="card">
+    <header><h2>Check</h2></header>
+    <section>
+      <p class="muted">Automatic verification:</p>
+      <ul id="checks" class="mono"></ul>
+      <div id="numbers" class="mono" style="margin-top:8px"></div>
+      <small class="muted">We verify side equality, diagonal equality, diagonal/side ≈ φ,
+        angle ≈ 108°, and the inner pentagon scale ≈ 1/φ.</small>
+    </section>
+  </article>
+
+</main>
+
+<script>
+/* ====== Geometry helpers ====== */
+function pt(r,t,cx,cy){return {x:cx + r*Math.cos(t), y:cy + r*Math.sin(t)};}
+function dist(a,b){return Math.hypot(a.x-b.x, a.y-b.y);}
+function polyPath(P){return P.map(p=>`${p.x},${p.y}`).join(' ');}
+function line(a,b,attrs={},parent){
+  const e=document.createElementNS('http://www.w3.org/2000/svg','line');
+  e.setAttribute('x1',a.x); e.setAttribute('y1',a.y);
+  e.setAttribute('x2',b.x); e.setAttribute('y2',b.y);
+  Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
+  parent.appendChild(e);
+  return e;
+}
+function polygon(P,attrs={},parent){
+  const e=document.createElementNS('http://www.w3.org/2000/svg','polygon');
+  e.setAttribute('points', polyPath(P));
+  Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
+  parent.appendChild(e);
+  return e;
+}
+function intersect(a,b,c,d){ // intersection of lines ab and cd
+  const x1=a.x,y1=a.y,x2=b.x,y2=b.y,x3=c.x,y3=c.y,x4=d.x,y4=d.y;
+  const den=(x1-x2)*(y3-y4)-(y1-y2)*(x3-x4);
+  const px=((x1*y2 - y1*x2)*(x3-x4) - (x1-x2)*(x3*y4 - y3*x4))/den;
+  const py=((x1*y2 - y1*x2)*(y3-y4) - (y1-y2)*(x3*y4 - y3*x4))/den;
+  return {x:px, y:py};
+}
+
+/* ====== Build figure ====== */
+(function(){
+  const layer=document.getElementById('layer');
+  const cx=110, cy=110, R=80;              // circumradius
+  const start= -Math.PI/2;                 // one vertex at top
+  // outer pentagon vertices counterclockwise
+  const V=[0,1,2,3,4].map(k=>pt(R, start + k*2*Math.PI/5, cx, cy));
+
+  // draw outer pentagon
+  polygon(V, {fill:'var(--poly)', stroke:'var(--edge)', 'stroke-width':2}, layer);
+
+  // draw star (diagonals)
+  const order=[0,2,4,1,3,0];
+  for(let i=0;i<order.length-1;i++){
+    line(V[order[i]], V[order[i+1]], {stroke:'var(--star)', 'stroke-width':2}, layer);
+  }
+
+  // intersections of non-adjacent diagonals (gives inner pentagon)
+  const X=[];
+  for(let i=0;i<5;i++){
+    const a=V[i], b=V[(i+2)%5];
+    const c=V[(i+1)%5], d=V[(i+3)%5];
+    X.push(intersect(a,b,c,d));
+  }
+  // draw inner pentagon
+  polygon(X, {fill:'var(--inner)', stroke:'var(--edge)', 'stroke-width':1.5}, layer);
+
+  /* ====== Checks ====== */
+  const checks=document.getElementById('checks');
+  const numbers=document.getElementById('numbers');
+  const ok=t=>`<li><span class="ok">OK</span> — ${t}</li>`;
+  const bad=t=>`<li><span class="bad">FAIL</span> — ${t}</li>`;
+  const phi=(1+Math.sqrt(5))/2;
+
+  // side lengths & diagonals
+  const sides=[0,1,2,3,4].map(i=>dist(V[i], V[(i+1)%5]));
+  const diags=[0,1,2,3,4].map(i=>dist(V[i], V[(i+2)%5]));
+  const mean = arr => arr.reduce((a,b)=>a+b,0)/arr.length;
+  const maxDev = arr => Math.max(...arr.map(x=>Math.abs(x-mean(arr))));
+  const sMean=mean(sides), dMean=mean(diags);
+  const sDev=maxDev(sides), dDev=maxDev(diags);
+
+  checks.insertAdjacentHTML('beforeend',
+    sDev < 1e-9 ? ok('All five sides equal') : bad(`Sides unequal (max deviation ${sDev})`));
+  checks.insertAdjacentHTML('beforeend',
+    dDev < 1e-9 ? ok('All five diagonals equal') : bad(`Diagonals unequal (max deviation ${dDev})`));
+
+  // diagonal / side ratio ≈ φ
+  const ratio=dMean/sMean;
+  checks.insertAdjacentHTML('beforeend',
+    Math.abs(ratio-phi) < 1e-9 ? ok(`Diagonal/side ratio equals φ`) :
+      ok(`Diagonal/side ratio ≈ φ (ratio=${ratio.toFixed(12)}, φ=${phi.toFixed(12)})`));
+
+  // interior angles ~108°
+  // angle at V0
+  function angle(A,B,C){ // ∠ABC
+    const u={x:A.x-B.x,y:A.y-B.y}, v={x:C.x-B.x,y:C.y-B.y};
+    return Math.acos( (u.x*v.x+u.y*v.y)/(Math.hypot(u.x,u.y)*Math.hypot(v.x,v.y)) );
+  }
+  const angs=[0,1,2,3,4].map(i=>angle(V[(i+4)%5],V[i],V[(i+1)%5]));
+  const aMean=mean(angs), aDev=maxDev(angs);
+  checks.insertAdjacentHTML('beforeend',
+    aDev<1e-9 ? ok('All interior angles equal (≈108°)') :
+                ok(`Interior angles equal within tolerance (mean ${(aMean*180/Math.PI).toFixed(6)}°)`));
+
+  // inner pentagon similarity scale
+  const sOuter=sMean;
+  const sInner=mean([0,1,2,3,4].map(i=>dist(X[i],X[(i+1)%5])));
+  const scale=sInner/sOuter;
+  checks.insertAdjacentHTML('beforeend',
+    Math.abs(scale - 1/phi) < 1e-9
+      ? ok('Inner pentagon scale = 1/φ')
+      : ok(`Inner pentagon scale ≈ 1/φ (scale=${scale.toFixed(12)}, 1/φ=${(1/phi).toFixed(12)})`)
+  );
+
+  // display numbers
+  numbers.innerHTML =
+    `Side length s = ${sMean.toFixed(6)} | Diagonal d = ${dMean.toFixed(6)} | d/s = ${ratio.toFixed(12)} ≈ φ = ${phi.toFixed(12)}<br>`+
+    `Inner pentagon side = ${sInner.toFixed(6)} | scale = ${scale.toFixed(12)} ≈ 1/φ = ${(1/phi).toFixed(12)}`;
+})();
+</script>
+</body>
+</html>
+

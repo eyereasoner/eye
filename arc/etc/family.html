@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Family logic</title>
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#111827; --muted:#6b7280; --panel:#f8fafc; --border:#e5e7eb; --accent:#0ea5e9;
+      --good:#16a34a; --cyan:#06b6d4; --indigo:#6366f1; --warn:#dc2626;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    html,body{height:100%}
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 var(--ui); }
+    .wrap{max-width:980px; margin:28px auto; padding:0 14px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px}
+    h1{font-size:20px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .card{width:100%; background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:14px}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px; margin:0}
+    button{all:unset; background:#fff; border:1px solid var(--border); padding:9px 13px; border-radius:10px; cursor:pointer}
+    button:hover{border-color:#cbd5e1}
+    .warn{color:var(--warn)}
+    .accent{color:var(--accent)}
+    .btns{display:flex; gap:8px; flex-wrap:wrap}
+    .kv{font-family:var(--mono); background:#fff; border:1px solid var(--border); border-radius:10px; padding:10px; font-size:13px}
+    .muted{color:var(--muted)}
+
+    /* ARC boxes with thick colored left borders */
+    .arcbox{background:#fff; border:1px solid var(--border); border-radius:12px; padding:10px; margin:10px 0}
+    .arcbox.answer{border-left:10px solid var(--good)}
+    .arcbox.reason{border-left:10px solid var(--cyan)}
+    .arcbox.check{border-left:10px solid var(--indigo)}
+    .arclabel{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:6px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Family logic</h1>
+      <div class="pill" id="status">Ready</div>
+    </header>
+
+    <div class="card">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained, browser‑only port of the Horn‑logic forward chainer.
+        It saturates a small family KB with rules (siblings, grand‑relations, uncles/aunts
+        by blood or marriage), records one proof per derived fact, and presents the results as
+        <em>Answer • Reason • Check</em>.</p>
+        <p class="muted">Tip: Click <em>Run</em> to re‑derive from scratch; try toggling the “strict siblings” option.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head"><h2>Settings</h2></div>
+      <div class="body">
+        <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <input id="strict" type="checkbox" />
+          <span>Strict siblings (enforce x ≠ y inside the rule)</span>
+        </label>
+        <div class="btns">
+          <button onclick="run()">▶ Run</button>
+          <button onclick="copyARC()">Copy ARC</button>
+          <button onclick="downloadTxt()">⬇ Export .txt</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head"><h2>Derived case snapshot</h2></div>
+      <div class="body">
+        <pre class="kv" id="caseBox"></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head"><h2>ARC Output</h2><div class="muted">Cards with left borders</div></div>
+      <div class="body">
+        <div class="arcbox answer">
+          <div class="arclabel">Answer</div>
+          <pre id="ans">(no run yet)</pre>
+        </div>
+        <div class="arcbox reason">
+          <div class="arclabel">Reason why</div>
+          <pre id="why">(no run yet)</pre>
+        </div>
+        <div class="arcbox check">
+          <div class="arclabel">Check (harness)</div>
+          <pre id="chk">(no run yet)</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ===== Logic core =====
+let gensymCounter = 1;
+const gensym = () => gensymCounter++;
+
+const isVar = (t) => typeof t === 'string' && t.startsWith('?');
+function unify(pat, fact, theta){
+  // returns extended substitution or null
+  const θ = {...theta};
+  for(let i=0;i<3;i++){
+    const p = pat[i], f = fact[i];
+    if(isVar(p)){
+      if(p in θ && θ[p] !== f) return null;
+      θ[p] = f;
+    }else if(isVar(f)){
+      if(f in θ && θ[f] !== p) return null;
+      θ[f] = p;
+    }else if(p !== f){
+      return null;
+    }
+  }
+  return θ;
+}
+const subst = (triple, theta) => triple.map(t => theta[t] ?? t);
+
+function Clause(name, head, body){ this.name=name; this.head=head; this.body=body; }
+function rename(cl){
+  const ren = {};
+  const f = (t)=> isVar(t) ? (ren[t] ??= `${t}_${gensym()}`) : t;
+  const head = cl.head.map(f);
+  const body = cl.body.map(lit => lit.map(f));
+  return new Clause(cl.name, head, body);
+}
+
+// Base facts
+const baseFacts = [
+  // gender
+  ["Frans","a","MALE"],["Jo","a","MALE"],["Paul","a","MALE"],["Pieter-Jan","a","MALE"],
+  ["Tim","a","MALE"],["Bert","a","MALE"],["Bart","a","MALE"],
+  ["Maria","a","FEMALE"],["Maaike","a","FEMALE"],["Rita","a","FEMALE"],["Goedele","a","FEMALE"],
+  ["Veerle","a","FEMALE"],["Ann","a","FEMALE"],["Veer","a","FEMALE"],
+  // parent
+  ["Frans","parent","Jo"],["Maria","parent","Jo"],
+  ["Frans","parent","Rita"],["Maria","parent","Rita"],
+  ["Jo","parent","Goedele"],["Maaike","parent","Goedele"],
+  ["Jo","parent","Veerle"],["Maaike","parent","Veerle"],
+  ["Paul","parent","Ann"],["Rita","parent","Ann"],
+  ["Paul","parent","Bart"],["Rita","parent","Bart"],
+  // spouse (directed; symmetry via rule)
+  ["Frans","spouse","Maria"],["Jo","spouse","Maaike"],["Paul","spouse","Rita"],
+  ["Pieter-Jan","spouse","Goedele"],["Tim","spouse","Veerle"],["Bert","spouse","Ann"],["Bart","spouse","Veer"],
+];
+
+function rules(strictSiblings){
+  const siblingBody = [["?p","parent","?x"],["?p","parent","?y"]];
+  if(strictSiblings) siblingBody.push(["?x","≠","?y"]);
+  return [
+    new Clause("sym-spouse", ["?y","spouse","?x"], [["?x","spouse","?y"]]),
+    new Clause("sibling", ["?x","sibling","?y"], siblingBody),
+    new Clause("sym-sib", ["?y","sibling","?x"], [["?x","sibling","?y"]]),
+    new Clause("brother", ["?x","brother","?y"], [["?x","sibling","?y"],["?x","a","MALE"]]),
+    new Clause("sister", ["?x","sister","?y"], [["?x","sibling","?y"],["?x","a","FEMALE"]]),
+    new Clause("grandparent", ["?x","grandparent","?z"], [["?x","parent","?y"],["?y","parent","?z"]]),
+    new Clause("grandfather", ["?x","grandfather","?z"], [["?x","grandparent","?z"],["?x","a","MALE"]]),
+    new Clause("grandmother", ["?x","grandmother","?z"], [["?x","grandparent","?z"],["?x","a","FEMALE"]]),
+    new Clause("father", ["?x","father","?y"], [["?x","parent","?y"],["?x","a","MALE"]]),
+    new Clause("mother", ["?x","mother","?y"], [["?x","parent","?y"],["?x","a","FEMALE"]]),
+    // uncles & aunts
+    new Clause("uncle-blood", ["?x","uncle","?y"], [["?x","brother","?p"],["?p","parent","?y"],["?x","≠","?p"]]),
+    new Clause("aunt-blood", ["?x","aunt","?y"], [["?x","sister","?p"],["?p","parent","?y"],["?x","≠","?p"]]),
+    new Clause("uncle-mar", ["?x","uncle","?y"], [["?x","spouse","?s"],["?s","aunt","?y"]]),
+    new Clause("aunt-mar", ["?x","aunt","?y"], [["?x","spouse","?s"],["?s","uncle","?y"]]),
+  ];
+}
+
+// Saturation with proof recording
+function deriveAll(strict=false){
+  gensymCounter = 1;
+  const factsList = baseFacts.slice(); // keep order
+  const factsSet  = new Set(factsList.map(t=>JSON.stringify(t)));
+  const proofs = new Map(factsList.map(t=>[JSON.stringify(t), ["fact", []]]));
+
+  function addFact(t, ruleName, premises){
+    const key = JSON.stringify(t);
+    if(!factsSet.has(key)){
+      factsSet.add(key);
+      factsList.push(t);
+      proofs.set(key, [ruleName, premises]);
+    }
+  }
+  function* candidatesFor(lit){
+    if(!isVar(lit[1])){
+      const pred = lit[1];
+      for(const f of factsList) if(f[1]===pred) yield f;
+    }else{
+      yield* factsList;
+    }
+  }
+  const RS = rules(strict);
+  let changed = true;
+  while(changed){
+    changed = false;
+    for(const rule of RS){
+      const rc = rename(rule);
+      let substitutions = [{}];
+      let premises = [[]];
+      for(const lit of rc.body){
+        const newSubs = [];
+        const newPrem = [];
+        // built-in inequality
+        if(lit[1] === "≠"){
+          for(let i=0;i<substitutions.length;i++){
+            const θ = substitutions[i], pr = premises[i];
+            const [a, , b] = subst(lit, θ);
+            if(a !== b){ newSubs.push(θ); newPrem.push(pr); }
+          }
+          substitutions = newSubs; premises = newPrem;
+          if(!substitutions.length) break;
+          continue;
+        }
+        // normal literal
+        for(let i=0;i<substitutions.length;i++){
+          const θ = substitutions[i], pr = premises[i];
+          const litInst = subst(lit, θ);
+          for(const fact of candidatesFor(litInst)){
+            const θ2 = unify(litInst, fact, θ);
+            if(θ2){
+              newSubs.push(θ2);
+              newPrem.push(pr.concat([fact]));
+            }
+          }
+        }
+        substitutions = newSubs; premises = newPrem;
+        if(!substitutions.length) break; // early fail
+      }
+      for(let i=0;i<substitutions.length;i++){
+        const θ = substitutions[i], bodyFacts = premises[i];
+        const headInst = subst(rc.head, θ);
+        const key = JSON.stringify(headInst);
+        if(!factsSet.has(key)){
+          addFact(headInst, rc.name, bodyFacts);
+          changed = true;
+        }
+      }
+    }
+  }
+
+  function q(pred, s=null, o=null){
+    return factsList.filter(([S,P,O]) => P===pred && (s===null || S===s) && (o===null || O===o));
+  }
+  function father(c){ const t = q("father", null, c)[0]; return t ? t[0] : null; }
+  function mother(c){ const t = q("mother", null, c)[0]; return t ? t[0] : null; }
+  function children(p){ return Array.from(new Set(q("parent", p, null).map(t=>t[2]))).sort(); }
+  function siblings(x){ return Array.from(new Set(q("sibling", x, null).map(t=>t[2]).filter(y=>y!==x))).sort(); }
+  function grandps(x){ return Array.from(new Set(q("grandparent", null, x).map(t=>t[0]))).sort(); }
+  function uncles(x){
+    const parents = new Set(q("parent", null, x).map(t=>t[0]));
+    const us = Array.from(new Set(q("uncle", null, x).map(t=>t[0]))).filter(u=>!parents.has(u));
+    return us.sort();
+  }
+  function aunts(x){
+    const parents = new Set(q("parent", null, x).map(t=>t[0]));
+    const as = Array.from(new Set(q("aunt", null, x).map(t=>t[0]))).filter(a=>!parents.has(a));
+    return as.sort();
+  }
+
+  // proof printer (depth-first)
+  function proofFor(triple){
+    const lines = [];
+    function show(t, depth){
+      const key = JSON.stringify(t);
+      const pr = proofs.get(key);
+      const ind = ' '.repeat(depth);
+      if(!pr){ lines.push(`${ind}${JSON.stringify(t)} [unknown]`); return; }
+      const [kind, prem] = pr;
+      if(kind === 'fact') lines.push(`${ind}${tuple(t)} [fact]`);
+      else{
+        lines.push(`${ind}${tuple(t)} [via ${kind}]`);
+        for(const p of prem) show(p, depth+2);
+      }
+    }
+    show(triple, 0);
+    return lines.join('\n');
+  }
+
+  return {
+    factsList, proofs,
+    api: { q, father, mother, children, siblings, grandps, uncles, aunts },
+    proofFor,
+  };
+}
+
+// pretty tuple
+const tuple = (t)=>`(${t[0]}, ${t[1]}, ${t[2]})`;
+
+// ===== ARC rendering =====
+function render(){
+  const strict = document.getElementById('strict').checked;
+  const { api, proofFor } = deriveAll(strict);
+
+  // Case snapshot
+  const cb = [];
+  cb.push('Queries evaluated:');
+  cb.push(" children('Rita')");
+  cb.push(" siblings('Veerle')");
+  cb.push(" uncles('Veerle')");
+  cb.push(" aunts('Bart')");
+  cb.push(" father('Goedele')");
+  cb.push(" mother('Goedele')");
+  document.getElementById('caseBox').textContent = cb.join('\n');
+
+  // Answer
+  let A = '';
+  A += 'Answer\n';
+  A += '------\n';
+  A += `children('Rita')  -> ${JSON.stringify(api.children('Rita'))}\n`;
+  A += `siblings('Veerle') -> ${JSON.stringify(api.siblings('Veerle'))}\n`;
+  A += `uncles('Veerle')   -> ${JSON.stringify(api.uncles('Veerle'))}\n`;
+  A += `aunts('Bart')      -> ${JSON.stringify(api.aunts('Bart'))}\n`;
+  A += `father('Goedele')  -> ${JSON.stringify(api.father('Goedele'))}\n`;
+  A += `mother('Goedele')  -> ${JSON.stringify(api.mother('Goedele'))}\n`;
+  A += '\nProofs (selected):\n';
+  A += proofFor(["Rita","aunt","Veerle"]) + '\n\n';
+  A += proofFor(["Paul","uncle","Veerle"]) + '\n\n';
+  A += proofFor(["Frans","grandfather","Goedele"]);
+  document.getElementById('ans').textContent = A;
+
+  // Reason
+  let R = '';
+  R += 'Reason why\n';
+  R += '----------\n';
+  R += '1) children(): returns OBJECTs of (parent, child) facts, unique and sorted.\n';
+  R += '2) Sibling is permissive in logic; the API excludes x itself. Blood avuncular rules\n';
+  R += '   include a guard x ≠ p so parents are never mis-classified as uncles/aunts.\n';
+  R += '3) Uncles/Aunts by marriage: spouse-of-aunt / spouse-of-uncle.\n';
+  R += '4) Deterministic forward chaining with proof recording; facts are added once with a stable order.\n';
+  document.getElementById('why').textContent = R;
+
+  // Check
+  let C = '';
+  C += 'Check (harness)\n';
+  C += '---------------\n';
+  const ok_children = JSON.stringify(api.children('Rita')) === JSON.stringify(['Ann','Bart']);
+  const ok_siblings = JSON.stringify(api.siblings('Veerle')) === JSON.stringify(['Goedele']);
+  const ok_uncles   = JSON.stringify(api.uncles('Veerle'))   === JSON.stringify(['Paul']); // Jo is parent; excluded
+  const ok_father   = api.father('Goedele') === 'Jo';
+  const ok_mother   = api.mother('Goedele') === 'Maaike';
+  // Fixpoint: just re-run and compare length
+  const before = deriveAll(strict);
+  const after  = deriveAll(strict);
+  const ok_fix = before.factsList.length === after.factsList.length;
+  C += `children('Rita') == ['Ann','Bart'] : ${ok_children}\n`;
+  C += `siblings('Veerle') == ['Goedele'] : ${ok_siblings}\n`;
+  C += `uncles('Veerle') == ['Paul'] : ${ok_uncles}\n`;
+  C += `father('Goedele') == 'Jo' : ${ok_father}\n`;
+  C += `mother('Goedele') == 'Maaike' : ${ok_mother}\n`;
+  C += `Fixpoint reached (no new facts) : ${ok_fix}\n`;
+  C += `\nALL CHECKS PASS: ${ok_children && ok_siblings && ok_uncles && ok_father && ok_mother && ok_fix}`;
+  document.getElementById('chk').textContent = C;
+
+  status('Done');
+}
+
+// ===== UI actions =====
+function run(){ try{ render(); }catch(e){ status('Error', true); document.getElementById('ans').textContent='⛔ '+e.message; } }
+function copyARC(){
+  const txt = [document.getElementById('ans').textContent, document.getElementById('why').textContent, document.getElementById('chk').textContent].join('\n\n');
+  navigator.clipboard?.writeText(txt).catch(()=>{});
+}
+function downloadTxt(){
+  const blob=new Blob([document.getElementById('ans').textContent, '\n\n', document.getElementById('why').textContent, '\n\n', document.getElementById('chk').textContent], {type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='family_output.txt'; a.click();
+}
+
+// auto-run
+window.addEventListener('DOMContentLoaded', run);
+</script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Turing Machine (Binary +1)</title>
+  <style>
+    :root{
+      --bg:#ffffff; --ink:#111827; --muted:#6b7280; --panel:#f8fafc; --border:#e5e7eb; --accent:#0ea5e9;
+      --good:#16a34a; --cyan:#06b6d4; --indigo:#6366f1; --warn:#dc2626;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    html,body{height:100%}
+    body{ margin:0; background:var(--bg); color:var(--ink); font:15px/1.55 var(--ui); }
+    .wrap{max-width:980px; margin:28px auto; padding:0 14px;}
+    header{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px}
+    h1{font-size:20px; margin:0; letter-spacing:.2px}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff}
+    .card{width:100%; background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:14px}
+    .head{display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .head h2{font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0}
+    .body{padding:12px}
+    pre{white-space:pre-wrap; background:#fff; border:1px solid var(--border); border-radius:10px; padding:12px; overflow:auto; font-family:var(--mono); font-size:13px; margin:0}
+    button{all:unset; background:#fff; border:1px solid var(--border); padding:9px 13px; border-radius:10px; cursor:pointer}
+    button:hover{border-color:#cbd5e1}
+    .btns{display:flex; gap:8px; flex-wrap:wrap}
+    .muted{color:var(--muted)}
+
+    /* ARC boxes with thick colored left borders */
+    .arcbox{background:#fff; border:1px solid var(--border); border-radius:12px; padding:10px; margin:10px 0}
+    .arcbox.answer{border-left:10px solid var(--good)}
+    .arcbox.reason{border-left:10px solid var(--cyan)}
+    .arcbox.check{border-left:10px solid var(--indigo)}
+    .arclabel{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:6px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Turing Machine (Binary incrementer)</h1>
+      <div class="pill" id="status">Ready</div>
+    </header>
+
+    <div class="card">
+      <div class="body">
+        <p><strong>What this is?</strong> A self‑contained, browser‑only demo of a one‑tape deterministic
+        Turing Machine that computes <em>n → n+1</em> on unsigned binary. The ARC section reports
+        <em>Answer • Reason • Check</em>.</p>
+      </div>
+    </div>
+
+    <!-- Vertical layout: cards stacked in a single column -->
+    <div class="card">
+      <div class="head"><h2>Machine (fixed program)</h2></div>
+      <div class="body">
+<pre class="muted" id="progBox">States: S0, S1, HALT    Symbols: 0, 1, _    Moves: L, R, N
+
+S0: scan right to the first blank, then step left and switch to S1
+  (S0, 0) -> (0, R, S0)
+  (S0, 1) -> (1, R, S0)
+  (S0, _) -> (_, L, S1)
+
+S1: add 1 with carry (to the left)
+  (S1, 0) -> (1, N, HALT)    ; found 0 → write 1 and halt
+  (S1, 1) -> (0, L, S1)      ; carry: flip 1→0 and keep going left
+  (S1, _) -> (1, N, HALT)    ; overflow (all 1s) → write leading 1 and halt</pre>
+        <div class="btns" style="margin-top:10px">
+          <button onclick="run()">▶ Run</button>
+          <button onclick="copyARC()">Copy ARC</button>
+          <button onclick="downloadTxt()">⬇ Export .txt</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head"><h2>Samples</h2></div>
+      <div class="body">
+<pre id="samplesBox" class="muted">A1: 101001 → 101010
+A2: 101111 → 110000
+A3: 111111 → 1000000
+A4: []     → [1]</pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="head">
+        <h2>ARC Output</h2>
+        <div class="muted">Cards with left borders</div>
+      </div>
+      <div class="body">
+        <div class="arcbox answer">
+          <div class="arclabel">Answer</div>
+          <pre id="ans">(no run yet)</pre>
+        </div>
+        <div class="arcbox reason">
+          <div class="arclabel">Reason why</div>
+          <pre id="why">(no run yet)</pre>
+        </div>
+        <div class="arcbox check">
+          <div class="arclabel">Check (harness)</div>
+          <pre id="chk">(no run yet)</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ====== Turing Machine runtime ======
+const BLANK = "_";
+const PROGRAM = new Map([
+  // S0: march right to the first blank, then step left and switch to S1
+  [["S0","0"].toString(), ["0","R","S0"]],
+  [["S0","1"].toString(), ["1","R","S0"]],
+  [["S0",BLANK].toString(), [BLANK,"L","S1"]],
+  // S1: add 1 with carry (to the left)
+  [["S1","0"].toString(), ["1","N","HALT"]],
+  [["S1","1"].toString(), ["0","L","S1"]],
+  [["S1",BLANK].toString(), ["1","N","HALT"]],
+]);
+
+function tm_run(tapeArray, startState="S0", haltStates=new Set(["HALT"]), maxSteps=10000){
+  // sparse tape as Map(index -> symbol)
+  const tape = new Map();
+  for(let i=0;i<tapeArray.length;i++) tape.set(i, tapeArray[i]);
+  let head = 0, state=startState, steps=0;
+  while(!haltStates.has(state) && steps < maxSteps){
+    const sym = tape.has(head) ? tape.get(head) : BLANK;
+    const key = [state, sym].toString();
+    if(!PROGRAM.has(key)) break; // implicit halt if no rule
+    const [write, move, next] = PROGRAM.get(key);
+    tape.set(head, write);
+    if(move === "L") head--;
+    else if(move === "R") head++;
+    // 'N' -> no move
+    state = next;
+    steps++;
+  }
+  // compact tape back to array and trim outer blanks
+  if(tape.size === 0) return [];
+  let lo = Math.min(...tape.keys()), hi = Math.max(...tape.keys());
+  const out = [];
+  for(let i=lo;i<=hi;i++) out.push(tape.get(i) ?? BLANK);
+  while(out.length && out[0] === BLANK) out.shift();
+  while(out.length && out[out.length-1] === BLANK) out.pop();
+  return out;
+}
+function increment(bits){
+  const inTape = bits.map(b => String(b));
+  const out = tm_run(inTape);
+  return out.map(c => Number(c));
+}
+
+// ====== Helpers ======
+function bits_to_int(bits){ return bits.reduce((x,b)=> (x<<1) | (b&1), 0); }
+function int_to_bits(x){
+  if(x <= 0) return [];
+  const out = [];
+  while(x){ out.push(x & 1); x >>= 1; }
+  return out.reverse();
+}
+function normalize(bits){
+  let i=0; while(i < bits.length && bits[i] === 0) i++;
+  return bits.slice(i);
+}
+function setText(id, s){ const el=document.getElementById(id); if(el) el.textContent=s; }
+function status(msg, warn=false){ const el=document.getElementById('status'); if(!el) return; el.textContent=msg; el.classList.toggle('warn', !!warn); }
+
+// ====== ARC runners ======
+function run(){
+  // Answer
+  let A = "Answer\n======\n";
+  const samples = {
+    A1: [1,0,1,0,0,1],
+    A2: [1,0,1,1,1,1],
+    A3: [1,1,1,1,1,1],
+    A4: [],
+  };
+  for(const k of Object.keys(samples)){
+    const tape = samples[k];
+    const out = increment(tape);
+    A += `${k}: ${JSON.stringify(tape)} -> ${JSON.stringify(out)}\n`;
+  }
+  setText('ans', A);
+
+  // Reason
+  let R = "Reason why\n==========\n";
+  R += "One-tape machine over symbols {0,1,_}.\n";
+  R += "Two phases:\n";
+  R += " • S0 scans right to the first blank to find the number’s end, then moves left.\n";
+  R += " • S1 performs +1 with carry: 1→0 and move left; if it sees 0, write 1 and halt;\n";
+  R += "   if it runs off the left end (blank), write a leading 1 and halt.\n";
+  R += "Examples: 101001 → 101010; 111111 → 1000000; [] (zero) → [1].";
+  setText('why', R);
+
+  // Check
+  let C = "Check (harness)\n===============\n";
+  // A) Correctness vs integers 0..4095
+  let ok = true;
+  for(let n=0;n<4096;n++){
+    const bits = int_to_bits(n);
+    const inc_bits = increment(bits);
+    const want = int_to_bits(n+1);
+    if(JSON.stringify(normalize(inc_bits)) !== JSON.stringify(normalize(want))){ ok=false; break; }
+  }
+  C += `Matches n→n+1 for 0..4095? ${ok}\n`;
+  // B) Structural properties
+  function well_formed(bs){ return bs.every(b => b===0 || b===1); }
+  let ok_len = true, ok_wf = true;
+  const tests = [[], [0], [1], [1,0], [1,1], [1,1,1,1,1,1], [1,0,1,0,0,1], [1,0,1,1,1,1]];
+  for(const bits of tests){
+    const out = increment(bits);
+    if(!(out.length === bits.length || out.length === bits.length + 1)) ok_len = false;
+    if(!well_formed(out)) ok_wf = false;
+  }
+  C += `Output length ∈ {len, len+1} on samples? ${ok_len}\n`;
+  C += `Output symbols only 0/1? ${ok_wf}\n`;
+  // C) Monotone
+  let ok_mono = true;
+  for(let n=0;n<200;n++){
+    const nxt = bits_to_int(increment(int_to_bits(n)));
+    if(nxt !== n+1){ ok_mono = false; break; }
+  }
+  C += `Monotone w.r.t. integer value (first 200)? ${ok_mono}\n`;
+  // D) All-ones
+  let ok_ones = true;
+  for(let k=1;k<=15;k++){
+    const inp = Array(k).fill(1);
+    const out = increment(inp);
+    const want = [1].concat(Array(k).fill(0));
+    if(JSON.stringify(out) !== JSON.stringify(want)) { ok_ones = false; break; }
+  }
+  C += `All-ones case yields 1 followed by k zeros? ${ok_ones}\n`;
+  const ok_all = ok && ok_len && ok_wf && ok_mono && ok_ones;
+  C += `\nAll checks passed? ${ok_all}`;
+  setText('chk', C);
+
+  status('Done');
+}
+
+function copyARC(){
+  const txt = [document.getElementById('ans').textContent,
+               document.getElementById('why').textContent,
+               document.getElementById('chk').textContent].join('\n\n');
+  navigator.clipboard?.writeText(txt).catch(()=>{});
+}
+function downloadTxt(){
+  const blob=new Blob([document.getElementById('ans').textContent, '\n\n',
+                       document.getElementById('why').textContent, '\n\n',
+                       document.getElementById('chk').textContent], {type:'text/plain'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='turing_output.txt'; a.click();
+}
+
+// auto-run
+window.addEventListener('DOMContentLoaded', run);
+</script>
+</body>
+</html>

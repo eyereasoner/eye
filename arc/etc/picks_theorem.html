@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pick’s Theorem — lattice polygon</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --ink:#0f172a; --sub:#334155; --line:#d5dbe7;
+    --polyFill:#cfe8ff; --polyStroke:#7aa2d6;
+    --ptBoundary:#2563eb; --ptInterior:#10b981; --vertex:#1d4ed8; --axis:#94a3b8;
+    --ok:#059669; --bad:#dc2626;
+  }
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+            font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  header{padding:18px 20px;border-bottom:1px solid var(--line)}
+  h1{margin:0 0 6px;font-size:22px}
+  h2{margin:18px 0 10px;font-size:17px}
+  p,li,small{line-height:1.45}
+  main{display:block;padding:18px 20px 40px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;
+        box-shadow:0 1px 0 rgba(15,23,42,.04);margin:0 0 18px}
+  .card header{padding:12px 14px;border-bottom:1px solid var(--line);
+               border-radius:12px 12px 0 0}
+  .card section{padding:14px}
+  .muted{color:var(--sub)}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .ok{color:var(--ok)} .bad{color:var(--bad)}
+  svg{max-width:50%;height:auto;display:block;margin:0 auto;shape-rendering:geometricPrecision;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Pick’s Theorem — lattice polygon</h1>
+</header>
+
+<main>
+
+  <!-- WHAT THIS IS -->
+  <article class="card">
+    <header><h2>What this is?</h2></header>
+    <section>
+      <p>
+        A simple polygon whose vertices are all integer lattice points. We draw the
+        true integer lattice (grid lines at every integer x and y), compute the polygon area
+        by the shoelace formula, count lattice points on the boundary and inside, and verify
+        <strong>Pick’s Theorem</strong>: <em>Area = Interior + Boundary/2 − 1</em>.
+      </p>
+    </section>
+  </article>
+
+  <!-- ANSWER -->
+  <article class="card">
+    <header><h2>Answer — drawing</h2></header>
+    <section>
+      <svg id="fig" viewBox="0 0 240 240" aria-label="Lattice polygon with integer-grid background">
+        <!-- drawing groups are filled by the script -->
+        <g id="box"></g>
+        <g id="lattice"></g>
+        <g id="axes"></g>
+        <g id="poly"></g>
+        <g id="points"></g>
+      </svg>
+    </section>
+  </article>
+
+  <!-- REASON -->
+  <article class="card">
+    <header><h2>Reason</h2></header>
+    <section>
+      <ol>
+        <li><strong>Area.</strong> With vertices (x₀,y₀), …, (xₙ₋₁,yₙ₋₁) in order,
+            A = ½ · |Σ (xᵢyᵢ₊₁ − xᵢ₊₁yᵢ)|.</li>
+        <li><strong>Boundary lattice points.</strong> An edge with Δx, Δy contains gcd(|Δx|,|Δy|) lattice points
+            when endpoints are counted once overall. Summing over edges gives B.</li>
+        <li><strong>Pick’s Theorem.</strong> A = I + B/2 − 1 where I is the number of interior lattice points
+            and B the number on the boundary.</li>
+      </ol>
+    </section>
+  </article>
+
+  <!-- CHECK -->
+  <article class="card">
+    <header><h2>Check</h2></header>
+    <section>
+      <ul id="checks" class="mono"></ul>
+      <div id="numbers" class="mono" style="margin-top:8px;white-space:pre-wrap"></div>
+      <small class="muted">Vertices are highlighted as small blue squares; boundary lattice points as blue dots; interior lattice points as green dots.</small>
+    </section>
+  </article>
+
+</main>
+
+<script>
+/* ---------- helpers ---------- */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a;}
+function shoelaceArea(P){let s=0,n=P.length;for(let i=0;i<n;i++){const j=(i+1)%n;s+=P[i].x*P[j].y-P[j].x*P[i].y;}return Math.abs(s)/2;}
+function pointInPoly(pt,P){let inside=false,n=P.length;for(let i=0,j=n-1;i<n;j=i++){const xi=P[i].x,yi=P[i].y,xj=P[j].x,yj=P[j].y;const inter=((yi>pt.y)!=(yj>pt.y))&&(pt.x<(xj-xi)*(pt.y-yi)/(yj-yi)+xi);if(inter)inside=!inside;}return inside;}
+function key(x,y){return `${x}|${y}`;}
+function isInt(x){return Math.abs(x-Math.round(x))<1e-12;}
+
+(function(){
+  const gBox=document.getElementById('box');
+  const gLat=document.getElementById('lattice');
+  const gAxes=document.getElementById('axes');
+  const gPoly=document.getElementById('poly');
+  const gPts=document.getElementById('points');
+  const checks=document.getElementById('checks');
+  const numbers=document.getElementById('numbers');
+  const ok=t=>`<li class="ok">OK — ${t}</li>`;
+  const bad=t=>`<li class="bad">FAIL — ${t}</li>`;
+
+  // ---- Choose a lattice polygon (all integer coordinates) ----
+  // (Feel free to change these integers; the checks adapt.)
+  const P=[
+    {x:2,  y:3},
+    {x:12, y:2},
+    {x:18, y:7},
+    {x:17, y:16},
+    {x:10, y:19},
+    {x:4,  y:17},
+    {x:1,  y:11},
+    {x:1,  y:6}
+  ];
+
+  // ---- geometry: area, boundary & interior counts ----
+  const A=shoelaceArea(P);
+
+  // boundary points via gcd and also collect their coordinates
+  let B=0; const Bset=new Set();
+  for(let i=0;i<P.length;i++){
+    const a=P[i], b=P[(i+1)%P.length];
+    const dx=b.x-a.x, dy=b.y-a.y, g=gcd(dx,dy);
+    const stepx=dx/Math.abs(g), stepy=dy/Math.abs(g);
+    B+=Math.abs(g);
+    for(let k=0;k<Math.abs(g);k++) Bset.add(key(a.x+k*stepx,a.y+k*stepy));
+  }
+
+  // bounding box (pad by 1)
+  const minX=Math.min(...P.map(p=>p.x))-1, maxX=Math.max(...P.map(p=>p.x))+1;
+  const minY=Math.min(...P.map(p=>p.y))-1, maxY=Math.max(...P.map(p=>p.y))+1;
+
+  // interior by enumeration
+  const Ipts=[];
+  for(let y=Math.ceil(minY)+1;y<=Math.floor(maxY)-1;y++){
+    for(let x=Math.ceil(minX)+1;x<=Math.floor(maxX)-1;x++){
+      if(Bset.has(key(x,y))) continue;
+      if(pointInPoly({x,y},P)) Ipts.push({x,y});
+    }
+  }
+  const I_enum=Ipts.length;
+  const I_pick=A - B/2 + 1;
+
+  // ---- map to SVG with uniform scale ----
+  const margin=10, inner=220;
+  const W=maxX-minX, H=maxY-minY;
+  const s=inner/Math.max(W,H);
+  const offX=margin + (inner - W*s)/2;
+  const offY=margin + (inner - H*s)/2;
+  const X=x=>offX + (x - minX)*s;
+  const Y=y=>offY + (maxY - y)*s;
+
+  // neat frame
+  const rect=document.createElementNS('http://www.w3.org/2000/svg','rect');
+  rect.setAttribute('x',10);rect.setAttribute('y',10);rect.setAttribute('width',220);rect.setAttribute('height',220);
+  rect.setAttribute('fill','none');rect.setAttribute('stroke','#c7d2e5');rect.setAttribute('stroke-width','1');
+  gBox.appendChild(rect);
+
+  // ---- integer lattice grid (lines at every integer x and y) ----
+  for(let x=Math.ceil(minX); x<=Math.floor(maxX); x++){
+    const v=document.createElementNS('http://www.w3.org/2000/svg','line');
+    v.setAttribute('x1',X(x)); v.setAttribute('y1',Y(minY));
+    v.setAttribute('x2',X(x)); v.setAttribute('y2',Y(maxY));
+    v.setAttribute('stroke','#eef2f7'); v.setAttribute('stroke-width','1');
+    gLat.appendChild(v);
+  }
+  for(let y=Math.ceil(minY); y<=Math.floor(maxY); y++){
+    const h=document.createElementNS('http://www.w3.org/2000/svg','line');
+    h.setAttribute('x1',X(minX)); h.setAttribute('y1',Y(y));
+    h.setAttribute('x2',X(maxX)); h.setAttribute('y2',Y(y));
+    h.setAttribute('stroke','#eef2f7'); h.setAttribute('stroke-width','1');
+    gLat.appendChild(h);
+  }
+
+  // axes through (0,0) (if visible)
+  const showX = (0>=minX && 0<=maxX), showY = (0>=minY && 0<=maxY);
+  if(showX){
+    const ax=document.createElementNS('http://www.w3.org/2000/svg','line');
+    ax.setAttribute('x1',X(minX)); ax.setAttribute('y1',Y(0));
+    ax.setAttribute('x2',X(maxX)); ax.setAttribute('y2',Y(0));
+    ax.setAttribute('stroke','var(--axis)'); ax.setAttribute('stroke-width','1'); ax.setAttribute('opacity','0.6');
+    gAxes.appendChild(ax);
+  }
+  if(showY){
+    const ay=document.createElementNS('http://www.w3.org/2000/svg','line');
+    ay.setAttribute('x1',X(0)); ay.setAttribute('y1',Y(minY));
+    ay.setAttribute('x2',X(0)); ay.setAttribute('y2',Y(maxY));
+    ay.setAttribute('stroke','var(--axis)'); ay.setAttribute('stroke-width','1'); ay.setAttribute('opacity','0.6');
+    gAxes.appendChild(ay);
+  }
+
+  // polygon
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+  let d=`M ${X(P[0].x)} ${Y(P[0].y)}`; for(let i=1;i<P.length;i++) d+=` L ${X(P[i].x)} ${Y(P[i].y)}`; d+=' Z';
+  path.setAttribute('d',d);
+  path.setAttribute('fill','var(--polyFill)');
+  path.setAttribute('stroke','var(--polyStroke)');
+  path.setAttribute('stroke-width','2');
+  gPoly.appendChild(path);
+
+  // boundary lattice points (blue dots)
+  for(const id of Bset){
+    const [xs,ys]=id.split('|'); const x=+xs, y=+ys;
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',X(x)); c.setAttribute('cy',Y(y)); c.setAttribute('r',2.1);
+    c.setAttribute('fill','var(--ptBoundary)');
+    c.setAttribute('stroke','#ffffff'); c.setAttribute('stroke-width','0.6'); c.setAttribute('opacity','0.95');
+    gPts.appendChild(c);
+  }
+  // interior lattice points (green dots)
+  for(const p of Ipts){
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',X(p.x)); c.setAttribute('cy',Y(p.y)); c.setAttribute('r',2.1);
+    c.setAttribute('fill','var(--ptInterior)');
+    c.setAttribute('stroke','#ffffff'); c.setAttribute('stroke-width','0.6'); c.setAttribute('opacity','0.95');
+    gPts.appendChild(c);
+  }
+  // vertex markers (small squares on lattice intersections)
+  for(const vtx of P){
+    const s2=3; // half-side pixels
+    const sq=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    sq.setAttribute('x',X(vtx.x)-s2); sq.setAttribute('y',Y(vtx.y)-s2);
+    sq.setAttribute('width',2*s2); sq.setAttribute('height',2*s2);
+    sq.setAttribute('fill','var(--vertex)'); sq.setAttribute('stroke','#ffffff'); sq.setAttribute('stroke-width','0.6');
+    gPts.appendChild(sq);
+  }
+
+  /* ---------- checks ---------- */
+  // 1) Vertices are integers
+  const vertsIntOK = P.every(p=>isInt(p.x)&&isInt(p.y));
+  checks.insertAdjacentHTML('beforeend', vertsIntOK?ok('All vertices have integer coordinates'):bad('A vertex is not an integer point'));
+
+  // 2) Boundary count by gcd equals unique boundary points
+  const BsetCount=Bset.size;
+  checks.insertAdjacentHTML('beforeend', B===BsetCount?ok(`Boundary count B = ${B} (matches Σ gcd over edges)`)
+                                                       :bad(`Boundary mismatch: Σ gcd = ${B} vs unique = ${BsetCount}`));
+
+  // 3) Pick’s theorem A = I + B/2 − 1 (compare with enumerated interior)
+  const pickVal = I_pick;
+  const pickOK = Math.abs(pickVal - I_enum) < 1e-9;
+  checks.insertAdjacentHTML('beforeend', pickOK?ok('Pick’s theorem holds (interior from area matches enumeration)')
+                                               :bad(`Pick’s theorem mismatch: I(Pick) = ${pickVal}, I(enum) = ${I_enum}`));
+
+  // 4) Shoelace area report
+  checks.insertAdjacentHTML('beforeend', ok(`Shoelace area A = ${A}`));
+
+  numbers.textContent =
+`Vertices n = ${P.length}
+Boundary B = ${B}
+Interior I (Pick) = ${I_pick}
+Interior I (enumerated) = ${I_enum}
+Area A = ${A}`;
+})();
+</script>
+</body>
+</html>
+
