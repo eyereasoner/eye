@@ -58,6 +58,7 @@ If you are reading this for the first time, the best way in is straightforward: 
 - [Lee](https://eyereasoner.github.io/eye/arc/etc/lee.html) — Maze routing with Lee’s algorithm; trace optimal wavefront paths.
 - [Leg Length Discrepancy Measurement](https://eyereasoner.github.io/eye/arc/etc/lldm.html) — Leg Length Discrepancy Measurement: estimate leg-length discrepancy from four landmarks.
 - [Library & Path](https://eyereasoner.github.io/eye/arc/etc/library_and_path.html) — Toggle “laws,” search a minimal path to a target observation set.
+- [Linked Lists](https://eyereasoner.github.io/eye/arc/etc/library_and_path.html) — Linked Lists Term Logic example proved using Resolution.
 - [Matrix basics](https://eyereasoner.github.io/eye/arc/etc/matrix.html) — Do matrix ops (add/mul/inv) with dimension and property checks.
 - [N-Queens](https://eyereasoner.github.io/eye/arc/etc/n_queens.html) — Place N queens without attacks; verify constraints per row/diag.
 - [Newton-Raphson method](https://eyereasoner.github.io/eye/arc/etc/newton_raphson.html) — Newton-Raphson root-finding algorithm.

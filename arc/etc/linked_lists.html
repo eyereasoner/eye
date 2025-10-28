@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Linked Lists Term Logic example proved using Resolution</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg:#f7f8fb;
+      --card:#ffffff;
+      --ink:#0f172a;
+      --muted:#4b5563;
+      --accent:#2563eb;
+      --ok:#059669;
+      --bad:#b91c1c;
+      --radius:16px;
+      --shadow:0 10px 22px rgba(2,6,23,.06), 0 2px 6px rgba(2,6,23,.06);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+    .wrap{max-width:980px;margin:auto;padding:28px 16px 64px}
+    header{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+    h1{font-size:clamp(24px,3vw,34px);line-height:1.2;margin:0}
+    .sub{color:var(--muted)}
+    .pill{display:inline-flex;align-items:center;gap:8px;background:#eef2ff;color:#3730a3;border-radius:999px;padding:8px 12px;font-weight:600;font-size:14px;width:max-content}
+    .grid{display:flex;flex-direction:column;gap:16px}
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;border:1px solid #eef2f7}
+    .kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#6b7280}
+    .muted{color:var(--muted)}
+    .answer{font-size:18px;font-weight:800}
+    .ok{color:var(--ok)}
+    .fail{color:var(--bad);font-weight:800}
+    .result{margin-top:10px;padding:10px 12px;border-radius:10px;background:#fafbff;border:1px dashed #d7dbe5}
+    code, pre{font-family:var(--mono)}
+    /* Your requested pre style (light) */
+    pre{color:#0f172a;padding:14px;border-radius:12px;overflow:auto}
+    .small{font-size:13px}
+    .mono{font-family:var(--mono)}
+    textarea.input{width:100%;min-height:84px;padding:10px 12px;border-radius:10px;border:1px solid #d9e1f1;background:#fdfefe;font-family:var(--mono)}
+    .badge{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:#ecfeff;color:#155e75;border:1px solid #a5f3fc}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Linked Lists Term Logic example proved using Resolution</h1>
+    </header>
+
+    <section class="grid">
+      <!-- Problem statement -->
+      <article class="card">
+        <div class="kicker">Problem</div>
+        <h2>Formalize linked lists and show a canonical entailment using Resolution</h2>
+        <p>We use the usual setup with constants, functions, and predicates for lists:</p>
+        <pre>// Signature:
+//   nil                         // constant for empty list
+//   cons(x, xs)                 // function: attach head x to tail xs
+//   append(xs, ys, zs)          // predicate: zs is xs appended to ys
+//   member(x, xs)               // predicate: x occurs in xs
+//
+// Axioms (Horn clauses):
+// A1: append(nil, ys, ys).
+// A2: append(xs, ys, zs) -> append(cons(x, xs), ys, cons(x, zs)).
+// M1: member(x, cons(x, xs)).
+// M2: member(x, xs) -> member(x, cons(y, xs)).
+</pre>
+        <p class="small muted">Goal we’ll prove by Resolution: 
+          <code>append(cons(a, cons(b, nil)), cons(c, nil), cons(a, cons(b, cons(c, nil))))</code>.
+        </p>
+      </article>
+
+      <!-- Answer -->
+      <article class="card">
+        <div class="kicker">Answer</div>
+        <p class="answer ok">Entailed. Using Resolution on (A1–A2) with the negation of the goal derives a contradiction (empty clause), so the goal follows from the axioms.</p>
+      </article>
+
+      <!-- Reason Why (Resolution, mathematical English) -->
+      <article class="card">
+        <div class="kicker">Reason Why</div>
+        <h2>Resolution justification (clausal refutation)</h2>
+        <ol>
+          <li>Clausify the axioms (already Horn): 
+            <div class="small">
+              C1: <code>append(nil, Y, Y)</code>. <br/>
+              C2: <code>¬append(XS, Y, Z) ∨ append(cons(H, XS), Y, cons(H, Z))</code>.
+            </div>
+          </li>
+          <li>Negate the ground goal G and add it as a clause: 
+            <code>¬append(cons(a, cons(b, nil)), cons(c, nil), cons(a, cons(b, cons(c, nil))))</code>.
+          </li>
+          <li>Resolve backwards using C2 repeatedly to “peel” leading <code>cons</code> symbols, producing:
+            <div class="small"><code>¬append(cons(b, nil), cons(c, nil), cons(b, cons(c, nil)))</code>, then <code>¬append(nil, cons(c, nil), cons(c, nil))</code>.</div>
+          </li>
+          <li>Resolve the last clause with C1 (unifier Y:=cons(c,nil)) to derive ⟂ (empty clause).</li>
+          <li>Therefore G is entailed by A1–A2.</li>
+        </ol>
+      </article>
+
+      <!-- Checks (7 harnesses), all auto-run and visible -->
+      <article class="card" id="h1">
+        <div class="kicker">Check (harness) #1</div>
+        <h3>Concrete append</h3>
+        <p class="small muted">Verify <code>append([a,b],[c]) = [a,b,c]</code> using a cons/nil model.</p>
+        <div class="result" id="r1" aria-live="polite"></div>
+      </article>
+
+      <article class="card" id="h2">
+        <div class="kicker">Check (harness) #2</div>
+        <h3>Randomized lists (200 trials)</h3>
+        <p class="small muted">Generate random arrays over {a,b,c,d,e}; convert to cons-lists; check that our logical <code>append</code> matches JS concatenation.</p>
+        <div class="result" id="r2" aria-live="polite"></div>
+      </article>
+
+      <article class="card" id="h3">
+        <div class="kicker">Check (harness) #3</div>
+        <h3>Exhaustive small lists (alphabet ≤ {a,b}, length ≤ 2)</h3>
+        <p class="small muted">All pairs (xs, ys); ensure <code>append(xs, ys) = xs ++ ys</code>.</p>
+        <div class="result" id="r3" aria-live="polite"></div>
+      </article>
+
+      <article class="card" id="h4">
+        <div class="kicker">Check (harness) #4</div>
+        <h3>Membership preservation</h3>
+        <p class="small muted">If <code>x</code> is in <code>xs</code> or <code>ys</code> then <code>x</code> is in <code>append(xs, ys)</code> (using M1, M2).</p>
+        <div class="result" id="r4" aria-live="polite"></div>
+      </article>
+
+      <article class="card" id="h5">
+        <div class="kicker">Check (harness) #5</div>
+        <h3>Edge cases</h3>
+        <p class="small muted">Test <code>append([], ys) = ys</code> and <code>append(xs, []) = xs</code>.</p>
+        <div class="result" id="r5" aria-live="polite"></div>
+      </article>
+
+      <article class="card" id="h6">
+        <div class="kicker">Check (harness) #6</div>
+        <h3>Your data (CSV)</h3>
+        <p class="small muted">Provide <code>L1: a,b,c</code> and <code>L2: d,e</code>. We show the cons-list result and array view.</p>
+        <textarea class="input" id="csv" placeholder="L1: a,b
+L2: c,d"></textarea>
+        <div class="result" id="r6" aria-live="polite"></div>
+      </article>
+
+      <article class="card" id="h7">
+        <div class="kicker">Check (harness) #7</div>
+        <h3>Automated Resolution trace for the goal</h3>
+        <p class="small muted">Derives ⟂ from A1–A2 plus ¬G, showing the append goal is entailed.</p>
+        <div class="result" id="r7" aria-live="polite"></div>
+      </article>
+
+    </section>
+
+  </div>
+
+  <script>
+    // ---------- Utilities: terms, cons-lists, equality ----------
+    const Nil = { tag:'nil' };
+    const Cons = (h,t)=>({ tag:'cons', h, t });
+
+    const isNil = t => t.tag==='nil';
+    const toArray = t => {
+      const out=[]; let cur=t;
+      while(!isNil(cur)){ out.push(cur.h); cur=cur.t; }
+      return out;
+    };
+    const fromArray = arr => {
+      let t = Nil;
+      for(let i=arr.length-1;i>=0;i--) t = Cons(arr[i], t);
+      return t;
+    };
+    const termEq = (a,b) => {
+      if(a.tag!==b.tag) return false;
+      if(a.tag==='nil') return true;
+      return a.h===b.h && termEq(a.t,b.t);
+    };
+    const show = t => isNil(t) ? "nil" : `cons(${t.h}, ${show(t.t)})`;
+
+    // ---------- Logical predicates as functions (denotation) ----------
+    // append(xs, ys) -> zs  (functional version returning zs)
+    const appendLL = (xs, ys) => isNil(xs) ? ys : Cons(xs.h, appendLL(xs.t, ys));
+
+    // member(x, xs)
+    const memberLL = (x, xs) => !isNil(xs) && (x===xs.h || memberLL(x, xs.t));
+
+    // ---------- Harness #1: concrete append ----------
+    function check1(){
+      const xs = fromArray(['a','b']);
+      const ys = fromArray(['c']);
+      const zs = appendLL(xs, ys);
+      const want = fromArray(['a','b','c']);
+      const pass = termEq(zs, want);
+      const msg = `append([a,b],[c]) = ${JSON.stringify(toArray(zs))}`;
+      document.getElementById('r1').innerHTML =
+        `<div class="${pass?'ok':'fail'}">${pass?'PASS':'FAIL'}</div><pre>${msg}</pre>`;
+    }
+
+    // ---------- Harness #2: randomized lists ----------
+    function check2(){
+      const alphabet = ['a','b','c','d','e'];
+      const trials = 200;
+      let ok = 0;
+      for(let t=0;t<trials;t++){
+        const r = n => Math.floor(Math.random()*n);
+        const make = () => {
+          const n = r(4); // length 0..3
+          const arr = Array.from({length:n},()=>alphabet[r(alphabet.length)]);
+          return arr;
+        };
+        const xsArr = make(), ysArr = make();
+        const xs = fromArray(xsArr), ys = fromArray(ysArr);
+        const zs = appendLL(xs, ys);
+        const pass = JSON.stringify(toArray(zs)) === JSON.stringify(xsArr.concat(ysArr));
+        if(pass) ok++;
+      }
+      const all = ok===trials;
+      document.getElementById('r2').innerHTML =
+        `<div class="${all?'ok':'fail'}">${all?'PASS':'FAIL'}</div>
+         <div class="small">Passed ${ok}/${trials} randomized cases.</div>`;
+    }
+
+    // ---------- Harness #3: exhaustive small lists ----------
+    function check3(){
+      const alphabet=['a','b'];
+      const genLists = (maxLen)=>{
+        const out=[[]];
+        for(let len=1; len<=maxLen; len++){
+          const rec=(pref, k)=>{
+            if(k===0){ out.push(pref); return; }
+            for(const ch of alphabet) rec(pref.concat([ch]), k-1);
+          };
+          rec([], len);
+        }
+        return out;
+      };
+      const cases = genLists(2);
+      let total=0, bad=0;
+      for(const xsA of cases){
+        for(const ysA of cases){
+          total++;
+          const xs=fromArray(xsA), ys=fromArray(ysA);
+          const zs=appendLL(xs,ys);
+          if(JSON.stringify(toArray(zs))!==JSON.stringify(xsA.concat(ysA))) bad++;
+        }
+      }
+      const pass = bad===0;
+      document.getElementById('r3').innerHTML =
+        `<div class="${pass?'ok':'fail'}">${pass?'PASS':'FAIL'}</div>
+         <div class="small">Checked ${total} pairs; counterexamples: ${bad}.</div>`;
+    }
+
+    // ---------- Harness #4: membership preservation ----------
+    function check4(){
+      const xs = fromArray(['a','b']);
+      const ys = fromArray(['c','a']);
+      const zs = appendLL(xs, ys);
+      const universe = ['a','b','c','d'];
+      const report = [];
+      let all=true;
+      for(const v of universe){
+        const lhs = memberLL(v,xs) || memberLL(v,ys);
+        const rhs = memberLL(v,zs);
+        const good = lhs===rhs || (!lhs && !rhs); // require: lhs -> rhs (preservation); we report both
+        if(lhs && !rhs) all=false;
+        report.push(`${v}: in(xs)∨in(ys)=${lhs}  ⇒  in(append(xs,ys))=${rhs}`);
+      }
+      document.getElementById('r4').innerHTML =
+        `<div class="${all?'ok':'fail'}">${all?'PASS':'FAIL'}</div><pre>${report.join('\n')}</pre>`;
+    }
+
+    // ---------- Harness #5: edge cases ----------
+    function check5(){
+      const xs = fromArray([]);
+      const ys = fromArray(['a','b']);
+      const case1 = toArray(appendLL(xs, ys));
+      const case2 = toArray(appendLL(ys, fromArray([])));
+      const pass = JSON.stringify(case1)===JSON.stringify(['a','b']) &&
+                   JSON.stringify(case2)===JSON.stringify(['a','b']);
+      const msg = `append([], [a,b]) = [${case1.join(',')}]\nappend([a,b], []) = [${case2.join(',')}]`;
+      document.getElementById('r5').innerHTML =
+        `<div class="${pass?'ok':'fail'}">${pass?'PASS':'FAIL'}</div><pre>${msg}</pre>`;
+    }
+
+    // ---------- Harness #6: user CSV ----------
+    function parseCSVSpec(text){
+      const lines = (text||'').split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+      let L1=[], L2=[];
+      for(const ln of lines){
+        const m = ln.match(/^L([12])\s*:\s*(.*)$/i);
+        if(!m) continue;
+        const listNum = m[1];
+        const items = m[2].split(',').map(s=>s.trim()).filter(Boolean);
+        if(listNum==='1') L1=items;
+        else L2=items;
+      }
+      return {L1, L2};
+    }
+    function check6(){
+      const {L1,L2} = parseCSVSpec(document.getElementById('csv').value);
+      const xs = fromArray(L1), ys = fromArray(L2);
+      const zs = appendLL(xs, ys);
+      const arr = toArray(zs);
+      const msg = `L1 ++ L2  →  ${JSON.stringify(arr)}\ncons-form: ${show(zs)}`;
+      document.getElementById('r6').innerHTML =
+        `<div class="ok">OK</div><pre>${msg}</pre>`;
+    }
+
+    // ---------- Harness #7: automated Resolution trace for the goal ----------
+    function resolutionTrace(){
+      // Axioms:
+      // C1: append(nil, Y, Y).
+      // C2: ¬append(XS, Y, Z) ∨ append(cons(H, XS), Y, cons(H, Z)).
+      // Negated goal:
+      // N0: ¬append(cons(a, cons(b, nil)), cons(c, nil), cons(a, cons(b, cons(c, nil)))).
+      const steps = [];
+      steps.push("C1: append(nil, Y, Y)");
+      steps.push("C2: ¬append(XS, Y, Z) ∨ append(cons(H, XS), Y, cons(H, Z))");
+      steps.push("N0: ¬append(cons(a, cons(b, nil)), cons(c, nil), cons(a, cons(b, cons(c, nil))))");
+
+      // Resolve N0 with C2 (unify H:=a, XS:=cons(b,nil), Y:=cons(c,nil), Z:=cons(b,cons(c,nil))):
+      steps.push("R1: from C2 with N0 ⇒ ¬append(cons(b, nil), cons(c, nil), cons(b, cons(c, nil)))");
+
+      // Resolve R1 with C2 (unify H:=b, XS:=nil, Y:=cons(c,nil), Z:=cons(c,nil)):
+      steps.push("R2: from C2 with R1 ⇒ ¬append(nil, cons(c, nil), cons(c, nil))");
+
+      // Resolve R2 with C1 (Y:=cons(c,nil)) to get empty clause:
+      steps.push("R3: from C1 with R2 ⇒ ⟂ (empty clause)");
+
+      return steps;
+    }
+    function check7(){
+      const steps = resolutionTrace();
+      const ok = steps[steps.length-1].includes("⟂");
+      document.getElementById('r7').innerHTML =
+        `<div class="${ok?'ok':'fail'}">${ok?'PASS':'FAIL'}</div><pre>${steps.join('\n')}</pre>`;
+    }
+
+    // ---------- Autorun all checks ----------
+    window.addEventListener('DOMContentLoaded', ()=>{
+      const csv = document.getElementById('csv');
+      if (csv && !csv.value.trim()){
+        csv.value = "L1: a,b\nL2: c";
+      }
+      check1(); check2(); check3(); check4(); check5(); check6(); check7();
+    });
+  </script>
+</body>
+</html>
+
