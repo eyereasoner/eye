@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Newton–Raphson Method</title>
+  <style>
+    :root{ --bg:#f7f9fc; --card:#ffffff; --text:#0f172a; --muted:#475569; --accent:#2563eb; --good:#16a34a; --bad:#dc2626; --border:#e2e8f0; --chip:#eef2ff; --code:#111827; }
+    html, body { background: var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; }
+    * { box-sizing: border-box; }
+    .container{ max-width: 960px; margin: 24px auto; padding: 0 16px; }
+    header{ display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    h1{ font-size: 1.8rem; margin: 0; letter-spacing: -0.02em; }
+    .subtitle{ color: var(--muted); }
+    .card{ background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 6px 20px rgba(2,6,23,0.05); }
+    .stack{ display: flex; flex-direction: column; gap: 16px; }
+    .pill{ display:inline-flex; align-items:center; gap:8px; padding:4px 10px; background:var(--chip); color:#1e3a8a; border-radius:999px; font-size:12px; font-weight:600; border:1px solid #c7d2fe; }
+    .row{ display:flex; gap:12px; align-items:center; min-width:0; }
+    .muted{ color: var(--muted); }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; color: var(--code); word-break: break-word; overflow-wrap: anywhere; white-space: normal; }
+    .kpi{ display:flex; gap: 16px; flex-wrap: wrap; }
+    .kpi .card{ padding: 12px 14px; }
+    .k{ font-weight:700; }
+    .v{ font-variant-numeric: tabular-nums; word-break: break-word; overflow-wrap: anywhere; }
+    .list{ display:flex; flex-direction: column; gap: 12px; }
+    .term{ padding:10px; background:#f8fafc; border:1px dashed var(--border); border-radius:12px; }
+    details{ border:1px solid var(--border); border-radius: 12px; padding: 10px 12px; background:#fafcff; }
+    details summary{ cursor: pointer; font-weight:700; color:#0b3eaa; }
+    .badge{ padding:2px 8px; border-radius:999px; font-weight:700; font-size:12px; border:1px solid #cbd5e1; background:#f1f5f9; color:#0f172a; }
+    .ok{ background:#dcfce7; color:#166534; border:1px solid #86efac; }
+    .fail{ background:#fee2e2; color:#991b1b; border:1px solid #fecaca; }
+    .harness{ border-left: 6px solid #c7d2fe; }
+    .h-title{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .small{ font-size: 12px; }
+    code{ background:#f1f5f9; padding:2px 6px; border-radius:6px; }
+    footer{ color: var(--muted); font-size: 12px; text-align:center; margin: 16px 0 40px; }
+    .divider{ height:1px; background: var(--border); margin: -4px 0 8px; }
+
+    /* INPUT: compact layout */
+    .input-grid{ display:flex; flex-wrap: nowrap; gap:10px; }
+    .field{ display:flex; align-items:center; gap:6px; }
+    input.short{ width:120px; padding:6px 8px; border: 1px solid var(--border); border-radius:10px; background:#fbfdff; }
+    input.long{ width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:10px; background:#fbfdff; }
+    .buttons-row{ display:flex; gap:8px; flex-wrap: wrap; }
+    @media (max-width: 720px){ .input-grid{ flex-wrap: wrap; } }
+
+    table{ width:100%; border-collapse: collapse; }
+    th, td{ text-align:left; padding:6px 8px; border-bottom:1px solid var(--border); font-variant-numeric: tabular-nums; }
+    th{ color: var(--muted); font-weight:700; }
+  </style>
+</head>
+<body>
+  <div class="container stack">
+    <header class="card stack">
+      <div class="row" style="justify-content:space-between; align-items:flex-start; width:100%">
+        <div>
+          <h1>Newton–Raphson method</h1>
+        </div>
+      </div>
+      <span class="badge">Problem: x_{n+1} = x_n − f(x_n)/f′(x_n) to solve f(x)=0</span>
+      <p class="muted">Provide <em>f(x)</em> (and optionally <em>f′(x)</em>), an initial guess <em>x₀</em>, tolerance <em>ε</em>, and max iterations <em>N</em>. The page computes the iterate, explains why Newton works (and when it fails), and verifies convergence with a test harness.</p>
+    </header>
+
+    <!-- INPUT -->
+    <section class="card stack" id="input-card">
+      <h2 style="margin:0">Input</h2>
+      <div class="divider"></div>
+      <div class="stack">
+        <div class="field" style="width:100%"><label class="mono" for="fInput" style="min-width:140px">f(x)</label><input class="long" id="fInput" type="text" value="x^2 - 2" placeholder="Example: x^2 - 2,  cos(x) - x,  exp(x)-3" /></div>
+        <div class="field" style="width:100%"><label class="mono" for="dfInput" style="min-width:140px">f′(x) (optional)</label><input class="long" id="dfInput" type="text" value="2*x" placeholder="Leave blank to use numerical derivative" /></div>
+      </div>
+      <div class="row input-grid">
+        <div class="field"><label class="mono" for="x0Input">x₀</label><input class="short" id="x0Input" type="number" step="any" value="1" /></div>
+        <div class="field"><label class="mono" for="epsInput">ε</label><input class="short" id="epsInput" type="number" step="any" value="1e-12" /></div>
+        <div class="field"><label class="mono" for="NInput">N</label><input class="short" id="NInput" type="number" min="1" step="1" value="40" /></div>
+      </div>
+      <div class="row buttons-row">
+        <button type="button" id="solve">Run Newton</button>
+        <button type="button" id="clear">Clear</button>
+      </div>
+      <p class="small muted"><strong>N</strong> is the maximum number of iterations. If <span class="mono">f′(x)</span> is omitted, a centered finite‑difference derivative is used. Convergence is declared when both the step size and the residual are ≤ <span class="mono">ε</span> (scaled by magnitude). Supported syntax: numbers, <span class="mono">x</span>, operators <span class="mono">+ - * / ^</span>, parentheses, and functions <span class="mono">sin, cos, tan, asin, acos, atan, exp, log (ln), log10, sqrt, cbrt, abs, floor, ceil, round</span>; constants <span class="mono">pi, e</span>.</p>
+    </section>
+
+    <!-- OUTPUT -->
+    <section class="card stack" id="output-card" aria-live="polite">
+      <h2 style="margin:0">Output</h2>
+      <div class="divider"></div>
+
+      <!-- Answer KPIs -->
+      <section class="stack">
+        <div class="kpi">
+          <div class="card"><div class="k">Approximate root</div><div id="root" class="v mono">—</div></div>
+          <div class="card"><div class="k">Residual |f(x*)|</div><div id="residual" class="v mono">—</div></div>
+          <div class="card"><div class="k">Iterations</div><div id="iters" class="v mono">—</div></div>
+          <div class="card"><div class="k">Observed rate</div><div id="rate" class="v mono">—</div></div>
+          <div class="card"><div class="k">Derivative used</div><div id="dftype" class="v mono">—</div></div>
+          <div class="card"><div class="k">Status</div><div id="status" class="v mono">—</div></div>
+        </div>
+      </section>
+
+      <!-- Iterates -->
+      <details>
+        <summary>Show iterates</summary>
+        <div class="term">
+          <table id="iterTable"><thead><tr><th>#</th><th>x</th><th>f(x)</th><th>f′(x)</th><th>|Δx|</th></tr></thead><tbody></tbody></table>
+        </div>
+      </details>
+
+      <!-- Reason Why (mathematical English) -->
+      <section class="stack">
+        <h3 style="margin:0">Reason Why</h3>
+        <div class="list">
+          <div class="term"><strong>Derivation.</strong> Taylor at <span class="mono">x_n</span> yields <span class="mono">0 = f(x_n)+f′(x_n)(r−x_n)+O((r−x_n)^2)</span>; solving gives <span class="mono">r ≈ x_n − f(x_n)/f′(x_n)</span>.</div>
+          <div class="term"><strong>Quadratic convergence.</strong> For a simple root <span class="mono">r</span> with <span class="mono">f′(r)≠0</span>, <span class="mono">e_{n+1} ≈ (f''(r)/(2f'(r)))·e_n^2</span>; digits roughly double each step.</div>
+          <div class="term"><strong>Failure modes.</strong> Small/zero <span class="mono">f′</span>, poor starting points, or multiple roots reduce/diverge. Damping/backtracking helps.</div>
+        </div>
+      </section>
+
+      <!-- Check (harness) for the user's input -->
+      <section class="stack">
+        <h3 style="margin:0">Check (harness)</h3>
+        <div id="checks" class="list"></div>
+      </section>
+    </section>
+
+    <!-- PRELOADED HARNESS CASES (≥ 10) -->
+    <section class="card stack harness" id="preloaded">
+      <div class="h-title">
+        <h2 style="margin:0">Preloaded Checks (harness)</h2>
+        <div class="row"><button id="runAll">Run all</button><button class="ghost" id="clearHarness">Clear results</button></div>
+      </div>
+      <p class="small muted">Each block runs Newton and reports the approximate root, residual, iterations, status, and observed rate. Some cases are intentionally tricky.</p>
+      <div id="harnesses" class="stack"></div>
+    </section>
+
+    <footer>
+      <div>Built as a self‑checking artifact: program → <em>Answer</em>, <em>Reason Why</em>, <em>Check</em>.</div>
+      <div class="small">This page performs only on‑device computation.</div>
+    </footer>
+  </div>
+
+<script>
+// ===== Tiny expression parser (safe; no eval) =====
+function buildFn(src){
+  function isDigit(c){ return c>='0' && c<='9'; }
+  function isAlpha(c){ return (c>='a'&&c<='z')||(c>='A'&&c<='Z')||c==='_'; }
+  function isAlnum(c){ return isAlpha(c)||isDigit(c); }
+  function tokenize(s){
+    const t=[]; let i=0; s=String(s||'').trim(); const L=s.length;
+    while(i<L){ const c=s[i];
+      if(c===' '){ i++; continue; }
+      if(isDigit(c) || (c==='.'&&isDigit(s[i+1]))){
+        let j=i+1; while(j<L&&isDigit(s[j])) j++;
+        if(s[j]==='.'&&isDigit(s[j+1])){ j++; while(j<L&&isDigit(s[j])) j++; }
+        if(s[j]==='e'||s[j]==='E'){ let k=j+1; if(s[k]==='+'||s[k]==='-') k++; while(k<L&&isDigit(s[k])) k++; j=k; }
+        t.push({type:'num', val: parseFloat(s.slice(i,j))}); i=j; continue;
+      }
+      if(isAlpha(c)){
+        let j=i+1; while(j<L&&isAlnum(s[j])) j++;
+        t.push({type:'id', name:s.slice(i,j).toLowerCase()}); i=j; continue;
+      }
+      if('+-*/^(),'.indexOf(c)>=0){ t.push({type:c}); i++; continue; }
+      throw new Error('Invalid character: '+c);
+    }
+    return t;
+  }
+  function toRPN(tokens){
+    const out=[], ops=[], funcs=[]; let prev=null;
+    const prec={'+':2,'-':2,'*':3,'/':3,'^':4,'neg':5}; const right={ '^':true,'neg':true };
+    for(let i=0;i<tokens.length;i++){
+      const t=tokens[i];
+      if(t.type==='num'){ out.push(t); prev=t; continue; }
+      if(t.type==='id'){
+        const next=tokens[i+1];
+        if(next&&next.type==='('){ funcs.push(t.name); ops.push({type:'('}); prev={type:'('}; i++; continue; }
+        out.push(t); prev=t; continue;
+      }
+      if(t.type==='('){ ops.push(t); prev=t; continue; }
+      if(t.type===')'){
+        while(ops.length&&ops[ops.length-1].type!=='(') out.push(ops.pop());
+        if(!ops.length) throw new Error('Mismatched parentheses');
+        ops.pop(); if(funcs.length){ out.push({type:'func', name:funcs.pop()}); }
+        prev=t; continue;
+      }
+      if(t.type===','){ while(ops.length&&ops[ops.length-1].type!=='(') out.push(ops.pop()); continue; }
+      let op=t.type; if(op==='-' && (!prev || (prev.type!==')'&&prev.type!=='num'&&prev.type!=='id'))) op='neg';
+      while(ops.length){ const top=ops[ops.length-1]; if(top.type==='(') break; const pT=prec[top.type], pO=prec[op]; if(pT>pO || (pT===pO && !right[op])) out.push(ops.pop()); else break; }
+      ops.push({type:op}); prev=t;
+    }
+    while(ops.length){ const o=ops.pop(); if(o.type==='('||o.type===')') throw new Error('Mismatched parentheses'); out.push(o); }
+    return out;
+  }
+  function evalRPN(rpn, x){
+    const st=[]; function fn1(n,a){
+      if(n==='sin') return Math.sin(a); if(n==='cos') return Math.cos(a); if(n==='tan') return Math.tan(a);
+      if(n==='asin') return Math.asin(a); if(n==='acos') return Math.acos(a); if(n==='atan') return Math.atan(a);
+      if(n==='exp') return Math.exp(a); if(n==='log'||n==='ln') return Math.log(a); if(n==='log10') return (Math.log10?Math.log10(a):Math.log(a)/Math.LN10);
+      if(n==='sqrt') return Math.sqrt(a); if(n==='cbrt') return (Math.cbrt?Math.cbrt(a):Math.sign(a)*Math.pow(Math.abs(a),1/3));
+      if(n==='abs') return Math.abs(a); if(n==='floor') return Math.floor(a); if(n==='ceil') return Math.ceil(a); if(n==='round') return Math.round(a);
+      throw new Error('Unknown function: '+n);
+    }
+    for(let i=0;i<rpn.length;i++){
+      const t=rpn[i];
+      if(t.type==='num'){ st.push(t.val); continue; }
+      if(t.type==='id'){
+        if(t.name==='x'){ st.push(x); continue; } if(t.name==='pi'){ st.push(Math.PI); continue; } if(t.name==='e'){ st.push(Math.E); continue; }
+        throw new Error('Unknown symbol: '+t.name);
+      }
+      if(t.type==='func'){ const a=st.pop(); st.push(fn1(t.name,a)); continue; }
+      if(t.type==='neg'){ const a=st.pop(); st.push(-a); continue; }
+      if(t.type==='+'||t.type==='-'||t.type==='*'||t.type==='/'||t.type==='^'){
+        const b=st.pop(), a=st.pop(); let v; if(t.type==='+') v=a+b; else if(t.type==='-') v=a-b; else if(t.type==='*') v=a*b; else if(t.type==='/') v=a/b; else v=Math.pow(a,b); st.push(v); continue;
+      }
+      throw new Error('Bad token');
+    }
+    if(st.length!==1) throw new Error('Evaluation error');
+    return st[0];
+  }
+  const rpn = toRPN(tokenize(src));
+  return function(x){ return evalRPN(rpn, x); };
+}
+
+// ===== Newton solver =====
+function numericDf(f, x){ const h = 1e-8 * (1 + Math.abs(x)); return (f(x+h) - f(x-h)) / (2*h); }
+function runNewton(f, df, x0, eps=1e-12, maxIter=40){
+  const iters=[]; let x=x0; let status='running'; let used=0; const dftype = df ? 'analytic' : 'numerical';
+  for(let k=0;k<maxIter;k++){
+    let fx=f(x); if(!isFinite(fx)){ status='f(x) not finite'; break; }
+    let dfx = df ? df(x) : numericDf(f,x); if(!isFinite(dfx)){ status="f'(x) not finite"; break; }
+    if(dfx===0){ status='derivative zero'; iters.push({k,x,fx,dfx,dx:NaN}); break; }
+    const dx = -fx/dfx; const x1=x+dx; iters.push({k,x,fx,dfx,dx:Math.abs(dx)}); x=x1; used=k+1;
+    const stepOk = Math.abs(dx) <= eps * (1 + Math.abs(x)); const resOk = Math.abs(f(x)) <= eps;
+    if(stepOk && resOk){ status='converged'; break; }
+    if(!isFinite(x)){ status='x not finite'; break; }
+  }
+  if(status==='running') status='max iterations reached';
+  const root=x, residual=Math.abs(f(root));
+  let rate='—'; if(iters.length>=3){ const e_n=iters[iters.length-1].dx, e_nm1=iters[iters.length-2].dx; if(e_n>0&&e_nm1>0){ const q=e_n/(e_nm1*e_nm1); if(isFinite(q)) rate=q.toExponential(3); } }
+  return { root, residual, used, status, iters, dftype, rate };
+}
+
+// ===== UI helpers =====
+const el=(tag,attrs={},children=[])=>{ const node=document.createElement(tag); Object.entries(attrs).forEach(([k,v])=>{ if(k==='class') node.className=v; else if(k==='html') node.innerHTML=v; else if(k.startsWith('on')) node.addEventListener(k.slice(2).toLowerCase(), v); else node.setAttribute(k,v); }); children.forEach(c=>node.appendChild(typeof c==='string'?document.createTextNode(c):c)); return node; };
+const row=(ok,label,msg)=> el('div',{class:'row'},[ el('span',{class:'badge '+(ok?'ok':'fail')},[ok?'PASS':'FAIL']), el('span',{class:'mono'},[label]), document.createTextNode(' — '), el('span',{class:'mono'},[msg]) ]);
+
+function showError(msg){
+  document.getElementById('root').textContent='—';
+  document.getElementById('residual').textContent='—';
+  document.getElementById('iters').textContent='—';
+  document.getElementById('rate').textContent='—';
+  document.getElementById('dftype').textContent='—';
+  document.getElementById('status').textContent=msg;
+  const tbody=document.querySelector('#iterTable tbody'); if(tbody) tbody.replaceChildren();
+  const checks=document.getElementById('checks'); if(checks) checks.replaceChildren(el('div',{class:'term'},[ el('span',{class:'badge fail'},['FAIL']), document.createTextNode(' '+msg) ]));
+}
+
+function renderResult(R){
+  const fmt=(v,prec=12)=> (typeof v==='number' && isFinite(v) ? v.toPrecision(prec) : String(v));
+  document.getElementById('root').textContent = fmt(R.root);
+  document.getElementById('residual').textContent = (isFinite(R.residual)? R.residual.toExponential(6) : String(R.residual));
+  document.getElementById('iters').textContent = String(R.used);
+  document.getElementById('rate').textContent = R.rate;
+  document.getElementById('dftype').textContent = R.dftype;
+  document.getElementById('status').textContent = R.status;
+  const tbody=document.querySelector('#iterTable tbody');
+  const rows = R.iters.map(it=> el('tr',{},[
+    el('td',{},[String(it.k)]),
+    el('td',{class:'mono'},[fmt(it.x)]),
+    el('td',{class:'mono'},[ (typeof it.fx==='number'&&isFinite(it.fx)) ? it.fx.toExponential(6) : String(it.fx) ]),
+    el('td',{class:'mono'},[ (typeof it.dfx==='number'&&isFinite(it.dfx)) ? it.dfx.toExponential(6) : String(it.dfx) ]),
+    el('td',{class:'mono'},[ (typeof it.dx==='number'&&isFinite(it.dx)) ? it.dx.toExponential(6) : String(it.dx) ])
+  ]));
+  tbody.replaceChildren(...rows);
+  renderChecks(R);
+}
+
+function renderChecks(R){
+  const checks=document.getElementById('checks'); const list=[];
+  const conv=(R.status==='converged'); list.push(row(conv,'Convergence',`status=${R.status}, |f(x*)|≈${(isFinite(R.residual)?R.residual.toExponential(3):R.residual)}`));
+  const stepDecr = R.iters.length>=3 ? (R.iters[R.iters.length-1].dx <= R.iters[R.iters.length-2].dx) : true; let lastDx='—'; if(R.iters.length){ const d=R.iters[R.iters.length-1].dx; lastDx = (typeof d==='number'&&isFinite(d))?d.toExponential(3):String(d); }
+  list.push(row(stepDecr,'Step sizes non‑increasing (tail)',`last Δx≈${lastDx}`));
+  list.push(row(R.rate!=='—','Rate computable (≈quadratic if simple root)',`q≈${R.rate}`));
+  checks.replaceChildren(...list);
+}
+
+function evaluate(){
+  try{
+    const fSrc=document.getElementById('fInput').value.trim();
+    const dfSrc=document.getElementById('dfInput').value.trim();
+    const x0=Number(document.getElementById('x0Input').value);
+    const eps=Number(document.getElementById('epsInput').value);
+    const N=Math.max(1,Number(document.getElementById('NInput').value));
+    let f,df=null; try{ f=buildFn(fSrc); }catch(e){ showError('Invalid f(x): '+e.message); return; }
+    if(dfSrc){ try{ df=buildFn(dfSrc); }catch(e){ df=null; }}
+    const R=runNewton(f,df,x0,eps,N); renderResult(R);
+  }catch(err){ showError('Runtime error: '+(err&&err.message?err.message:String(err))); }
+}
+
+// ===== Harness =====
+const harnessList=[
+  { title:'√2 via f=x^2−2', f:'x^2-2', df:'2*x', x0:1, eps:1e-12, N:30, expect:Math.SQRT2 },
+  { title:'cos x − x', f:'cos(x)-x', df:'-sin(x)-1', x0:0.5, eps:1e-12, N:40, expect:0.7390851332151607 },
+  { title:'x^3 − 1', f:'x^3-1', df:'3*x^2', x0:0.3, eps:1e-12, N:30, expect:1 },
+  { title:'x^3 − 2', f:'x^3-2', df:'3*x^2', x0:1, eps:1e-12, N:30, expect:1.2599210498948732 },
+  { title:'exp(x) − 3', f:'exp(x)-3', df:'exp(x)', x0:1, eps:1e-12, N:30, expect:Math.log(3) },
+  { title:'Multiple root (linear conv): (x−1)^2', f:'(x-1)^2', df:'2*(x-1)', x0:2, eps:1e-12, N:40, expect:1 },
+  { title:'Numeric derivative only: sin(x)→0', f:'sin(x)', df:'', x0:3.1, eps:1e-12, N:40, expect:Math.PI },
+  { title:'Derivative zero at start (should fail): cos x', f:'cos(x)', df:'-sin(x)', x0:0, eps:1e-12, N:5, negative:true },
+  { title:'Likely divergence: tan x near π/2', f:'tan(x)', df:'1+tan(x)^2', x0:1.5, eps:1e-12, N:10, negative:true },
+  { title:'x^2 − 1 from left', f:'x^2-1', df:'2*x', x0:-2, eps:1e-12, N:30, expect:-1 }
+];
+
+function makeHarnessCard(h){
+  const card=el('section',{class:'card stack'});
+  const head=el('div',{class:'h-title'},[ el('div',{},[el('strong',{},[h.title])]), el('div',{class:'small muted'},['Check (harness)']) ]);
+  const kpis=el('div',{class:'kpi'});
+  const root=el('div',{class:'card'}); root.append(el('div',{class:'k'},['Root']), el('div',{class:'v mono'},['—']));
+  const resid=el('div',{class:'card'}); resid.append(el('div',{class:'k'},['Residual']), el('div',{class:'v mono'},['—']));
+  const iters=el('div',{class:'card'}); iters.append(el('div',{class:'k'},['Iterations']), el('div',{class:'v mono'},['—']));
+  const status=el('div',{class:'card'}); status.append(el('div',{class:'k'},['Status']), el('div',{class:'v mono'},['—']));
+  kpis.append(root,resid,iters,status);
+  const reason=el('p',{class:'muted small'},['Newton update x→x−f/f′; simple roots ~quadratic; multiple roots ~linear; zero derivative or poor start may fail.']);
+  const checks=el('div',{class:'list'});
+  const run=el('button',{class:'secondary'},['Run']);
+  run.onclick=()=>{
+    let f,df=null; try{ f=buildFn(h.f); }catch{ checks.replaceChildren(el('div',{class:'term'},[el('span',{class:'badge fail'},['FAIL']),document.createTextNode(' invalid f(x)') ])); return; }
+    if(h.df){ try{ df=buildFn(h.df); }catch{ df=null; }}
+    const R=runNewton(f,df,h.x0,h.eps,h.N);
+    root.querySelector('.v').textContent = (typeof R.root==='number'&&isFinite(R.root))?R.root.toPrecision(12):String(R.root);
+    resid.querySelector('.v').textContent = (typeof R.residual==='number'&&isFinite(R.residual))?R.residual.toExponential(6):String(R.residual);
+    iters.querySelector('.v').textContent = String(R.used);
+    status.querySelector('.v').textContent = R.status;
+    const list=[]; const conv=(R.status==='converged'); list.push(row(conv,'Convergence',`status=${R.status}`));
+    if(typeof h.expect==='number'){ const close=(typeof R.root==='number'&&isFinite(R.root)) && Math.abs(R.root-h.expect)<=Math.max(1e-10,h.eps*10); list.push(row(close,'Matches expected root',`x*≈${(typeof R.root==='number'&&isFinite(R.root))?R.root.toPrecision(12):R.root} vs ${h.expect.toPrecision? h.expect.toPrecision(12): String(h.expect)}`)); }
+    if(h.negative){ list.push(row(!conv,'Intended to not converge',`status=${R.status}`)); }
+    checks.replaceChildren(...list);
+  };
+  if(h.negative){ const warn=el('div',{class:'small muted'},['This case is intentionally difficult and may not converge.']); card.append(head,kpis,reason,warn,checks,run); } else { card.append(head,kpis,reason,checks,run); }
+  return card;
+}
+
+function buildHarness(){
+  const harnessDiv=document.getElementById('harnesses'); harnessDiv.replaceChildren();
+  harnessList.forEach(h=> harnessDiv.appendChild(makeHarnessCard(h)) );
+  document.getElementById('runAll').onclick=()=>{ [...harnessDiv.querySelectorAll('button.secondary')].forEach(b=>b.click()); };
+  document.getElementById('clearHarness').onclick=()=>{ harnessDiv.querySelectorAll('.list').forEach(div=>div.replaceChildren()); harnessDiv.querySelectorAll('.v').forEach(div=>div.textContent='—'); };
+}
+
+// ===== Wire up =====
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('solve').addEventListener('click', evaluate);
+  document.getElementById('clear').addEventListener('click', ()=>{ document.getElementById('fInput').value='x^2 - 2'; document.getElementById('dfInput').value='2*x'; document.getElementById('x0Input').value='1'; document.getElementById('epsInput').value='1e-12'; document.getElementById('NInput').value='40'; evaluate(); });
+  buildHarness();
+  evaluate();
+});
+
+window.addEventListener('error', (e)=>{ try{ document.getElementById('status').textContent = 'JS error: '+e.message; }catch(_){} });
+</script>
+</body>
+</html>
+
