@@ -44,6 +44,7 @@ If you are reading this for the first time, the best way in is straightforward: 
 - [Fibonacci golden spiral](https://eyereasoner.github.io/eye/arc/etc/fibonacci_golden_spiral.html) — Draw the spiral from Fibonacci rectangles and verify ratios.
 - [Fibonacci via Fast Doubling](https://eyereasoner.github.io/eye/arc/etc/fibonacci.html) — Compute big Fₙ with fast-doubling recurrences and proof-style checks.
 - [Ford circles](https://eyereasoner.github.io/eye/arc/etc/ford_circles.html) — Place circles at rationals; verify tangency and Farey-sequence links.
+- [Fundamental Theorem of Arithmetic](https://eyereasoner.github.io/eye/arc/etc/fundamental_theorem_arithmetic.html) — Every integer factors as a product of primes.
 - [GPS Bike](https://eyereasoner.github.io/eye/arc/etc/gps_bike.html) — GPS Bike — Gent → Maasmechelen.
 - [GPS Clinical Bench](https://eyereasoner.github.io/eye/arc/etc/gps_clinical_bench.html) — Benchmark clinical decisions with transparent rules and audit trails.
 - [Graph — French cities](https://eyereasoner.github.io/eye/arc/etc/graph_french.html) — Shortest paths and connectivity over a city graph with proofs.

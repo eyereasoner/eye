@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fundamental Theorem of Arithmetic</title>
+  <style>
+    :root{ --bg:#f7f9fc; --card:#ffffff; --text:#0f172a; --muted:#475569; --border:#e2e8f0; }
+    html, body { background: var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+    .container{ max-width: 960px; margin: 24px auto; padding: 0 16px; }
+    .card{ background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 6px 20px rgba(2,6,23,0.05); }
+    .stack{ display: flex; flex-direction: column; gap: 16px; }
+    .row{ display:flex; align-items:center; gap:12px; }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace; word-break: break-word; overflow-wrap: anywhere; }
+    .badge{ padding:2px 8px; border:1px solid #cbd5e1; border-radius:999px; font-weight:700; font-size:12px; background:#f1f5f9; color:#0f172a; }
+    .ok{ background:#dcfce7; border:1px solid #86efac; }
+    .fail{ background:#fee2e2; border:1px solid #fecaca; }
+    .kpi{ display:flex; gap:16px; flex-wrap:wrap; }
+    .kpi .card{ padding:12px 14px; }
+    input.short{ width:180px; padding:6px 8px; border:1px solid var(--border); border-radius:10px; background:#fbfdff; }
+  </style>
+</head>
+<body>
+  <div class="container stack">
+    <header class="card stack">
+      <h1 style="margin:0">Fundamental Theorem of Arithmetic</h1>
+      <div class="badge">Every integer <span class="mono">n≥2</span> factors as a product of primes, uniquely up to order.</div>
+      <div class="row"><label class="mono" for="nInput">n (integer ≥ 2)</label><input class="short" id="nInput" type="number" min="2" step="1" value="67564329" /><button id="factorBtn">Factor</button><button id="clearBtn">Clear</button></div>
+      <div class="mono" id="status" style="color:#475569"></div>
+    </header>
+
+    <!-- 1) ANSWER -->
+    <section class="card stack" id="answer">
+      <h2 style="margin:0">Answer</h2>
+      <div class="kpi">
+        <div class="card"><div class="k">n</div><div id="a_n" class="mono">—</div></div>
+        <div class="card"><div class="k">Prime factors</div><div id="a_pf" class="mono">—</div></div>
+        <div class="card"><div class="k">Prime‑power form</div><div id="a_pp" class="mono">—</div></div>
+        <div class="card"><div class="k">Check product</div><div id="a_prod" class="mono">—</div></div>
+        <div class="card"><div class="k"># distinct primes</div><div id="a_cnt" class="mono">—</div></div>
+      </div>
+    </section>
+
+    <!-- 2) REASON WHY -->
+    <section class="card stack" id="reason">
+      <h2 style="margin:0">Reason Why</h2>
+      <div class="mono">(Existence) If <span class="mono">n≥2</span> is composite, write <span class="mono">n=ab</span> with <span class="mono">a,b≥2</span>; repeat until primes — the process terminates. (Uniqueness) If <span class="mono">n=p_1⋯p_r=q_1⋯q_s</span> with primes, then by Euclid’s lemma a prime dividing a product divides one factor; match equal primes and cancel, showing the multisets are equal. Hence factorization is unique up to order.</div>
+    </section>
+
+    <!-- 3) CHECK (HARNESS) -->
+    <section class="card stack" id="check">
+      <h2 style="margin:0">Check (harness)</h2>
+      <div id="checks" class="stack"></div>
+      <div class="row"><button id="runAll">Run all</button><button id="clearChecks">Clear results</button></div>
+    </section>
+  </div>
+
+<script>
+(function(){
+  function $(id){ return document.getElementById(id); }
+  function setStatus(msg){ var s=$('status'); if(s) s.textContent = msg; }
+  function isInteger(x){ return typeof x==='number' && isFinite(x) && Math.floor(x)===x; }
+  function isPrime(n){ if(n<2) return false; if(n%2===0) return n===2; if(n%3===0) return n===3; var i=5, step=2; while(i*i<=n){ if(n%i===0) return false; i+=step; step=6-step; } return true; }
+  function factor(n){
+    var m=n; var fac=[];
+    while(m%2===0){ fac.push(2); m/=2; }
+    while(m%3===0){ fac.push(3); m/=3; }
+    var f=5, step=2; // 6k±1 wheel: 5,7,11,13,17,19,...
+    while(f*f<=m){ while(m%f===0){ fac.push(f); m/=f; } f+=step; step=6-step; }
+    if(m>1) fac.push(m);
+    return fac;
+  }
+  function product(list){ var r=1, i; for(i=0;i<list.length;i++) r*=list[i]; return r; }
+  function groupPowers(list){ if(!list.length) return {pairs:[], text:'1'}; list=list.slice().sort(function(a,b){return a-b;}); var pairs=[], i=0; while(i<list.length){ var p=list[i], e=1; i++; while(i<list.length && list[i]===p){ e++; i++; } pairs.push([p,e]); } var text=pairs.map(function(pe){ return pe[1]===1? String(pe[0]): (pe[0]+"^"+pe[1]); }).join(' · '); return {pairs:pairs, text:text, list:list}; }
+
+  function showAnswer(n, fac){ var grp=groupPowers(fac); $('a_n').textContent=String(n); $('a_pf').textContent=grp.list.length? grp.list.join(' · '):'—'; $('a_pp').textContent=grp.text; $('a_cnt').textContent=String(grp.pairs.length); $('a_prod').textContent=grp.list.length? String(product(grp.list)):'—'; }
+
+  function row(ok,label,msg){ var div=document.createElement('div'); div.className='row'; var b=document.createElement('span'); b.className='badge '+(ok?'ok':'fail'); b.appendChild(document.createTextNode(ok?'PASS':'FAIL')); var l=document.createElement('span'); l.className='mono'; l.appendChild(document.createTextNode(label)); var t=document.createElement('span'); t.className='mono'; t.appendChild(document.createTextNode(' — '+msg)); div.appendChild(b); div.appendChild(l); div.appendChild(t); return div; }
+  function renderChecks(list){ var c=$('checks'); while(c.firstChild) c.removeChild(c.firstChild); for(var i=0;i<list.length;i++) c.appendChild(list[i]); }
+
+  function evaluate(){
+    try{
+      setStatus('');
+      var n = Number($('nInput').value);
+      if(!isInteger(n) || n<2){ showAnswer('—',[]); renderChecks([row(false,'Input valid','n must be an integer ≥ 2')]); return; }
+      var fac = factor(n);
+      var grp = groupPowers(fac);
+      showAnswer(n, grp.list);
+      var checks=[];
+      checks.push(row(product(grp.list)===n,'Recompose equals n','∏ primes = n'));
+      checks.push(row(grp.list.every(isPrime),'All factors are prime','each p_i is prime'));
+      var asc = grp.list.slice(1).every(function(v,i){ return v>=grp.list[i]; });
+      checks.push(row(asc,'Canonical order','nondecreasing list'));
+      var rebuilt=[], i, j; for(i=0;i<grp.pairs.length;i++){ for(j=0;j<grp.pairs[i][1];j++){ rebuilt.push(grp.pairs[i][0]); } }
+      checks.push(row(JSON.stringify(rebuilt)===JSON.stringify(grp.list),'Prime-power ↔ list agree','expand powers equals list'));
+      var uniq = JSON.stringify(grp.list)===JSON.stringify(grp.list.slice().sort(function(a,b){return a-b;}));
+      checks.push(row(uniq,'Uniqueness (order-free)','multiset identity'));
+      renderChecks(checks);
+    } catch(e){ setStatus('Error: '+e.message); showAnswer('—',[]); renderChecks([row(false,'Runtime error', e.message)]); }
+  }
+
+  function buildHarness(){
+    var H=[
+      { n:2, title:'Prime: 2' },
+      { n:97, title:'Prime: 97' },
+      { n:360, title:'Composite: 360 = 2^3·3^2·5' },
+      { n:1024, title:'Power of a prime: 2^10' },
+      { n:67564329, title:'n = 67564329' }
+    ];
+    var host=document.getElementById('check'); var list=document.createElement('div'); list.id='hlist'; list.className='stack'; host.appendChild(list);
+    function makeCard(h){ var card=document.createElement('section'); card.className='card stack'; var head=document.createElement('div'); head.className='row'; head.appendChild(document.createElement('strong')).appendChild(document.createTextNode(h.title)); var kpi=document.createElement('div'); kpi.className='kpi'; var pf=document.createElement('div'); pf.className='card'; pf.appendChild(document.createTextNode('Prime factors: ')); var pfv=document.createElement('span'); pfv.className='mono'; pfv.appendChild(document.createTextNode('—')); pf.appendChild(pfv); kpi.appendChild(pf); var btn=document.createElement('button'); btn.appendChild(document.createTextNode('Run')); var checks=document.createElement('div'); checks.className='stack'; btn.onclick=function(){ var fac=factor(h.n); var grp=groupPowers(fac); pfv.textContent=grp.list.join(' · '); var L=[]; L.push(row(product(grp.list)===h.n,'Recompose equals n','∏ primes = n')); L.push(row(grp.list.every(isPrime),'All factors are prime','each p_i is prime')); L.push(row(grp.list.slice(1).every(function(v,i){return v>=grp.list[i];}),'Canonical order','nondecreasing list')); checks.innerHTML=''; for(var i=0;i<L.length;i++) checks.appendChild(L[i]); }; card.appendChild(head); card.appendChild(kpi); card.appendChild(checks); card.appendChild(btn); return card; }
+    for(var i=0;i<H.length;i++) list.appendChild(makeCard(H[i]));
+    $('runAll').onclick=function(){ var btns=list.querySelectorAll('button'); for(var i=0;i<btns.length;i++) btns[i].click(); };
+    $('clearChecks').onclick=function(){ var c=$('checks'); while(c.firstChild) c.removeChild(c.firstChild); var vs=list.querySelectorAll('.mono'); for(var i=0;i<vs.length;i++) if(vs[i].parentNode && vs[i].parentNode.firstChild && vs[i].parentNode.firstChild.nodeType===3) vs[i].textContent='—'; };
+  }
+
+  $('factorBtn').onclick = evaluate;
+  $('clearBtn').onclick = function(){ $('nInput').value='67564329'; evaluate(); };
+  // First render
+  evaluate();
+  buildHarness();
+})();
+</script>
+</body>
+</html>
+
