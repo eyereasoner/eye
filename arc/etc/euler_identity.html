@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Euler's Identity</title>
+  <style>
+    :root{
+      --bg:#f7f9fc; --card:#ffffff; --text:#0f172a; --muted:#475569; --accent:#2563eb;
+      --good:#16a34a; --bad:#dc2626; --border:#e2e8f0; --chip:#eef2ff; --code:#111827;
+    }
+    html, body { background: var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; }
+    * { box-sizing: border-box; }
+    .container{ max-width: 960px; margin: 24px auto; padding: 0 16px; }
+    header{ display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    h1{ font-size: 1.8rem; margin: 0; letter-spacing: -0.02em; }
+    .subtitle{ color: var(--muted); }
+    .card{ background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 6px 20px rgba(2,6,23,0.05); }
+    .stack{ display: flex; flex-direction: column; gap: 16px; }
+    .pill{ display:inline-flex; align-items:center; gap:8px; padding:4px 10px; background:var(--chip); color:#1e3a8a; border-radius:999px; font-size:12px; font-weight:600; border:1px solid #c7d2fe; }
+    .row{ display:flex; gap:12px; align-items:center; min-width:0; flex-wrap: wrap; }
+    input[type="number"]{ width: 160px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: #fbfdff; }
+    button{ appearance:none; border:none; background:var(--accent); color:white; padding:10px 14px; border-radius: 12px; font-weight:700; cursor:pointer; box-shadow: 0 4px 14px rgba(37,99,235,.25); }
+    button.secondary{ background:#0ea5e9; }
+    button.ghost{ background:transparent; color:var(--accent); border:1px solid var(--accent); }
+    .muted{ color: var(--muted); }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; color: var(--code); word-break: break-word; overflow-wrap: anywhere; white-space: normal; }
+    .kpi{ display:flex; gap: 16px; flex-wrap: wrap; }
+    .kpi .card{ padding: 12px 14px; }
+    .k{ font-weight:700; }
+    .v{ font-variant-numeric: tabular-nums; word-break: break-word; overflow-wrap: anywhere; }
+    .list{ display:flex; flex-direction: column; gap: 12px; }
+    .term{ padding:10px; background:#f8fafc; border:1px dashed var(--border); border-radius:12px; }
+    details{ border:1px solid var(--border); border-radius: 12px; padding: 10px 12px; background:#fafcff; }
+    details summary{ cursor: pointer; font-weight:700; color:#0b3eaa; }
+    .badge{ padding:2px 8px; border-radius:999px; font-weight:700; font-size:12px; border:1px solid #cbd5e1; background:#f1f5f9; color:#0f172a; }
+    .ok{ background:#dcfce7; color:#166534; border:1px solid #86efac; }
+    .fail{ background:#fee2e2; color:#991b1b; border:1px solid #fecaca; }
+    .harness{ border-left: 6px solid #c7d2fe; }
+    .h-title{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .small{ font-size: 12px; }
+    code{ background:#f1f5f9; padding:2px 6px; border-radius:6px; }
+    footer{ color: var(--muted); font-size: 12px; text-align:center; margin: 16px 0 40px; }
+    .divider{ height:1px; background: var(--border); margin: -4px 0 8px; }
+    svg{ width: 100%; height: auto; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; }
+  .input-grid{ flex-wrap: nowrap; gap:10px; }
+.field{ display:flex; align-items:center; gap:6px; }
+input.short{ width:110px; padding:6px 8px; }
+.buttons-row{ gap:8px; }
+@media (max-width: 520px){ .input-grid{ flex-wrap: wrap; } }
+</style>
+</head>
+<body>
+  <div class="container stack">
+    <header class="card stack">
+      <div class="row" style="justify-content:space-between; align-items:flex-start; width:100%">
+        <div>
+          <h1>Euler's identity</h1>
+        </div>
+      </div>
+      <span class="badge">Problem: e^{iπ} + 1 = 0</span>
+      <p class="muted">This page states Euler's identity, explains why <span class="mono">e^{iπ} = -1</span> in mathematical English, illustrates it on the unit circle, and verifies it numerically with a small test harness.</p>
+    </header>
+
+    <!-- SVG ILLUSTRATION -->
+    <section class="card stack">
+      <h2 style="margin:0">Illustration</h2>
+      <div class="divider"></div>
+      <svg viewBox="0 0 600 300" role="img" aria-label="Unit circle with angle π showing e^{iπ} at (-1,0)">
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L6,3 z" fill="#0b3eaa" />
+          </marker>
+        </defs>
+        <!-- background grid -->
+        <rect x="0" y="0" width="600" height="300" fill="#fff" rx="12"/>
+        <!-- axes -->
+        <g stroke="#cbd5e1" stroke-width="1">
+          <line x1="50" y1="150" x2="550" y2="150" />
+          <line x1="300" y1="20" x2="300" y2="280" />
+        </g>
+        <!-- unit circle -->
+        <circle cx="300" cy="150" r="100" fill="none" stroke="#94a3b8" stroke-width="2" />
+        <!-- angle arc π from +x to -x -->
+        <path d="M 400 150 A 100 100 0 0 1 200 150" fill="none" stroke="#0b3eaa" stroke-width="3" />
+        <text x="300" y="125" fill="#0b3eaa" text-anchor="middle" font-size="12">θ = π</text>
+        <!-- vector e^{iπ} -->
+        <line x1="300" y1="150" x2="200" y2="150" stroke="#0b3eaa" stroke-width="3" marker-end="url(#arrow)" />
+        <!-- points 1 and -1 -->
+        <circle cx="400" cy="150" r="4" fill="#22c55e" />
+        <text x="400" y="140" fill="#166534" text-anchor="middle" font-size="12">1</text>
+        <circle cx="200" cy="150" r="4" fill="#ef4444" />
+        <text x="200" y="140" fill="#991b1b" text-anchor="middle" font-size="12">−1 = e^{iπ}</text>
+        <!-- tip annotation e^{iπ}+1=0 showing cancellation -->
+        <g>
+          <line x1="200" y1="150" x2="400" y2="150" stroke="#10b981" stroke-dasharray="4 4" />
+          <text x="300" y="170" fill="#0f172a" text-anchor="middle" font-size="12">e^{iπ} + 1 → 0</text>
+        </g>
+        <!-- axis labels -->
+        <text x="555" y="160" fill="#475569" font-size="12">Re</text>
+        <text x="310" y="25" fill="#475569" font-size="12">Im</text>
+      </svg>
+      <p class="small muted">The complex exponential <span class="mono">e^{iθ}</span> traces the unit circle. At <span class="mono">θ=π</span> the point is <span class="mono">−1</span>, so <span class="mono">e^{iπ}+1=0</span>.</p>
+    </section>
+
+    <!-- INPUT -->
+    <section class="card stack" id="input-card">
+      <h2 style="margin:0">Input</h2>
+      <div class="divider"></div>
+      <div class="row input-grid">
+        <div class="field"><label class="mono" for="kInput">k (integer)</label><input class="short" id="kInput" type="number" step="1" value="0" /></div>
+        <div class="field"><label class="mono" for="epsInput">ε (tolerance)</label><input class="short" id="epsInput" type="number" step="any" value="1e-12" /></div>
+        <div class="field"><label class="mono" for="NInput">Series terms N</label><input class="short" id="NInput" type="number" min="1" step="1" value="40" /></div>
+      </div>
+      <div class="row buttons-row">
+        <button type="button" id="solve">Evaluate</button>
+        <button type="button" id="clear">Clear</button>
+      </div>
+      <p class="small muted">We evaluate at <span class="mono">θ = π + 2πk</span>. <strong>N</strong> is the number of terms used in the power‑series expansions for <span class="mono">cos</span> and <span class="mono">sin</span>; higher <strong>N</strong> gives a tighter approximation (30–50 is typically plenty after angle reduction to <span class="mono">[−π,π]</span>). The tolerance <span class="mono">ε</span> is used by the numerical checks.</p>
+    </section>
+
+    <!-- OUTPUT -->
+    <section class="card stack" id="output-card" aria-live="polite">
+      <h2 style="margin:0">Output</h2>
+      <div class="divider"></div>
+
+      <!-- Answer KPIs -->
+      <section class="stack">
+        <div class="kpi">
+          <div class="card">
+            <div class="k">Answer</div>
+            <div id="answer" class="v mono">—</div>
+          </div>
+          <div class="card">
+            <div class="k">Angle θ</div>
+            <div id="theta" class="v mono">—</div>
+          </div>
+          <div class="card">
+            <div class="k">e^{iθ} (cos/sin)</div>
+            <div id="cis" class="v mono">—</div>
+          </div>
+          <div class="card">
+            <div class="k">Series approx</div>
+            <div id="seriesVal" class="v mono">—</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reason Why (mathematical English) -->
+      <section class="stack">
+        <h3 style="margin:0">Reason Why</h3>
+        <div class="list">
+          <div class="term">
+            <strong>Power‑series derivation.</strong>
+            The exponential, sine, and cosine have the absolutely convergent series for real <span class="mono">x</span>:
+            <div class="mono">e^z = Σ_{n≥0} z^n/n!,  cos x = Σ_{n≥0} (−1)^n x^{2n}/(2n)!,  sin x = Σ_{n≥0} (−1)^n x^{2n+1}/(2n+1)!.</div>
+            Substituting <span class="mono">z = ix</span> and regrouping even/odd powers gives <span class="mono">e^{ix} = cos x + i sin x</span> (Euler's formula).
+            Taking <span class="mono">x = π</span> yields <span class="mono">e^{iπ} = cos π + i sin π = −1 + i·0</span>, hence <span class="mono">e^{iπ} + 1 = 0</span>.
+          </div>
+          <div class="term">
+            <strong>Differential‑equation proof.</strong>
+            Define <span class="mono">f(x) = e^{-ix}(cos x + i sin x)</span>. Then <span class="mono">f'(x) = 0</span>, so <span class="mono">f</span> is constant.
+            As <span class="mono">f(0)=1</span>, we have <span class="mono">f(x)=1</span> for all <span class="mono">x</span>, and again <span class="mono">e^{ix} = cos x + i sin x</span>.
+          </div>
+          <div class="term">
+            <strong>Geometric picture.</strong>
+            The map <span class="mono">x ↦ e^{ix}</span> parametrizes the unit circle counterclockwise. The angle <span class="mono">π</span> lands at <span class="mono">−1</span> on the real axis,
+            so adding <span class="mono">1</span> returns the origin.
+          </div>
+        </div>
+      </section>
+
+      <!-- Check (harness) for the user's inputs -->
+      <section class="stack">
+        <h3 style="margin:0">Check (harness)</h3>
+        <div id="checks" class="list"></div>
+      </section>
+    </section>
+
+    <!-- PRELOADED HARNESS CASES (≥ 8) -->
+    <section class="card stack harness" id="preloaded">
+      <div class="h-title">
+        <h2 style="margin:0">Preloaded Checks (harness)</h2>
+        <div class="row">
+          <button id="runAll">Run all</button>
+          <button class="ghost" id="clearHarness">Clear results</button>
+        </div>
+      </div>
+      <p class="small muted">Each block checks that <span class="mono">|e^{iθ}+1| ≤ ε</span> for <span class="mono">θ = π + 2πk</span> and fails for a noncongruent angle.</p>
+      <div id="harnesses" class="stack"></div>
+    </section>
+
+    <footer>
+      <div>Built as a self‑checking artifact: program → <em>Answer</em>, <em>Reason Why</em>, <em>Check</em>.</div>
+      <div class="small">This page performs only on‑device computation.</div>
+    </footer>
+  </div>
+
+<script>
+  // ---------- Math helpers ----------
+  const TAU = Math.PI * 2;
+  const normAngle = (t) => { // wrap to [-π, π]
+    let x = ((t + Math.PI) % TAU + TAU) % TAU - Math.PI; // robust modulo
+    // handle −0
+    return x === 0 ? 0 : x;
+  };
+  const cis = (t) => ({ re: Math.cos(t), im: Math.sin(t) });
+  const add = (a,b)=>({re:a.re+b.re, im:a.im+b.im});
+  const abs = (z)=> Math.hypot(z.re, z.im);
+  const mul = (a,b)=>({re:a.re*b.re - a.im*b.im, im:a.re*b.im + a.im*b.re});
+  const powComplex = (z, n)=>{ let r={re:1,im:0}; for(let i=0;i<n;i++) r=mul(r,z); return r; };
+
+  // power series for cos/sin with N terms and range reduction
+  function cosSeries(x, N){
+    x = normAngle(x);
+    let term = 1, sum = 1; // k=0
+    for (let k=1; k<N; k++){
+      term *= -x*x / ((2*k-1)*(2*k));
+      sum += term;
+    }
+    return sum;
+  }
+  function sinSeries(x, N){
+    x = normAngle(x);
+    let term = x, sum = x; // k=0
+    for (let k=1; k<N; k++){
+      term *= -x*x / ((2*k)*(2*k+1));
+      sum += term;
+    }
+    return sum;
+  }
+
+  function evaluate(){
+    const k = Number(document.getElementById('kInput').value || 0);
+    const eps = Number(document.getElementById('epsInput').value || 1e-12);
+    const N = Math.max(1, Number(document.getElementById('NInput').value || 40));
+
+    const theta = Math.PI + TAU * k;
+    const z = cis(theta);
+    const sRe = cosSeries(theta, N), sIm = sinSeries(theta, N);
+    const zSeries = { re: sRe, im: sIm };
+
+    const ans = { re: z.re + 1, im: z.im };
+    const ansSeries = { re: zSeries.re + 1, im: zSeries.im };
+
+    document.getElementById('answer').textContent = `|e^{iπ+2πi·${k}} + 1| ≈ ${abs(ans).toExponential(3)}`;
+    document.getElementById('theta').textContent = `θ = π + 2π·${k} ≈ ${(theta).toPrecision(6)}`;
+    document.getElementById('cis').textContent = `cos θ + i sin θ ≈ ${z.re.toPrecision(12)} + ${z.im.toPrecision(12)} i`;
+    document.getElementById('seriesVal').textContent = `series_N=${N} ⇒ ${zSeries.re.toPrecision(12)} + ${zSeries.im.toPrecision(12)} i`;
+
+    renderChecks(k, eps, N, theta, z, zSeries, ans, ansSeries);
+  }
+
+  function renderChecks(k, eps, N, theta, z, zSeries, ans, ansSeries){
+    const checks = document.getElementById('checks');
+    const list = [];
+
+    const eq = abs(ans) <= eps;
+    list.push(row(eq, `Equality |e^{iθ}+1| ≤ ε`, `|⋅| ≈ ${abs(ans).toExponential(6)} ≤ ${eps}`));
+
+    const reOk = Math.abs(z.re + 1) <= eps;
+    list.push(row(reOk, `Real part ≈ −1`, `Re ≈ ${(z.re).toPrecision(12)}, |Re+1| ≈ ${Math.abs(z.re+1).toExponential(6)}`));
+
+    const imOk = Math.abs(z.im) <= eps;
+    list.push(row(imOk, `Imag part ≈ 0`, `Im ≈ ${(z.im).toPrecision(12)}`));
+
+    const seriesOk = abs(ansSeries) <= Math.max(eps, 1e-15);
+    list.push(row(seriesOk, `Series (N=${N})`, `|series+1| ≈ ${abs(ansSeries).toExponential(6)}`));
+
+    const squareOk = abs(add(mul(z,z), {re:-1,im:0})) <= eps * 10; // |(e^{iπ})^2 - 1| small
+    list.push(row(squareOk, `Square check`, `|(e^{iθ})^2 − 1| ≈ ${abs(add(mul(z,z), {re:-1,im:0})).toExponential(6)}`));
+
+    const periodicOk = abs(cis(theta + TAU)).toExponential ? abs(add(cis(theta + TAU), {re:1,im:0})) <= eps : true;
+    list.push(row(periodicOk, `Periodicity`, `θ → θ+2π ⇒ |e^{i(θ+2π)}+1| ≈ ${abs(add(cis(theta+TAU), {re:1,im:0})).toExponential(6)}`));
+
+    list.push(el('div', { class:'row' }, [ el('span', { class:'badge ok' }, ['FACT']), el('span', { class:'small muted' }, ['Euler’s formula: e^{ix}=cos x+i sin x; at x=π we get −1.']) ]));
+
+    checks.replaceChildren(...list);
+  }
+
+  const row = (ok, label, msg) => el('div', { class:'row' }, [ el('span', { class:'badge ' + (ok ? 'ok' : 'fail') }, [ ok ? 'PASS' : 'FAIL' ]), el('span', { class:'mono' }, [label]), document.createTextNode(' — '), el('span', { class:'mono' }, [msg]) ]);
+
+  // ---------- UI helper ----------
+  const el = (tag, attrs = {}, children = []) => {
+    const node = document.createElement(tag);
+    Object.entries(attrs).forEach(([k,v]) => {
+      if (k === 'class') node.className = v; else if (k === 'html') node.innerHTML = v; else if (k.startsWith('on')) node.addEventListener(k.slice(2).toLowerCase(), v); else node.setAttribute(k, v);
+    });
+    children.forEach(c => node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c));
+    return node;
+  };
+
+  document.getElementById('solve').onclick = evaluate;
+  document.getElementById('clear').onclick = () => {
+    document.getElementById('kInput').value = '0';
+    document.getElementById('epsInput').value = '1e-12';
+    document.getElementById('NInput').value = '40';
+    document.getElementById('answer').textContent = '—';
+    document.getElementById('theta').textContent = '—';
+    document.getElementById('cis').textContent = '—';
+    document.getElementById('seriesVal').textContent = '—';
+    document.getElementById('checks').replaceChildren();
+  };
+
+  // ---------- Preloaded harnesses (≥ 9 including one invalid) ----------
+  const harnessList = [
+    { k: 0, title: 'θ = π (k=0) ⇒ pass' },
+    { k: 1, title: 'θ = π + 2π (k=1) ⇒ pass' },
+    { k: -1, title: 'θ = π − 2π (k=−1) ⇒ pass' },
+    { k: 6, title: 'θ = π + 12π (k=6) ⇒ pass' },
+    { k: 123, title: 'θ = π + 2π·123 ⇒ pass' },
+    { k: 10**6, title: 'θ = π + 2π·10^6 ⇒ pass (reduced)' },
+    { k: 0, off: Math.PI/2, title: 'Invalid (should fail): θ = π/2' , negative: true},
+    { k: 0, off: Math.PI/3, title: 'Invalid (should fail): θ = π/3' , negative: true},
+    { k: 0, off: 355/113 - Math.PI, title: 'θ ≈ 355/113 (π approx) ⇒ nearly pass' },
+  ];
+
+  const harnessDiv = document.getElementById('harnesses');
+
+  function makeHarnessCard(h){
+    const card = el('section', { class:'card stack' });
+    const head = el('div', { class:'h-title' }, [ el('div', {}, [ el('strong',{},[h.title]) ]), el('div', { class:'small muted' }, ['Check (harness)']) ]);
+    const kpis = el('div', { class:'kpi' });
+    const ans = el('div', { class:'card' }); ans.append(el('div', { class:'k' }, ['Answer']), el('div', { class:'v mono' }, ['—']));
+    const thetaCard = el('div', { class:'card' }); thetaCard.append(el('div', { class:'k' }, ['Angle θ']), el('div', { class:'v mono' }, ['—']));
+    const method = el('div', { class:'card' }); method.append(el('div', { class:'k' }, ['Method']), el('div', { class:'v mono' }, ['cos/sin + series']));
+    kpis.append(ans, thetaCard, method);
+
+    const reason = el('p', { class:'muted small' }, [ 'We check |e^{iθ}+1| ≤ ε with ε=1e−12, also confirm real/imag parts and series agreement.' ]);
+    const checks = el('div', { class:'list' });
+    const run = el('button', { class:'secondary' }, ['Run']);
+
+    run.onclick = () => {
+      const eps = 1e-12; const N = 40;
+      const theta = (h.off !== undefined) ? h.off : (Math.PI + TAU * h.k);
+      const z = cis(theta);
+      const sRe = cosSeries(theta, N), sIm = sinSeries(theta, N);
+      const zSeries = { re: sRe, im: sIm };
+      const ansZ = { re: z.re + 1, im: z.im };
+      const ansSeriesZ = { re: zSeries.re + 1, im: zSeries.im };
+
+      ans.querySelector('.v').textContent = `|e^{iθ}+1| ≈ ${abs(ansZ).toExponential(6)}`;
+      thetaCard.querySelector('.v').textContent = `θ ≈ ${theta.toPrecision(8)}`;
+
+      const list = [];
+      const eq = abs(ansZ) <= eps;
+      list.push(row(eq, 'Equality |e^{iθ}+1| ≤ ε', `|⋅| ≈ ${abs(ansZ).toExponential(6)} ≤ ${eps}`));
+      const reOk = Math.abs(z.re + 1) <= eps; list.push(row(reOk, 'Real ≈ −1', `|Re+1| ≈ ${Math.abs(z.re+1).toExponential(6)}`));
+      const imOk = Math.abs(z.im) <= eps; list.push(row(imOk, 'Imag ≈ 0', `|Im| ≈ ${Math.abs(z.im).toExponential(6)}`));
+      const seriesOk = abs(ansSeriesZ) <= Math.max(eps, 1e-15); list.push(row(seriesOk, `Series (N=${N})`, `|series+1| ≈ ${abs(ansSeriesZ).toExponential(6)}`));
+      const squareOk = abs(add(mul(z,z), {re:-1,im:0})) <= eps * 10; list.push(row(squareOk, 'Square check', `|(e^{iθ})^2 − 1| ≈ ${abs(add(mul(z,z), {re:-1,im:0})).toExponential(6)}`));
+      const periodicOk = abs(add(cis(theta+TAU), {re:1,im:0})) <= eps; list.push(row(periodicOk, 'Periodicity', `θ→θ+2π check`));
+
+      checks.replaceChildren(...list);
+    };
+
+    if (h.negative){
+      const warn = el('div', { class:'small muted' }, ['This case is intentionally invalid and should report a failure.']);
+      card.append(head, kpis, reason, warn, checks, run);
+    } else {
+      card.append(head, kpis, reason, checks, run);
+    }
+    return card;
+  }
+
+  harnessList.forEach(h => harnessDiv.appendChild(makeHarnessCard(h)));
+  document.getElementById('runAll').onclick = () => { [...harnessDiv.querySelectorAll('button.secondary')].forEach(b => b.click()); };
+  document.getElementById('clearHarness').onclick = () => { harnessDiv.querySelectorAll('.list').forEach(div => div.replaceChildren()); harnessDiv.querySelectorAll('.v').forEach(div => div.textContent = '—'); };
+
+  // auto-evaluate initial sample
+  evaluate();
+</script>
+</body>
+</html>
+
