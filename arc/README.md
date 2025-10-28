@@ -24,6 +24,7 @@ If you are reading this for the first time, the best way in is straightforward: 
 - [Binomial Theorem](https://eyereasoner.github.io/eye/arc/etc/binomial_theorem.html) — Sum of all binomial coefficients.
 - [BMI](https://eyereasoner.github.io/eye/arc/etc/bmi.html) — Compute BMI categories with explainable thresholds and sanity checks.
 - [Building Performance](https://eyereasoner.github.io/eye/arc/etc/building_performance.html) — Reason about energy/comfort metrics and verify rule-based outcomes.
+- [Cauchy-Schwarz inequality](https://eyereasoner.github.io/eye/arc/etc/cauchy_schwarz.html) — The Cauchy-Schwarz inequality — Computing inner products and norms for two vectors.
 - [Chinese Remainder Theorem](https://eyereasoner.github.io/eye/arc/etc/chinese_remainder_theorem.html) — CRT: unique solution mod product of coprime moduli.
 - [Clinical Care Planning](https://eyereasoner.github.io/eye/arc/etc/clinical_care.html) — Derive care plans from observations, guidelines, and policy constraints.
 - [Collatz (3n+1)](https://eyereasoner.github.io/eye/arc/etc/collatz.html) — Generate trajectories and check invariants for the Collatz map.
