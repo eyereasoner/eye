@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Gödel Numbering)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg:#f7f8fb;
+      --card:#ffffff;
+      --ink:#0f172a;
+      --muted:#475569;
+      --ok:#067647;
+      --bad:#b42318;
+      --accent:#2563eb;
+      --ring:#dbeafe;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      --radius: 14px;
+      --shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 20px rgba(0,0,0,.06);
+    }
+    *{box-sizing:border-box}
+    html, body { overflow-x: hidden; } /* remove any page-level horizontal scroll */
+    body{
+      margin:0; color:var(--ink); background:var(--bg);
+      font-family:var(--sans); line-height:1.55; -webkit-font-smoothing:antialiased;
+    }
+    .wrap{
+      max-width: 960px; margin: 28px auto; padding: 0 18px;
+      display:flex; flex-direction:column; gap:18px;
+    }
+    .title{
+      font-size: clamp(24px, 3.8vw, 36px); font-weight:800; letter-spacing:.2px;
+    }
+    .subtitle{color:var(--muted)}
+    section.card{
+      background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:18px 18px; display:flex; flex-direction:column; gap:12px;
+      border:1px solid #eef2ff;
+    }
+    h2{margin:0; font-size:20px}
+    h3{margin:0 0 6px 0; font-size:16px; color:var(--muted)}
+    code,kbd{font-family:var(--mono)}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      background:#eef2ff; color:#1e40af; border:1px solid #dbeafe;
+      padding:6px 10px; border-radius:999px; font-size:12px; font-weight:600;
+    }
+    .grid{ display:grid; gap:10px; }
+    /* Force single-column throughout for a vertical layout */
+    .grid.cols-2{ grid-template-columns: 1fr; }
+
+    .muted{color:var(--muted)}
+    .mono{font-family:var(--mono)}
+    textarea, input[type="text"]{
+      width:100%; border:1px solid #e2e8f0; border-radius:12px; padding:10px 12px;
+      background:#fff; font: 14px var(--mono);
+      outline:none;
+    }
+    textarea:focus, input:focus{border-color:#bfdbfe; box-shadow:0 0 0 6px var(--ring)}
+    button{
+      appearance:none; border:1px solid #c7d2fe; background:#eef2ff; color:#1e3a8a;
+      border-radius:12px; padding:10px 14px; font-weight:700; cursor:pointer;
+    }
+    button:hover{background:#e0e7ff}
+
+    /* Light answer box; vertical block; no horizontal scrollbar, long numbers wrap */
+    .answer{
+      background:#f8fafc; color:#0f172a; padding:12px; border-radius:12px;
+      border:1px solid #e2e8f0; font:14px var(--mono);
+      overflow-y:auto; overflow-x:hidden; max-height:180px;
+      white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere;
+    }
+
+    .kv{
+      display:grid; grid-template-columns: 1fr; gap:8px; align-items:start;
+    }
+    .tbl{border-collapse: collapse; width:100%;}
+    .tbl th, .tbl td{border:1px solid #e2e8f0; padding:6px 8px; font-size:13px; vertical-align:top;
+      word-break: break-word; overflow-wrap: anywhere; } /* wrap long integers */
+    .tbl th{background:#f1f5f9; text-align:left}
+    .badge{font:12px var(--mono); padding:2px 6px; border-radius:6px; border:1px solid #e2e8f0; background:#fff}
+    .check{
+      display:flex; flex-direction:column; gap:8px; border-left:4px solid #e2e8f0; padding-left:12px;
+    }
+    .pass{color:var(--ok)}
+    .fail{color:var(--bad)}
+    .small{font-size:12px}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .caps{letter-spacing:.4px; text-transform:uppercase; font-weight:800; font-size:12px; color:#334155}
+    .copy{
+      border:1px dashed #94a3b8; background:#f8fafc; color:#334155
+    }
+    .callout{
+      padding:10px 12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px;
+    }
+    .steps{ counter-reset: step; display:flex; flex-direction:column; gap:10px; }
+    .steps p::before{
+      counter-increment: step; content: counter(step) ". "; font-weight:700; margin-right:6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div>
+      <div class="title">Gödel Numbering</div>
+    </div>
+
+    <!-- OVERVIEW / PROSE -->
+    <section class="card">
+      <h2>What this page does</h2>
+      <p>
+        This page demonstrates a classic Gödel numbering: each symbol in a logical formula is mapped to an integer
+        code, shifted by <code>+1</code> to ensure positivity, and used as the exponent of successive primes
+        <span class="mono">2, 3, 5, 7, …</span>. The product is the Gödel number ⟦ϕ⟧. Thanks to unique prime
+        factorization, we can recover the exact formula from the number by reading those exponents back.
+      </p>
+      <div class="callout">
+        <strong>How to use:</strong>
+        Type a formula, click <em>Compute ⟦ϕ⟧</em> to see its number, or <em>Decode ⟦ϕ⟧</em> to reconstruct a formula
+        from a number. The “Prime Exponent Decomposition” table shows the factorization of the last computed number.
+      </div>
+    </section>
+
+    <!-- PROMPT / QUESTION -->
+    <section class="card">
+      <h2>Prompt &amp; Question</h2>
+      <div class="muted">Teach the program a Gödel encoding scheme and answer:</div>
+      <div class="kv">
+        <div><strong>Question.</strong> Compute the Gödel number ⟦ϕ⟧ for a given formula ϕ under the specified coding; also provide a “Reason Why” and run multiple “Check (harness)” tests.</div>
+        <div><strong>Inputs.</strong> Data (alphabet & codes), Logic (encoding rules), and the formula ϕ.</div>
+      </div>
+    </section>
+
+    <!-- DATA -->
+    <section class="card">
+      <h2>Data (Alphabet & Codes)</h2>
+      <p class="muted">Reserved logic symbols have small codes; any other character uses a generic rule so everything remains encodable.</p>
+      <div class="grid cols-2">
+        <div>
+          <h3>Reserved symbols</h3>
+          <table class="tbl" id="codes-table">
+            <thead><tr><th>Symbol</th><th>Code c(·)</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div>
+          <h3>Generic rule</h3>
+          <p>For any character <code>χ</code> not listed at left, use:</p>
+          <p class="badge">c(χ) = 1000 + codePoint(χ)</p>
+          <p>This guarantees a total, injective code over all Unicode symbols we might type.</p>
+          <h3>Encoding function</h3>
+          <p class="badge">E(χ) = c(χ) + 1</p>
+          <p class="small muted">Adding 1 ensures exponents are ≥ 1 (we never use zero exponents).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOGIC -->
+    <section class="card">
+      <h2>Logic (Gödel Numbering)</h2>
+      <div class="steps">
+        <p>Let <span class="mono">p₁, p₂, …</span> be the increasing sequence of primes.</p>
+        <p>Tokenize ϕ into <span class="mono">σ₁…σₙ</span> (normalize ASCII: <span class="mono">!→¬</span>, <span class="mono">&→∧</span>, <span class="mono">|→∨</span>, <span class="mono">-&gt;→→</span>, <span class="mono">&lt;-&gt;→↔</span>; ignore spaces).</p>
+        <p>Define the Gödel number: <span class="badge">⟦σ₁…σₙ⟧ = ∏<sub>i=1..n</sub> pᵢ ^ E(σᵢ)</span>.</p>
+        <p>Decoding: factor the number; the exponents are <span class="mono">E(σᵢ)=c(σᵢ)+1</span>. Subtract 1 and invert <span class="mono">c</span>.</p>
+      </div>
+    </section>
+
+    <!-- PROGRAM / UI (VERTICAL STACK) -->
+    <section class="card">
+      <h2>Program</h2>
+      <h3>Encode a formula</h3>
+      <textarea id="input" rows="4" spellcheck="false">(∀x) (P(x) → Q(x))</textarea>
+      <div class="row">
+        <button id="encode">Compute ⟦ϕ⟧</button>
+        <button id="decode">Decode ⟦ϕ⟧</button>
+        <button id="copy" class="copy">Copy number</button>
+      </div>
+      <div class="small muted">ASCII synonyms allowed: <code>! → ¬</code>, <code>&amp; → ∧</code>, <code>| → ∨</code>, <code>-&gt; → →</code>, <code>&lt;-&gt; → ↔</code>. Spaces are ignored.</div>
+
+      <h3>Answer</h3>
+      <div class="answer" id="answer">Result will appear here…</div>
+      <p class="small muted">Shown as a BigInt. Long numbers wrap naturally; no horizontal scrolling.</p>
+    </section>
+
+    <!-- REASON WHY -->
+    <section class="card">
+      <h2>Reason Why (mathematical English)</h2>
+      <p>
+        Let ϕ have token sequence σ₁…σₙ. Define ⟦ϕ⟧ := ∏<sub>i=1..n</sub> pᵢ<sup>E(σᵢ)</sup>, where E(σ)=c(σ)+1 and c(·) is injective.
+        By the Fundamental Theorem of Arithmetic, every natural number has a unique prime factorization. Hence the exponent vector
+        (E(σ₁), …, E(σₙ)) is uniquely determined by ⟦ϕ⟧. Subtracting 1 yields (c(σ₁), …, c(σₙ)), and because c is injective we recover the exact σ₁…σₙ.
+        Therefore ϕ ↦ ⟦ϕ⟧ is injective and decoding is well-defined.
+      </p>
+      <p class="callout">
+        <strong>Compositionality.</strong> If τ is appended to ϕ, then
+        ⟦ϕ·τ⟧ = ⟦ϕ⟧ · p<sub>n+1</sub><sup>E(τ)</sup>. This follows from multiplying by the next prime raised to the new symbol’s exponent.
+      </p>
+    </section>
+
+    <!-- WORKED EXPLANATION -->
+    <section class="card">
+      <h2>Worked Example (reading the table)</h2>
+      <p>
+        After you click <em>Compute ⟦ϕ⟧</em>, the table below lists, for each position i, the i-th prime pᵢ, the corresponding exponent eᵢ,
+        the recovered symbol, and its base code c(·) = eᵢ−1. Reading the symbols in order reconstructs the formula. If you change one symbol,
+        only one exponent changes, so the product changes in exactly one prime component.
+      </p>
+    </section>
+
+    <!-- EXPANSION / FACTORIZATION VIEW -->
+    <section class="card">
+      <h2>Prime Exponent Decomposition</h2>
+      <div class="muted small">From the last computed Gödel number; exponents eᵢ satisfy eᵢ = E(σᵢ) = c(σᵢ)+1.</div>
+      <table class="tbl" id="decomp">
+        <thead><tr><th>#</th><th>Prime pᵢ</th><th>Exponent eᵢ</th><th>Recovered symbol</th><th>c(·)</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- CHECKS -->
+    <section class="card">
+      <h2>Check (harness) 1</h2>
+      <div class="check" id="check1"></div>
+    </section>
+    <section class="card">
+      <h2>Check (harness) 2</h2>
+      <div class="check" id="check2"></div>
+    </section>
+    <section class="card">
+      <h2>Check (harness) 3</h2>
+      <div class="check" id="check3"></div>
+    </section>
+    <section class="card">
+      <h2>Check (harness) 4</h2>
+      <div class="check" id="check4"></div>
+    </section>
+    <section class="card">
+      <h2>Check (harness) 5</h2>
+      <div class="check" id="check5"></div>
+    </section>
+    <section class="card">
+      <h2>Check (harness) 6</h2>
+      <div class="check" id="check6"></div>
+    </section>
+    <section class="card">
+      <h2>Check (harness) 7</h2>
+      <div class="check" id="check7"></div>
+    </section>
+    <section class="card">
+      <h2>Check (harness) 8</h2>
+      <div class="check" id="check8"></div>
+    </section>
+
+    <footer class="muted small" style="text-align:center; padding:10px 0 20px 0">
+      P3 pattern: Answer • Reason Why • Check. Gödel numbering demo. Vertical layout, light answer box, long-number wrapping.
+    </footer>
+  </div>
+
+<script>
+/* -------------------- DATA: reserved codes -------------------- */
+const RESERVED = new Map([
+  ["¬", 1], ["∧", 2], ["∨", 3], ["→", 4], ["↔", 5],
+  ["∀", 6], ["∃", 7], ["(", 8], [")", 9], [",", 10],
+  ["=", 11], ["+", 12], ["·", 13], ["0", 14], ["1", 15]
+]);
+// Build reverse map
+const REVERSE = new Map(Array.from(RESERVED, ([k,v]) => [v, k]));
+
+// Render reserved codes table
+(function renderCodes(){
+  const tb = document.querySelector("#codes-table tbody");
+  const rows = Array.from(RESERVED, ([sym, code]) =>
+    `<tr><td style="font-size:18px">${sym}</td><td>${code}</td></tr>`).join("");
+  tb.innerHTML = rows;
+})();
+
+/* -------------------- HELPERS -------------------- */
+const asciiToUnicode = (s) => s
+  .replaceAll("<->","↔")
+  .replaceAll("->","→")
+  .replaceAll("!","¬")
+  .replaceAll("&","∧")
+  .replaceAll("|","∨");
+
+function tokenize(str){
+  let s = asciiToUnicode(str).replace(/\s+/g,"");
+  const tokens = [];
+  for(let i=0;i<s.length;){
+    tokens.push(s[i]);
+    i += 1;
+  }
+  return tokens.filter(t => t && t.length>0);
+}
+
+// Code function c(χ)
+function codeOf(sym){
+  if(RESERVED.has(sym)) return RESERVED.get(sym);
+  // generic rule
+  const cp = sym.codePointAt(0);
+  return 1000 + cp;
+}
+// E(χ) = c(χ) + 1
+const E = (sym) => BigInt(codeOf(sym) + 1);
+
+// nth prime (1-indexed), BigInt
+const PRIMES = [2n]; // p1 = 2
+function isPrimeBI(n){
+  if(n < 2n) return false;
+  for(const p of PRIMES){
+    if(p*p > n) break;
+    if(n % p === 0n) return false;
+  }
+  return true;
+}
+function getPrime(i){
+  while(PRIMES.length < i){
+    let candidate = PRIMES[PRIMES.length-1] + 1n;
+    while(!isPrimeBI(candidate)) candidate += 1n;
+    PRIMES.push(candidate);
+  }
+  return PRIMES[i-1];
+}
+function powBI(a, e){
+  let base = BigInt(a), exp = BigInt(e), res = 1n;
+  while(exp > 0n){
+    if(exp & 1n) res *= base;
+    base *= base; exp >>= 1n;
+  }
+  return res;
+}
+
+// Encode
+function godelEncode(formula){
+  const toks = tokenize(formula);
+  if(toks.length === 0) throw new Error("Empty formula has no Gödel number.");
+  let G = 1n;
+  toks.forEach((sym, idx) => {
+    const p = getPrime(idx+1); // p_i
+    const e = E(sym);          // exponent
+    G *= powBI(p, e);
+  });
+  return { G, tokens: toks };
+}
+
+// Decode BigInt back to tokens
+function godelDecode(G_input){
+  let G = BigInt(G_input);
+  if(G <= 0n) throw new Error("Gödel numbers are positive.");
+  const exps = [];
+  let i = 1;
+  while(G > 1n){
+    const p = getPrime(i);
+    let e = 0n;
+    while(G % p === 0n){
+      G /= p; e += 1n;
+    }
+    if(e !== 0n) exps.push(e);
+    i++;
+    if(i > 10000) throw new Error("Aborted: suspiciously large factorization.");
+  }
+  const codes = exps.map(e => Number(e - 1n));
+  const syms = codes.map(c => {
+    if(REVERSE.has(c)) return REVERSE.get(c);
+    if(c >= 1000){
+      const cp = c - 1000;
+      return String.fromCodePoint(cp);
+    }
+    return "�";
+  });
+  return { tokens: syms, exponents: exps };
+}
+
+/* --------------- UI wiring --------------- */
+const $ = sel => document.querySelector(sel);
+const answerBox = $("#answer");
+const tableBody = $("#decomp tbody");
+
+function renderAnswer(G){
+  answerBox.textContent = String(G) + "n";
+}
+function renderDecomp(G){
+  const { tokens, exponents } = godelDecode(G);
+  tableBody.innerHTML = tokens.map((t,i) => {
+    const p = getPrime(i+1);
+    const e = exponents[i];
+    const c = codeOf(t);
+    return `<tr>
+      <td>${i+1}</td>
+      <td>${String(p)}</td>
+      <td>${String(e)}</td>
+      <td style="font-size:18px">${t}</td>
+      <td>${c}</td>
+    </tr>`;
+  }).join("");
+}
+
+$("#encode").addEventListener("click", () => {
+  try{
+    const { G } = godelEncode($("#input").value);
+    renderAnswer(G); renderDecomp(G);
+  }catch(err){
+    answerBox.textContent = "Error: " + err.message;
+    tableBody.innerHTML = "";
+  }
+});
+$("#decode").addEventListener("click", () => {
+  try{
+    const text = prompt("Paste a Gödel number (BigInt, digits only):");
+    if(!text) return;
+    const G = BigInt(text);
+    const { tokens } = godelDecode(G);
+    $("#input").value = tokens.join("");
+    renderAnswer(G); renderDecomp(G);
+  }catch(err){
+    alert("Decode error: " + err.message);
+  }
+});
+$("#copy").addEventListener("click", async () => {
+  try{
+    const raw = answerBox.textContent.replace(/n$/,"");
+    await navigator.clipboard.writeText(raw);
+    $("#copy").textContent = "Copied!";
+    setTimeout(()=>$("#copy").textContent="Copy number", 900);
+  }catch{
+    alert("Copy failed (permissions).");
+  }
+});
+
+/* --------------- CHECKS --------------- */
+function normalize(s){ return tokenize(s).join(""); }
+function checkCard(anchor, title, pass, detail){
+  anchor.innerHTML = `<div class="${pass?"pass":"fail"}"><strong>${pass?"PASS":"FAIL"}:</strong> ${title}</div>
+  <div class="small muted">${detail}</div>`;
+}
+
+function runChecks(){
+  const phi = "(∀x)(P(x) -> Q(x))";
+  const psi = "(∃x)(P(x) & !Q(x))";
+  const chi = "((P->Q)&(Q->R))->(P->R)";
+
+  // 1. Round-trip ϕ
+  try {
+    const { G } = godelEncode(phi);
+    const { tokens } = godelDecode(G);
+    const ok = normalize(phi) === tokens.join("");
+    checkCard($("#check1"), "ϕ encodes and decodes to itself.",
+      ok, `ϕ = ${normalize(phi)}, decode = ${tokens.join("")}`);
+  } catch(e) {
+    checkCard($("#check1"), "ϕ encodes and decodes to itself.", false, e.message);
+  }
+
+  // 2. Round-trip ψ
+  try {
+    const { G } = godelEncode(psi);
+    const { tokens } = godelDecode(G);
+    const ok = normalize(psi) === tokens.join("");
+    checkCard($("#check2"), "ψ encodes and decodes to itself.",
+      ok, `ψ = ${normalize(psi)}, decode = ${tokens.join("")}`);
+  } catch(e) {
+    checkCard($("#check2"), "ψ encodes and decodes to itself.", false, e.message);
+  }
+
+  // 3. Distinctness
+  try {
+    const G1 = godelEncode(phi).G;
+    const G2 = godelEncode(psi).G;
+    const ok = G1 !== G2;
+    checkCard($("#check3"), "Distinct formulas map to distinct numbers.",
+      ok, `⟦ϕ⟧ ${ok?"≠":"="} ⟦ψ⟧`);
+  } catch(e) {
+    checkCard($("#check3"), "Distinct formulas map to distinct numbers.", false, e.message);
+  }
+
+  // 4. Append property
+  try{
+    const s = "P";
+    const t = "Q";
+    const encS = godelEncode(s);
+    const encST = godelEncode(s + t);
+    const pn1 = getPrime(encS.tokens.length + 1);
+    const expected = encS.G * powBI(pn1, E(t));
+    const ok = expected === encST.G;
+    checkCard($("#check4"), "Appending a symbol multiplies by next prime’s power.",
+      ok, `expected=${String(expected)}n`);
+  } catch(e){
+    checkCard($("#check4"), "Appending a symbol multiplies by next prime’s power.", false, e.message);
+  }
+
+  // 5. Known exponents for "PQ"
+  try{
+    const enc = godelEncode("PQ");
+    const { exponents } = godelDecode(enc.G);
+    const cP = BigInt(codeOf("P")+1), cQ = BigInt(codeOf("Q")+1);
+    const ok = exponents.length===2 && exponents[0]===cP && exponents[1]===cQ;
+    checkCard($("#check5"), "Exponent vector matches E(P), E(Q) for \"PQ\".",
+      ok, `e₁=${String(exponents[0])}, e₂=${String(exponents[1])}`);
+  } catch(e){
+    checkCard($("#check5"), "Exponent vector matches E(P), E(Q) for \"PQ\".", false, e.message);
+  }
+
+  // 6. Spaces ignored
+  try{
+    const g1 = godelEncode("P Q").G;
+    const g2 = godelEncode("PQ").G;
+    const ok = g1 === g2;
+    checkCard($("#check6"), "Whitespace does not affect encoding.",
+      ok, `⟦\"P Q\"⟧ ${ok?"=":"≠"} ⟦\"PQ\"⟧`);
+  } catch(e){
+    checkCard($("#check6"), "Whitespace does not affect encoding.", false, e.message);
+  }
+
+  // 7. Complex χ
+  try{
+    const { G } = godelEncode(chi);
+    const back = godelDecode(G).tokens.join("");
+    const ok = normalize(chi) === back;
+    checkCard($("#check7"), "Complex χ encodes and decodes correctly.",
+      ok, `len(tokens) = ${back.length}`);
+  } catch(e){
+    checkCard($("#check7"), "Complex χ encodes and decodes correctly.", false, e.message);
+  }
+
+  // 8. Empty input rejected
+  try{
+    let threw = false;
+    try{ godelEncode(""); } catch{ threw = true; }
+    checkCard($("#check8"), "Empty input is invalid (guard rails).",
+      threw, threw ? "Properly rejected." : "Was not rejected.");
+  } catch(e){
+    checkCard($("#check8"), "Empty input is invalid (guard rails).", false, e.message);
+  }
+}
+
+// Initial compute and checks
+(function boot(){
+  document.querySelector("#encode").click();
+  runChecks();
+})();
+</script>
+</body>
+</html>
+
