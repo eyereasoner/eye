@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>On the Origin of Time</title>
+<meta name="description" content="A self-contained P3 (Prompt → Program → Proof) brief for Thomas Hertog’s On the Origin of Time, with a physics-focused track." />
+<meta name="author" content="Book: Thomas Hertog · Page: you" />
+<style>
+  :root{
+    --bg:#f7f7fb;
+    --card:#ffffff;
+    --ink:#1b1f24;
+    --ink-sub:#4b5563;
+    --muted:#9aa3af;
+    --accent:#2d5d9f;   /* calm blue */
+    --accent-2:#7ea6db;
+    --border:#e8e8ef;
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 6px 20px rgba(0,0,0,.06);
+    --radius: 16px;
+    --radius-lg: 22px;
+    --max: 900px;
+  }
+  *{box-sizing:border-box}
+  html,body{background:var(--bg); color:var(--ink); margin:0; font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Apple Color Emoji,Segoe UI Emoji}
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:var(--max); margin:32px auto; padding:0 16px}
+  header.hero{
+    background:linear-gradient(160deg,#f5f8fe,#ffffff);
+    border:1px solid var(--border);
+    padding:24px;
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow);
+  }
+  .title{display:flex; gap:18px; align-items:center; flex-wrap:wrap}
+  .cover{
+    width:110px; height:160px; border-radius:10px; box-shadow:var(--shadow);
+    background:#eef3fb; display:grid; place-items:center; border:1px solid var(--border); overflow:hidden;
+  }
+  .cover svg{width:100%; height:100%}
+  .title h1{font-size:1.65rem; margin:0}
+  .subtitle{color:var(--ink-sub); margin:.25rem 0 0}
+  .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+  .badge{padding:4px 10px; border-radius:999px; background:#edf2fb; color:#254d85; font-weight:600; font-size:.8rem; border:1px solid #dfe6f6}
+  nav.toc{margin-top:14px; padding-top:10px; border-top:1px dashed var(--border); color:var(--ink-sub); display:flex; flex-wrap:wrap; gap:10px}
+  nav.toc a{font-size:.92rem; background:#f3f6fc; border:1px solid #e3eaf7; padding:6px 10px; border-radius:999px}
+  .cards{display:flex; flex-direction:column; gap:16px; margin-top:18px}
+  .card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px}
+  .card h2{margin:0 0 .35rem 0; font-size:1.15rem}
+  .card h3{margin:.75rem 0 .25rem; font-size:1rem}
+  .subcard{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px; box-shadow:var(--shadow); margin-top:12px}
+  .meta{color:var(--ink-sub); font-size:.95rem}
+  .muted{color:var(--muted)}
+  .list-tight li{margin:.25rem 0}
+  .pill{display:inline-flex; align-items:center; gap:.45rem; padding:4px 9px; border-radius:999px; background:#f1f6ff; border:1px solid #e3ebff; color:#234c88; font-weight:600}
+  .status-pass{color:#106941}
+  .status-fail{color:#8a2222}
+  .kicker{letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-size:.78rem; font-weight:700}
+  .quote{border-left:3px solid var(--accent-2); padding-left:10px; color:#213; background:#f9fbfe; border-radius:8px; border:1px solid #e9eefb}
+  .callout{background:#f6f9fe; border:1px solid #e2e8f6; padding:12px; border-radius:12px}
+  .small{font-size:.94rem}
+  footer{color:var(--muted); font-size:.9rem; margin-top:22px}
+</style>
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Book",
+  "name":"On the Origin of Time: Stephen Hawking's Final Theory",
+  "author":{"@type":"Person","name":"Thomas Hertog"},
+  "bookFormat":"https://schema.org/Hardcover",
+  "datePublished":"2023-04-11",
+  "publisher":{"@type":"Organization","name":"Bantam"},
+  "isbn":"9780593128442",
+  "numberOfPages":"352",
+  "inLanguage":"en",
+  "sameAs":[
+    "https://www.penguinrandomhouse.com/books/609156/on-the-origin-of-time-by-thomas-hertog/",
+    "https://links.penguinrandomhouse.com/type/affiliate/isbn/9780593128442/siteID/8001/retailerid/25/trackingcode/PRHC0D7CE6017",
+    "https://www.penguin.co.uk/books/440139/on-the-origin-of-time-by-hertog-thomas/9781804991121",
+    "https://en.wikipedia.org/wiki/On_the_Origin_of_Time"
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero" id="top">
+    <div class="title">
+      <div class="cover" aria-hidden="true">
+        <!-- Self-contained SVG “cover” -->
+        <svg viewBox="0 0 210 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#e9f0ff"/>
+              <stop offset="1" stop-color="#d7e6ff"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="210" height="300" fill="url(#g)"/>
+          <g fill="#234c88" font-family="Georgia, serif">
+            <text x="20" y="92" font-size="20" font-weight="700">ON THE ORIGIN</text>
+            <text x="20" y="118" font-size="26" font-weight="700">OF TIME</text>
+            <text x="20" y="152" font-size="12">Hawking & Hertog's</text>
+            <text x="20" y="168" font-size="12">final cosmology</text>
+            <text x="20" y="225" font-size="13" font-weight="700">Thomas Hertog</text>
+          </g>
+          <g stroke="#2d5d9f" stroke-width="2" fill="none" opacity=".6">
+            <path d="M20,250 C80,210 130,270 190,230" />
+            <circle cx="40" cy="240" r="3" fill="#2d5d9f"/>
+            <circle cx="170" cy="240" r="3" fill="#2d5d9f"/>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <div class="kicker">Book Brief · P3 (Prompt → Program → Proof)</div>
+        <h1>On the Origin of Time</h1>
+        <p class="subtitle">Thomas Hertog · Bantam (PRH US), 352 pp · First US hardcover Apr 11, 2023</p>
+        <div class="badges" role="list">
+          <span class="badge" role="listitem">Cosmology</span>
+          <span class="badge" role="listitem">Physics</span>
+          <span class="badge" role="listitem">Hawking</span>
+          <span class="badge" role="listitem">Popular Science</span>
+        </div>
+        <nav class="toc" aria-label="On this page">
+          <a href="#p3">P3 Summary</a>
+          <a href="#answer">Answer (TL;DR)</a>
+          <a href="#reasons">Reason Why</a>
+          <a href="#check">Check</a>
+          <a href="#math">Physics Track</a>
+          <a href="#themes">Themes</a>
+          <a href="#studies">Studies & Context</a>
+          <a href="#glossary">Glossary</a>
+          <a href="#meta">Book Metadata</a>
+          <a href="#sources">Citations</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="cards">
+
+    <!-- Strictly vertical P3 -->
+    <section class="card" id="p3" aria-labelledby="p3h2">
+      <h2 id="p3h2">P3 Summary: Prompt → Program → Proof</h2>
+
+      <article class="subcard">
+        <h3>Prompt &amp; Question</h3>
+        <p><strong>Prompt:</strong> Create a concise, self-contained brief of <em>On the Origin of Time</em> that captures Hawking–Hertog’s final cosmological picture and why it matters.</p>
+        <p><strong>Question:</strong> What is the core claim of Hertog’s book, how does “top-down cosmology” work, and what changed in Hawking’s thinking?</p>
+      </article>
+
+      <article class="subcard">
+        <h3>Data (Sources)</h3>
+        <ul class="list-tight small">
+          <li>Official PRH product page with dates/formats, summary, and page count.<sup><a href="#fn-prh">[1]</a></sup></li>
+          <li>Hardcover product details (ISBN 9780593128442; 352 pp; pub. Apr 11, 2023).<sup><a href="#fn-prh-hc">[2]</a></sup></li>
+          <li>UK edition listing & description (Penguin UK / Torva).<sup><a href="#fn-penguinuk">[3]</a></sup></li>
+          <li>Nature review on the book’s framing and Hawking’s shifts.<sup><a href="#fn-nature">[4]</a></sup></li>
+          <li>Guardian feature on Hawking telling Hertog he’d “changed his mind” about earlier work.<sup><a href="#fn-guardian">[5]</a></sup></li>
+          <li>Top-down cosmology papers (Hawking & Hertog 2006; Phys. Rev. D & arXiv).<sup><a href="#fn-arxiv">[6]</a>, <a href="#fn-physrev">[7]</a></sup></li>
+          <li>Background: “Cosmology from the Top Down” (Hawking 2003).<sup><a href="#fn-hawking2003">[8]</a></sup></li>
+        </ul>
+      </article>
+
+      <article class="subcard">
+        <h3>Logic (How we evaluate)</h3>
+        <ol class="small">
+          <li>Use official publisher pages for bibliographic facts & core description.</li>
+          <li>Use primary papers (arXiv/Phys. Rev. D) for claims about top-down cosmology.</li>
+          <li>Use reputable reviews (Nature, Guardian) for context on significance and reception.</li>
+        </ol>
+      </article>
+
+      <article class="subcard">
+        <h3>Program (Driver)</h3>
+        <p class="muted small">A tiny “check” harness ensures every <code>data-claim</code> has at least one footnote in <em>Citations</em>.</p>
+<pre><code>// Pseudocode
+const claims=[...document.querySelectorAll('[data-claim]')];
+for (const c of claims) assert(c.querySelector('sup a[href^="#fn-"]'));</code></pre>
+        <div class="callout small">
+          <strong>Proof = Reason Why + Check.</strong> “Reason Why” summarizes evidence; “Check” verifies structure.
+        </div>
+      </article>
+    </section>
+
+    <!-- Answer -->
+    <section class="card" id="answer">
+      <h2>Answer (TL;DR)</h2>
+      <p data-claim="answer">
+        Hertog presents Hawking’s <em>final theory</em> as an <em>evolutionary</em> picture of the early universe in which the <strong>laws of physics co-emerge and co-evolve</strong> with the cosmos, replacing the idea that fixed laws pre-exist the universe.<sup><a href="#fn-prh">[1]</a></sup> The theoretical backbone is <strong>top-down cosmology</strong>: histories are inferred backwards from the present, using no-boundary quantum cosmology and path integrals over possible histories, rather than a single unique past.<sup><a href="#fn-arxiv">[6]</a>, <a href="#fn-physrev">[7]</a>, <a href="#fn-hawking2003">[8]</a></sup> Hertog also explains how Hawking revised aspects of earlier popularizations, openly acknowledging a shift in view.<sup><a href="#fn-guardian">[5]</a>, <a href="#fn-nature">[4]</a></sup>
+      </p>
+    </section>
+
+    <!-- Reason Why -->
+    <section class="card" id="reasons">
+      <h2>Reason Why (Evidence)</h2>
+      <div class="quote small" data-claim="rw-1">
+        The publisher’s description states the central claim: Hawking and Hertog develop a theory where the <em>laws themselves transform</em> and simplify deep in the early universe—“not set in stone” but born with the cosmos.<sup><a href="#fn-prh">[1]</a></sup>
+      </div>
+      <p class="small" data-claim="rw-2">
+        Hawking & Hertog’s technical work formalizes a <em>top-down</em> framework: amplitudes for alternative histories are computed with late-time boundary conditions, contrasting with classical single-history approaches.<sup><a href="#fn-arxiv">[6]</a>, <a href="#fn-physrev">[7]</a></sup>
+      </p>
+      <p class="small" data-claim="rw-3">
+        Reviews highlight the shift in Hawking’s stance and situate the book within modern cosmology debates (beginning, multiverse, selection, holography).<sup><a href="#fn-nature">[4]</a>, <a href="#fn-guardian">[5]</a></sup>
+      </p>
+    </section>
+
+    <!-- Check -->
+    <section class="card" id="check">
+      <h2>Check (Self-test)</h2>
+      <p class="small">Automated checks: (1) every claim cites a source; (2) required sections exist; (3) core metadata parses.</p>
+      <ul id="checklist" class="list-tight small"></ul>
+      <p id="status" class="pill" aria-live="polite">Running checks…</p>
+    </section>
+
+    <!-- Physics Track (kept id="math" for compatibility with your checker) -->
+    <section class="card" id="math">
+      <h2>Physics Track: How the Theory Works</h2>
+      <ol>
+        <li data-claim="m1"><strong>Selection by questions asked.</strong> In top-down cosmology, the ensemble of possible histories contributing to our observations depends on the present observational constraints and the “question” posed.<sup><a href="#fn-arxiv">[6]</a></sup></li>
+        <li data-claim="m2"><strong>No-boundary + landscape.</strong> The Hartle–Hawking no-boundary idea combined with a string-theory landscape yields multiple inflationary histories; only a subset is populated in predictions.<sup><a href="#fn-physrev">[7]</a></sup></li>
+        <li data-claim="m3"><strong>From fixed laws → evolving regularities.</strong> Hertog frames the earliest epoch as one where effective laws <em>emerge</em> alongside structure, an explicitly evolutionary stance in the book’s narrative.<sup><a href="#fn-prh">[1]</a>, <a href="#fn-nature">[4]</a></sup></li>
+        <li data-claim="m4"><strong>Hawking’s change of mind.</strong> Public reporting and reviews note Hawking’s late-career rethinking versus parts of <em>A Brief History of Time</em>.<sup><a href="#fn-guardian">[5]</a>, <a href="#fn-nature">[4]</a></sup></li>
+      </ol>
+      <div class="callout small">
+        <strong>Metric shift:</strong> The aim isn’t a single “final” equation frozen outside reality, but a framework that explains why our observed universe (and its life-friendly regularities) emerged as it did.
+      </div>
+    </section>
+
+    <!-- Themes -->
+    <section class="card" id="themes">
+      <h2>Themes</h2>
+      <ol>
+        <li data-claim="t1"><strong>Evolutionary laws.</strong> The book advances a “Darwinian” perspective in which effective laws co-develop with the universe.<sup><a href="#fn-prh">[1]</a></sup></li>
+        <li data-claim="t2"><strong>Top-down inference.</strong> Start from the present and sum over consistent pasts (histories), rather than deducing from a unique initial state.<sup><a href="#fn-hawking2003">[8]</a>, <a href="#fn-arxiv">[6]</a></sup></li>
+        <li data-claim="t3"><strong>Bridging physics & philosophy.</strong> Reviewers note the book’s accessibility and its philosophical tilt relative to Hawking’s earlier popular works.<sup><a href="#fn-nature">[4]</a>, <a href="#fn-kirkus">[9]</a></sup></li>
+      </ol>
+    </section>
+
+    <!-- Studies & Context -->
+    <section class="card" id="studies">
+      <h2>Studies & Context</h2>
+      <ul class="list-tight">
+        <li data-claim="s1"><strong>Hawking (2003):</strong> “Cosmology from the Top Down” sketches the idea of inferring the past via quantum histories consistent with the present.<sup><a href="#fn-hawking2003">[8]</a></sup></li>
+        <li data-claim="s2"><strong>Hawking & Hertog (2006):</strong> “Populating the Landscape: A Top-Down Approach” formalizes predictions with late-time boundary conditions and contrasts with eternal inflation approaches.<sup><a href="#fn-arxiv">[6]</a>, <a href="#fn-physrev">[7]</a></sup></li>
+        <li data-claim="s3"><strong>Reception:</strong> Nature and other reviews discuss implications for beginnings, multiverse, and methodology.<sup><a href="#fn-nature">[4]</a></sup></li>
+      </ul>
+    </section>
+
+    <!-- Glossary -->
+    <section class="card" id="glossary">
+      <h2>Glossary (quick reference)</h2>
+      <dl class="small">
+        <dt><strong>Top-down cosmology</strong></dt>
+        <dd>A framework where probabilities for histories are conditioned on present observations; histories are “traced back” rather than uniquely fixed from an initial state.<sup><a href="#fn-arxiv">[6]</a>, <a href="#fn-hawking2003">[8]</a></sup></dd>
+        <dt><strong>No-boundary proposal</strong></dt>
+        <dd>Quantum-cosmology idea (Hartle–Hawking) that the universe’s wavefunction is defined without a classical initial boundary; used within the top-down framework.<sup><a href="#fn-physrev">[7]</a></sup></dd>
+        <dt><strong>Landscape</strong></dt>
+        <dd>Set of many possible vacua in (for example) string-inspired models, enabling multiple inflationary histories in predictions.<sup><a href="#fn-physrev">[7]</a></sup></dd>
+      </dl>
+    </section>
+
+    <!-- Metadata -->
+    <section class="card" id="meta">
+      <h2>Book Metadata</h2>
+      <ul class="list-tight small">
+        <li data-claim="md1"><strong>Title:</strong> <em>On the Origin of Time: Stephen Hawking’s Final Theory</em>.<sup><a href="#fn-prh">[1]</a></sup></li>
+        <li data-claim="md2"><strong>Author:</strong> Thomas Hertog.<sup><a href="#fn-prh">[1]</a></sup></li>
+        <li data-claim="md3"><strong>US publisher / imprint:</strong> Bantam (PRH US).<sup><a href="#fn-prh">[1]</a></sup></li>
+        <li data-claim="md4"><strong>First US hardcover:</strong> Apr 11, 2023; <strong>pages:</strong> 352; <strong>ISBN (HC):</strong> 9780593128442.<sup><a href="#fn-prh-hc">[2]</a></sup></li>
+        <li data-claim="md5"><strong>US paperback:</strong> Mar 5, 2024; <strong>ISBN (PB):</strong> 9780593128466.<sup><a href="#fn-prh">[1]</a></sup></li>
+        <li data-claim="md6"><strong>UK edition:</strong> Torva / Penguin Random House UK (2023).<sup><a href="#fn-penguinuk">[3]</a></sup></li>
+      </ul>
+    </section>
+
+    <!-- Citations -->
+    <section class="card footnotes" id="sources" aria-labelledby="sourcesh2">
+      <h2 id="sourcesh2">Citations (for this page)</h2>
+      <ol>
+        <li id="fn-prh"><a href="https://www.penguinrandomhouse.com/books/609156/on-the-origin-of-time-by-thomas-hertog/">Penguin Random House (US) — product page: formats, dates, pages, description</a>. :contentReference[oaicite:0]{index=0}</li>
+        <li id="fn-prh-hc"><a href="https://links.penguinrandomhouse.com/type/affiliate/isbn/9780593128442/siteID/8001/retailerid/25/trackingcode/PRHC0D7CE6017">PRH hardcover details — ISBN 9780593128442; pub. Apr 11, 2023; 352 pp</a>. :contentReference[oaicite:1]{index=1}</li>
+        <li id="fn-penguinuk"><a href="https://www.penguin.co.uk/books/440139/on-the-origin-of-time-by-hertog-thomas/9781804991121">Penguin UK (Torva) — UK edition listing & description</a>. :contentReference[oaicite:2]{index=2}</li>
+        <li id="fn-nature"><a href="https://www.nature.com/articles/d41586-023-00977-3">Nature review — “How Stephen Hawking flip-flopped on whether the Universe has a beginning” (Apr 10, 2023)</a>. :contentReference[oaicite:3]{index=3}</li>
+        <li id="fn-guardian"><a href="https://www.theguardian.com/science/2023/mar/19/stephen-hawking-told-me-ive-changed-my-mind-my-book-is-wrong">The Guardian — Hawking told Hertog he’d “changed [his] mind” (Mar 19, 2023)</a>. :contentReference[oaicite:4]{index=4}</li>
+        <li id="fn-arxiv"><a href="https://arxiv.org/abs/hep-th/0602091">Hawking &amp; Hertog (2006) — “Populating the Landscape: A Top-Down Approach” (arXiv)</a>. :contentReference[oaicite:5]{index=5}</li>
+        <li id="fn-physrev"><a href="https://link.aps.org/doi/10.1103/PhysRevD.73.123527">Physical Review D (2006) — journal version of the top-down paper</a>. :contentReference[oaicite:6]{index=6}</li>
+        <li id="fn-hawking2003"><a href="https://arxiv.org/abs/astro-ph/0305562">Hawking (2003) — “Cosmology from the Top Down” (arXiv)</a>. :contentReference[oaicite:7]{index=7}</li>
+        <li id="fn-kirkus"><a href="https://www.kirkusreviews.com/book-reviews/thomas-hertog/on-the-origin-of-time-einstein/">Kirkus Reviews — book review & accessibility note</a>. :contentReference[oaicite:8]{index=8}</li>
+      </ol>
+      <p class="muted small">This brief paraphrases public information; it does not reproduce the book’s text.</p>
+    </section>
+
+    <footer class="muted">
+      <p>Light background · vertical cards · P3 pattern. © You, for personal use.</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+// --- Minimal “Check” harness for this page ---
+(function(){
+  const checks = [];
+  const req = ["p3","answer","reasons","check","math","themes","studies","glossary","meta","sources"];
+  const claims = [...document.querySelectorAll('[data-claim]')];
+
+  // sections present
+  req.forEach(id=>{
+    const ok = !!document.getElementById(id);
+    checks.push({name:`Section #${id} present`, ok});
+  });
+
+  // each claim cites a footnote
+  claims.forEach((el,i)=>{
+    const has = el.querySelector('sup a[href^="#fn-"]');
+    checks.push({name:`Claim ${i+1} cites a source`, ok: !!has});
+  });
+
+  // structured data sanity
+  let metaOk=true;
+  try{
+    const j = JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent);
+    metaOk = !!(j.name && j.author && j.datePublished && j.isbn);
+  }catch(e){ metaOk=false; }
+  checks.push({name:'Structured data looks valid', ok: metaOk});
+
+  // render
+  const ul = document.getElementById('checklist');
+  let allOk = true;
+  checks.forEach(c=>{
+    const li = document.createElement('li');
+    li.textContent = (c.ok ? '✔︎ ' : '✘ ') + c.name;
+    li.style.color = c.ok ? '#106941' : '#8a2222';
+    ul.appendChild(li);
+    allOk = allOk && c.ok;
+  });
+  const status = document.getElementById('status');
+  status.textContent = allOk ? '✔︎ Check passed' : '✘ Check failed — see list above';
+  status.className = 'pill ' + (allOk ? 'status-pass' : 'status-fail');
+})();
+</script>
+</body>
+</html>
+
