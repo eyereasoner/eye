@@ -1,0 +1,223 @@
+@prefix :     <http://example.org/fta#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+############################################################
+# P3: Prompt → Program → Proof (Answer, Reason, Check)
+# Fundamental Theorem of Arithmetic (existence + uniqueness)
+# Strategy: trial division by the *smallest* prime divisor.
+############################################################
+
+# --- Vocabulary ---
+:Integer      a rdfs:Class .      # numbers to factor
+:Prime        a rdfs:Class .      # catalog of candidate primes
+:PrimeFactor  a rdfs:Class .      # one prime factor occurrence
+:Work         a rdfs:Class .      # work items during factoring
+:Step         a rdfs:Class .      # a single division step
+:Check        a rdfs:Class .
+
+:value a rdf:Property .           # numeric value of an :Integer
+:val   a rdf:Property .           # numeric value carried by a :Prime
+:answer a rdf:Property .          # links :Integer → factor nodes
+:why a rdf:Property .             # links :Integer → step records
+:check a rdf:Property .           # links :Integer → check results
+:status a rdf:Property .          # e.g., "factored"
+
+# Work/Step details
+:num a rdf:Property .             # which integer this Work/Step belongs to
+:m   a rdf:Property .             # current working remainder (number)
+:from a rdf:Property .            # pre-division value for a step
+:to   a rdf:Property .            # post-division value for a step
+:prime a rdf:Property .           # prime used at a step or on a factor
+
+:kind a rdf:Property .
+:ok a rdf:Property .
+:residual a rdf:Property .
+
+############################################################
+# Prime catalog (enough for the harness below; extend as needed)
+############################################################
+:P2  a :Prime; :val 2 .
+:P3  a :Prime; :val 3 .
+:P5  a :Prime; :val 5 .
+:P7  a :Prime; :val 7 .
+:P11 a :Prime; :val 11 .
+:P13 a :Prime; :val 13 .
+:P17 a :Prime; :val 17 .
+:P19 a :Prime; :val 19 .
+:P23 a :Prime; :val 23 .
+:P29 a :Prime; :val 29 .
+:P31 a :Prime; :val 31 .
+:P37 a :Prime; :val 37 .
+:P41 a :Prime; :val 41 .
+:P43 a :Prime; :val 43 .
+:P47 a :Prime; :val 47 .
+:P53 a :Prime; :val 53 .
+:P59 a :Prime; :val 59 .
+:P61 a :Prime; :val 61 .
+:P67 a :Prime; :val 67 .
+:P71 a :Prime; :val 71 .
+:P73 a :Prime; :val 73 .
+:P79 a :Prime; :val 79 .
+:P83 a :Prime; :val 83 .
+:P89 a :Prime; :val 89 .
+:P97 a :Prime; :val 97 .
+
+############################################################
+# Initialization: seed a Work item for each integer n > 1
+############################################################
+{
+  ?N a :Integer; :value ?n .
+  ?n math:greaterThan 1 .
+}
+=>
+{
+  _:w a :Work; :num ?N; :m ?n .
+} .
+
+############################################################
+# Factoring step:
+# Take the *smallest* catalog prime p that divides the current m,
+# emit one prime factor p, record the step, and continue with m/p.
+############################################################
+{
+  ?w a :Work; :num ?N; :m ?m .
+  ?P a :Prime; :val ?p .
+
+  (?m ?p) math:remainder ?r .
+  ?r math:equalTo 0 .                # p divides m
+
+  # Minimality guard: no smaller catalog prime divides m
+  ?SCOPE log:notIncludes {
+    ?Q a :Prime; :val ?q .
+    ?q math:lessThan ?p .
+    (?m ?q) math:remainder ?rq .
+    ?rq math:equalTo 0 .
+  } .
+
+  (?m ?p) math:integerQuotient ?q .
+}
+=>
+{
+  # Record a factor occurrence
+  ?N :answer [ a :PrimeFactor; :prime ?p ] .
+
+  # Record the step as part of the "Reason"
+  _:s a :Step; :num ?N; :from ?m; :prime ?p; :to ?q .
+  ?N :why _:s .
+
+  # Continue factoring
+  _:w2 a :Work; :num ?N; :m ?q .
+} .
+
+############################################################
+# Termination: when we reach 1, mark the integer as factored
+############################################################
+{
+  ?w a :Work; :num ?N; :m 1 .
+}
+=>
+{
+  ?N :status "factored" .
+} .
+
+############################################################
+# ----------------------- CHECKS --------------------------
+# C1 (per-step divisibility): remainder(from, p) = 0
+############################################################
+{
+  ?s a :Step; :from ?m; :prime ?p; :to ?q .
+  (?m ?p) math:remainder ?r .
+  ?r math:equalTo 0 .
+}
+=>
+{
+  _:c a :Check; :kind "step-divisible"; :ok true .
+} .
+
+############################################################
+# C2 (per-step reconstruction): (to * p) = from
+############################################################
+{
+  ?s a :Step; :from ?m; :prime ?p; :to ?q .
+  (?q ?p) math:product ?recon .
+  ?recon math:equalTo ?m .
+}
+=>
+{
+  _:c a :Check; :kind "step-reconstruct"; :ok true .
+} .
+
+############################################################
+# C3 (per-step minimality): no smaller catalog prime divides 'from'
+############################################################
+{
+  ?s a :Step; :from ?m; :prime ?p .
+  ?SCOPE log:notIncludes {
+    ?Q a :Prime; :val ?q .
+    ?q math:lessThan ?p .
+    (?m ?q) math:remainder ?rq .
+    ?rq math:equalTo 0 .
+  } .
+}
+=>
+{
+  _:c a :Check; :kind "step-minimal-prime"; :ok true .
+} .
+
+############################################################
+# C4 (factor is prime w.r.t. catalog): p has no smaller divisor
+############################################################
+{
+  ?N :answer ?f .
+  ?f a :PrimeFactor; :prime ?p .
+  ?p math:greaterThan 1 .
+  ?SCOPE log:notIncludes {
+    ?Q a :Prime; :val ?q .
+    ?q math:lessThan ?p .
+    (?p ?q) math:remainder ?rp .
+    ?rp math:equalTo 0 .
+  } .
+}
+=>
+{
+  _:c a :Check; :kind "factor-is-prime"; :ok true .
+} .
+
+############################################################
+# C5 (done): we eventually reached 1 for this integer
+############################################################
+{
+  ?N a :Integer; :status "factored" .
+}
+=>
+{
+  ?N :check [ a :Check; :kind "terminated-at-1"; :ok true ] .
+} .
+
+############################################################
+# ----------------------- HARNESS -------------------------
+# Six integers > 1 to exercise composite & prime cases
+############################################################
+
+# 60  = 2 * 2 * 3 * 5
+:N60 a :Integer; :value 60 .
+
+# 84  = 2 * 2 * 3 * 7
+:N84 a :Integer; :value 84 .
+
+# 97 is prime
+:N97 a :Integer; :value 97 .
+
+# 360 = 2 * 2 * 2 * 3 * 3 * 5
+:N360 a :Integer; :value 360 .
+
+# 1001 = 7 * 11 * 13
+:N1001 a :Integer; :value 1001 .
+
+# 32 = 2^5
+:N32 a :Integer; :value 32 .
+
