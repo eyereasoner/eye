@@ -1,0 +1,160 @@
+#Processed by Id
+        #    using base file:///home/jdroo/github.com/eyereasoner/eye/reasoning/quadratic-equation/
+             @prefix : <http://example.org/quad#> .
+    
+    :Q1     :answer  [
+             a :RealRoot;
+             :value 2 ],
+                 [
+             a :RealRoot;
+             :value 1 ];
+         :check  [
+             a :Check;
+             :kind "plug-in/real";
+             :ok true;
+             :residual 0;
+             :root 2 ],
+                 [
+             a :Check;
+             :kind "plug-in/real";
+             :ok true;
+             :residual 0;
+             :root 1 ];
+         :status "two-real-roots";
+         :why  [
+             :denominator 2;
+             :discriminant 1;
+             :negB 3 ],
+                 [
+             :sqrtDiscriminant 1 ] .
+    
+    :Q2     :answer  [
+             a :RealRoot;
+             :multiplicity 2;
+             :value -1 ];
+         :check  [
+             a :Check;
+             :kind "plug-in/real";
+             :ok true;
+             :residual 0;
+             :root -1 ];
+         :status "double-root";
+         :why  [
+             :denominator 2;
+             :discriminant 0;
+             :negB -2 ],
+                 [
+             :sqrtDiscriminant 0 ] .
+    
+    :Q3     :answer  [
+             a :RealRoot;
+             :value -1.0 ],
+                 [
+             a :RealRoot;
+             :value 1.0 ];
+         :check  [
+             a :Check;
+             :kind "plug-in/real";
+             :ok true;
+             :residual 0.0;
+             :root -1.0 ],
+                 [
+             a :Check;
+             :kind "plug-in/real";
+             :ok true;
+             :residual 0.0;
+             :root 1.0 ];
+         :status "two-real-roots";
+         :why  [
+             :denominator -2;
+             :discriminant 4;
+             :negB 0 ],
+                 [
+             :sqrtDiscriminant 2.0 ] .
+    
+    :Q4     :answer  [
+             a :RealRoot;
+             :value -1.0 ],
+                 [
+             a :RealRoot;
+             :value -4.0 ];
+         :check  [
+             a :Check;
+             :kind "plug-in/real";
+             :ok true;
+             :residual 0.0;
+             :root -1.0 ],
+                 [
+             a :Check;
+             :kind "plug-in/real";
+             :ok true;
+             :residual 0.0;
+             :root -4.0 ];
+         :status "two-real-roots";
+         :why  [
+             :denominator 4;
+             :discriminant 36;
+             :negB -10 ],
+                 [
+             :sqrtDiscriminant 6.0 ] .
+    
+    :Q5     :answer  [
+             a :ComplexRoot;
+             :imag 1.0;
+             :real 0 ],
+                 [
+             a :ComplexRoot;
+             :imag -1.0;
+             :real 0 ];
+         :check  [
+             a :Check;
+             :kind "plug-in/complex";
+             :ok true;
+             :residualIm 0.0;
+             :residualRe 0.0;
+             :root  [
+                 :imag 1.0;
+                 :real 0 ] ],
+                 [
+             a :Check;
+             :kind "plug-in/complex";
+             :ok true;
+             :residualIm 0.0;
+             :residualRe 0.0;
+             :root  [
+                 :imag -1.0;
+                 :real 0 ] ];
+         :status "complex-roots";
+         :why  [
+             :denominator 2;
+             :discriminant -4;
+             :negB 0 ],
+                 [
+             :sqrtDiscriminant 2.0 ] .
+    
+    :Q6     :answer  [
+             a :RealRoot;
+             :value 3.0 ],
+                 [
+             a :RealRoot;
+             :value 1.0 ];
+         :check  [
+             a :Check;
+             :kind "plug-in/real";
+             :ok true;
+             :residual 0.0;
+             :root 3.0 ],
+                 [
+             a :Check;
+             :kind "plug-in/real";
+             :ok true;
+             :residual 0.0;
+             :root 1.0 ];
+         :status "two-real-roots";
+         :why  [
+             :denominator 6;
+             :discriminant 36;
+             :negB 12 ],
+                 [
+             :sqrtDiscriminant 6.0 ] .
+    
