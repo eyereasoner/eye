@@ -1,0 +1,174 @@
+@prefix :     <http://example.org/heron#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+############################################################
+# P3: Prompt → Program → Proof (Answer, Reason, Check)
+# Heron's theorem:  A = sqrt(s(s-a)(s-b)(s-c)) with s=(a+b+c)/2
+############################################################
+
+# --- Vocabulary ---
+:Triangle   a rdfs:Class .
+:Area       a rdfs:Class .
+:Check      a rdfs:Class .
+
+# Triangle data
+:a a rdf:Property .
+:b a rdf:Property .
+:c a rdf:Property .
+:answer a rdf:Property .
+:why a rdf:Property .
+:check a rdf:Property .
+:status a rdf:Property .
+
+# Reason data
+:s a rdf:Property .
+:sMinusA a rdf:Property .
+:sMinusB a rdf:Property .
+:sMinusC a rdf:Property .
+:radicand a rdf:Property .
+:value a rdf:Property .
+
+# Check data
+:kind a rdf:Property .
+:ok a rdf:Property .
+:residual a rdf:Property .
+
+# Tolerance
+:val a rdf:Property .
+:eps :val 0.000000001 .  # 1e-9
+
+############################################################
+# Common prelude: compute s, (s-a),(s-b),(s-c), radicand
+############################################################
+{
+  ?t a :Triangle; :a ?a; :b ?b; :c ?c .
+  (?a ?b ?c) math:sum ?perim .
+  (?perim 2) math:quotient ?s .
+  (?s ?a)    math:difference ?sa .
+  (?s ?b)    math:difference ?sb .
+  (?s ?c)    math:difference ?sc .
+  (?s ?sa)   math:product ?p1 .
+  (?p1 ?sb)  math:product ?p2 .
+  (?p2 ?sc)  math:product ?rad .   # rad = s(s-a)(s-b)(s-c)
+}
+=>
+{
+  ?t :why [ :s ?s; :sMinusA ?sa; :sMinusB ?sb; :sMinusC ?sc; :radicand ?rad ] .
+} .
+
+############################################################
+# Proper triangle: radicand > 0 → area = sqrt(radicand)
+############################################################
+{
+  ?t a :Triangle; :why ?w .
+  ?w :radicand ?rad .
+  ?rad math:greaterThan 0 .
+  (?rad 0.5) math:exponentiation ?A .
+}
+=>
+{
+  ?t :answer [ a :Area; :value ?A ] ;
+     :status "proper" .
+} .
+
+############################################################
+# Degenerate triangle (collinear): radicand = 0 → area = 0
+############################################################
+{
+  ?t a :Triangle; :why ?w .
+  ?w :radicand ?rad .
+  ?rad math:equalTo 0 .
+}
+=>
+{
+  ?t :answer [ a :Area; :value 0 ] ;
+     :status "degenerate" .
+} .
+
+############################################################
+# Optional flag for invalid sides (radicand < 0)
+############################################################
+{
+  ?t a :Triangle; :why ?w .
+  ?w :radicand ?rad .
+  ?rad math:lessThan 0 .
+}
+=>
+{
+  ?t :status "invalid-sides" .
+} .
+
+############################################################
+# Check — independent identity:
+#   16 A^2 ?=? 2a^2b^2 + 2b^2c^2 + 2c^2a^2 - a^4 - b^4 - c^4
+############################################################
+{
+  ?t a :Triangle; :a ?a; :b ?b; :c ?c; :answer ?ans .
+  ?ans a :Area; :value ?A .
+
+  # LHS = 16*A^2
+  (?A 2) math:exponentiation ?A2 .
+  (16 ?A2) math:product ?lhs .
+
+  # Squares and fourth powers
+  (?a 2) math:exponentiation ?a2 .
+  (?b 2) math:exponentiation ?b2 .
+  (?c 2) math:exponentiation ?c2 .
+  (?a 4) math:exponentiation ?a4 .
+  (?b 4) math:exponentiation ?b4 .
+  (?c 4) math:exponentiation ?c4 .
+
+  # 2a^2b^2 + 2b^2c^2 + 2c^2a^2
+  (2 ?a2 ?b2) math:product ?t1 .
+  (2 ?b2 ?c2) math:product ?t2 .
+  (2 ?c2 ?a2) math:product ?t3 .
+  (?t1 ?t2 ?t3) math:sum ?sum2ab2 .
+
+  # RHS = sum2ab2 - a^4 - b^4 - c^4
+  (?sum2ab2 ?a4) math:difference ?r1 .
+  (?r1 ?b4)      math:difference ?r2 .
+  (?r2 ?c4)      math:difference ?rhs .
+
+  # Compare within eps
+  (?lhs ?rhs) math:difference ?d .
+  ?d math:absoluteValue ?abs .
+  :eps :val ?eps .
+  ?abs math:notGreaterThan ?eps .
+}
+=>
+{
+  ?t :check [
+    a :Check ;
+    :kind "heron-identity" ;
+    :residual ?abs ;
+    :ok true
+  ] .
+} .
+
+############################################################
+# ----------------------- HARNESS -------------------------
+# ≥6 triangles, covering proper, degenerate, integer & decimal
+############################################################
+
+# H1: 3-4-5 right triangle → A = 6
+:T1 a :Triangle; :a 3; :b 4; :c 5 .
+
+# H2: Equilateral 1-1-1 → A = sqrt(3)/4 ≈ 0.4330127019
+:T2 a :Triangle; :a 1; :b 1; :c 1 .
+
+# H3: Isosceles 5-5-6 → A = 12
+:T3 a :Triangle; :a 5; :b 5; :c 6 .
+
+# H4: Scalene 7-8-9 → A ≈ 26.83281573
+:T4 a :Triangle; :a 7; :b 8; :c 9 .
+
+# H5: Degenerate 1-2-3 → A = 0
+:T5 a :Triangle; :a 1; :b 2; :c 3 .
+
+# H6: Decimals 2.5-4.7-5.1 → valid proper triangle
+:T6 a :Triangle; :a 2.5; :b 4.7; :c 5.1 .
+
