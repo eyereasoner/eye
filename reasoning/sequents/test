@@ -1,4 +1,9 @@
 #!/bin/bash
+# check the command line
+if [ $# -lt 1 ] ; then
+  echo "Usage: $(basename $0) sequents"
+  exit 1
+fi
 
 # Colors
 RED="\e[31m"

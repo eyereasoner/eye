@@ -1,4 +1,9 @@
 #!/bin/bash
+# check the command line
+if [ $# -lt 1 ] ; then
+  echo "Usage: $(basename $0) lingua"
+  exit 1
+fi
 
 RED="\e[31m"
 GREEN="\e[32m"
