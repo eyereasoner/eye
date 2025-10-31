@@ -1,0 +1,212 @@
+@prefix :     <http://example.org/gcd#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+############################################################
+# P3: Prompt → Program → Proof (Answer, Reason, Check)
+# gcd(a,b) with Bézout:  a*s + b*t = gcd(a,b)
+# Works for integers a,b (not both 0). Handles signs.
+############################################################
+
+# --- Vocabulary ---
+:Case     a rdfs:Class .
+:Answer   a rdfs:Class .
+:Step     a rdfs:Class .
+:Check    a rdfs:Class .
+:Work     a rdfs:Class .
+
+# Input / output
+:a a rdf:Property .
+:b a rdf:Property .
+:answer a rdf:Property .
+:why a rdf:Property .
+:check a rdf:Property .
+:status a rdf:Property .
+
+# Answer fields
+:gcd a rdf:Property .
+:s a rdf:Property .
+:t a rdf:Property .
+
+# Preprocessing / signs
+:absA a rdf:Property .
+:absB a rdf:Property .
+:signA a rdf:Property .
+:signB a rdf:Property .
+
+# Work-state (extended Euclid)
+:r0 a rdf:Property .
+:r1 a rdf:Property .
+:s0 a rdf:Property .
+:s1 a rdf:Property .
+:t0 a rdf:Property .
+:t1 a rdf:Property .
+:q  a rdf:Property .
+:r2 a rdf:Property .
+:s2 a rdf:Property .
+:t2 a rdf:Property .
+
+# Step journal
+:fromR0 a rdf:Property .
+:fromR1 a rdf:Property .
+:toR a rdf:Property .
+
+# Check fields
+:kind a rdf:Property .
+:ok a rdf:Property .
+
+############################################################
+# Sign flags (1 for ≥0, −1 for <0)
+############################################################
+{ ?N a :Case; :a ?a . ?a math:notLessThan 0 . } => { ?N :signA 1 . } .
+{ ?N a :Case; :a ?a . ?a math:lessThan 0 .     } => { ?N :signA -1 . } .
+{ ?N a :Case; :b ?b . ?b math:notLessThan 0 . } => { ?N :signB 1 . } .
+{ ?N a :Case; :b ?b . ?b math:lessThan 0 .     } => { ?N :signB -1 . } .
+
+# Absolute values
+{
+  ?N a :Case; :a ?a; :b ?b .
+  ?a math:absoluteValue ?A .
+  ?b math:absoluteValue ?B .
+}
+=>
+{
+  ?N :absA ?A; :absB ?B .
+} .
+
+############################################################
+# Initialize extended Euclid:
+#   r0=|a|, r1=|b|, s0=1, s1=0, t0=0, t1=1
+############################################################
+{
+  ?N a :Case; :absA ?A; :absB ?B .
+}
+=>
+{
+  _:w a :Work; :num ?N;
+      :r0 ?A; :r1 ?B;
+      :s0 1;  :s1 0;
+      :t0 0;  :t1 1 .
+} .
+
+############################################################
+# Euclid step (while r1 ≠ 0):
+#   q = r0 div r1
+#   r2 = r0 − q*r1
+#   s2 = s0 − q*s1
+#   t2 = t0 − q*t1
+#   shift (r0,r1,s0,s1,t0,t1) ← (r1,r2,s1,s2,t1,t2)
+############################################################
+{
+  ?w a :Work; :num ?N;
+     :r0 ?r0; :r1 ?r1; :s0 ?s0; :s1 ?s1; :t0 ?t0; :t1 ?t1 .
+  ?r1 math:notEqualTo 0 .
+
+  (?r0 ?r1) math:integerQuotient ?q .
+  (?q ?r1)  math:product ?qr1 .
+  (?r0 ?qr1) math:difference ?r2 .
+
+  (?s1 ?q) math:product ?qs1 .
+  (?s0 ?qs1) math:difference ?s2 .
+
+  (?t1 ?q) math:product ?qt1 .
+  (?t0 ?qt1) math:difference ?t2 .
+}
+=>
+{
+  # Journal the step as Reason
+  _:st a :Step; :fromR0 ?r0; :fromR1 ?r1; :q ?q; :toR ?r2;
+       :s0 ?s0; :s1 ?s1; :t0 ?t0; :t1 ?t1; :s2 ?s2; :t2 ?t2 .
+  ?N :why _:st .
+
+  # Continue with shifted state
+  _:w2 a :Work; :num ?N;
+       :r0 ?r1; :r1 ?r2;
+       :s0 ?s1; :s1 ?s2;
+       :t0 ?t1; :t1 ?t2 .
+} .
+
+############################################################
+# Termination (r1 = 0): gcd = r0; map Bézout to original signs
+#   s = sign(a) * s0,  t = sign(b) * t0
+############################################################
+{
+  ?w a :Work; :num ?N; :r0 ?r0; :r1 0; :s0 ?s0; :t0 ?t0 .
+  ?N :signA ?sa; :signB ?sb .
+  (?s0 ?sa) math:product ?s .
+  (?t0 ?sb) math:product ?t .
+}
+=>
+{
+  ?N :answer [ a :Answer; :gcd ?r0; :s ?s; :t ?t ] ;
+     :status "done" .
+} .
+
+############################################################
+# ----------------------- CHECKS --------------------------
+############################################################
+
+# C1: Bézout identity holds exactly
+{
+  ?N a :Case; :a ?a; :b ?b; :answer ?ans .
+  ?ans a :Answer; :gcd ?g; :s ?s; :t ?t .
+  (?a ?s) math:product ?as .
+  (?b ?t) math:product ?bt .
+  (?as ?bt) math:sum ?lhs .
+  ?lhs math:equalTo ?g .
+}
+=>
+{ ?N :check [ a :Check; :kind "bezout"; :ok true ] . } .
+
+# C2: gcd divides a and divides b
+{
+  ?N a :Case; :a ?a; :b ?b; :answer ?ans .
+  ?ans a :Answer; :gcd ?g .
+  (?a ?g) math:remainder 0 .
+  (?b ?g) math:remainder 0 .
+}
+=>
+{ ?N :check [ a :Check; :kind "divides-a/b"; :ok true ] . } .
+
+# C3: gcd is nonnegative (conventional choice)
+{
+  ?N :answer ?ans .
+  ?ans :gcd ?g .
+  ?g math:notLessThan 0 .
+}
+=>
+{ ?N :check [ a :Check; :kind "nonnegative-gcd"; :ok true ] . } .
+
+# C4: Terminated (witness that the algorithm reached r1 = 0)
+{
+  ?N :status "done" .
+}
+=>
+{ ?N :check [ a :Check; :kind "terminated"; :ok true ] . } .
+
+############################################################
+# ----------------------- HARNESS -------------------------
+# Six (a,b) pairs exercising coprime, common factors, zeros, signs
+############################################################
+
+# H1: gcd(48,18) = 6
+:C1 a :Case; :a 48;  :b 18 .
+
+# H2: gcd(101,462) = 1 (coprime)
+:C2 a :Case; :a 101; :b 462 .
+
+# H3: gcd(0,5) = 5 (and s=0, t=±1 depending on sign of b)
+:C3 a :Case; :a 0;   :b 5 .
+
+# H4: gcd(270,192) = 6
+:C4 a :Case; :a 270; :b 192 .
+
+# H5: gcd(-27,36) = 9 (sign handling)
+:C5 a :Case; :a -27; :b 36 .
+
+# H6: gcd(123456,7890) = 6
+:C6 a :Case; :a 123456; :b 7890 .
+
