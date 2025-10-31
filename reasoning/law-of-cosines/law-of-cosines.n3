@@ -1,0 +1,230 @@
+@prefix :     <http://example.org/cosine#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+############################################################
+# P3: Prompt → Program → Proof (Answer, Reason, Check)
+# Law of Cosines (radians): 
+#   a^2 = b^2 + c^2 - 2 b c cos(A)
+#   b^2 = c^2 + a^2 - 2 c a cos(B)
+#   c^2 = a^2 + b^2 - 2 a b cos(C)
+############################################################
+
+# --- Vocabulary ---
+:Triangle a rdfs:Class .
+:Side     a rdfs:Class .
+:Check    a rdfs:Class .
+
+# Triangle data
+:a a rdf:Property .
+:b a rdf:Property .
+:c a rdf:Property .
+:A a rdf:Property .   # radians
+:B a rdf:Property .   # radians
+:C a rdf:Property .   # radians
+:answer a rdf:Property .
+:why a rdf:Property .
+:check a rdf:Property .
+:status a rdf:Property .
+:which a rdf:Property .
+:value a rdf:Property .
+
+# Reason data
+:a2 a rdf:Property .
+:b2 a rdf:Property .
+:c2 a rdf:Property .
+:cosAngle a rdf:Property .
+:rhs a rdf:Property .  # the computed x^2 term
+
+# Check data
+:kind a rdf:Property .
+:ok a rdf:Property .
+:residual a rdf:Property .
+
+# Tolerance
+:val a rdf:Property .
+:eps :val 0.000000001 .  # 1e-9
+
+############################################################
+# Solve side c from a, b, C
+############################################################
+{
+  ?t a :Triangle; :a ?a; :b ?b; :C ?C .
+  (?a 2) math:exponentiation ?a2 .
+  (?b 2) math:exponentiation ?b2 .
+  ?C math:cos ?cosC .
+
+  (?a2 ?b2) math:sum ?sumab .
+  (2 ?a)    math:product ?tw_a .
+  (?tw_a ?b) math:product ?tw_ab .
+  (?tw_ab ?cosC) math:product ?twabcos .
+
+  (?sumab ?twabcos) math:difference ?c2 .
+  ?c2 math:notLessThan 0 .
+  (?c2 0.5) math:exponentiation ?c .
+}
+=>
+{
+  ?t :answer [ a :Side; :which "c"; :value ?c ] ;
+     :why    [ :a2 ?a2; :b2 ?b2; :cosAngle ?cosC; :rhs ?c2 ] ;
+     :status "solve-c" .
+} .
+
+############################################################
+# Solve side a from b, c, A
+############################################################
+{
+  ?t a :Triangle; :b ?b; :c ?c; :A ?A .
+  (?b 2) math:exponentiation ?b2 .
+  (?c 2) math:exponentiation ?c2 .
+  ?A math:cos ?cosA .
+
+  (?b2 ?c2) math:sum ?s .
+  (2 ?b)     math:product ?tw_b .
+  (?tw_b ?c) math:product ?tw_bc .
+  (?tw_bc ?cosA) math:product ?twbccos .
+
+  (?s ?twbccos) math:difference ?a2 .
+  ?a2 math:notLessThan 0 .
+  (?a2 0.5) math:exponentiation ?a .
+}
+=>
+{
+  ?t :answer [ a :Side; :which "a"; :value ?a ] ;
+     :why    [ :b2 ?b2; :c2 ?c2; :cosAngle ?cosA; :rhs ?a2 ] ;
+     :status "solve-a" .
+} .
+
+############################################################
+# Solve side b from c, a, B
+############################################################
+{
+  ?t a :Triangle; :c ?c; :a ?a; :B ?B .
+  (?c 2) math:exponentiation ?c2 .
+  (?a 2) math:exponentiation ?a2 .
+  ?B math:cos ?cosB .
+
+  (?c2 ?a2) math:sum ?s .
+  (2 ?c)     math:product ?tw_c .
+  (?tw_c ?a) math:product ?tw_ca .
+  (?tw_ca ?cosB) math:product ?twcacos .
+
+  (?s ?twcacos) math:difference ?b2 .
+  ?b2 math:notLessThan 0 .
+  (?b2 0.5) math:exponentiation ?b .
+}
+=>
+{
+  ?t :answer [ a :Side; :which "b"; :value ?b ] ;
+     :why    [ :c2 ?c2; :a2 ?a2; :cosAngle ?cosB; :rhs ?b2 ] ;
+     :status "solve-b" .
+} .
+
+############################################################
+# Checks — plug back the Law of Cosines for each solved side
+############################################################
+
+# Check for side c answers
+{
+  ?t a :Triangle; :a ?a; :b ?b; :C ?C; :answer ?ans .
+  ?ans a :Side; :which "c"; :value ?c .
+
+  (?a 2) math:exponentiation ?a2 .
+  (?b 2) math:exponentiation ?b2 .
+  (?c 2) math:exponentiation ?c2 .
+  ?C math:cos ?cosC .
+
+  (?a2 ?b2) math:sum ?lhs0 .
+  (2 ?a) math:product ?tw_a .
+  (?tw_a ?b) math:product ?tw_ab .
+  (?tw_ab ?cosC) math:product ?twabcos .
+
+  (?lhs0 ?twabcos) math:difference ?lhs .
+  (?lhs ?c2) math:difference ?d .
+  ?d math:absoluteValue ?abs .
+  :eps :val ?eps .
+  ?abs math:notGreaterThan ?eps .
+}
+=>
+{
+  ?t :check [ a :Check; :kind "plug-in/c"; :residual ?abs; :ok true ] .
+} .
+
+# Check for side a answers
+{
+  ?t a :Triangle; :b ?b; :c ?c; :A ?A; :answer ?ans .
+  ?ans a :Side; :which "a"; :value ?a .
+
+  (?b 2) math:exponentiation ?b2 .
+  (?c 2) math:exponentiation ?c2 .
+  (?a 2) math:exponentiation ?a2 .
+  ?A math:cos ?cosA .
+
+  (?b2 ?c2) math:sum ?lhs0 .
+  (2 ?b) math:product ?tw_b .
+  (?tw_b ?c) math:product ?tw_bc .
+  (?tw_bc ?cosA) math:product ?twbccos .
+
+  (?lhs0 ?twbccos) math:difference ?lhs .
+  (?lhs ?a2) math:difference ?d .
+  ?d math:absoluteValue ?abs .
+  :eps :val ?eps .
+  ?abs math:notGreaterThan ?eps .
+}
+=>
+{
+  ?t :check [ a :Check; :kind "plug-in/a"; :residual ?abs; :ok true ] .
+} .
+
+# Check for side b answers
+{
+  ?t a :Triangle; :c ?c; :a ?a; :B ?B; :answer ?ans .
+  ?ans a :Side; :which "b"; :value ?b .
+
+  (?c 2) math:exponentiation ?c2 .
+  (?a 2) math:exponentiation ?a2 .
+  (?b 2) math:exponentiation ?b2 .
+  ?B math:cos ?cosB .
+
+  (?c2 ?a2) math:sum ?lhs0 .
+  (2 ?c) math:product ?tw_c .
+  (?tw_c ?a) math:product ?tw_ca .
+  (?tw_ca ?cosB) math:product ?twcacos .
+
+  (?lhs0 ?twcacos) math:difference ?lhs .
+  (?lhs ?b2) math:difference ?d .
+  ?d math:absoluteValue ?abs .
+  :eps :val ?eps .
+  ?abs math:notGreaterThan ?eps .
+}
+=>
+{
+  ?t :check [ a :Check; :kind "plug-in/b"; :residual ?abs; :ok true ] .
+} .
+
+############################################################
+# ----------------------- HARNESS -------------------------
+# Angles are in radians.
+############################################################
+
+# H1: Right triangle (3,4,?) with C = pi/2 → c = 5
+:T1 a :Triangle; :a 3; :b 4; :C 1.5707963267948966 .
+
+# H2: a=5, b=7, C = pi/3 → c = sqrt(39) ≈ 6.244997998
+:T2 a :Triangle; :a 5; :b 7; :C 1.0471975511965976 .
+
+# H3: Solve a from b=5, c=6, A = pi/3 → a = sqrt(31)
+:T3 a :Triangle; :b 5; :c 6; :A 1.0471975511965976 .
+
+# H4: Solve b from a=2, c=3, B = pi/6
+:T4 a :Triangle; :a 2; :c 3; :B 0.5235987755982988 .
+
+# H5: a=8, b=15, C = 75° = 1.3089969389957472 → c ≈ 15.06438
+:T5 a :Triangle; :a 8; :b 15; :C 1.3089969389957472 .
+
+# H6: Right angle at A, b=5, c=12 → a=13
+:T6 a :Triangle; :b 5; :c 12; :A 1.5707963267948966 .
+

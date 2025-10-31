@@ -1,0 +1,23 @@
+--------------
+Law of cosines
+--------------
+
+For any triangle with sides a, b, c opposite angles A, B, C (angles measured
+in radians for computation), one has
+
+    c^2 = a^2 + b^2 − 2ab·cos(C) (and cyclic permutations for a and b).
+
+Thus, given two sides and the included angle you can solve the third side, e.g.,
+
+    c = sqrt(a^2 + b^2 − 2ab·cos(C));
+
+conversely, given all three sides you can recover the included angle, e.g.,
+
+    C = arccos((a^2 + b^2 − c^2)/(2ab)).
+
+When C = π/2 the cosine term vanishes and the formula reduces to the Pythagorean theorem
+
+    a^2 + b^2 = c^2;
+
+validity requires the triangle inequalities and 0 < A, B, C < π, with equality cases
+corresponding to degenerate (collinear) triangles.
