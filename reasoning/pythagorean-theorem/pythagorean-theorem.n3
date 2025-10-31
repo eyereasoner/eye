@@ -1,0 +1,192 @@
+@prefix :     <http://example.org/pyth#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+############################################################
+# P3: Prompt → Program → Proof (Answer, Reason, Check)
+# Right triangle: a^2 + b^2 = c^2  (c is hypotenuse)
+############################################################
+
+# --- Vocabulary ---
+:RightTriangle a rdfs:Class .
+:Hypotenuse    a rdfs:Class .
+:Leg           a rdfs:Class .
+:Check         a rdfs:Class .
+
+# Triangle data
+:a a rdf:Property .
+:b a rdf:Property .
+:c a rdf:Property .
+:answer a rdf:Property .
+:why a rdf:Property .
+:check a rdf:Property .
+:status a rdf:Property .
+
+# Reason data
+:a2 a rdf:Property .
+:b2 a rdf:Property .
+:c2 a rdf:Property .
+:sumSquares a rdf:Property .
+:diffSquares a rdf:Property .
+:value a rdf:Property .
+:which a rdf:Property .      # "a" or "b"
+
+# Check data
+:kind a rdf:Property .
+:ok a rdf:Property .
+:residual a rdf:Property .
+
+# Tolerance
+:val a rdf:Property .
+:eps :val 0.000000001 .  # 1e-9
+
+############################################################
+# Solve hypotenuse:  c = sqrt(a^2 + b^2)
+############################################################
+{
+  ?t a :RightTriangle; :a ?a; :b ?b .
+  (?a 2)  math:exponentiation ?a2 .
+  (?b 2)  math:exponentiation ?b2 .
+  (?a2 ?b2) math:sum         ?sum .
+  (?sum 0.5) math:exponentiation ?c .
+}
+=>
+{
+  ?t :answer [ a :Hypotenuse; :value ?c ] ;
+     :why    [ :a2 ?a2; :b2 ?b2; :sumSquares ?sum ] ;
+     :status "solve-c" .
+} .
+
+############################################################
+# Solve missing leg a:  a = sqrt(c^2 - b^2)
+############################################################
+{
+  ?t a :RightTriangle; :c ?c; :b ?b .
+  (?c 2)  math:exponentiation ?c2 .
+  (?b 2)  math:exponentiation ?b2 .
+  (?c2 ?b2) math:difference  ?diff .
+  (?diff 0.5) math:exponentiation ?a .
+}
+=>
+{
+  ?t :answer [ a :Leg; :which "a"; :value ?a ] ;
+     :why    [ :c2 ?c2; :b2 ?b2; :diffSquares ?diff ] ;
+     :status "solve-a" .
+} .
+
+############################################################
+# Solve missing leg b:  b = sqrt(c^2 - a^2)
+############################################################
+{
+  ?t a :RightTriangle; :c ?c; :a ?a .
+  (?c 2)  math:exponentiation ?c2 .
+  (?a 2)  math:exponentiation ?a2 .
+  (?c2 ?a2) math:difference  ?diff .
+  (?diff 0.5) math:exponentiation ?b .
+}
+=>
+{
+  ?t :answer [ a :Leg; :which "b"; :value ?b ] ;
+     :why    [ :c2 ?c2; :a2 ?a2; :diffSquares ?diff ] ;
+     :status "solve-b" .
+} .
+
+############################################################
+# Checks – plug back a^2 + b^2 ≈ c^2 (within eps)
+############################################################
+
+# Check for hypotenuse answers
+{
+  ?t a :RightTriangle; :a ?a; :b ?b; :answer ?ans .
+  ?ans a :Hypotenuse; :value ?c .
+  (?a 2) math:exponentiation ?a2 .
+  (?b 2) math:exponentiation ?b2 .
+  (?c 2) math:exponentiation ?c2 .
+  (?a2 ?b2) math:sum ?lhs .
+  (?lhs ?c2) math:difference ?d .
+  ?d math:absoluteValue ?abs .
+  :eps :val ?eps .
+  ?abs math:notGreaterThan ?eps .
+}
+=>
+{
+  ?t :check [
+    a :Check ;
+    :kind "plug-in/hypotenuse" ;
+    :residual ?abs ;
+    :ok true
+  ] .
+} .
+
+# Check for leg-a answers (uses b and c from the triangle plus computed a)
+{
+  ?t a :RightTriangle; :b ?b; :c ?c; :answer ?ans .
+  ?ans a :Leg; :which "a"; :value ?a .
+  (?a 2) math:exponentiation ?a2 .
+  (?b 2) math:exponentiation ?b2 .
+  (?c 2) math:exponentiation ?c2 .
+  (?a2 ?b2) math:sum ?lhs .
+  (?lhs ?c2) math:difference ?d .
+  ?d math:absoluteValue ?abs .
+  :eps :val ?eps .
+  ?abs math:notGreaterThan ?eps .
+}
+=>
+{
+  ?t :check [
+    a :Check ;
+    :kind "plug-in/leg-a" ;
+    :residual ?abs ;
+    :ok true
+  ] .
+} .
+
+# Check for leg-b answers (uses a and c from the triangle plus computed b)
+{
+  ?t a :RightTriangle; :a ?a; :c ?c; :answer ?ans .
+  ?ans a :Leg; :which "b"; :value ?b .
+  (?a 2) math:exponentiation ?a2 .
+  (?b 2) math:exponentiation ?b2 .
+  (?c 2) math:exponentiation ?c2 .
+  (?a2 ?b2) math:sum ?lhs .
+  (?lhs ?c2) math:difference ?d .
+  ?d math:absoluteValue ?abs .
+  :eps :val ?eps .
+  ?abs math:notGreaterThan ?eps .
+}
+=>
+{
+  ?t :check [
+    a :Check ;
+    :kind "plug-in/leg-b" ;
+    :residual ?abs ;
+    :ok true
+  ] .
+} .
+
+############################################################
+# ----------------------- HARNESS -------------------------
+# ≥6 cases (generates ≥6 independent Checks)
+############################################################
+
+# H1: Solve c — classic 3-4-5
+:T1 a :RightTriangle; :a 3; :b 4 .
+
+# H2: Solve c — 5-12-13
+:T2 a :RightTriangle; :a 5; :b 12 .
+
+# H3: Solve c — 8-15-17
+:T3 a :RightTriangle; :a 8; :b 15 .
+
+# H4: Solve b — given c=13 and a=5, expect b=12
+:T4 a :RightTriangle; :c 13; :a 5 .
+
+# H5: Solve a — given c=10 and b=6, expect a=8
+:T5 a :RightTriangle; :c 10; :b 6 .
+
+# H6: Solve c — decimal friendly (2.5, 6) → c=6.5
+:T6 a :RightTriangle; :a 2.5; :b 6 .
+
