@@ -1,0 +1,325 @@
+@prefix :     <http://example.org/tbl-thisisforeveryone#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+
+############################################################
+# P3: Prompt → Program → Proof (Answer, Reason, Check)
+# Case: Multi-source analysis for Tim Berners-Lee’s
+#       “This Is for Everyone: The Unfinished Story of the WWW”
+############################################################
+
+# -------- Vocabulary --------
+:Book       a rdfs:Class .
+:Source     a rdfs:Class .
+:Claim      a rdfs:Class .
+:Support    a rdfs:Class .
+:Analysis   a rdfs:Class .
+:Check      a rdfs:Class .
+
+# Metadata & linkage (declare everything explicitly for EYE)
+:title      a rdf:Property .
+:author     a rdf:Property .
+:pubYear    a rdf:Property .
+:outlet     a rdf:Property .
+:year       a rdf:Property .
+:idx        a rdf:Property .
+:url        a rdf:Property .
+:about      a rdf:Property .
+
+:book       a rdf:Property .
+:from       a rdf:Property .
+:kind       a rdf:Property .
+:value      a rdf:Property .
+
+:analysis   a rdf:Property .
+:why        a rdf:Property .
+:check      a rdf:Property .
+:status     a rdf:Property .
+:ok         a rdf:Property .
+
+# Adopted facet properties (attach to the single Analysis node)
+:thesis     a rdf:Property .   # memoir + call to action to redeem the web
+:theme      a rdf:Property .   # memoir + manifesto blend
+:stance     a rdf:Property .   # critiques platform dominance / data exploitation
+:proposal   a rdf:Property .   # Solid pods for personal data control
+:highlight  a rdf:Property .   # gave the web away for free (public domain)
+:recognition a rdf:Property .  # Sunday Times bestseller
+:edition    a rdf:Property .   # UK 2025 (Macmillan) / US 2025 (FSG)
+
+############################################################
+# Create exactly ONE Analysis node per Book
+############################################################
+{
+  ?B a :Book .
+  ?SCOPE log:notIncludes { ?B :analysis ?A . }
+}
+=>
+{
+  _:A a :Analysis .
+  ?B  :analysis _:A ;
+      :status   "analysis-node-created" .
+} .
+
+############################################################
+# SUPPORT: (kind,value) is supported when ≥2 distinct sources concur
+############################################################
+{
+  ?B a :Book .
+  ?C1 a :Claim; :book ?B; :kind ?K; :value ?V; :from ?S1 .
+  ?C2 a :Claim; :book ?B; :kind ?K; :value ?V; :from ?S2 .
+  ?S1 :idx ?i1 .
+  ?S2 :idx ?i2 .
+  ?i1 math:notEqualTo ?i2 .
+}
+=>
+{
+  _:sup a :Support; :book ?B; :kind ?K; :value ?V; :from ?S1, ?S2 .
+} .
+
+############################################################
+# ANSWER assembly (deduplicated): attach facets to the unique node
+############################################################
+
+# Thesis
+{
+  ?Sp a :Support; :book ?B; :kind "thesis"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :thesis ?V .
+  ?B :why ?Sp ;
+     :status "analysis-built" .
+} .
+
+# Theme
+{
+  ?Sp a :Support; :book ?B; :kind "theme"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :theme ?V .
+  ?B :why ?Sp .
+} .
+
+# Stance
+{
+  ?Sp a :Support; :book ?B; :kind "stance"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :stance ?V .
+  ?B :why ?Sp .
+} .
+
+# Proposal
+{
+  ?Sp a :Support; :book ?B; :kind "proposal"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :proposal ?V .
+  ?B :why ?Sp .
+} .
+
+# Highlight
+{
+  ?Sp a :Support; :book ?B; :kind "highlight"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :highlight ?V .
+  ?B :why ?Sp .
+} .
+
+# Recognition
+{
+  ?Sp a :Support; :book ?B; :kind "recognition"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :recognition ?V .
+  ?B :why ?Sp .
+} .
+
+# Edition
+{
+  ?Sp a :Support; :book ?B; :kind "edition"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :edition ?V .
+  ?B :why ?Sp .
+} .
+
+############################################################
+# CHECKS — 9 independent verifications
+############################################################
+
+# C1: Thesis has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :thesis ?V .
+  ?Sp a :Support; :book ?B; :kind "thesis"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "thesis-supported-by-two"; :ok true ] . } .
+
+# C2: Theme has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :theme ?V .
+  ?Sp a :Support; :book ?B; :kind "theme"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "theme-supported-by-two"; :ok true ] . } .
+
+# C3: Stance has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :stance ?V .
+  ?Sp a :Support; :book ?B; :kind "stance"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "stance-supported-by-two"; :ok true ] . } .
+
+# C4: Proposal has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :proposal ?V .
+  ?Sp a :Support; :book ?B; :kind "proposal"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "proposal-supported-by-two"; :ok true ] . } .
+
+# C5: Highlight has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :highlight ?V .
+  ?Sp a :Support; :book ?B; :kind "highlight"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "highlight-supported-by-two"; :ok true ] . } .
+
+# C6: Recognition has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :recognition ?V .
+  ?Sp a :Support; :book ?B; :kind "recognition"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "recognition-supported-by-two"; :ok true ] . } .
+
+# C7: Edition has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :edition ?V .
+  ?Sp a :Support; :book ?B; :kind "edition"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "edition-supported-by-two"; :ok true ] . } .
+
+# C8: Each Support node really references two distinct sources
+{
+  ?Sp a :Support; :book ?B; :from ?S1, ?S2 .
+  ?S1 :idx ?i1 .
+  ?S2 :idx ?i2 .
+  ?i1 math:notEqualTo ?i2 .
+}
+=>
+{ ?B :check [ a :Check; :kind "support-has-two-distinct-sources"; :ok true ] . } .
+
+# C9: All sources about this book are on/after publication year
+{
+  ?B a :Book; :pubYear ?py .
+  ?S a :Source; :about ?B; :year ?y .
+  ?y math:notLessThan ?py .
+}
+=>
+{ ?B :check [ a :Check; :kind "post-publication-sources"; :ok true ] . } .
+
+############################################################
+# ----------------------- HARNESS -------------------------
+# Book node + real sources + claims (≥2 per adopted facet)
+############################################################
+
+# The book
+:B1 a :Book;
+    :title  "This Is for Everyone: The Unfinished Story of the World Wide Web";
+    :author "Tim Berners-Lee";
+    :pubYear 2025 .
+
+# Sources (distinct idx; all explicitly :about :B1)
+# S1 — US publisher page (FSG / Macmillan)
+:S1 a :Source; :about :B1;
+    :outlet "Farrar, Straus and Giroux (Macmillan US)";
+    :year 2025; :idx 1;
+    :title "This Is for Everyone — US publisher page";
+    :url "https://us.macmillan.com/books/9780374612467/thisisforeveryone/" .
+
+# S2 — UK publisher page (Pan Macmillan)
+:S2 a :Source; :about :B1;
+    :outlet "Pan Macmillan (UK)";
+    :year 2025; :idx 2;
+    :title "This Is for Everyone — UK publisher page";
+    :url "https://www.panmacmillan.com/authors/tim-berners-lee/this-is-for-everyone/9781035023677" .
+
+# S3 — Financial Times review (manifesto + Solid pods)
+:S3 a :Source; :about :B1;
+    :outlet "Financial Times";
+    :year 2025; :idx 3;
+    :title "This is for Everyone — manifesto for a better online world";
+    :url "https://www.ft.com/content/13e4fad3-9fa1-4534-b84e-aafed97ae073" .
+
+# S4 — The Guardian essay (freeing the web; Solid; critique)
+:S4 a :Source; :about :B1;
+    :outlet "The Guardian";
+    :year 2025; :idx 4;
+    :title "Why I gave the world wide web away for free";
+    :url "https://www.theguardian.com/technology/2025/sep/28/why-i-gave-the-world-wide-web-away-for-free" .
+
+# S5 — Barnes & Noble (metadata; bestseller flag)
+:S5 a :Source; :about :B1;
+    :outlet "Barnes & Noble";
+    :year 2025; :idx 5;
+    :title "This Is for Everyone — product page";
+    :url "https://www.barnesandnoble.com/w/this-is-for-everyone-tim-berners-lee/1146657388" .
+
+# ---------------- Claims (kind, value) ----------------
+
+# Thesis: memoir + call to action to redeem the web
+:Ct1 a :Claim; :book :B1; :kind "thesis"; :value "memoir-plus-call-to-action-to-redeem-web"; :from :S1 .
+:Ct2 a :Claim; :book :B1; :kind "thesis"; :value "memoir-plus-call-to-action-to-redeem-web"; :from :S2 .
+
+# Theme: blend of memoir and manifesto
+:Cth1 a :Claim; :book :B1; :kind "theme"; :value "memoir-plus-manifesto"; :from :S2 .
+:Cth2 a :Claim; :book :B1; :kind "theme"; :value "memoir-plus-manifesto"; :from :S3 .
+
+# Stance: critiques platform dominance and data exploitation
+:Cs1 a :Claim; :book :B1; :kind "stance"; :value "critiques-platform-dominance-and-data-exploitation"; :from :S2 .
+:Cs2 a :Claim; :book :B1; :kind "stance"; :value "critiques-platform-dominance-and-data-exploitation"; :from :S3 .
+
+# Proposal: Solid pods for personal data control
+:Cp1 a :Claim; :book :B1; :kind "proposal"; :value "solid-personal-data-pods"; :from :S3 .
+:Cp2 a :Claim; :book :B1; :kind "proposal"; :value "solid-personal-data-pods"; :from :S4 .
+
+# Highlight: gave the web away for free (public domain / no commercial reward)
+:Ch1 a :Claim; :book :B1; :kind "highlight"; :value "gave-web-away-for-free"; :from :S4 .
+:Ch2 a :Claim; :book :B1; :kind "highlight"; :value "gave-web-away-for-free"; :from :S1 .
+
+# Recognition: Sunday Times bestseller
+:Cr1 a :Claim; :book :B1; :kind "recognition"; :value "sunday-times-bestseller"; :from :S2 .
+:Cr2 a :Claim; :book :B1; :kind "recognition"; :value "sunday-times-bestseller"; :from :S1 .
+
+# Edition: UK 2025 (Macmillan) / US 2025 (FSG)
+:Ce1 a :Claim; :book :B1; :kind "edition"; :value "UK-2025-Macmillan_US-2025-FSG"; :from :S2 .
+:Ce2 a :Claim; :book :B1; :kind "edition"; :value "UK-2025-Macmillan_US-2025-FSG"; :from :S1 .
+
