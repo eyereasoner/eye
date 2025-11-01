@@ -1,0 +1,323 @@
+@prefix :     <http://example.org/heisenberg-roit#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+
+############################################################
+# P3: Prompt → Program → Proof (Answer, Reason, Check)
+# Case: Multi-source analysis for Werner Heisenberg’s
+#       “Reality and Its Order” (English ed., Springer 2019)
+############################################################
+
+# -------- Vocabulary --------
+:Book       a rdfs:Class .
+:Source     a rdfs:Class .
+:Claim      a rdfs:Class .
+:Support    a rdfs:Class .
+:Analysis   a rdfs:Class .
+:Check      a rdfs:Class .
+
+# Metadata & linkage (declare each explicitly for EYE)
+:title       a rdf:Property .
+:author      a rdf:Property .
+:pubYear     a rdf:Property .
+:outlet      a rdf:Property .
+:year        a rdf:Property .
+:idx         a rdf:Property .
+:url         a rdf:Property .
+:about       a rdf:Property .
+
+:book        a rdf:Property .
+:from        a rdf:Property .
+:kind        a rdf:Property .
+:value       a rdf:Property .
+
+:analysis    a rdf:Property .
+:why         a rdf:Property .
+:check       a rdf:Property .
+:status      a rdf:Property .
+:ok          a rdf:Property .
+
+# Adopted facet properties
+:thesis      a rdf:Property .   # philosophical program / order of reality
+:origin      a rdf:Property .   # written 1941–42; privately circulated
+:editors     a rdf:Property .   # Rechenberg intro; Fischer commentary
+:translators a rdf:Property .   # Rumscheidt, Lukens, Irene Heisenberg
+:theme       a rdf:Property .   # grand synthesis across sciences/humanities
+:influence   a rdf:Property .   # Goethean ordering motif
+:edition     a rdf:Property .   # English translation, Springer 2019
+
+############################################################
+# Create exactly ONE Analysis node per Book
+############################################################
+{
+  ?B a :Book .
+  ?SCOPE log:notIncludes { ?B :analysis ?A . }
+}
+=>
+{
+  _:A a :Analysis .
+  ?B  :analysis _:A ;
+      :status   "analysis-node-created" .
+} .
+
+############################################################
+# SUPPORT: (kind,value) is supported when ≥2 distinct sources concur
+############################################################
+{
+  ?B a :Book .
+  ?C1 a :Claim; :book ?B; :kind ?K; :value ?V; :from ?S1 .
+  ?C2 a :Claim; :book ?B; :kind ?K; :value ?V; :from ?S2 .
+  ?S1 :idx ?i1 .
+  ?S2 :idx ?i2 .
+  ?i1 math:notEqualTo ?i2 .
+}
+=>
+{
+  _:sup a :Support; :book ?B; :kind ?K; :value ?V; :from ?S1, ?S2 .
+} .
+
+############################################################
+# ANSWER assembly (deduplicated): attach facets to the unique node
+############################################################
+
+# Thesis
+{
+  ?Sp a :Support; :book ?B; :kind "thesis"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :thesis ?V .
+  ?B :why ?Sp ;
+     :status "analysis-built" .
+} .
+
+# Origin (composition & circulation history)
+{
+  ?Sp a :Support; :book ?B; :kind "origin"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :origin ?V .
+  ?B :why ?Sp .
+} .
+
+# Editors (intro + commentary)
+{
+  ?Sp a :Support; :book ?B; :kind "editors"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :editors ?V .
+  ?B :why ?Sp .
+} .
+
+# Translators
+{
+  ?Sp a :Support; :book ?B; :kind "translators"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :translators ?V .
+  ?B :why ?Sp .
+} .
+
+# Theme (scope across sciences/humanities/philosophy/religion)
+{
+  ?Sp a :Support; :book ?B; :kind "theme"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :theme ?V .
+  ?B :why ?Sp .
+} .
+
+# Influence (Goethean ordering)
+{
+  ?Sp a :Support; :book ?B; :kind "influence"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :influence ?V .
+  ?B :why ?Sp .
+} .
+
+# Edition (English translation / publisher-year)
+{
+  ?Sp a :Support; :book ?B; :kind "edition"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :edition ?V .
+  ?B :why ?Sp .
+} .
+
+############################################################
+# CHECKS — 8 independent verifications
+############################################################
+
+# C1: Thesis has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :thesis ?V .
+  ?Sp a :Support; :book ?B; :kind "thesis"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "thesis-supported-by-two"; :ok true ] . } .
+
+# C2: Origin facet has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :origin ?V .
+  ?Sp a :Support; :book ?B; :kind "origin"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "origin-supported-by-two"; :ok true ] . } .
+
+# C3: Editors facet has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :editors ?V .
+  ?Sp a :Support; :book ?B; :kind "editors"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "editors-supported-by-two"; :ok true ] . } .
+
+# C4: Translators facet has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :translators ?V .
+  ?Sp a :Support; :book ?B; :kind "translators"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "translators-supported-by-two"; :ok true ] . } .
+
+# C5: Theme facet has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :theme ?V .
+  ?Sp a :Support; :book ?B; :kind "theme"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "theme-supported-by-two"; :ok true ] . } .
+
+# C6: Influence facet has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :influence ?V .
+  ?Sp a :Support; :book ?B; :kind "influence"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "influence-supported-by-two"; :ok true ] . } .
+
+# C7: Edition facet has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :edition ?V .
+  ?Sp a :Support; :book ?B; :kind "edition"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "edition-supported-by-two"; :ok true ] . } .
+
+# C8: All sources about this book are on/after publication year
+{
+  ?B a :Book; :pubYear ?py .
+  ?S a :Source; :about ?B; :year ?y .
+  ?y math:notLessThan ?py .
+}
+=>
+{ ?B :check [ a :Check; :kind "post-publication-sources"; :ok true ] . } .
+
+############################################################
+# ----------------------- HARNESS -------------------------
+# Book node + real sources + claims (≥2 per adopted facet)
+############################################################
+
+# The book
+:B1 a :Book;
+    :title  "Reality and Its Order";
+    :author "Werner Heisenberg";
+    :pubYear 2019 .
+
+# Sources (distinct idx; all explicitly :about :B1)
+
+# S1 — Springer book page (About/ToC; translators; intro/commentary; blurb)
+:S1 a :Source; :about :B1;
+    :outlet "SpringerLink"; :year 2019; :idx 1;
+    :title "Reality and Its Order — book page";
+    :url "https://link.springer.com/book/10.1007/978-3-030-25696-8" .
+
+# S2 — Springer Introduction chapter page (notes Goethe influence; 2019)
+:S2 a :Source; :about :B1;
+    :outlet "SpringerLink"; :year 2019; :idx 2;
+    :title "Introduction (Helmut Rechenberg)";
+    :url "https://link.springer.com/chapter/10.1007/978-3-030-25696-8_1" .
+
+# S3 — e-Bookshelf PDF (essay history; wartime 1941/42; private circulation)
+:S3 a :Source; :about :B1;
+    :outlet "e-Bookshelf"; :year 2019; :idx 3;
+    :title "Reality and Its Order — sample PDF";
+    :url "https://content.e-bookshelf.de/media/reading/L-12791432-518e361368.pdf" .
+
+# S4 — Cambridge/Philosophy of Science book review (details; Goethe motif)
+:S4 a :Source; :about :B1;
+    :outlet "Philosophy of Science (Cambridge Core)"; :year 2023; :idx 4;
+    :title "Review of Konrad Kleinknecht’s Werner Heisenberg: Reality and Its Order";
+    :url "https://www.cambridge.org/core/journals/philosophy-of-science/article/0C9AC6F396502302FB501A1DE763F381" .
+
+# S5 — Google Books entry (blurb; scope across sciences/humanities; pub data)
+:S5 a :Source; :about :B1;
+    :outlet "Google Books"; :year 2019; :idx 5;
+    :title "Reality and Its Order — Google Books";
+    :url "https://books.google.com/books?id=AxjBDwAAQBAJ" .
+
+# S6 — Standaard Boekhandel product page (translator names; metadata)
+:S6 a :Source; :about :B1;
+    :outlet "Standaard Boekhandel"; :year 2019; :idx 6;
+    :title "Reality and Its Order — product page";
+    :url "https://www.standaardboekhandel.be/p/reality-and-its-order-9783030256982" .
+
+# S7 — PhilPapers entry (blurb/metadata; 2019)
+:S7 a :Source; :about :B1;
+    :outlet "PhilPapers"; :year 2019; :idx 7;
+    :title "Werner Heisenberg — Reality and Its Order";
+    :url "https://philpapers.org/rec/HEIRAI-4" .
+
+# ---------------- Claims (kind, value) ----------------
+
+# Thesis: a philosophical text articulating an “order of reality”
+:Ct1 a :Claim; :book :B1; :kind "thesis"; :value "philosophical-order-of-reality"; :from :S1 .
+:Ct2 a :Claim; :book :B1; :kind "thesis"; :value "philosophical-order-of-reality"; :from :S7 .
+
+# Origin: written during 1941/42; privately circulated among family/friends
+:Co1 a :Claim; :book :B1; :kind "origin"; :value "written-1941-42-privately-circulated"; :from :S1 .
+:Co2 a :Claim; :book :B1; :kind "origin"; :value "written-1941-42-privately-circulated"; :from :S3 .
+
+# Editors: introduction by Helmut Rechenberg; commentary by Ernst Peter Fischer
+:Ce1 a :Claim; :book :B1; :kind "editors"; :value "intro-rechenberg-commentary-fischer"; :from :S1 .
+:Ce2 a :Claim; :book :B1; :kind "editors"; :value "intro-rechenberg-commentary-fischer"; :from :S2 .
+
+# Translators: Martin B. Rumscheidt, Nancy Lukens, Irene Heisenberg
+:Ctln1 a :Claim; :book :B1; :kind "translators"; :value "rumscheidt-lukens-irene-heisenberg"; :from :S1 .
+:Ctln2 a :Claim; :book :B1; :kind "translators"; :value "rumscheidt-lukens-irene-heisenberg"; :from :S6 .
+
+# Theme: grand synthesis across sciences/humanities; addresses philosophy & religion
+:Cth1 a :Claim; :book :B1; :kind "theme"; :value "grand-synthesis-science-humanities-religion"; :from :S1 .
+:Cth2 a :Claim; :book :B1; :kind "theme"; :value "grand-synthesis-science-humanities-religion"; :from :S5 .
+
+# Influence: adopts Goethe’s “order of reality” framework
+:Cinf1 a :Claim; :book :B1; :kind "influence"; :value "goethe-ordering"; :from :S4 .
+:Cinf2 a :Claim; :book :B1; :kind "influence"; :value "goethe-ordering"; :from :S2 .
+
+# Edition: first English translation (Springer, 2019)
+:Cd1 a :Claim; :book :B1; :kind "edition"; :value "english-translation-springer-2019"; :from :S1 .
+:Cd2 a :Claim; :book :B1; :kind "edition"; :value "english-translation-springer-2019"; :from :S5 .
+
