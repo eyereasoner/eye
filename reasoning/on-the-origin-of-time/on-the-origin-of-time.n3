@@ -6,49 +6,64 @@
 
 ############################################################
 # P3: Prompt → Program → Proof (Answer, Reason, Check)
-# Case: Book analysis built from real, dated sources
-# Book: "On the Origin of Time" — Thomas Hertog
+# Case: Multi-source analysis for Thomas Hertog's
+#       "On the Origin of Time" (2023)
 ############################################################
 
-# --- Vocabulary ---
-:Book     a rdfs:Class .
-:Source   a rdfs:Class .
-:Claim    a rdfs:Class .
-:Support  a rdfs:Class .
-:Analysis a rdfs:Class .
-:Check    a rdfs:Class .
+# -------- Vocabulary --------
+:Book      a rdfs:Class .
+:Source    a rdfs:Class .
+:Claim     a rdfs:Class .
+:Support   a rdfs:Class .
+:Analysis  a rdfs:Class .
+:Check     a rdfs:Class .
 
-# Book/source metadata
-:title a rdf:Property .
-:author a rdf:Property .
-:pubYear a rdf:Property .
-:outlet a rdf:Property .
-:year a rdf:Property .
-:idx a rdf:Property .
-:url a rdf:Property .
+# Metadata & linkage
+:title     a rdf:Property .
+:author    a rdf:Property .
+:pubYear   a rdf:Property .
+:outlet    a rdf:Property .
+:year      a rdf:Property .
+:idx       a rdf:Property .
+:url       a rdf:Property .
+:about     a rdf:Property .
 
-# Linkage + facets
-:book a rdf:Property .
-:from a rdf:Property .
-:kind a rdf:Property .
-:value a rdf:Property .
-:analysis a rdf:Property .
-:why a rdf:Property .
-:check a rdf:Property .
-:status a rdf:Property .
-:ok a rdf:Property .
+:book      a rdf:Property .
+:from      a rdf:Property .
+:kind      a rdf:Property .
+:value     a rdf:Property .
+
+:analysis  a rdf:Property .
+:why       a rdf:Property .
+:check     a rdf:Property .
+:status    a rdf:Property .
+:ok        a rdf:Property .
 
 # Adopted facet properties
-:thesis a rdf:Property .       # e.g., laws co-evolve with the universe
-:darwinian a rdf:Property .    # explicitly described as "Darwinian"
-:method a rdf:Property .       # e.g., holography, top-down cosmology
-:stance a rdf:Property .       # e.g., challenges/limits multiverse
-:theme a rdf:Property .        # memoir + science
-:highlight a rdf:Property .    # Hawking changed his mind
-:test a rdf:Property .         # testable prediction facet
+:thesis     a rdf:Property .   # laws & time co-emerge
+:darwinian  a rdf:Property .   # Darwinian framing
+:method     a rdf:Property .   # holography, top-down
+:stance     a rdf:Property .   # challenges multiverse
+:theme      a rdf:Property .   # memoir + science
+:highlight  a rdf:Property .   # Hawking revised his view
+:test       a rdf:Property .   # testability via primordial GWs
 
 ############################################################
-# SUPPORT rule: a (kind,value) is supported if ≥2 distinct sources concur
+# Create exactly ONE Analysis node per Book
+############################################################
+{
+  ?B a :Book .
+  ?SCOPE log:notIncludes { ?B :analysis ?A . }
+}
+=>
+{
+  _:A a :Analysis .
+  ?B  :analysis _:A ;
+      :status   "analysis-node-created" .
+} .
+
+############################################################
+# SUPPORT: (kind,value) is supported when ≥2 distinct sources concur
 ############################################################
 {
   ?B a :Book .
@@ -64,100 +79,158 @@
 } .
 
 ############################################################
-# ANSWER assembly: adopt each supported facet into an Analysis
+# ANSWER assembly (deduplicated): attach facets to the unique node
 ############################################################
 
 # Thesis
-{ ?Sp a :Support; :book ?B; :kind "thesis"; :value ?V . }
+{
+  ?Sp a :Support; :book ?B; :kind "thesis"; :value ?V .
+  ?B  :analysis ?A .
+}
 =>
-{ ?B :analysis [ a :Analysis; :thesis ?V ]; :why ?Sp; :status "analysis-built" . } .
+{
+  ?A :thesis ?V .
+  ?B :why ?Sp ;
+     :status "analysis-built" .
+} .
 
 # Darwinian qualifier
-{ ?Sp a :Support; :book ?B; :kind "darwinian"; :value ?V . }
+{
+  ?Sp a :Support; :book ?B; :kind "darwinian"; :value ?V .
+  ?B  :analysis ?A .
+}
 =>
-{ ?B :analysis [ a :Analysis; :darwinian ?V ]; :why ?Sp . } .
+{
+  ?A :darwinian ?V .
+  ?B :why ?Sp .
+} .
 
 # Methods (multiple allowed)
-{ ?Sp a :Support; :book ?B; :kind "method"; :value ?V . }
+{
+  ?Sp a :Support; :book ?B; :kind "method"; :value ?V .
+  ?B  :analysis ?A .
+}
 =>
-{ ?B :analysis [ a :Analysis; :method ?V ]; :why ?Sp . } .
+{
+  ?A :method ?V .
+  ?B :why ?Sp .
+} .
 
-# Stance (e.g., challenges multiverse)
-{ ?Sp a :Support; :book ?B; :kind "stance"; :value ?V . }
+# Stance
+{
+  ?Sp a :Support; :book ?B; :kind "stance"; :value ?V .
+  ?B  :analysis ?A .
+}
 =>
-{ ?B :analysis [ a :Analysis; :stance ?V ]; :why ?Sp . } .
+{
+  ?A :stance ?V .
+  ?B :why ?Sp .
+} .
 
 # Theme
-{ ?Sp a :Support; :book ?B; :kind "theme"; :value ?V . }
+{
+  ?Sp a :Support; :book ?B; :kind "theme"; :value ?V .
+  ?B  :analysis ?A .
+}
 =>
-{ ?B :analysis [ a :Analysis; :theme ?V ]; :why ?Sp . } .
+{
+  ?A :theme ?V .
+  ?B :why ?Sp .
+} .
 
 # Highlight
-{ ?Sp a :Support; :book ?B; :kind "highlight"; :value ?V . }
+{
+  ?Sp a :Support; :book ?B; :kind "highlight"; :value ?V .
+  ?B  :analysis ?A .
+}
 =>
-{ ?B :analysis [ a :Analysis; :highlight ?V ]; :why ?Sp . } .
+{
+  ?A :highlight ?V .
+  ?B :why ?Sp .
+} .
 
 # Testability
-{ ?Sp a :Support; :book ?B; :kind "test"; :value ?V . }
+{
+  ?Sp a :Support; :book ?B; :kind "test"; :value ?V .
+  ?B  :analysis ?A .
+}
 =>
-{ ?B :analysis [ a :Analysis; :test ?V ]; :why ?Sp . } .
+{
+  ?A :test ?V .
+  ?B :why ?Sp .
+} .
 
 ############################################################
-# CHECKS — seven independent verifications
+# CHECKS — 8 independent verifications
 ############################################################
 
 # C1: Thesis has ≥2-source support
 {
-  ?B :analysis ?A . ?A :thesis ?V .
+  ?B :analysis ?A .
+  ?A :thesis ?V .
   ?Sp a :Support; :book ?B; :kind "thesis"; :value ?V .
 }
 =>
 { ?B :check [ a :Check; :kind "thesis-supported-by-two"; :ok true ] . } .
 
-# C2: Darwinian qualifier has ≥2-source support
+# C2: Darwinian facet has ≥2-source support
 {
-  ?B :analysis ?A . ?A :darwinian ?V .
+  ?B :analysis ?A .
+  ?A :darwinian ?V .
   ?Sp a :Support; :book ?B; :kind "darwinian"; :value ?V .
 }
 =>
 { ?B :check [ a :Check; :kind "darwinian-supported-by-two"; :ok true ] . } .
 
-# C3: Each adopted method has ≥2-source support
+# C3: Each adopted method facet has ≥2-source support
 {
-  ?B :analysis ?A . ?A :method ?V .
+  ?B :analysis ?A .
+  ?A :method ?V .
   ?Sp a :Support; :book ?B; :kind "method"; :value ?V .
 }
 =>
 { ?B :check [ a :Check; :kind "method-supported-by-two"; :ok true ] . } .
 
-# C4: Stance has ≥2-source support
+# C4: Stance facet has ≥2-source support
 {
-  ?B :analysis ?A . ?A :stance ?V .
+  ?B :analysis ?A .
+  ?A :stance ?V .
   ?Sp a :Support; :book ?B; :kind "stance"; :value ?V .
 }
 =>
 { ?B :check [ a :Check; :kind "stance-supported-by-two"; :ok true ] . } .
 
-# C5: Theme has ≥2-source support
+# C5: Theme facet has ≥2-source support
 {
-  ?B :analysis ?A . ?A :theme ?V .
+  ?B :analysis ?A .
+  ?A :theme ?V .
   ?Sp a :Support; :book ?B; :kind "theme"; :value ?V .
 }
 =>
 { ?B :check [ a :Check; :kind "theme-supported-by-two"; :ok true ] . } .
 
-# C6: Highlight has ≥2-source support
+# C6: Highlight facet has ≥2-source support
 {
-  ?B :analysis ?A . ?A :highlight ?V .
+  ?B :analysis ?A .
+  ?A :highlight ?V .
   ?Sp a :Support; :book ?B; :kind "highlight"; :value ?V .
 }
 =>
 { ?B :check [ a :Check; :kind "highlight-supported-by-two"; :ok true ] . } .
 
-# C7: Sources are dated on/after publication year
+# C7: Testability facet has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :test ?V .
+  ?Sp a :Support; :book ?B; :kind "test"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "test-supported-by-two"; :ok true ] . } .
+
+# C8: All sources about this book are on/after publication year
 {
   ?B a :Book; :pubYear ?py .
-  ?S a :Source; :year ?y .
+  ?S a :Source; :about ?B; :year ?y .
   ?y math:notLessThan ?py .
 }
 =>
@@ -165,87 +238,82 @@
 
 ############################################################
 # ----------------------- HARNESS -------------------------
-# Real sources & claims (years reflect publication pages/dates)
+# Book node + real sources + claims (≥2 per adopted facet)
 ############################################################
 
-# The book itself
+# The book
 :B1 a :Book;
     :title  "On the Origin of Time";
     :author "Thomas Hertog";
     :pubYear 2023 .
 
-# Sources (idx ensures distinctness)
-# S1 — Guardian (Hertog interview/feature; Darwinian, Hawking revised view)
-:S1 a :Source;
-    :outlet "The Guardian";
-    :title  "A Brief History of Time is 'wrong', Stephen Hawking told collaborator";
-    :year 2023; :idx 1;
+# Sources (distinct idx; all explicitly :about :B1)
+
+# S1 — The Guardian (Hawking said ABHoT had the "wrong perspective"; Darwinian framing)
+:S1 a :Source; :about :B1;
+    :outlet "The Guardian"; :year 2023; :idx 1;
+    :title "A Brief History of Time is 'wrong', Stephen Hawking told collaborator";
     :url "https://www.theguardian.com/science/2023/mar/19/stephen-hawking-told-me-ive-changed-my-mind-my-book-is-wrong" .
 
-# S2 — Penguin/PRH page (multiverse crisis, laws co-evolve, Darwinian)
-:S2 a :Source;
-    :outlet "Penguin (PRH)";
-    :title  "On the Origin of Time — book page";
-    :year 2024; :idx 2;
+# S2 — Penguin/PRH book page (laws co-evolve; Darwinian; multiverse critique; top-down)
+:S2 a :Source; :about :B1;
+    :outlet "Penguin (PRH)"; :year 2024; :idx 2;
+    :title "On the Origin of Time — book page";
     :url "https://www.penguin.co.uk/books/440139/on-the-origin-of-time-by-hertog-thomas/9781804991121" .
 
-# S3 — Nature book review (context on Hawking’s changing views)
-:S3 a :Source;
-    :outlet "Nature";
-    :title  "How Stephen Hawking flip-flopped on whether the Universe has a beginning";
-    :year 2023; :idx 3;
+# S3 — Nature review (context on Hawking’s changing views)
+:S3 a :Source; :about :B1;
+    :outlet "Nature"; :year 2023; :idx 3;
+    :title "How Stephen Hawking flip-flopped on whether the Universe has a beginning";
     :url "https://www.nature.com/articles/d41586-023-00977-3" .
 
-# S4 — CERN Courier review (holography, top-down, multiverse discussion, test via primordial GWs)
-:S4 a :Source;
-    :outlet "CERN Courier";
-    :title  "High time for holographic cosmology";
-    :year 2024; :idx 4;
+# S4 — CERN Courier (holography; top-down cosmology; multiverse discussion; test via primordial GWs)
+:S4 a :Source; :about :B1;
+    :outlet "CERN Courier"; :year 2024; :idx 4;
+    :title "High time for holographic cosmology";
     :url "https://cerncourier.com/a/high-time-for-holographic-cosmology/" .
 
-# S5 — Cambridge Festival talk page (holography; testability via primordial GWs)
-:S5 a :Source;
-    :outlet "University of Cambridge (Festival)";
-    :title  "On the Origin of Time: Stephen Hawking’s Final Theory — lecture";
-    :year 2023; :idx 5;
+# S5 — Cambridge Festival lecture page (holography; testing via primordial GWs)
+:S5 a :Source; :about :B1;
+    :outlet "University of Cambridge (Festival)"; :year 2023; :idx 5;
+    :title "On the Origin of Time: Stephen Hawking’s Final Theory — lecture";
     :url "https://www.maths.cam.ac.uk/features/origin-time-stephen-hawkings-final-theory-cambridge-festival-lecture" .
 
 # S6 — The Times review (memoir + science emphasis)
-:S6 a :Source;
-    :outlet "The Times";
-    :title  "On the Origin of Time — review";
-    :year 2023; :idx 6;
+:S6 a :Source; :about :B1;
+    :outlet "The Times"; :year 2023; :idx 6;
+    :title "On the Origin of Time — review";
     :url "https://www.thetimes.com/culture/books/article/on-the-origin-of-time-by-thomas-hertog-review-6j57wtzbt" .
 
-# ---------- Claims drawn from those sources ----------
+# ---------------- Claims (kind, value) ----------------
 
-# Thesis: laws & time co-emerge (S2, S1)
-:Ct1 a :Claim; :book :B1; :kind "thesis"; :value "laws-co-evolve"; :from :S2 .
-:Ct2 a :Claim; :book :B1; :kind "thesis"; :value "laws-co-evolve"; :from :S1 .
+# Thesis: laws & time co-emerge
+:Ct1 a :Claim; :book :B1; :kind "thesis"; :value "laws-and-time-co-emerge"; :from :S2 .
+:Ct2 a :Claim; :book :B1; :kind "thesis"; :value "laws-and-time-co-emerge"; :from :S1 .
 
-# Darwinian framing (S2, S1)
+# Darwinian framing
 :Cd1 a :Claim; :book :B1; :kind "darwinian"; :value "darwinian-perspective"; :from :S2 .
 :Cd2 a :Claim; :book :B1; :kind "darwinian"; :value "darwinian-perspective"; :from :S1 .
 
-# Methods: holography & top-down cosmology (S4+S5; S2+S4)
+# Methods: holography & top-down cosmology
 :Cm1 a :Claim; :book :B1; :kind "method"; :value "holographic-cosmology"; :from :S4 .
 :Cm2 a :Claim; :book :B1; :kind "method"; :value "holographic-cosmology"; :from :S5 .
 :Cm3 a :Claim; :book :B1; :kind "method"; :value "top-down-cosmology";  :from :S2 .
 :Cm4 a :Claim; :book :B1; :kind "method"; :value "top-down-cosmology";  :from :S4 .
 
-# Stance: challenges/limits the multiverse picture (S2, S4)
+# Stance: challenges or limits the standard multiverse picture
 :Cs1 a :Claim; :book :B1; :kind "stance"; :value "challenges-multiverse"; :from :S2 .
 :Cs2 a :Claim; :book :B1; :kind "stance"; :value "challenges-multiverse"; :from :S4 .
 
-# Theme: memoir + science (S4, S6)
+# Theme: memoir + science
 :Cth1 a :Claim; :book :B1; :kind "theme"; :value "memoir-plus-science"; :from :S4 .
 :Cth2 a :Claim; :book :B1; :kind "theme"; :value "memoir-plus-science"; :from :S6 .
 
-# Highlight: Hawking changed his mind / “wrong perspective” (S1, S3)
+# Highlight: Hawking revised his earlier perspective
 :Ch1 a :Claim; :book :B1; :kind "highlight"; :value "hawking-revised-view"; :from :S1 .
 :Ch2 a :Claim; :book :B1; :kind "highlight"; :value "hawking-revised-view"; :from :S3 .
 
-# Testability: look for primordial gravitational waves (S4, S5)
+# Testability: look for primordial gravitational waves
 :Ce1 a :Claim; :book :B1; :kind "test"; :value "primordial-gravitational-waves"; :from :S4 .
 :Ce2 a :Claim; :book :B1; :kind "test"; :value "primordial-gravitational-waves"; :from :S5 .
 
