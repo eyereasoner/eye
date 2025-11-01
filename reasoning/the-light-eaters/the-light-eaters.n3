@@ -1,0 +1,307 @@
+@prefix :     <http://example.org/lighteaters#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+
+############################################################
+# P3: Prompt → Program → Proof (Answer, Reason, Check)
+# Case: Multi-source analysis for Zoë Schlanger's "The Light Eaters"
+############################################################
+
+# -------- Vocabulary --------
+:Book      a rdfs:Class .
+:Source    a rdfs:Class .
+:Claim     a rdfs:Class .
+:Support   a rdfs:Class .
+:Analysis  a rdfs:Class .
+:Check     a rdfs:Class .
+
+# Metadata & linkage
+:title     a rdf:Property .
+:author    a rdf:Property .
+:pubYear   a rdf:Property .
+:outlet    a rdf:Property .
+:year      a rdf:Property .
+:idx       a rdf:Property .
+:url       a rdf:Property .
+:about     a rdf:Property .
+
+:book      a rdf:Property .
+:from      a rdf:Property .
+:kind      a rdf:Property .
+:value     a rdf:Property .
+
+:analysis  a rdf:Property .
+:why       a rdf:Property .
+:check     a rdf:Property .
+:status    a rdf:Property .
+:ok        a rdf:Property .
+
+# Adopted facet properties
+:thesis       a rdf:Property .
+:theme        a rdf:Property .
+:method       a rdf:Property .
+:stance       a rdf:Property .
+:highlight    a rdf:Property .
+:recognition  a rdf:Property .
+
+############################################################
+# Create exactly ONE Analysis node per Book
+############################################################
+{
+  ?B a :Book .
+  ?SCOPE log:notIncludes { ?B :analysis ?A . }
+}
+=>
+{
+  _:A a :Analysis .
+  ?B  :analysis _:A ;
+      :status   "analysis-node-created" .
+} .
+
+############################################################
+# SUPPORT: (kind,value) supported when ≥2 distinct sources concur
+############################################################
+{
+  ?B a :Book .
+  ?C1 a :Claim; :book ?B; :kind ?K; :value ?V; :from ?S1 .
+  ?C2 a :Claim; :book ?B; :kind ?K; :value ?V; :from ?S2 .
+  ?S1 :idx ?i1 .
+  ?S2 :idx ?i2 .
+  ?i1 math:notEqualTo ?i2 .
+}
+=>
+{
+  _:sup a :Support; :book ?B; :kind ?K; :value ?V; :from ?S1, ?S2 .
+} .
+
+############################################################
+# ANSWER assembly (deduplicated): attach facets to the unique node
+############################################################
+
+# Thesis
+{
+  ?Sp a :Support; :book ?B; :kind "thesis"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :thesis ?V .
+  ?B :why ?Sp ;
+     :status "analysis-built" .
+} .
+
+# Theme
+{
+  ?Sp a :Support; :book ?B; :kind "theme"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :theme ?V .
+  ?B :why ?Sp .
+} .
+
+# Method (multiple allowed)
+{
+  ?Sp a :Support; :book ?B; :kind "method"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :method ?V .
+  ?B :why ?Sp .
+} .
+
+# Stance
+{
+  ?Sp a :Support; :book ?B; :kind "stance"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :stance ?V .
+  ?B :why ?Sp .
+} .
+
+# Highlight
+{
+  ?Sp a :Support; :book ?B; :kind "highlight"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :highlight ?V .
+  ?B :why ?Sp .
+} .
+
+# Recognition
+{
+  ?Sp a :Support; :book ?B; :kind "recognition"; :value ?V .
+  ?B  :analysis ?A .
+}
+=>
+{
+  ?A :recognition ?V .
+  ?B :why ?Sp .
+} .
+
+############################################################
+# CHECKS — 8 independent verifications
+############################################################
+
+# C1: Thesis has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :thesis ?V .
+  ?Sp a :Support; :book ?B; :kind "thesis"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "thesis-supported-by-two"; :ok true ] . } .
+
+# C2: Theme has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :theme ?V .
+  ?Sp a :Support; :book ?B; :kind "theme"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "theme-supported-by-two"; :ok true ] . } .
+
+# C3: Each method facet has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :method ?V .
+  ?Sp a :Support; :book ?B; :kind "method"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "method-supported-by-two"; :ok true ] . } .
+
+# C4: Stance has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :stance ?V .
+  ?Sp a :Support; :book ?B; :kind "stance"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "stance-supported-by-two"; :ok true ] . } .
+
+# C5: Highlight has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :highlight ?V .
+  ?Sp a :Support; :book ?B; :kind "highlight"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "highlight-supported-by-two"; :ok true ] . } .
+
+# C6: Recognition has ≥2-source support
+{
+  ?B :analysis ?A .
+  ?A :recognition ?V .
+  ?Sp a :Support; :book ?B; :kind "recognition"; :value ?V .
+}
+=>
+{ ?B :check [ a :Check; :kind "recognition-supported-by-two"; :ok true ] . } .
+
+# C7: Each Support node actually references two distinct sources
+{
+  ?Sp a :Support; :book ?B; :from ?S1, ?S2 .
+  ?S1 :idx ?i1 .
+  ?S2 :idx ?i2 .
+  ?i1 math:notEqualTo ?i2 .
+}
+=>
+{ ?B :check [ a :Check; :kind "support-has-two-distinct-sources"; :ok true ] . } .
+
+# C8: All sources about this book are on/after publication year
+{
+  ?B a :Book; :pubYear ?py .
+  ?S a :Source; :about ?B; :year ?y .
+  ?y math:notLessThan ?py .
+}
+=>
+{ ?B :check [ a :Check; :kind "post-publication-sources"; :ok true ] . } .
+
+############################################################
+# ----------------------- HARNESS -------------------------
+# Book node + real sources + claims (≥2 per adopted facet)
+############################################################
+
+# The book
+:B1 a :Book;
+    :title  "The Light Eaters";
+    :author "Zoë Schlanger";
+    :pubYear 2024 .
+
+# Sources (distinct idx; all explicitly :about :B1)
+# S1 — TIME best-of 2024 (recognition; theme)
+:S1 a :Source; :about :B1;
+    :outlet "TIME"; :year 2024; :idx 1;
+    :title "The 10 Best Nonfiction Books of 2024";
+    :url "https://time.com/7200389/best-nonfiction-books-2024/" .
+
+# S2 — TIME overview (thesis/stance/method/highlight)
+:S2 a :Source; :about :B1;
+    :outlet "TIME"; :year 2024; :idx 2;
+    :title "The Light Eaters (overview)";
+    :url "https://time.com/7172776/the-light-eaters/" .
+
+# S3 — The New Yorker review (thesis/stance/method)
+:S3 a :Source; :about :B1;
+    :outlet "The New Yorker"; :year 2024; :idx 3;
+    :title "A New Book About Plant Intelligence Highlights the Messiness of Scientific Change";
+    :url "https://www.newyorker.com/books/under-review/a-new-book-about-plant-intelligence-highlights-the-messiness-of-scientific-change" .
+
+# S4 — The Guardian in-brief (theme)
+:S4 a :Source; :about :B1;
+    :outlet "The Guardian"; :year 2024; :idx 4;
+    :title "In brief review including The Light Eaters";
+    :url "https://www.theguardian.com/books/article/2024/may/19/in-brief-hey-zoey-sarah-crossan-you-could-make-this-place-beautiful-maggie-smith-the-light-eaters-zoe-schlanger-review" .
+
+# S5 — Wall Street Journal review (highlight examples)
+:S5 a :Source; :about :B1;
+    :outlet "Wall Street Journal"; :year 2024; :idx 5;
+    :title "‘The Light Eaters’ Review: Learning To Think Like a Plant";
+    :url "https://www.wsj.com/arts-culture/books/the-light-eaters-review-learning-to-think-like-a-plant-4bdf2bf5" .
+
+# S6 — Washington Post notable list (recognition)
+:S6 a :Source; :about :B1;
+    :outlet "Washington Post"; :year 2024; :idx 6;
+    :title "50 notable works of nonfiction from 2024";
+    :url "https://www.washingtonpost.com/books/2024/11/21/best-nonfiction/" .
+
+# S7 — Author/Publisher page (metadata)
+:S7 a :Source; :about :B1;
+    :outlet "HarperCollins / Author site"; :year 2024; :idx 7;
+    :title "The Light Eaters — book page";
+    :url "https://www.zoeschlanger.com/the-light-eaters" .
+
+# ---------------- Claims (kind, value) ----------------
+
+# Thesis: reconsiders plant intelligence/behavior
+:Ct1 a :Claim; :book :B1; :kind "thesis"; :value "plant-intelligence-reconsidered"; :from :S2 .
+:Ct2 a :Claim; :book :B1; :kind "thesis"; :value "plant-intelligence-reconsidered"; :from :S3 .
+:Ct3 a :Claim; :book :B1; :kind "thesis"; :value "plant-intelligence-reconsidered"; :from :S5 .
+
+# Theme: blend of reportage and science
+:Cth1 a :Claim; :book :B1; :kind "theme"; :value "reportage-plus-science"; :from :S1 .
+:Cth2 a :Claim; :book :B1; :kind "theme"; :value "reportage-plus-science"; :from :S4 .
+
+# Method: field reporting + synthesis of recent studies
+:Cm1 a :Claim; :book :B1; :kind "method"; :value "field-reporting-and-recent-research"; :from :S2 .
+:Cm2 a :Claim; :book :B1; :kind "method"; :value "field-reporting-and-recent-research"; :from :S3 .
+
+# Stance: treats plant "intelligence" as a live, nuanced debate
+:Cs1 a :Claim; :book :B1; :kind "stance"; :value "nuanced-scientific-debate"; :from :S2 .
+:Cs2 a :Claim; :book :B1; :kind "stance"; :value "nuanced-scientific-debate"; :from :S3 .
+
+# Highlight: vivid examples (chemical signaling, cues, memory-like effects)
+:Ch1 a :Claim; :book :B1; :kind "highlight"; :value "chemical-signaling-memory-and-cues"; :from :S5 .
+:Ch2 a :Claim; :book :B1; :kind "highlight"; :value "chemical-signaling-memory-and-cues"; :from :S2 .
+
+# Recognition: major best-of/notable lists in 2024
+:Cr1 a :Claim; :book :B1; :kind "recognition"; :value "best-of-2024-lists"; :from :S1 .
+:Cr2 a :Claim; :book :B1; :kind "recognition"; :value "best-of-2024-lists"; :from :S6 .
+
