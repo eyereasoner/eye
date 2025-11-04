@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.22.6 (2025-10-26)').
+version_info('EYE v11.23.0 (2025-11-04)').
 
 license_info('MIT License
 
@@ -2615,6 +2615,29 @@ simpleStatement([Rule]) -->
             ;   Rule = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(Prem, Conc)
             )
         )
+    }.
+simpleStatement([Rule]) -->
+    [name(RulePrem)],
+    {   downcase_atom(RulePrem, 'rule')
+    },
+    !,
+    ['{'],
+    {   nb_getval(fdepth, I),
+        J is I+1,
+        nb_setval(fdepth, J)
+    },
+    formulacontent(Conc),
+    ['}'],
+    [name(Where)],
+    {   downcase_atom(Where, 'where')
+    },
+    ['{'],
+    formulacontent(Prem),
+    {   nb_setval(fdepth, I)
+    },
+    ['}'],
+    withoutdot,
+    {   Rule = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(Prem, Conc)
     }.
 simpleStatement(Quads) -->
     [name(Name)],
