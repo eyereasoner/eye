@@ -1,15 +1,15 @@
+# ----------------------------------------------------------------------
 # example from https://w3c.github.io/data-shapes/shacl12-rules/#overview
+# ----------------------------------------------------------------------
 
 PREFIX : <http://example.com/ns#>
 
 # Data
-
 :A :fatherOf :X .
 :B :motherOf :X .
 :C :motherOf :A .
 
 # Rules
-
 RULE { ?x :childOf ?y } WHERE { ?y :fatherOf ?x }
 RULE { ?x :childOf ?y } WHERE { ?y :motherOf ?x }
 
