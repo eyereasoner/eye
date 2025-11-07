@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.23.0 (2025-11-04)').
+version_info('EYE v11.23.1 (2025-11-07)').
 
 license_info('MIT License
 
@@ -5768,7 +5768,10 @@ djiti_fact(A, A).
 
 djiti_assertz(A) :-
     djiti_fact(A, B),
-    assertz(B).
+    (   B = ':-'(exopred(_, _, _), _)
+    ->  asserta(B)
+    ;   assertz(B)
+    ).
 
 %
 % Built-ins
