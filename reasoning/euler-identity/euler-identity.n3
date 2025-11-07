@@ -1,0 +1,136 @@
+@prefix :        <http://example.org/arc/euler#> .
+@prefix complex: <http://example.org/complex#> .
+@prefix math:    <http://www.w3.org/2000/10/swap/math#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+# -------------------------------------------------------------------
+# "User-defined built-ins" provided as backward rules
+# (rule bodies use ONLY N3 math:* built-ins)
+# -------------------------------------------------------------------
+
+# e^{iθ} specialized as a complex result (cos θ, sin θ)
+{ ((2.718281828459045 0) (0 ?T)) complex:exponentiation (?C ?S) . }
+<=
+{ ?T math:cos ?C . ?T math:sin ?S . } .
+
+# Complex addition: (a,b) + (c,d) = (a+c, b+d)
+{ ((?A ?B) (?C ?D)) complex:sum (?E ?F) . }
+<=
+{ (?A ?C) math:sum ?E . (?B ?D) math:sum ?F . } .
+
+# Complex product: (a,b) * (c,d) = (ac − bd, ad + bc)
+{ ((?A ?B) (?C ?D)) complex:product (?E ?F) . }
+<=
+{ (?A ?C) math:product ?AC .
+  (?B ?D) math:product ?BD .
+  (?AC ?BD) math:difference ?E .
+  (?A ?D) math:product ?AD .
+  (?B ?C) math:product ?BC .
+  (?AD ?BC) math:sum ?F . } .
+
+# -------------------------------------------------------------------
+# A: Answer — the claim we want this page to deliver
+# -------------------------------------------------------------------
+{
+  # compute e^{iπ} via the user-defined complex:exponentiation
+  ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation (?Re ?Im) .
+  # add 1 (as the complex number (1,0)) and check the pair is (0,0)
+  ((?Re ?Im) (1 0)) complex:sum (?sRe ?sIm) .
+
+  ?sRe math:absoluteValue ?aRe .
+  ?aRe math:lessThan 1e-12 .
+
+  ?sIm  math:absoluteValue ?aIm .
+  ?aIm math:lessThan 1e-12 .
+}
+=>
+{
+  :answer :text "e^{iπ} + 1 = 0" ;
+          :pair (0 0) .
+} .
+
+# -------------------------------------------------------------------
+# R: Reason — compact explanation encoded as the rule that reduces
+#            e^{iθ} to (cos θ, sin θ) and the specialization θ = π.
+#            (This is Euler’s formula in rule form.)
+# -------------------------------------------------------------------
+{
+  3.141592653589793 math:cos ?C .
+  3.141592653589793 math:sin ?S .
+}
+=>
+{
+  :reason :says "Use e^{iθ} = (cos θ, sin θ); with θ = π we get (-1,0), so e^{iπ}+1=0." ;
+          :uses  math:cos, math:sin ;
+          :at    3.141592653589793 ;
+          :cos   ?C ;
+          :sin   ?S .
+} .
+
+# -------------------------------------------------------------------
+# C: Checks — independent verifications (built-ins only in bodies)
+# -------------------------------------------------------------------
+
+# Check 1: cos π ≈ −1 and sin π ≈ 0
+{
+  3.141592653589793 math:cos ?C .
+  3.141592653589793 math:sin ?S .
+
+  (?C -1) math:difference ?dC .
+  ?dC math:absoluteValue ?aC .
+  ?aC math:lessThan 1e-12 .
+
+  ?S  math:absoluteValue ?aS .
+  ?aS math:lessThan 1e-12 .
+}
+=>
+{ :check1 :ok true . } .
+
+# Check 2: e^{iπ} ≈ (-1, 0)
+{
+  ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation (?Re ?Im) .
+
+  (?Re -1) math:difference ?dRe .
+  ?dRe math:absoluteValue ?aRe .
+  ?aRe math:lessThan 1e-12 .
+
+  ?Im  math:absoluteValue ?aIm .
+  ?aIm math:lessThan 1e-12 .
+}
+=>
+{ :check2 :ok true . } .
+
+# Check 3: |e^{iπ}| = 1  (unit circle)
+{
+  ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation (?Re ?Im) .
+  (?Re 2) math:exponentiation ?Re2 .
+  (?Im 2) math:exponentiation ?Im2 .
+  (?Re2 ?Im2) math:sum ?R2 .
+  ?R2 math:equalTo 1 .
+}
+=>
+{ :check3 :ok true . } .
+
+# Check 4: e^{iπ} · e^{iπ} = e^{i·2π}  (angle-doubling)
+{
+  ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation ?Z .
+  (?Z ?Z) complex:product (?Re2 ?Im2) .
+  ((2.718281828459045 0) (0 6.283185307179586)) complex:exponentiation (?C2 ?S2) .
+  ?Re2 math:equalTo ?C2 .
+  ?Im2 math:equalTo ?S2 .
+}
+=>
+{ :check4 :ok true . } .
+
+# Check 5: Adding 1 gives the zero complex number
+{
+  ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation (?Re ?Im) .
+  ((?Re ?Im) (1 0)) complex:sum (?R ?I) .
+  ?R math:absoluteValue ?aR .
+  ?aR math:lessThan 1e-12 .
+  ?I math:absoluteValue ?aI .
+  ?aI math:lessThan 1e-12 .
+}
+=>
+{ :check5 :ok true . } .
+

@@ -1,0 +1,53 @@
+--------------
+Euler Identity
+--------------
+
+This directory contains a single Notation3 file that expresses the 
+Euler identity in the ARC style: it states the Answer, gives a short 
+Reason, and carries several independent Checks that verify the claim 
+each time the file is reasoned over. The file uses only the official N3 
+math built-ins in rule bodies and models complex numbers with small 
+backward rules, which act as lightweight, user-defined built-ins for 
+complex sum, product, and the mapping e^{iθ} → (cos θ, sin θ).
+
+The Answer is asserted when tolerant comparisons show that cos(π) is 
+essentially −1 and sin(π) is essentially 0. The Reason is given as 
+plain text that points to Euler’s formula viewed as “rotation on 
+the unit circle.” The Checks verify the claim from different angles: 
+- a direct trigonometric evaluation
+- a computation of e^{iπ} via the  user-defined complex exponentiation
+- a unit-magnitude check |e^{iπ}| = 1
+- an angle-doubling identity e^{iπ}·e^{iπ} = e^{i·2π}.
+All comparisons use a small tolerance of 1e−12 so harmless floating-point 
+residues do not mask success.
+
+To run it, load the N3 file into an N3 reasoner that supports the math 
+built-ins and backward rules, such as EYE, and materialize the inferred 
+triples. Any reasoner that executes the built-ins for cosine, sine, 
+arithmetic, absolute value, and order will do. After reasoning you 
+should see the concise summary alongside the checks, for example:
+
+@prefix : <http://example.org/arc/euler#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+:answer :text "e^{iπ} + 1 = 0".
+:answer :pair (0 0).
+:reason :says "Use e^{iθ} = (cos θ, sin θ); with θ = π we get (-1,0), so e^{iπ}+1=0.".
+:reason :uses math:cos.
+:reason :uses math:sin.
+:reason :at 3.141592653589793 .
+:reason :cos -1.0 .
+:reason :sin 1.2246467991473532e-16 .
+:check1 :ok true.
+:check2 :ok true.
+:check3 :ok true.
+:check4 :ok true.
+:check5 :ok true.
+
+If you wish to adapt the file, you can change the angle, tighten or 
+loosen the tolerance, or add more checks, so long as rule bodies remain 
+triple patterns that call only the documented N3 built-ins. In this way 
+the ARC artifact stays self-contained, readable, and repeatable: it 
+says the answer, explains the reason, and proves itself every time it 
+runs.
+
