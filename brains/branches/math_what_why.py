@@ -1,57 +1,45 @@
 #!/usr/bin/env python3
 """
-P3-STYLE PROGRAM — "Mathematics: the WHAT and the WHY" (THOROUGH VERSION)
+Mathematics: the WHAT and the WHY
 
-FOR A WIDE AUDIENCE
---------------------
-What is mathematics? A language of **structures** (like numbers, groups, spaces)
-plus **proof** — the rulebook for trustworthy reasoning.
-Why does mathematics matter? Because a small set of axioms and definitions can
-**explain** and **compress** a huge variety of patterns. Proofs let us carry
-truth across contexts (the **transfer principle**) and find **invariants** —
-properties that remain stable as things change.
+This program builds the shortest plan (a sequence of axiom adoptions)
+that makes a chosen set of mathematical concepts available.
 
-This toy program mirrors that story using the P3 pattern:
-  • **Answer** — a path that selects axioms (from a "library") and shows which
-    mathematical concepts emerge along the way.
-  • **Reason** — a plain-English explanation of why that path was chosen.
-  • **Check** — independent verifications (monotonicity, minimality, acyclicity,
-    permutation-invariance) that the result is internally consistent.
-
-THOROUGH variant: counts order‑distinct paths, keeps expanding after success, and
-uses all candidate axioms. The point is transparency, not speed.
+It prints a JSON report with three keys:
+- "answer": the selected plan and the final state (axioms, concepts)
+- "reason": list of plain-English lines
+- "check": self-checks that justify the plan
 
 Run:
     python3 math_what_why.py
 
-Customize:
-- Edit the CONFIG section to adjust candidate axioms, the dependency ladder, and
-  the target observations (competencies) you want the final state to satisfy.
-- Output is JSON with fields {"answer", "reason", "check"}.
+Requires Python 3.9+ and no external packages.
 """
+
 from __future__ import annotations
+
 from dataclasses import dataclass
-from typing import List, Set, Dict, Tuple, Optional
+from typing import Dict, List, Optional, Set, Tuple
+from collections import deque
 import json
 import random
 
-# =====================
-# CONFIG (Axioms & Goals)
-# =====================
-
-# Candidate AXIOMS ("library")
+# -----------------------------------------------------------------------------
+# Configuration: axioms, concepts (with prerequisites), and target concepts
+# -----------------------------------------------------------------------------
 CANDIDATE_AXIOMS: List[str] = [
-    "classical-logic",        # proof rules (modus ponens, excluded middle)
-    "set-existence",          # there are sets/collections
-    "function-formation",     # functions between sets
-    "natural-induction",      # induction principle for N
-    "algebra-operations",     # +, *, distributivity scaffolding
-    "order-completeness",     # completeness needed for R
-    "topology-axioms",        # open sets, unions/intersections
-    "symmetry-axioms",        # group-like symmetry principles
+    "classical-logic",
+    "set-existence",
+    "function-formation",
+    "natural-induction",
+    "algebra-operations",
+    "order-completeness",
+    "topology-axioms",
+    "symmetry-axioms",
 ]
 
-# Emergent CONCEPTS (features) with AND-dependencies on axioms and/or other concepts
+# A concept appears when *all* of its prerequisites are present.
+# Prerequisites may be axioms or other concepts.
 PREREQUISITES: Dict[str, Set[str]] = {
     # Foundations
     "proofs": {"classical-logic"},
@@ -73,36 +61,51 @@ PREREQUISITES: Dict[str, Set[str]] = {
 
     # Higher viewpoints
     "category-theory": {"functions", "proofs"},
-    "invariants": {"proofs", "groups", "topology"},  # defined after groups below
 
     # Algebraic structures driven by symmetry axioms
     "groups": {"sets", "symmetry-axioms"},
 
-    # Explanatory goals (the "why")
+    # Explanatory goals
+    "invariants": {"proofs", "groups", "topology"},
     "transfer-principle": {"category-theory", "proofs"},
     "explanatory-power": {"invariants", "transfer-principle"},
 }
 
-# What do we want the final state to demonstrate? (the "what" & "why")
+# Concepts we want to hold in the final state (the “what” and the “why”)
 OBSERVATIONS: Set[str] = {
-    # the WHAT — core competencies
-    "arithmetic", "topology", "geometry", "calculus", "category-theory",
-    # the WHY — why math matters societally and scientifically
-    "invariants", "transfer-principle", "explanatory-power",
+    "arithmetic",
+    "topology",
+    "geometry",
+    "calculus",
+    "category-theory",
+    "invariants",
+    "transfer-principle",
+    "explanatory-power",
 }
 
-MAX_DEPTH: int = 8       # allow full adoption of all 8 axioms (needed for the observations)
-CAP_PATHS: int = 70000   # high enough to traverse to depth 8 in thorough mode
+# Search controls
+MAX_DEPTH: int = 8           # number of candidate axioms
+CAP_PATHS: int = 200_000     # safety cap for exploration
+FAST_THOROUGH: bool = True   # stop exploring deeper once a shortest plan is found
+PERMUTATION_TRIALS: int = 0  # >0: re-run under shuffled axiom orders (robustness)
 
-# =====================
-# Engine (Program)
-# =====================
 
+# -----------------------------------------------------------------------------
+# Data structures
+# -----------------------------------------------------------------------------
 @dataclass(frozen=True)
 class Step:
+    """
+    One action in the plan.
+
+    - action: human text like "adopt classical-logic"
+    - added_axiom: the axiom name added at this step
+    - enabled_concepts: concepts that became available *at this step*
+    """
     action: str
     added_axiom: Optional[str] = None
     enabled_concepts: Tuple[str, ...] = ()
+
 
 @dataclass
 class PathResult:
@@ -110,153 +113,247 @@ class PathResult:
     final_axioms: Set[str]
     final_concepts: Set[str]
 
-class MathWhatWhy:
-    def __init__(self,
-                 candidate_axioms: List[str],
-                 prereq: Dict[str, Set[str]],
-                 observations: Set[str]):
-        self.candidate_axioms = list(candidate_axioms)
-        self.prereq = {k: set(v) for k, v in prereq.items()}
-        self.observations = set(observations)
-        self._infer_cache: Dict[frozenset, frozenset] = {}
 
-    # ---------- Logic (Reason)
-    def infer_concepts(self, axioms: Set[str]) -> Set[str]:
-        """Least fixed point of concept emergence given axioms and dependencies."""
-        key = frozenset(axioms)
-        if key in self._infer_cache:
-            return set(self._infer_cache[key])
-        concepts: Set[str] = set()
+# -----------------------------------------------------------------------------
+# Engine
+# -----------------------------------------------------------------------------
+class MathWhatWhy:
+    """
+    Find a shortest axiom-adoption plan that achieves the goal.
+
+    Main ideas (in plain language):
+    - Represent sets of axioms/concepts as small checklists (bitsets).
+    - Repeatedly add any concept whose prerequisites are met (fixed point).
+    - Explore axiom orders level by level (BFS) to get a minimal number of steps.
+    """
+
+    def __init__(self, candidate_axioms: List[str], prereq: Dict[str, Set[str]], observations: Set[str]) -> None:
+        # Names and indexes
+        self.candidate_axioms = list(candidate_axioms)
+        self.observations = set(observations)
+        self.concept_names = list(prereq.keys())
+        self.ax_index: Dict[str, int] = {a: i for i, a in enumerate(self.candidate_axioms)}
+        self.cx_index: Dict[str, int] = {c: i for i, c in enumerate(self.concept_names)}  # <-- fixed line
+
+        # Precompute, per concept, which axioms and which concepts it requires
+        self.req_ax_mask: List[int] = [0] * len(self.concept_names)
+        self.req_cx_mask: List[int] = [0] * len(self.concept_names)
+        for c, reqs in prereq.items():
+            ci = self.cx_index[c]
+            ax_mask = 0
+            cx_mask = 0
+            for r in reqs:
+                if r in self.ax_index:
+                    ax_mask |= 1 << self.ax_index[r]
+                elif r in self.cx_index:
+                    cx_mask |= 1 << self.cx_index[r]
+                else:
+                    raise KeyError(f"Unknown prerequisite: {r}")
+            self.req_ax_mask[ci] = ax_mask
+            self.req_cx_mask[ci] = cx_mask
+
+        # Mask for the target observations (all are concepts here)
+        self.obs_mask_cx = 0
+        for o in self.observations:
+            self.obs_mask_cx |= 1 << self.cx_index[o]
+
+        # Cache: concepts implied by a given axiom set
+        self._infer_cache: Dict[int, int] = {}
+
+    # -- Convenience: checklists <-> names
+    def ax_mask_to_names(self, ax_mask: int) -> List[str]:
+        return [name for i, name in enumerate(self.candidate_axioms) if (ax_mask >> i) & 1]
+
+    def cx_mask_to_names(self, cx_mask: int) -> List[str]:
+        return [name for i, name in enumerate(self.concept_names) if (cx_mask >> i) & 1]
+
+    # -- Logic: which concepts appear under a given axiom set?
+    def infer_concepts(self, ax_mask: int) -> int:
+        if ax_mask in self._infer_cache:
+            return self._infer_cache[ax_mask]
+
+        cx_mask = 0
         changed = True
         while changed:
             changed = False
-            for c, reqs in self.prereq.items():
-                if c not in concepts and reqs.issubset(axioms | concepts):
-                    concepts.add(c)
-                    changed = True
-        fs = frozenset(concepts)
-        self._infer_cache[key] = fs
-        return set(fs)
+            for ci in range(len(self.concept_names)):
+                if (cx_mask >> ci) & 1:   # already present
+                    continue
+                if (self.req_ax_mask[ci] & ~ax_mask) != 0:
+                    continue
+                if (self.req_cx_mask[ci] & ~cx_mask) != 0:
+                    continue
+                cx_mask |= 1 << ci
+                changed = True
 
-    def _expand(self, axioms: Set[str]) -> List[Tuple[str, Set[str]]]:
-        nxt = []
-        for ax in self.candidate_axioms:  # fixed order for determinism
-            if ax not in axioms:
-                nxt.append((ax, set([*axioms, ax])))
-        return nxt
+        self._infer_cache[ax_mask] = cx_mask
+        return cx_mask
 
-    # ---------- Search (thorough, order‑distinct, expand after success)
-    def enumerate_paths(self, max_depth: int, cap_paths: int) -> Tuple[List[PathResult], int]:
-        initial = (frozenset(), tuple())
-        queue: List[Tuple[frozenset, Tuple[Step, ...]]] = [initial]
-        all_paths: List[PathResult] = []
-        visited_count = 0
+    # -- Next choices: adopt one new axiom not yet present
+    def _expand(self, ax_mask: int) -> List[Tuple[int, int, int]]:
+        out: List[Tuple[int, int, int]] = []
+        for ai in range(len(self.candidate_axioms)):
+            if not ((ax_mask >> ai) & 1):
+                new_ax = ax_mask | (1 << ai)
+                new_cx = self.infer_concepts(new_ax)
+                out.append((ai, new_ax, new_cx))
+        return out
 
-        while queue:
-            axioms_fs, steps = queue.pop(0)
-            axioms = set(axioms_fs)
-            concepts = self.infer_concepts(axioms)
-            visited_count += 1
+    # -- Search: BFS; in FAST_THOROUGH mode, stop exploring once minimal depth is known
+    def search(self, max_depth: int, cap_paths: int, fast: bool) -> Tuple[Optional[PathResult], int, int]:
+        Node = Tuple[int, Tuple[int, ...]]  # (axiom_mask, tuple of axiom indices)
+        q: deque[Node] = deque([(0, tuple())])
 
-            all_paths.append(PathResult(list(steps), set(axioms), set(concepts)))
+        total_nodes = 0
+        consistent_count = 0
+        best_depth: Optional[int] = None
+        best_actions: Optional[Tuple[str, ...]] = None
+        best_final: Optional[Tuple[int, int]] = None
+        best_path_indices: Optional[Tuple[int, ...]] = None
 
-            if len(steps) >= max_depth:
+        while q:
+            ax_mask, path = q.popleft()
+            cx_mask = self.infer_concepts(ax_mask)
+            total_nodes += 1
+
+            # Goal met?
+            if (cx_mask & self.obs_mask_cx) == self.obs_mask_cx:
+                consistent_count += 1
+                actions = tuple(f"adopt {self.candidate_axioms[i]}" for i in path)
+                # Choose shortest; if tied, choose lexicographically smallest by action text
+                if best_depth is None or len(path) < best_depth or (len(path) == best_depth and (best_actions is None or actions < best_actions)):
+                    best_depth = len(path)
+                    best_actions = actions
+                    best_final = (ax_mask, cx_mask)
+                    best_path_indices = path
+
+            if len(path) >= max_depth:
                 continue
 
-            for next_ax, new_axioms in self._expand(axioms):
-                new_concepts = self.infer_concepts(new_axioms)
-                enabled = tuple(sorted(new_concepts - concepts))
-                new_step = Step(action=f"adopt {next_ax}", added_axiom=next_ax, enabled_concepts=enabled)
-                new_state = frozenset(new_axioms)
-                queue.append((new_state, tuple([*steps, new_step])))
+            if fast and (best_depth is not None) and len(path) >= best_depth:
+                continue
 
-            if len(all_paths) >= cap_paths:
+            for ai, new_ax, _ in self._expand(ax_mask):
+                q.append((new_ax, (*path, ai)))
+
+            if total_nodes >= cap_paths:
                 break
 
-        return all_paths, visited_count
+        if best_final is None or best_path_indices is None:
+            return None, total_nodes, consistent_count
 
-    # ---------- Top‑down selection (filter by Goal)
-    def filter_consistent(self, paths: List[PathResult]) -> List[PathResult]:
-        return [p for p in paths if self.observations.issubset(p.final_concepts)]
+        # Build the chosen path with enabled-concept deltas
+        steps: List[Step] = []
+        cur_ax = 0
+        cur_cx = self.infer_concepts(cur_ax)
+        for ai in best_path_indices:
+            next_ax = cur_ax | (1 << ai)
+            next_cx = self.infer_concepts(next_ax)
+            delta_cx = next_cx & ~cur_cx
+            enabled = tuple(sorted(self.cx_mask_to_names(delta_cx)))
+            ax_name = self.candidate_axioms[ai]
+            steps.append(Step(action=f"adopt {ax_name}", added_axiom=ax_name, enabled_concepts=enabled))
+            cur_ax, cur_cx = next_ax, next_cx
 
-    # ---------- Choice policy (deterministic)
-    def choose_path(self, candidates: List[PathResult]) -> Optional[PathResult]:
-        if not candidates:
-            return None
-        return sorted(candidates, key=lambda p: (len(p.path), tuple(s.action for s in p.path)))[0]
+        chosen = PathResult(
+            path=steps,
+            final_axioms=set(self.ax_mask_to_names(best_final[0])),
+            final_concepts=set(self.cx_mask_to_names(best_final[1])),
+        )
+        return chosen, total_nodes, consistent_count
 
-    # ---------- Explanation (Reason)
-    def explain(self, chosen: PathResult, total_nodes: int, consistent_count: int) -> str:
+    # -- Helper: reveal a shorter plan if one exists below a given depth
+    def find_shorter_example(self, limit_depth: int) -> List[str]:
+        if limit_depth <= 0:
+            return []
+        Node = Tuple[int, Tuple[int, ...]]
+        q: deque[Node] = deque([(0, tuple())])
+        while q:
+            ax_mask, path = q.popleft()
+            cx_mask = self.infer_concepts(ax_mask)
+            if (cx_mask & self.obs_mask_cx) == self.obs_mask_cx:
+                return [f"adopt {self.candidate_axioms[i]}" for i in path]
+            if len(path) >= limit_depth:
+                continue
+            for ai, new_ax, _ in self._expand(ax_mask):
+                q.append((new_ax, (*path, ai)))
+        return []
+
+    # -- Human-readable explanation (returned as a list of lines)
+    def explain(self, chosen: PathResult, total_nodes: int, consistent_count: int) -> List[str]:
         lines: List[str] = []
-        lines.append("Goal: demonstrate the WHAT (core concepts) and the WHY (explanatory virtues) of mathematics.")
+        lines.append("Goal: achieve the WHAT (core concepts) and the WHY (explanations and transfer).")
         lines.append("Target observations: " + ", ".join(sorted(self.observations)) + ".")
-        lines.append(f"Enumerated {total_nodes} order‑distinct axiom paths (depth ≤ {MAX_DEPTH}).")
-        lines.append(f"Top‑down selection filtered these to {consistent_count} consistent endpoints.")
-        lines.append("We chose the shortest path achieving the goal; ties broken lexicographically.")
+        lines.append(f"Explored {total_nodes} order-distinct axiom paths (depth ≤ {MAX_DEPTH}).")
+        lines.append(f"From these, {consistent_count} endpoints satisfied the goal.")
         lines.append("Selected steps:")
         for i, step in enumerate(chosen.path, start=1):
             enabled = ", ".join(step.enabled_concepts) if step.enabled_concepts else "—"
             lines.append(f"  {i}. {step.action} → newly enabled concepts: {enabled}")
         lines.append("Final axioms: " + ", ".join(sorted(chosen.final_axioms)) + ".")
         lines.append("Final concepts: " + ", ".join(sorted(chosen.final_concepts)) + ".")
-        lines.append("")
-        lines.append("Interpretation:")
-        lines.append("• The WHAT: numbers, structures (groups/fields/spaces), and proof as the engine.")
-        lines.append("• The WHY: with completeness and symmetry we get reals, analysis, invariants; with\n  functions and proof discipline we can transfer results across domains (category view).")
-        return "\n".join(lines)
+        return lines
 
-    # ---------- Independent verification (Check)
+    # -- Self-checks for trustworthiness of the result
     def independent_check(self, chosen: PathResult) -> Dict[str, object]:
-        recomputed = self.infer_concepts(set(chosen.final_axioms))
-        c1 = recomputed == chosen.final_concepts
-        c2 = self.observations.issubset(recomputed)
+        # Recompute concepts from the final axiom set
+        ax_mask = 0
+        for a in chosen.final_axioms:
+            ax_mask |= 1 << self.ax_index[a]
+        recomputed_cx = self.infer_concepts(ax_mask)
+        recomputed_set = set(self.cx_mask_to_names(recomputed_cx))
 
-        # (A) Monotonicity along the axiom path
-        ax_prog: Set[str] = set()
-        prev_concepts: Set[str] = set()
+        c1 = (recomputed_set == chosen.final_concepts)
+        c2 = self.observations.issubset(recomputed_set)
+
+        # (A) Monotonicity along the path + enabled deltas match
+        ax_prog = 0
+        prev_cx = self.infer_concepts(ax_prog)
         monotonic = True
         enabled_records_consistent = True
         for step in chosen.path:
-            if not step.added_axiom or step.added_axiom in ax_prog:
+            ai = self.ax_index[step.added_axiom] if step.added_axiom else None
+            if ai is None or ((ax_prog >> ai) & 1):
                 monotonic = False
                 break
-            ax_prog.add(step.added_axiom)
-            now = self.infer_concepts(ax_prog)
-            if not prev_concepts.issubset(now):
+            ax_prog |= 1 << ai
+            now_cx = self.infer_concepts(ax_prog)
+            if (prev_cx & ~now_cx) != 0:
                 monotonic = False
                 break
-            delta = tuple(sorted(now - prev_concepts))
-            if tuple(step.enabled_concepts) != delta:
+            delta = now_cx & ~prev_cx
+            delta_names = tuple(sorted(self.cx_mask_to_names(delta)))
+            if tuple(step.enabled_concepts) != delta_names:
                 enabled_records_consistent = False
-            prev_concepts = now
+            prev_cx = now_cx
 
         # (B) Axiom-set minimality for reaching the observations
         dispensable: List[str] = []
-        for ax in chosen.final_axioms:
-            alt = set(chosen.final_axioms)
-            alt.remove(ax)
-            if self.observations.issubset(self.infer_concepts(alt)):
-                dispensable.append(ax)
+        final_ax_list = sorted(chosen.final_axioms)
+        for a in final_ax_list:
+            ai = self.ax_index[a]
+            alt_mask = ax_mask & ~(1 << ai)
+            if (self.infer_concepts(alt_mask) & self.obs_mask_cx) == self.obs_mask_cx:
+                dispensable.append(a)
         minimal_axioms = (len(dispensable) == 0)
 
         # (C) No shorter path exists
         shorter_example: List[str] = []
         if len(chosen.path) > 0:
-            all_shorter, _ = self.enumerate_paths(max_depth=len(chosen.path)-1, cap_paths=CAP_PATHS)
-            consistent_shorter = self.filter_consistent(all_shorter)
-            if consistent_shorter:
-                shorter_example = [s.action for s in self.choose_path(consistent_shorter).path]
+            shorter_example = self.find_shorter_example(limit_depth=len(chosen.path) - 1)
         minimal_steps = (len(shorter_example) == 0)
 
         # (D) Dependency graph among concepts is acyclic
         def has_cycle() -> bool:
-            graph: Dict[str, Set[str]] = {c: set() for c in self.prereq}
-            for c, reqs in self.prereq.items():
-                for r in reqs:
-                    if r in self.prereq:
-                        graph[c].add(r)
+            graph: Dict[str, Set[str]] = {c: set() for c in self.concept_names}
+            for c in self.concept_names:
+                ci = self.cx_index[c]
+                for rci in range(len(self.concept_names)):
+                    if (self.req_cx_mask[ci] >> rci) & 1:
+                        graph[c].add(self.concept_names[rci])
             visited: Set[str] = set()
             stack: Set[str] = set()
+
             def dfs(u: str) -> bool:
                 visited.add(u)
                 stack.add(u)
@@ -267,38 +364,37 @@ class MathWhatWhy:
                         return True
                 stack.remove(u)
                 return False
+
             for node in graph:
                 if node not in visited and dfs(node):
                     return True
             return False
+
         acyclic = not has_cycle()
 
-        # (E) Invariance under permutations of candidate axioms
+        # (E) Optional: robustness to axiom ordering
         base_axioms = set(chosen.final_axioms)
         base_len = len(chosen.path)
         mismatches: List[Dict[str, object]] = []
-        trials = 1
-        for i in range(trials):
+        for i in range(PERMUTATION_TRIALS):
             perm = list(self.candidate_axioms)
             random.shuffle(perm)
             if perm == self.candidate_axioms:
                 random.shuffle(perm)
-            engine2 = MathWhatWhy(perm, self.prereq, self.observations)
-            paths2, _ = engine2.enumerate_paths(MAX_DEPTH, CAP_PATHS)
-            consistent2 = engine2.filter_consistent(paths2)
-            chosen2 = engine2.choose_path(consistent2)
+            engine2 = MathWhatWhy(perm, PREREQUISITES, self.observations)
+            chosen2, _, _ = engine2.search(MAX_DEPTH, CAP_PATHS, fast=FAST_THOROUGH)
             if not chosen2:
-                mismatches.append({"trial": i+1, "issue": "no_path_under_permutation"})
+                mismatches.append({"trial": i + 1, "issue": "no_path_under_permutation"})
             else:
                 eq_axioms = set(chosen2.final_axioms) == base_axioms
                 eq_len = len(chosen2.path) == base_len
                 if not (eq_axioms and eq_len):
-                    mismatches.append({"trial": i+1,
-                                       "final_axioms_equal": eq_axioms,
-                                       "path_length_equal": eq_len})
+                    mismatches.append({"trial": i + 1, "final_axioms_equal": eq_axioms, "path_length_equal": eq_len})
         permutation_invariant = (len(mismatches) == 0)
 
-        passed = bool(c1 and c2 and monotonic and minimal_axioms and minimal_steps and acyclic and permutation_invariant and enabled_records_consistent)
+        passed = bool(
+            c1 and c2 and monotonic and minimal_axioms and minimal_steps and acyclic and permutation_invariant and enabled_records_consistent
+        )
         return {
             "recomputed_concepts_match": c1,
             "observations_satisfied": c2,
@@ -314,15 +410,12 @@ class MathWhatWhy:
             "passed": passed,
         }
 
-    # ---------- Orchestration
+    # -- Orchestrate a full run
     def run(self, max_depth: int, cap_paths: int) -> Dict[str, object]:
-        all_paths, total = self.enumerate_paths(max_depth=max_depth, cap_paths=cap_paths)
-        consistent = self.filter_consistent(all_paths)
-        chosen = self.choose_path(consistent)
-
+        chosen, total, consistent = self.search(max_depth=max_depth, cap_paths=cap_paths, fast=FAST_THOROUGH)
         if not chosen:
             answer = {"selected_path": None, "final_state": None}
-            reason = "No consistent path found under current depth and logic."
+            reason_lines: List[str] = ["No consistent plan found under current settings."]
             check = {"passed": False}
         else:
             answer = {
@@ -332,16 +425,15 @@ class MathWhatWhy:
                     "concepts": sorted(chosen.final_concepts),
                 },
             }
-            reason = self.explain(chosen, total_nodes=total, consistent_count=len(consistent))
+            reason_lines = self.explain(chosen, total_nodes=total, consistent_count=consistent)
             check = self.independent_check(chosen)
+        return {"answer": answer, "reason": reason_lines, "check": check}
 
-        return {"answer": answer, "reason": reason, "check": check}
 
-
-def main():
+def main() -> None:
     engine = MathWhatWhy(CANDIDATE_AXIOMS, PREREQUISITES, OBSERVATIONS)
     result = engine.run(MAX_DEPTH, CAP_PATHS)
-    print(json.dumps(result, indent=2))
+    print(json.dumps(result, indent=2, ensure_ascii=False))
 
 
 if __name__ == "__main__":

@@ -1,56 +1,33 @@
 #!/usr/bin/env python3
 """
-P3-STYLE PROGRAM — "The Library and the Path" (THOROUGH VERSION)
-(with life, mind, language, many‑minds, and culture)
+The Library and the Path
 
-FOR A WIDE AUDIENCE
---------------------
-Imagine a gigantic "library" that contains every simple rulebook the universe could
-have followed. A "path" is what you get by picking rules from that library one by
-one, watching how each new rule lets more complex things appear. This tiny program
-plays with that idea. It tries many short paths and keeps only those that match the
-world we see **today**. That “filter by what we observe now” is called **top‑down
-selection** in the story this program references.
+This program imagines a "library" of candidate laws. A "path" is a
+sequence of adoptions (one by one). As laws are adopted, features
+appear once their prerequisites are satisfied.
 
-The code follows a P3 contract:
-  • **Answer** — the path it picked and the final state it leads to.
-  • **Reason** — a plain explanation of why that path was chosen.
-  • **Check** — an independent verification that the explanation really works.
-
-This file is the **thorough** variant:
-- Treats different **orders** of adding laws as distinct paths.
-- **Does not** deduplicate by law set and **keeps expanding even after success**.
-- Uses **all candidate laws** when exploring.
-(Expect large counts like 28,961 states for 8 laws and depth ≤ 6.)
+Output JSON:
+- "answer": chosen path (actions) and final state (laws, features)
+- "reason": list of plain-English lines
+- "check": self-checks for trust
 
 Run:
     python3 library_and_path.py
 
-Customize:
-- Edit the CONFIG section to change candidate laws, feature prerequisites, and the
-  target observations you want the program to satisfy.
-- The output is a JSON object with fields: {"answer", "reason", "check"}.
-
-FINAL COMMENTS
---------------
-• The big numbers in "Enumerated …" reflect that we count **order‑distinct** paths.
-• The chosen path is the **shortest** one that satisfies your observations; if many
-  tie, we pick the lexicographically smallest (by step actions) to be deterministic.
-• To speed up exploration without changing the chosen minimal path, you can lower
-  MAX_DEPTH or CAP_PATHS. A separate "fast" variant could deduplicate by law set and
-  stop expanding once observations hold — but this file intentionally keeps the
-  thorough behavior for transparency and comparability.
+Python 3.9+; no external packages.
 """
+
 from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import List, Set, Dict, Tuple, Optional
+from collections import deque
 import json
 import random
 
-# =====================
-# CONFIG (Data & Goal)
-# =====================
-
+# -----------------------------------------------------------------------------
+# Configuration: candidate laws, feature prerequisites, target observations
+# -----------------------------------------------------------------------------
 CANDIDATE_LAWS: List[str] = [
     "gravity-stable",
     "atoms-stable",
@@ -58,12 +35,12 @@ CANDIDATE_LAWS: List[str] = [
     "electroweak-stable",
     "inflationary-dynamics",
     "magnetism-stable",
-    # new laws to support language & many-minds abstractions
     "communication-stable",
     "population-dynamics",
 ]
 
-# Declarative Logic: feature prerequisites (can depend on laws and/or other features)
+# A feature appears when *all* of its prerequisites are present.
+# Prerequisites may reference laws and/or other features.
 PREREQUISITES: Dict[str, Set[str]] = {
     # Cosmic structure from gravity
     "stars": {"gravity-stable"},
@@ -75,18 +52,21 @@ PREREQUISITES: Dict[str, Set[str]] = {
     # Emergence ladder
     "life": {"stars", "carbon-chemistry"},
     "mind": {"life"},
-    # language needs minds + some communication-enabling law
+
+    # Language needs minds + some communication-enabling law
     "language": {"mind", "communication-stable"},
-    # many-minds is a stand‑in for social multiplicity/coordination capacity
+
+    # Many-minds as a stand-in for social multiplicity/coordination capacity
     "many-minds": {"mind", "population-dynamics"},
-    # culture requires language and many minds
+
+    # Culture requires language and many minds
     "culture": {"language", "many-minds"},
 
-    # Legacy feature kept for continuity; defined via mind
+    # Legacy feature for continuity; defined via mind
     "observers": {"mind"},
 }
 
-# Goal: present-day observations that must hold at the final state
+# What we want to be true in the final state (today’s observations)
 OBSERVATIONS: Set[str] = {
     "galaxies",
     "carbon-chemistry",
@@ -97,18 +77,29 @@ OBSERVATIONS: Set[str] = {
     "culture",
 }
 
-MAX_DEPTH: int = 6       # cap on path length (steps of law stabilization)
-CAP_PATHS: int = 20000   # safety cap to avoid state explosion during enumeration
+# Search controls
+MAX_DEPTH: int = len(CANDIDATE_LAWS)  # allow adopting up to all laws
+CAP_PATHS: int = 200_000              # safety cap on visited nodes
+FAST_THOROUGH: bool = True            # stop once minimal-depth solutions are covered
+PERMUTATION_TRIALS: int = 0           # >0: robustness checks under shuffled law order
 
-# =====================
-# Engine (Program)
-# =====================
 
+# -----------------------------------------------------------------------------
+# Data structures
+# -----------------------------------------------------------------------------
 @dataclass(frozen=True)
 class Step:
+    """
+    One action in the plan.
+
+    - action: human text like "stabilize gravity-stable"
+    - added_law: the law adopted at this step
+    - enabled_features: features that became available *at this step*
+    """
     action: str
     added_law: Optional[str] = None
     enabled_features: Tuple[str, ...] = ()
+
 
 @dataclass
 class PathResult:
@@ -116,160 +107,251 @@ class PathResult:
     final_laws: Set[str]
     final_features: Set[str]
 
-class LibraryAndPath:
-    def __init__(self,
-                 candidate_laws: List[str],
-                 prereq: Dict[str, Set[str]],
-                 observations: Set[str]):
-        self.candidate_laws = list(candidate_laws)
-        self.prereq = {k: set(v) for k, v in prereq.items()}
-        self.observations = set(observations)
-        # Memoization cache for feature inference (makes checks faster; logic unchanged)
-        self._infer_cache: Dict[frozenset, frozenset] = {}
 
-    # ---------- Logic (Reason)
-    def infer_features(self, laws: Set[str]) -> Set[str]:
-        """Compute the least fixed point of feature emergence given laws and feature deps."""
-        key = frozenset(laws)
-        cached = self._infer_cache.get(key)
+# -----------------------------------------------------------------------------
+# Engine
+# -----------------------------------------------------------------------------
+class LibraryAndPath:
+    """
+    Build and evaluate candidate paths of law adoptions.
+
+    Ideas in simple terms:
+    - Treat sets of laws/features as growing checklists (bitsets).
+    - A feature appears as soon as all its prerequisites are present.
+    - Explore adoption orders breadth-first (shortest paths first).
+    """
+
+    def __init__(self, candidate_laws: List[str], prereq: Dict[str, Set[str]], observations: Set[str]):
+        self.candidate_laws = list(candidate_laws)
+        self.observations = set(observations)
+        self.feature_names = list(prereq.keys())
+
+        # Index lookups
+        self.law_index: Dict[str, int] = {a: i for i, a in enumerate(self.candidate_laws)}
+        self.feat_index: Dict[str, int] = {f: i for i, f in enumerate(self.feature_names)}
+
+        # For each feature, precompute masks of required laws and required features
+        self.req_law_mask: List[int] = [0] * len(self.feature_names)
+        self.req_feat_mask: List[int] = [0] * len(self.feature_names)
+        for f, reqs in prereq.items():
+            fi = self.feat_index[f]
+            lm = 0
+            fm = 0
+            for r in reqs:
+                if r in self.law_index:
+                    lm |= 1 << self.law_index[r]
+                elif r in self.feat_index:
+                    fm |= 1 << self.feat_index[r]
+                else:
+                    raise KeyError(f"Unknown prerequisite: {r}")
+            self.req_law_mask[fi] = lm
+            self.req_feat_mask[fi] = fm
+
+        # Observation mask (targets are features)
+        self.obs_mask_feat = 0
+        for o in self.observations:
+            self.obs_mask_feat |= 1 << self.feat_index[o]
+
+        # Cache for feature inference under a given law set
+        self._infer_cache: Dict[int, int] = {}  # law_mask -> feat_mask
+
+    # ----- Convenience: masks <-> names
+    def law_mask_to_names(self, mask: int) -> List[str]:
+        return [name for i, name in enumerate(self.candidate_laws) if (mask >> i) & 1]
+
+    def feat_mask_to_names(self, mask: int) -> List[str]:
+        return [name for i, name in enumerate(self.feature_names) if (mask >> i) & 1]
+
+    # ----- Logic: which features appear under a given set of laws?
+    def infer_features(self, law_mask: int) -> int:
+        cached = self._infer_cache.get(law_mask)
         if cached is not None:
-            return set(cached)
-        features: Set[str] = set()
+            return cached
+
+        feat_mask = 0
         changed = True
         while changed:
             changed = False
-            for feat, reqs in self.prereq.items():
-                if feat not in features and reqs.issubset(laws | features):
-                    features.add(feat)
-                    changed = True
-        fs = frozenset(features)
-        self._infer_cache[key] = fs
-        return set(fs)
+            for fi in range(len(self.feature_names)):
+                if (feat_mask >> fi) & 1:
+                    continue
+                if (self.req_law_mask[fi] & ~law_mask) != 0:
+                    continue
+                if (self.req_feat_mask[fi] & ~feat_mask) != 0:
+                    continue
+                feat_mask |= 1 << fi
+                changed = True
 
-    def _expand(self, laws: Set[str]) -> List[Tuple[str, Set[str]]]:
-        """All one-step stabilizations available from current law set (order matters)."""
-        nxt = []
-        for law in self.candidate_laws:  # fixed order for determinism
-            if law not in laws:
-                nxt.append((law, set([*laws, law])))
-        return nxt
+        self._infer_cache[law_mask] = feat_mask
+        return feat_mask
 
-    # ---------- Search (finding candidate Paths)
-    def enumerate_paths(self, max_depth: int, cap_paths: int) -> Tuple[List[PathResult], int]:
-        """BFS over stabilization sequences up to max_depth; returns all visited nodes.
-        THOROUGH: we do NOT deduplicate by state and we keep expanding after success.
-        """
-        initial = (frozenset(), tuple())  # (laws_set, steps)
-        queue: List[Tuple[frozenset, Tuple[Step, ...]]] = [initial]
-        all_paths: List[PathResult] = []
-        expanded_count = 0
+    # ----- Next choices: adopt one more law not yet present
+    def _expand(self, law_mask: int) -> List[Tuple[int, int, int]]:
+        out: List[Tuple[int, int, int]] = []
+        for li in range(len(self.candidate_laws)):
+            if not ((law_mask >> li) & 1):
+                new_law_mask = law_mask | (1 << li)
+                new_feat_mask = self.infer_features(new_law_mask)
+                out.append((li, new_law_mask, new_feat_mask))
+        return out
 
-        while queue:
-            laws_fs, steps = queue.pop(0)
-            laws = set(laws_fs)
-            features = self.infer_features(laws)
-            expanded_count += 1
+    # ----- Streaming BFS with optional early stop at minimal depth
+    def search(self, max_depth: int, cap_paths: int, fast: bool) -> Tuple[Optional[PathResult], int, int]:
+        Node = Tuple[int, Tuple[int, ...]]  # (law_mask, tuple of law indices)
+        q: deque[Node] = deque([(0, tuple())])
 
-            # record this path endpoint
-            all_paths.append(PathResult(path=list(steps), final_laws=set(laws), final_features=features))
+        total_nodes = 0
+        consistent_count = 0
+        best_depth: Optional[int] = None
+        best_actions: Optional[Tuple[str, ...]] = None
+        best_final: Optional[Tuple[int, int]] = None
+        best_path: Optional[Tuple[int, ...]] = None
 
-            if len(steps) >= max_depth:
+        while q:
+            law_mask, path = q.popleft()
+            feat_mask = self.infer_features(law_mask)
+            total_nodes += 1
+
+            # Goal met?
+            if (feat_mask & self.obs_mask_feat) == self.obs_mask_feat:
+                consistent_count += 1
+                actions = tuple(f"stabilize {self.candidate_laws[i]}" for i in path)
+                # Choose shortest; if tied, lexicographically by action text
+                if best_depth is None or len(path) < best_depth or (len(path) == best_depth and (best_actions is None or actions < best_actions)):
+                    best_depth = len(path)
+                    best_actions = actions
+                    best_final = (law_mask, feat_mask)
+                    best_path = path
+
+            if len(path) >= max_depth:
                 continue
 
-            for next_law, new_laws in self._expand(laws):
-                new_features = self.infer_features(new_laws)
-                enabled = tuple(sorted(new_features - features))
-                new_step = Step(action=f"stabilize {next_law}", added_law=next_law, enabled_features=enabled)
-                new_state = frozenset(new_laws)
-                queue.append((new_state, tuple([*steps, new_step])))
+            # In FAST mode, skip exploring deeper once minimal depth is known
+            if fast and (best_depth is not None) and len(path) >= best_depth:
+                continue
 
-            if len(all_paths) >= cap_paths:
+            for li, new_law_mask, _ in self._expand(law_mask):
+                q.append((new_law_mask, (*path, li)))
+
+            if total_nodes >= cap_paths:
                 break
 
-        return all_paths, expanded_count
+        if best_final is None or best_path is None:
+            return None, total_nodes, consistent_count
 
-    # ---------- Top‑down selection (filter by Goal)
-    def filter_consistent(self, paths: List[PathResult]) -> List[PathResult]:
-        return [p for p in paths if self.observations.issubset(p.final_features)]
+        # Rebuild the chosen path with enabled-feature deltas
+        steps: List[Step] = []
+        cur_law = 0
+        cur_feat = self.infer_features(cur_law)
+        for li in best_path:
+            next_law = cur_law | (1 << li)
+            next_feat = self.infer_features(next_law)
+            delta = next_feat & ~cur_feat
+            enabled = tuple(sorted(self.feat_mask_to_names(delta)))
+            lname = self.candidate_laws[li]
+            steps.append(Step(action=f"stabilize {lname}", added_law=lname, enabled_features=enabled))
+            cur_law, cur_feat = next_law, next_feat
 
-    # ---------- Choice policy (deterministic)
-    def choose_path(self, candidates: List[PathResult]) -> Optional[PathResult]:
-        if not candidates:
-            return None
-        # Prefer shortest path; tie-breaker: lexicographic by step actions for determinism
-        return sorted(candidates, key=lambda p: (len(p.path), tuple(s.action for s in p.path)))[0]
+        chosen = PathResult(
+            path=steps,
+            final_laws=set(self.law_mask_to_names(best_final[0])),
+            final_features=set(self.feat_mask_to_names(best_final[1])),
+        )
+        return chosen, total_nodes, consistent_count
 
-    # ---------- Explanation (Reason)
-    def explain(self, chosen: PathResult, total_states: int, consistent_count: int) -> str:
+    # ----- Helper: reveal a shorter plan if one exists below a given depth
+    def find_shorter_example(self, limit_depth: int) -> List[str]:
+        if limit_depth <= 0:
+            return []
+        Node = Tuple[int, Tuple[int, ...]]
+        q: deque[Node] = deque([(0, tuple())])
+        while q:
+            law_mask, path = q.popleft()
+            feat_mask = self.infer_features(law_mask)
+            if (feat_mask & self.obs_mask_feat) == self.obs_mask_feat:
+                return [f"stabilize {self.candidate_laws[i]}" for i in path]
+            if len(path) >= limit_depth:
+                continue
+            for li, new_law_mask, _ in self._expand(law_mask):
+                q.append((new_law_mask, (*path, li)))
+        return []
+
+    # ----- Explanation (returned as a list of human-readable lines)
+    def explain(self, chosen: PathResult, total_nodes: int, consistent_count: int) -> List[str]:
         lines: List[str] = []
-        lines.append("Goal: find a path that yields the observations: " + ", ".join(sorted(self.observations)) + ".")
-        lines.append(f"Enumerated {total_states} candidate states/paths (BFS up to depth {MAX_DEPTH}).")
-        lines.append(f"Top-down selection filtered these to {consistent_count} consistent endpoints.")
-        lines.append("We then chose the shortest path that achieves the goal; ties broken lexicographically.")
+        lines.append("Goal: find a path that yields the observations.")
+        lines.append("Target observations: " + ", ".join(sorted(self.observations)) + ".")
+        lines.append(f"Explored {total_nodes} order-distinct law paths (depth ≤ {MAX_DEPTH}).")
+        lines.append(f"From these, {consistent_count} endpoints satisfied the goal.")
         lines.append("Selected steps:")
         for i, step in enumerate(chosen.path, start=1):
             enabled = ", ".join(step.enabled_features) if step.enabled_features else "—"
             lines.append(f"  {i}. {step.action} → newly enabled features: {enabled}")
         lines.append("Final laws: " + ", ".join(sorted(chosen.final_laws)) + ".")
         lines.append("Final features: " + ", ".join(sorted(chosen.final_features)) + ".")
-        return "".join(lines)
+        return lines
 
-    # ---------- Independent verification (Check)
+    # ----- Independent verification
     def independent_check(self, chosen: PathResult) -> Dict[str, object]:
-        # Recompute features from the final set of laws (order-independent) and compare
-        recomputed = self.infer_features(set(chosen.final_laws))
-        c1 = recomputed == chosen.final_features
-        # Observations hold
-        c2 = self.observations.issubset(recomputed)
+        # Recompute features from the final *set* of laws (order-independent)
+        law_mask = 0
+        for a in chosen.final_laws:
+            law_mask |= 1 << self.law_index[a]
+        recomputed_feat = self.infer_features(law_mask)
+        recomputed_set = set(self.feat_mask_to_names(recomputed_feat))
+        c1 = (recomputed_set == chosen.final_features)
 
-        # (A) Monotonicity of features and laws along the path
-        laws_progress: Set[str] = set()
-        prev_features: Set[str] = set()
+        # Observations hold
+        c2 = self.observations.issubset(recomputed_set)
+
+        # (A) Monotonicity of laws/features along the chosen path + enabled deltas match
+        laws_prog = 0
+        prev_feat = self.infer_features(laws_prog)
         monotonic = True
         enabled_records_consistent = True
         for step in chosen.path:
-            # Each step must add a new law and never remove features
-            if not step.added_law or step.added_law in laws_progress:
+            li = self.law_index[step.added_law] if step.added_law else None
+            if li is None or ((laws_prog >> li) & 1):
                 monotonic = False
                 break
-            laws_progress.add(step.added_law)
-            now_features = self.infer_features(laws_progress)
-            if not prev_features.issubset(now_features):
+            laws_prog |= 1 << li
+            now_feat = self.infer_features(laws_prog)
+            if (prev_feat & ~now_feat) != 0:
                 monotonic = False
                 break
-            # Check that the recorded enabled_features matches recomputed delta
-            delta = tuple(sorted(now_features - prev_features))
-            if tuple(step.enabled_features) != delta:
+            delta = now_feat & ~prev_feat
+            delta_names = tuple(sorted(self.feat_mask_to_names(delta)))
+            if tuple(step.enabled_features) != delta_names:
                 enabled_records_consistent = False
-            prev_features = now_features
+            prev_feat = now_feat
 
-        # (B) Law-set minimality for achieving observations
+        # (B) Minimality of final law set for the observations
         dispensable: List[str] = []
-        for law in chosen.final_laws:
-            alt_laws = set(chosen.final_laws)
-            alt_laws.remove(law)
-            if self.observations.issubset(self.infer_features(alt_laws)):
-                dispensable.append(law)
+        final_laws_list = sorted(chosen.final_laws)
+        for a in final_laws_list:
+            li = self.law_index[a]
+            alt_mask = law_mask & ~(1 << li)
+            if (self.infer_features(alt_mask) & self.obs_mask_feat) == self.obs_mask_feat:
+                dispensable.append(a)
         minimal_laws = (len(dispensable) == 0)
 
-        # (C) No shorter path exists (independent search bounded to shorter depths)
+        # (C) No strictly shorter path exists
         shorter_example: List[str] = []
         if len(chosen.path) > 0:
-            all_shorter, _ = self.enumerate_paths(max_depth=len(chosen.path)-1, cap_paths=CAP_PATHS)
-            consistent_shorter = self.filter_consistent(all_shorter)
-            if consistent_shorter:
-                shorter_example = [s.action for s in self.choose_path(consistent_shorter).path]
+            shorter_example = self.find_shorter_example(limit_depth=len(chosen.path) - 1)
         minimal_steps = (len(shorter_example) == 0)
 
         # (D) Acyclic feature dependency graph (no circular prerequisites among features)
         def has_cycle() -> bool:
-            graph: Dict[str, Set[str]] = {f: set() for f in self.prereq.keys()}
-            for f, reqs in self.prereq.items():
-                for r in reqs:
-                    if r in self.prereq:  # r is a feature
-                        graph[f].add(r)
+            graph: Dict[str, Set[str]] = {f: set() for f in self.feature_names}
+            for f in self.feature_names:
+                fi = self.feat_index[f]
+                for rfi in range(len(self.feature_names)):
+                    if (self.req_feat_mask[fi] >> rfi) & 1:
+                        graph[f].add(self.feature_names[rfi])
             visited: Set[str] = set()
             stack: Set[str] = set()
+
             def dfs(u: str) -> bool:
                 visited.add(u)
                 stack.add(u)
@@ -280,41 +362,48 @@ class LibraryAndPath:
                         return True
                 stack.remove(u)
                 return False
+
             for node in graph:
                 if node not in visited and dfs(node):
                     return True
             return False
+
         acyclic = not has_cycle()
 
-        # (E) Invariance of final state under permutations of candidate law order
-        base_final_laws = set(chosen.final_laws)
+        # (E) Robustness under permutations of candidate law order (optional)
+        base_laws = set(chosen.final_laws)
         base_len = len(chosen.path)
-        permutations_checked = 0
         mismatches: List[Dict[str, object]] = []
-        trials = 5
-        for i in range(trials):
+        for i in range(PERMUTATION_TRIALS):
             perm = list(self.candidate_laws)
             random.shuffle(perm)
             if perm == self.candidate_laws:
                 random.shuffle(perm)
-            engine2 = LibraryAndPath(perm, self.prereq, self.observations)
-            paths2, _ = engine2.enumerate_paths(MAX_DEPTH, CAP_PATHS)
-            consistent2 = engine2.filter_consistent(paths2)
-            chosen2 = engine2.choose_path(consistent2)
+            engine2 = LibraryAndPath(perm, PREREQUISITES, self.observations)
+            chosen2, _, _ = engine2.search(MAX_DEPTH, CAP_PATHS, fast=FAST_THOROUGH)
             if not chosen2:
-                mismatches.append({"trial": i+1, "issue": "no_path_under_permutation"})
+                mismatches.append({"trial": i + 1, "issue": "no_path_under_permutation"})
             else:
-                eq_laws = set(chosen2.final_laws) == base_final_laws
+                eq_laws = set(chosen2.final_laws) == base_laws
                 eq_len = len(chosen2.path) == base_len
                 if not (eq_laws and eq_len):
-                    mismatches.append({"trial": i+1, "final_laws_equal": eq_laws, "path_length_equal": eq_len})
-            permutations_checked += 1
+                    mismatches.append({
+                        "trial": i + 1,
+                        "final_laws_equal": eq_laws,
+                        "path_length_equal": eq_len
+                    })
         permutation_invariant = (len(mismatches) == 0)
 
         passed = bool(
-            c1 and c2 and monotonic and acyclic and minimal_laws and minimal_steps and permutation_invariant and enabled_records_consistent
+            c1
+            and c2
+            and monotonic
+            and acyclic
+            and minimal_laws
+            and minimal_steps
+            and permutation_invariant
+            and enabled_records_consistent
         )
-
         return {
             "recomputed_features_match": c1,
             "observations_satisfied": c2,
@@ -326,20 +415,16 @@ class LibraryAndPath:
             "shorter_path_example": shorter_example,
             "acyclic_feature_dependencies": acyclic,
             "permutation_invariant": permutation_invariant,
-            "permutations_checked": permutations_checked,
             "permutation_mismatches": mismatches,
             "passed": passed,
         }
 
-    # ---------- Orchestration
+    # ----- Orchestrate a full run
     def run(self, max_depth: int, cap_paths: int) -> Dict[str, object]:
-        all_paths, total = self.enumerate_paths(max_depth=max_depth, cap_paths=cap_paths)
-        consistent = self.filter_consistent(all_paths)
-        chosen = self.choose_path(consistent)
-
+        chosen, total, consistent = self.search(max_depth=max_depth, cap_paths=cap_paths, fast=FAST_THOROUGH)
         if not chosen:
             answer = {"selected_path": None, "final_state": None}
-            reason = "No consistent path found under current depth and logic."
+            reason_lines = ["No consistent path found under current settings."]
             check = {"passed": False}
         else:
             answer = {
@@ -349,16 +434,16 @@ class LibraryAndPath:
                     "features": sorted(chosen.final_features),
                 },
             }
-            reason = self.explain(chosen, total_states=total, consistent_count=len(consistent))
+            reason_lines = self.explain(chosen, total_nodes=total, consistent_count=consistent)
             check = self.independent_check(chosen)
 
-        return {"answer": answer, "reason": reason, "check": check}
+        return {"answer": answer, "reason": reason_lines, "check": check}
 
 
 def main():
     engine = LibraryAndPath(CANDIDATE_LAWS, PREREQUISITES, OBSERVATIONS)
     result = engine.run(MAX_DEPTH, CAP_PATHS)
-    print(json.dumps(result, indent=2))
+    print(json.dumps(result, indent=2, ensure_ascii=False))
 
 
 if __name__ == "__main__":
