@@ -1,4 +1,4 @@
-# Proof in Plain Sight: The ARC Triad
+# arcal
 
 The ARC triad is short for Answer, Reason, Check. It is presented as a simple way to write small, trustworthy programs that read like a short story. First you give the answer to a clear question, then you explain in everyday language why that answer follows, and finally you run a check that can fail loudly if an assumption is wrong or an edge case bites. The point is not only to compute a result but to carry an auditable trail that shows what was done, why it was valid, and how the program verifies itself.
 
