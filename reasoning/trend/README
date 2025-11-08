@@ -1,0 +1,60 @@
+-----------
+7-Day Trend
+-----------
+
+This folder contains a single Notation3 file that derives an insight 
+from raw data using the ARC pattern. The page states an Answer, gives a 
+short Reason, and carries several independent Checks that verify the 
+claim whenever the file is reasoned over. The dataset is a small 
+seven-day time series with a value for each day and a :next link to the 
+following day. A tiny configuration node provides two parameters as 
+proper triples: :config :steps 6 (because seven days have six gaps) and 
+:config :tol 1e-12 (a numerical tolerance used by the checks).
+
+The page models a couple of “user-defined built-ins” as backward 
+rules whose bodies use only standard N3 math built-ins. One rule 
+computes an endpoint slope as (end − start) / steps and is exposed as 
+:slope. Another computes day-to-day deltas from adjacent :value nodes 
+and is exposed as :delta. Because rule bodies use only triple patterns 
+with math:difference, math:sum, math:product, math:quotient, 
+math:absoluteValue, math:lessThan, and math:greaterThan, the entire 
+artifact stays inside the official built-ins.
+
+The Answer is an explicit statement that an upward seven-day trend is 
+present when the endpoint slope is positive and every daily delta is 
+positive. The Reason is a short explanation that this trend decision is 
+based on the endpoint slope together with monotonic day-to-day 
+increases. The Checks then establish trust from different angles. There 
+is an endpoint identity check that compares (end − start) to slope × 
+steps within the tolerance. There is a mid-week consistency check that 
+the fourth day is above the first day. There is a check that the 
+average of all seven values is strictly between the start and the end. 
+There is a telescoping check that the sum of the daily deltas equals 
+(end − start) within the tolerance. Finally, there is a check that 
+the endpoint slope equals the mean of the daily deltas, again within 
+the tolerance. Each check is designed to fail loudly if something 
+important goes wrong.
+
+To run the page, load the N3 file into a reasoner that supports the N3 
+math built-ins and backward rules, such as EYE, and materialize the 
+inferred triples. After reasoning you should see a compact summary 
+alongside the checks, for example:
+
+:answer :text "Upward 7-day trend detected." ; :slope 
+0.6666666666666666 ; :start 10.0 ; :end 14.0 .
+:reason :says "Use endpoint slope and positive day-to-day deltas to establish an upward trend." .
+:check1 :ok true .
+:check2 :ok true .
+:check3 :ok true .
+:check4 :ok true .
+:check5 :ok true .
+
+You can adapt the page easily. Replace the :value numbers to use your 
+own time series, update :config :steps to be the number of gaps between 
+your first and last day, and tighten or loosen :config :tol depending 
+on the precision of your data and built-in implementations. You may 
+also add further checks, provided their rule bodies remain triple 
+patterns that call only the documented N3 built-ins. In this way the 
+ARC artifact remains self-contained, readable, and repeatable: it says 
+the answer, explains the reason, and proves itself every time it runs.
+

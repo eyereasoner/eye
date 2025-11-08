@@ -1,0 +1,204 @@
+@prefix :     <http://example.org/arc/trend#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# -------------------------------------------------------------------
+# Raw data (7 consecutive days, generic units)
+# -------------------------------------------------------------------
+:day1 :value 10.0 ; :next :day2 .
+:day2 :value 10.8 ; :next :day3 .
+:day3 :value 11.5 ; :next :day4 .
+:day4 :value 12.1 ; :next :day5 .
+:day5 :value 12.9 ; :next :day6 .
+:day6 :value 13.4 ; :next :day7 .
+:day7 :value 14.0 .
+
+# Configuration
+:config :steps 6 ;
+        :tol   1e-12 .
+
+# -------------------------------------------------------------------
+# "User-defined built-ins" via backward rules (built-ins only in bodies)
+# -------------------------------------------------------------------
+
+# Endpoint slope: given (start,end) and number of steps n, slope = (end - start)/n
+{ ((?Start ?End) ?N) :slope ?M . }
+<=
+{ (?End ?Start) math:difference ?D .
+  (?D ?N)       math:quotient   ?M . } .
+
+# Day-to-day delta from nodes that carry :value
+{ (?A ?B) :delta ?Delta . }
+<=
+{ ?A :value ?vA .
+  ?B :value ?vB .
+  (?vB ?vA) math:difference ?Delta . } .
+
+# -------------------------------------------------------------------
+# A: Answer — declare an upward 7-day trend when slope > 0 and all deltas > 0
+# -------------------------------------------------------------------
+{
+  :day1 :value ?v1 .
+  :day7 :value ?v7 .
+  :config :steps ?n .
+
+  ((?v1 ?v7) ?n) :slope ?m .
+  ?m math:greaterThan 0 .
+
+  :day1 :next :day2 .
+  (:day1 :day2) :delta ?d12 . ?d12 math:greaterThan 0 .
+  :day2 :next :day3 .
+  (:day2 :day3) :delta ?d23 . ?d23 math:greaterThan 0 .
+  :day3 :next :day4 .
+  (:day3 :day4) :delta ?d34 . ?d34 math:greaterThan 0 .
+  :day4 :next :day5 .
+  (:day4 :day5) :delta ?d45 . ?d45 math:greaterThan 0 .
+  :day5 :next :day6 .
+  (:day5 :day6) :delta ?d56 . ?d56 math:greaterThan 0 .
+  :day6 :next :day7 .
+  (:day6 :day7) :delta ?d67 . ?d67 math:greaterThan 0 .
+}
+=>
+{
+  :answer :text "Upward 7-day trend detected." ;
+          :slope ?m ;
+          :start ?v1 ;
+          :end   ?v7 .
+} .
+
+# -------------------------------------------------------------------
+# R: Reason — we read trend from the endpoint slope and confirm monotonic rise
+# -------------------------------------------------------------------
+{
+  :day1 :value ?v1 .
+  :day7 :value ?v7 .
+  :config :steps ?n .
+  ((?v1 ?v7) ?n) :slope ?m .
+}
+=>
+{
+  :reason :says "Use endpoint slope and positive day-to-day deltas to establish an upward trend." ;
+          :uses math:difference, math:quotient, math:greaterThan ;
+          :start ?v1 ;
+          :end   ?v7 ;
+          :steps ?n ;
+          :slope ?m .
+} .
+
+# -------------------------------------------------------------------
+# C: Checks — independent verifications using only math built-ins
+# -------------------------------------------------------------------
+
+# Check 1: Endpoint identity — (end - start) ≈ slope * steps
+{
+  :day1 :value ?v1 .
+  :day7 :value ?v7 .
+  :config :steps ?n .
+  :config :tol ?eps .
+  ((?v1 ?v7) ?n) :slope ?m .
+
+  (?m ?n)   math:product    ?rise .
+  (?v7 ?v1) math:difference ?diff .
+  (?diff ?rise) math:difference ?err .
+  ?err math:absoluteValue ?a .
+  ?a   math:lessThan ?eps .
+}
+=>
+{ :check1 :ok true . } .
+
+# Check 2: Mid-week above start — simple monotonic consistency check
+{
+  :day1 :value ?v1 .
+  :day4 :value ?v4 .
+  (?v4 ?v1) math:difference ?d14 .
+  ?d14 math:greaterThan 0 .
+}
+=>
+{ :check2 :ok true . } .
+
+# Check 3: Average lies strictly between start and end
+{
+  :day1 :value ?v1 .
+  :day2 :value ?v2 .
+  :day3 :value ?v3 .
+  :day4 :value ?v4 .
+  :day5 :value ?v5 .
+  :day6 :value ?v6 .
+  :day7 :value ?v7 .
+
+  (?v1 ?v2) math:sum ?s12 .
+  (?s12 ?v3) math:sum ?s123 .
+  (?s123 ?v4) math:sum ?s1234 .
+  (?s1234 ?v5) math:sum ?s12345 .
+  (?s12345 ?v6) math:sum ?s123456 .
+  (?s123456 ?v7) math:sum ?sum7 .
+
+  (?sum7 7) math:quotient ?avg .
+
+  ?avg math:greaterThan ?v1 .
+  ?v7  math:greaterThan ?avg .
+}
+=>
+{ :check3 :ok true . } .
+
+# Check 4: Telescoping — sum of daily deltas equals (end - start)
+{
+  :day1 :value ?v1 .
+  :day2 :value ?v2 .
+  :day3 :value ?v3 .
+  :day4 :value ?v4 .
+  :day5 :value ?v5 .
+  :day6 :value ?v6 .
+  :day7 :value ?v7 .
+  :config :tol ?eps .
+
+  (:day1 :day2) :delta ?d12 .
+  (:day2 :day3) :delta ?d23 .
+  (:day3 :day4) :delta ?d34 .
+  (:day4 :day5) :delta ?d45 .
+  (:day5 :day6) :delta ?d56 .
+  (:day6 :day7) :delta ?d67 .
+
+  (?d12 ?d23) math:sum ?s1 .
+  (?s1  ?d34) math:sum ?s2 .
+  (?s2  ?d45) math:sum ?s3 .
+  (?s3  ?d56) math:sum ?s4 .
+  (?s4  ?d67) math:sum ?sumD .
+
+  (?v7 ?v1) math:difference ?diff .
+  (?diff ?sumD) math:difference ?err .
+  ?err math:absoluteValue ?a .
+  ?a   math:lessThan ?eps .
+}
+=>
+{ :check4 :ok true . } .
+
+# Check 5: Slope equals mean daily delta
+{
+  :config :steps ?n .
+  :config :tol ?eps .
+  :day1 :value ?v1 .
+  :day7 :value ?v7 .
+  ((?v1 ?v7) ?n) :slope ?m .
+
+  (:day1 :day2) :delta ?d12 .
+  (:day2 :day3) :delta ?d23 .
+  (:day3 :day4) :delta ?d34 .
+  (:day4 :day5) :delta ?d45 .
+  (:day5 :day6) :delta ?d56 .
+  (:day6 :day7) :delta ?d67 .
+
+  (?d12 ?d23) math:sum ?t1 .
+  (?t1  ?d34) math:sum ?t2 .
+  (?t2  ?d45) math:sum ?t3 .
+  (?t3  ?d56) math:sum ?t4 .
+  (?t4  ?d67) math:sum ?sumD .
+
+  (?sumD ?n) math:quotient ?meanDelta .
+  (?meanDelta ?m) math:difference ?e .
+  ?e math:absoluteValue ?ae .
+  ?ae math:lessThan ?eps .
+}
+=>
+{ :check5 :ok true . } .
+
