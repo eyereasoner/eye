@@ -1,0 +1,53 @@
+Applying evidence: bad ← beautiful ; evidence(bad,false)
+W1: blue    beautiful holds ⇒ bad would be true ⇒ DROP
+W2: nice    beautiful false ⇒ bad false ⇒ KEEP
+W3: pretty  beautiful holds ⇒ bad would be true ⇒ DROP
+Surviving worlds: nice
+Answer
+======
+
+--- Trace for prop(nice,beetle) ---
+World 1: nice    ✓ nice
+Result: VALID — true in all 1 surviving worlds.
+
+--- Trace for prop(beautiful,beetle) ---
+World 1: nice    ✗ beautiful
+Result: UNSATISFIABLE — false in all 1 surviving worlds.
+
+--- Trace for prop(blue,beetle) ---
+World 1: nice    ✗ blue
+Result: UNSATISFIABLE — false in all 1 surviving worlds.
+
+Summary
+-------
+prop(nice,beetle): VALID
+prop(beautiful,beetle): UNSATISFIABLE
+prop(blue,beetle): UNSATISFIABLE
+
+Reason why
+==========
+Three exclusive worlds encode uncertainty about the beetle:
+  • W1 = blue
+  • W2 = green ∧ nice
+  • W3 = green ∧ pretty
+Rules make beautiful true exactly in worlds with blue or pretty.
+Since bad ← beautiful and the evidence requires bad=false, any
+world with beautiful must be dropped. Only W2 (green ∧ nice) remains.
+Therefore:
+  • prop(nice,beetle) is VALID (true in the only surviving world).
+  • prop(beautiful,beetle) is UNSATISFIABLE post-evidence.
+  • prop(blue,beetle) is UNSATISFIABLE post-evidence.
+
+Check (harness)
+===============
+Only W2 ('nice') survives? True
+In surviving worlds: ¬beautiful ∧ ¬bad ∧ nice ? True
+Classifications correct? True
+Applying evidence: bad ← beautiful ; evidence(bad,false)
+W1: blue    beautiful holds ⇒ bad would be true ⇒ DROP
+W2: nice    beautiful false ⇒ bad false ⇒ KEEP
+W3: pretty  beautiful holds ⇒ bad would be true ⇒ DROP
+Surviving worlds: nice
+Evidence & classify() are deterministic/idempotent? True
+
+All checks passed? True

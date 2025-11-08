@@ -1,0 +1,48 @@
+Answer:
+- Sample_01  •  15.00 µL ( 37.5%) • conc  8.00 ng/µL • bp  450 • CLIP:max
+- Sample_02  •  10.00 µL ( 25.0%) • conc 20.00 ng/µL • bp  300 • CLIP:avail
+- Sample_03  •  15.00 µL ( 37.5%) • conc  2.50 ng/µL • bp  500 • CLIP:avail
+- Sample_04  •   0.00 µL (  0.0%) • conc  0.00 ng/µL • bp  400 • CLIP:qc
+  • Total: 40.00 µL (target 40.00 µL)
+
+Reason why:
+- Policy: minVol=2.0 µL, maxVol=15.0 µL; status=scaled/ok
+- Sample_01:
+  • Inverse-molar weight: w=frag/conc = 450 / 8.000
+  • Scale to target: k=40.0/∑w → raw=8.29 µL
+  • R1: (2.0 40.0) math:quotient minFrac=0.050
+  • R2: (15.0 40.0) math:quotient maxFrac=0.375
+  • R3: qcFail=false ⇒ allowedMaxFrac=0.375
+  • R4: availFrac=20.0/40.0 → 0.500
+  • Clip to [min,max,avail]: 2.00≤vol≤15.00 → vol=15.00 µL (max)
+- Sample_02:
+  • Inverse-molar weight: w=frag/conc = 300 / 20.000
+  • Scale to target: k=40.0/∑w → raw=2.21 µL
+  • R1: (2.0 40.0) math:quotient minFrac=0.050
+  • R2: (15.0 40.0) math:quotient maxFrac=0.375
+  • R3: qcFail=false ⇒ allowedMaxFrac=0.375
+  • R4: availFrac=10.0/40.0 → 0.250
+  • Clip to [min,max,avail]: 2.00≤vol≤10.00 → vol=10.00 µL (avail)
+- Sample_03:
+  • Inverse-molar weight: w=frag/conc = 500 / 2.500
+  • Scale to target: k=40.0/∑w → raw=29.49 µL
+  • R1: (2.0 40.0) math:quotient minFrac=0.050
+  • R2: (15.0 40.0) math:quotient maxFrac=0.375
+  • R3: qcFail=false ⇒ allowedMaxFrac=0.375
+  • R4: availFrac=15.0/40.0 → 0.375
+  • Clip to [min,max,avail]: 2.00≤vol≤15.00 → vol=15.00 µL (avail)
+- Sample_04:
+  • Inverse-molar weight: w=frag/conc = 400 / 0.000
+  • Scale to target: k=40.0/∑w → raw=0.00 µL
+  • R1: (2.0 40.0) math:quotient minFrac=0.050
+  • R2: (15.0 40.0) math:quotient maxFrac=0.375
+  • R3: qcFail=true ⇒ allowedMaxFrac=0.000
+  • R4: availFrac=6.0/40.0 → 0.150
+  • Clip to [min,max,avail]: 0.00≤vol≤0.00 → vol=0.00 µL (qc)
+
+Check (harness):
+✅ PASS — all checks satisfied.
+  • [C1] Totals OK: total 40.00 µL (cap 40.00, target 40.00)
+  • [C2] Bounds OK across 4 samples (min 2.0 µL, max 15.0 µL, QC respected)
+  • [C4] Anti-correlation not applicable (all samples clipped)
+  • [C5] Monotonicity OK: +20% target did not reduce any individual volume

@@ -1,0 +1,41 @@
+Answer
+======
+
+--- Trace for prop(beautiful,beetle) ---
+World 1: colour=green ✓ beautiful (because green ⇒ beautiful)
+World 2: colour=blue  ✓ beautiful (because blue ⇒ beautiful)
+Result: VALID — prop(beautiful,beetle) is true in all 2 worlds.
+
+--- Trace for prop(green,beetle) ---
+World 1: colour=green ✓ green
+World 2: colour=blue  ✗ green
+Result: SATISFIABLE (but not valid) — holds in 1/2 worlds.
+
+--- Trace for prop(blue,beetle) ---
+World 1: colour=green ✗ blue
+World 2: colour=blue  ✓ blue
+Result: SATISFIABLE (but not valid) — holds in 1/2 worlds.
+
+Summary
+-------
+prop(beautiful,beetle): VALID
+prop(green,beetle): SATISFIABLE in 1/2 worlds → green
+prop(blue,beetle): SATISFIABLE in 1/2 worlds → blue
+
+Reason why
+==========
+We model uncertainty as two mutually exclusive worlds for the beetle’s colour:
+  • W1 asserts green(beetle)
+  • W2 asserts blue(beetle)
+The rule beautiful(X) ← green(X) ∨ blue(X) makes beautiful(beetle) true
+in *both* worlds, hence it is VALID. Each colour atom is true in exactly
+one world, so each is merely SATISFIABLE (but not valid).
+
+Check (harness)
+===============
+Worlds encode an exclusive choice and car(beetle) is always true? True
+beautiful ↔ (green ∨ blue) holds per world? True
+Classifications (VALID / SAT / UNSAT) match expected? True
+Classify() is deterministic/idempotent? True
+
+All checks passed? True

@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Easter (Computus) — ARC (Answer / Reason / Check)</title>
+  <style>
+    :root { --fg:#101014; --bg:#ffffff; --muted:#666; --accent:#2563eb; --chip:#eef2ff; --ok:#16a34a; --bad:#dc2626; --warn:#ca8a04; }
+    @media (prefers-color-scheme: dark) {
+      :root { --fg:#eaeaf0; --bg:#0b0b10; --muted:#a0a0b0; --accent:#60a5fa; --chip:#0e1a32; }
+    }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font: 15px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
+    main { max-width: 1100px; margin: 0 auto; padding: 28px 16px 80px; }
+    h1 { font-size: clamp(1.6rem, 2.6vw + 1rem, 2.2rem); margin: 0 0 6px; }
+    header p { margin: 0; color: var(--muted); }
+    section { margin: 18px 0 22px; padding: 14px 14px 16px; border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent); border-radius: 14px;
+              background: color-mix(in srgb, var(--accent) 4%, transparent); }
+    section h2 { margin: 0 0 8px; font-size: 1.15rem; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:10px; }
+    .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .btn { appearance:none; border:1px solid color-mix(in srgb, var(--accent) 35%, transparent); background: color-mix(in srgb, var(--accent) 8%, transparent);
+           color: var(--fg); border-radius: 10px; padding: 8px 12px; font-weight: 700; cursor: pointer; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    .muted { color: var(--muted); }
+    .small { font-size: .92em; }
+    .tbl { width:100%; border-collapse: collapse; }
+    .tbl th, .tbl td { padding: 6px 8px; border-bottom: 1px dashed color-mix(in srgb, var(--fg) 18%, transparent); vertical-align: top; }
+    .tbl th { text-align:left; }
+    .chip { display:inline-block; padding:2px 8px; border-radius:999px; background:var(--chip); font-weight:600; }
+    .ok { color: var(--ok); }
+    .bad { color: var(--bad); }
+    .warn { color: var(--warn); }
+    input[type="number"] { padding: 8px 10px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); min-width: 120px; }
+    .nowrap { white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="row">
+      <div>
+        <h1>Easter (Computus) — ARC</h1>
+        <p>Self‑contained, browser‑only calculator for Easter Sunday (Western &amp; Orthodox).</p>
+      </div>
+      <div class="row" style="margin-left:auto;">
+        <label class="muted small" for="year">Year:</label>
+        <input id="year" type="number" min="1583" max="4099" step="1" value="2025" />
+        <label class="muted small" for="a">Range:</label>
+        <input id="a" type="number" min="1583" max="4099" step="1" value="1990" />
+        <span>→</span>
+        <input id="b" type="number" min="1583" max="4099" step="1" value="2050" />
+        <button id="go" class="btn">Compute</button>
+      </div>
+    </header>
+
+    <section>
+      <h2>What this is?</h2>
+      <p>
+        A friendly explainer for <em>computus</em> — the old craft of calculating Easter by calendar rules
+        rather than sky‑watching. Type a year to get the date of Easter Sunday in the Western (Gregorian)
+        tradition and the Orthodox (Julian) tradition. Everything runs locally in JavaScript.
+      </p>
+      <div class="grid small">
+        <div><strong>How it works</strong><br/>We implement two independent formulas for Western Easter and check they agree.
+             For Orthodox Easter, we compute in the Julian calendar then convert to the modern calendar.</div>
+        <div><strong>What to expect</strong><br/>Western Easter always falls on a Sunday between <span class="chip">March 22</span> and <span class="chip">April 25</span>.
+             Orthodox Easter is usually later.</div>
+        <div><strong>Tip</strong><br/>Use the range to list many years at once.</div>
+      </div>
+    </section>
+
+    <section id="answer">
+      <h2>Answer</h2>
+      <div id="answer-one"></div>
+      <div id="answer-table"></div>
+    </section>
+
+    <section id="reason">
+      <h2>Reason why</h2>
+      <div class="small">
+        <p>Western (Gregorian) Easter is the Sunday after the “Paschal full moon” which is defined by fixed tables.
+           Algorithms (like Gauss/Meeus/Butcher) reproduce those tables arithmetically.</p>
+        <p class="mono small">Butcher (Gregorian):<br/>
+          a=y mod 19; b=⌊y/100⌋; c=y mod 100; d=⌊b/4⌋; e=b mod 4; f=⌊(b+8)/25⌋; g=⌊(b−f+1)/3⌋;<br/>
+          h=(19a+b−d−g+15) mod 30; i=⌊c/4⌋; k=c mod 4; l=(32+2e+2i−h−k) mod 7;<br/>
+          m=⌊(a+11h+22l)/451⌋;<br/>
+          month=⌊(h+l−7m+114)/31⌋; day=((h+l−7m+114) mod 31)+1.
+        </p>
+        <p class="mono small">Meeus (Gregorian, with corrections):<br/>
+          a=y mod 19; b=y mod 4; c=y mod 7; k=⌊y/100⌋; p=⌊(13+8k)/25⌋; q=⌊k/4⌋;<br/>
+          M=(15−p+k−q) mod 30; N=(4+k−q) mod 7; d=(19a+M) mod 30; e=(2b+4c+6d+N) mod 7;<br/>
+          day=22+d+e; adjust: if d=29 &amp; e=6 → Apr 19; if d=28 &amp; e=6 &amp; a&gt;10 → Apr 18.
+        </p>
+        <p class="mono small">Orthodox (Julian):<br/>
+          In the Julian calendar compute a,b,c,d,e as customary; convert the resulting Julian date to the modern calendar.</p>
+      </div>
+    </section>
+
+    <section id="check">
+      <h2>Check (harness)</h2>
+      <div id="check-body"></div>
+    </section>
+  </main>
+
+  <script>
+  (function(){
+    "use strict";
+
+    // ------------ Helpers -------------
+    const $ = (id) => document.getElementById(id);
+    const pad2 = (n) => n.toString().padStart(2, '0');
+    const monthName = (m) => (["","January","February","March","April","May","June","July","August","September","October","November","December"])[m];
+    const fmtDate = (y,m,d) => `${monthName(m)} ${d}, ${y}`;
+
+    // JS Date weekday (UTC) for sanity: 0=Sun..6=Sat
+    const weekdayUTC = (y,m,d) => new Date(Date.UTC(y, m-1, d)).getUTCDay();
+
+    // ------------ Gregorian Easter (Butcher) -------------
+    function easterGregorianButcher(y){
+      const a = y % 19;
+      const b = Math.floor(y/100);
+      const c = y % 100;
+      const d = Math.floor(b/4);
+      const e = b % 4;
+      const f = Math.floor((b + 8) / 25);
+      const g = Math.floor((b - f + 1) / 3);
+      const h = (19*a + b - d - g + 15) % 30;
+      const i = Math.floor(c/4);
+      const k = c % 4;
+      const l = (32 + 2*e + 2*i - h - k) % 7;
+      const m = Math.floor((a + 11*h + 22*l) / 451);
+      const month = Math.floor((h + l - 7*m + 114) / 31);        // 3 = March, 4 = April
+      const day = ((h + l - 7*m + 114) % 31) + 1;
+      return {y, m:month, d:day};
+    }
+
+    // ------------ Gregorian Easter (Meeus) -------------
+    function easterGregorianMeeus(y){
+      const a = y % 19;
+      const b = y % 4;
+      const c = y % 7;
+      const k = Math.floor(y/100);
+      const p = Math.floor((13 + 8*k)/25);
+      const q = Math.floor(k/4);
+      const M = (15 - p + k - q) % 30;
+      const N = (4 + k - q) % 7;
+      const d = (19*a + M) % 30;
+      const e = (2*b + 4*c + 6*d + N) % 7;
+      let day = 22 + d + e;
+      let month = 3;
+      if (day > 31) { month = 4; day -= 31; }
+
+      // Corrections
+      if (d === 29 && e === 6) { month = 4; day = 19; }
+      else if (d === 28 && e === 6 && a > 10) { month = 4; day = 18; }
+
+      return {y, m:month, d:day};
+    }
+
+    // ------------ Orthodox Easter (Julian -> Gregorian) -------------
+    // Julian Easter algorithm (Meeus-style in Julian calendar)
+    function easterJulian(y){
+      const a = y % 4;
+      const b = y % 7;
+      const c = y % 19;
+      const d = (19*c + 15) % 30;
+      const e = (2*a + 4*b - d + 34) % 7;
+      const month = Math.floor((d + e + 114) / 31);  // 3=March, 4=April (Julian)
+      const day = ((d + e + 114) % 31) + 1;
+      return {y, m:month, d:day}; // Julian calendar
+    }
+
+    // Convert Julian date to JDN
+    function jdnFromJulian(y, m, d){
+      const a = Math.floor((14 - m)/12);
+      const yy = y + 4800 - a;
+      const mm = m + 12*a - 3;
+      return d + Math.floor((153*mm + 2)/5) + 365*yy + Math.floor(yy/4) - 32083;
+    }
+    // Convert Gregorian date to JDN
+    function jdnFromGregorian(y, m, d){
+      const a = Math.floor((14 - m)/12);
+      const yy = y + 4800 - a;
+      const mm = m + 12*a - 3;
+      return d + Math.floor((153*mm + 2)/5) + 365*yy + Math.floor(yy/4) - Math.floor(yy/100) + Math.floor(yy/400) - 32045;
+    }
+    // Convert JDN to Gregorian date (y,m,d)
+    function gregorianFromJdn(jdn){
+      const a = jdn + 32044;
+      const b = Math.floor((4*a + 3)/146097);
+      const c = a - Math.floor(146097*b/4);
+      const d = Math.floor((4*c + 3)/1461);
+      const e = c - Math.floor(1461*d/4);
+      const m = Math.floor((5*e + 2)/153);
+      const day = e - Math.floor((153*m + 2)/5) + 1;
+      const month = m + 3 - 12*Math.floor(m/10);
+      const year = 100*b + d - 4800 + Math.floor(m/10);
+      return {y:year, m:month, d:day};
+    }
+
+    function orthodoxEasterGregorian(y){
+      const j = easterJulian(y);
+      const jdn = jdnFromJulian(j.y, j.m, j.d);
+      return gregorianFromJdn(jdn); // convert to Gregorian date
+    }
+
+    // ------------ Rendering -------------
+    function showOne(y){
+      const g1 = easterGregorianButcher(y);
+      const g2 = easterGregorianMeeus(y);
+      const o = orthodoxEasterGregorian(y);
+
+      const agree = (g1.m === g2.m && g1.d === g2.d);
+      const sameTxt = agree ? '<span class="ok">✓ algorithms agree</span>' : '<span class="bad">✗ mismatch</span>';
+      const wd = weekdayUTC(g1.y, g1.m, g1.d);
+      const wdOk = wd === 0;
+
+      const html = `<div class="grid">
+        <div><span class="chip">Western (Gregorian)</span><br><strong>${fmtDate(g1.y,g1.m,g1.d)}</strong><br><span class="${wdOk?'ok':'bad'}">${wdOk?'Sunday confirmed':'Not Sunday?'}</span> · ${sameTxt}</div>
+        <div><span class="chip">Orthodox (Gregorian)</span><br><strong>${fmtDate(o.y,o.m,o.d)}</strong><br><span class="${weekdayUTC(o.y,o.m,o.d)===0?'ok':'bad'}">${weekdayUTC(o.y,o.m,o.d)===0?'Sunday confirmed':'Not Sunday?'}</span></div>
+      </div>`;
+      $('answer-one').innerHTML = html;
+    }
+
+    function listRange(a,b){
+      const rows = [];
+      a = Math.max(1583, Math.min(4099, a|0));
+      b = Math.max(1583, Math.min(4099, b|0));
+      if (a > b) [a,b] = [b,a];
+      rows.push('<table class="tbl small mono"><thead><tr><th>Year</th><th>Western (Gregorian)</th><th>Orthodox (Gregorian)</th></tr></thead><tbody>');
+      for (let y=a; y<=b; y++){
+        const g = easterGregorianButcher(y);
+        const o = orthodoxEasterGregorian(y);
+        rows.push(`<tr><td>${y}</td><td>${pad2(g.m)}-${pad2(g.d)}</td><td>${pad2(o.m)}-${pad2(o.d)}</td></tr>`);
+      }
+      rows.push('</tbody></table>');
+      $('answer-table').innerHTML = rows.join('');
+    }
+
+    // ------------ Checks -------------
+    function runChecks(){
+      const lines = [];
+      let okAll = true;
+
+      // A) Agreement & bounds for 1583..4099
+      let agreeAll = true, inBounds = true;
+      let earliest = {y:null, m:12, d:31};
+      let latest   = {y:null, m:1, d:1};
+      for (let y=1583; y<=4099; y++){
+        const g1 = easterGregorianButcher(y);
+        const g2 = easterGregorianMeeus(y);
+        if (!(g1.m === g2.m && g1.d === g2.d)) { agreeAll = false; lines.push(` mismatch at ${y}`); break; }
+        // bounds: March 22 .. April 25
+        const cmpEarly = (g1.m < 3) || (g1.m === 3 && g1.d < 22);
+        const cmpLate  = (g1.m > 4) || (g1.m === 4 && g1.d > 25);
+        if (cmpEarly || cmpLate) { inBounds = false; lines.push(` out-of-bounds ${y}:${g1.m}-${g1.d}`); break; }
+        // find extremes
+        if (g1.m < earliest.m || (g1.m === earliest.m && g1.d < earliest.d)) earliest = {y, m:g1.m, d:g1.d};
+        if (g1.m > latest.m || (g1.m === latest.m && g1.d > latest.d)) latest = {y, m:g1.m, d:g1.d};
+        // weekday Sunday
+        if (weekdayUTC(g1.y,g1.m,g1.d) !== 0) { lines.push(` not Sunday at ${y}`); okAll=false; break; }
+      }
+      lines.push(`Western algorithms agree on 1583–4099: ${agreeAll}`);
+      lines.push(`Western dates stay between Mar 22 and Apr 25: ${inBounds}`);
+      lines.push(`Earliest Western Easter in 1583–4099: ${fmtDate(earliest.y, earliest.m, earliest.d)}`);
+      lines.push(`Latest Western Easter in 1583–4099: ${fmtDate(latest.y, latest.m, latest.d)}`);
+      okAll = okAll && agreeAll && inBounds;
+
+      // B) Orthodox is Sunday (check 1583–4099)
+      let orthoSunday = true;
+      for (let y=1583; y<=4099; y++){
+        const o = orthodoxEasterGregorian(y);
+        if (weekdayUTC(o.y,o.m,o.d) !== 0){ orthoSunday = false; lines.push(` orthodox not Sunday at ${y}`); break; }
+      }
+      lines.push(`Orthodox Easter (converted) is always Sunday: ${orthoSunday}`);
+      okAll = okAll && orthoSunday;
+
+      lines.push("");
+      lines.push(`All checks passed? ${okAll ? 'Yes ✓' : 'Some items need attention'}`);
+      return lines;
+    }
+
+    function renderChecks(){
+      const lines = runChecks();
+      const pre = document.createElement('pre');
+      pre.className = 'mono';
+      pre.style.whiteSpace = 'pre-wrap';
+      pre.textContent = lines.join('\n');
+      $('check-body').replaceChildren(pre);
+    }
+
+    // ------------ Wire up -------------
+    function runAll(){
+      const y = Math.max(1583, Math.min(4099, parseInt($('year').value || '2025', 10)));
+      const a = parseInt($('a').value || '1990', 10);
+      const b = parseInt($('b').value || '2050', 10);
+      showOne(y);
+      listRange(a,b);
+      renderChecks();
+    }
+
+    $('go').addEventListener('click', runAll);
+    // initial
+    runAll();
+  })();
+  </script>
+</body>
+</html>

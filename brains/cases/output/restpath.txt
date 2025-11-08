@@ -1,0 +1,34 @@
+Answer
+------
+<x> ex:relGoal <y>
+
+Emitted GET requests: 9
+  _:$req1: GET <x>  → body <y>
+  _:$req11: GET <x>  → body <y>
+  _:$req13: GET <x>  → body <y>
+  _:$req15: GET <x>  → body <y>
+  _:$req17: GET <x>  → body <y>
+  _:$req19: GET <x>  → body <y>
+  _:$req21: GET <x>  → body <y>
+  _:$req7: GET <x>  → body <y>
+  _:$req9: GET <x>  → body <y>
+
+Reason why
+----------
+[1] Facts: <x> ex:rel1 <y>
+[2] Goal: { <x> ex:relGoal <y> }
+[3] Premise-Rule: Chain: rel1→rel2 (create 3 lanes), then relk→rel{k+1} for k=2..9; final also asserts relGoal // Each step emits a GET on lane-1
+[4] Step-1 (rel1→rel2): emit GET(req=_:$req1, uri=<x>, body=<y>); create lanes: (a1,b1)=(<x>,<y>), (a2,b2)=(_:$a3,_:$b4), (a3,b3)=(_:$a5,_:$b6) // Existential a2,b2,a3,b3
+[5] Step-2 (rel2→rel3): emit GET(req=_:$req7, uri=<x>, body=<y>); promote 3 lanes to rel3
+[6] Step-3 (rel3→rel4): emit GET(req=_:$req9, uri=<x>, body=<y>); promote 3 lanes to rel4
+[7] Step-4 (rel4→rel5): emit GET(req=_:$req11, uri=<x>, body=<y>); promote 3 lanes to rel5
+[8] Step-5 (rel5→rel6): emit GET(req=_:$req13, uri=<x>, body=<y>); promote 3 lanes to rel6
+[9] Step-6 (rel6→rel7): emit GET(req=_:$req15, uri=<x>, body=<y>); promote 3 lanes to rel7
+[10] Step-7 (rel7→rel8): emit GET(req=_:$req17, uri=<x>, body=<y>); promote 3 lanes to rel8
+[11] Step-8 (rel8→rel9): emit GET(req=_:$req19, uri=<x>, body=<y>); promote 3 lanes to rel9
+[12] Step-9 (rel9→rel10 + relGoal): emit GET(req=_:$req21, uri=<x>, body=<y>); promote to rel10; assert relGoal(<x>,<y>)
+
+Check (harness)
+---------------
+OK: goal fact, GET count/linking, lane counts per level, and proof shape verified.
+

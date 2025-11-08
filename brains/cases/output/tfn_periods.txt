@@ -1,0 +1,27 @@
+=== Answer ===
+{
+  "input": "\"2025-08\"^^xsd:gYearMonth",
+  "tfn:periodMaxExclusive": "\"2025-09-01T00:00:00.000-14:00\"^^xsd:dateTime",
+  "tfn:periodMaxInclusive": "\"2025-08-31T23:59:59.999-14:00\"^^xsd:dateTime",
+  "tfn:periodMinExclusive": "\"2025-07-31T23:59:59.999+14:00\"^^xsd:dateTime",
+  "tfn:periodMinInclusive": "\"2025-08-01T00:00:00.000+14:00\"^^xsd:dateTime"
+}
+
+=== Reason Why ===
+We interpret the calendar period from the lexical form (floating):
+  start (floating local): 2025-08-01T00:00:00.000
+  end   (floating local): 2025-08-31T23:59:59.999000
+Then pick extreme legal time zones to capture global instants:
+  - Lower bound uses +14:00 (earliest instant globally).
+  - Upper bound uses -14:00 (latest instant globally).
+MinInclusive : "2025-08-01T00:00:00.000+14:00"^^xsd:dateTime
+MaxInclusive : "2025-08-31T23:59:59.999-14:00"^^xsd:dateTime
+MinExclusive : "2025-07-31T23:59:59.999+14:00"^^xsd:dateTime  (1 ms before MinInclusive)
+MaxExclusive : "2025-09-01T00:00:00.000-14:00"^^xsd:dateTime  (1 ms after  MaxInclusive)
+
+=== Check ===
+Overall: OK
+ - [PASS] Ordering: MinExclusive < MinInclusive <= MaxInclusive < MaxExclusive
+ - [PASS] Exact adjacency: a-c == 1ms and d-b == 1ms
+ - [PASS] Offsets: min bounds use +14:00, max bounds use -14:00
+ - [PASS] UTC monotonicity: MinInclusive ≤ MaxInclusive

@@ -1,0 +1,52 @@
+# ANSWER
+{
+  "selected": [
+    {
+      "id": "r1",
+      "name": "Tomato Basil Pasta",
+      "vegetarian": true,
+      "servings": 4
+    },
+    {
+      "id": "r6",
+      "name": "Lentil Soup",
+      "vegetarian": true,
+      "servings": 4
+    },
+    {
+      "id": "r2",
+      "name": "Veggie Stir‑Fry",
+      "vegetarian": true,
+      "servings": 4
+    },
+    {
+      "id": "r5",
+      "name": "Beef & Broccoli",
+      "vegetarian": false,
+      "servings": 4
+    },
+    {
+      "id": "r3",
+      "name": "Chicken Tacos",
+      "vegetarian": false,
+      "servings": 4
+    }
+  ]
+}
+
+# REASONS
+- Tomato Basil Pasta: uses 100% pantry items; vegetarian; dislikes_ok=True.
+- Lentil Soup: uses 93% pantry items; vegetarian; dislikes_ok=True.
+- Veggie Stir‑Fry: uses 46% pantry items; vegetarian; dislikes_ok=True.
+- Beef & Broccoli: uses 28% pantry items; non‑vegetarian; dislikes_ok=True.
+- Chicken Tacos: uses 6% pantry items; non‑vegetarian; dislikes_ok=True.
+
+Wrote ./cases/bus/meal/meal_plan.json
+
+# CHECK (harness) — detailed
+Check 1 — Count & vegetarian nights:
+  - dinners=5, vegetarian_nights=3
+Check 2 — Dislikes avoided:
+  - disliked in selection? False
+Check 3 — Required ingredients computed consistently:
+✔ All checks passed.

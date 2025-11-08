@@ -1,0 +1,32 @@
+Answer:
+- Comfort level: Increased  (bed ≥ 35 dB, living ≥ 31 dB)
+- ex:Bedroom1 (Bedroom): FAIL — predicted 33.4 dB, required 35.0 dB, margin -1.6 dB
+- ex:Bedroom2 (Bedroom): PASS — predicted 38.3 dB, required 35.0 dB, margin +3.3 dB
+- ex:Living1 (LivingRoom): PASS — predicted 37.3 dB, required 31.0 dB, margin +6.3 dB
+
+Reason why:
+- ex:Bedroom1:
+  • R (composite) via energy sum (area-weighted): 10·log10(S/Σ S_i·10^(-R_i/10)) = 33.7 dB
+  • A = (0.16 × 40.0) ÷ 0.50 = 12.80 m²  (math:product + math:quotient)
+  • D_proxy = 33.7 + 10·log10(S/A) = 33.4 dB
+  • R3: (33.4 35.0) math:difference -1.6 dB
+  • R4: pass if 33.4 math:notLessThan 35.0 ⇒ false
+- ex:Bedroom2:
+  • R (composite) via energy sum (area-weighted): 10·log10(S/Σ S_i·10^(-R_i/10)) = 38.8 dB
+  • A = (0.16 × 35.0) ÷ 0.50 = 11.20 m²  (math:product + math:quotient)
+  • D_proxy = 38.8 + 10·log10(S/A) = 38.3 dB
+  • R3: (38.3 35.0) math:difference 3.3 dB
+  • R4: pass if 38.3 math:notLessThan 35.0 ⇒ true
+- ex:Living1:
+  • R (composite) via energy sum (area-weighted): 10·log10(S/Σ S_i·10^(-R_i/10)) = 37.6 dB
+  • A = (0.16 × 60.0) ÷ 0.60 = 16.00 m²  (math:product + math:quotient)
+  • D_proxy = 37.6 + 10·log10(S/A) = 37.3 dB
+  • R3: (37.3 31.0) math:difference 6.3 dB
+  • R4: pass if 37.3 math:notLessThan 31.0 ⇒ true
+
+Check (harness):
+✅ PASS — all checks satisfied.
+  • [C1] Predicted D re-check OK: 3 rooms (max Δ=0.000e+00 dB, mismatches=0)
+  • [C2] Logic OK: pass mismatches=0, margin mismatches=0
+  • [C3] Requirement mapping OK: mismatches=0
+  • [C4] Order OK: stable; sequence ['ex:Bedroom1', 'ex:Bedroom2', 'ex:Living1']

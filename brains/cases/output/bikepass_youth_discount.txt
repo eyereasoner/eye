@@ -1,0 +1,13 @@
+Answer:
+  Application APP-BP-01 status: Approved; approved price: 12; issued pass: PASS-001
+Reason why:
+  R1: Eligible (age∈[12,26), trips/week≥3). R2a: Approved with 60% discount.
+Check (harness):
+Running checks...
+[1] Age 17 → Approved, price 12 ✓
+[2] Age 22 → Approved, price 18 ✓
+[3] Age 26 → Rejected ✓
+[4] Trips/week = 2 → Rejected ✓
+[5] Age 18 → Approved, price 18 ✓
+[6] Missing baseMonthlyPrice → Validation error ✓
+All checks passed.

@@ -1,0 +1,20 @@
+# ANSWER
+{
+  "peak_kwh": 6.384,
+  "offpeak_kwh": 0.99
+}
+
+# REASONS
+- Fridge: peak=3.6, off-peak=0.0 (not shiftable (peak))
+- Washer: peak=0.064, off-peak=0.15 (70% shifted off-peak)
+- Dryer: peak=0.154, off-peak=0.36 (70% shifted off-peak)
+- Dishwasher: peak=0.206, off-peak=0.48 (70% shifted off-peak)
+- TV: peak=0.36, off-peak=0.0 (not shiftable (peak))
+- Space Heater: peak=2.0, off-peak=0.0 (not shiftable (peak))
+
+Wrote ./cases/bus/energy/tou_split.json
+
+# CHECK
+Check — peak+offpeak equals baseline total (±0.001):
+  split=7.374 vs baseline=7.374
+✔ All checks passed.

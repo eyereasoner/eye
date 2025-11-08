@@ -1,0 +1,24 @@
+Answer:
+- FieldA (10.0 ha): 2 applications using Urea (46% N)
+  • App #1: 102.0 kg N/ha  (farm total 1020.0 kg)
+  • App #2: 68.0 kg N/ha  (farm total 680.0 kg)
+  • Season total: 170.0 kg N/ha
+
+Reason why:
+- R1: (25.0 8.0) math:product 200.0; (200.0 30.0) math:difference 170.0.
+- R1b: (?req 170.0 ?cap 220.0) math:notGreaterThan ⇒ keep 170.0.
+- R2: stage='tillering' ⇒ split [0.6, 0.4] of total.
+- R4: (?ideal 102.0 ?cap 120.0) math:notGreaterThan ⇒ app#1 102.0 kg/ha.
+- R4: (?ideal 68.0 ?cap 120.0) math:notGreaterThan ⇒ app#2 68.0 kg/ha.
+- R3: (?r 5.0 ?hr 10.0) not satisfied ⇒ prefer cheaper product Urea (46% N).
+
+Check (harness):
+✅ PASS — all checks satisfied.
+  • [C1] Season total OK: 170.0 kg/ha (expected 170.0)
+  • [C2] Per-app caps OK across 2 apps (max 102.0 ≤ cap 120.0)
+  • [C3–C4] Product choice OK: Urea (46% N) at rain 5.0 mm (heavy threshold 10.0)
+  • [C5] Farm total OK: 1700.0 kg vs expected 1700.0 kg over 10.0 ha
+  • [C6] Rounding grid OK (0.1 kg/ha)
+  • [C7] Season-cap monotonicity OK: base 170.0 → +10% cap 170.0 kg/ha (Δ≥0)
+  • [C8] Per-app-cap monotonicity OK: base max 102.0 → tighter cap max 102.0 kg/ha (Δ≤0)
+  • [C9] Rain-threshold monotonicity OK (no regression to Urea when rain increases)

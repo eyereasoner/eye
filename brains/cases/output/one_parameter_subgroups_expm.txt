@@ -1,0 +1,29 @@
+========================================================================
+ANSWER
+========================================================================
+For X(t) = exp(tA) with A ∈ M₂(ℝ):
+(1) X(t+s)=X(t)X(s).  (2) X'(0)=A.  (3) If A^T=-A then X(t)∈SO(2).
+(4) det X(t) = exp(t·tr A).  (5) If A²=0 then X(t)=I+tA.
+========================================================================
+REASON WHY
+========================================================================
+Why the claims hold (sketch):
+1) One-parameter subgroup: For any square matrix A, exp(tA) exp(sA) = exp((t+s)A)
+   because the series for exp commutes with itself when the exponents are multiples of A;
+   equivalently, this is a special case of Baker–Campbell–Hausdorff when [tA,sA]=0.
+2) Derivative at 0: From exp(tA) = I + tA + O(t^2), we get d/dt|_0 exp(tA) = A.
+3) Skew-symmetric A yields orthogonal exp(tA): (exp(tA))^T exp(tA) = exp(tA^T) exp(tA)
+   = exp(-tA) exp(tA) = I; continuity forces det = +1 in 2D, so exp(tA) ∈ SO(2).
+4) Determinant identity: det(exp(tA)) = exp(tr(tA)) = exp(t·tr(A)) (general fact for any size).
+5) Nilpotent A with A^2=0 has exp(tA) = I + tA (all higher powers vanish).
+
+This shows t ↦ exp(tA) is a Lie group homomorphism R → GL_2(R) with tangent A at t=0.
+========================================================================
+CHECK (HARNESS)
+========================================================================
+✓ One-parameter subgroup property holds on random tests.
+✓ Derivative at identity matches A.
+✓ Skew-symmetric case lands in SO(2).
+✓ det(exp(tA)) = exp(t·tr(A)) verified.
+✓ Nilpotent case exp(tA) = I + tA holds exactly.
+All checks PASSED ✅

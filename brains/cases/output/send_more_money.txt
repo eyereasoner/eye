@@ -1,0 +1,35 @@
+Answer
+------
+Mapping:
+  D = 7
+  E = 5
+  M = 1
+  N = 6
+  O = 0
+  R = 8
+  S = 9
+  Y = 2
+
+SEND + MORE = MONEY
+ 9567
++1085
+-----
+10652
+
+Reason why
+----------
+1) The sum has 5 digits, so M = 1.
+2) Thousands column forces O = 0 and S + M + c3 = 10 ⇒ S = 9 - c3.
+3) Column carries (right→left): c1=1, c2=1, c3=0, c4=1.
+4) Column equations satisfied:
+   • D + E = 10*c1 + Y  → 7 + 5 = 12
+   • N + R + c1 = 10*c2 + E → 6 + 8 + 1 = 15
+   • E + O + c2 = 10*c3 + N → 5 + 0 + 1 = 6
+   • S + M + c3 = 10*c4 + O → 9 + 1 + 0 = 10
+5) All letters map to distinct digits; no leading letter is zero.
+
+Check (harness)
+----------------
+Unique digits: True
+No leading zeros: True
+Equation holds: 9567 + 1085 = 10652 → True

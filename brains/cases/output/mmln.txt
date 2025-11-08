@@ -1,0 +1,50 @@
+Answer
+------
+Facts for specimen g1:
+  (g1, Body, deep)
+  (g1, Body, small)
+  (g1, Handle, horizontal)
+  (g1, Handle, vertical)
+  (g1, Height, 100)
+
+Shape: Chalice
+  ✗ body bowl                      w=100
+  ✓ body deep                      w=100
+  ✓ handle horizontal              w=100
+  ✗ handle up                      w=100
+  ✗ foot flaring                   w=100
+  ✗ height 150–200                 w=100
+  → fired 200 / 600 = P=0.333
+
+Shape: Aryballos
+  ✗ body round                     w=200
+  ✗ mouth disk                     w=100
+  ✓ handle present                 w=50
+  ✓ height 50–100                  w=100
+  → fired 150 / 450 = P=0.333
+
+Shape: Neck_amphora
+  ✗ body oval                      w=100
+  ✗ mouth thick                    w=100
+  ✓ handle vertical                w=100
+  ✗ neck offset                    w=100
+  ✗ foot heavy                     w=100
+  ✗ height >200                    w=100
+  → fired 100 / 600 = P=0.167
+
+Posterior probabilities (sorted):
+  Chalice      : 0.333
+  Aryballos    : 0.333
+  Neck_amphora : 0.167
+
+Reason why
+----------
+Each shape has a set of weighted rules Rᵢ with weights wᵢ.
+We evaluate Rᵢ against the specimen facts; the fired weight is Σ wᵢ over satisfied rules.
+The inductivity score is P = (fired weight) / (total weight for the shape).
+Height predicates are existential over all Height facts to ensure monotonicity under added evidence.
+
+Check (harness)
+---------------
+OK: arithmetic correct; expected base P’s verified; supportive facts increase P as expected.
+All checks passed.

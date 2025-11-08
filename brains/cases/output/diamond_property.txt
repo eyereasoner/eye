@@ -1,0 +1,35 @@
+Answer
+------
+Evidence: keep only worlds with ¬dp_viol.
+  W1: [ab=e, ac=e]        dp_viol=FALSE → KEEP
+  W2: [ab=e, ac=r]        dp_viol=FALSE → KEEP
+  W3: [ab=r, ac=e]        dp_viol=FALSE → KEEP
+  W4: [ab=r, ac=r]        dp_viol=TRUE  → DROP
+
+Surviving worlds (after evidence): [ab=e, ac=e], [ab=e, ac=r], [ab=r, ac=e]
+
+Goal: ∃U. re(b,U) ∧ re(c,U)
+  W1: [ab=e, ac=e]       ✓ holds  (witness U=a)
+  W2: [ab=e, ac=r]       ✓ holds  (witness U=c)
+  W3: [ab=r, ac=e]       ✓ holds  (witness U=b)
+
+Classification: VALID (holds in all surviving worlds)
+
+Reason why
+----------
+• Each base edge a→b, a→c is labeled either as equality ‘e’ or as a plain
+  directed relation ‘r’. Equality contributes reflexive (x,x) and symmetric
+  pairs, while ‘r’ stays directed.
+• We form re = e ∪ r and *close* it under e-left-composition:
+      if e(x,y) and re(y,z) then re(x,z).
+  Intuitively: equality lets you rewrite the left argument.
+• Evidence discards worlds that violate a ‘diamond property’: having a node
+  with two distinct outgoing r-edges to *leaves* (no further r-successors).
+• The query asks for a common re-successor of b and c. We report a witness U
+  for each surviving world where this holds.
+
+Check (harness)
+---------------
+OK: reflexive/symmetric e, closure of re, evidence filter, witness correctness,
+    and deterministic enumeration all verified.
+

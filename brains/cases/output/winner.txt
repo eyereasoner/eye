@@ -1,0 +1,19 @@
+Answer
+------
+✅ The (only) winner is **Vic**.
+The other runners (Joe, Ray, Tom) cannot be winners without contradiction.
+
+Reason
+------
+• Rule 1 (exclusion by contradiction): If some X is a Runner and a Winner, then for any other Runner Y ≠ X,
+  the statement “Y is a Winner” would entail a contradiction (written as { Y a :Winner. } ⇒ ($ $) in N3).
+• Rule 2 (no two winners): If two distinct runners X and Y are both Winners, that entails a contradiction (($ $)).
+• Facts: runners = {Joe, Ray, Tom, Vic}; winners asserted = {Vic}.
+• Therefore, there can be **at most one** winner. Since Vic is asserted as Winner,
+  every other runner would cause a contradiction if also asserted a Winner.
+
+Check (harness)
+----------------
+• Assert 'Joe a :Winner.': ❌ CONTRADICTION (two distinct winners)
+• Assert 'Ray a :Winner.': ❌ CONTRADICTION (two distinct winners)
+• Assert 'Tom a :Winner.': ❌ CONTRADICTION (two distinct winners)

@@ -1,0 +1,53 @@
+Using W_8^m = exp(-2πi m / 8) table:
+  W_8^0 = 1
+  W_8^1 = (0.707106781187-0.707106781187j)
+  W_8^2 = (0-1j)
+  W_8^3 = (-0.707106781187-0.707106781187j)
+  W_8^4 = -1
+  W_8^5 = (-0.707106781187+0.707106781187j)
+  W_8^6 = (0+1j)
+  W_8^7 = (0.707106781187+0.707106781187j)
+========================================================================
+Case: fft([0, 1, 2, 3, 4, 5, 6, 7])
+  Input length N=8, forward DFT convention X[k] = Σ x[n] W_8^{kn}.
+  Explain: Ramp 0..7 -> large DC (sum=28) and alternating complex bins elsewhere.
+fft([0, 1, 2, 3, 4, 5, 6, 7]) = [28, (-4+9.65685424949j), (-4+4j), (-4+1.65685424949j), -4, (-4-1.65685424949j), (-4-4j), (-4-9.65685424949j)]
+
+  Checks:
+    Naïve DFT max |Δ|  : 8.88e-16
+    IFFT(FFT(x)) max |Δ|: 0
+    Parseval check     : Σ|x|^2=140, (1/N)Σ|X|^2=140, |Δ|=0
+    Conjugate symmetry : max |X[N-k]-conj(X[k])| = 0
+========================================================================
+Case: fft([0, 1, 2, 3, 0, 1, 2, 3])
+  Input length N=8, forward DFT convention X[k] = Σ x[n] W_8^{kn}.
+  Explain: 4-sample pattern repeated twice -> strong energy at k multiples of 2.
+fft([0, 1, 2, 3, 0, 1, 2, 3]) = [12, 0, (-4+4j), 0, -4, 0, (-4-4j), 0]
+
+  Checks:
+    Naïve DFT max |Δ|  : 8.88e-16
+    IFFT(FFT(x)) max |Δ|: 0
+    Parseval check     : Σ|x|^2=28, (1/N)Σ|X|^2=28, |Δ|=0
+    Conjugate symmetry : max |X[N-k]-conj(X[k])| = 0
+========================================================================
+Case: fft([0, 1, 0, 1, 0, 1, 0, 1])
+  Input length N=8, forward DFT convention X[k] = Σ x[n] W_8^{kn}.
+  Explain: 4-sample pattern repeated twice -> strong energy at k multiples of 2.
+fft([0, 1, 0, 1, 0, 1, 0, 1]) = [4, 0, 0, 0, -4, 0, 0, 0]
+
+  Checks:
+    Naïve DFT max |Δ|  : 0
+    IFFT(FFT(x)) max |Δ|: 0
+    Parseval check     : Σ|x|^2=4, (1/N)Σ|X|^2=4, |Δ|=0
+    Conjugate symmetry : max |X[N-k]-conj(X[k])| = 0
+========================================================================
+Case: fft([0, 0, 0, 0, 0, 0, 0, 0])
+  Input length N=8, forward DFT convention X[k] = Σ x[n] W_8^{kn}.
+  Explain: All zeros -> all spectral bins are zero.
+fft([0, 0, 0, 0, 0, 0, 0, 0]) = [0, 0, 0, 0, 0, 0, 0, 0]
+
+  Checks:
+    Naïve DFT max |Δ|  : 0
+    IFFT(FFT(x)) max |Δ|: 0
+    Parseval check     : Σ|x|^2=0, (1/N)Σ|X|^2=0, |Δ|=0
+    Conjugate symmetry : max |X[N-k]-conj(X[k])| = 0

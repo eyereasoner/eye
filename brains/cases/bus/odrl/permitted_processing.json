@@ -1,0 +1,149 @@
+{
+  "reference_date": "2025-09-18",
+  "policy": {
+    "allowed_purposes": [
+      "analytics",
+      "marketing",
+      "support"
+    ],
+    "retention_cap": {
+      "marketing": 180,
+      "analytics": 365,
+      "support": 730
+    },
+    "allowed_fields": {
+      "marketing": [
+        "email"
+      ],
+      "analytics": [
+        "user_id"
+      ],
+      "support": [
+        "email",
+        "phone",
+        "ticket_id"
+      ]
+    },
+    "eu_min_age_for_consent": 16
+  },
+  "permitted": [
+    {
+      "id": "u1",
+      "name": "Ana Jensen",
+      "purpose": "marketing",
+      "region": "EU",
+      "lawful_basis": "consent",
+      "approved_fields": [
+        "email"
+      ],
+      "allowed_fields_for_purpose": [
+        "email"
+      ],
+      "retention_days_effective": 120
+    },
+    {
+      "id": "u2",
+      "name": "Bram Costa",
+      "purpose": "analytics",
+      "region": "EU",
+      "lawful_basis": "consent",
+      "approved_fields": [
+        "user_id"
+      ],
+      "allowed_fields_for_purpose": [
+        "user_id"
+      ],
+      "retention_days_effective": 365
+    },
+    {
+      "id": "u3",
+      "name": "Cleo Ibarra",
+      "purpose": "support",
+      "region": "US",
+      "lawful_basis": "legitimate_interest",
+      "approved_fields": [
+        "email",
+        "ticket_id"
+      ],
+      "allowed_fields_for_purpose": [
+        "email",
+        "phone",
+        "ticket_id"
+      ],
+      "retention_days_effective": 400
+    },
+    {
+      "id": "u7",
+      "name": "Gita Verma",
+      "purpose": "analytics",
+      "region": "EU",
+      "lawful_basis": "consent",
+      "approved_fields": [
+        "user_id"
+      ],
+      "allowed_fields_for_purpose": [
+        "user_id"
+      ],
+      "retention_days_effective": 180
+    },
+    {
+      "id": "u8",
+      "name": "Hugo Müller",
+      "purpose": "marketing",
+      "region": "EU",
+      "lawful_basis": "consent",
+      "approved_fields": [
+        "email"
+      ],
+      "allowed_fields_for_purpose": [
+        "email"
+      ],
+      "retention_days_effective": 90
+    }
+  ],
+  "denied": [
+    {
+      "id": "u4",
+      "name": "Daria Petrov",
+      "purpose": "marketing",
+      "region": "EU",
+      "lawful_basis": "consent",
+      "approved_fields": [],
+      "allowed_fields_for_purpose": [],
+      "retention_days_effective": null,
+      "denied_reason": "EU data subject <16 needs parental consent."
+    },
+    {
+      "id": "u5",
+      "name": "Evan O'Neil",
+      "purpose": "support",
+      "region": "EU",
+      "lawful_basis": "contract",
+      "approved_fields": [],
+      "allowed_fields_for_purpose": [],
+      "retention_days_effective": null,
+      "denied_reason": "EU processor role requires a DPA to be signed."
+    },
+    {
+      "id": "u6",
+      "name": "Fay Chen",
+      "purpose": "analytics",
+      "region": "US",
+      "lawful_basis": "consent",
+      "approved_fields": [],
+      "allowed_fields_for_purpose": [],
+      "retention_days_effective": null,
+      "denied_reason": "Requested fields ['user_id', 'email'] exceed allowed ['user_id'] for analytics."
+    }
+  ],
+  "reasons": [
+    "Ana Jensen (u1) → purpose=marketing, region=EU, basis=consent, age=34, parental_consent=False, processor=False, dpa_signed=True. Fields ok: True. Retention capped at 120 days.",
+    "Bram Costa (u2) → purpose=analytics, region=EU, basis=consent, age=15, parental_consent=True, processor=True, dpa_signed=True. Fields ok: True. Retention capped at 365 days.",
+    "Cleo Ibarra (u3) → purpose=support, region=US, basis=legitimate_interest, age=28, parental_consent=False, processor=False, dpa_signed=False. Fields ok: True. Retention capped at 400 days.",
+    "EU data subject <16 needs parental consent.",
+    "EU processor role requires a DPA to be signed.",
+    "Requested fields ['user_id', 'email'] exceed allowed ['user_id'] for analytics.",
+    "Gita Verma (u7) → purpose=analytics, region=EU, basis=consent, age=40, parental_consent=False, processor=True, dpa_signed=True. Fields ok: True. Retention capped at 180 days.",
+    "Hugo Müller (u8) → purpose=marketing, region=EU, basis=consent, age=16, parental_consent=False, processor=False, dpa_signed=True. Fields ok: True. Retention capped at 90 days."
+  ]
+}

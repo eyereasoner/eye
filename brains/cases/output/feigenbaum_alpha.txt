@@ -1,0 +1,41 @@
+Answer
+------
+Feigenbaum α (alpha) ≈ -2.502907579094
+
+Reason Why
+----------
+We locate the superstable parameters s_n of periods 2^n within the main cascade,
+validate minimal period = 2^n, and compute diameters d_n = f_{s_n}^{(2^{n-1})}(1/2) − 1/2.
+The ratios d_n/d_{n+1} → α (negative). Using the last few ratios we obtain a stable estimate.
+
+Check (harness)
+---------------
+Monotonic s_n increasing: PASS
+s_n under 3.57 cap: PASS
+|d_n| shrinking: PASS
+Last 3 |α_n| spread: 1.955e-06
+Convergence: WARN
+
+s_n, d_n, and α_n (tail)
+s_ 6 = 3.569795293749942
+  d_ 6 = -2.923675409180704e-03
+  α_06 = -2.502961188298
+s_ 7 = 3.569913465422351
+  d_ 7 = +1.168086593930862e-03
+  α_07 = -2.502919173145
+s_ 8 = 3.569938774233314
+  d_ 8 = -4.666896983585023e-04
+  α_08 = -2.502910284896
+s_ 9 = 3.569944194608044
+  d_ 9 = +1.864588200283235e-04
+  α_09 = -2.502908379841
+s_10 = 3.569945355486463
+  d_10 = -7.449686194271887e-05
+  α_10 = -2.502907932959
+s_11 = 3.569945604111088
+  d_11 = +2.976412394628536e-05
+  α_11 = -2.502906424483
+s_12 = 3.569945657358883
+  d_12 = -1.189182450256343e-05
+
+Result: OK (with warnings)

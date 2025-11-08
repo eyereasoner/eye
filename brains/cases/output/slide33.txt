@@ -1,0 +1,31 @@
+Answer
+======
+# Derived type assertions (?S a ?C)
+:xxx a :aaa
+
+Derived specialized rule:
+{ :xxx a :aaa. :xxx :bbb ?y. } => { ?y a :ccc. }
+
+Classification inferred: :xxx a :aaa
+
+Reason why
+==========
+From the OWL restriction:
+  :aaa owl:onProperty :bbb .
+  :aaa owl:allValuesFrom :ccc .
+and the given rule:
+  { :xxx :bbb ?y } => { ?y a :ccc } .
+we instantiate the meta-rule schema to conclude:
+  (1) { :xxx a :aaa . :xxx :bbb ?y } => { ?y a :ccc }
+  (2) :xxx a :aaa
+Intuitively: class :aaa restricts the :bbb values to :ccc;
+a local rule already sends :bbb-values into :ccc, so :xxx must be a :aaa.
+
+Check (harness)
+===============
+Classification added (?x a ?a) → ':xxx a :aaa'? True
+Meta-rule application is a fixed point? True
+Specialized/given rule yields ':john a :ccc' from ':xxx :bbb :john'? True
+No extra unintended 'a'-facts after derivation? True
+
+All checks passed? True

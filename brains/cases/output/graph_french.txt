@@ -1,0 +1,39 @@
+Answer
+======
+Query: ?- path(X, nantes)
+
+All solutions (with one shortest chain each):
+  X = angers    path: angers → nantes   (hops = 1)
+  X = chartres  path: chartres → lemans → angers → nantes   (hops = 3)
+  X = lemans    path: lemans → angers → nantes   (hops = 2)
+  X = paris     path: paris → chartres → lemans → angers → nantes   (hops = 4)
+
+Total solutions: 4
+
+Reason why
+==========
+We use two Horn clauses:
+  C1  path(U,V) :- oneway(U,V).
+  C2  path(U,V) :- oneway(U,Z), path(Z,V).
+Backward-chaining tries C1 (a fact) or applies C2 by choosing a
+successor Z of U and recursively proving path(Z,V).
+
+Demo proof for X = paris:
+Step 01: prove path(paris, nantes)
+  → try oneway(paris, amiens), then prove path(amiens, nantes)
+ Step 02: prove path(amiens, nantes)
+  → try oneway(paris, chartres), then prove path(chartres, nantes)
+ Step 03: prove path(chartres, nantes)
+   → try oneway(chartres, lemans), then prove path(lemans, nantes)
+  Step 04: prove path(lemans, nantes)
+    → try oneway(lemans, angers), then prove path(angers, nantes)
+   Step 05: prove path(angers, nantes)
+     ✓ by fact oneway(angers, nantes)
+  ✔ PROVED
+Shortest chain: paris → chartres → lemans → angers → nantes
+
+Check (harness)
+===============
+Forward search nodes == solver nodes ? True
+All chains follow oneway edges? True
+All chains are hop-minimal?    True

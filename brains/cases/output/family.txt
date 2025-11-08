@@ -1,0 +1,56 @@
+Answer
+------
+children('Rita')   -> ['Ann', 'Bart']
+siblings('Veerle') -> ['Goedele']
+uncles('Veerle')   -> ['Paul']
+aunts('Bart')      -> ['Maaike']
+father('Goedele')  -> Jo
+mother('Goedele')  -> Maaike
+
+Proofs (selected):
+
+--- Proof for ('Rita', 'aunt', 'Veerle') (θ = {}) ---
+('Rita', 'aunt', 'Veerle')   [via aunt-blood]
+  ('Rita', 'sister', 'Jo')   [via sister]
+    ('Rita', 'sibling', 'Jo')   [via sibling]
+      ('Frans', 'parent', 'Rita')   [fact]
+      ('Frans', 'parent', 'Jo')   [fact]
+    ('Rita', 'a', 'FEMALE')   [fact]
+  ('Jo', 'parent', 'Veerle')   [fact]
+
+--- Proof for ('Paul', 'uncle', 'Veerle') (θ = {}) ---
+('Paul', 'uncle', 'Veerle')   [via uncle-mar]
+  ('Paul', 'spouse', 'Rita')   [fact]
+  ('Rita', 'aunt', 'Veerle')   [via aunt-blood]
+    ('Rita', 'sister', 'Jo')   [via sister]
+      ('Rita', 'sibling', 'Jo')   [via sibling]
+        ('Frans', 'parent', 'Rita')   [fact]
+        ('Frans', 'parent', 'Jo')   [fact]
+      ('Rita', 'a', 'FEMALE')   [fact]
+    ('Jo', 'parent', 'Veerle')   [fact]
+
+--- Proof for ('Frans', 'grandfather', 'Goedele') (θ = {}) ---
+('Frans', 'grandfather', 'Goedele')   [via grandfather]
+  ('Frans', 'grandparent', 'Goedele')   [via grandparent]
+    ('Frans', 'parent', 'Jo')   [fact]
+    ('Jo', 'parent', 'Goedele')   [fact]
+  ('Frans', 'a', 'MALE')   [fact]
+
+Reason why
+----------
+1) Fixed projection in children(): we now return the OBJECT (child) of parent facts.
+2) Sibling rule remains permissive (x may equal y), but 'uncle-blood' and 'aunt-blood'
+   include a guard (x ≠ p) so a parent isn't mis-classified as an uncle/aunt.
+3) User-facing siblings() excludes self; uncles()/aunts() exclude direct parents.
+4) Deterministic forward chaining with proof recording; facts are added once with a stable order.
+
+Check (harness)
+----------------
+children('Rita')   == ['Ann', 'Bart'] : True
+siblings('Veerle') == ['Goedele']     : True
+uncles('Veerle')   == ['Paul']        : True
+father('Goedele')  == 'Jo'            : True
+mother('Goedele')  == 'Maaike'        : True
+Fixpoint reached (no new facts)       : True
+
+ALL CHECKS PASS: True

@@ -1,0 +1,43 @@
+Answer
+------
+Worked example: 18 × 23 using halving/doubling
+ row |     a | b (bin) | add?
+   1 |    18 |   10111 | ✓
+   2 |    36 |    1011 | ✓
+   3 |    72 |     101 | ✓
+   4 |   144 |      10 |  
+   5 |   288 |       1 | ✓
+Result: 414
+
+3 × 0 = 0
+5 × 6 = 30
+238 × 13 = 3094
+8367238 × 27133 = 227028268654
+-12345 × 6789 = -83810205
+-222 × -333 = 73926
+
+3^0 = 1   (multiplies=0, squares=0)
+5^6 = 15625   (multiplies=2, squares=3)
+12^7 = 35831808   (multiplies=3, squares=3)
+
+Reason why
+----------
+Peasant multiply (a × b):
+  • Write b in binary. For each bit from LSB to MSB:
+      - if bit is 1, add current a to the result,
+      - double a, halve b and drop the LSB.
+  • Invariant: after k iterations, result equals the sum of those
+    doubled a’s whose corresponding b bits were 1. That sum is a×b.
+
+Binary exponentiation (base^exp):
+  • Maintain result=1, base b, exponent e.
+  • For each bit of e:
+      - if bit is 1: result ← result×b
+      - b ← b×b (square), e >>= 1
+  • Uses O(log e) multiplications; here, each multiplication is itself
+    implemented by the peasant method (no built-in ‘*’ inside loops).
+
+Check (harness)
+---------------
+OK: multiplication/power equal to Python's math, signs/edge cases verified.
+

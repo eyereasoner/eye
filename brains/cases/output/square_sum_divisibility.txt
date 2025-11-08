@@ -1,0 +1,23 @@
+========================================================================
+ANSWER
+========================================================================
+All positive integers n with n ≡ 1 or 5 (mod 6).
+First 20 solutions: [1, 5, 7, 11, 13, 17, 19, 23, 25, 29, 31, 35, 37, 41, 43, 47, 49, 53, 55, 59]
+========================================================================
+REASON WHY
+========================================================================
+Use 1^2+...+n^2 = n(n+1)(2n+1)/6.
+Dividing by n reduces the condition to (n+1)(2n+1)/6 ∈ ℤ ⇔ 6 | (n+1)(2n+1).
+Parity: 2n+1 is odd, so need n+1 even ⇒ n is odd.
+Modulo 3: (n+1)(2n+1) ≡ 0 (mod 3) iff n ≢ 0 (mod 3).
+Hence n must be odd and not a multiple of 3 ⇔ n ≡ 1 or 5 (mod 6).
+Conversely, n ≡ 1 or 5 (mod 6) → 6 | (n+1)(2n+1) → divisibility holds.
+Conclusion: all such n are exactly those with n ≡ 1 or 5 (mod 6).
+========================================================================
+CHECK (HARNESS)
+========================================================================
+✓ Equivalence holds for all n ≤ 200000 (brute-force guard).
+✓ No even n is a solution (parity argument confirmed).
+✓ No multiple of 3 is a solution (mod 3 argument confirmed).
+✓ Spot-checks match the theorem (solutions and non-solutions).
+All checks PASSED ✅

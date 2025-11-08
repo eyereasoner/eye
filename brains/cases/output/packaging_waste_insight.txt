@@ -1,0 +1,58 @@
+================================================================================
+ANSWER (Actionable Insight Envelope)
+================================================================================
+{
+  "@type": "ex:Envelope",
+  "ex:allowedUse": "ui.packaging.banner",
+  "ex:assertions": "[{\"type\":\"ex:showPackagingBanner\",\"value\":true},{\"type\":\"ex:suggestPack\",\"value\":\"ex:altPack\"},{\"type\":\"ex:wastePct\",\"value\":87.5},{\"type\":\"ex:estimatedVoidPctReduction\",\"value\":43.05555555555556}]",
+  "ex:audience": "ex:PackStationZ",
+  "ex:expiry": "2025-01-01T12:00:00+00:00",
+  "ex:issuedAt": "2025-01-01T09:00:00+00:00",
+  "ex:signature": "JnU2-MgeePdUNQFGD4hCwzz4O3hfrQcWZecwU1Amp8Q"
+}
+
+================================================================================
+REASON (compact, human-readable)
+================================================================================
+Inputs:
+  • Audience: ex:PackStationZ
+  • Item dims (cm):            L=20.0, W=15.0, H=10.0
+  • Current pack inner (cm):   L=40.0, W=30.0, H=20.0
+  • Alt pack inner (cm):       L=25.0, W=18.0, H=12.0
+  • Policy waste threshold:    50.0%
+
+Computation:
+  • item volume (cm³)          = 3000.0
+  • wastePct(current)          = 87.5%
+  • wastePct(alt)              = 44.44444444444444%
+  • protectionIndex(current)   = 45.0 cm
+  • protectionIndex(alt)       = 10.0 cm
+  • estimated void reduction   = 43.05555555555556% points
+
+Decisions:
+  • Show packaging banner at ex:PackStationZ because 87.50% > threshold 50.00%.
+  • Suggest ex:altPack because current 87.50% > alt 44.44%.
+  • Estimated void reduction ≈ 43.06% points.
+
+Derived facts (key subset):
+  ex:currentPack ex:protectionIndex 45.0
+  ex:altPack ex:protectionIndex 10.0
+  ex:currentPack ex:wastePct 87.5
+  ex:altPack ex:wastePct 44.44444444444444
+  ex:insight1 rdf:type ex:Insight
+  ex:insight1 ex:showPackagingBanner ex:PackStationZ
+  ex:insight1 ex:wastePct 87.5
+  ex:insight1 ex:suggestPack ex:altPack
+  ex:insight1 ex:estimatedVoidPctReduction 43.05555555555556
+
+================================================================================
+CHECK (Self-verifying harness)
+================================================================================
+[PASS] no_sensitive: no sensitive keys
+[PASS] signature: signature verifies
+[PASS] audience: audience matches
+[PASS] expiry: expiry in future
+[PASS] suggestion_better: alt better: 87.50% → 44.44%
+[PASS] shacl: SHACL valid
+
+OVERALL: PASS

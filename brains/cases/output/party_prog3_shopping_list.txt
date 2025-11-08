@@ -1,0 +1,28 @@
+# ANSWER
+{
+  "vendors": [
+    "Pizza shop",
+    "Bakery",
+    "Grocery",
+    "Party store"
+  ]
+}
+
+# REASONS
+- pizza_large: qty=0 → Pizza shop
+- pizza_large_veg: qty=2 → Pizza shop
+- cupcake: qty=8 → Bakery
+- juice_box: qty=8 → Grocery
+- soft_drink_05l: qty=2 → Grocery
+- plates_pack: qty=1 → Party store
+- cups_pack: qty=1 → Party store
+- napkins_pack: qty=1 → Party store
+
+Wrote ./cases/bus/party/shopping_list.json
+
+# CHECK (harness) — detailed
+Check 1 — All item quantities are non-negative integers:
+Check 2 — Vendor mapping exists for all items:
+Check 3 — by_vendor sums equal flat item totals:
+Check 4 — Disposable packs math sane:
+✔ All checks passed.

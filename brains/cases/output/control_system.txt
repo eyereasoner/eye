@@ -1,0 +1,24 @@
+Answer
+------
+control1(actuator1, C)  →  C = 39.273461986783
+control1(actuator2, C)  →  C = 26.080000000000
+
+Reason why
+----------
+[actuator1]
+  M1 = measurement10(input1) = sqrt(11-6) = 2.236067977500  (PND feedback control)
+  C1 = M1 * 19.6            = 43.826932358996  % proportional part
+  C2 = log(D1)/log(10)      = log(35766)/log(10) = 4.553470372213  % compensation part
+  C  = C1 - C2               = 39.273461986783  % simple feedforward control
+
+[actuator2]
+  E  = T2 - M4  = 29 - 24 = 5.000000000000  % error
+  D  = P3 - M4  = 22 - 24 = -2.000000000000  % differential error
+  C1 = 5.8 * E  = 5.8*5 = 29.000000000000  % proportional part
+  N  = 7.3 / E  = 7.3/5 = 1.460000000000  % nonlinear factor
+  C2 = N * D    = 1.460000000000*-2 = -2.920000000000  % nonlinear differential part
+  C  = C1 + C2  = 29.000000000000 + -2.920000000000 = 26.080000000000
+
+Check (harness)
+---------------
+OK: derivations match the rules; identities and PND logic verified.

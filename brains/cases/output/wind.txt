@@ -1,0 +1,28 @@
+Answer
+------
+Evidence:
+  A = True
+  M = False
+  W = True
+
+Target:   P(R=True | evidence)
+Posterior: 0.7136
+Verdict:  Maintenance LIKELY required (goal proved).
+
+Reason why
+----------
+Goal-directed proof begins:
+
+  R=1     ← [F=True]             [P(body|ev)=0.7670]  contributes 0.6903
+  R=1     ← [F=False]            [P(body|ev)=0.2330]  contributes 0.0233
+  ⇒ P(R=True) = 0.7136
+  R=0     ← [F=True]             [P(body|ev)=0.7670]  contributes 0.0767
+  R=0     ← [F=False]            [P(body|ev)=0.2330]  contributes 0.2097
+  ⇒ P(R=False) = 0.2864
+
+Normalisation: True=0.713600  False=0.286400  ⇒  P(R=True | evidence) = 0.7136
+
+Check (harness)
+---------------
+OK: joint normalization, posterior agreement, body partition, and key conditionals verified.
+

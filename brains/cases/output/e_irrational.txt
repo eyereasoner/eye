@@ -1,0 +1,18 @@
+Answer
+------
+e is irrational.
+
+Reason why
+----------
+Write e = S_N + R_N with N = b for a hypothetical e = a/b. Multiplying by N! gives
+  N!·e = N!·S_N + N!·R_N.  The first term is an integer because N!/n! is an integer
+for all 0≤n≤N. For the tail, each denominator factor is ≥(N+1), so
+  0 < N!·R_N < 1/(N+1) + 1/(N+1)^2 + … = 1/N < 1  (for N≥2).
+Thus N!·e equals an integer plus a strictly-between-0-and-1 positive number—
+impossible if N!·e were an integer. Contradiction, so e is irrational. □
+
+Check (harness)
+---------------
+Divisibility, per-term strictness, and tail bounds verified for N=2..12 with M=6.
+Smallest safety margin δ = min_N (1/N − U_M) = 2606019887/4962731941440 ≈ 5.251e-04
+All conditions hold, so the contradiction is airtight under the stated bounds. ✔
