@@ -1,0 +1,30 @@
+Question
+========
+Is every consistent, effectively axiomatized, sufficiently arithmetic theory incomplete (Gödel 1931, G1_min)?
+
+Answer
+======
+Yes.
+
+Reason why
+==========
+Mathematical-English derivation:
+Definition D (G1_min): ∀T,  Inc(T) ⇐ [ EA(T) ∧ Cons(T) ∧ Arith(T) ].
+Premise 1: EA(PA) is true (computably enumerable axioms).
+Premise 2: Cons(PA) is true (no contradictions provable).
+Premise 3: Arith(PA) is true (represents basic arithmetic).
+Therefore, by D, Inc(PA) is true.
+
+Check (harness)
+===============
+[PASS] Null theory is not G1_min-true
+[PASS] Boundary EA∧Cons∧Arith ⇒ Inc
+[PASS] EA is necessary
+[PASS] Consistency is necessary
+[PASS] Arithmetic expressivity is necessary
+[PASS] Monotonicity True→True under added evidence
+[PASS] Idempotence of evaluation and proof tokens
+[PASS] True ⇒ EA & Cons & Arith (exhaustive 2×2×2 grid)
+[PASS] Inconsistent-but-complete theories fail G1_min
+[PASS] Complete but non-effective Th(N) fails G1_min (EA False)
+[PASS] Invariance to field order
