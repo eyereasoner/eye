@@ -1,0 +1,27 @@
+Question
+========
+Are plants intelligent (under the minimal criterion I_min)?
+
+Answer
+======
+Yes.
+
+Reason why
+==========
+Mathematical-English derivation:
+Definition D (I_min): ∀x,  I(x) ⇐ [ S(x) ∧ G(x) ∧ ( M(x)+N(x)+C(x) ≥ 2 ) ].
+Premise 1: S(Plants) is true because modalities_count(Plants) = 4 ≥ 2.
+Premise 2: G(Plants) is true (goal-directed adaptation present).
+Premise 3: Among {M(Plants), N(Plants), C(Plants)} we have 3 truths → condition (M+N+C ≥ 2) is met.
+Therefore, by D, I(Plants) is true.
+
+Check (harness)
+===============
+[PASS] Null system is not intelligent
+[PASS] Boundary two-of-three with S & G holds
+[PASS] Sensing (S) is necessary
+[PASS] Monotonicity True→True under added evidence
+[PASS] Idempotence of evaluation and core proof tokens
+[PASS] True ⇒ S & G & two-of-three (exhaustive small grid)
+[PASS] Minimality of necessary conditions
+[PASS] Invariance to field order
