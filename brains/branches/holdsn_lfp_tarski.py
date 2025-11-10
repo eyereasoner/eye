@@ -71,7 +71,7 @@ What the program prints
 
 How to run
 ----------
-    python3 holds2_lfp_tarski.py
+    python3 holdsn_lfp_tarski.py
 
 No external dependencies; deterministic execution and output.
 """

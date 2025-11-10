@@ -40,7 +40,7 @@ What the program prints
 
 How to run
 ----------
-    python3 holds2_graph_reachability.py
+    python3 holdsn_graph_reachability.py
 
 No external dependencies; deterministic execution and output.
 """

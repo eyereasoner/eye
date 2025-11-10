@@ -47,7 +47,7 @@ What the program prints
 
 How to run
 ----------
-    python3 holds2_factorization_fta.py
+    python3 holdsn_factorization_fta.py
 
 No external dependencies; deterministic execution and output.
 """

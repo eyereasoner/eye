@@ -31,7 +31,7 @@ What the program prints
 
 How to run
 ----------
-    python3 holds2_equivalence.py
+    python3 holdsn_equivalence.py
 
 No external dependencies; deterministic execution.
 """
