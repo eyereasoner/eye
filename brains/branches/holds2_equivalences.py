@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-README
-======
+README (plain text)
+===================
 This single-file Python program is a “branch of insights” in the sense of
 https://eyereasoner.github.io/eye/brains/ : it computes a clear **Answer** to a
 clear **Question**, emits a mathematically phrased **Reason why**, and runs a
