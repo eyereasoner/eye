@@ -1,0 +1,23 @@
+# ANSWER
+{
+  "weekly_outlay_eur": 410.0,
+  "projected_total_outlay_eur": 10660.0,
+  "annual_contributions_eur": 2800.0,
+  "population_count": 7
+}
+
+# REASONS
+- Weekly outlay = sum(WBA of eligible) = €410.0.
+- Total outlay = average duration × weekly outlay; assumes all weeks claimed.
+- Contributions = population × covered_wage_base × employer_rate = 7 × €20000 × 2.00%.
+
+Wrote ./cases/bus/unemp/budget_projection.json
+
+# CHECK (harness) — detailed
+Check 1 — Weekly outlay equals sum of WBA:
+  - reported=410.0 vs recompute=410.0
+Check 2 — Total outlay uses average duration × weekly outlay:
+  - reported=10660.0 vs expected=10660.0
+Check 3 — Contribution formula matches definition:
+  - reported=2800.0 vs expected=2800.0
+✔ All checks passed.
