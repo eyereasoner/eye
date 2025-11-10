@@ -1,0 +1,39 @@
+Model
+=====
+Nodes D = ['A', 'B', 'C', 'D']
+
+Signature
+---------
+• Holds₂(r, x, y): ⟨x,y⟩ ∈ extension of relation-name r (r is an *intension*).
+• Named edge relation ex:edge with pairs {⟨A,B⟩, ⟨B,C⟩, ⟨C,D⟩}
+• Operator F(R) = Id ∪ ex:edge ∪ (R ∘ ex:edge) (monotone).
+
+Question
+========
+(1) Which nodes are reachable from A?
+(2) Is D reachable from A?
+
+Answer
+======
+ReachableFrom(A) = {A, B, C, D}
+D reachable from A: Yes
+
+Reason why
+==========
+Kleene iteration from ∅ with F(R) = Id ∪ E ∪ (R ∘ E) yields:
+  ∅ ⊆ {⟨A,A⟩, ⟨A,B⟩, ⟨B,B⟩, ⟨B,C⟩, ⟨C,C⟩, ⟨C,D⟩, ⟨D,D⟩} ⊆ {⟨A,A⟩, ⟨A,B⟩, ⟨A,C⟩, ⟨B,B⟩, ⟨B,C⟩, ⟨B,D⟩, ⟨C,C⟩, ⟨C,D⟩, ⟨D,D⟩} ⊆ {⟨A,A⟩, ⟨A,B⟩, ⟨A,C⟩, ⟨A,D⟩, ⟨B,B⟩, ⟨B,C⟩, ⟨B,D⟩, ⟨C,C⟩, ⟨C,D⟩, ⟨D,D⟩} ⊆ {⟨A,A⟩, ⟨A,B⟩, ⟨A,C⟩, ⟨A,D⟩, ⟨B,B⟩, ⟨B,C⟩, ⟨B,D⟩, ⟨C,C⟩, ⟨C,D⟩, ⟨D,D⟩}
+which stabilizes at LFP = {⟨A,A⟩, ⟨A,B⟩, ⟨A,C⟩, ⟨A,D⟩, ⟨B,B⟩, ⟨B,C⟩, ⟨B,D⟩, ⟨C,C⟩, ⟨C,D⟩, ⟨D,D⟩}.
+A path witness is: A → B → C → D.
+
+Check (harness)
+===============
+PASS 1: First Kleene step = Id ∪ edges.
+PASS 2: Kleene chain is ascending.
+PASS 3: LFP is a fixed point of F.
+PASS 4: LFP contains Id and edges.
+PASS 5: LFP is transitive.
+PASS 6: ReachableFrom(A) = {A,B,C,D}.
+PASS 7: D is reachable from A with path A→B→C→D.
+PASS 8: Non-reachabilities are correct for the line graph.
+PASS 9: Deterministic formatting is stable.
+PASS 10: LFP minimality holds on the sampled family (∅, Id, Id∪E, LFP).
