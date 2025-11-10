@@ -43,8 +43,8 @@ from typing import Iterable, Tuple, Dict, Set, List
 # Model: domain and Holds₂
 # -------------------------
 
-# Finite domain of individuals
-D: Set[str] = {"Alice", "Bob", "Carol", "Dave"}
+# Use a deterministic, fixed ordering for the domain
+D: Tuple[str, ...] = ("Alice", "Bob", "Carol", "Dave")
 
 # Relation names (intensions) look like Web URIs for concreteness
 EX = "ex:"  # namespace prefix
@@ -57,12 +57,18 @@ def define_relation(name: str, pairs: Iterable[Tuple[str, str]]) -> str:
     EXT[name] = {(a, b) for (a, b) in pairs}
     return name
 
-# Some useful builders
+# Deterministic helpers
+def ord_dom(domain: Iterable[str]) -> Tuple[str, ...]:
+    """Return a deterministic ordering of the domain (lexicographic)."""
+    return tuple(sorted(domain))
+
 def identity_pairs(domain: Iterable[str]) -> Set[Tuple[str, str]]:
-    return {(x, x) for x in domain}
+    dom = ord_dom(domain)
+    return {(x, x) for x in dom}
 
 def complete_pairs(domain: Iterable[str]) -> Set[Tuple[str, str]]:
-    return {(x, y) for x in domain for y in domain}
+    dom = ord_dom(domain)
+    return {(x, y) for x in dom for y in dom}
 
 # Define relations (intensions) with their extensions
 equals        = define_relation(EX + "equals", identity_pairs(D))                # identity relation
@@ -102,36 +108,41 @@ def Holds2(r: str, a: str, b: str) -> bool:
 # ----------------------------
 
 def Reflexive(r: str, domain: Iterable[str] = D) -> bool:
-    return all(Holds2(r, x, x) for x in domain)
+    dom = ord_dom(domain)
+    return all(Holds2(r, x, x) for x in dom)
 
 def Symmetric(r: str, domain: Iterable[str] = D) -> bool:
-    return all((not Holds2(r, x, y)) or Holds2(r, y, x) for x in domain for y in domain)
+    dom = ord_dom(domain)
+    return all((not Holds2(r, x, y)) or Holds2(r, y, x) for x in dom for y in dom)
 
 def Transitive(r: str, domain: Iterable[str] = D) -> bool:
+    dom = ord_dom(domain)
     return all((not (Holds2(r, x, y) and Holds2(r, y, z))) or Holds2(r, x, z)
-               for x in domain for y in domain for z in domain)
+               for x in dom for y in dom for z in dom)
 
 def Equivalence(r: str, domain: Iterable[str] = D) -> bool:
-    return Reflexive(r, domain) and Symmetric(r, domain) and Transitive(r, domain)
+    dom = ord_dom(domain)
+    return Reflexive(r, dom) and Symmetric(r, dom) and Transitive(r, dom)
 
 def SubsetEq(r: str, s: str, domain: Iterable[str] = D) -> bool:
-    return all((not Holds2(r, x, y)) or Holds2(s, x, y) for x in domain for y in domain)
+    dom = ord_dom(domain)
+    return all((not Holds2(r, x, y)) or Holds2(s, x, y) for x in dom for y in dom)
 
 def ExtEq2(r: str, s: str, domain: Iterable[str] = D) -> bool:
-    return SubsetEq(r, s, domain) and SubsetEq(s, r, domain)
+    dom = ord_dom(domain)
+    return SubsetEq(r, s, dom) and SubsetEq(s, r, dom)
 
 # ------------------------------
-# Pretty helpers
+# Pretty helpers (deterministic)
 # ------------------------------
 
 def fmt_pairs(pairs: Iterable[Tuple[str, str]]) -> str:
-    s = ", ".join(f"⟨{a},{b}⟩" for (a, b) in pairs)
-    return s if s else "∅"
+    seq = sorted(pairs)  # deterministic order for display
+    return ", ".join(f"⟨{a},{b}⟩" for (a, b) in seq) if seq else "∅"
 
 def sample_pairs(r: str, k: int = 6) -> str:
-    pairs = list(EXT.get(r, set()))
-    pairs.sort()
-    return fmt_pairs(pairs[:k]) + (" …" if len(pairs) > k else "")
+    pairs = sorted(EXT.get(r, set()))
+    return ", ".join(f"⟨{a},{b}⟩" for (a, b) in pairs[:k]) + (" …" if len(pairs) > k else "")
 
 # ------------------------------
 # The Branch: Answer & Reason
@@ -139,13 +150,15 @@ def sample_pairs(r: str, k: int = 6) -> str:
 
 def answer_equivalences(relset: Iterable[str], domain: Iterable[str] = D) -> List[str]:
     """Quantify over relation *names* (intensions) and return those that are equivalence relations."""
-    return [r for r in relset if Equivalence(r, domain)]
+    dom = ord_dom(domain)
+    return [r for r in relset if Equivalence(r, dom)]
 
 def reason_for_equivalence(r: str, domain: Iterable[str] = D) -> str:
     """Produce a short mathematical-English justification that Equivalence(r) holds on domain."""
-    missing_reflexives = [(x, x) for x in domain if not Holds2(r, x, x)]
-    asymmetries = [(x, y) for x in domain for y in domain if Holds2(r, x, y) and not Holds2(r, y, x)]
-    trans_violations = [(x, y, z) for x in domain for y in domain for z in domain
+    dom = ord_dom(domain)
+    missing_reflexives = [(x, x) for x in dom if not Holds2(r, x, x)]
+    asymmetries = [(x, y) for x in dom for y in dom if Holds2(r, x, y) and not Holds2(r, y, x)]
+    trans_violations = [(x, y, z) for x in dom for y in dom for z in dom
                         if Holds2(r, x, y) and Holds2(r, y, z) and not Holds2(r, x, z)]
     if missing_reflexives or asymmetries or trans_violations:
         if missing_reflexives:
@@ -239,7 +252,7 @@ def print_model_description() -> None:
     print("Model")
     print("=====")
     # Domain
-    print(f"Domain D = {sorted(D)}")
+    print(f"Domain D = {list(D)}")
     print()
     # Signature
     print("Signature")
@@ -277,7 +290,7 @@ def main() -> None:
     eqs = answer_equivalences(RELATIONS)
     print("Answer")
     print("======")
-    print("Equivalence relations on D =", sorted(D), "are:")
+    print("Equivalence relations on D =", list(D), "are:")
     for r in eqs:
         print(f"  - {r}")
     print()

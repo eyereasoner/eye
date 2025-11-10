@@ -17,7 +17,7 @@ Named relations (intensions) with brief descriptions
 - ex:likes           ( 4 pairs): neither symmetric nor transitive in general. Sample: ⟨Alice,Bob⟩, ⟨Alice,Carol⟩, ⟨Bob,Alice⟩, ⟨Carol,Dave⟩
 - ex:ancestorOf      ( 3 pairs): transitive but not reflexive nor symmetric. Sample: ⟨Alice,Bob⟩, ⟨Alice,Carol⟩, ⟨Bob,Carol⟩
 - ex:universalRel    (16 pairs): total relation D×D (an equivalence). Sample: ⟨Alice,Alice⟩, ⟨Alice,Bob⟩, ⟨Alice,Carol⟩, ⟨Alice,Dave⟩, ⟨Bob,Alice⟩ …
-- ex:emptyRel        ( 0 pairs): empty relation ∅ (not an equivalence). Sample: ∅
+- ex:emptyRel        ( 0 pairs): empty relation ∅ (not an equivalence). Sample: 
 
 Answer
 ======
@@ -41,14 +41,14 @@ Reason why
   • Reflexive: ∀x∈D, Holds₂(ex:coMember,x,x).
   • Symmetric: ∀x,y∈D, Holds₂(ex:coMember,x,y) ⇒ Holds₂(ex:coMember,y,x).
   • Transitive: ∀x,y,z∈D, (Holds₂(ex:coMember,x,y) ∧ Holds₂(ex:coMember,y,z)) ⇒ Holds₂(ex:coMember,x,z).
-- Not reflexive because for x∈D we require Holds₂(ex:coworker,x,x); but missing ⟨Bob,Bob⟩, ⟨Dave,Dave⟩, ⟨Carol,Carol⟩, ⟨Alice,Alice⟩.
-- Not reflexive because for x∈D we require Holds₂(ex:likes,x,x); but missing ⟨Bob,Bob⟩, ⟨Dave,Dave⟩, ⟨Carol,Carol⟩, ⟨Alice,Alice⟩.
-- Not reflexive because for x∈D we require Holds₂(ex:ancestorOf,x,x); but missing ⟨Bob,Bob⟩, ⟨Dave,Dave⟩, ⟨Carol,Carol⟩, ⟨Alice,Alice⟩.
+- Not reflexive because for x∈D we require Holds₂(ex:coworker,x,x); but missing ⟨Alice,Alice⟩, ⟨Bob,Bob⟩, ⟨Carol,Carol⟩, ⟨Dave,Dave⟩.
+- Not reflexive because for x∈D we require Holds₂(ex:likes,x,x); but missing ⟨Alice,Alice⟩, ⟨Bob,Bob⟩, ⟨Carol,Carol⟩, ⟨Dave,Dave⟩.
+- Not reflexive because for x∈D we require Holds₂(ex:ancestorOf,x,x); but missing ⟨Alice,Alice⟩, ⟨Bob,Bob⟩, ⟨Carol,Carol⟩, ⟨Dave,Dave⟩.
 - ex:universalRel is an equivalence on D because:
   • Reflexive: ∀x∈D, Holds₂(ex:universalRel,x,x).
   • Symmetric: ∀x,y∈D, Holds₂(ex:universalRel,x,y) ⇒ Holds₂(ex:universalRel,y,x).
   • Transitive: ∀x,y,z∈D, (Holds₂(ex:universalRel,x,y) ∧ Holds₂(ex:universalRel,y,z)) ⇒ Holds₂(ex:universalRel,x,z).
-- Not reflexive because for x∈D we require Holds₂(ex:emptyRel,x,x); but missing ⟨Bob,Bob⟩, ⟨Dave,Dave⟩, ⟨Carol,Carol⟩, ⟨Alice,Alice⟩.
+- Not reflexive because for x∈D we require Holds₂(ex:emptyRel,x,x); but missing ⟨Alice,Alice⟩, ⟨Bob,Bob⟩, ⟨Carol,Carol⟩, ⟨Dave,Dave⟩.
 
 Check (harness)
 ===============
