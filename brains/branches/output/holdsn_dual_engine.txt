@@ -1,0 +1,57 @@
+Model
+=====
+Individuals D = ['Sophroniscus', 'Socrates', 'Lamprocles', 'Ariston', 'Plato', 'Nicomachus', 'Aristotle']
+
+Fixed predicates
+----------------
+• ex:holds2(R,x,y)   — application (⟨x,y⟩ in extension of relation-name R)
+• ex:SubRelOf(P,Q)   — inclusion over relation *names*
+• ex:leq_strict / ex:leq   — ⊆* with/without reflex on names
+
+Named relations (with facts)
+----------------------------
+FatherOf  = {⟨Ariston,Plato⟩, ⟨Nicomachus,Aristotle⟩, ⟨Socrates,Lamprocles⟩, ⟨Sophroniscus,Socrates⟩}
+ParentOf  = same pairs (different name)
+TeacherOf = {⟨Socrates,Plato⟩}
+AncestorOf = derived only (no base facts)
+
+Inclusions over names: FatherOf ⊆ ParentOf, ParentOf ⊆ AncestorOf
+
+Question
+========
+Q1) List all (X,Y) with holds2(AncestorOf,X,Y).   [auto engine]
+Q2) ∃R: holds2(R,Socrates,Lamprocles) ∧ leq(R,AncestorOf) ?  [auto engine]
+Q3) ∀R,y: (leq(R,ParentOf) ∧ holds2(R,Socrates,y)) → holds2(AncestorOf,Socrates,y) ?  [auto engine]
+
+Answer
+======
+Q1) Engine: bottomup → AncestorOf = {⟨Ariston,Plato⟩, ⟨Nicomachus,Aristotle⟩, ⟨Socrates,Lamprocles⟩, ⟨Sophroniscus,Lamprocles⟩, ⟨Sophroniscus,Socrates⟩}
+Q2) Engine: topdown → Witness relation-names R = {AncestorOf, FatherOf, ParentOf}
+Q3) Engine: mixed → Universal statement holds: Yes
+
+Reason why
+==========
+• Heuristics:
+  - If a query would enumerate many answers (e.g., AncestorOf(X,Y) with variables),
+    we pick **bottom-up** and compute the closure once.
+  - If a query is ground or tightly bound (few variables), we pick **top-down**
+    to avoid materializing unrelated facts.
+  - If a top-down search exceeds a step threshold, we **fallback** to bottom-up.
+• In this run: Q1 used bottomup; Q2 used topdown; Q3 checks each needed conjunct with the same policy.
+• Both engines operate over the same Hayes–Menzel core (names as intensions + fixed holds₂),
+  so their answers coincide; the harness below checks this equivalence.
+
+Check (harness)
+===============
+PASS 1: Bottom-up AncestorOf enumeration is correct.
+PASS 2: Top-down AncestorOf enumeration is correct.
+PASS 3: Engines agree on existential witnesses.
+PASS 4: Universal property verified.
+PASS 5: Unrelated relation does not leak.
+PASS 6: Engine chooser behaves as intended.
+PASS 7: Pretty-printing deterministic.
+PASS 8: leq reflexivity holds for all relation-names.
+PASS 9: leq_strict transitivity holds.
+PASS 10: Standardize-apart avoids capture across proofs.
+PASS 11: Bottom-up closure is stable.
+PASS 12: No reflexive AncestorOf facts.
