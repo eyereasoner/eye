@@ -1,0 +1,62 @@
+Model
+=====
+Individuals D = ['Socrates', 'Plato', 'Aristotle', 'Zeus']
+
+Signature
+---------
+• Holds₁(C, a): a ∈ extension of the class named by C (C is an *intension*).
+• Holds₂(SubClassOf, P, Q): the class named P is included in the class named Q.
+
+Named classes and base facts
+----------------------------
+- Greek       : members = ['Socrates']
+- Philosopher : members = ['Plato', 'Socrates']
+- Human       : members = ['Aristotle', 'Plato']
+- Mortal      : members = []
+- Olympian    : members = ['Zeus']
+
+Subclass rules
+--------------
+• Greek ⊆ Human, Human ⊆ Mortal, Philosopher ⊆ Human
+
+Question
+========
+(1) ∃P  [ P is a class-name ∧ P(Socrates) ∧ P ⊆ Mortal ] ?  (list witnesses)
+(2) ∀P  [ (P ⊆ Human ∧ P(Socrates)) → Mortal(Socrates) ] ?
+(3) What are the classes of Socrates after closure?
+
+Answer
+======
+(1) Exists P ?  Yes
+    Witnesses: {Greek, Human, Mortal, Philosopher}
+(2) For all P ? Yes
+(3) Classes(Socrates) = {Greek, Human, Mortal, Philosopher}
+
+Reason why
+==========
+We treat predicates as *names* and mediate application with fixed predicates:
+  • Holds₁(C,a) for membership, Holds₂(SubClassOf,P,Q) for subclass.
+Subclass rules Greek⊆Human and Philosopher⊆Human, together with Human⊆Mortal,
+yield (by transitivity) Greek⊆Mortal and Philosopher⊆Mortal. Since Greek(Socrates)
+and Philosopher(Socrates), the existential (1) holds with witnesses {Greek, Philosopher}
+(and also the trivial witness Mortal, since Mortal(Socrates) will hold in the closure).
+For (2), whenever P⊆Human and P(Socrates), subclass propagation implies Mortal(Socrates).
+
+Kleene membership closure from base facts yields the ascending chain:
+  ∅ ⊆ {Greek(Socrates), Human(Aristotle), Human(Plato), Olympian(Zeus), Philosopher(Plato), Philosopher(Socrates)} ⊆ {Greek(Socrates), Human(Aristotle), Human(Plato), Human(Socrates), Mortal(Aristotle), Mortal(Plato), Mortal(Socrates), Olympian(Zeus), Philosopher(Plato), Philosopher(Socrates)} ⊆ {Greek(Socrates), Human(Aristotle), Human(Plato), Human(Socrates), Mortal(Aristotle), Mortal(Plato), Mortal(Socrates), Olympian(Zeus), Philosopher(Plato), Philosopher(Socrates)}
+which stabilizes at LFP = {Greek(Socrates), Human(Aristotle), Human(Plato), Human(Socrates), Mortal(Aristotle), Mortal(Plato), Mortal(Socrates), Olympian(Zeus), Philosopher(Plato), Philosopher(Socrates)}.
+
+Check (harness)
+===============
+PASS 1: Intended subclass rules present.
+PASS 2: Transitive subclass closure correct.
+PASS 3: Base facts included in step 1.
+PASS 4: Kleene chain is ascending and stabilizes.
+PASS 5: Human(Socrates) and Mortal(Socrates) derived.
+PASS 6: Zeus is not inferred mortal.
+PASS 7: Existential witnesses are present.
+PASS 8: Universal statement verified.
+PASS 9: Socrates’s classes are correct after closure.
+PASS 10: Deterministic formatting stable.
+PASS 11: No out-of-vocabulary facts.
+PASS 12: Total number of membership facts is 10.
