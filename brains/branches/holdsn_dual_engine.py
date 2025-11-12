@@ -531,6 +531,8 @@ def _load_case_module(path: str):
     spec.loader.exec_module(mod)  # type: ignore
     return mod
 
+# ... keep everything above unchanged ...
+
 def main():
     # Default case path: ./greek_family.py (sibling of this file)
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -545,9 +547,21 @@ def main():
     # Orchestration — the CASE prints its own headers
     case.print_model()
     case.print_question()
-    res1, res2, res3 = case.run_queries()
-    case.print_answer(res1, res2, res3)
-    case.print_reason(res1[1], res2[1])
+
+    # NEW: accept any number of results from case.run_queries()
+    results = case.run_queries()
+    if not isinstance(results, (list, tuple)):
+        results = [results]
+    else:
+        results = list(results)
+
+    # Forward all results to print_answer (its signature is case-specific)
+    case.print_answer(*results)
+
+    # Reason: we still show the first two engine choices if available.
+    eng1 = results[0][1] if len(results) >= 1 and len(results[0]) > 1 else "n/a"
+    eng2 = results[1][1] if len(results) >= 2 and len(results[1]) > 1 else "n/a"
+    case.print_reason(eng1, eng2)
 
     print("Check (harness)")
     print("===============")

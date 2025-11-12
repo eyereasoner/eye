@@ -1,0 +1,61 @@
+Model
+=====
+Individuals D = ['Alice', 'Bob', 'Carol', 'Dave', 'Erin', 'Frank', 'Grace', 'Helen']
+
+Fixed predicates (signature)
+----------------------------
+• ex:holds2(R,x,y)   — application (⟨x,y⟩ ∈ ext(R)); sorts: (NAME, IND, IND)
+• ex:holds1(C,x)     — unary application (x ∈ C); sorts: (NAME, IND)
+• Meta over role names: SubRelOf, InverseOf, Symmetric, Transitive, SubRelChain, Domain, Range
+• Meta over class names: SubClassOf
+
+Named relations (with facts)
+----------------------------
+parentOf   = {⟨Alice,Bob⟩, ⟨Bob,Carol⟩, ⟨Carol,Dave⟩}
+childOf    = derived (inverse of parentOf)
+ancestorOf = derived (transitive super of parentOf)
+marriedTo  = {⟨Erin,Frank⟩}  (symmetric → derived ⟨Frank,Erin⟩)
+teaches    = {⟨Grace,Carol⟩, ⟨Grace,Dave⟩}
+supervises = {⟨Grace,Erin⟩}
+advises    = derived (super of teaches, supervises)
+
+Typing: Domain(advises,Professor), Range(advises,Student), Student ⊆ Person, Professor ⊆ Person
+
+Question
+========
+Q1) List all (x,y) with holds2(ancestorOf,x,y).                      [auto engine]
+Q2) ∃R: leq(R,advises) ∧ holds2(R,Grace,Erin) ?  (witness names)      [auto engine]
+Q3) ∀y: holds2(advises,Grace,y) → Professor(Grace) ∧ Student(y) ?      [auto engine]
+Q4) Inverse check: list (x,y) with childOf(x,y) and compare to parentOf⁻¹. [auto engine]
+Q5) Symmetry check: marriedTo(Erin,Frank) ⇒ marriedTo(Frank,Erin).     [auto engine]
+
+Answer
+======
+Q1) Engine: bottomup → ancestorOf = {⟨Alice,Bob⟩, ⟨Alice,Carol⟩, ⟨Alice,Dave⟩, ⟨Bob,Carol⟩, ⟨Bob,Dave⟩, ⟨Carol,Dave⟩}
+Q2) Engine: topdown → Witness role-names R = {advises, supervises}
+Q3) Engine: mixed → Typing statement holds: Yes
+Q4) Engine: auto → childOf pairs = {⟨Bob,Alice⟩, ⟨Carol,Bob⟩, ⟨Dave,Carol⟩}
+Q5) Engine: auto → Symmetry consequence Frank↔Erin: Yes
+
+Reason why
+==========
+• Role inclusions (SubRelOf) lifted via holds₂ deliver advisors from teaches/supervises.
+• Inverses & symmetry are modeled as meta-constraints over names; application stays first-order via holds₂.
+• Transitivity on ancestorOf gives longer chains; property chain parentOf∘parentOf ⊆ ancestorOf aligns with OWL RL.
+• Domain/Range typing is checked via holds₁ (unary) and propagates through subroles and inverses.
+• Auto-chooser sends big transitive enumerations to bottom-up; focused ground checks go to tabled top-down.
+
+Check (harness)
+===============
+PASS 1: Bottom-up ancestorOf is correct.
+PASS 2: Tabled top-down ancestorOf is correct.
+PASS 3: Witness set for Grace→Erin under advises is {supervises, advises}.
+PASS 4: Typing property holds for advises.
+PASS 5: childOf = parentOf⁻¹ holds.
+PASS 6: Symmetry of marriedTo holds.
+PASS 7: Engine chooser behaves as intended.
+PASS 8: leq reflexivity holds.
+PASS 9: leq_strict inclusions hold.
+PASS 10: Property chain derivations present.
+PASS 11: Bottom-up closure is stable.
+PASS 12: Pretty printing deterministic.
