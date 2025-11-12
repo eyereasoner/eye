@@ -6,7 +6,7 @@ README (plain text)
 Purpose
 -------
 This single-file program is a “branch of insights” in the spirit of
-https://eyereasoner.github.io/eye/brains/ . It demonstrates how a problem that
+https://eyereasoner.github.io/eye/eyezero/ . It demonstrates how a problem that
 *looks* like Second-Order Logic (SOL)—because it quantifies over **sets** and
 **set-operators**—can be modeled with a **first-order core** using a small,
 fixed set of predicates. This follows the core idea of Hayes–Menzel.

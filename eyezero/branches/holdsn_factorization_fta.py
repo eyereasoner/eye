@@ -6,7 +6,7 @@ README (plain text)
 Purpose
 -------
 This single-file program is a “branch of insights” (in the spirit of
-https://eyereasoner.github.io/eye/brains/) that illustrates the **Fundamental
+https://eyereasoner.github.io/eye/eyezero/) that illustrates the **Fundamental
 Theorem of Arithmetic (FTA)**—existence and uniqueness of prime factorization—
 while showcasing the Hayes–Menzel idea: treat *predicates* like "is prime" or
 "divides" as **named objects** (intensions), and use fixed predicates
