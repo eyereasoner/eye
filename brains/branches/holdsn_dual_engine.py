@@ -531,8 +531,6 @@ def _load_case_module(path: str):
     spec.loader.exec_module(mod)  # type: ignore
     return mod
 
-# ... keep everything above unchanged ...
-
 def main():
     # Default case path: ./greek_family.py (sibling of this file)
     script_dir = os.path.dirname(os.path.abspath(__file__))
