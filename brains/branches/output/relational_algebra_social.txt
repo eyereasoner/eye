@@ -1,0 +1,57 @@
+Model
+=====
+Individuals D = ['Alice', 'Bob', 'Carol', 'Dave', 'Erin', 'Frank']
+
+Fixed predicates (signature)
+----------------------------
+• ex:holds2(R,x,y)   — application (⟨x,y⟩ ∈ ext(R)); sorts: (NAME, IND, IND)
+• ex:SubRelOf(P,Q), ex:Union(P,Q,R), ex:Comp(P,Q,R), ex:Star(P,R)
+• ex:leq_strict / ex:leq   — ⊆* with/without reflex on names; sorts: (NAME, NAME)
+
+Named relations (with facts)
+----------------------------
+Follows      = {⟨Alice,Bob⟩, ⟨Bob,Carol⟩, ⟨Bob,Dave⟩, ⟨Carol,Dave⟩, ⟨Erin,Frank⟩}
+Mentors      = {⟨Alice,Carol⟩, ⟨Dave,Erin⟩}
+Collaborates = {⟨Bob,Frank⟩, ⟨Carol,Erin⟩}
+Knows        = derived; intended Follows ∪ Mentors ∪ Collaborates
+TwoHop       = derived; intended Knows ∘ Knows
+ReachK       = derived; intended Knows⁺ (length ≥ 1)
+
+Inclusions over names: Follows ⊆ Knows, Mentors ⊆ Knows, Collaborates ⊆ Knows
+Constructors over names: Union(Follows,Mentors,Knows), Union(Knows,Collaborates,Knows),
+                          Comp(Knows,Knows,TwoHop), Star(Knows,ReachK)
+
+Question
+========
+Q1) List all (X,Y) with holds2(TwoHop,X,Y).   [auto engine]
+Q2) ∃R: Comp(Knows,Knows,R) ∧ holds2(R,Alice,Dave) ?  (witness relation-names)  [auto engine]
+Q3) ∀R,y: (leq(R,Knows) ∧ holds2(R,Alice,y)) → holds2(ReachK,Alice,y) ?  [auto engine]
+
+Answer
+======
+Q1) Engine: bottomup → TwoHop = {⟨Alice,Carol⟩, ⟨Alice,Dave⟩, ⟨Alice,Erin⟩, ⟨Alice,Frank⟩, ⟨Bob,Dave⟩, ⟨Bob,Erin⟩, ⟨Carol,Erin⟩, ⟨Carol,Frank⟩, ⟨Dave,Frank⟩}
+Q2) Engine: topdown → Witness relation-names R = {TwoHop}
+Q3) Engine: mixed → Universal statement holds: Yes
+
+Reason why
+==========
+• Knows is both the union of base links and a superrelation via SubRelOf;
+  lifting moves base facts upward. Comp(Knows,Knows,TwoHop) materializes 2-hop links.
+• Star(Knows,ReachK) closes paths of length ≥1 (non-reflexive).
+• Queries quantify over relation names (e.g., ∃R with Comp(Knows,Knows,R)).
+• Auto-chooser: big TwoHop/ReachK enumerations → bottom-up; targeted ground checks → tabled top-down.
+
+Check (harness)
+===============
+PASS 1: Bottom-up TwoHop enumeration is correct.
+PASS 2: Tabled top-down TwoHop enumeration is correct.
+PASS 3: Witness set for Alice→Dave under composition is {TwoHop}.
+PASS 4: Universal property holds.
+PASS 5: TwoHop is non-reflexive here.
+PASS 6: ReachK is non-reflexive here.
+PASS 7: Engine chooser behaves as intended.
+PASS 8: leq reflexivity holds for all relation names.
+PASS 9: leq_strict inclusions hold.
+PASS 10: TwoHop contains Alice→Dave.
+PASS 11: Bottom-up closure is stable.
+PASS 12: Pretty printing deterministic.
