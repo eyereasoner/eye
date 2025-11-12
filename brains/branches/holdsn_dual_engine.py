@@ -36,6 +36,14 @@ This guarantees that head-only variables like P in leq(P,P). range over all
 relation *names* that your case actually uses (e.g., TeacherOf), even when the
 relevant subprogram itself does not mention them.
 
+Performance notes
+-----------------
+This file includes two low-risk, high-impact optimizations:
+  • LFP **memoization**: results are cached per (subprogram, signature, seed domains).
+    Many queries/checks reuse the same subprogram; caching avoids recomputation.
+  • Per-round **domain reuse**: sorted NAME/IND domain lists are computed once per
+    round and reused so unsafe-head grounding doesn’t re-sort each time.
+
 Usage
 -----
   python holdsn_dual_engine.py greek_family.py
@@ -74,7 +82,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict, Iterable, List, Optional, Set, Tuple, Union
 from collections import defaultdict, deque
-import importlib.util, sys, os, itertools, inspect
+import importlib.util, sys, os, itertools, inspect, hashlib
 
 # Make this module importable as 'holdsn_dual_engine' even when run as __main__.
 sys.modules['holdsn_dual_engine'] = sys.modules[__name__]
@@ -179,15 +187,44 @@ def _collect_domains(facts: Dict[str, Set[Tuple[str,...]]],
                 elif sort == IND: inds.add(val)
     return names, inds
 
+# ---- LFP memoization -------------------------------------------------------
+
+_lfp_cache: Dict[Tuple, Tuple[Dict[str, Set[Tuple[str,...]]], int]] = {}
+
+def _program_key(program: List[Clause]) -> Tuple:
+    """
+    Build a stable, hashable key for a program/subprogram.
+    We serialize heads and bodies as tuples of strings/markers (variables are
+    represented by their position in the clause structure to keep key stable).
+    """
+    def term_repr(t: Term) -> Tuple[str,str]:
+        if isinstance(t, str): return ("C", t)
+        else: return ("V", t.name)  # variable name only (id is not stable across runs)
+    key = []
+    for c in program:
+        head = (c.head.pred, tuple(term_repr(t) for t in c.head.args))
+        body = tuple((b.pred, tuple(term_repr(t) for t in b.args)) for b in c.body)
+        key.append((head, body))
+    return tuple(key)
+
+def _sig_key(sig: Signature) -> Tuple:
+    return tuple(sorted((p, tuple(sorts)) for p, sorts in sig.items()))
+
+def _seeds_key(names: Optional[Set[str]], inds: Optional[Set[str]]) -> Tuple:
+    return (tuple(sorted(names or ())), tuple(sorted(inds or ())))
+
+# ----------------------------------------------------------------------------
+
 def _ground_head_from_domains(head: Atom,
                               subst: Dict[Var,Term],
                               sig: Signature,
-                              name_dom: Set[str],
-                              ind_dom: Set[str]) -> Iterable[Tuple[str,...]]:
+                              names_list: List[str],
+                              inds_list: List[str]) -> Iterable[Tuple[str,...]]:
     """
     Yield ground head tuples. For head-only vars, range over NAME/IND domains.
 
     IMPORTANT: equality between repeated head variables is enforced *per tuple*.
+    We pass in pre-sorted lists (names_list/inds_list) to avoid per-call sorting.
     """
     sorts = sig.get(head.pred, tuple(NAME for _ in head.args))  # default NAME
     positions: List[List[str]] = []
@@ -198,8 +235,8 @@ def _ground_head_from_domains(head: Atom,
         if isinstance(t, str):
             positions.append([t])
         else:
-            dom = name_dom if sort == NAME else ind_dom
-            positions.append(sorted(dom))
+            dom_list = names_list if sort == NAME else inds_list
+            positions.append(dom_list)
 
     # Iterate products; enforce equality of repeated head variables PER COMBINATION
     for combo in itertools.product(*positions):
@@ -228,10 +265,19 @@ def solve_bottomup(program: List[Clause],
     Seed domains (if provided) are UNIONed into the computed domains each round,
     so unsafe heads can still range over all intended constants.
     Returns: (facts_by_pred, rounds)
-    """
-    facts: Dict[str, Set[Tuple[str,...]]] = defaultdict(set)
 
-    # Seed explicit ground facts
+    Optimizations:
+      • Results are memoized per (program, signature, seed domains).
+      • Per-round NAME/IND domain lists are precomputed once and reused.
+    """
+    # 0) Cache check
+    key = ("BU", _program_key(program), _sig_key(sig), _seeds_key(seed_name_domain, seed_ind_domain))
+    cached = _lfp_cache.get(key)
+    if cached is not None:
+        return cached
+
+    # 1) Start with explicit ground facts
+    facts: Dict[str, Set[Tuple[str,...]]] = defaultdict(set)
     for cl in program:
         if not cl.body and all(isinstance(t, str) for t in cl.head.args):
             facts[cl.head.pred].add(tuple(cl.head.args))
@@ -242,16 +288,18 @@ def solve_bottomup(program: List[Clause],
         rounds += 1
         changed = False
 
-        # Current domains + optional seeds
+        # Current domains + optional seeds (build and sort ONCE per round)
         names, inds = _collect_domains(facts, sig)
         if seed_name_domain: names |= set(seed_name_domain)
         if seed_ind_domain:  inds  |= set(seed_ind_domain)
+        names_list = sorted(names)
+        inds_list  = sorted(inds)
 
         for cl in program:
             if not cl.body:
                 # Unsafe fact (e.g., leq(P,P).) → ground from domains
                 if not all(isinstance(t, str) for t in cl.head.args):
-                    for tpl in _ground_head_from_domains(cl.head, {}, sig, names, inds):
+                    for tpl in _ground_head_from_domains(cl.head, {}, sig, names_list, inds_list):
                         if tpl not in facts[cl.head.pred]:
                             facts[cl.head.pred].add(tpl); changed = True
                 continue
@@ -261,10 +309,19 @@ def solve_bottomup(program: List[Clause],
             for b in cl.body:
                 new_partials: List[Dict[Var,Term]] = []
                 rows = facts.get(b.pred, set())
+                # (Micro-optimization) If there are constants in b, skip rows that cannot match.
+                const_pos = [i for i, t in enumerate(b.args) if isinstance(t, str)]
                 for s in partials:
                     b1 = apply_s(b, s)
                     for row in rows:
                         if len(row) != len(b1.args): continue
+                        # quick constant filter
+                        bad = False
+                        for i in const_pos:
+                            if b1.args[i] != row[i]:
+                                bad = True; break
+                        if bad: continue
+                        # full unify
                         s2 = s.copy()
                         ok = True
                         for arg, val in zip(b1.args, row):
@@ -285,10 +342,12 @@ def solve_bottomup(program: List[Clause],
                     if tpl not in facts[head.pred]:
                         facts[head.pred].add(tpl); changed = True
                 else:
-                    for tpl in _ground_head_from_domains(head, {}, sig, names, inds):
+                    for tpl in _ground_head_from_domains(head, {}, sig, names_list, inds_list):
                         if tpl not in facts[head.pred]:
                             facts[head.pred].add(tpl); changed = True
 
+    # 2) Cache and return
+    _lfp_cache[key] = (facts, rounds)
     return facts, rounds
 
 # ----------------------------------------------------------------------------
@@ -301,9 +360,18 @@ def match_against_facts(goals: List[Atom], facts: Dict[str, Set[Tuple[str,...]]]
     for a in goals:
         new_sols: List[Dict[Var,Term]] = []
         rows = facts.get(a.pred, set())
+        # quick constant filter positions
+        const_pos = [i for i, t in enumerate(a.args) if isinstance(t, str)]
         for s in sols:
             for row in rows:
                 if len(row) != len(a.args): continue
+                # quick filter
+                bad = False
+                for i in const_pos:
+                    if a.args[i] != row[i]:
+                        bad = True; break
+                if bad: continue
+                # unify into s2
                 s2 = s.copy()
                 ok = True
                 for arg, val in zip(a.args, row):
@@ -411,7 +479,7 @@ def solve_topdown(program: List[Clause],
          all relation names, e.g., TeacherOf).
       3) Answer the conjunctive query by matching against the tabled facts.
 
-    Returns: (solutions, metric) where metric is the number of LFP rounds.
+    Returns: (solutions, metric) where metric is the number of LFP rounds).
     """
     # 0) Obtain signature from the caller's module (CASE). If missing, default NAMEs.
     sig: Signature = {}
@@ -422,11 +490,9 @@ def solve_topdown(program: List[Clause],
     except Exception:
         pass
 
-    # If signature is empty, default all predicate positions to NAME (best effort).
     if not sig:
         preds = {c.head.pred for c in program}
         for p in preds:
-            # guess arity from first clause with predicate p
             arity = len(next(c for c in program if c.head.pred==p).head.args)
             sig[p] = tuple(NAME for _ in range(arity))  # type: ignore
 
