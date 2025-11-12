@@ -80,11 +80,11 @@ Q5) Symmetry check: marriedTo(Erin,Frank) ⇒ marriedTo(Frank,Erin).
 How to run
 ----------
     python role_hierarchy_owlrl.py
-    python holdsn_dual_engine.py role_hierarchy_owlrl.py
+    python eyezero.py role_hierarchy_owlrl.py
 """
 
 from typing import Dict, List, Tuple, Set
-from holdsn_dual_engine import (
+from eyezero import (
     Var, Atom, Clause, atom, fact,
     solve_topdown, solve_bottomup, match_against_facts,
     NAME, IND, Signature, deref,

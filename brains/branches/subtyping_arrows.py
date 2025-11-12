@@ -32,7 +32,7 @@ the SIGNATURE to safely ground head-only variables.
 How to run
 ----------
   python subtyping_arrows.py
-  python holdsn_dual_engine.py subtyping_arrows.py
+  python eyezero.py subtyping_arrows.py
 
 Printed sections
 ----------------
@@ -40,7 +40,7 @@ Model → Question → Answer → Reason why → Check (12 tests)
 """
 
 from typing import List, Tuple, Set
-from holdsn_dual_engine import (
+from eyezero import (
     Var, Atom, Clause, atom, fact,
     solve_topdown, solve_bottomup, match_against_facts,
     NAME, IND, Signature, deref,

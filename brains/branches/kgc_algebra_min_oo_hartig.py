@@ -34,7 +34,7 @@ See: the extended paper and ESWC 2025 materials. (Citations after the output sec
 How to run
 ----------
     python kgc_algebra_min_oo_hartig.py
-    python holdsn_dual_engine.py kgc_algebra_min_oo_hartig.py
+    python eyezero.py kgc_algebra_min_oo_hartig.py
 
 Printed sections
 ----------------
@@ -44,7 +44,7 @@ Deterministic output; no external dependencies.
 """
 
 from typing import List, Tuple, Iterable, Dict, Set
-from holdsn_dual_engine import (
+from eyezero import (
     Var, Atom, Clause, atom, fact,
     solve_topdown, solve_bottomup, match_against_facts,
     NAME, IND, Signature, deref,

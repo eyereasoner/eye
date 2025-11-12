@@ -9,13 +9,13 @@ relation *symbols* are **names** (intensions) and application is a fixed predica
 
 So “quantifying over predicates” becomes quantifying over **names** while staying first-order.
 
-This module relies on the generic engine in holdsn_dual_engine.py and provides:
+This module relies on the generic engine in eyezero.py and provides:
   - D, SIGNATURE, PROGRAM
   - presentation hooks (print_model/print_question/...)
   - a case-specific engine chooser + ask()
 """
 
-from holdsn_dual_engine import (
+from eyezero import (
     Var, Atom, Clause, atom, fact,
     solve_topdown, solve_bottomup, match_against_facts,
     NAME, IND, Signature, deref,

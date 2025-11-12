@@ -25,12 +25,12 @@ This yields:
   Gen2 = pairs with y ≡ x (mod 2)
   Gen3 = pairs with y ≡ x (mod 3)
 
-This module plugs into the generic engine `holdsn_dual_engine.py` and provides:
+This module plugs into the generic engine `eyezero.py` and provides:
   print_model, print_question, run_queries, print_answer, print_reason, run_checks, and a standalone main().
 """
 
 from typing import Dict, List, Tuple, Set
-from holdsn_dual_engine import (
+from eyezero import (
     Var, Atom, Clause, atom, fact,
     solve_topdown, solve_bottomup, match_against_facts,
     NAME, IND, Signature, deref,
@@ -134,7 +134,7 @@ def choose_engine(goals: List[Atom]) -> str:
     return "topdown"
 
 def ask(goals: List[Atom], step_limit: int = 10000, fallback_threshold: int = 4000):
-    from holdsn_dual_engine import solve_topdown as _td, solve_bottomup as _bu  # explicit
+    from eyezero import solve_topdown as _td, solve_bottomup as _bu  # explicit
     engine = choose_engine(goals)
     if engine == "topdown":
         sols, steps = _td(PROGRAM, goals, step_limit=step_limit)

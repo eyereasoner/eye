@@ -46,14 +46,14 @@ This file includes two low-risk, high-impact optimizations:
 
 Usage
 -----
-  python holdsn_dual_engine.py greek_family.py
-  python holdsn_dual_engine.py                 # defaults to ./greek_family.py
+  python eyezero.py greek_family.py
+  python eyezero.py                 # defaults to ./greek_family.py
 
 CASE module contract
 --------------------
 A CASE module should import from this file:
 
-  from holdsn_dual_engine import (
+  from eyezero import (
       Var, Atom, Clause, atom, fact,
       solve_topdown, solve_bottomup, match_against_facts,
       NAME, IND, Signature, deref,
@@ -84,8 +84,8 @@ from typing import Dict, Iterable, List, Optional, Set, Tuple, Union
 from collections import defaultdict, deque
 import importlib.util, sys, os, itertools, inspect, hashlib
 
-# Make this module importable as 'holdsn_dual_engine' even when run as __main__.
-sys.modules['holdsn_dual_engine'] = sys.modules[__name__]
+# Make this module importable as 'eyezero' even when run as __main__.
+sys.modules['eyezero'] = sys.modules[__name__]
 
 # ╔═══════════════════════════════════════════════════════════════════════════╗
 # ║                           ENGINE LIBRARY (generic)                        ║
@@ -527,7 +527,7 @@ def _load_case_module(path: str):
         raise RuntimeError(f"Cannot load case module from {path}")
     mod = importlib.util.module_from_spec(spec)
     # Make engine imports available during module execution.
-    sys.modules['holdsn_dual_engine'] = sys.modules[__name__]
+    sys.modules['eyezero'] = sys.modules[__name__]
     spec.loader.exec_module(mod)  # type: ignore
     return mod
 

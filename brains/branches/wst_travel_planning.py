@@ -44,7 +44,7 @@ Big picture
 How to run
 ----------
     python wst_travel_planning_cost_time.py
-    python holdsn_dual_engine.py wst_travel_planning_cost_time.py
+    python eyezero.py wst_travel_planning_cost_time.py
 
 Printed sections
 ----------------
@@ -61,7 +61,7 @@ Everything else (effects, cost and time accumulation, minimal selectors) then fo
 """
 
 from typing import List, Tuple
-from holdsn_dual_engine import (
+from eyezero import (
     Var, Atom, Clause, atom, fact,
     solve_topdown, solve_bottomup, match_against_facts,
     NAME, IND, Signature, deref,

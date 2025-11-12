@@ -33,7 +33,7 @@ dramatically reduces bottom-up join work. We also cache the bottom-up facts.
 How to run
 ----------
   python fibonacci_holdsn.py                 # full demo + checks
-  python holdsn_dual_engine.py fibonacci_holdsn.py
+  python eyezero.py fibonacci_holdsn.py
 
   # Quick CLI to print F(n) without running the harness:
   python fibonacci_holdsn.py 3674
@@ -45,7 +45,7 @@ Model → Question → Answer → Reason why → Check (12 tests)
 
 from typing import List, Tuple, Dict, Set, Optional
 from copy import deepcopy
-from holdsn_dual_engine import (
+from eyezero import (
     Var, Atom, Clause, atom, fact,
     solve_topdown, solve_bottomup, match_against_facts,
     NAME, IND, Signature, deref,

@@ -38,11 +38,11 @@ bottom-up reasoning. We also quantify over relation names in the queries.
 How to run
 ----------
     python relational_algebra_social.py
-    python holdsn_dual_engine.py relational_algebra_social.py
+    python eyezero.py relational_algebra_social.py
 """
 
 from typing import Dict, List, Tuple, Set
-from holdsn_dual_engine import (
+from eyezero import (
     Var, Atom, Clause, atom, fact,
     solve_topdown, solve_bottomup, match_against_facts,
     NAME, IND, Signature, deref,

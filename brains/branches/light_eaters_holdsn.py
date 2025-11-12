@@ -35,7 +35,7 @@ Everything is first-order: the “quantification over predicates” happens over
 How to run
 ----------
   python light_eaters_holdsn.py
-  python holdsn_dual_engine.py light_eaters_holdsn.py
+  python eyezero.py light_eaters_holdsn.py
 
 Printed sections
 ----------------
@@ -52,7 +52,7 @@ Notes for readers
 from typing import List, Tuple
 from contextlib import contextmanager
 
-from holdsn_dual_engine import (
+from eyezero import (
     Var, Atom, Clause, atom, fact,
     solve_topdown, solve_bottomup, match_against_facts,
     NAME, IND, Signature, deref,

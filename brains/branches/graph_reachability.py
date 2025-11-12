@@ -21,7 +21,7 @@ Rules:
 """
 
 from typing import Dict, List, Tuple, Set
-from holdsn_dual_engine import (
+from eyezero import (
     Var, Atom, Clause, atom, fact,
     solve_topdown, solve_bottomup, match_against_facts,
     NAME, IND, Signature, deref,
