@@ -1,0 +1,51 @@
+Model
+=====
+Indices n ∈ [0..12] (strings), Values v ∈ [0..144] (strings) for the demo range.
+Large ground n (< 20000) answered by a one-shot oracle seed (fast doubling).
+
+Fixed predicates (signature)
+----------------------------
+• ex:holds2(ex:Fib, n, v)  — Fibonacci as a binary relation; (NAME, IND, IND)
+• ex:Succ(n,m)             — index successor (demo range); (IND, IND)
+• ex:Add(x,y,z)            — precomputed addition (only Fib-values ≤ 144); (IND, IND, IND)
+
+Program rules
+-------------
+1) Base: Fib(0)=0, Fib(1)=1.
+2) Step: Fib(n+2) = Fib(n+1) + Fib(n) via Succ and Add.
+
+Question
+========
+Q1) Enumerate all pairs holds2(Fib, n, v) for n=0..12.       [auto engine]
+Q2) Ground checks: Fib(7)=13, Fib(12)=144?                   [auto engine]
+Q3) Functional property: for each n there is a unique v.     [auto engine]
+Q4) Large-N demo: query holds2(Fib, '3674', V).               [auto engine + oracle]
+
+Answer
+======
+Q1) Engine: bottomup → Fib = {⟨0,0⟩, ⟨1,1⟩, ⟨2,1⟩, ⟨3,2⟩, ⟨4,3⟩, ⟨5,5⟩, ⟨6,8⟩, ⟨7,13⟩, ⟨8,21⟩, ⟨9,34⟩, ⟨10,55⟩, ⟨11,89⟩, ⟨12,144⟩}
+Q2) Engine: mixed → Fib(7)=13: Yes,  Fib(12)=144: Yes
+Q3) Engine: bottomup → Functional per n (unique v): Yes
+Q4) Engine: topdown → Large-N (n=3674) solution present: Yes
+
+Reason why
+==========
+• Names-as-intensions (ex:Fib) with fixed holds₂ keeps logic first-order.
+• Add EDB contains ONLY sums of Fibonacci values ≤ 144 → tiny join space.
+• Large ground N handled by a one-shot fast-doubling seed.
+• Cached bottom-up facts avoid recomputing the LFP across checks.
+
+Check (harness)
+===============
+PASS 1: Bottom-up enumeration correct (0..12).
+PASS 2: Tabled top-down proves ground facts.
+PASS 3: Negative ground case blocked.
+PASS 4: Addition table covers required sums.
+PASS 5: Successor coverage complete for indices.
+PASS 6: Unique value per index.
+PASS 7: Correct number of pairs (13).
+PASS 8: Deterministic output.
+PASS 9: Engine chooser behaves as intended.
+PASS 10: Standardize-apart stable.
+PASS 11: Bottom-up closure stable (single computation).
+PASS 12: Oracle seeding adds the big-N fact.
