@@ -1,0 +1,51 @@
+Model
+=====
+Base types (names): Top, Int, Bool
+Arrow types (names): Arr_Top_Top, Arr_Top_Int, Arr_Top_Bool, Arr_Int_Top, Arr_Int_Int, Arr_Int_Bool, Arr_Bool_Top, Arr_Bool_Int, Arr_Bool_Bool
+
+Fixed predicates (signature)
+----------------------------
+• ex:SubType(T,U)  — subtyping over *names*; sorts: (NAME, NAME)
+• ex:ArrowOf(A1,A2,T) — T is the *name* of arrow A1→A2; sorts: (NAME, NAME, NAME)
+
+Program rules
+-------------
+1) Reflexive: SubType(T,T).
+2) Transitive: SubType(X,Z) :- SubType(X,Y), SubType(Y,Z).
+3) Arrow: (A1→A2) ≤ (B1→B2) if B1 ≤ A1 and A2 ≤ B2 (contra/co-variance).
+Base facts: Int ≤ Top, Bool ≤ Top.
+
+Question
+========
+Q1) Enumerate all subtyping pairs SubType(T,U).             [auto engine]
+Q2) Witness TB s.t. SubType(Arr_Int_Bool, TB).              [auto engine]
+Q3) ∀X∈{Top,Int,Bool}: SubType(Arr_Top_X, Arr_Top_Top)?     [auto engine]
+Q4) ∀X∈{Top,Int,Bool}: SubType(Arr_Top_Top, Arr_X_Top)?     [auto engine]
+Answer
+======
+Q1) Engine: bottomup → {Arr_Bool_Bool ≤ Arr_Bool_Bool, Arr_Bool_Bool ≤ Arr_Bool_Top, Arr_Bool_Int ≤ Arr_Bool_Int, Arr_Bool_Int ≤ Arr_Bool_Top, Arr_Bool_Top ≤ Arr_Bool_Top, Arr_Int_Bool ≤ Arr_Int_Bool, Arr_Int_Bool ≤ Arr_Int_Top, Arr_Int_Int ≤ Arr_Int_Int, Arr_Int_Int ≤ Arr_Int_Top, Arr_Int_Top ≤ Arr_Int_Top, Arr_Top_Bool ≤ Arr_Bool_Bool, Arr_Top_Bool ≤ Arr_Bool_Top, Arr_Top_Bool ≤ Arr_Int_Bool, Arr_Top_Bool ≤ Arr_Int_Top, Arr_Top_Bool ≤ Arr_Top_Bool, Arr_Top_Bool ≤ Arr_Top_Top, Arr_Top_Int ≤ Arr_Bool_Int, Arr_Top_Int ≤ Arr_Bool_Top, Arr_Top_Int ≤ Arr_Int_Int, Arr_Top_Int ≤ Arr_Int_Top, Arr_Top_Int ≤ Arr_Top_Int, Arr_Top_Int ≤ Arr_Top_Top, Arr_Top_Top ≤ Arr_Bool_Top, Arr_Top_Top ≤ Arr_Int_Top, Arr_Top_Top ≤ Arr_Top_Top, Bool ≤ Bool, Bool ≤ Top, Int ≤ Int, Int ≤ Top, Top ≤ Top}
+Q2) Engine: bottomup → Witness TB s.t. Arr_Int_Bool ≤ TB = {Arr_Int_Bool, Arr_Int_Top}
+Q3) Engine: mixed → Universal (covariant result) holds: Yes
+Q4) Engine: mixed → Universal (contravariant arg) holds: Yes
+
+Reason why
+==========
+• Types are *names*; subtyping is a relation over names (first-order).
+• ArrowOf maps components (A1,A2) to the *name* of A1→A2.
+• Arrow rule implements contravariance/covariance without functions or higher-order.
+• Engine chooser: big enumerations → bottom-up; targeted checks → tabled top-down.
+
+Check (harness)
+===============
+PASS 1: Bottom-up includes expected base & arrow pairs.
+PASS 2: Tabled top-down proves a sample arrow subtyping.
+PASS 3: Witness set for Arr_Int_Bool ≤ TB is correct.
+PASS 4: Covariance universal holds.
+PASS 5: Contravariance universal holds.
+PASS 6: Deterministic formatting.
+PASS 7: Engine chooser behaves as intended.
+PASS 8: Reflexivity holds.
+PASS 9: No bogus base subtypings.
+PASS 10: Negative arrow subtyping blocked as expected.
+PASS 11: Bottom-up closure stable.
+PASS 12: Tabled top-down proves contravariant sample.
