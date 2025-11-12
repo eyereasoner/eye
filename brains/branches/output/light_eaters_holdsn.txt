@@ -1,0 +1,56 @@
+Model
+=====
+Individuals D = ['Plants']  (tests will create temporary ones)
+
+Fixed predicate (signature)
+---------------------------
+• ex:holds1(R,x)  — unary application; sorts: (NAME, IND)
+
+Named capability relations (intensions)
+---------------------------------------
+S(x): multimodal sensing (≥2 modalities)
+G(x): goal-directed adaptation
+M(x): memory
+N(x): networked signaling/integration
+C(x): communication influencing other organisms
+
+Two-of-three witnesses
+----------------------
+PairMN(x) :- M(x) ∧ N(x)
+PairMC(x) :- M(x) ∧ C(x)
+PairNC(x) :- N(x) ∧ C(x)
+TwoOf(x)  :- PairMN(x) ∨ PairMC(x) ∨ PairNC(x)
+
+Minimal intelligence
+--------------------
+Imin(x)   :- S(x) ∧ G(x) ∧ TwoOf(x)
+
+Question
+========
+Q1) Are plants intelligent under I_min (Imin(Plants))?        [auto engine]
+Q2) Which pair-witnesses {MN, MC, NC} hold for Plants?         [auto engine]
+Q3) Necessity: does ¬S prevent Imin for a system with G and two-of-three? [auto]
+
+Answer
+======
+Q1) Engine: topdown → Imin(Plants): Yes
+Q2) Engine: topdown → Pair-witnesses for Plants: {MC, MN, NC}
+Q3) Engine: topdown → Necessity (¬S ⇒ ¬Imin) holds: Yes
+
+Reason why
+==========
+• By rules: Imin(x) :- S(x) ∧ G(x) ∧ TwoOf(x).
+• For Plants we have facts S(Plants), G(Plants), and all of M,N,C are true,
+  so at least one of PairMN/PairMC/PairNC holds; hence TwoOf(Plants).
+• Therefore Imin(Plants) holds. The necessity test shows that without S,
+  even with G and two-of-three, Imin does not follow under these rules.
+
+Check (harness)
+===============
+PASS 1: Imin(Plants) holds.
+PASS 2: All pair-witnesses hold for Plants.
+PASS 3: Necessity of S verified.
+PASS 4: Two-of-three boundary implies Imin.
+PASS 5: Monotonicity True→True under added evidence.
+PASS 6: Standardize-apart/idempotence stable.
+PASS 7: Deterministic bottom-up output.
