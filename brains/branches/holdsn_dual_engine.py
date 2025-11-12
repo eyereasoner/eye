@@ -17,8 +17,8 @@ Generic reasoning engine + runner that separates:
 
 Usage
 -----
-  python holdsn_dual_engine.py bus/greek_family.py
-  python holdsn_dual_engine.py             # defaults to bus/greek_family.py
+  python holdsn_dual_engine.py greek_family.py
+  python holdsn_dual_engine.py             # defaults to greek_family.py
 
 How a CASE module should look
 -----------------------------
@@ -180,15 +180,9 @@ def _collect_domains(facts: Dict[str, Set[Tuple[str,...]]],
                 elif sort == IND: inds.add(val)
     return names, inds
 
-def _ground_head_from_domains(head: Atom,
-                              subst: Dict[Var,Term],
-                              sig: Signature,
-                              name_dom: Set[str],
-                              ind_dom: Set[str]) -> Iterable[Tuple[str,...]]:
-    """Yield ground head tuples; for head-only vars, range over NAME/IND domains."""
-    sorts = sig.get(head.pred, tuple(NAME for _ in head.args))  # default NAME
-    positions: List[List[str]] = []
-    seen: Dict[Var, str] = {}
+def _ground_head_from_domains(head, subst, sig, name_dom, ind_dom):
+    sorts = sig.get(head.pred, tuple(NAME for _ in head.args))
+    positions = []
     for t, sort in zip(head.args, sorts):
         t = deref(t, subst)
         if isinstance(t, str):
@@ -197,16 +191,16 @@ def _ground_head_from_domains(head: Atom,
             dom = name_dom if sort == NAME else ind_dom
             positions.append(sorted(dom))
     for combo in itertools.product(*positions):
+        seen = {}  # must be per-combination
         ok = True
-        # enforce equality of repeated head vars
-        i = 0
-        for t, _sort in zip(head.args, sorts):
+        for i, (t, _sort) in enumerate(zip(head.args, sorts)):
             t = deref(t, subst)
             if isinstance(t, Var):
-                if t in seen and seen[t] != combo[i]:
+                prev = seen.get(t)
+                if prev is None:
+                    seen[t] = combo[i]
+                elif prev != combo[i]:
                     ok = False; break
-                seen[t] = combo[i]
-            i += 1
         if ok:
             yield tuple(combo)
 
@@ -329,9 +323,9 @@ def _load_case_module(path: str):
     return mod
 
 def main():
-    # Default case path: bus/greek_family.py (relative to this script)
+    # Default case path: greek_family.py (relative to this script)
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    default_case = os.path.join(script_dir, "bus", "greek_family.py")
+    default_case = os.path.join(script_dir, "greek_family.py")
 
     case_path = sys.argv[1] if len(sys.argv) > 1 else default_case
     if not os.path.isabs(case_path):

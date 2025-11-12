@@ -317,3 +317,26 @@ def run_checks() -> List[str]:
 
     return notes
 
+# -------------------
+# Standalone runner
+# -------------------
+
+def main():
+    print_model()
+    print_question()
+    res1, res2, res3 = run_queries()
+    print_answer(res1, res2, res3)
+    print_reason(res1[1], res2[1])
+
+    print("Check (harness)")
+    print("===============")
+    try:
+        for note in run_checks():
+            print(note)
+    except CheckFailure as e:
+        print("FAIL:", e)
+        raise
+
+if __name__ == "__main__":
+    main()
+

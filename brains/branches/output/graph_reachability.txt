@@ -1,0 +1,50 @@
+Model
+=====
+Nodes (individuals) D = ['A', 'B', 'C', 'D', 'E']
+
+Fixed predicates (signature)
+----------------------------
+• ex:holds2(R,x,y)   — application (⟨x,y⟩ ∈ ext(R)); sorts: (NAME, IND, IND)
+• ex:SubRelOf(P,Q)   — inclusion over relation *names*; sorts: (NAME, NAME)
+• ex:leq_strict / ex:leq   — ⊆* with/without reflex on names; sorts: (NAME, NAME)
+
+Named relations (with facts)
+----------------------------
+Edge   = {⟨A,B⟩, ⟨B,C⟩, ⟨B,D⟩, ⟨C,D⟩}
+Reach  = derived only (no base facts)
+
+Inclusions over names: Edge ⊆ Reach
+
+Question
+========
+Q1) List all (X,Y) with holds2(Reach,X,Y).   [auto engine]
+Q2) ∃R: holds2(R,A,D) ∧ leq(R,Reach) ?  [auto engine]
+Q3) ∀R,y: (leq(R,Edge) ∧ holds2(R,A,y)) → holds2(Reach,A,y) ?  [auto engine]
+
+Answer
+======
+Q1) Engine: bottomup → Reach = {⟨A,B⟩, ⟨A,C⟩, ⟨A,D⟩, ⟨B,C⟩, ⟨B,D⟩, ⟨C,D⟩}
+Q2) Engine: topdown → Witness relation-names R = {Reach}
+Q3) Engine: mixed → Universal statement holds: Yes
+
+Reason why
+==========
+• Edge ⊆ Reach via SubRelOf; the lifting rule moves Edge-facts into Reach.
+• The transitive rule Reach(x,z) :- Edge(x,y), Reach(y,z) closes paths of length ≥2.
+• We keep Reach non-reflexive (no zero-length paths).
+• Auto-chooser: enumeration of Reach(X,Y) → bottom-up; ground checks → top-down.
+
+Check (harness)
+===============
+PASS 1: Bottom-up Reach enumeration is correct.
+PASS 2: Top-down Reach enumeration is correct.
+PASS 3: Witness set for (A,D) is {Reach}.
+PASS 4: Universal property holds for node A.
+PASS 5: No reachability from E.
+PASS 6: Reach is non-reflexive.
+PASS 7: Engine chooser behaves as intended.
+PASS 8: leq reflexivity holds for all relation names.
+PASS 9: leq_strict Edge ⊆ Reach holds.
+PASS 10: Standardize-apart stable on repeats.
+PASS 11: Bottom-up closure is stable.
+PASS 12: Pretty printing deterministic.
