@@ -3,49 +3,65 @@
 """
 README (plain text)
 ===================
+Name
+----
+holdsn_dual_engine.py
+
 Purpose
 -------
-This branch cleanly separates:
-  • a reusable **ENGINE LIBRARY** (generic top-down SLD + generic bottom-up LFP), and
-  • a concrete **CASE** that instantiates the Hayes–Menzel style (predicate *names*
-    as intensions + fixed ex:holds2/3 application) with facts and rules.
+Generic reasoning engine + runner that separates:
+  • ENGINE LIBRARY: generic top-down SLD, generic bottom-up LFP with signatures,
+    unification, standardize-apart, and utilities.
+  • CASE MODULE: a separate file that declares facts, rules, signature, and
+    presentation (Model → Question → Answer → Reason → Check).
 
-You can extend or replace the CASE without touching the engines. The bottom-up engine
-is generic Datalog (function-free) and supports “unsafe” rules like leq(P,P). via a
-small signature that tells the engine which argument positions are relation-names vs
-individuals (so it knows which domain to use when grounding head-only variables).
+Usage
+-----
+  python holdsn_dual_engine.py bus/greek_family.py
+  python holdsn_dual_engine.py             # defaults to bus/greek_family.py
 
-Where to edit
--------------
-• Add or modify **facts** under:  >>> USER SECTION: FACTS
-• Add or modify **rules** under:  >>> USER SECTION: RULES
-• If you add new predicates, extend the **signature** in the CASE section so the
-  bottom-up engine knows argument sorts.
+How a CASE module should look
+-----------------------------
+It should `from holdsn_dual_engine import ...` and define:
 
-What it prints
---------------
-Model → Question → Answer (with chosen engine labels) → Reason why → Check (harness)
+  D: Tuple[str,...]                 # individuals (for printing / quantification)
+  SIGNATURE: Dict[str, Tuple[str,...]]  # NAME/IND sorts per predicate argument
+  PROGRAM: List[Clause]             # facts + rules (using Var/Atom/Clause)
 
-Run
----
-    python3 holdsn_dual_engine.py
+  # Presentation + execution hooks:
+  print_model() -> None
+  print_question() -> None
+  run_queries() -> Tuple[Any, Any, Any]          # returns tuples like (Q1, engine, answer, metric)
+  print_answer(res1, res2, res3) -> None
+  print_reason(eng1, eng2) -> None
+  run_checks() -> List[str]         # returns list of "PASS ..." notes, raises on failure
 
-Deterministic output; no external dependencies.
+The CASE can use:
+  Var, Atom, Clause, atom, fact,
+  solve_topdown, solve_bottomup, match_against_facts,
+  NAME, IND, Signature, deref,
+  local, fmt_pairs, fmt_set
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Dict, Iterable, List, Optional, Set, Tuple, Union
-from collections import defaultdict, deque
-import itertools
+from collections import defaultdict
+import importlib.util, sys, os, itertools
+
+# ---------------------------------------------------------------------------
+# Export our module under the expected name so a CASE can `import holdsn_dual_engine`
+# even when this file is running as __main__.
+# ---------------------------------------------------------------------------
+sys.modules['holdsn_dual_engine'] = sys.modules[__name__]
 
 # ╔═══════════════════════════════════════════════════════════════════════════╗
 # ║                           ENGINE LIBRARY (generic)                        ║
 # ╚═══════════════════════════════════════════════════════════════════════════╝
 
 # ---------------------------
-# Core data model (generic)
+# Core data model
 # ---------------------------
 
 class Var:
@@ -147,13 +163,9 @@ def solve_topdown(program: List[Clause],
 # ---------------------------
 # Bottom-up LFP (generic)
 # ---------------------------
-# We support “unsafe” rules (head-only variables) *if* the CASE provides a
-# signature that marks argument positions as NAME (intension) or IND (individual).
-# The engine uses these domains to ground head-only variables.
 
 NAME, IND = "NAME", "IND"  # argument sorts
-
-Signature = Dict[str, Tuple[str, ...]]  # pred -> tuple of sorts per argument
+Signature = Dict[str, Tuple[str, ...]]  # pred -> sorts per argument
 
 def _collect_domains(facts: Dict[str, Set[Tuple[str,...]]],
                      sig: Signature) -> Tuple[Set[str], Set[str]]:
@@ -173,49 +185,37 @@ def _ground_head_from_domains(head: Atom,
                               sig: Signature,
                               name_dom: Set[str],
                               ind_dom: Set[str]) -> Iterable[Tuple[str,...]]:
-    """Given a head atom and a (possibly partial) substitution, yield ground tuples.
-       For any head variable not bound by subst, iterate over the appropriate domain
-       using the signature (NAME vs IND); enforce equalities if the same Var repeats."""
+    """Yield ground head tuples; for head-only vars, range over NAME/IND domains."""
     sorts = sig.get(head.pred, tuple(NAME for _ in head.args))  # default NAME
-    # Prepare per-position candidate domains or fixed constants
     positions: List[List[str]] = []
-    # Track repeated variables to enforce equality
-    var_to_pos: Dict[Var, int] = {}
-
-    for i, (t, sort) in enumerate(zip(head.args, sorts)):
+    seen: Dict[Var, str] = {}
+    for t, sort in zip(head.args, sorts):
         t = deref(t, subst)
         if isinstance(t, str):
             positions.append([t])
-        elif isinstance(t, Var):
-            # choose domain by sort
+        else:
             dom = name_dom if sort == NAME else ind_dom
             positions.append(sorted(dom))
-            var_to_pos[t] = i
-        else:
-            raise RuntimeError("Unexpected term kind")
-
-    # Iterate cartesian product and filter assignments that violate repeated-var equalities
     for combo in itertools.product(*positions):
         ok = True
-        # enforce equality if same Var occurs multiple times in head
-        seen: Dict[Var, str] = {}
-        for i, (t, _sort) in enumerate(zip(head.args, sorts)):
+        # enforce equality of repeated head vars
+        i = 0
+        for t, _sort in zip(head.args, sorts):
             t = deref(t, subst)
             if isinstance(t, Var):
-                if t in seen:
-                    if seen[t] != combo[i]: ok = False; break
-                else:
-                    seen[t] = combo[i]
+                if t in seen and seen[t] != combo[i]:
+                    ok = False; break
+                seen[t] = combo[i]
+            i += 1
         if ok:
             yield tuple(combo)
 
 def solve_bottomup(program: List[Clause], sig: Signature) -> Tuple[Dict[str, Set[Tuple[str,...]]], int]:
     """
     Generic bottom-up LFP:
-      - Start from all EDB facts (empty body, fully ground).
-      - Iterate rules; for each rule, join current facts for its body atoms.
-      - For head-only variables (unsafe rules), ground them using NAME/IND domains
-        inferred from current facts via the signature.
+      - EDB = facts with empty body & fully ground head (seed).
+      - Iterate rules; join body against current facts.
+      - Head-only vars grounded from NAME/IND domains via signature.
     Returns: (facts_by_pred, rounds)
     """
     facts: Dict[str, Set[Tuple[str,...]]] = defaultdict(set)
@@ -230,24 +230,19 @@ def solve_bottomup(program: List[Clause], sig: Signature) -> Tuple[Dict[str, Set
     while changed:
         rounds += 1
         changed = False
-
-        # Current domains from known facts
         name_dom, ind_dom = _collect_domains(facts, sig)
 
-        # Apply each clause in program order for determinism
         for cl in program:
             if not cl.body:
-                # If head has variables (unsafe fact like leq(P,P).), ground from domains
+                # Unsafe fact (e.g., leq(P,P).) → ground from domains
                 if not all(isinstance(t, str) for t in cl.head.args):
                     for tpl in _ground_head_from_domains(cl.head, {}, sig, name_dom, ind_dom):
                         if tpl not in facts[cl.head.pred]:
                             facts[cl.head.pred].add(tpl); changed = True
-                # else (fully ground fact) already seeded above
                 continue
 
-            # Evaluate body via joins over current facts
+            # Conjunctive join over current facts for the body
             partials: List[Dict[Var,Term]] = [dict()]
-            safe_substs: List[Dict[Var,Term]] = []
             for b in cl.body:
                 new_partials: List[Dict[Var,Term]] = []
                 rows = facts.get(b.pred, set())
@@ -263,129 +258,51 @@ def solve_bottomup(program: List[Clause], sig: Signature) -> Tuple[Dict[str, Set
                         if ok: new_partials.append(s2)
                 partials = new_partials
                 if not partials: break
-            else:
-                safe_substs = partials
 
-            if not safe_substs:
+            if not partials:
                 continue
 
-            # For each substitution, produce head tuples; if head has extra vars, ground them from domains
-            for s in safe_substs:
+            # Produce head tuples
+            for s in partials:
                 head = apply_s(cl.head, s)
                 if all(isinstance(t, str) for t in head.args):
-                    tpl = tuple(head.args)  # fully ground head
+                    tpl = tuple(head.args)
                     if tpl not in facts[head.pred]:
                         facts[head.pred].add(tpl); changed = True
                 else:
-                    # Some head vars not bound by body: ground using signature domains
                     for tpl in _ground_head_from_domains(head, {}, sig, name_dom, ind_dom):
                         if tpl not in facts[head.pred]:
                             facts[head.pred].add(tpl); changed = True
 
     return facts, rounds
 
-# ╔═══════════════════════════════════════════════════════════════════════════╗
-# ║                           CASE: Hayes–Menzel demo                         ║
-# ╚═══════════════════════════════════════════════════════════════════════════╝
+# ---------------------------
+# Utility helpers (exported)
+# ---------------------------
 
-# ------------------------------------------------------------
-# Names (constants) and predicate symbols used in this *case*
-# ------------------------------------------------------------
-
-D: Tuple[str, ...] = (  # individuals, for printing & quantification in the harness
-    "Sophroniscus",
-    "Socrates",
-    "Lamprocles",
-    "Ariston",
-    "Plato",
-    "Nicomachus",
-    "Aristotle",
-)
-
-EX = "ex:"
-FatherOf   = EX + "FatherOf"
-ParentOf   = EX + "ParentOf"
-TeacherOf  = EX + "TeacherOf"
-AncestorOf = EX + "AncestorOf"
-
-SubRelOf   = EX + "SubRelOf"
-LeqStrict  = EX + "leq_strict"
-Leq        = EX + "leq"
-Holds2     = EX + "holds2"
-
-# -------------------------------
-# Predicate signature (important)
-# -------------------------------
-# Tell the bottom-up engine which positions are relation-names (NAME) vs individuals (IND).
-SIGNATURE: Signature = {
-    Holds2:     (NAME, IND, IND),
-    SubRelOf:   (NAME, NAME),
-    LeqStrict:  (NAME, NAME),
-    Leq:        (NAME, NAME),
-}
-
-# -----------------------------------
-# Program (facts + rules) for the case
-# -----------------------------------
-
-PROGRAM: List[Clause] = []
-
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# USER SECTION: FACTS
-# Base holds2 facts (extensions of named relations)
-for a,b in [
-    ("Sophroniscus","Socrates"),
-    ("Socrates","Lamprocles"),
-    ("Ariston","Plato"),
-    ("Nicomachus","Aristotle"),
-]:
-    PROGRAM += [fact(Holds2, FatherOf, a, b),
-                fact(Holds2, ParentOf, a, b)]
-PROGRAM.append(fact(Holds2, TeacherOf, "Socrates", "Plato"))
-
-# Inclusions over relation *names* (intensions)
-PROGRAM += [
-    fact(SubRelOf, FatherOf, ParentOf),    # FatherOf ⊆ ParentOf
-    fact(SubRelOf, ParentOf, AncestorOf),  # ParentOf ⊆ AncestorOf
-]
-# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# USER SECTION: RULES
-# (Use Var("X") etc.; the engine will standardize-apart each use.)
-
-# Inclusion closure over names
-P,Q,R = Var("P"),Var("Q"),Var("R")
-PROGRAM.append(Clause(atom(LeqStrict,P,Q), [atom(SubRelOf,P,Q)]))
-P,Q,R = Var("P"),Var("Q"),Var("R")
-PROGRAM.append(Clause(atom(LeqStrict,P,Q), [atom(SubRelOf,P,R), atom(LeqStrict,R,Q)]))
-
-# Reflexive closure over names — “unsafe” but the engine grounds it from NAME-domain
-P = Var("P")
-PROGRAM.append(Clause(atom(Leq,P,P), []))  # will yield leq(n,n) for all relation-names n known so far
-
-# Leq includes leq_strict
-P,Q = Var("P"),Var("Q")
-PROGRAM.append(Clause(atom(Leq,P,Q), [atom(LeqStrict,P,Q)]))
-
-# AncestorOf via holds2
-X,Y = Var("X"),Var("Y")
-PROGRAM.append(Clause(atom(Holds2, AncestorOf, X, Y),
-                      [atom(Holds2, ParentOf, X, Y)]))
-X,Y,Z = Var("X"),Var("Y"),Var("Z")
-PROGRAM.append(Clause(atom(Holds2, AncestorOf, X, Z),
-                      [atom(Holds2, ParentOf, X, Y),
-                       atom(Holds2, AncestorOf, Y, Z)]))
-
-# Lifting along inclusion between relation-names
-P,Q,X,Y = Var("P"),Var("Q"),Var("X"),Var("Y")
-PROGRAM.append(Clause(atom(Holds2, Q, X, Y),
-                      [atom(LeqStrict, P, Q), atom(Holds2, P, X, Y)]))
-# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-# -------------------------
-# Helpers for pretty output
-# -------------------------
+def match_against_facts(goals: List[Atom], facts: Dict[str, Set[Tuple[str,...]]]) -> List[Dict[Var,Term]]:
+    """Conjunctive query evaluation over ground facts (used after bottom-up)."""
+    sols: List[Dict[Var,Term]] = [dict()]
+    for a in goals:
+        new_sols: List[Dict[Var,Term]] = []
+        rows = facts.get(a.pred, set())
+        for s in sols:
+            for row in rows:
+                if len(row) != len(a.args): continue
+                s2 = s.copy()
+                ok = True
+                for arg, val in zip(a.args, row):
+                    if isinstance(arg, Var):
+                        cur = deref(arg, s2)
+                        if isinstance(cur, Var): s2[cur] = val
+                        else:
+                            if cur != val: ok=False; break
+                    else:
+                        if arg != val: ok=False; break
+                if ok: new_sols.append(s2)
+        sols = new_sols
+        if not sols: break
+    return sols
 
 def local(name: str) -> str: return name.split(":",1)[1] if ":" in name else name
 
@@ -397,263 +314,44 @@ def fmt_set(names: Iterable[str]) -> str:
     seq = sorted(local(n) for n in set(names))
     return "∅" if not seq else "{" + ", ".join(seq) + "}"
 
-# ------------------------------------
-# Auto-chooser (case-specific heuristic)
-# ------------------------------------
+# ╔═══════════════════════════════════════════════════════════════════════════╗
+# ║                                 RUNNER                                   ║
+# ╚═══════════════════════════════════════════════════════════════════════════╝
 
-def is_var(t: Term) -> bool: return isinstance(t, Var)
+def _load_case_module(path: str):
+    spec = importlib.util.spec_from_file_location("case_module", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Cannot load case module from {path}")
+    mod = importlib.util.module_from_spec(spec)
+    # Make engine imports available during module execution
+    sys.modules['holdsn_dual_engine'] = sys.modules[__name__]
+    spec.loader.exec_module(mod)  # type: ignore
+    return mod
 
-def choose_engine(goals: List[Atom]) -> str:
-    """
-    Heuristic for this CASE:
-      - If we see holds2(AncestorOf, X?, Y?) with variables → bottom-up (enumeration).
-      - If any goal is all-variables (fully unbound) → bottom-up.
-      - Otherwise → top-down.
-    """
-    for g in goals:
-        if g.pred == Holds2 and len(g.args)==3 and g.args[0]==AncestorOf and (is_var(g.args[1]) or is_var(g.args[2])):
-            return "bottomup"
-        if all(is_var(t) for t in g.args):
-            return "bottomup"
-    return "topdown"
+def main():
+    # Default case path: bus/greek_family.py (relative to this script)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    default_case = os.path.join(script_dir, "bus", "greek_family.py")
 
-def ask(goals: List[Atom], step_limit: int = 10000, fallback_threshold: int = 4000) -> Tuple[str, List[Dict[Var,Term]], int]:
-    engine = choose_engine(goals)
-    if engine == "topdown":
-        sols, steps = solve_topdown(PROGRAM, goals, step_limit=step_limit)
-        if steps > fallback_threshold:
-            # safety fallback for pathological cases
-            facts, _ = solve_bottomup(PROGRAM, SIGNATURE)
-            sols = _match_against_facts(goals, facts)
-            engine = "bottomup"
-            return engine, sols, 0
-        return engine, sols, steps
-    else:
-        facts, rounds = solve_bottomup(PROGRAM, SIGNATURE)
-        sols = _match_against_facts(goals, facts)
-        return engine, sols, rounds
+    case_path = sys.argv[1] if len(sys.argv) > 1 else default_case
+    if not os.path.isabs(case_path):
+        case_path = os.path.join(script_dir, case_path)
 
-def _match_against_facts(goals: List[Atom], facts: Dict[str, Set[Tuple[str,...]]]) -> List[Dict[Var,Term]]:
-    """Conjunctive query evaluation over ground facts (used for bottom-up answers)."""
-    sols: List[Dict[Var,Term]] = [dict()]
-    for a in goals:
-        new_sols: List[Dict[Var,Term]] = []
-        rows = facts.get(a.pred, set())
-        for s in sols:
-            for row in rows:
-                if len(row) != len(a.args): continue
-                s2 = s.copy()
-                ok = True
-                for arg, val in zip(a.args, row):
-                    # unify var/const with ground value
-                    if isinstance(arg, Var):
-                        cur = deref(arg, s2)
-                        if isinstance(cur, Var):
-                            s2[cur] = val
-                        else:
-                            if cur != val: ok=False; break
-                    else:
-                        if arg != val: ok=False; break
-                if ok: new_sols.append(s2)
-        sols = new_sols
-        if not sols: break
-    return sols
+    case = _load_case_module(case_path)
 
-# --------------------
-# Branch: presentation
-# --------------------
-
-def print_model() -> None:
-    print("Model")
-    print("=====")
-    print(f"Individuals D = {list(D)}\n")
-    print("Fixed predicates (signature)")
-    print("----------------------------")
-    print("• ex:holds2(R,x,y)   — application (⟨x,y⟩ ∈ ext(R)); sorts: (NAME, IND, IND)")
-    print("• ex:SubRelOf(P,Q)   — inclusion over relation *names*; sorts: (NAME, NAME)")
-    print("• ex:leq_strict / ex:leq   — ⊆* with/without reflex on names; sorts: (NAME, NAME)\n")
-    print("Named relations (with facts)")
-    print("----------------------------")
-    print("FatherOf  =", fmt_pairs([("Sophroniscus","Socrates"), ("Socrates","Lamprocles"), ("Ariston","Plato"), ("Nicomachus","Aristotle")]))
-    print("ParentOf  =", "same pairs (different name)")
-    print("TeacherOf =", fmt_pairs([("Socrates","Plato")]))
-    print("AncestorOf = derived only (no base facts)\n")
-    print("Inclusions over names: FatherOf ⊆ ParentOf, ParentOf ⊆ AncestorOf\n")
-
-def print_question() -> None:
-    print("Question")
-    print("========")
-    print("Q1) List all (X,Y) with holds2(AncestorOf,X,Y).   [auto engine]")
-    print("Q2) ∃R: holds2(R,Socrates,Lamprocles) ∧ leq(R,AncestorOf) ?  [auto engine]")
-    print("Q3) ∀R,y: (leq(R,ParentOf) ∧ holds2(R,Socrates,y)) → holds2(AncestorOf,Socrates,y) ?  [auto engine]")
-    print()
-
-def run_queries():
-    # Q1: enumerate AncestorOf pairs
-    Xv, Yv = Var("X"), Var("Y")
-    eng1, sols1, m1 = ask([atom(Holds2, AncestorOf, Xv, Yv)])
-    anc_pairs = sorted({(deref(Xv,s), deref(Yv,s)) for s in sols1})  # type: ignore
-
-    # Q2: witness relation-names R
-    Rv = Var("R")
-    eng2, sols2, m2 = ask([atom(Holds2, Rv, "Socrates", "Lamprocles"),
-                           atom(Leq,   Rv, AncestorOf)])
-    witnesses = sorted({deref(Rv,s) for s in sols2 if isinstance(deref(Rv,s), str)})
-
-    # Q3: universal property check by enumeration per (R,y)
-    ok = True
-    for R in [FatherOf, ParentOf, TeacherOf, AncestorOf]:
-        for y in D:
-            _, cond, _ = ask([atom(Leq, R, ParentOf), atom(Holds2, R, "Socrates", y)])
-            if cond:
-                if not ask([atom(Holds2, AncestorOf, "Socrates", y)])[1]:
-                    ok = False; break
-        if not ok: break
-
-    return (("Q1", eng1, anc_pairs, m1),
-            ("Q2", eng2, witnesses, m2),
-            ("Q3", "mixed", ok, 0))
-
-def print_answer(res1, res2, res3) -> None:
-    print("Answer")
-    print("======")
-    tag1, eng1, pairs, _ = res1
-    tag2, eng2, wits, _  = res2
-    tag3, eng3, ok, _    = res3
-    print(f"{tag1}) Engine: {eng1} → AncestorOf =", fmt_pairs(pairs))
-    print(f"{tag2}) Engine: {eng2} → Witness relation-names R = " + (fmt_set(wits) if wits else "∅"))
-    print(f"{tag3}) Engine: {eng3} → Universal statement holds: {'Yes' if ok else 'No'}\n")
-
-def print_reason(eng1, eng2) -> None:
-    print("Reason why")
-    print("==========")
-    print("• Engines are generic; the CASE supplies only facts, rules, and a signature.")
-    print("• Top-down SLD does goal-directed proof search with standardize-apart.")
-    print("• Bottom-up LFP derives all consequences; the signature lets it safely")
-    print("  ground head-only variables (e.g., leq(P,P).) from the correct DOMAINS:")
-    print("  NAME-domain from name-positions; IND-domain from individual-positions.")
-    print("• Auto-chooser (case-specific) sends enumerative AncestorOf(X,Y) to bottom-up,")
-    print("  and bound/ground queries to top-down.\n")
-
-# -------------------
-# Check (harness)
-# -------------------
-
-class CheckFailure(AssertionError): pass
-def check(c: bool, msg: str):
-    if not c: raise CheckFailure(msg)
-
-def run_checks() -> List[str]:
-    notes: List[str] = []
-
-    expected = {
-        ("Sophroniscus","Socrates"),
-        ("Sophroniscus","Lamprocles"),
-        ("Socrates","Lamprocles"),
-        ("Ariston","Plato"),
-        ("Nicomachus","Aristotle"),
-    }
-
-    # 1) Bottom-up enumerates expected AncestorOf
-    facts, _ = solve_bottomup(PROGRAM, SIGNATURE)
-    X, Y = Var("X"), Var("Y")
-    bu = _match_against_facts([atom(Holds2, AncestorOf, X, Y)], facts)
-    anc_bu = {(deref(X, s), deref(Y, s)) for s in bu}
-    check(anc_bu == expected, "Bottom-up AncestorOf enumeration mismatch.")
-    notes.append("PASS 1: Bottom-up AncestorOf enumeration is correct.")
-
-    # 2) Top-down enumerates the same AncestorOf
-    td, _ = solve_topdown(PROGRAM, [atom(Holds2, AncestorOf, X, Y)])
-    anc_td = {(deref(X, s), deref(Y, s)) for s in td}
-    check(anc_td == expected, "Top-down AncestorOf enumeration mismatch.")
-    notes.append("PASS 2: Top-down AncestorOf enumeration is correct.")
-
-    # 3) Engines agree on existential witnesses
-    R = Var("R")
-    bu_w = _match_against_facts([atom(Holds2, R, "Socrates", "Lamprocles"),
-                                 atom(Leq,   R, AncestorOf)], facts)
-    td_w, _ = solve_topdown(PROGRAM, [atom(Holds2, R, "Socrates", "Lamprocles"),
-                                      atom(Leq,   R, AncestorOf)])
-    w1 = {deref(R, s) for s in bu_w}
-    w2 = {deref(R, s) for s in td_w}
-    check(w1 == w2 == {FatherOf, ParentOf, AncestorOf}, "Witness set mismatch.")
-    notes.append("PASS 3: Engines agree on existential witnesses.")
-
-    # 4) Universal property holds
-    ok = True
-    for r in [FatherOf, ParentOf, TeacherOf, AncestorOf]:
-        for y in D:
-            cond = ask([atom(Leq, r, ParentOf), atom(Holds2, r, "Socrates", y)])[1]
-            if cond and not ask([atom(Holds2, AncestorOf, "Socrates", y)])[1]:
-                ok = False; break
-        if not ok: break
-    check(ok, "Universal property failed.")
-    notes.append("PASS 4: Universal property verified.")
-
-    # 5) TeacherOf does not entail AncestorOf
-    check(not ask([atom(Holds2, AncestorOf, "Socrates", "Plato")])[1],
-          "TeacherOf leaked into AncestorOf.")
-    notes.append("PASS 5: TeacherOf does not entail AncestorOf.")
-
-    # 6) No reflexive AncestorOf
-    for x in D:
-        check(not ask([atom(Holds2, AncestorOf, x, x)])[1],
-              "Unexpected reflexive AncestorOf fact.")
-    notes.append("PASS 6: No reflexive AncestorOf facts.")
-
-    # 7) Auto-chooser: bottom-up for enumerate; top-down for ground
-    e1, _, _ = ask([atom(Holds2, AncestorOf, Var("X"), Var("Y"))])
-    e2, _, _ = ask([atom(Holds2, AncestorOf, "Socrates", "Lamprocles")])
-    check(e1 == "bottomup" and e2 == "topdown", "Engine chooser mismatch.")
-    notes.append("PASS 7: Engine chooser behaves as intended.")
-
-    # 8) leq reflexive for all relation names
-    for r in [FatherOf, ParentOf, TeacherOf, AncestorOf]:
-        check(ask([atom(Leq, r, r)])[1], f"Reflexivity of leq failed for {local(r)}.")
-    notes.append("PASS 8: leq reflexivity holds.")
-
-    # 9) leq_strict transitivity (FatherOf ⊆ AncestorOf via ParentOf)
-    check(ask([atom(LeqStrict, FatherOf, AncestorOf)])[1],
-          "leq_strict transitivity failed.")
-    notes.append("PASS 9: leq_strict transitivity holds.")
-
-    # 10) Standardize-apart: repeat top-down query is stable
-    ok1 = ask([atom(Holds2, AncestorOf, "Sophroniscus", "Lamprocles")])[1]
-    ok2 = ask([atom(Holds2, AncestorOf, "Sophroniscus", "Lamprocles")])[1]
-    check(ok1 and ok2, "Repeated top-down query should remain true.")
-    notes.append("PASS 10: Standardize-apart avoids capture across proofs.")
-
-    # 11) Bottom-up closure idempotence
-    f1, _ = solve_bottomup(PROGRAM, SIGNATURE)
-    f2, _ = solve_bottomup(PROGRAM, SIGNATURE)
-    check(f1[Holds2] == f2[Holds2], "Bottom-up closure not idempotent.")
-    notes.append("PASS 11: Bottom-up closure is stable.")
-
-    # 12) Pretty-printer determinism
-    s1 = fmt_pairs(sorted(expected))
-    s2 = fmt_pairs(sorted(list(expected)))
-    check(s1 == s2, "Pretty-printer determinism failed.")
-    notes.append("PASS 12: Pretty printing deterministic.")
-
-    return notes
-
-# -------------------
-# Main branch runner
-# -------------------
-
-def main() -> None:
-    print_model()       # prints "Model" + contents
-    print_question()    # prints "Question" + contents
-    res1, res2, res3 = run_queries()
-    print_answer(res1, res2, res3)    # prints "Answer" + contents
-    print_reason(res1[1], res2[1])    # prints "Reason why" + contents
+    # Orchestration — the CASE prints its own headers
+    case.print_model()
+    case.print_question()
+    res1, res2, res3 = case.run_queries()
+    case.print_answer(res1, res2, res3)
+    case.print_reason(res1[1], res2[1])
 
     print("Check (harness)")
     print("===============")
     try:
-        for note in run_checks():
+        for note in case.run_checks():
             print(note)
-    except CheckFailure as e:
+    except Exception as e:
         print("FAIL:", e)
         raise
 

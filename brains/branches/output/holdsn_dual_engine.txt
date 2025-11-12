@@ -31,13 +31,12 @@ Q3) Engine: mixed → Universal statement holds: Yes
 
 Reason why
 ==========
-• Engines are generic; the CASE supplies only facts, rules, and a signature.
+• Engines are generic; this CASE supplies only facts, rules, and a signature.
 • Top-down SLD does goal-directed proof search with standardize-apart.
-• Bottom-up LFP derives all consequences; the signature lets it safely
-  ground head-only variables (e.g., leq(P,P).) from the correct DOMAINS:
-  NAME-domain from name-positions; IND-domain from individual-positions.
-• Auto-chooser (case-specific) sends enumerative AncestorOf(X,Y) to bottom-up,
-  and bound/ground queries to top-down.
+• Bottom-up LFP derives all consequences; the signature safely grounds
+  head-only variables (e.g., leq(P,P).) from NAME/IND domains.
+• Auto-chooser sends enumerative AncestorOf(X,Y) to bottom-up;
+  bound/ground queries go top-down.
 
 Check (harness)
 ===============
