@@ -1,0 +1,61 @@
+Model
+=====
+States (time steps) = ['S0', 'S1', 'S2', 'S3']
+Locations as classes: At_Brussels, At_Paris, At_London, At_Berlin
+
+Fixed predicates (signature)
+----------------------------
+• ex:holds1(C,S)     — C holds in state S; sorts: (NAME, IND)
+• ex:holds2(A,S,S1)  — do action-name A from S to S1; sorts: (NAME, IND, IND)
+• ex:Pre/Add         — action precondition/effect (first-order over *names*)
+• ex:Cost/Time       — small naturals as *names* for measures
+• ex:PathCost/PathTime, ex:BestCost/BestTime — accumulated and minimal measures
+
+Initial & step graph
+--------------------
+Initial: At_Brussels holds in S0; step chain S0→S1→S2→S3.
+
+Actions (cost, time)
+--------------------
+• Fly Brussels→Paris (cost 1, time 1)  | Train Brussels→Paris (2, 2)
+• Fly Paris→London (1, 2) [Forbidden]  | Fly Paris→Berlin (2, 2)
+• Train London→Berlin (2, 3)
+
+Question
+========
+Q1) Enumerate all plan edges holds2(A,S,S1).                              [auto engine]
+Q2) Minimal COST to reach any state where At_Berlin holds?                [auto engine]
+Q3) Minimal TIME to reach any state where At_Berlin holds?                [auto engine]
+Q4) Example (COST, TIME) pairs to S2 (Berlin via Fly_BP then Fly_PB).     [auto engine]
+Q5) Policy: does a transition using Fly_Paris_London appear (Forbidden)?  [auto engine]
+
+Answer
+======
+Q1) Engine: bottomup → Fly_Brussels_Paris:S0->S1, Fly_Paris_Berlin:S1->S2, Fly_Paris_London:S1->S2, Train_Brussels_Paris:S0->S1, Train_London_Berlin:S2->S3
+Q2) Engine: bottomup → minimal costs: S2@cost=2, S2@cost=3, S2@cost=4, S3@cost=4, S3@cost=5, S3@cost=6
+Q3) Engine: bottomup → minimal times: S2@time=3, S2@time=4, S3@time=6, S3@time=7
+Q4) Engine: bottomup → for S2: PathCost in ['2', '3', '4'], PathTime in ['3', '4']
+Q5) Engine: bottomup → Forbidden action present among transitions: Yes
+
+Reason why
+==========
+• Names as intensions (URIs); application via fixed holds₁/holds₂ → stays first-order.
+• Enabling split (Enabled(A,S) then holds2(A,S,S1)) makes bottom-up robust.
+• Cost and time both use explicit tiny arithmetic (Plus, LeqN) on names ('0'..'9').
+• PathCost/PathTime accumulate measures; BestCost/BestTime select minima via a lower-bound trick.
+• Policy (Forbidden) is just a tag you can check in queries.
+
+Check (harness)
+===============
+PASS 1: Core transitions generated (S0→S1 via Fly_BP; S1→S2 via Fly_PB).
+PASS 2: Berlin reachable at S2.
+PASS 3: PathCost to S2 exists.
+PASS 4: A cost 3 plan to S2 exists.
+PASS 5: BestCost(S2,3) present.
+PASS 6: PathTime to S2 includes 3.
+PASS 7: BestTime(S2,3) present.
+PASS 8: Forbidden action detectable among transitions.
+PASS 9: No transitions from S3.
+PASS 10: Tabled top-down proves the goal.
+PASS 11: Bottom-up closure stable.
+PASS 12: Engine chooser behaves as intended.
