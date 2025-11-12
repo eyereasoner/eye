@@ -1,0 +1,58 @@
+Model
+=====
+Base mapping relations (tables), per-attribute as separate holds₂ names:
+• PersonsPart1: (ax, an) with tuples t1,t2  → ids 1,2; names "Alice","Bob".
+• PersonsPart2: (ax, an) with tuple  t3    → id  3; name  "Carol".
+
+Operator instances
+------------------
+Plan A (extend after union):
+  UnionRel(PersonsPart1, PersonsPart2, PersonsAll)
+  ExtendAsFromAx(PersonsAll, TmpA1)
+  ExtendApConst(TmpA1, name, TmpA2)
+  ExtendAoFromAn(TmpA2, NameTriples_A)  → emit triples
+Plan B (extend then union):
+  ExtendAsFromAx(PersonsPart1, TmpB1_1), ExtendAsFromAx(PersonsPart2, TmpB1_2)
+  ExtendApConst(TmpB1_1, name, TmpB2_1), ... to TmpB2_2
+  ExtendAoFromAn(... → NameTriples_B1), (... → NameTriples_B2), UnionRel(..., NameTriples_Union)  → emit triples
+
+Lookup for subject IRIs:
+  IRIOf(1)→person_1, IRIOf(2)→person_2, IRIOf(3)→person_3
+
+Question
+========
+Q1) Enumerate triples holds2(ex:name, S, O) from Plan A and Plan B. [auto engine]
+Q2) Check equivalence: Extend(Union(P1,P2)) vs Union(Extend(P1),Extend(P2)). [auto engine]
+Q3) Ground check: holds2(ex:name, ex:person_2, "Bob") ? [auto engine]
+
+Answer
+======
+Q1) Engine: bottomup
+    Plan A (Extend after Union): ex:name = {⟨ex:person_1,"Alice"⟩, ⟨ex:person_2,"Bob"⟩, ⟨ex:person_3,"Carol"⟩}
+    Plan B (Extend then Union) : ex:name = {⟨ex:person_1,"Alice"⟩, ⟨ex:person_2,"Bob"⟩, ⟨ex:person_3,"Carol"⟩}
+Q2) Engine: mixed → Equivalence holds: Yes
+Q3) Engine: topdown → holds2(ex:name, ex:person_2, "Bob"): Yes
+
+Reason why
+==========
+• Mapping relations are represented by *per-attribute* holds₂ names R/ax, R/an, etc.
+• Operators (Union, Extend…) are *names* with generic effect rules specialized per instance.
+• Triples are emitted by reading as/ap/ao and asserting holds₂(P,S,O) with P as a name.
+• This mirrors the algebraic plan view in Min Oo & Hartig (ESWC 2025), where operators
+  combine into plans and equivalences (rewrite rules) ensure semantics-preserving rewrites.
+• Here we validate the classic rewrite Extend ∘ Union  ≡  Union ∘ (Extend,Extend).
+
+Check (harness)
+===============
+PASS 1: Subjects {Alice,Bob,Carol} present.
+PASS 2: Objects {"Alice","Bob","Carol"} present.
+PASS 3: Extend over Union equivalence holds.
+PASS 4: Tabled top-down proves ground triple.
+PASS 5: Negative ground case blocked.
+PASS 6: Deterministic formatting.
+PASS 7: UnionRel covers all ids.
+PASS 8: ExtendAsFromAx populates subjects.
+PASS 9: ExtendApConst populates predicates.
+PASS 10: ExtendAoFromAn populates objects.
+PASS 11: Bottom-up closure stable.
+PASS 12: Engine chooser behaves as intended.
