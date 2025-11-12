@@ -14,6 +14,11 @@ Generic reasoning engine + runner that separates:
       A separate file that declares facts, rules, signature, and presentation
       (Model → Question → Answer → Reason → Check).
 
+Glossary
+    SLG   Suspension-based, Linear, Goal-directed
+    LFP   Least Fixpoint
+    EDB   Extensional Database
+
 Why “tabling via relevant LFP”?
 -------------------------------
 For function-free Horn programs (Datalog), SLG tabling for a query q returns the
