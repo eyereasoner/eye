@@ -1,0 +1,79 @@
+Model
+=====
+Individuals D = ['Socrates', 'Plato', 'Aristotle', 'Zeus']
+
+Fixed predicates (signature)
+----------------------------
+• ex:holds1(C,x)     — unary application; sorts: (NAME, IND)
+• ex:SubClassOf(C,D) — inclusion over class *names*; sorts: (NAME, NAME)
+• ex:leq_strict / ex:leq — transitive / reflexive-transitive closure on names
+
+Class names (intensions)
+------------------------
+Greek, Philosopher, Human, Mortal, Olympian
+
+Base facts
+----------
+Membership:
+  Greek(Socrates)
+  Philosopher(Socrates), Philosopher(Plato)
+  Human(Plato), Human(Aristotle)
+  Olympian(Zeus)
+Subclass:
+  Greek ⊆ Human, Philosopher ⊆ Human, Human ⊆ Mortal
+
+Rules
+-----
+1) leq_strict(C,D) :- SubClassOf(C,D).
+2) leq_strict(C,D) :- SubClassOf(C,E), leq_strict(E,D).
+3) leq(C,C).
+4) leq(C,D) :- leq_strict(C,D).
+5) holds1(D,x) :- leq_strict(C,D), holds1(C,x).
+
+These rules propagate membership along subclass chains. Intuitively,
+if x is Greek or Philosopher, and Greek/Philosopher ⊆ Human ⊆ Mortal,
+then x is Human and Mortal as well.
+
+Question
+========
+Q1) ∃P: holds1(P,Socrates) ∧ leq(P,Mortal) ?  (witness class-names)        [auto engine]
+Q2) ∀P: (leq(P,Human) ∧ holds1(P,Socrates)) → holds1(Mortal,Socrates) ?  [auto engine]
+Q3) List all classes C with holds1(C,Socrates) after closure.             [auto engine]
+
+Answer
+======
+Q1) Engine: bottomup → Witnesses P with leq(P,Mortal) and holds1(P,Socrates): {Greek, Human, Mortal, Philosopher}
+Q2) Engine: mixed → ∀P ((P⊆Human ∧ P(Socrates)) ⇒ Mortal(Socrates)): Yes
+Q3) Engine: bottomup → Classes C with holds1(C,Socrates): {Greek, Human, Mortal, Philosopher}
+
+Reason why
+==========
+• Class symbols (Greek, Philosopher, Human, Mortal, Olympian) are **names**.
+  Application is via holds1(C,x); subclassing is via SubClassOf(C,D) and its
+  closure leq/leq_strict over names.
+• From the base facts and subclass rules we get:
+    Greek ⊆ Human ⊆ Mortal
+    Philosopher ⊆ Human ⊆ Mortal
+  so Greek(Socrates) and Philosopher(Socrates) imply Human(Socrates) and Mortal(Socrates).
+• Q1 finds all class-names P such that P(Socrates) and P ⊆ Mortal; these include
+  Greek, Philosopher, and Mortal itself.
+• Q2 checks a universal over class-names P: any P that is a subclass of Human
+  and that contains Socrates forces Mortal(Socrates). This follows because
+  Human ⊆ Mortal, and membership lifts along subclass chains.
+• Q3 simply enumerates all classes Socrates belongs to in the least fixed point,
+  which are exactly Greek, Philosopher, Human, and Mortal.
+
+Check (harness)
+===============
+PASS 1: Intended subclass rules present.
+PASS 2: leq_strict includes Greek⊆Mortal and Philosopher⊆Mortal.
+PASS 3: leq is reflexive on all class names.
+PASS 4: leq(Human,Mortal) via closure.
+PASS 5: Membership closure for holds1 is exactly the expected 10 facts.
+PASS 6: Zeus is not inferred Mortal.
+PASS 7: Socrates is Human and Mortal via subclass propagation.
+PASS 8: Greek, Philosopher, Mortal are witnesses for Q1.
+PASS 9: Universal property for subclasses of Human holds.
+PASS 10: Classes(Socrates) = {Greek, Philosopher, Human, Mortal}.
+PASS 11: Top-down and bottom-up agree for Socrates.
+PASS 12: Bottom-up closure is stable and deterministic.
