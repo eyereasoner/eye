@@ -5,7 +5,7 @@ README (plain text)
 ===================
 Purpose
 -------
-A CASE module for `eyezero.py` that reconstructs the **Greek people** example
+A CASE module for `eyezero.py` that constructs the **Greek people** example
 
     Greek(Socrates)
     Philosopher(Socrates), Philosopher(Plato)

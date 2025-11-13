@@ -1,0 +1,70 @@
+Model
+=====
+Domain D = ['Alice', 'Bob', 'Carol', 'Dave']
+
+Signature
+---------
+• A fixed predicate ex:holds2(R,x,y) on objects R,x,y (first-order).
+• For each relation-name R (an intension, e.g., a URI-like string),
+  its extension EXT[R] ⊆ D×D determines where holds2(R,·,·) is true.
+
+Named relations (intensions) with brief descriptions
+----------------------------------------------------
+- ex:equals          ( 4 pairs): identity on D.
+  Sample: ⟨Alice,Alice⟩, ⟨Bob,Bob⟩, ⟨Carol,Carol⟩, ⟨Dave,Dave⟩
+- ex:sameTeam        ( 6 pairs): equivalence: teams {Alice,Bob}, {Carol}, {Dave}.
+  Sample: ⟨Alice,Alice⟩, ⟨Alice,Bob⟩, ⟨Bob,Alice⟩, ⟨Bob,Bob⟩, ⟨Carol,Carol⟩ …
+- ex:coMember        ( 6 pairs): same extension as ex:sameTeam (different name).
+  Sample: ⟨Alice,Alice⟩, ⟨Alice,Bob⟩, ⟨Bob,Alice⟩, ⟨Bob,Bob⟩, ⟨Carol,Carol⟩ …
+- ex:coworker        ( 4 pairs): symmetric but not transitive.
+  Sample: ⟨Alice,Bob⟩, ⟨Bob,Alice⟩, ⟨Bob,Carol⟩, ⟨Carol,Bob⟩
+- ex:likes           ( 4 pairs): neither symmetric nor transitive in general.
+  Sample: ⟨Alice,Bob⟩, ⟨Alice,Carol⟩, ⟨Bob,Alice⟩, ⟨Carol,Dave⟩
+- ex:ancestorOf      ( 3 pairs): transitive but neither reflexive nor symmetric.
+  Sample: ⟨Alice,Bob⟩, ⟨Alice,Carol⟩, ⟨Bob,Carol⟩
+- ex:universalRel    (16 pairs): total relation D×D (an equivalence).
+  Sample: ⟨Alice,Alice⟩, ⟨Alice,Bob⟩, ⟨Alice,Carol⟩, ⟨Alice,Dave⟩, ⟨Bob,Alice⟩ …
+- ex:emptyRel        ( 0 pairs): empty relation ∅ (not an equivalence).
+  Sample: 
+
+Question
+========
+Q1) Among the named relations R, which R are equivalence relations
+    on D (reflexive, symmetric, transitive)? [meta classification]
+
+Answer
+======
+Q1) Engine: meta → Equivalence relations on D are:
+  - coMember (ex:coMember)
+  - equals (ex:equals)
+  - sameTeam (ex:sameTeam)
+  - universalRel (ex:universalRel)
+
+Reason why
+==========
+• Each relation-name R denotes a binary relation on D via holds₂(R,x,y).
+  Properties Reflexive/Symmetric/Transitive/Equivalence are defined
+  **extensionally** over this finite D.
+• The classification:
+    - equals, sameTeam, coMember, universalRel are equivalences;
+    - coworker is symmetric but not transitive;
+    - ancestorOf is transitive but not reflexive nor symmetric;
+    - likes is neither symmetric nor transitive in general;
+    - emptyRel is not reflexive.
+• EyeZero’s bottom-up engine is fed the same holds₂ facts as EXT and the
+  harness checks that both views coincide; all higher-level properties
+  are then computed from this shared extension.
+
+Check (harness)
+===============
+PASS 0: Bottom-up holds₂ facts exactly match extensional store.
+PASS 1: ExtEq₂(sameTeam, coMember) and sameTeam ≠ coMember (intension ≠ extension).
+PASS 2: equals has the identity extension on D.
+PASS 3: Every r with Equivalence(r) is reflexive.
+PASS 4: coworker is symmetric but not transitive.
+PASS 5: ancestorOf is transitive, neither symmetric nor reflexive.
+PASS 6: ExtEq₂ implies mutual SubsetEq for all pairs in scope.
+PASS 7: universalRel is an equivalence on D.
+PASS 8: emptyRel fails reflexivity and equivalence.
+PASS 9: likes is not symmetric.
+PASS 10: Set of equivalence relations matches expectation.
