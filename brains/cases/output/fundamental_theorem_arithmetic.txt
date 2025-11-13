@@ -1,0 +1,81 @@
+Model
+=====
+Domain N = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60]
+
+Named predicates & relations (intensional level)
+-----------------------------------------------
+• ex:Prime : the set of primes up to 60.
+• ex:Divides  : the divides relation restricted to N×N.
+
+Application predicates (first-order, EyeZero-style)
+---------------------------------------------------
+• ex:holds1(S,x) — x is in the extension of the set named S.
+• ex:holds2(R,a,b) — ⟨a,b⟩ is in the extension of relation-name R.
+  In particular:
+    - ex:holds1(ex:Prime, n) ⇔ n is prime (for n in N).
+    - ex:holds2(ex:Divides, a, b) ⇔ a divides b (for a,b in N).
+
+Factorization (deterministic algorithms)
+----------------------------------------
+• factor_smallest_first(n): repeated division by the least prime divisor.
+• factor_largest_first(n): repeated division by the greatest prime divisor.
+Both yield the same canonical multiset of primes for each n ≥ 2.
+
+Question
+========
+(Q1) What is the prime factorization of 360? Is it unique (up to order)?
+(Q2) On N∩{2,…,60}, does every n have a prime factorization,
+     and is that factorization unique up to order (finite-scope FTA)?
+
+Answer
+======
+Q1) Engine: meta
+    Prime factorization of 360: 2^3 · 3^2 · 5
+    Is it unique (up to order)? Yes
+
+Q2) Engine: meta
+    FTA on 2..60: existence and uniqueness hold?
+    Yes
+
+Reason why
+==========
+Existence (sketch).
+-------------------
+Suppose there were a nonempty set S ⊆ ℕ of integers ≥ 2 that have no prime
+factorization. Let m be the least element of S. Since m is not prime, it has a
+proper divisor d with 1 < d < m. By minimality, d has a prime factorization;
+so does m/d. Concatenating these factorizations yields one for m — a contradiction.
+Thus every n ≥ 2 has a prime factorization.
+
+Uniqueness (sketch via Euclid’s Lemma).
+--------------------------------------
+Euclid’s Lemma: If a prime p divides a product ab, then p divides a or p divides b.
+Assume n ≥ 2 has two prime factorizations:
+  n = p₁ p₂ ··· p_k = q₁ q₂ ··· q_m.
+Since p₁ | (q₁···q_m), Euclid’s Lemma gives p₁ = q_j for some j; cancel p₁ on both
+sides and repeat inductively. Eventually the multisets {p_i} and {q_j} match;
+hence the factorization is unique up to order.
+
+Example: n = 360.
+------------------------
+smallest-first: 2^3 · 3^2 · 5
+largest-first : 2^3 · 3^2 · 5
+By the lemma, the first prime on the left must occur on the right; cancel and
+continue. The multisets coincide, so the factorization of 360 is unique up to
+ordering of the prime factors.
+
+Check (harness)
+===============
+PASS 0: EyeZero bottom-up holds₁/holds₂ facts match the extensional store.
+PASS 1: Prime set up to 60 is correct.
+PASS 2: Divides relation matches modulo arithmetic on 1..10.
+PASS 3: Euclid’s Lemma verified on 1..60.
+PASS 4: Existence & correctness of factorization for all n in 2..60.
+PASS 5: Uniqueness (up to order) across the domain.
+PASS 6: Factorization of 360 is 2^3 · 3^2 · 5.
+PASS 7: Unit and prime boundary cases behave correctly.
+PASS 8: Sample composite factorizations are correct.
+PASS 9: Factorization formatting is canonical and stable.
+PASS 10: Smallest/largest prime divisor helpers consistent.
+PASS 11: Divisibility and factorization align on the domain.
+PASS 12: Reconstructed product from prime powers equals n.
