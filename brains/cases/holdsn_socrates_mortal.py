@@ -6,7 +6,7 @@ README (plain text)
 Purpose
 -------
 A tiny, self-contained “branch of insights” (in the spirit of
-https://eyereasoner.github.io/eye/eyezero/) that performs the classic inference
+https://eyereasoner.github.io/eye/brains/) that performs the classic inference
 **“Socrates is mortal”**. It showcases the Hayes–Menzel trick: treat predicates
 and rules as *names* (intensions) and use a small fixed family of predicates to
 apply them—here `Holds₁` for class membership and `Holds₂` for subclass

@@ -6,7 +6,7 @@ README (plain text)
 Purpose
 -------
 A small, self-contained “branch of insights” (in the spirit of
-https://eyereasoner.github.io/eye/eyezero/) for **graph reachability**. It answers a
+https://eyereasoner.github.io/eye/brains/) for **graph reachability**. It answers a
 *typical* question on one concrete graph and explains the result in mathematical English.
 
 Core idea (Hayes–Menzel)

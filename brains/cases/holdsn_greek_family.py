@@ -5,7 +5,7 @@ README (plain text)
 ===================
 Purpose
 -------
-A small “branch of insights” (in the spirit of https://eyereasoner.github.io/eye/eyezero/)
+A small “branch of insights” (in the spirit of https://eyereasoner.github.io/eye/brains/)
 that *quantifies over binary predicates* while keeping a first-order core via the
 Hayes–Menzel idea. Binary predicates (relations) are **named objects** (intensions
 like "ex:ParentOf"), and we use a single fixed predicate style:
