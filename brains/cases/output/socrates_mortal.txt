@@ -1,0 +1,78 @@
+Model
+=====
+Individuals D = ['Socrates']
+
+Fixed predicates (signature)
+----------------------------
+• ex:holds1(C,x)     — unary application; sorts: (NAME, IND)
+• ex:SubClassOf(C,D) — inclusion over class *names*; sorts: (NAME, NAME)
+• ex:leq_strict / ex:leq — transitive / reflexive-transitive closure on names
+
+Class names (intensions)
+------------------------
+Human, Mammal, Animal, Mortal, Greek, Philosopher
+
+Facts
+-----
+• holds1(Human, Socrates).
+• holds1(Greek, Socrates).
+• holds1(Philosopher, Socrates).
+• Human ⊆ Mammal ⊆ Animal ⊆ Mortal (via SubClassOf).
+
+Rules
+-----
+1) leq_strict(C,D) :- SubClassOf(C,D).
+2) leq_strict(C,D) :- SubClassOf(C,E), leq_strict(E,D).
+3) leq(C,C).
+4) leq(C,D) :- leq_strict(C,D).
+5) holds1(D,x) :- leq_strict(C,D), holds1(C,x).
+
+These rules propagate membership along subclass chains. Intuitively,
+if x is a Human, and Human ⊆ Mammal ⊆ Animal ⊆ Mortal, then x is
+also a Mammal, Animal, and Mortal.
+
+Question
+========
+Q1) Which named classes C satisfy holds1(C,Socrates)?               [auto engine]
+Q2) ∃C: leq(C,Mortal) ∧ holds1(C,Socrates) ?  (witness class names)  [auto engine]
+Q3) ∀C: (leq(C,Mortal) ∧ holds1(C,Socrates)) → ∃x holds1(C,x) ?       [meta + engine]
+
+Answer
+======
+Q1) Engine: bottomup → Classes C with holds1(C,Socrates): {Animal, Greek, Human, Mammal, Mortal, Philosopher}
+Q2) Engine: bottomup → Witnesses C with leq(C,Mortal) and holds1(C,Socrates): {Animal, Human, Mammal, Mortal}
+Q3) Engine: mixed → ∀C (C⊆Mortal ∧ C(Socrates) ⇒ ∃x C(x)) holds: Yes
+
+Reason why
+==========
+• We treat class symbols (Human, Mammal, Animal, Mortal, ...) as **names**.
+  Application is the fixed predicate holds1(C,x), and subclassing lives at
+  the name level via SubClassOf and its closure leq/leq_strict.
+• The rules:
+    leq_strict(C,D) :- SubClassOf(C,D).
+    leq_strict(C,D) :- SubClassOf(C,E), leq_strict(E,D).
+    leq(C,C).   leq(C,D) :- leq_strict(C,D).
+    holds1(D,x) :- leq_strict(C,D), holds1(C,x).
+  ensure that membership propagates along subclass chains.
+• Since we have holds1(Human,Socrates) and Human ⊆ Mammal ⊆ Animal ⊆ Mortal,
+  the engine derives holds1(Mortal,Socrates). This is the formal counterpart
+  of the syllogism "All humans are mortal; Socrates is a human; therefore,
+  Socrates is mortal."
+• The third question looks “second-order” because it quantifies over class-names C:
+    ∀C (C⊆Mortal ∧ C(Socrates) ⇒ ∃x C(x)).
+  But semantically it is just first-order over two sorts (NAME, IND),
+  with C ranging over names and application always via holds1.
+
+Check (harness)
+===============
+PASS 1: SubClassOf chain Human ⊆ Mammal ⊆ Animal ⊆ Mortal.
+PASS 2: leq is reflexive on all class names.
+PASS 3: leq(Human,Mortal) holds via closure.
+PASS 4: Socrates is both Human and Mortal.
+PASS 5: Socrates is Mammal and Animal via subclass chain.
+PASS 6: No unintended leq relation from Greek/Philosopher to Mortal.
+PASS 7: Socrates is Greek and Philosopher as given.
+PASS 8: Top-down and bottom-up agree on Socrates' class memberships.
+PASS 9: For all C with Human ⊆ C, Socrates ∈ C.
+PASS 10: Bottom-up closure is stable and deterministic.
+PASS 11: Every subclass of Mortal that contains Socrates is non-empty.
