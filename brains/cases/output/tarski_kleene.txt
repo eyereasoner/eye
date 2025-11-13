@@ -1,0 +1,64 @@
+Model
+=====
+Domain D = [0, 1, 2, 3, 4]  (represented as strings in the logic)
+
+Fixed predicates (signature)
+----------------------------
+• ex:holds2(R, x, y)  — binary application; sorts: (NAME, IND, IND)
+   here R = ex:succ names the succ relation.
+• ex:Reach(x)      — unary predicate for the least fixed point of F(S) = {0} ∪ succ(S).
+
+Succ relation (as holds2 facts)
+--------------------------------
+succ = { (0,1), (1,2), (2,3), (3,4) }
+
+Horn program
+------------
+1) Reach(0).
+2) Reach(y) :- Reach(x), holds2(ex:succ, x, y).
+
+Semantics
+---------
+The bottom-up (least fixed-point) model of this program is exactly
+the Kleene least fixed point of F(S) = {0} ∪ succ(S) on P(D).
+Tarski’s theorem says this is the **smallest** S containing 0 and
+closed under succ. The harness checks those properties explicitly.
+
+Question
+========
+Q1) Enumerate all x with Reach(x).                      [auto engine]
+Q2) Ground checks: Reach(0)? Reach(4)?                  [auto engine]
+Q3) Is Reach the least set S⊆D with 0∈S and S succ-closed? [meta + engine]
+
+Answer
+======
+Q1) Engine: bottomup → Reach = {0, 1, 2, 3, 4}
+Q2) Engine: topdown/topdown → Reach(0): Yes, Reach(4): Yes
+Q3) Engine: mixed → Reach is least succ-closed S with 0∈S: Yes
+
+Reason why
+==========
+• The Horn program:
+    Reach(0).
+    Reach(y) :- Reach(x), succ(x,y).
+  induces a monotone operator F on subsets S⊆D:
+    F(S) = {0} ∪ { y | ∃x∈S . succ(x,y) }.
+• EyeZero’s bottom-up semantics computes the least fixed point of F,
+  i.e., the smallest S such that S = F(S). On this finite chain,
+  the result is D = {0,1,2,3,4}.
+• The harness checks the Tarski conditions:
+    1) Reach contains 0 and is closed under succ,
+    2) Any S⊆D that contains 0 and is succ-closed must contain Reach.
+  Together, this confirms that Reach is the Tarski–Kleene least fixed
+  point of F.
+
+Check (harness)
+===============
+PASS 1: succ = {(0,1),(1,2),(2,3),(3,4)} as expected.
+PASS 2: bottom-up Reach enumeration = D.
+PASS 3: top-down proves Reach(0) and Reach(4).
+PASS 4: Reach is closed under succ.
+PASS 5: 0 and 4 are in Reach.
+PASS 6: Reach is subset of D.
+PASS 7: Reach is the Tarski least fixed point of F(S) = {0} ∪ succ(S).
+PASS 8: Reach computation deterministic.
