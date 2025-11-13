@@ -1,5 +1,0 @@
-Answer: I ≈ 10.84 mA, V_LED ≈ 1.423 V, radiant ≈ 8.781 mW, luminous ≈ 3.234 lm (λ≈459 nm).
-
-Reason: We modeled the LED with the Shockley equation I = Is·(e^{Vj/(n·Vt)}−1) plus an internal series resistance Rs. In series with a 330 Ω resistor, we solved Vs = I·R + (Vj + I·Rs) for the current. Optical output assumes EQE photons per electron, each at energy ≈ Eg, so radiant power is Φe = (I/q)·EQE·(h·c/λ). Luminous flux is 683·V(λ)·Φe using an approximate photopic sensitivity V(λ).
-
-Check:  PASS — solvers agree (ΔI=1.38e-14 A, ΔV=2.11e-13 V), KCL residuals 8.9e-16 V / 4.8e-12 V.
