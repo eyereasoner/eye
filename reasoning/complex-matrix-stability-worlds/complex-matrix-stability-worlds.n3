@@ -1,0 +1,619 @@
+# -------------------------------------------------------------------
+# complex-matrix-stability-worlds.n3
+#
+# Discrete-time stability for 2×2 complex systems, in N3:
+#
+#   x_{k+1} = A x_k    with A a 2×2 complex matrix
+#
+# Four "worlds" of stability tests:
+#   W0: exact spectral radius (ground truth)
+#   W1: Gershgorin discs (conservative bound)
+#   W2: diagonal-only heuristic
+#   W3: tiny Frobenius norm heuristic
+#
+# This is a declarative counterpart of:
+#   complex_matrix_stability_worlds.py
+# -------------------------------------------------------------------
+
+@prefix :        <http://example.org/stability#> .
+@prefix stab:    <http://example.org/stability#> .
+@prefix complex: <http://example.org/complex#> .
+@prefix thm:     <http://example.org/theorem#> .
+@prefix rel:     <http://example.org/rel#> .
+
+@prefix math:  <http://www.w3.org/2000/10/swap/math#> .
+@prefix list:  <http://www.w3.org/2000/10/swap/list#> .
+@prefix log:   <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# -------------------------------------------------------------------
+# Worlds (higher-order "look")
+# -------------------------------------------------------------------
+
+:World       a rdfs:Class .
+:Matrix2x2   a rdfs:Class .
+
+:worldId     a rdf:Property .
+:description a rdf:Property .
+
+stab:stableInWorld a rdf:Property .    # Matrix × World
+stab:dampedInWorld a rdf:Property .    # Matrix × World
+
+# World constants
+:W0 a :World ;
+    :worldId 0 ;
+    :description "exact spectral radius (ground truth)" .
+
+:W1 a :World ;
+    :worldId 1 ;
+    :description "Gershgorin discs (conservative bound)" .
+
+:W2 a :World ;
+    :worldId 2 ;
+    :description "diagonal-only heuristic" .
+
+:W3 a :World ;
+    :worldId 3 ;
+    :description "tiny Frobenius norm heuristic" .
+
+# True stability predicates (world-0 semantics)
+stab:stable_true a rdf:Property .    # Matrix → xsd:boolean
+stab:damped_true a rdf:Property .
+
+# -------------------------------------------------------------------
+# Matrix representation
+# -------------------------------------------------------------------
+#
+# A 2×2 complex matrix A is encoded as:
+#
+#   ?A a :Matrix2x2 ;
+#      :a11 (a11r a11i) ;
+#      :a12 (a12r a12i) ;
+#      :a21 (a21r a21i) ;
+#      :a22 (a22r a22i) .
+#
+# where each entry is a pair (Re Im).
+
+:a11 a rdf:Property .
+:a12 a rdf:Property .
+:a21 a rdf:Property .
+:a22 a rdf:Property .
+
+# Derived scalar-valued properties
+
+:spectralRadius   a rdf:Property .   # xsd:double
+:gershgorinRadius a rdf:Property .   # xsd:double
+:diagRadius       a rdf:Property .   # xsd:double
+:frobeniusNorm    a rdf:Property .   # xsd:double
+
+# Complex eigenvalues (for world 0)
+
+:lambda1 a rdf:Property .            # complex pair (Re Im)
+:lambda2 a rdf:Property .
+
+# -------------------------------------------------------------------
+# Complex helpers (built from W3C math:* built-ins)
+#
+# A complex number z = x + i y is represented as (x y).
+# -------------------------------------------------------------------
+
+# Complex addition: (a+ib) + (c+id) = (a+c, b+d)
+{
+  ((?Ar ?Ai) (?Br ?Bi)) complex:sum (?Cr ?Ci) .
+}
+<=
+{
+  (?Ar ?Br) math:sum ?Cr .
+  (?Ai ?Bi) math:sum ?Ci .
+} .
+
+# Complex subtraction: (a+ib) − (c+id) = (a−c, b−d)
+{
+  ((?Ar ?Ai) (?Br ?Bi)) complex:difference (?Cr ?Ci) .
+}
+<=
+{
+  (?Ar ?Br) math:difference ?Cr .
+  (?Ai ?Bi) math:difference ?Ci .
+} .
+
+# Complex multiplication: (a+ib)(c+id) = (ac − bd, ad + bc)
+{
+  ((?Ar ?Ai) (?Br ?Bi)) complex:product (?Cr ?Ci) .
+}
+<=
+{
+  (?Ar ?Br) math:product ?P1 .
+  (?Ai ?Bi) math:product ?P2 .
+  (?P1 ?P2) math:difference ?Cr .
+
+  (?Ar ?Bi) math:product ?P3 .
+  (?Ai ?Br) math:product ?P4 .
+  (?P3 ?P4) math:sum ?Ci .
+} .
+
+# Real scaling: s · (a+ib) = (sa, sb)
+{
+  ((?Ar ?Ai) ?S) complex:scale (?Cr ?Ci) .
+}
+<=
+{
+  (?Ar ?S) math:product ?Cr .
+  (?Ai ?S) math:product ?Ci .
+} .
+
+# Complex modulus |x+iy| = sqrt(x² + y²)
+{
+  (?X ?Y) complex:abs ?R .
+}
+<=
+{
+  (?X 2) math:exponentiation ?X2 .
+  (?Y 2) math:exponentiation ?Y2 .
+  (?X2 ?Y2) math:sum ?R2 .
+  (?R2 0.5) math:exponentiation ?R .
+} .
+
+# Sign helper for imaginary parts: sign(y)
+{
+  ?Y complex:sign 1 .
+}
+<=
+{
+  ?Y math:notLessThan 0 .
+} .
+
+{
+  ?Y complex:sign -1 .
+}
+<=
+{
+  ?Y math:lessThan 0 .
+} .
+
+# Complex square root using:
+#   r    = sqrt(x² + y²)
+#   u    = sqrt((r + x) / 2)
+#   vabs = sqrt((r − x) / 2)
+#   v    = sign(y) * vabs
+#   sqrt(x + i y) = u + i v
+{
+  (?X ?Y) complex:sqrt (?U ?V) .
+}
+<=
+{
+  # r = sqrt(x² + y²)
+  (?X 2) math:exponentiation ?X2 .
+  (?Y 2) math:exponentiation ?Y2 .
+  (?X2 ?Y2) math:sum ?R2 .
+  (?R2 0.5) math:exponentiation ?R .
+
+  # u = sqrt((r + x)/2)
+  (?R ?X) math:sum ?TmpU1 .
+  (?TmpU1 2) math:quotient ?TmpU2 .
+  (?TmpU2 0.5) math:exponentiation ?U .
+
+  # vabs = sqrt((r - x)/2)
+  (?R ?X) math:difference ?TmpV1 .
+  (?TmpV1 2) math:quotient ?TmpV2 .
+  (?TmpV2 0.5) math:exponentiation ?Vabs .
+
+  # v = sign(y) * vabs
+  ?Y complex:sign ?Sgn .
+  (?Sgn ?Vabs) math:product ?V .
+} .
+
+# -------------------------------------------------------------------
+# Exact eigenvalues and spectral radius for 2×2 matrices
+#
+# A = [[a11, a12],
+#      [a21, a22]]
+#
+# Characteristic polynomial: λ² - (a11+a22)λ + (a11*a22 - a12*a21)
+# Eigenvalues:
+#   λ1,2 = (tr ± sqrt(tr² − 4 det)) / 2
+# -------------------------------------------------------------------
+
+# λ1
+{
+  ?A :lambda1 (?lam1r ?lam1i) .
+}
+<=
+{
+  ?A a :Matrix2x2 ;
+     :a11 (?a11r ?a11i) ;
+     :a12 (?a12r ?a12i) ;
+     :a21 (?a21r ?a21i) ;
+     :a22 (?a22r ?a22i) .
+
+  # trace = a11 + a22
+  ((?a11r ?a11i) (?a22r ?a22i)) complex:sum (?trr ?tri) .
+
+  # p = a11*a22, q = a12*a21
+  ((?a11r ?a11i) (?a22r ?a22i)) complex:product (?p_r ?p_i) .
+  ((?a12r ?a12i) (?a21r ?a21i)) complex:product (?q_r ?q_i) .
+
+  # det = p - q
+  ((?p_r ?p_i) (?q_r ?q_i)) complex:difference (?detr ?deti) .
+
+  # tr²
+  ((?trr ?tri) (?trr ?tri)) complex:product (?tr2r ?tr2i) .
+
+  # 4 * det
+  ((4 0) (?detr ?deti)) complex:product (?det4r ?det4i) .
+
+  # discriminant = tr² − 4 det
+  ((?tr2r ?tr2i) (?det4r ?det4i)) complex:difference (?discr ?disci) .
+
+  # root = sqrt(discriminant)
+  (?discr ?disci) complex:sqrt (?rootr ?rooti) .
+
+  # λ1 = (tr + root) / 2
+  ((?trr ?tri) (?rootr ?rooti)) complex:sum (?sum1r ?sum1i) .
+  ((?sum1r ?sum1i) 0.5) complex:scale (?lam1r ?lam1i) .
+} .
+
+# λ2
+{
+  ?A :lambda2 (?lam2r ?lam2i) .
+}
+<=
+{
+  ?A a :Matrix2x2 ;
+     :a11 (?a11r ?a11i) ;
+     :a12 (?a12r ?a12i) ;
+     :a21 (?a21r ?a21i) ;
+     :a22 (?a22r ?a22i) .
+
+  # trace = a11 + a22
+  ((?a11r ?a11i) (?a22r ?a22i)) complex:sum (?trr ?tri) .
+
+  # p = a11*a22, q = a12*a21
+  ((?a11r ?a11i) (?a22r ?a22i)) complex:product (?p_r ?p_i) .
+  ((?a12r ?a12i) (?a21r ?a21i)) complex:product (?q_r ?q_i) .
+
+  # det = p - q
+  ((?p_r ?p_i) (?q_r ?q_i)) complex:difference (?detr ?deti) .
+
+  # tr²
+  ((?trr ?tri) (?trr ?tri)) complex:product (?tr2r ?tr2i) .
+
+  # 4 * det
+  ((4 0) (?detr ?deti)) complex:product (?det4r ?det4i) .
+
+  # discriminant = tr² − 4 det
+  ((?tr2r ?tr2i) (?det4r ?det4i)) complex:difference (?discr ?disci) .
+
+  # root = sqrt(discriminant)
+  (?discr ?disci) complex:sqrt (?rootr ?rooti) .
+
+  # λ2 = (tr − root) / 2
+  ((?trr ?tri) (?rootr ?rooti)) complex:difference (?sum2r ?sum2i) .
+  ((?sum2r ?sum2i) 0.5) complex:scale (?lam2r ?lam2i) .
+} .
+
+# Spectral radius ρ(A) = max(|λ1|, |λ2|)
+
+{
+  ?A :spectralRadius ?r1 .
+}
+<=
+{
+  ?A :lambda1 (?lam1r ?lam1i) ;
+     :lambda2 (?lam2r ?lam2i) .
+
+  (?lam1r ?lam1i) complex:abs ?r1 .
+  (?lam2r ?lam2i) complex:abs ?r2 .
+  ?r1 math:notLessThan ?r2 .
+} .
+
+{
+  ?A :spectralRadius ?r2 .
+}
+<=
+{
+  ?A :lambda1 (?lam1r ?lam1i) ;
+     :lambda2 (?lam2r ?lam2i) .
+
+  (?lam1r ?lam1i) complex:abs ?r1 .
+  (?lam2r ?lam2i) complex:abs ?r2 .
+  ?r1 math:lessThan ?r2 .
+} .
+
+# True stability / damping using spectral radius
+
+{
+  ?A stab:stable_true true .
+}
+<=
+{
+  ?A :spectralRadius ?rho .
+  ?rho math:notGreaterThan 1.0 .
+} .
+
+{
+  ?A stab:damped_true true .
+}
+<=
+{
+  ?A :spectralRadius ?rho .
+  ?rho math:notGreaterThan 0.9 .
+} .
+
+# -------------------------------------------------------------------
+# Approximate tests: Gershgorin, diagonal, Frobenius norm
+# -------------------------------------------------------------------
+
+# Gershgorin radius:
+#   disc 1: center a11, radius |a12|
+#   disc 2: center a22, radius |a21|
+#   Gersh radius = max(|a11|+|a12|, |a22|+|a21|)
+
+{
+  ?A :gershgorinRadius ?g1 .
+}
+<=
+{
+  ?A a :Matrix2x2 ;
+     :a11 (?a11r ?a11i) ;
+     :a12 (?a12r ?a12i) ;
+     :a21 (?a21r ?a21i) ;
+     :a22 (?a22r ?a22i) .
+
+  (?a11r ?a11i) complex:abs ?a11abs .
+  (?a22r ?a22i) complex:abs ?a22abs .
+  (?a12r ?a12i) complex:abs ?a12abs .
+  (?a21r ?a21i) complex:abs ?a21abs .
+
+  (?a11abs ?a12abs) math:sum ?g1 .
+  (?a22abs ?a21abs) math:sum ?g2 .
+
+  ?g1 math:notLessThan ?g2 .
+} .
+
+{
+  ?A :gershgorinRadius ?g2 .
+}
+<=
+{
+  ?A a :Matrix2x2 ;
+     :a11 (?a11r ?a11i) ;
+     :a12 (?a12r ?a12i) ;
+     :a21 (?a21r ?a21i) ;
+     :a22 (?a22r ?a22i) .
+
+  (?a11r ?a11i) complex:abs ?a11abs .
+  (?a22r ?a22i) complex:abs ?a22abs .
+  (?a12r ?a12i) complex:abs ?a12abs .
+  (?a21r ?a21i) complex:abs ?a21abs .
+
+  (?a11abs ?a12abs) math:sum ?g1 .
+  (?a22abs ?a21abs) math:sum ?g2 .
+
+  ?g1 math:lessThan ?g2 .
+} .
+
+# Diagonal-only radius: max(|a11|, |a22|)
+
+{
+  ?A :diagRadius ?a11abs .
+}
+<=
+{
+  ?A a :Matrix2x2 ;
+     :a11 (?a11r ?a11i) ;
+     :a22 (?a22r ?a22i) .
+
+  (?a11r ?a11i) complex:abs ?a11abs .
+  (?a22r ?a22i) complex:abs ?a22abs .
+  ?a11abs math:notLessThan ?a22abs .
+} .
+
+{
+  ?A :diagRadius ?a22abs .
+}
+<=
+{
+  ?A a :Matrix2x2 ;
+     :a11 (?a11r ?a11i) ;
+     :a22 (?a22r ?a22i) .
+
+  (?a11r ?a11i) complex:abs ?a11abs .
+  (?a22r ?a22i) complex:abs ?a22abs .
+  ?a11abs math:lessThan ?a22abs .
+} .
+
+# Frobenius norm ||A||_F = sqrt( sum_ij |a_ij|² )
+
+{
+  ?A :frobeniusNorm ?fro .
+}
+<=
+{
+  ?A a :Matrix2x2 ;
+     :a11 (?a11r ?a11i) ;
+     :a12 (?a12r ?a12i) ;
+     :a21 (?a21r ?a21i) ;
+     :a22 (?a22r ?a22i) .
+
+  (?a11r ?a11i) complex:abs ?a11abs .
+  (?a12r ?a12i) complex:abs ?a12abs .
+  (?a21r ?a21i) complex:abs ?a21abs .
+  (?a22r ?a22i) complex:abs ?a22abs .
+
+  (?a11abs 2) math:exponentiation ?a11sq .
+  (?a12abs 2) math:exponentiation ?a12sq .
+  (?a21abs 2) math:exponentiation ?a21sq .
+  (?a22abs 2) math:exponentiation ?a22sq .
+
+  (?a11sq ?a12sq) math:sum ?s1 .
+  (?a21sq ?a22sq) math:sum ?s2 .
+  (?s1 ?s2) math:sum ?sumSq .
+
+  (?sumSq 0.5) math:exponentiation ?fro .
+} .
+
+# -------------------------------------------------------------------
+# World-dependent stability classification
+#
+# World 0: spectral radius, thresholds 1.0 / 0.9
+# World 1: Gershgorin radius, thresholds 1.0 / 0.9
+# World 2: diagonal radius, thresholds 1.0 / 0.9
+# World 3: Frobenius norm, thresholds 0.5 / 0.4
+# -------------------------------------------------------------------
+
+# World 0: exact spectral radius
+
+{
+  ?A stab:stableInWorld :W0 .
+}
+<=
+{
+  ?A :spectralRadius ?rho .
+  ?rho math:notGreaterThan 1.0 .
+} .
+
+{
+  ?A stab:dampedInWorld :W0 .
+}
+<=
+{
+  ?A :spectralRadius ?rho .
+  ?rho math:notGreaterThan 0.9 .
+} .
+
+# World 1: Gershgorin
+
+{
+  ?A stab:stableInWorld :W1 .
+}
+<=
+{
+  ?A :gershgorinRadius ?g .
+  ?g math:notGreaterThan 1.0 .
+} .
+
+{
+  ?A stab:dampedInWorld :W1 .
+}
+<=
+{
+  ?A :gershgorinRadius ?g .
+  ?g math:notGreaterThan 0.9 .
+} .
+
+# World 2: diagonal-only
+
+{
+  ?A stab:stableInWorld :W2 .
+}
+<=
+{
+  ?A :diagRadius ?d .
+  ?d math:notGreaterThan 1.0 .
+} .
+
+{
+  ?A stab:dampedInWorld :W2 .
+}
+<=
+{
+  ?A :diagRadius ?d .
+  ?d math:notGreaterThan 0.9 .
+} .
+
+# World 3: tiny Frobenius norm
+
+{
+  ?A stab:stableInWorld :W3 .
+}
+<=
+{
+  ?A :frobeniusNorm ?f .
+  ?f math:notGreaterThan 0.5 .
+} .
+
+{
+  ?A stab:dampedInWorld :W3 .
+}
+<=
+{
+  ?A :frobeniusNorm ?f .
+  ?f math:notGreaterThan 0.4 .
+} .
+
+# -------------------------------------------------------------------
+# Example matrices
+# -------------------------------------------------------------------
+
+:Id a :Matrix2x2 ;
+    :a11 (1 0) ;
+    :a12 (0 0) ;
+    :a21 (0 0) ;
+    :a22 (1 0) .
+
+:DampedDiag
+    a :Matrix2x2 ;
+    :a11 (0.8 0) ;
+    :a12 (0 0) ;
+    :a21 (0 0) ;
+    :a22 (0.7 0) .
+
+:UnstableDiag
+    a :Matrix2x2 ;
+    :a11 (1.1 0) ;
+    :a12 (0 0) ;
+    :a21 (0 0) ;
+    :a22 (0.9 0) .
+
+:Rotation
+    a :Matrix2x2 ;
+    :a11 (0 0) ;
+    :a12 (1 0) ;
+    :a21 (-1 0) ;
+    :a22 (0 0) .
+
+# -------------------------------------------------------------------
+# Example "view": collect derived facts into :exampleRun
+# -------------------------------------------------------------------
+
+# Collect true stability/damping
+{
+  ?A a :Matrix2x2 ;
+     stab:stable_true ?St .
+}
+=>
+{
+  ?A stab:stable_true_exampleRun ?St .
+} .
+
+{
+  ?A a :Matrix2x2 ;
+     stab:damped_true ?Dt .
+}
+=>
+{
+  ?A stab:damped_true_exampleRun ?Dt .
+} .
+
+# Collect world-dependent classifications
+{
+  ?A a :Matrix2x2 ;
+     stab:stableInWorld ?W .
+}
+=>
+{
+  ?A stab:stableInWorld_exampleRun ?W .
+} .
+
+{
+  ?A a :Matrix2x2 ;
+     stab:dampedInWorld ?W .
+}
+=>
+{
+  ?A stab:dampedInWorld_exampleRun ?W .
+} .
+
