@@ -1,0 +1,30 @@
+---------------
+EV Range Worlds
+---------------
+
+This directory contains a single Notation3 file that expresses a toy 
+case study for electric-vehicle range estimation in four different 
+“worlds”. Each trip is described by a distance, average speed, 
+outside temperature, payload and battery size, together with a base 
+energy consumption per kilometer. World W0 is a physics-flavoured 
+reference model that adjusts consumption for speed (aerodynamic drag), 
+low temperature and heavy payload; W1 is a naive rule-of-thumb world 
+that only multiplies distance by an average consumption; W2 adds 
+speed-awareness but still ignores temperature and payload; and W3 is a 
+cautious world that takes W0’s estimate and adds a 30% safety buffer.
+
+The core rules compute, for each trip and world, the energy required 
+and classify the trip as either safeInWorld or riskyInWorld based on 
+the available battery capacity. On top of this numeric core, an ARC 
+layer derives an Answer node that summarises how the four worlds 
+classify four example trips (from a short warm city errand to long, 
+cold highway runs), a Reason node that explains why they disagree 
+(which conditions they do or don’t take into account), and two Check 
+nodes that confirm relationships such as “W3 is at least as cautious 
+as W0 on these trips” and “W1 is the most optimistic on harsh 
+highway scenarios”. All of these ARC triples are derived from the 
+same trip and world facts, so if you change the inputs or the world 
+formulas, the Answer, Reason and Checks will change accordingly. This 
+makes the file a small, self-contained artifact that both performs 
+real-world-flavoured reasoning about EV range and documents its own 
+conclusions.

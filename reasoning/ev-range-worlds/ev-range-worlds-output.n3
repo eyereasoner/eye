@@ -1,0 +1,22 @@
+@prefix : <http://example.org/evrange#>.
+
+:answer :text "On these four EV trips, the physics-flavoured world W0 often disagrees with simplified range rules. CityShort is trivially safe in all worlds. For the long cold HighwayLongCold trip, W0, W2 and W3 correctly flag that 50 kWh is not enough once speed, cold and payload penalties are taken into account, whereas the naive world W1 treats it as safe. For MountainCool, W0–W2 say the 30 kWh battery is just sufficient, but the cautious world W3 demands extra margin and calls it risky. For ColdHighwayMidBattery, W0 and W3 see a risk due to very low temperature and heavy load, while W1 and W2 are more optimistic and still mark it as safe.".
+:answer :usesWorld :W0.
+:answer :usesWorld :W1.
+:answer :usesWorld :W2.
+:answer :usesWorld :W3.
+:answer :usesTrip :CityShort.
+:answer :usesTrip :HighwayLongCold.
+:answer :usesTrip :MountainCool.
+:answer :usesTrip :ColdHighwayMidBattery.
+:reason :says "World W0 anchors the case in a simple energy balance: it scales a base kWh-per-kilometre figure by speed, temperature and payload, and compares the result with the battery capacity. World W1, by contrast, behaves like a rule-of-thumb range estimate that only multiplies distance by an average consumption; it can therefore miss the extra energy needed in cold, fast or heavily loaded trips. World W2 improves on this by accounting for speed but still ignores the penalties of cold and heavy payloads. World W3 goes in the opposite direction: it takes the physics-based estimate and adds a 30 percent safety buffer, which can turn borderline cases like MountainCool from safe into risky. The four worlds together illustrate how different approximations for EV range can overestimate or underestimate what the battery can really deliver.".
+:check1 :ok true.
+:check1 :msg "Check 1: on these trips, the cautious world W3 is at least as conservative as the reference world W0: every trip that W3 treats as safe is also safe in W0, and W3 rejects all trips that W0 rejects, plus one more.".
+:check2 :ok true.
+:check2 :msg "Check 2: on the harsher highway trips, the naive world W1 is the most optimistic: it alone treats HighwayLongCold as safe, and together with W2 it also marks ColdHighwayMidBattery as safe despite the penalties of cold and heavy load seen by W0 and W3.".
+:check3 :ok true.
+:check3 :msg "Check 3: all four worlds agree that the short, warm CityShort trip is safe, so the different models converge on an uncontroversial scenario.".
+:check4 :ok true.
+:check4 :msg "Check 4: the semi-optimistic world W2 behaves like a middle ground: it agrees with the cautious worlds W0 and W3 that HighwayLongCold is risky, but it joins the optimistic worlds W0 and W1 in judging MountainCool as safe.".
+:check5 :ok true.
+:check5 :msg "Check 5: for all trips that the reference world W0 marks as risky, at least one other world also flags risk; there are no examples where W0 is the only model to predict trouble.".

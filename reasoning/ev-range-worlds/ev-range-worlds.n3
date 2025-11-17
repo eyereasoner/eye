@@ -1,0 +1,545 @@
+# -------------------------------------------------------------------
+# ev-range-worlds.n3
+#
+# Toy case study: electric-vehicle range estimation in four "worlds".
+#
+# We model trips (distance, speed, temperature, payload, battery size)
+# and compute whether an EV has enough range to complete each trip.
+#
+# Worlds:
+#   W0  = physics-flavoured world (reference)
+#         - base consumption (kWh/km)
+#         - speed penalty ~ (speed / 90 km/h)^2
+#         - temperature penalty (cold = extra consumption)
+#         - payload penalty (heavy = extra consumption)
+#
+#   W1  = naive world
+#         - uses only base consumption * distance
+#         - ignores speed, temperature and payload
+#
+#   W2  = semi-optimistic world
+#         - uses base consumption plus speed penalty
+#         - ignores temperature and payload
+#
+#   W3  = cautious world
+#         - uses W0's energy, multiplied by a 30% safety buffer
+#
+# For each trip and world W we derive:
+#   ev:safeInWorld  (trip, W)
+#   ev:riskyInWorld (trip, W)
+#
+# ARC layer at the end:
+#   :answer  – summary of how the worlds classify four example trips.
+#   :reason  – explanation of the differences between worlds.
+#   :check1..5 – small, derived harness checks.
+#
+# This is a didactic model with simplified physics. It is NOT
+# intended for real EV planning or safety-critical use.
+# -------------------------------------------------------------------
+
+@prefix :    <http://example.org/evrange#> .
+@prefix ev:  <http://example.org/evrange#> .
+@prefix thm: <http://example.org/theorem#> .
+@prefix rel: <http://example.org/rel#> .
+
+@prefix math:  <http://www.w3.org/2000/10/swap/math#> .
+@prefix list:  <http://www.w3.org/2000/10/swap/list#> .
+@prefix log:   <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# -------------------------------------------------------------------
+# Worlds and trips
+# -------------------------------------------------------------------
+
+:World a rdfs:Class .
+:Trip  a rdfs:Class .
+
+:worldId     a rdf:Property .
+:description a rdf:Property .
+
+:W0 a :World ;
+    :worldId 0 ;
+    :description "physics-based reference model (speed + temperature + payload)" .
+
+:W1 a :World ;
+    :worldId 1 ;
+    :description "naive average-consumption model (ignores conditions)" .
+
+:W2 a :World ;
+    :worldId 2 ;
+    :description "semi-optimistic model (speed penalty only)" .
+
+:W3 a :World ;
+    :worldId 3 ;
+    :description "cautious model (30% safety buffer on reference)" .
+
+# Trip parameters
+
+:distanceKm       a rdf:Property .  # km
+:speedKph         a rdf:Property .  # km/h
+:tempC            a rdf:Property .  # °C
+:payloadKg        a rdf:Property .  # kg
+:batteryKWh       a rdf:Property .  # kWh
+:baseConsumption  a rdf:Property .  # kWh per km under mild conditions
+
+# Intermediate factors and energy requirements
+
+:tempFactor        a rdf:Property .   # multiplier ≥ 1
+:payloadFactor     a rdf:Property .   # multiplier ≥ 1
+:energyPerKm_W0    a rdf:Property .   # kWh/km
+:energyRequired_W0 a rdf:Property .   # kWh
+:energyRequired_W1 a rdf:Property .
+:energyRequired_W2 a rdf:Property .
+:energyRequired_W3 a rdf:Property .
+
+# Safety classification per world
+
+ev:safeInWorld  a rdf:Property .    # Trip × World
+ev:riskyInWorld a rdf:Property .
+
+# -------------------------------------------------------------------
+# Temperature factor
+#
+#   temp < 0         → factor 1.2 (cold penalty)
+#   0 ≤ temp < 10    → factor 1.1 (cool penalty)
+#   temp ≥ 10        → factor 1.0 (no penalty)
+# -------------------------------------------------------------------
+
+{
+  ?T :tempFactor 1.2 .
+}
+<=
+{
+  ?T :tempC ?Temp .
+  ?Temp math:lessThan 0.0 .
+} .
+
+{
+  ?T :tempFactor 1.1 .
+}
+<=
+{
+  ?T :tempC ?Temp .
+  ?Temp math:notLessThan 0.0 .
+  ?Temp math:lessThan 10.0 .
+} .
+
+{
+  ?T :tempFactor 1.0 .
+}
+<=
+{
+  ?T :tempC ?Temp .
+  ?Temp math:notLessThan 10.0 .
+} .
+
+# -------------------------------------------------------------------
+# Payload factor
+#
+# Simple linear penalty:
+#   payloadFactor = 1 + 0.00025 * payloadKg
+# e.g. 200 kg extra → factor 1.05
+# -------------------------------------------------------------------
+
+{
+  ?T :payloadFactor ?Pf .
+}
+<=
+{
+  ?T :payloadKg ?M .
+  (?M 0.00025) math:product ?extra .
+  (?extra 1.0) math:sum ?Pf .
+} .
+
+# -------------------------------------------------------------------
+# World 0: reference energy per km and total energy
+#
+#   speedFactor = (speedKph / 90)^2
+#   energyPerKm_W0 = baseConsumption * speedFactor * tempFactor * payloadFactor
+#   energyRequired_W0 = distanceKm * energyPerKm_W0
+# -------------------------------------------------------------------
+
+{
+  ?T :energyPerKm_W0 ?ep0 .
+}
+<=
+{
+  ?T :baseConsumption ?cBase ;
+     :speedKph ?v ;
+     :tempFactor ?Tf ;
+     :payloadFactor ?Pf .
+
+  (?v 90.0) math:quotient ?ratio .
+  (?ratio 2) math:exponentiation ?speedFactor .
+
+  (?cBase ?speedFactor) math:product ?tmp1 .
+  (?tmp1 ?Tf) math:product ?tmp2 .
+  (?tmp2 ?Pf) math:product ?ep0 .
+} .
+
+{
+  ?T :energyRequired_W0 ?E0 .
+}
+<=
+{
+  ?T :distanceKm ?d ;
+     :energyPerKm_W0 ?ep0 .
+  (?ep0 ?d) math:product ?E0 .
+} .
+
+# -------------------------------------------------------------------
+# World 1: naive model
+#
+#   energyRequired_W1 = distanceKm * baseConsumption
+# (ignores speed, temperature, payload)
+# -------------------------------------------------------------------
+
+{
+  ?T :energyRequired_W1 ?E1 .
+}
+<=
+{
+  ?T :distanceKm ?d ;
+     :baseConsumption ?cBase .
+  (?cBase ?d) math:product ?E1 .
+} .
+
+# -------------------------------------------------------------------
+# World 2: speed-aware, ignores temp and payload
+#
+#   energyRequired_W2 = distanceKm * baseConsumption * (speed/90)^2
+# -------------------------------------------------------------------
+
+{
+  ?T :energyRequired_W2 ?E2 .
+}
+<=
+{
+  ?T :distanceKm ?d ;
+     :baseConsumption ?cBase ;
+     :speedKph ?v .
+
+  (?v 90.0) math:quotient ?ratio2 .
+  (?ratio2 2) math:exponentiation ?speedFactor2 .
+
+  (?cBase ?speedFactor2) math:product ?ep2 .
+  (?ep2 ?d) math:product ?E2 .
+} .
+
+# -------------------------------------------------------------------
+# World 3: cautious buffer on reference
+#
+#   energyRequired_W3 = 1.3 * energyRequired_W0
+# -------------------------------------------------------------------
+
+{
+  ?T :energyRequired_W3 ?E3 .
+}
+<=
+{
+  ?T :energyRequired_W0 ?E0 .
+  (?E0 1.3) math:product ?E3 .
+} .
+
+# -------------------------------------------------------------------
+# Safety classification per world
+#
+# A trip is safe in world W if:
+#   energyRequired_W ≤ batteryKWh
+# else risky.
+# -------------------------------------------------------------------
+
+# World 0
+
+{
+  ?T ev:safeInWorld :W0 .
+}
+<=
+{
+  ?T :energyRequired_W0 ?E0 ;
+     :batteryKWh ?Cap .
+  ?E0 math:notGreaterThan ?Cap .
+} .
+
+{
+  ?T ev:riskyInWorld :W0 .
+}
+<=
+{
+  ?T :energyRequired_W0 ?E0 ;
+     :batteryKWh ?Cap .
+  ?E0 math:greaterThan ?Cap .
+} .
+
+# World 1
+
+{
+  ?T ev:safeInWorld :W1 .
+}
+<=
+{
+  ?T :energyRequired_W1 ?E1 ;
+     :batteryKWh ?Cap .
+  ?E1 math:notGreaterThan ?Cap .
+} .
+
+{
+  ?T ev:riskyInWorld :W1 .
+}
+<=
+{
+  ?T :energyRequired_W1 ?E1 ;
+     :batteryKWh ?Cap .
+  ?E1 math:greaterThan ?Cap .
+} .
+
+# World 2
+
+{
+  ?T ev:safeInWorld :W2 .
+}
+<=
+{
+  ?T :energyRequired_W2 ?E2 ;
+     :batteryKWh ?Cap .
+  ?E2 math:notGreaterThan ?Cap .
+} .
+
+{
+  ?T ev:riskyInWorld :W2 .
+}
+<=
+{
+  ?T :energyRequired_W2 ?E2 ;
+     :batteryKWh ?Cap .
+  ?E2 math:greaterThan ?Cap .
+} .
+
+# World 3
+
+{
+  ?T ev:safeInWorld :W3 .
+}
+<=
+{
+  ?T :energyRequired_W3 ?E3 ;
+     :batteryKWh ?Cap .
+  ?E3 math:notGreaterThan ?Cap .
+} .
+
+{
+  ?T ev:riskyInWorld :W3 .
+}
+<=
+{
+  ?T :energyRequired_W3 ?E3 ;
+     :batteryKWh ?Cap .
+  ?E3 math:greaterThan ?Cap .
+} .
+
+# -------------------------------------------------------------------
+# Example trips
+#
+# baseConsumption = 0.16 kWh/km for all trips (mild, flat conditions).
+# -------------------------------------------------------------------
+
+# Trip 1: CityShort
+#   ~15 km, 40 km/h, warm, light payload, 40 kWh battery.
+#   Expectation: trivially safe in all worlds.
+
+:CityShort a :Trip ;
+  :description "short city errand, warm day, light load" ;
+  :distanceKm 15.0 ;
+  :speedKph 40.0 ;
+  :tempC 20.0 ;
+  :payloadKg 80.0 ;
+  :batteryKWh 40.0 ;
+  :baseConsumption 0.16 .
+
+# Trip 2: HighwayLongCold
+#   180 km, 120 km/h, -5°C, 240 kg payload, 50 kWh battery.
+
+:HighwayLongCold a :Trip ;
+  :description "long cold highway run with passengers and luggage" ;
+  :distanceKm 180.0 ;
+  :speedKph 120.0 ;
+  :tempC -5.0 ;
+  :payloadKg 240.0 ;
+  :batteryKWh 50.0 ;
+  :baseConsumption 0.16 .
+
+# Trip 3: MountainCool
+#   150 km, 90 km/h, 0°C, 200 kg payload, 30 kWh battery.
+
+:MountainCool a :Trip ;
+  :description "mountain route in cool weather with moderate load" ;
+  :distanceKm 150.0 ;
+  :speedKph 90.0 ;
+  :tempC 0.0 ;
+  :payloadKg 200.0 ;
+  :batteryKWh 30.0 ;
+  :baseConsumption 0.16 .
+
+# Trip 4: ColdHighwayMidBattery
+#   110 km, 120 km/h, -15°C, 300 kg payload, 40 kWh battery.
+
+:ColdHighwayMidBattery a :Trip ;
+  :description "medium highway hop in very cold weather with heavy load" ;
+  :distanceKm 110.0 ;
+  :speedKph 120.0 ;
+  :tempC -15.0 ;
+  :payloadKg 300.0 ;
+  :batteryKWh 40.0 ;
+  :baseConsumption 0.16 .
+
+# -------------------------------------------------------------------
+# ARC-style Answer / Reason / Checks
+#
+# These are derived summaries, not hard-coded conclusions. They are
+# only produced when the classification pattern over the four trips
+# matches what the core rules compute.
+# -------------------------------------------------------------------
+
+:text     a rdf:Property .
+:usesWorld a rdf:Property .
+:usesTrip  a rdf:Property .
+:says     a rdf:Property .
+:ok       a rdf:Property .
+:msg      a rdf:Property .
+
+# A: Answer
+
+{
+  :CityShort ev:safeInWorld :W0, :W1, :W2, :W3 .
+
+  :HighwayLongCold ev:riskyInWorld :W0, :W2, :W3 ;
+                   ev:safeInWorld  :W1 .
+
+  :MountainCool ev:safeInWorld  :W0, :W1, :W2 ;
+                ev:riskyInWorld :W3 .
+
+  :ColdHighwayMidBattery ev:riskyInWorld :W0, :W3 ;
+                          ev:safeInWorld  :W1, :W2 .
+}
+=>
+{
+  :answer
+    :text "On these four EV trips, the physics-flavoured world W0 often disagrees with simplified range rules. CityShort is trivially safe in all worlds. For the long cold HighwayLongCold trip, W0, W2 and W3 correctly flag that 50 kWh is not enough once speed, cold and payload penalties are taken into account, whereas the naive world W1 treats it as safe. For MountainCool, W0–W2 say the 30 kWh battery is just sufficient, but the cautious world W3 demands extra margin and calls it risky. For ColdHighwayMidBattery, W0 and W3 see a risk due to very low temperature and heavy load, while W1 and W2 are more optimistic and still mark it as safe." ;
+    :usesWorld :W0, :W1, :W2, :W3 ;
+    :usesTrip :CityShort, :HighwayLongCold, :MountainCool, :ColdHighwayMidBattery .
+} .
+
+# R: Reason
+
+{
+  :CityShort ev:safeInWorld :W0, :W1, :W2, :W3 .
+
+  :HighwayLongCold ev:riskyInWorld :W0, :W2, :W3 ;
+                   ev:safeInWorld  :W1 .
+
+  :MountainCool ev:safeInWorld  :W0, :W1, :W2 ;
+                ev:riskyInWorld :W3 .
+
+  :ColdHighwayMidBattery ev:riskyInWorld :W0, :W3 ;
+                          ev:safeInWorld  :W1, :W2 .
+}
+=>
+{
+  :reason
+    :says "World W0 anchors the case in a simple energy balance: it scales a base kWh-per-kilometre figure by speed, temperature and payload, and compares the result with the battery capacity. World W1, by contrast, behaves like a rule-of-thumb range estimate that only multiplies distance by an average consumption; it can therefore miss the extra energy needed in cold, fast or heavily loaded trips. World W2 improves on this by accounting for speed but still ignores the penalties of cold and heavy payloads. World W3 goes in the opposite direction: it takes the physics-based estimate and adds a 30 percent safety buffer, which can turn borderline cases like MountainCool from safe into risky. The four worlds together illustrate how different approximations for EV range can overestimate or underestimate what the battery can really deliver." .
+} .
+
+# -------------------------------------------------------------------
+# C: Checks – harness rules
+#
+# All checks are derived from ev:safeInWorld / ev:riskyInWorld facts.
+# They do not depend on :answer or :reason.
+# -------------------------------------------------------------------
+
+# Check 1: W3 is never less cautious than W0 on these trips:
+#          every trip W3 calls safe is also safe in W0,
+#          and W3 rejects at least all trips that W0 rejects.
+
+{
+  :CityShort ev:safeInWorld  :W0, :W3 .
+  :HighwayLongCold ev:riskyInWorld :W0, :W3 .
+  :MountainCool ev:safeInWorld  :W0 ;
+                ev:riskyInWorld :W3 .
+  :ColdHighwayMidBattery ev:riskyInWorld :W0, :W3 .
+}
+=>
+{
+  :check1
+    :ok true ;
+    :msg "Check 1: on these trips, the cautious world W3 is at least as conservative as the reference world W0: every trip that W3 treats as safe is also safe in W0, and W3 rejects all trips that W0 rejects, plus one more." .
+} .
+
+# Check 2: W1 is the most optimistic on harsh highway trips:
+#          it alone calls HighwayLongCold safe, and together with W2
+#          it calls ColdHighwayMidBattery safe while W0 and W3 disagree.
+
+{
+  :HighwayLongCold ev:safeInWorld  :W1 ;
+                   ev:riskyInWorld :W0, :W2, :W3 .
+
+  :ColdHighwayMidBattery ev:safeInWorld  :W1, :W2 ;
+                          ev:riskyInWorld :W0, :W3 .
+}
+=>
+{
+  :check2
+    :ok true ;
+    :msg "Check 2: on the harsher highway trips, the naive world W1 is the most optimistic: it alone treats HighwayLongCold as safe, and together with W2 it also marks ColdHighwayMidBattery as safe despite the penalties of cold and heavy load seen by W0 and W3." .
+} .
+
+# Check 3: All worlds agree on the easy case CityShort:
+#          it is universally classified as safe, so the models are
+#          consistent on low-stress, short trips.
+
+{
+  :CityShort ev:safeInWorld :W0, :W1, :W2, :W3 .
+}
+=>
+{
+  :check3
+    :ok true ;
+    :msg "Check 3: all four worlds agree that the short, warm CityShort trip is safe, so the different models converge on an uncontroversial scenario." .
+} .
+
+# Check 4: W2 sits between W1 and W3 on the two borderline trips:
+#          - For HighwayLongCold it sides with the cautious worlds
+#            W0 and W3 and flags risk.
+#          - For MountainCool it sides with the optimistic worlds
+#            W0 and W1 and treats the trip as safe.
+
+{
+  :HighwayLongCold ev:riskyInWorld :W0, :W2, :W3 ;
+                   ev:safeInWorld  :W1 .
+
+  :MountainCool ev:safeInWorld  :W0, :W1, :W2 ;
+                ev:riskyInWorld :W3 .
+}
+=>
+{
+  :check4
+    :ok true ;
+    :msg "Check 4: the semi-optimistic world W2 behaves like a middle ground: it agrees with the cautious worlds W0 and W3 that HighwayLongCold is risky, but it joins the optimistic worlds W0 and W1 in judging MountainCool as safe." .
+} .
+
+# Check 5: Every trip that W0 considers risky is also seen as risky by
+#          at least one other world, so there is no W0-only risk in
+#          this example set.
+
+{
+  :HighwayLongCold ev:riskyInWorld :W0, :W2, :W3 .
+  :ColdHighwayMidBattery ev:riskyInWorld :W0, :W3 .
+}
+=>
+{
+  :check5
+    :ok true ;
+    :msg "Check 5: for all trips that the reference world W0 marks as risky, at least one other world also flags risk; there are no examples where W0 is the only model to predict trouble." .
+} .
+
