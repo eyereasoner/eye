@@ -1,0 +1,18 @@
+@prefix : <http://example.org/beam#>.
+
+:answer :text "For these four rectangular beams under mid-span point loads, the ShelfLight, FloorBase and FloorTall designs satisfy the allowable bending stress, while FloorOverload exceeds it. Doubling the load on FloorBase to obtain FloorOverload roughly doubles the maximum bending moment and therefore the bending stress, driving the safety factor below one and making the beam fail the criterion. Increasing the height from 0.2 m to 0.3 m in FloorTall raises the section modulus S = b·h²/6, which reduces the bending stress and yields the largest safety factor of the set.".
+:answer :usesDesign :ShelfLight.
+:answer :usesDesign :FloorBase.
+:answer :usesDesign :FloorOverload.
+:answer :usesDesign :FloorTall.
+:reason :says "In this model the bending stress is sigma = M_max / S, where the maximum moment for a mid-span point load is M_max = P·L/4 and the section modulus of a rectangular section is S = b·h²/6. For fixed geometry, doubling the load P doubles M_max, and hence doubles sigma, so the overloaded beam FloorOverload has roughly twice the stress of FloorBase and its safety factor sigma_allow/sigma falls below one. By contrast, going from FloorBase to FloorTall keeps the load and span fixed but increases the height h, which increases S in proportion to h². Because sigma is inversely proportional to S, raising h from 0.2 to 0.3 m reduces the stress by a factor of (0.2/0.3)² and produces a safety factor well above one. ShelfLight has small P and L and therefore modest M_max, so it also remains safely below the allowable stress. These relationships follow directly from the algebraic dependence of sigma on P, L, b and h.".
+:check1 :ok true.
+:check1 :msg "Check 1: all example beam designs have a derived bending stress, safety factor and safety classification.".
+:check2 :ok true.
+:check2 :msg "Check 2: the overloaded FloorOverload beam carries a higher point load than FloorBase and has a strictly higher bending stress, as expected from sigma = (P·L/4)/S.".
+:check3 :ok true.
+:check3 :msg "Check 3: the taller FloorTall beam has a greater height than FloorBase and a strictly lower bending stress, consistent with the section modulus S growing proportional to h².".
+:check4 :ok true.
+:check4 :msg "Check 4: every design classified as safe has a safety factor of at least one, while the overloaded FloorOverload design has a safety factor below one.".
+:check5 :ok true.
+:check5 :msg "Check 5: among the safe designs, FloorTall has the largest safety factor, confirming that increasing the beam height in this model gives the greatest margin against the allowable bending stress.".

@@ -1,0 +1,386 @@
+# -------------------------------------------------------------------
+# beam-bending-safety.n3
+#
+# Case study: bending safety of rectangular beams under a
+# mid-span point load, for a simply supported beam.
+#
+# For each beam design B we have:
+#   - span L          (meters)
+#   - mid-span load P (kN, treated numerically)
+#   - width  b        (meters)
+#   - height h        (meters)
+#   - allowableStress sigma_allow (arbitrary units)
+#
+# Mechanics:
+#   - Maximum bending moment:
+#         M_max = P * L / 4
+#   - Section modulus for a rectangular section:
+#         S = b * h^2 / 6
+#   - Bending stress:
+#         sigma = M_max / S
+#
+# A design is considered:
+#   - safe if sigma ≤ sigma_allow
+#   - failing if sigma > sigma_allow
+#
+# We also derive a safety factor:
+#   safetyFactor = sigma_allow / sigma
+#
+# Example designs:
+#   - ShelfLight        : short, lightly loaded shelf.
+#   - FloorBase         : base floor beam under moderate load.
+#   - FloorOverload     : same beam with roughly double the load.
+#   - FloorTall         : same load as FloorBase but a taller beam.
+#
+# ARC layer:
+#   - :answer  : textual summary of which designs are safe or failing.
+#   - :reason  : mathematical explanation of why this happens.
+#   - :check1..5 : small harness checks that confirm relationships
+#                  between the designs and their stresses/safety factors.
+#
+# This is a didactic model, not a structural engineering tool.
+# -------------------------------------------------------------------
+
+@prefix :     <http://example.org/beam#> .
+@prefix beam: <http://example.org/beam#> .
+@prefix thm:  <http://example.org/theorem#> .
+@prefix rel:  <http://example.org/rel#> .
+
+@prefix math:  <http://www.w3.org/2000/10/swap/math#> .
+@prefix list:  <http://www.w3.org/2000/10/swap/list#> .
+@prefix log:   <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# -------------------------------------------------------------------
+# Beam designs and mechanical properties
+# -------------------------------------------------------------------
+
+:BeamDesign a rdfs:Class .
+
+:span            a rdf:Property .  # L
+:pointLoad       a rdf:Property .  # P
+:width           a rdf:Property .  # b
+:height          a rdf:Property .  # h
+:allowableStress a rdf:Property .  # sigma_allow
+
+:maxMoment     a rdf:Property .    # M_max
+:sectionModulus a rdf:Property .   # S
+:bendingStress a rdf:Property .    # sigma
+:safetyFactor  a rdf:Property .    # sigma_allow / sigma
+:isSafe        a rdf:Property .    # xsd:boolean
+
+# -------------------------------------------------------------------
+# Backward rules for derived quantities
+# -------------------------------------------------------------------
+
+# Maximum bending moment for simply supported beam with mid-span load:
+#   M_max = P * L / 4
+
+{
+  ?B :maxMoment ?M .
+}
+<=
+{
+  ?B a :BeamDesign ;
+     :span ?L ;
+     :pointLoad ?P .
+
+  (?P ?L) math:product ?PL .
+  (?PL 4.0) math:quotient ?M .
+} .
+
+# Section modulus of rectangular section:
+#   S = b * h^2 / 6
+
+{
+  ?B :sectionModulus ?S .
+}
+<=
+{
+  ?B a :BeamDesign ;
+     :width ?b ;
+     :height ?h .
+
+  (?h 2) math:exponentiation ?h2 .
+  (?b ?h2) math:product ?bh2 .
+  (?bh2 6.0) math:quotient ?S .
+} .
+
+# Bending stress:
+#   sigma = M_max / S
+
+{
+  ?B :bendingStress ?sigma .
+}
+<=
+{
+  ?B :maxMoment ?M ;
+     :sectionModulus ?S .
+
+  (?M ?S) math:quotient ?sigma .
+} .
+
+# Safety factor:
+#   safetyFactor = allowableStress / sigma
+
+{
+  ?B :safetyFactor ?sf .
+}
+<=
+{
+  ?B :bendingStress ?sigma ;
+     :allowableStress ?allow .
+
+  (?allow ?sigma) math:quotient ?sf .
+} .
+
+# Safety classification:
+#   safe iff sigma ≤ sigma_allow
+
+{
+  ?B :isSafe true .
+}
+<=
+{
+  ?B :bendingStress ?sigma ;
+     :allowableStress ?allow .
+  ?sigma math:notGreaterThan ?allow .
+} .
+
+{
+  ?B :isSafe false .
+}
+<=
+{
+  ?B :bendingStress ?sigma ;
+     :allowableStress ?allow .
+  ?sigma math:greaterThan ?allow .
+} .
+
+# -------------------------------------------------------------------
+# Example beam designs
+#
+# All designs use the same allowableStress (value 12000 units).
+#
+# Numerical values are chosen for interesting comparisons:
+#   - FloorOverload has about twice the bending stress of FloorBase.
+#   - FloorTall has substantially less stress than FloorBase.
+# -------------------------------------------------------------------
+
+:ShelfLight a :BeamDesign ;
+  :description "short wall-mounted shelf with light load" ;
+  :span 0.8 ;           # meters
+  :pointLoad 1.0 ;      # kN
+  :width 0.04 ;         # meters
+  :height 0.06 ;        # meters
+  :allowableStress 12000.0 .
+
+:FloorBase a :BeamDesign ;
+  :description "base floor beam under design load" ;
+  :span 3.0 ;
+  :pointLoad 5.0 ;
+  :width 0.05 ;
+  :height 0.2 ;
+  :allowableStress 12000.0 .
+
+:FloorOverload a :BeamDesign ;
+  :description "same beam as FloorBase but roughly double the load" ;
+  :span 3.0 ;
+  :pointLoad 10.0 ;
+  :width 0.05 ;
+  :height 0.2 ;
+  :allowableStress 12000.0 .
+
+:FloorTall a :BeamDesign ;
+  :description "same load as FloorBase but with a taller beam" ;
+  :span 3.0 ;
+  :pointLoad 5.0 ;
+  :width 0.05 ;
+  :height 0.3 ;         # taller section
+  :allowableStress 12000.0 .
+
+# -------------------------------------------------------------------
+# ARC-style Answer / Reason / Checks
+#
+# These are derived summaries. They depend only on the mechanical
+# quantities and safety classification computed above.
+# -------------------------------------------------------------------
+
+:text        a rdf:Property .
+:usesDesign  a rdf:Property .
+:says        a rdf:Property .
+:ok          a rdf:Property .
+:msg         a rdf:Property .
+
+# A: Answer
+#
+# We assert :answer when the four designs are classified as:
+#   - ShelfLight     safe
+#   - FloorBase      safe
+#   - FloorOverload  failing
+#   - FloorTall      safe
+#
+# plus the expected ordering of safety factors:
+#   FloorTall has a larger safety factor than ShelfLight and FloorBase.
+
+{
+  :ShelfLight    :isSafe true ;
+                 :safetyFactor ?sfShelf .
+
+  :FloorBase     :isSafe true ;
+                 :safetyFactor ?sfBase .
+
+  :FloorOverload :isSafe false .
+
+  :FloorTall     :isSafe true ;
+                 :safetyFactor ?sfTall .
+
+  ?sfTall math:greaterThan ?sfShelf .
+  ?sfTall math:greaterThan ?sfBase .
+}
+=>
+{
+  :answer
+    :text "For these four rectangular beams under mid-span point loads, the ShelfLight, FloorBase and FloorTall designs satisfy the allowable bending stress, while FloorOverload exceeds it. Doubling the load on FloorBase to obtain FloorOverload roughly doubles the maximum bending moment and therefore the bending stress, driving the safety factor below one and making the beam fail the criterion. Increasing the height from 0.2 m to 0.3 m in FloorTall raises the section modulus S = b·h²/6, which reduces the bending stress and yields the largest safety factor of the set." ;
+    :usesDesign :ShelfLight, :FloorBase, :FloorOverload, :FloorTall .
+} .
+
+# R: Reason
+#
+# Mathematical explanation of why the safe/failing pattern arises,
+# using the same derived quantities.
+
+{
+  :ShelfLight :bendingStress ?sigmaShelf ;
+              :allowableStress ?allowShelf ;
+              :safetyFactor ?sfShelf ;
+              :isSafe true .
+
+  :FloorBase :bendingStress ?sigmaBase ;
+             :allowableStress ?allowBase ;
+             :safetyFactor ?sfBase ;
+             :isSafe true .
+
+  :FloorOverload :bendingStress ?sigmaOverload ;
+                 :allowableStress ?allowOver ;
+                 :safetyFactor ?sfOver ;
+                 :isSafe false .
+
+  :FloorTall :bendingStress ?sigmaTall ;
+             :allowableStress ?allowTall ;
+             :safetyFactor ?sfTall ;
+             :isSafe true .
+
+  ?sigmaOverload math:greaterThan ?sigmaBase .
+  ?sigmaBase     math:greaterThan ?sigmaTall .
+  ?sfTall        math:greaterThan ?sfBase .
+}
+=>
+{
+  :reason
+    :says "In this model the bending stress is sigma = M_max / S, where the maximum moment for a mid-span point load is M_max = P·L/4 and the section modulus of a rectangular section is S = b·h²/6. For fixed geometry, doubling the load P doubles M_max, and hence doubles sigma, so the overloaded beam FloorOverload has roughly twice the stress of FloorBase and its safety factor sigma_allow/sigma falls below one. By contrast, going from FloorBase to FloorTall keeps the load and span fixed but increases the height h, which increases S in proportion to h². Because sigma is inversely proportional to S, raising h from 0.2 to 0.3 m reduces the stress by a factor of (0.2/0.3)² and produces a safety factor well above one. ShelfLight has small P and L and therefore modest M_max, so it also remains safely below the allowable stress. These relationships follow directly from the algebraic dependence of sigma on P, L, b and h." .
+} .
+
+# -------------------------------------------------------------------
+# C: Checks – harness rules
+#
+# Five small checks witnessing relationships between designs.
+# They depend only on derived stresses, safety factors and isSafe.
+# -------------------------------------------------------------------
+
+# Check 1: All four designs have their bending stress and safety factor
+#          computed and classified as either safe or failing.
+
+{
+  :ShelfLight    :bendingStress ?s1 ; :safetyFactor ?f1 ; :isSafe ?b1 .
+  :FloorBase     :bendingStress ?s2 ; :safetyFactor ?f2 ; :isSafe ?b2 .
+  :FloorOverload :bendingStress ?s3 ; :safetyFactor ?f3 ; :isSafe ?b3 .
+  :FloorTall     :bendingStress ?s4 ; :safetyFactor ?f4 ; :isSafe ?b4 .
+}
+=>
+{
+  :check1
+    :ok true ;
+    :msg "Check 1: all example beam designs have a derived bending stress, safety factor and safety classification." .
+} .
+
+# Check 2: Doubling the load from FloorBase to FloorOverload strictly
+#          increases bending stress.
+
+{
+  :FloorBase     :bendingStress ?sigmaBase ;
+                 :pointLoad ?Pbase .
+  :FloorOverload :bendingStress ?sigmaOver ;
+                 :pointLoad ?Pover .
+
+  ?Pover math:greaterThan ?Pbase .
+  ?sigmaOver math:greaterThan ?sigmaBase .
+}
+=>
+{
+  :check2
+    :ok true ;
+    :msg "Check 2: the overloaded FloorOverload beam carries a higher point load than FloorBase and has a strictly higher bending stress, as expected from sigma = (P·L/4)/S." .
+} .
+
+# Check 3: Increasing height from 0.2 m to 0.3 m (FloorBase → FloorTall)
+#          strictly decreases the bending stress.
+
+{
+  :FloorBase :height ?hBase ;
+             :bendingStress ?sigmaBase .
+  :FloorTall :height ?hTall ;
+             :bendingStress ?sigmaTall .
+
+  ?hTall math:greaterThan ?hBase .
+  ?sigmaBase math:greaterThan ?sigmaTall .
+}
+=>
+{
+  :check3
+    :ok true ;
+    :msg "Check 3: the taller FloorTall beam has a greater height than FloorBase and a strictly lower bending stress, consistent with the section modulus S growing proportional to h²." .
+} .
+
+# Check 4: All designs marked safe have safetyFactor ≥ 1, and the
+#          failing design has safetyFactor < 1.
+
+{
+  :ShelfLight    :isSafe true ;  :safetyFactor ?sfShelf .
+  :FloorBase     :isSafe true ;  :safetyFactor ?sfBase .
+  :FloorTall     :isSafe true ;  :safetyFactor ?sfTall .
+  :FloorOverload :isSafe false ; :safetyFactor ?sfOver .
+
+  ?sfShelf math:notLessThan 1.0 .
+  ?sfBase  math:notLessThan 1.0 .
+  ?sfTall  math:notLessThan 1.0 .
+  ?sfOver  math:lessThan 1.0 .
+}
+=>
+{
+  :check4
+    :ok true ;
+    :msg "Check 4: every design classified as safe has a safety factor of at least one, while the overloaded FloorOverload design has a safety factor below one." .
+} .
+
+# Check 5: Among the safe designs, FloorTall has the largest safety
+#          factor (and therefore the largest margin to the allowable
+#          stress).
+
+{
+  :ShelfLight :safetyFactor ?sfShelf .
+  :FloorBase  :safetyFactor ?sfBase .
+  :FloorTall  :safetyFactor ?sfTall .
+
+  ?sfTall math:greaterThan ?sfShelf .
+  ?sfTall math:greaterThan ?sfBase .
+}
+=>
+{
+  :check5
+    :ok true ;
+    :msg "Check 5: among the safe designs, FloorTall has the largest safety factor, confirming that increasing the beam height in this model gives the greatest margin against the allowable bending stress." .
+} .
+

@@ -1,0 +1,37 @@
+-------------------
+Beam Bending Safety
+-------------------
+
+This directory contains a single Notation3 file that encodes a 
+structural case study about the bending safety of simple rectangular 
+beams. Each beam design is described by its span, a mid-span point 
+load, cross-section dimensions (width and height), and an allowable 
+bending stress. Using standard beam formulas for a simply supported 
+beam under a central load, the theory computes the maximum bending 
+moment, the section modulus of the rectangular section, the resulting 
+bending stress, and a safety factor given by allowableStress / 
+bendingStress. A design is classified as safe if its bending stress 
+does not exceed the allowable value and failing otherwise. Four example 
+beams illustrate typical situations: a short, lightly loaded shelf, a 
+base floor beam under design load, the same beam under an overloaded 
+case, and a taller beam that carries the same load more comfortably.
+
+On top of this mechanical core, the file adds an ARC layer that 
+produces three kinds of derived information. An `:answer` node 
+summarises which of the four designs are safe or failing and highlights 
+that doubling the load on a fixed section roughly doubles the stress, 
+while increasing the height of the section (and thus its section 
+modulus) significantly reduces stress. A `:reason` node explains in 
+mathematical English why these relationships hold, referring directly 
+to the formulas σ = M_max / S with M_max = P·L/4 and S = b·h²/6. 
+Five `:check` nodes act as a small harness: they confirm that all 
+designs have derived stresses and safety factors, that the overloaded 
+case has higher stress than the base design, that the taller beam has 
+lower stress than its shorter counterpart, that safe designs have 
+safety factors ≥ 1 while the failing design has a factor < 1, and 
+that the taller beam has the largest safety margin. All of these ARC 
+conclusions are computed from the same equations and input data, so if 
+you modify the beam dimensions, loads or allowable stress, the Answer, 
+Reason and Checks adapt automatically—making the file a small, 
+self-documenting example of quantitative structural reasoning in N3.
+
