@@ -1,44 +1,39 @@
 # -------------------------------------------------------------------
 # braking-safety-worlds.n3
 #
-# Discrete-time stopping safety for cars in simple road scenarios.
+# Toy case study: braking safety in four "worlds".
 #
-# We model four "worlds" (W0–W3) that estimate the stopping distance
-# needed to avoid collision and classify scenarios as:
-#
-#   brake:safeInWorld(?Scenario, ?World)
-#   brake:riskyInWorld(?Scenario, ?World)
-#
-# The scenarios are defined by:
-#   - speed v in m/s
-#   - friction coefficient mu (0 < mu ≤ 1)
-#   - available distance d_avail in meters
+# We model road scenarios with:
+#   - speed v (m/s),
+#   - friction coefficient mu (0 < mu ≤ 1),
+#   - available distance d_avail (m) to brake safely before impact.
 #
 # Worlds:
 #   W0  = "physics-based" world
 #         d_stop = v * 1.0s + v^2 / (2 mu g), with g ≈ 9.8 m/s²
 #
-#   W1  = simplified rule with g ≈ 10 and no reaction time:
+#   W1  = simplified rule (no reaction time, g ≈ 10):
 #         d_stop ≈ v^2 / (2 mu 10)
 #
-#   W2  = naive world that ignores the actual mu and assumes mu=0.7:
+#   W2  = naive world that ignores actual mu and assumes dry road:
 #         d_stop ≈ v^2 / (2 * 0.7 * 10)
 #
-#   W3  = cautious world that multiplies W0's distance by 1.5:
+#   W3  = cautious world that multiplies W0 distance by 1.5:
 #         d_stop ≈ 1.5 * d_stop_W0
 #
-# A scenario is "safe" in world W if d_stop_W ≤ d_avail, and "risky"
-# if d_stop_W > d_avail.
+# A scenario is "safe" in world W if:
+#   d_stop_W ≤ d_avail
+# and "risky" if:
+#   d_stop_W > d_avail.
 #
-# At the bottom we add ARC-style rules:
-#   - :answer  summarises how the four worlds classify four example
+# ARC layer:
+#   :answer  – summary of how the worlds classify four example
 #              scenarios.
-#   - :reason  explains, in prose, what that pattern means.
-#   - :check1, :check2 are small harnesses that verify the derived
-#              pattern from different angles.
+#   :reason  – short explanation of why the worlds disagree.
+#   :check1..5 – small derived checks witnessing relationships
+#                between the worlds on these examples.
 #
-# This is a didactic model: formulas and parameters are simplified
-# and should NOT be used for real-world driving decisions.
+# Formulas are simplified; this is NOT a real safety calculator.
 # -------------------------------------------------------------------
 
 @prefix :        <http://example.org/braking#> .
@@ -276,7 +271,7 @@ brake:riskyInWorld a rdf:Property .
 # Example scenarios
 #
 # All speeds in m/s, distances in meters.
-# (These are simplified and only for demonstration.)
+# These values are illustrative, not calibrated.
 # -------------------------------------------------------------------
 
 # City driving, dry road
@@ -314,17 +309,9 @@ brake:riskyInWorld a rdf:Property .
 # -------------------------------------------------------------------
 # ARC-style Answer / Reason / Checks
 #
-# We now add a small ARC layer:
-#
-#   :answer  – a summarising node with human-readable text,
-#              derived only if the worlds classify the four example
-#              scenarios in a specific pattern.
-#
-#   :reason  – an explanatory text that depends on the same
-#              classification facts.
-#
-#   :check1, :check2 – tiny harness nodes marking that certain
-#              relationships between worlds are observed.
+# Like the EV case, these nodes are *derived* from the classifications
+# over the four scenarios. If you change the scenarios or rules, the
+# Answer/Reason/Checks will adapt or disappear.
 # -------------------------------------------------------------------
 
 :text         a rdf:Property .
@@ -336,19 +323,22 @@ brake:riskyInWorld a rdf:Property .
 
 # A: Answer
 #
-# We derive an :answer node once the following pattern appears:
+# We assert :answer when the following pattern holds:
 #
-#   - :CityDry  is safe in all four worlds.
-#   - :HighwayDryShortGap is risky in W0 and W3, but safe in W1, W2.
-#   - :CityWet  is safe in W0, W1, W2, and risky in W3.
-#   - :CityIce  is risky in W0, W1, W3, but safe in W2.
+#   CityDry:
+#     safe  in W0, W1, W2, W3.
 #
-# This pattern shows that:
-#   * W0 is our "physics" reference.
-#   * W1 and W2 are more optimistic (they ignore reaction time or
-#     low friction), sometimes calling risky situations safe.
-#   * W3 is more cautious than W0, sometimes calling marginally safe
-#     situations risky.
+#   HighwayDryShortGap:
+#     risky in W0 and W3, safe in W1 and W2.
+#
+#   CityWet:
+#     safe  in W0, W1, W2, risky in W3.
+#
+#   CityIce:
+#     risky in W0, W1, W3, safe in W2.
+#
+# This pattern reflects W0 as physics reference, W1/W2 as optimistic,
+# and W3 as cautious.
 
 {
   :CityDry brake:safeInWorld :W0, :W1, :W2, :W3 .
@@ -365,16 +355,15 @@ brake:riskyInWorld a rdf:Property .
 =>
 {
   :answer
-    :text "In these four road scenarios, the physics-based world W0 judges CityDry, CityWet as safe and HighwayDryShortGap, CityIce as risky. The simplified worlds W1 and W2 are more optimistic: they call the high-speed HighwayDryShortGap scenario safe, and W2 even treats the icy CityIce scenario as safe by assuming a dry-road friction. The cautious world W3 is stricter than W0, and flags both HighwayDryShortGap and CityWet as risky because it multiplies the physics-based stopping distance by a safety factor." ;
+    :text "On these four road scenarios, the physics-based world W0 judges CityDry and CityWet as safe and HighwayDryShortGap and CityIce as risky. The simplified worlds W1 and W2 are more optimistic: they treat the high-speed HighwayDryShortGap case as safe, and W2 even calls the icy CityIce scenario safe by assuming a dry-road friction. The cautious world W3 multiplies the physics-based stopping distance by a safety factor and therefore flags both HighwayDryShortGap and CityWet as risky, agreeing with W0 that CityIce is clearly unsafe. Together, the four worlds show how different stopping-distance rules can disagree about whether the available distance is enough to brake safely." ;
     :usesWorld :W0, :W1, :W2, :W3 ;
     :usesScenario :CityDry, :HighwayDryShortGap, :CityWet, :CityIce .
 } .
 
 # R: Reason
 #
-# We derive a :reason node that explains, in plain language, how the
-# different worlds relate to each other on these scenarios. The rule
-# body again depends only on scenario-level classifications.
+# We derive :reason from the same pattern. It explains how each world
+# simplifies or strengthens the reference model.
 
 {
   :CityDry brake:safeInWorld :W0, :W1, :W2, :W3 .
@@ -391,18 +380,19 @@ brake:riskyInWorld a rdf:Property .
 =>
 {
   :reason
-    :says "World W0 anchors the model in basic physics: it adds a one-second reaction distance to a friction-based braking distance. On the four examples, this distinguishes safe situations (CityDry, CityWet) from clearly risky ones (HighwayDryShortGap, CityIce). World W1 drops the reaction time, and world W2 also ignores low friction by assuming a dry road, so they sometimes call risky situations safe. World W3, in contrast, is more cautious than W0: by multiplying the physics-based distance by a safety factor, it can treat marginally safe cases like CityWet as risky. Together, the worlds show how different approximations and safety margins change the answer to the real-world question: 'Is this stopping distance enough?'" .
+    :says "World W0 treats braking as a combination of reaction distance and friction-limited deceleration. On the four examples, it cleanly separates easy situations (CityDry, CityWet) from clearly risky ones (HighwayDryShortGap, CityIce). World W1 drops the reaction time and behaves like a bare braking-distance rule; W2 goes further by assuming good dry friction for everyone, so they both tend to be more optimistic and call some borderline scenarios safe. World W3 goes in the opposite direction: it amplifies W0’s stopping distance with a safety factor, which can turn marginally safe cases like CityWet into risky ones. In this way, the worlds illustrate how different simplifications and safety margins change the answer to the real-world question: 'Is there enough distance to brake in time?'" .
 } .
 
-# C: Checks
+# -------------------------------------------------------------------
+# C: Checks – harness rules
 #
-# These small harness rules confirm some relationships between the
-# worlds. They are also derived from the scenario-level facts.
-# They are not exhaustive theorems, but sanity checks.
+# Five small checks that each confirm one relationship between worlds.
+# They only depend on brake:safeInWorld / brake:riskyInWorld facts.
+# -------------------------------------------------------------------
 
 # Check 1: W2 is the most optimistic on ice.
-# On CityIce, it is the *only* world that classifies the situation
-# as safe, while W0, W1 and W3 all agree it is risky.
+#          On CityIce, it is the only world that calls the situation
+#          safe, while W0, W1 and W3 all agree it is risky.
 
 {
   :CityIce brake:safeInWorld  :W2 ;
@@ -412,13 +402,12 @@ brake:riskyInWorld a rdf:Property .
 {
   :check1
     :ok true ;
-    :msg "Check 1: on the icy CityIce scenario, world W2 is strictly more optimistic than W0, W1 and W3, because it assumes dry-road friction and still calls the situation safe." .
+    :msg "Check 1: on the icy CityIce scenario, world W2 is strictly more optimistic than W0, W1 and W3 because it assumes dry-road friction and still calls the situation safe while all others see risk." .
 } .
 
-# Check 2: W3 is never less cautious than W0 on the examples.
-# Here we simply record that whenever W3 says safe (CityDry), W0
-# also says safe. On the remaining scenarios W3 is strictly more
-# cautious and rejects at least what W0 rejects.
+# Check 2: W3 is at least as cautious as W0 on these scenarios.
+#          Wherever W3 says safe, W0 also says safe; and W3 rejects
+#          at least all scenarios that W0 rejects.
 
 {
   :CityDry brake:safeInWorld  :W0, :W3 .
@@ -431,6 +420,48 @@ brake:riskyInWorld a rdf:Property .
 {
   :check2
     :ok true ;
-    :msg "Check 2: on these examples, world W3 is at least as cautious as the physics-based world W0: wherever W3 says safe, W0 also says safe, and on some marginal cases W3 is stricter and declares risk." .
+    :msg "Check 2: on these examples, the cautious world W3 is at least as conservative as the physics-based world W0: whenever W3 says safe, W0 also says safe, and W3 rejects all cases that W0 rejects, plus one more." .
+} .
+
+# Check 3: All four worlds agree on the easy city case.
+#          CityDry is universally classified as safe.
+
+{
+  :CityDry brake:safeInWorld :W0, :W1, :W2, :W3 .
+}
+=>
+{
+  :check3
+    :ok true ;
+    :msg "Check 3: all worlds agree that the CityDry scenario — moderate speed, dry asphalt, generous distance — is safe, so the models converge on an uncontroversial case." .
+} .
+
+# Check 4: W1 and W2 are more optimistic than W0 on the high-speed,
+#          short-gap highway case: they treat it as safe while W0
+#          (and W3) see risk.
+
+{
+  :HighwayDryShortGap brake:riskyInWorld :W0, :W3 ;
+                      brake:safeInWorld  :W1, :W2 .
+}
+=>
+{
+  :check4
+    :ok true ;
+    :msg "Check 4: on the HighwayDryShortGap scenario, worlds W1 and W2 are more optimistic than the reference world W0 and the cautious world W3, since they classify the situation as safe despite W0 and W3 judging the available distance as insufficient." .
+} .
+
+# Check 5: Every scenario that W0 considers risky is also risky in at
+#          least one other world; there are no W0-only risks.
+
+{
+  :HighwayDryShortGap brake:riskyInWorld :W0, :W3 .
+  :CityIce brake:riskyInWorld :W0, :W1, :W3 .
+}
+=>
+{
+  :check5
+    :ok true ;
+    :msg "Check 5: for all scenarios that the physics-based world W0 marks as risky, at least one other world also flags risk; in this example set there is no case where only W0 detects a problem." .
 } .
 
