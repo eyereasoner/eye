@@ -1,0 +1,467 @@
+# -------------------------------------------------------------------
+# screening-trust-worlds.n3
+#
+# Toy case study: reliability of positive diagnostic tests in four
+# "worlds" with different ways of using (or misusing) Bayes' rule.
+#
+# Each screening scenario describes:
+#   - prevalence p      (0–1, prior disease probability),
+#   - sensitivity Se    (P(test+ | disease)),
+#   - specificity Sp    (P(test- | no disease)).
+#
+# The "true" positive predictive value (PPV) is:
+#
+#   PPV = Se * p / (Se * p + (1 - Sp) * (1 - p))
+#
+# We do not advise medical decisions. This is a small educational
+# model that shows how different rules-of-thumb can disagree about
+# whether a positive test result should be trusted.
+#
+# Worlds:
+#   W0  = full Bayes world (reference)
+#         - computes PPV exactly and trusts positives if PPV ≥ 0.90
+#
+#   W1  = naive "test is great" world
+#         - ignores prevalence and specificity
+#         - trusts positives if Se ≥ 0.90
+#
+#   W2  = heuristic world
+#         - trusts positives only if:
+#             p ≥ 0.05 and Se ≥ 0.90 and Sp ≥ 0.95
+#
+#   W3  = cautious Bayes world
+#         - uses the same PPV formula as W0
+#         - trusts positives if PPV ≥ 0.915 (slightly stricter)
+#
+# For each scenario and world W we derive:
+#   diag:trustsPositiveInWorld  (scenario, W)
+#   diag:rejectsPositiveInWorld (scenario, W)
+#
+# ARC layer:
+#   :answer  – summary of how the worlds classify four scenarios.
+#   :reason  – explanation of the differences between worlds.
+#   :check1..5 – small harness checks, each derived from the world
+#                classifications (no hard-coded conclusions).
+#
+# Values & thresholds are illustrative only.
+# -------------------------------------------------------------------
+
+@prefix :        <http://example.org/screening#> .
+@prefix diag:    <http://example.org/screening#> .
+@prefix thm:     <http://example.org/theorem#> .
+@prefix rel:     <http://example.org/rel#> .
+
+@prefix math:  <http://www.w3.org/2000/10/swap/math#> .
+@prefix list:  <http://www.w3.org/2000/10/swap/list#> .
+@prefix log:   <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# -------------------------------------------------------------------
+# Worlds and scenarios
+# -------------------------------------------------------------------
+
+:World    a rdfs:Class .
+:Scenario a rdfs:Class .
+
+:worldId     a rdf:Property .
+:description a rdf:Property .
+
+:W0 a :World ;
+    :worldId 0 ;
+    :description "full Bayes reference (PPV with prevalence, Se, Sp)" .
+
+:W1 a :World ;
+    :worldId 1 ;
+    :description "naive world: trusts positives based on high sensitivity only" .
+
+:W2 a :World ;
+    :worldId 2 ;
+    :description "heuristic world: needs sufficient prevalence and good Sp" .
+
+:W3 a :World ;
+    :worldId 3 ;
+    :description "cautious Bayes world with slightly higher PPV threshold" .
+
+# Scenario parameters
+
+:prevalence   a rdf:Property .   # p in [0,1]
+:sensitivity  a rdf:Property .   # Se in [0,1]
+:specificity  a rdf:Property .   # Sp in [0,1]
+
+# Derived "true" PPV via Bayes
+
+:ppv_Bayes    a rdf:Property .   # xsd:double
+
+# World-level trust decisions
+
+diag:trustsPositiveInWorld  a rdf:Property .   # Scenario × World
+diag:rejectsPositiveInWorld a rdf:Property .
+
+# -------------------------------------------------------------------
+# Bayes PPV computation (World 0 and World 3 use this)
+#
+#   PPV = Se * p / (Se * p + (1 - Sp) * (1 - p))
+# -------------------------------------------------------------------
+
+{
+  ?S :ppv_Bayes ?PPV .
+}
+<=
+{
+  ?S a :Scenario ;
+     :prevalence ?p ;
+     :sensitivity ?Se ;
+     :specificity ?Sp .
+
+  # numerator = Se * p
+  (?Se ?p) math:product ?num .
+
+  # pNeg = 1 - p
+  (1.0 ?p) math:difference ?pNeg .
+
+  # fpr = 1 - Sp  (false-positive rate)
+  (1.0 ?Sp) math:difference ?fpr .
+
+  # fp = fpr * pNeg
+  (?fpr ?pNeg) math:product ?fp .
+
+  # denom = num + fp
+  (?num ?fp) math:sum ?denom .
+
+  # PPV = num / denom
+  (?num ?denom) math:quotient ?PPV .
+} .
+
+# -------------------------------------------------------------------
+# Trust / reject rules per world
+# -------------------------------------------------------------------
+
+# World 0: full Bayes, threshold PPV ≥ 0.90
+
+{
+  ?S diag:trustsPositiveInWorld :W0 .
+}
+<=
+{
+  ?S :ppv_Bayes ?PPV .
+  ?PPV math:notLessThan 0.9 .
+} .
+
+{
+  ?S diag:rejectsPositiveInWorld :W0 .
+}
+<=
+{
+  ?S :ppv_Bayes ?PPV .
+  ?PPV math:lessThan 0.9 .
+} .
+
+# World 1: naive sensitivity-only rule
+#          trusts positives if Se ≥ 0.90, regardless of prevalence or Sp.
+
+{
+  ?S diag:trustsPositiveInWorld :W1 .
+}
+<=
+{
+  ?S :sensitivity ?Se .
+  ?Se math:notLessThan 0.9 .
+} .
+
+{
+  ?S diag:rejectsPositiveInWorld :W1 .
+}
+<=
+{
+  ?S :sensitivity ?Se .
+  ?Se math:lessThan 0.9 .
+} .
+
+# World 2: heuristic rule
+#          trusts positives only if:
+#            prevalence ≥ 0.05,
+#            sensitivity ≥ 0.9,
+#            specificity ≥ 0.95.
+
+{
+  ?S diag:trustsPositiveInWorld :W2 .
+}
+<=
+{
+  ?S :prevalence ?p ;
+     :sensitivity ?Se ;
+     :specificity ?Sp .
+
+  ?p  math:notLessThan 0.05 .
+  ?Se math:notLessThan 0.9 .
+  ?Sp math:notLessThan 0.95 .
+} .
+
+# Reasons to reject in W2 (any single failure is enough)
+
+{
+  ?S diag:rejectsPositiveInWorld :W2 .
+}
+<=
+{
+  ?S :prevalence ?p .
+  ?p math:lessThan 0.05 .
+} .
+
+{
+  ?S diag:rejectsPositiveInWorld :W2 .
+}
+<=
+{
+  ?S :sensitivity ?Se .
+  ?Se math:lessThan 0.9 .
+} .
+
+{
+  ?S diag:rejectsPositiveInWorld :W2 .
+}
+<=
+{
+  ?S :specificity ?Sp .
+  ?Sp math:lessThan 0.95 .
+} .
+
+# World 3: cautious Bayes world
+#          trusts positives if PPV ≥ 0.915 (stricter than W0)
+
+{
+  ?S diag:trustsPositiveInWorld :W3 .
+}
+<=
+{
+  ?S :ppv_Bayes ?PPV .
+  ?PPV math:notLessThan 0.915 .
+} .
+
+{
+  ?S diag:rejectsPositiveInWorld :W3 .
+}
+<=
+{
+  ?S :ppv_Bayes ?PPV .
+  ?PPV math:lessThan 0.915 .
+} .
+
+# -------------------------------------------------------------------
+# Example scenarios
+#
+# All tests here are fictional and simplified, for illustration only.
+# -------------------------------------------------------------------
+
+# Scenario 1: RareMassScreening
+#   Very rare disease (p = 0.001) with an excellent test (Se=0.99, Sp=0.99)
+#   used in mass screening. PPV is low (~0.09): most positives are false.
+
+:RareMassScreening a :Scenario ;
+  :description "very rare disease, mass screening, excellent test" ;
+  :prevalence 0.001 ;
+  :sensitivity 0.99 ;
+  :specificity 0.99 .
+
+# Scenario 2: HighRiskClinic
+#   Same test (Se=0.99, Sp=0.99) in a high-risk clinic (p = 0.10).
+#   PPV is high (~0.92): positives are usually true.
+
+:HighRiskClinic a :Scenario ;
+  :description "same excellent test in a high-risk clinic population" ;
+  :prevalence 0.10 ;
+  :sensitivity 0.99 ;
+  :specificity 0.99 .
+
+# Scenario 3: CommonMassGoodTest
+#   Moderately common condition (p = 0.25) with a good test
+#   (Se = 0.95, Sp = 0.97). PPV is high (~0.91).
+
+:CommonMassGoodTest a :Scenario ;
+  :description "moderately common condition in mass use, good test" ;
+  :prevalence 0.25 ;
+  :sensitivity 0.95 ;
+  :specificity 0.97 .
+
+# Scenario 4: CommonMassLowSpec
+#   Same prevalence (p = 0.25), same sensitivity (Se = 0.95) but
+#   lower specificity (Sp = 0.90). PPV is only ~0.76.
+
+:CommonMassLowSpec a :Scenario ;
+  :description "moderately common condition, good sensitivity but low specificity" ;
+  :prevalence 0.25 ;
+  :sensitivity 0.95 ;
+  :specificity 0.90 .
+
+# -------------------------------------------------------------------
+# ARC-style Answer / Reason / Checks
+#
+# These are derived summaries. They depend only on the classifications
+# (trust / reject) that the worlds compute for the four scenarios.
+# -------------------------------------------------------------------
+
+:text        a rdf:Property .
+:usesWorld   a rdf:Property .
+:usesScenario a rdf:Property .
+:says        a rdf:Property .
+:ok          a rdf:Property .
+:msg         a rdf:Property .
+
+# A: Answer
+#
+# We assert :answer when the following pattern is present:
+#
+#   RareMassScreening:
+#     W0, W2, W3 reject; W1 trusts.
+#
+#   HighRiskClinic:
+#     all four worlds trust positives.
+#
+#   CommonMassGoodTest:
+#     W0, W1, W2 trust; W3 rejects.
+#
+#   CommonMassLowSpec:
+#     W0, W2, W3 reject; W1 trusts.
+#
+# This pattern is fully determined by the rules and parameters above.
+
+{
+  :RareMassScreening
+    diag:trustsPositiveInWorld  :W1 ;
+    diag:rejectsPositiveInWorld :W0, :W2, :W3 .
+
+  :HighRiskClinic
+    diag:trustsPositiveInWorld :W0, :W1, :W2, :W3 .
+
+  :CommonMassGoodTest
+    diag:trustsPositiveInWorld  :W0, :W1, :W2 ;
+    diag:rejectsPositiveInWorld :W3 .
+
+  :CommonMassLowSpec
+    diag:trustsPositiveInWorld  :W1 ;
+    diag:rejectsPositiveInWorld :W0, :W2, :W3 .
+}
+=>
+{
+  :answer
+    :text "Across these four screening scenarios, the full-Bayes world W0 and the cautious world W3 agree that positives from mass screening of a very rare disease (RareMassScreening) and from a lower-specificity test (CommonMassLowSpec) are not trustworthy, whereas the naive world W1, looking only at high sensitivity, still treats those positives as reliable. In a high-risk clinic (HighRiskClinic), all worlds agree that positives are trustworthy. For a moderately common condition with a good test (CommonMassGoodTest), W0 and W2 trust the result while W3 applies a stricter PPV threshold and withholds trust. Taken together, the four worlds show how ignoring prevalence or specificity can make a test look better than it really is, and how adding extra caution can turn some borderline positives into 'wait and see' cases." ;
+    :usesWorld :W0, :W1, :W2, :W3 ;
+    :usesScenario :RareMassScreening, :HighRiskClinic,
+                  :CommonMassGoodTest, :CommonMassLowSpec .
+} .
+
+# R: Reason
+#
+# Explanation of how the four worlds relate, driven by the same pattern.
+
+{
+  :RareMassScreening
+    diag:trustsPositiveInWorld  :W1 ;
+    diag:rejectsPositiveInWorld :W0, :W2, :W3 .
+
+  :HighRiskClinic
+    diag:trustsPositiveInWorld :W0, :W1, :W2, :W3 .
+
+  :CommonMassGoodTest
+    diag:trustsPositiveInWorld  :W0, :W1, :W2 ;
+    diag:rejectsPositiveInWorld :W3 .
+
+  :CommonMassLowSpec
+    diag:trustsPositiveInWorld  :W1 ;
+    diag:rejectsPositiveInWorld :W0, :W2, :W3 .
+}
+=>
+{
+  :reason
+    :says "World W0 anchors the case in Bayes’ rule: it combines prevalence, sensitivity and specificity into the positive predictive value PPV and trusts positives only when PPV is high. In the RareMassScreening scenario, this reveals that an excellent test still produces mostly false positives when the condition is extremely rare, so W0 (and W2, W3) reject the idea that a positive is enough to act on. World W1, by contrast, behaves like a naive interpretation of test quality that focuses only on sensitivity, so it happily trusts positives whenever Se is high, even when prevalence is tiny or specificity is low. World W2 adds a simple heuristic that demands both a minimum prevalence and sufficiently high specificity, which filters out some of the unrealistic optimism of W1 while remaining simpler than full Bayes. World W3 goes in the opposite direction and tightens the PPV threshold, turning some borderline but acceptable cases (CommonMassGoodTest) into situations where it prefers caution. The four worlds illustrate how different levels of probabilistic sophistication and safety margin change the answer to the question 'Can we rely on a positive test in this setting?'" .
+} .
+
+# -------------------------------------------------------------------
+# C: Checks – small harness rules
+#
+# Five checks that each confirm a relationship between the worlds,
+# based purely on trust/reject facts for the four scenarios.
+# -------------------------------------------------------------------
+
+# Check 1: All four worlds agree on the high-risk clinic case:
+#          HighRiskClinic is trusted everywhere.
+
+{
+  :HighRiskClinic diag:trustsPositiveInWorld :W0, :W1, :W2, :W3 .
+}
+=>
+{
+  :check1
+    :ok true ;
+    :msg "Check 1: for the HighRiskClinic scenario, all four worlds agree that positives are trustworthy, showing that in clearly high-risk settings even simple rules-of-thumb line up with full Bayes." .
+} .
+
+# Check 2: Rare-mass screening is only trusted by the naive world W1;
+#          all other worlds reject it.
+
+{
+  :RareMassScreening diag:trustsPositiveInWorld  :W1 ;
+                     diag:rejectsPositiveInWorld :W0, :W2, :W3 .
+}
+=>
+{
+  :check2
+    :ok true ;
+    :msg "Check 2: in the RareMassScreening scenario, only the naive sensitivity-only world W1 trusts positive results; the Bayes world W0, the heuristic world W2 and the cautious world W3 all reject them because the disease is too rare for positives to be reliable." .
+} .
+
+# Check 3: For CommonMassGoodTest, W3 is strictly more cautious than W0:
+#          W0, W1, W2 trust positives, while W3 rejects.
+
+{
+  :CommonMassGoodTest diag:trustsPositiveInWorld  :W0, :W1, :W2 ;
+                      diag:rejectsPositiveInWorld :W3 .
+}
+=>
+{
+  :check3
+    :ok true ;
+    :msg "Check 3: for the CommonMassGoodTest scenario, the cautious world W3 is stricter than the reference world W0 and the simpler worlds W1 and W2, rejecting positives that the others treat as sufficiently reliable." .
+} .
+
+# Check 4: With lowered specificity (CommonMassLowSpec), only W1
+#          continues to trust positives; all other worlds reject.
+
+{
+  :CommonMassLowSpec diag:trustsPositiveInWorld  :W1 ;
+                     diag:rejectsPositiveInWorld :W0, :W2, :W3 .
+}
+=>
+{
+  :check4
+    :ok true ;
+    :msg "Check 4: in the CommonMassLowSpec scenario, where specificity is reduced, the naive world W1 still trusts positive results while the Bayes world W0, the heuristic world W2 and the cautious world W3 all reject them, illustrating how ignoring false positives can make a test look better than it is." .
+} .
+
+# Check 5: On these four scenarios, W3 is at least as cautious as W0:
+#          whenever W3 trusts positives (HighRiskClinic), W0 also does;
+#          and W3 rejects everything that W0 rejects, plus one more case.
+
+{
+  :HighRiskClinic
+    diag:trustsPositiveInWorld :W0, :W3 .
+
+  :RareMassScreening
+    diag:rejectsPositiveInWorld :W0, :W3 .
+
+  :CommonMassGoodTest
+    diag:trustsPositiveInWorld  :W0 ;
+    diag:rejectsPositiveInWorld :W3 .
+
+  :CommonMassLowSpec
+    diag:rejectsPositiveInWorld :W0, :W3 .
+}
+=>
+{
+  :check5
+    :ok true ;
+    :msg "Check 5: on this example set, the cautious Bayes world W3 is at least as conservative as the reference world W0: every scenario W3 treats as trustworthy is also trusted by W0, and W3 rejects all scenarios that W0 rejects, plus the borderline CommonMassGoodTest case." .
+} .
+

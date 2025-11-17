@@ -1,0 +1,30 @@
+----------------------
+Screening Trust Worlds
+----------------------
+
+This directory contains a single Notation3 file that encodes a toy case 
+study about the reliability of positive diagnostic test results in four 
+different “worlds” of reasoning. Each screening scenario is 
+described by a disease prevalence, a test sensitivity and a test 
+specificity. The reference world W0 applies Bayes’ rule to compute 
+the positive predictive value (PPV) and only “trusts” a positive 
+result when PPV is high enough. W1 behaves like a naive rule-of-thumb 
+that looks only at sensitivity and ignores prevalence and false 
+positives. W2 uses a simple heuristic that demands minimum prevalence 
+and high specificity before trusting positives. W3 is a cautious 
+version of W0 that adopts a slightly higher PPV threshold, so it treats 
+some borderline positives as unreliable.
+
+From these inputs the core rules derive, for each scenario and world, 
+whether a positive result is trusted or rejected. An ARC layer then 
+derives an Answer node that summarises how the worlds agree and 
+disagree on four illustrative scenarios (from a very rare disease in 
+mass screening to a moderately common condition tested with different 
+specificities), a Reason node that explains how the different rules 
+relate to Bayes’ formula, and five Check nodes that confirm 
+relationships such as “W1 is the only world that trusts positives in 
+very rare mass screening” and “W3 is at least as cautious as W0 on 
+these examples”. All ARC triples are derived from the same numeric 
+facts and thresholds as the core rules, so if you change the scenarios 
+or the worlds’ rules, the Answer, Reason and Checks will evolve 
+accordingly.

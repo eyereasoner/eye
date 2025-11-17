@@ -1,0 +1,22 @@
+@prefix : <http://example.org/screening#>.
+
+:answer :text "Across these four screening scenarios, the full-Bayes world W0 and the cautious world W3 agree that positives from mass screening of a very rare disease (RareMassScreening) and from a lower-specificity test (CommonMassLowSpec) are not trustworthy, whereas the naive world W1, looking only at high sensitivity, still treats those positives as reliable. In a high-risk clinic (HighRiskClinic), all worlds agree that positives are trustworthy. For a moderately common condition with a good test (CommonMassGoodTest), W0 and W2 trust the result while W3 applies a stricter PPV threshold and withholds trust. Taken together, the four worlds show how ignoring prevalence or specificity can make a test look better than it really is, and how adding extra caution can turn some borderline positives into 'wait and see' cases.".
+:answer :usesWorld :W0.
+:answer :usesWorld :W1.
+:answer :usesWorld :W2.
+:answer :usesWorld :W3.
+:answer :usesScenario :RareMassScreening.
+:answer :usesScenario :HighRiskClinic.
+:answer :usesScenario :CommonMassGoodTest.
+:answer :usesScenario :CommonMassLowSpec.
+:reason :says "World W0 anchors the case in Bayes’ rule: it combines prevalence, sensitivity and specificity into the positive predictive value PPV and trusts positives only when PPV is high. In the RareMassScreening scenario, this reveals that an excellent test still produces mostly false positives when the condition is extremely rare, so W0 (and W2, W3) reject the idea that a positive is enough to act on. World W1, by contrast, behaves like a naive interpretation of test quality that focuses only on sensitivity, so it happily trusts positives whenever Se is high, even when prevalence is tiny or specificity is low. World W2 adds a simple heuristic that demands both a minimum prevalence and sufficiently high specificity, which filters out some of the unrealistic optimism of W1 while remaining simpler than full Bayes. World W3 goes in the opposite direction and tightens the PPV threshold, turning some borderline but acceptable cases (CommonMassGoodTest) into situations where it prefers caution. The four worlds illustrate how different levels of probabilistic sophistication and safety margin change the answer to the question 'Can we rely on a positive test in this setting?'".
+:check1 :ok true.
+:check1 :msg "Check 1: for the HighRiskClinic scenario, all four worlds agree that positives are trustworthy, showing that in clearly high-risk settings even simple rules-of-thumb line up with full Bayes.".
+:check2 :ok true.
+:check2 :msg "Check 2: in the RareMassScreening scenario, only the naive sensitivity-only world W1 trusts positive results; the Bayes world W0, the heuristic world W2 and the cautious world W3 all reject them because the disease is too rare for positives to be reliable.".
+:check3 :ok true.
+:check3 :msg "Check 3: for the CommonMassGoodTest scenario, the cautious world W3 is stricter than the reference world W0 and the simpler worlds W1 and W2, rejecting positives that the others treat as sufficiently reliable.".
+:check4 :ok true.
+:check4 :msg "Check 4: in the CommonMassLowSpec scenario, where specificity is reduced, the naive world W1 still trusts positive results while the Bayes world W0, the heuristic world W2 and the cautious world W3 all reject them, illustrating how ignoring false positives can make a test look better than it is.".
+:check5 :ok true.
+:check5 :msg "Check 5: on this example set, the cautious Bayes world W3 is at least as conservative as the reference world W0: every scenario W3 treats as trustworthy is also trusted by W0, and W3 rejects all scenarios that W0 rejects, plus the borderline CommonMassGoodTest case.".
