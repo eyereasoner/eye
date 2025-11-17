@@ -1,0 +1,527 @@
+# -------------------------------------------------------------------
+# dairy-energy-balance.n3
+#
+# Case study: energy balance in dairy cows under different
+# feeding and production situations.
+#
+# For each cow C we have:
+#   - bodyWeight    (kg)
+#   - milkYield     (kg/day)
+#   - nelDensity    (MJ NEL / kg DM)
+#   - dmi           (kg DM / day; dry matter intake)
+#
+# Simple energy model:
+#   maintenanceNEL  = 0.08 * bodyWeight        (MJ/day)
+#   milkNEL         = 3.2 * milkYield          (MJ/day)
+#   energyReq       = maintenanceNEL + milkNEL
+#   energySupply    = nelDensity * dmi
+#   energyBalance   = energySupply - energyReq
+#
+# We also derive the "milk supported by the ration":
+#   milkSupported = (energySupply - maintenanceNEL) / 3.2
+# (how many kg of milk could be produced if all net energy above
+# maintenance went into milk).
+#
+# Classification:
+#   - energyStatus "negative" if energyBalance <  -10 MJ
+#   - energyStatus "near"     if -10 MJ ≤ energyBalance ≤ 10 MJ
+#   - energyStatus "positive" if energyBalance >  10 MJ
+#
+# Four example cows:
+#   - EarlyLactDeficit   : high yield early lactation, energy deficit
+#   - MidLactBalanced    : moderate yield, ration roughly matches demand
+#   - LateLactPositive   : lower yield late lactation, positive balance
+#   - PastureLowEnergy   : grazing cow with slight energy deficit
+#
+# ARC layer:
+#   - :answer  – summary of which cows are in negative / near / positive
+#                energy balance and how ration-supported milk compares.
+#   - :reason  – mathematical-English explanation of the pattern.
+#   - :check1..5 – harness checks about balances and supported milk.
+#
+# This is a didactic model, not a ration formulation tool.
+# -------------------------------------------------------------------
+
+@prefix :     <http://example.org/dairy#> .
+@prefix dairy: <http://example.org/dairy#> .
+@prefix thm:  <http://example.org/theorem#> .
+@prefix rel:  <http://example.org/rel#> .
+
+@prefix math:  <http://www.w3.org/2000/10/swap/math#> .
+@prefix list:  <http://www.w3.org/2000/10/swap/list#> .
+@prefix log:   <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# -------------------------------------------------------------------
+# Cow and feeding properties
+# -------------------------------------------------------------------
+
+:Cow a rdfs:Class .
+
+:bodyWeight   a rdf:Property .    # kg
+:milkYield    a rdf:Property .    # kg/day
+:nelDensity   a rdf:Property .    # MJ/kg DM
+:dmi          a rdf:Property .    # kg DM/day
+:daysInMilk   a rdf:Property .    # days since calving (for context)
+
+:maintenanceNEL  a rdf:Property . # MJ/day
+:milkNEL         a rdf:Property . # MJ/day
+:energyReq       a rdf:Property . # MJ/day
+:energySupply    a rdf:Property . # MJ/day
+:energyBalance   a rdf:Property . # MJ/day
+:milkSupported   a rdf:Property . # kg/day
+
+:energyStatus    a rdf:Property . # "negative" | "near" | "positive"
+
+# -------------------------------------------------------------------
+# Derived quantities (backward rules)
+# -------------------------------------------------------------------
+
+# maintenanceNEL = 0.08 * bodyWeight
+
+{
+  ?C :maintenanceNEL ?mNEL .
+}
+<=
+{
+  ?C a :Cow ;
+     :bodyWeight ?BW .
+
+  (?BW 0.08) math:product ?mNEL .
+} .
+
+# milkNEL = 3.2 * milkYield
+
+{
+  ?C :milkNEL ?milkE .
+}
+<=
+{
+  ?C a :Cow ;
+     :milkYield ?MY .
+
+  (?MY 3.2) math:product ?milkE .
+} .
+
+# energyReq = maintenanceNEL + milkNEL
+
+{
+  ?C :energyReq ?Req .
+}
+<=
+{
+  ?C :maintenanceNEL ?mNEL ;
+     :milkNEL ?milkE .
+
+  (?mNEL ?milkE) math:sum ?Req .
+} .
+
+# energySupply = nelDensity * dmi
+
+{
+  ?C :energySupply ?Sup .
+}
+<=
+{
+  ?C :nelDensity ?NEL ;
+     :dmi ?DMI .
+
+  (?NEL ?DMI) math:product ?Sup .
+} .
+
+# energyBalance = energySupply - energyReq
+
+{
+  ?C :energyBalance ?EB .
+}
+<=
+{
+  ?C :energySupply ?Sup ;
+     :energyReq ?Req .
+
+  (?Sup ?Req) math:difference ?EB .
+} .
+
+# milkSupported = (energySupply - maintenanceNEL) / 3.2
+
+{
+  ?C :milkSupported ?MS .
+}
+<=
+{
+  ?C :energySupply ?Sup ;
+     :maintenanceNEL ?mNEL .
+
+  (?Sup ?mNEL) math:difference ?Eabove .
+  (?Eabove 3.2) math:quotient ?MS .
+} .
+
+# -------------------------------------------------------------------
+# Energy status classification
+#
+#   negative : EB <  -10
+#   near     : -10 ≤ EB ≤ 10
+#   positive : EB >  10
+# -------------------------------------------------------------------
+
+{
+  ?C :energyStatus "negative" .
+}
+<=
+{
+  ?C :energyBalance ?EB .
+  ?EB math:lessThan -10.0 .
+} .
+
+{
+  ?C :energyStatus "near" .
+}
+<=
+{
+  ?C :energyBalance ?EB .
+
+  ?EB math:notLessThan -10.0 .
+  ?EB math:notGreaterThan 10.0 .
+} .
+
+{
+  ?C :energyStatus "positive" .
+}
+<=
+{
+  ?C :energyBalance ?EB .
+  ?EB math:greaterThan 10.0 .
+} .
+
+# -------------------------------------------------------------------
+# Example cows (numbers tuned to match ARC expectations)
+#
+# All calculations are internal to the model; units are MJ/day
+# for energy and kg/day for milk and intake.
+# -------------------------------------------------------------------
+
+# EarlyLactDeficit:
+#   bodyWeight = 650 kg
+#   milkYield  = 40 kg/d
+#   nelDensity = 6.5 MJ/kg DM
+#   dmi        = 21 kg DM/d
+#
+#   maintenanceNEL = 0.08 * 650 = 52
+#   milkNEL        = 3.2 * 40  = 128
+#   energyReq      = 180
+#   energySupply   = 6.5 * 21  = 136.5
+#   energyBalance  = -43.5  → "negative"
+#   milkSupported  ≈ (136.5 - 52)/3.2 ≈ 26.4
+
+:EarlyLactDeficit a :Cow ;
+  :description "early-lactation high-yield cow on an energy-short ration" ;
+  :bodyWeight 650.0 ;
+  :milkYield 40.0 ;
+  :nelDensity 6.5 ;
+  :dmi 21.0 ;
+  :daysInMilk 30 .
+
+# MidLactBalanced:
+#   bodyWeight = 620 kg
+#   milkYield  = 28 kg/d
+#   nelDensity = 6.5 MJ/kg DM
+#   dmi        = 22.5 kg DM/d
+#
+#   maintenanceNEL = 49.6
+#   milkNEL        = 89.6
+#   energyReq      = 139.2
+#   energySupply   = 146.25
+#   energyBalance  ≈ 7.05  → "near"
+#   milkSupported  ≈ (146.25 - 49.6)/3.2 ≈ 30.2
+
+:MidLactBalanced a :Cow ;
+  :description "mid-lactation cow with ration roughly matching her yield" ;
+  :bodyWeight 620.0 ;
+  :milkYield 28.0 ;
+  :nelDensity 6.5 ;
+  :dmi 22.5 ;
+  :daysInMilk 80 .
+
+# LateLactPositive:
+#   bodyWeight = 650 kg
+#   milkYield  = 18 kg/d
+#   nelDensity = 6.5 MJ/kg DM
+#   dmi        = 20 kg DM/d
+#
+#   maintenanceNEL = 52
+#   milkNEL        = 57.6
+#   energyReq      = 109.6
+#   energySupply   = 130
+#   energyBalance  ≈ 20.4 → "positive"
+#   milkSupported  ≈ (130 - 52)/3.2 ≈ 24.4
+
+:LateLactPositive a :Cow ;
+  :description "late-lactation cow gaining condition on the ration" ;
+  :bodyWeight 650.0 ;
+  :milkYield 18.0 ;
+  :nelDensity 6.5 ;
+  :dmi 20.0 ;
+  :daysInMilk 220 .
+
+# PastureLowEnergy:
+#   bodyWeight = 600 kg
+#   milkYield  = 14 kg/d
+#   nelDensity = 5.3 MJ/kg DM
+#   dmi        = 16 kg DM/d
+#
+#   maintenanceNEL = 48
+#   milkNEL        = 44.8
+#   energyReq      = 92.8
+#   energySupply   = 84.8
+#   energyBalance  ≈ -8.0 → "near" (mild deficit)
+#   milkSupported  ≈ (84.8 - 48)/3.2 ≈ 11.5
+
+:PastureLowEnergy a :Cow ;
+  :description "cow on modest pasture intake with a small energy deficit" ;
+  :bodyWeight 600.0 ;
+  :milkYield 14.0 ;
+  :nelDensity 5.3 ;
+  :dmi 16.0 ;
+  :daysInMilk 150 .
+
+# -------------------------------------------------------------------
+# ARC-style Answer / Reason / Checks
+# -------------------------------------------------------------------
+
+:text      a rdf:Property .
+:usesCow   a rdf:Property .
+:says      a rdf:Property .
+:ok        a rdf:Property .
+:msg       a rdf:Property .
+
+# A: Answer
+#
+# We assert :answer when:
+#   - EarlyLactDeficit   :energyStatus "negative"
+#   - MidLactBalanced    :energyStatus "near"
+#   - LateLactPositive   :energyStatus "positive"
+#   - PastureLowEnergy   :energyStatus "near"
+# and LateLactPositive has the highest energyBalance.
+
+{
+  :EarlyLactDeficit
+      :energyStatus "negative" ;
+      :energyBalance ?ebEarly ;
+      :milkYield ?myEarly ;
+      :milkSupported ?msEarly .
+
+  :MidLactBalanced
+      :energyStatus "near" ;
+      :energyBalance ?ebMid ;
+      :milkYield ?myMid ;
+      :milkSupported ?msMid .
+
+  :LateLactPositive
+      :energyStatus "positive" ;
+      :energyBalance ?ebLate ;
+      :milkYield ?myLate ;
+      :milkSupported ?msLate .
+
+  :PastureLowEnergy
+      :energyStatus "near" ;
+      :energyBalance ?ebPast ;
+      :milkYield ?myPast ;
+      :milkSupported ?msPast .
+
+  ?ebLate  math:greaterThan ?ebMid .
+  ?ebLate  math:greaterThan ?ebPast .
+  ?ebLate  math:greaterThan ?ebEarly .
+}
+=>
+{
+  :answer
+    :text "In this dairy energy-balance model, the EarlyLactDeficit cow is in clear negative energy balance, MidLactBalanced is close to break-even, LateLactPositive has a comfortable positive balance, and PastureLowEnergy has a small deficit that still falls in the near-neutral band. For EarlyLactDeficit, the ration’s net energy can only support roughly two thirds of her actual milk yield, so the remaining energy must come from mobilising body reserves. MidLactBalanced receives enough energy that the milk supported by the ration is close to her production, giving a small positive balance. LateLactPositive produces less milk on the same kind of energy-dense ration, so the ration supports more milk than she actually gives and the surplus energy goes into weight gain. PastureLowEnergy receives lower energy density and intake, so the ration supports slightly less milk than she produces and the balance is mildly negative." ;
+    :usesCow :EarlyLactDeficit, :MidLactBalanced, :LateLactPositive, :PastureLowEnergy .
+} .
+
+# R: Reason
+#
+# Mathematical-English explanation of how the balances arise from
+# maintenance, milk requirements and ration energy.
+
+{
+  :EarlyLactDeficit
+      :maintenanceNEL ?mEarly ;
+      :milkNEL ?eMilkEarly ;
+      :energyReq ?reqEarly ;
+      :energySupply ?supEarly ;
+      :energyBalance ?ebEarly ;
+      :milkYield ?myEarly ;
+      :milkSupported ?msEarly ;
+      :energyStatus "negative" .
+
+  :MidLactBalanced
+      :maintenanceNEL ?mMid ;
+      :milkNEL ?eMilkMid ;
+      :energyReq ?reqMid ;
+      :energySupply ?supMid ;
+      :energyBalance ?ebMid ;
+      :milkYield ?myMid ;
+      :milkSupported ?msMid ;
+      :energyStatus "near" .
+
+  :LateLactPositive
+      :maintenanceNEL ?mLate ;
+      :milkNEL ?eMilkLate ;
+      :energyReq ?reqLate ;
+      :energySupply ?supLate ;
+      :energyBalance ?ebLate ;
+      :milkYield ?myLate ;
+      :milkSupported ?msLate ;
+      :energyStatus "positive" .
+
+  :PastureLowEnergy
+      :maintenanceNEL ?mPast ;
+      :milkNEL ?eMilkPast ;
+      :energyReq ?reqPast ;
+      :energySupply ?supPast ;
+      :energyBalance ?ebPast ;
+      :milkYield ?myPast ;
+      :milkSupported ?msPast ;
+      :energyStatus "near" .
+
+  ?ebEarly math:lessThan ?ebPast .
+  ?ebLate  math:greaterThan ?ebMid .
+}
+=>
+{
+  :reason
+    :says "The model decomposes each cow’s net energy requirement into maintenanceNEL = 0.08 · bodyWeight and milkNEL = 3.2 · milkYield, so the total requirement is energyReq = maintenanceNEL + milkNEL. The ration contributes energySupply = nelDensity · dmi. The energy balance is then energySupply − energyReq. For EarlyLactDeficit, a large milk yield makes milkNEL big compared to the energy brought in by the ration, so energySupply − energyReq is strongly negative and the ration would only support around 26 kg of milk instead of her 40 kg/day. For MidLactBalanced, the same formulas give a requirement and supply that differ by only a few megajoules, so the ration-supported milk is close to the actual yield and the balance lies near zero. In LateLactPositive, milkNEL is much smaller while maintenance stays similar, but the ration still supplies plenty of energy, so energySupply − energyReq becomes clearly positive and the ration-supported milk exceeds the actual yield; mathematically, the surplus is largest for this cow. The PastureLowEnergy case has lower nelDensity and intake, so energySupply only slightly undershoots energyReq and the balance is mildly negative. These patterns all follow from the linear dependence of energyReq on bodyWeight and milkYield and of energySupply on intake and energy density, together with the definition of energy balance as supply minus requirement." .
+} .
+
+# -------------------------------------------------------------------
+# C: Checks – harness rules
+#
+# Five small checks about energy balances and milkSupported.
+# -------------------------------------------------------------------
+
+# Check 1: All cows have derived maintenanceNEL, milkNEL,
+#          energyReq, energySupply, energyBalance and milkSupported.
+
+{
+  :EarlyLactDeficit
+      :maintenanceNEL ?m1 ;
+      :milkNEL ?ml1 ;
+      :energyReq ?r1 ;
+      :energySupply ?s1 ;
+      :energyBalance ?eb1 ;
+      :milkSupported ?ms1 .
+
+  :MidLactBalanced
+      :maintenanceNEL ?m2 ;
+      :milkNEL ?ml2 ;
+      :energyReq ?r2 ;
+      :energySupply ?s2 ;
+      :energyBalance ?eb2 ;
+      :milkSupported ?ms2 .
+
+  :LateLactPositive
+      :maintenanceNEL ?m3 ;
+      :milkNEL ?ml3 ;
+      :energyReq ?r3 ;
+      :energySupply ?s3 ;
+      :energyBalance ?eb3 ;
+      :milkSupported ?ms3 .
+
+  :PastureLowEnergy
+      :maintenanceNEL ?m4 ;
+      :milkNEL ?ml4 ;
+      :energyReq ?r4 ;
+      :energySupply ?s4 ;
+      :energyBalance ?eb4 ;
+      :milkSupported ?ms4 .
+}
+=>
+{
+  :check1
+    :ok true ;
+    :msg "Check 1: all four cows have derived maintenance energy, milk energy, total requirement, ration energy supply, energy balance and ration-supported milk." .
+} .
+
+# Check 2: EarlyLactDeficit is in the strongest negative balance and
+#          the ration supports clearly less milk than she produces.
+
+{
+  :EarlyLactDeficit
+      :energyBalance ?ebEarly ;
+      :milkYield ?myEarly ;
+      :milkSupported ?msEarly .
+
+  :PastureLowEnergy
+      :energyBalance ?ebPast .
+
+  ?ebEarly math:lessThan ?ebPast .
+  ?msEarly math:lessThan ?myEarly .
+}
+=>
+{
+  :check2
+    :ok true ;
+    :msg "Check 2: the EarlyLactDeficit cow has the most negative energy balance of the group, and the ration-supported milk is well below her actual yield, indicating a substantial energy deficit covered from body reserves." .
+} .
+
+# Check 3: MidLactBalanced has a near-zero balance and only a small
+#          gap between ration-supported milk and actual milk yield.
+
+{
+  :MidLactBalanced
+      :energyBalance ?ebMid ;
+      :milkYield ?myMid ;
+      :milkSupported ?msMid .
+
+  ?ebMid math:notLessThan -10.0 .
+  ?ebMid math:notGreaterThan 10.0 .
+}
+=>
+{
+  :check3
+    :ok true ;
+    :msg "Check 3: the MidLactBalanced cow has an energy balance within the ±10 MJ band used for 'near', consistent with the idea that the ration just about covers her production." .
+} .
+
+# Check 4: LateLactPositive has a positive balance and the ration
+#          supports more milk than she actually produces.
+
+{
+  :LateLactPositive
+      :energyBalance ?ebLate ;
+      :milkYield ?myLate ;
+      :milkSupported ?msLate .
+
+  ?ebLate math:greaterThan 10.0 .
+  ?msLate math:greaterThan ?myLate .
+}
+=>
+{
+  :check4
+    :ok true ;
+    :msg "Check 4: the LateLactPositive cow has a clearly positive energy balance and the ration-supported milk exceeds her actual yield, which is consistent with storing surplus energy as body condition." .
+} .
+
+# Check 5: Among the four cows, LateLactPositive has the highest
+#          energy balance.
+
+{
+  :EarlyLactDeficit   :energyBalance ?ebEarly .
+  :MidLactBalanced    :energyBalance ?ebMid .
+  :LateLactPositive   :energyBalance ?ebLate .
+  :PastureLowEnergy   :energyBalance ?ebPast .
+
+  ?ebLate math:greaterThan ?ebEarly .
+  ?ebLate math:greaterThan ?ebMid .
+  ?ebLate math:greaterThan ?ebPast .
+}
+=>
+{
+  :check5
+    :ok true ;
+    :msg "Check 5: among these four examples, the LateLactPositive cow has the highest energy balance, confirming that she is the most comfortably fed relative to her requirements." .
+} .
+

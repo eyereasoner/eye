@@ -1,0 +1,18 @@
+@prefix : <http://example.org/dairy#>.
+
+:answer :text "In this dairy energy-balance model, the EarlyLactDeficit cow is in clear negative energy balance, MidLactBalanced is close to break-even, LateLactPositive has a comfortable positive balance, and PastureLowEnergy has a small deficit that still falls in the near-neutral band. For EarlyLactDeficit, the ration’s net energy can only support roughly two thirds of her actual milk yield, so the remaining energy must come from mobilising body reserves. MidLactBalanced receives enough energy that the milk supported by the ration is close to her production, giving a small positive balance. LateLactPositive produces less milk on the same kind of energy-dense ration, so the ration supports more milk than she actually gives and the surplus energy goes into weight gain. PastureLowEnergy receives lower energy density and intake, so the ration supports slightly less milk than she produces and the balance is mildly negative.".
+:answer :usesCow :EarlyLactDeficit.
+:answer :usesCow :MidLactBalanced.
+:answer :usesCow :LateLactPositive.
+:answer :usesCow :PastureLowEnergy.
+:reason :says "The model decomposes each cow’s net energy requirement into maintenanceNEL = 0.08 · bodyWeight and milkNEL = 3.2 · milkYield, so the total requirement is energyReq = maintenanceNEL + milkNEL. The ration contributes energySupply = nelDensity · dmi. The energy balance is then energySupply − energyReq. For EarlyLactDeficit, a large milk yield makes milkNEL big compared to the energy brought in by the ration, so energySupply − energyReq is strongly negative and the ration would only support around 26 kg of milk instead of her 40 kg/day. For MidLactBalanced, the same formulas give a requirement and supply that differ by only a few megajoules, so the ration-supported milk is close to the actual yield and the balance lies near zero. In LateLactPositive, milkNEL is much smaller while maintenance stays similar, but the ration still supplies plenty of energy, so energySupply − energyReq becomes clearly positive and the ration-supported milk exceeds the actual yield; mathematically, the surplus is largest for this cow. The PastureLowEnergy case has lower nelDensity and intake, so energySupply only slightly undershoots energyReq and the balance is mildly negative. These patterns all follow from the linear dependence of energyReq on bodyWeight and milkYield and of energySupply on intake and energy density, together with the definition of energy balance as supply minus requirement.".
+:check1 :ok true.
+:check1 :msg "Check 1: all four cows have derived maintenance energy, milk energy, total requirement, ration energy supply, energy balance and ration-supported milk.".
+:check2 :ok true.
+:check2 :msg "Check 2: the EarlyLactDeficit cow has the most negative energy balance of the group, and the ration-supported milk is well below her actual yield, indicating a substantial energy deficit covered from body reserves.".
+:check3 :ok true.
+:check3 :msg "Check 3: the MidLactBalanced cow has an energy balance within the ±10 MJ band used for 'near', consistent with the idea that the ration just about covers her production.".
+:check4 :ok true.
+:check4 :msg "Check 4: the LateLactPositive cow has a clearly positive energy balance and the ration-supported milk exceeds her actual yield, which is consistent with storing surplus energy as body condition.".
+:check5 :ok true.
+:check5 :msg "Check 5: among these four examples, the LateLactPositive cow has the highest energy balance, confirming that she is the most comfortably fed relative to her requirements.".

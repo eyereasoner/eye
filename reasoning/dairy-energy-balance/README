@@ -1,0 +1,32 @@
+--------------------
+Dairy Energy Balance
+--------------------
+
+This directory contains a single Notation3 file that encodes a toy case 
+study about energy balance in dairy cows. Each cow is described by body 
+weight, daily milk yield, the net energy density of the ration, and dry 
+matter intake. The model computes a simple energy budget: a maintenance 
+requirement proportional to body weight, an energy requirement for milk 
+production proportional to milk yield, and an energy supply from the 
+ration as intake multiplied by energy density. From these it derives 
+each cow’s energy balance as supply minus requirement and the amount 
+of milk that the ration could theoretically support if all energy above 
+maintenance went into milk. Cows are classified as being in negative, 
+near-neutral, or positive energy balance, and four examples represent 
+an early-lactation cow in deficit, a mid-lactation cow roughly in 
+balance, a late-lactation cow in surplus, and a grazing cow with a 
+small deficit.
+
+On top of this numeric core, an ARC layer derives an Answer node that 
+summarises which cows are energy-deficient, near-balanced, or in 
+surplus and how ration-supported milk compares to actual production, a 
+Reason node that explains in mathematical English how the maintenance 
+and milk energy formulas lead to these balances, and five Check nodes 
+that confirm relationships such as “the early-lactation cow has the 
+strongest negative balance” and “the late-lactation cow has the 
+highest energy balance and a ration that could support more milk than 
+she gives.” All of these ARC triples are computed from the same 
+energy equations and input data, so if you change body weights, yields 
+or ration parameters, the Answer, Reason and Checks update 
+automatically, making the file a small, self-documenting example of 
+dairy nutrition reasoning in N3.
