@@ -1,0 +1,460 @@
+# -------------------------------------------------------------------
+# field-nitrogen-balance.n3
+#
+# Case study: nitrogen balance for field crops.
+#
+# For each field F we have:
+#   - soilN        : soil mineral N at planting (kg N/ha)
+#   - fertN        : fertilizer N applied (kg N/ha)
+#   - lossFrac     : fraction of N lost to leaching/volatilization (0–1)
+#   - cropNdemand  : crop N demand for target yield (kg N/ha)
+#
+# We derive:
+#   totalN      = soilN + fertN
+#   availN      = totalN * (1 - lossFrac)
+#   deficitN    = cropNdemand - availN    (if availN < cropNdemand, else 0)
+#   surplusN    = availN - cropNdemand    (if availN > cropNdemand, else 0)
+#   leachIndex  = surplusN * lossFrac     (very rough potential-loss index)
+#
+# Classification:
+#   - underSupplied: availN < 0.9 * cropNdemand
+#   - balanced    : 0.9 * demand ≤ availN ≤ 1.1 * demand
+#   - overSupplied: availN > 1.1 * cropNdemand
+#
+# Four example fields:
+#   - LowInputDry      : under-supplied
+#   - BalancedLoam     : balanced
+#   - HighInputRisk    : over-supplied
+#   - SandyOverFertil  : over-supplied with highest leachIndex
+#
+# ARC layer:
+#   :answer  – summary of which fields are under-, well-, or over-supplied.
+#   :reason  – mathematical explanation (in words).
+#   :check1..5 – harness checks relating balance and leaching risk.
+#
+# This is a didactic model, not agronomic advice.
+# -------------------------------------------------------------------
+
+@prefix :     <http://example.org/farming#> .
+@prefix farm: <http://example.org/farming#> .
+@prefix thm:  <http://example.org/theorem#> .
+@prefix rel:  <http://example.org/rel#> .
+
+@prefix math:  <http://www.w3.org/2000/10/swap/math#> .
+@prefix list:  <http://www.w3.org/2000/10/swap/list#> .
+@prefix log:   <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# -------------------------------------------------------------------
+# Field designs and N properties
+# -------------------------------------------------------------------
+
+:Field a rdfs:Class .
+
+:soilN       a rdf:Property .   # kg N/ha
+:fertN       a rdf:Property .   # kg N/ha
+:lossFrac    a rdf:Property .   # fraction 0–1
+:cropNdemand a rdf:Property .   # kg N/ha
+
+:totalN      a rdf:Property .   # kg N/ha
+:availN      a rdf:Property .   # kg N/ha
+:deficitN    a rdf:Property .   # kg N/ha
+:surplusN    a rdf:Property .   # kg N/ha
+:leachIndex  a rdf:Property .   # kg N/ha (rough potential loss)
+
+:status      a rdf:Property .   # "under", "balanced", "over"
+
+# -------------------------------------------------------------------
+# Derived quantities (backward rules)
+# -------------------------------------------------------------------
+
+# totalN = soilN + fertN
+
+{
+  ?F :totalN ?tot .
+}
+<=
+{
+  ?F a :Field ;
+     :soilN ?soil ;
+     :fertN ?fert .
+
+  (?soil ?fert) math:sum ?tot .
+} .
+
+# availN = totalN * (1 - lossFrac)
+
+{
+  ?F :availN ?avail .
+}
+<=
+{
+  ?F :totalN ?tot ;
+     :lossFrac ?lf .
+
+  (1.0 ?lf) math:difference ?keepFrac .
+  (?tot ?keepFrac) math:product ?avail .
+} .
+
+# deficitN = cropNdemand - availN, if availN < demand; else 0.0
+
+{
+  ?F :deficitN ?def .
+}
+<=
+{
+  ?F :cropNdemand ?dem ;
+     :availN ?avail .
+
+  ?avail math:lessThan ?dem .
+  (?dem ?avail) math:difference ?def .
+} .
+
+{
+  ?F :deficitN 0.0 .
+}
+<=
+{
+  ?F :cropNdemand ?dem ;
+     :availN ?avail .
+
+  ?avail math:notLessThan ?dem .
+} .
+
+# surplusN = availN - cropNdemand, if availN > demand; else 0.0
+
+{
+  ?F :surplusN ?surp .
+}
+<=
+{
+  ?F :cropNdemand ?dem ;
+     :availN ?avail .
+
+  ?avail math:greaterThan ?dem .
+  (?avail ?dem) math:difference ?surp .
+} .
+
+{
+  ?F :surplusN 0.0 .
+}
+<=
+{
+  ?F :cropNdemand ?dem ;
+     :availN ?avail .
+
+  ?avail math:notGreaterThan ?dem .
+} .
+
+# leachIndex = surplusN * lossFrac
+
+{
+  ?F :leachIndex ?L .
+}
+<=
+{
+  ?F :surplusN ?surp ;
+     :lossFrac ?lf .
+
+  (?surp ?lf) math:product ?L .
+} .
+
+# -------------------------------------------------------------------
+# Status classification
+#
+# let d = cropNdemand, a = availN
+#   underSupplied : a < 0.9 * d
+#   balanced      : 0.9 d ≤ a ≤ 1.1 d
+#   overSupplied  : a > 1.1 * d
+# -------------------------------------------------------------------
+
+{
+  ?F :status "under" .
+}
+<=
+{
+  ?F :cropNdemand ?d ;
+     :availN ?a .
+
+  (0.9 ?d) math:product ?dLow .
+  ?a math:lessThan ?dLow .
+} .
+
+{
+  ?F :status "balanced" .
+}
+<=
+{
+  ?F :cropNdemand ?d ;
+     :availN ?a .
+
+  (0.9 ?d) math:product ?dLow .
+  (1.1 ?d) math:product ?dHigh .
+
+  ?a math:notLessThan ?dLow .
+  ?a math:notGreaterThan ?dHigh .
+} .
+
+{
+  ?F :status "over" .
+}
+<=
+{
+  ?F :cropNdemand ?d ;
+     :availN ?a .
+
+  (1.1 ?d) math:product ?dHigh .
+  ?a math:greaterThan ?dHigh .
+} .
+
+# -------------------------------------------------------------------
+# Example fields (numbers tuned to match ARC expectations)
+# -------------------------------------------------------------------
+
+# LowInputDry:
+#   soilN = 40, fertN = 60, lossFrac = 0.15, demand = 130
+#   totalN = 100, availN = 85 (< 0.9*130 = 117) → "under"
+
+:LowInputDry a :Field ;
+  :description "low-input wheat field in a drier season" ;
+  :soilN 40.0 ;
+  :fertN 60.0 ;
+  :lossFrac 0.15 ;
+  :cropNdemand 130.0 .
+
+# BalancedLoam:
+#   soilN = 50, fertN = 90, lossFrac = 0.15, demand = 130
+#   totalN = 140, availN = 119 (between 0.9*130=117 and 1.1*130=143) → "balanced"
+
+:BalancedLoam a :Field ;
+  :description "loam field with reasonably balanced N management" ;
+  :soilN 50.0 ;
+  :fertN 90.0 ;
+  :lossFrac 0.15 ;
+  :cropNdemand 130.0 .
+
+# HighInputRisk:
+#   soilN = 60, fertN = 180, lossFrac = 0.25, demand = 160
+#   totalN = 240, availN = 180 (> 1.1*160=176) → "over"
+
+:HighInputRisk a :Field ;
+  :description "high-input field with risk of unnecessary N surplus" ;
+  :soilN 60.0 ;
+  :fertN 180.0 ;
+  :lossFrac 0.25 ;
+  :cropNdemand 160.0 .
+
+# SandyOverFertil:
+#   soilN = 40, fertN = 240, lossFrac = 0.40, demand = 150
+#   totalN = 280, availN = 168 (> 1.1*150=165) → "over"
+
+:SandyOverFertil a :Field ;
+  :description "sandy field with high N rates and strong leaching" ;
+  :soilN 40.0 ;
+  :fertN 240.0 ;
+  :lossFrac 0.40 ;
+  :cropNdemand 150.0 .
+
+# -------------------------------------------------------------------
+# ARC-style Answer / Reason / Checks
+# -------------------------------------------------------------------
+
+:text       a rdf:Property .
+:usesField  a rdf:Property .
+:says       a rdf:Property .
+:ok         a rdf:Property .
+:msg        a rdf:Property .
+
+# A: Answer
+#
+# We assert :answer when:
+#   - LowInputDry      :status "under"
+#   - BalancedLoam     :status "balanced"
+#   - HighInputRisk    :status "over"
+#   - SandyOverFertil  :status "over"
+# and SandyOverFertil has the largest leachIndex.
+
+{
+  :LowInputDry     :status "under" ;
+                   :leachIndex ?Llow .
+
+  :BalancedLoam    :status "balanced" ;
+                   :leachIndex ?Lbal .
+
+  :HighInputRisk   :status "over" ;
+                   :leachIndex ?Lhigh .
+
+  :SandyOverFertil :status "over" ;
+                   :leachIndex ?Lsand .
+
+  ?Lsand math:greaterThan ?Llow .
+  ?Lsand math:greaterThan ?Lbal .
+  ?Lsand math:greaterThan ?Lhigh .
+}
+=>
+{
+  :answer
+    :text "In this nitrogen-balance model, LowInputDry ends up under-supplied in N, BalancedLoam is close to the crop’s demand, and both HighInputRisk and SandyOverFertil are over-supplied. LowInputDry has too little total N input, so even after modest losses the available N falls clearly below the crop demand. BalancedLoam combines soil N and fertilizer N so that, after typical field losses, the available N lies within about plus or minus ten percent of the target demand. HighInputRisk applies more fertilizer than the crop needs, so available N overshoots the demand and some surplus is exposed to loss. SandyOverFertil applies even more N on a soil with a larger loss fraction, leading to the biggest surplus and the highest leaching index of all fields." ;
+    :usesField :LowInputDry, :BalancedLoam, :HighInputRisk, :SandyOverFertil .
+} .
+
+# R: Reason
+#
+# Mathematical-English explanation: how totalN and availN relative
+# to demand produce under/balanced/over, and why leachIndex is highest
+# for SandyOverFertil.
+
+{
+  :LowInputDry
+      :totalN ?totLow ;
+      :availN ?availLow ;
+      :cropNdemand ?demLow ;
+      :status "under" .
+
+  :BalancedLoam
+      :totalN ?totBal ;
+      :availN ?availBal ;
+      :cropNdemand ?demBal ;
+      :status "balanced" .
+
+  :HighInputRisk
+      :totalN ?totHigh ;
+      :availN ?availHigh ;
+      :cropNdemand ?demHigh ;
+      :status "over" .
+
+  :SandyOverFertil
+      :totalN ?totSand ;
+      :availN ?availSand ;
+      :cropNdemand ?demSand ;
+      :status "over" ;
+      :leachIndex ?Lsand .
+}
+=>
+{
+  :reason
+    :says "The model uses a simple nitrogen balance: totalN = soilN + fertN, then availN = totalN · (1 − lossFrac). The crop’s N demand defines a target level. If availN falls below about 0.9 × demand, the field is classified as under-supplied; if it lies between 0.9 and 1.1 times demand it is called balanced; and if it exceeds 1.1 × demand it is over-supplied. In LowInputDry, soil N plus fertilizer N is modest, so even after multiplying by (1 − lossFrac) the available N is much smaller than the demand, generating a large deficit. In BalancedLoam, the chosen fertilizer rate brings totalN high enough that, after losses, availN sits close to the target demand. In HighInputRisk and SandyOverFertil, totalN is large enough that availN overshoots the demand, creating a positive surplus. The leaching index is defined as surplusN × lossFrac, so it grows both with the size of the surplus and with the loss fraction. SandyOverFertil combines a large surplus with a high lossFrac, which makes its leaching index the largest among the four fields. These behaviours follow directly from the linear dependence of availN on soilN, fertN and lossFrac and from comparing availN with the crop’s N demand." .
+} .
+
+# -------------------------------------------------------------------
+# C: Checks – harness rules
+# -------------------------------------------------------------------
+
+# Check 1: all fields have derived totalN, availN, deficitN, surplusN,
+#          and leachIndex.
+
+{
+  :LowInputDry     :totalN ?t1 ; :availN ?a1 ; :deficitN ?d1 ; :surplusN ?s1 ; :leachIndex ?L1 .
+  :BalancedLoam    :totalN ?t2 ; :availN ?a2 ; :deficitN ?d2 ; :surplusN ?s2 ; :leachIndex ?L2 .
+  :HighInputRisk   :totalN ?t3 ; :availN ?a3 ; :deficitN ?d3 ; :surplusN ?s3 ; :leachIndex ?L3 .
+  :SandyOverFertil :totalN ?t4 ; :availN ?a4 ; :deficitN ?d4 ; :surplusN ?s4 ; :leachIndex ?L4 .
+}
+=>
+{
+  :check1
+    :ok true ;
+    :msg "Check 1: all example fields have derived total N, available N, deficit, surplus and a leaching index." .
+} .
+
+# Check 2: the under-supplied field has a positive deficit and no
+#          surplus; over-supplied fields have positive surpluses and
+#          essentially zero deficit.
+
+{
+  :LowInputDry :status "under" ;
+               :deficitN ?dLow ;
+               :surplusN ?sLow .
+
+  :HighInputRisk :status "over" ;
+                 :deficitN ?dHigh ;
+                 :surplusN ?sHigh .
+
+  :SandyOverFertil :status "over" ;
+                    :deficitN ?dSand ;
+                    :surplusN ?sSand .
+
+  ?dLow  math:greaterThan 0.0 .
+  ?sLow  math:notGreaterThan 0.0 .
+
+  ?sHigh math:greaterThan 0.0 .
+  ?dHigh math:notGreaterThan 0.0 .
+
+  ?sSand math:greaterThan 0.0 .
+  ?dSand math:notGreaterThan 0.0 .
+}
+=>
+{
+  :check2
+    :ok true ;
+    :msg "Check 2: the under-supplied LowInputDry field has a positive N deficit and no surplus, while the over-supplied fields have positive surpluses and essentially no deficit." .
+} .
+
+# Check 3: BalancedLoam has the smallest imbalance: its deficit is
+#          smaller than the large deficit of LowInputDry and the
+#          surpluses of the over-supplied fields.
+
+{
+  :LowInputDry     :deficitN ?dLow .
+  :BalancedLoam    :deficitN ?dBal .
+  :HighInputRisk   :surplusN ?sHigh .
+  :SandyOverFertil :surplusN ?sSand .
+
+  ?dBal  math:greaterThan 0.0 .
+  ?dLow  math:greaterThan ?dBal .
+  ?sHigh math:greaterThan ?dBal .
+  ?sSand math:greaterThan ?dBal .
+}
+=>
+{
+  :check3
+    :ok true ;
+    :msg "Check 3: the BalancedLoam field has the smallest N imbalance: its deficit is smaller than the deficit in LowInputDry and smaller than the surpluses in the two over-supplied fields." .
+} .
+
+# Check 4: increasing fertN from BalancedLoam to HighInputRisk raises
+#          totalN, available N and surplusN.
+
+{
+  :BalancedLoam :fertN ?fBal ;
+                :totalN ?tBal ;
+                :availN ?aBal ;
+                :surplusN ?sBal .
+
+  :HighInputRisk :fertN ?fHigh ;
+                 :totalN ?tHigh ;
+                 :availN ?aHigh ;
+                 :surplusN ?sHigh .
+
+  ?fHigh  math:greaterThan ?fBal .
+  ?tHigh  math:greaterThan ?tBal .
+  ?aHigh  math:greaterThan ?aBal .
+  ?sHigh  math:greaterThan ?sBal .
+}
+=>
+{
+  :check4
+    :ok true ;
+    :msg "Check 4: moving from the BalancedLoam to the HighInputRisk field increases fertilizer N, which raises total N, available N and the N surplus." .
+} .
+
+# Check 5: SandyOverFertil has the largest leachIndex of all fields.
+
+{
+  :LowInputDry     :leachIndex ?Llow .
+  :BalancedLoam    :leachIndex ?Lbal .
+  :HighInputRisk   :leachIndex ?Lhigh .
+  :SandyOverFertil :leachIndex ?Lsand .
+
+  ?Lsand math:greaterThan ?Llow .
+  ?Lsand math:greaterThan ?Lbal .
+  ?Lsand math:greaterThan ?Lhigh .
+}
+=>
+{
+  :check5
+    :ok true ;
+    :msg "Check 5: the SandyOverFertil field has the largest leaching index, confirming that combining a large N surplus with a high loss fraction yields the highest potential loss in this model." .
+} .
+

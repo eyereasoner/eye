@@ -1,0 +1,39 @@
+----------------------
+Field Nitrogen Balance
+----------------------
+
+This directory contains a single Notation3 file that encodes a case 
+study about nitrogen management for field crops. Each field is 
+described by its soil mineral nitrogen at planting, the fertilizer 
+nitrogen applied, a simple loss fraction (representing leaching and 
+volatilization), and the crop’s nitrogen demand for a target yield. 
+From these inputs the theory computes a basic N balance: total N input, 
+the fraction of that N that remains available after losses, any deficit 
+if available N falls short of demand, any surplus if it exceeds demand, 
+and a rough leaching index given by surplusN multiplied by the loss 
+fraction. Based on how the available N compares to the crop demand, 
+each field is classified as under-supplied, balanced, or over-supplied. 
+Four example fields illustrate typical management situations, ranging 
+from low-input under-fertilisation to over-fertilisation on a sandy, 
+leaky soil.
+
+On top of this quantitative core, the file adds an ARC layer that 
+derives three kinds of explanatory facts. An `:answer` node summarises 
+which fields end up under-, well- or over-supplied and notes that the 
+sandy, heavily fertilised field has the highest leaching index. A 
+`:reason` node explains in mathematical English how the simple formulas 
+totalN = soilN + fertN and availN = totalN·(1 − lossFrac) interact 
+with crop N demand to produce deficits, near-balance, or surpluses, and 
+why both high surplus and high loss fraction drive the leaching index 
+up. Five `:check` nodes form a small harness: they confirm that all 
+fields have derived balances, that only the under-supplied field has a 
+positive deficit while over-supplied fields have positive surpluses, 
+that the “balanced” field is indeed the least imbalanced, that 
+increasing fertilizer from a balanced case raises total N, available N 
+and surplus, and that the sandy over-fertilised field has the largest 
+leaching index. Because all ARC conclusions are computed from the same 
+N-balance equations and input data, changing soil N, fertilizer rates, 
+loss fractions or crop demand automatically updates the Answer, Reason 
+and Checks, making this a small, self-documenting example of 
+agronomic-style reasoning in N3.
+
