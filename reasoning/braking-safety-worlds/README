@@ -1,0 +1,32 @@
+---------------------
+Braking Safety Worlds
+---------------------
+
+This directory contains a single Notation3 file that expresses a toy 
+case study for braking safety in road traffic scenarios. It models four 
+“worlds” (W0–W3) that estimate how much distance a car needs to 
+stop before hitting an obstacle, based on speed, road friction, and the 
+available distance to brake. World W0 is a simple physics-based model 
+that adds a one-second reaction distance to a friction-based braking 
+distance; W1 is a stripped-down formula that ignores reaction time; W2 
+naively assumes a dry-road friction coefficient for everyone, even on 
+ice; and W3 is a cautious world that multiplies the physics-based 
+stopping distance by a safety factor to build in extra margin.
+
+Each scenario is a small real-world flavored situation (“city driving 
+on dry asphalt”, “highway speed with a short gap”, “wet 
+road”, “icy road”) encoded as speed, friction coefficient and 
+available distance. From these, the core rules compute four different 
+stopping distances and classify each scenario as either safeInWorld or 
+riskyInWorld for worlds W0–W3. On top of this numeric core, an ARC 
+layer derives a compact Answer node that summarises how the worlds 
+agree and disagree on the four examples, a Reason node that explains 
+why the differences arise (reaction time, friction assumptions, and 
+safety factors), and a couple of Check nodes that confirm relationships 
+such as “W2 is the most optimistic on ice” and “W3 is at least as 
+cautious as W0” on the examples. All of these ARC triples are derived 
+from the same scenario and world facts, so if you change the inputs or 
+the world formulas, the Answer, Reason and Checks will update 
+accordingly. This makes the file a small, self-contained artifact that 
+both does real-world-flavored problem solving and documents its own 
+conclusions.

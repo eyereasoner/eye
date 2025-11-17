@@ -1,0 +1,436 @@
+# -------------------------------------------------------------------
+# braking-safety-worlds.n3
+#
+# Discrete-time stopping safety for cars in simple road scenarios.
+#
+# We model four "worlds" (W0–W3) that estimate the stopping distance
+# needed to avoid collision and classify scenarios as:
+#
+#   brake:safeInWorld(?Scenario, ?World)
+#   brake:riskyInWorld(?Scenario, ?World)
+#
+# The scenarios are defined by:
+#   - speed v in m/s
+#   - friction coefficient mu (0 < mu ≤ 1)
+#   - available distance d_avail in meters
+#
+# Worlds:
+#   W0  = "physics-based" world
+#         d_stop = v * 1.0s + v^2 / (2 mu g), with g ≈ 9.8 m/s²
+#
+#   W1  = simplified rule with g ≈ 10 and no reaction time:
+#         d_stop ≈ v^2 / (2 mu 10)
+#
+#   W2  = naive world that ignores the actual mu and assumes mu=0.7:
+#         d_stop ≈ v^2 / (2 * 0.7 * 10)
+#
+#   W3  = cautious world that multiplies W0's distance by 1.5:
+#         d_stop ≈ 1.5 * d_stop_W0
+#
+# A scenario is "safe" in world W if d_stop_W ≤ d_avail, and "risky"
+# if d_stop_W > d_avail.
+#
+# At the bottom we add ARC-style rules:
+#   - :answer  summarises how the four worlds classify four example
+#              scenarios.
+#   - :reason  explains, in prose, what that pattern means.
+#   - :check1, :check2 are small harnesses that verify the derived
+#              pattern from different angles.
+#
+# This is a didactic model: formulas and parameters are simplified
+# and should NOT be used for real-world driving decisions.
+# -------------------------------------------------------------------
+
+@prefix :        <http://example.org/braking#> .
+@prefix brake:   <http://example.org/braking#> .
+@prefix thm:     <http://example.org/theorem#> .
+@prefix rel:     <http://example.org/rel#> .
+
+@prefix math:  <http://www.w3.org/2000/10/swap/math#> .
+@prefix list:  <http://www.w3.org/2000/10/swap/list#> .
+@prefix log:   <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# -------------------------------------------------------------------
+# Worlds and scenarios
+# -------------------------------------------------------------------
+
+:World    a rdfs:Class .
+:Scenario a rdfs:Class .
+
+:worldId     a rdf:Property .
+:description a rdf:Property .
+
+# Four worlds, in increasing "cautiousness"
+
+:W0 a :World ;
+    :worldId 0 ;
+    :description "physics-based stopping distance with reaction time" .
+
+:W1 a :World ;
+    :worldId 1 ;
+    :description "simplified braking-only rule (no reaction time, g≈10)" .
+
+:W2 a :World ;
+    :worldId 2 ;
+    :description "naive rule: assumes dry friction (mu=0.7) for everyone" .
+
+:W3 a :World ;
+    :worldId 3 ;
+    :description "cautious rule: 1.5 times the physics-based stopping distance" .
+
+# Scenario parameters
+
+:speed         a rdf:Property .  # m/s
+:mu            a rdf:Property .  # dimensionless friction coefficient
+:availDistance a rdf:Property .  # meters
+
+# World-specific stopping distances
+
+:stopDistance_W0 a rdf:Property .  # meters
+:stopDistance_W1 a rdf:Property .
+:stopDistance_W2 a rdf:Property .
+:stopDistance_W3 a rdf:Property .
+
+# Safety classifications per world
+
+brake:safeInWorld  a rdf:Property .  # Scenario × World
+brake:riskyInWorld a rdf:Property .
+
+# -------------------------------------------------------------------
+# Core stopping-distance rules
+# -------------------------------------------------------------------
+
+# World 0: physics-based distance with 1.0s reaction
+#
+#   d_react = v * 1.0
+#   d_brake = v^2 / (2 mu g) with g ≈ 9.8
+#   d_stop  = d_react + d_brake
+
+{
+  ?S :stopDistance_W0 ?d0 .
+}
+<=
+{
+  ?S a :Scenario ;
+     :speed ?v ;
+     :mu ?mu .
+
+  (?v 1.0) math:product ?d_react .
+
+  (?v 2) math:exponentiation ?v2 .
+  (?mu 2.0) math:product ?tmp1 .
+  (?tmp1 9.8) math:product ?denom .
+  (?v2 ?denom) math:quotient ?d_brake .
+
+  (?d_react ?d_brake) math:sum ?d0 .
+} .
+
+# World 1: simplified braking-only rule, g≈10, no reaction time
+#
+#   d_stop ≈ v^2 / (2 mu 10)
+
+{
+  ?S :stopDistance_W1 ?d1 .
+}
+<=
+{
+  ?S a :Scenario ;
+     :speed ?v ;
+     :mu ?mu .
+
+  (?v 2) math:exponentiation ?v2 .
+  (?mu 2.0) math:product ?tmp1 .
+  (?tmp1 10.0) math:product ?denom1 .
+  (?v2 ?denom1) math:quotient ?d1 .
+} .
+
+# World 2: naive rule assuming mu = 0.7 (dry)
+#
+#   d_stop ≈ v^2 / (2 * 0.7 * 10) = v^2 / 14
+
+{
+  ?S :stopDistance_W2 ?d2 .
+}
+<=
+{
+  ?S a :Scenario ;
+     :speed ?v .
+
+  (?v 2) math:exponentiation ?v2 .
+  (?v2 14.0) math:quotient ?d2 .
+} .
+
+# World 3: cautious rule: 1.5 × World-0 distance
+
+{
+  ?S :stopDistance_W3 ?d3 .
+}
+<=
+{
+  ?S :stopDistance_W0 ?d0 .
+  (?d0 1.5) math:product ?d3 .
+} .
+
+# -------------------------------------------------------------------
+# Safety classification rules
+#
+# A scenario is "safe" in world W if:
+#   d_stop_W ≤ availDistance
+#
+# and "risky" if:
+#   d_stop_W >  availDistance
+# -------------------------------------------------------------------
+
+# World 0
+
+{
+  ?S brake:safeInWorld :W0 .
+}
+<=
+{
+  ?S :stopDistance_W0 ?d0 ;
+     :availDistance ?da .
+  ?d0 math:notGreaterThan ?da .
+} .
+
+{
+  ?S brake:riskyInWorld :W0 .
+}
+<=
+{
+  ?S :stopDistance_W0 ?d0 ;
+     :availDistance ?da .
+  ?d0 math:greaterThan ?da .
+} .
+
+# World 1
+
+{
+  ?S brake:safeInWorld :W1 .
+}
+<=
+{
+  ?S :stopDistance_W1 ?d1 ;
+     :availDistance ?da .
+  ?d1 math:notGreaterThan ?da .
+} .
+
+{
+  ?S brake:riskyInWorld :W1 .
+}
+<=
+{
+  ?S :stopDistance_W1 ?d1 ;
+     :availDistance ?da .
+  ?d1 math:greaterThan ?da .
+} .
+
+# World 2
+
+{
+  ?S brake:safeInWorld :W2 .
+}
+<=
+{
+  ?S :stopDistance_W2 ?d2 ;
+     :availDistance ?da .
+  ?d2 math:notGreaterThan ?da .
+} .
+
+{
+  ?S brake:riskyInWorld :W2 .
+}
+<=
+{
+  ?S :stopDistance_W2 ?d2 ;
+     :availDistance ?da .
+  ?d2 math:greaterThan ?da .
+} .
+
+# World 3
+
+{
+  ?S brake:safeInWorld :W3 .
+}
+<=
+{
+  ?S :stopDistance_W3 ?d3 ;
+     :availDistance ?da .
+  ?d3 math:notGreaterThan ?da .
+} .
+
+{
+  ?S brake:riskyInWorld :W3 .
+}
+<=
+{
+  ?S :stopDistance_W3 ?d3 ;
+     :availDistance ?da .
+  ?d3 math:greaterThan ?da .
+} .
+
+# -------------------------------------------------------------------
+# Example scenarios
+#
+# All speeds in m/s, distances in meters.
+# (These are simplified and only for demonstration.)
+# -------------------------------------------------------------------
+
+# City driving, dry road
+#   ~50 km/h (13.9 m/s), good friction, generous distance
+:CityDry a :Scenario ;
+  :description "city driving ~50 km/h, dry asphalt, generous gap" ;
+  :speed 13.9 ;
+  :mu 0.8 ;
+  :availDistance 40.0 .
+
+# Highway speed, dry road, short-ish gap
+#   ~100 km/h (27.8 m/s), good friction, limited distance
+:HighwayDryShortGap a :Scenario ;
+  :description "highway ~100 km/h, dry asphalt, short gap to obstacle" ;
+  :speed 27.8 ;
+  :mu 0.8 ;
+  :availDistance 60.0 .
+
+# City speed, wet road
+#   ~50 km/h, lower friction, moderate distance
+:CityWet a :Scenario ;
+  :description "city ~50 km/h, wet surface, moderate gap" ;
+  :speed 13.9 ;
+  :mu 0.4 ;
+  :availDistance 40.0 .
+
+# City speed, icy road, short distance
+#   ~50 km/h, very low friction, short distance
+:CityIce a :Scenario ;
+  :description "city ~50 km/h, icy surface, short gap" ;
+  :speed 13.9 ;
+  :mu 0.2 ;
+  :availDistance 30.0 .
+
+# -------------------------------------------------------------------
+# ARC-style Answer / Reason / Checks
+#
+# We now add a small ARC layer:
+#
+#   :answer  – a summarising node with human-readable text,
+#              derived only if the worlds classify the four example
+#              scenarios in a specific pattern.
+#
+#   :reason  – an explanatory text that depends on the same
+#              classification facts.
+#
+#   :check1, :check2 – tiny harness nodes marking that certain
+#              relationships between worlds are observed.
+# -------------------------------------------------------------------
+
+:text         a rdf:Property .
+:usesWorld    a rdf:Property .
+:usesScenario a rdf:Property .
+:ok           a rdf:Property .
+:msg          a rdf:Property .
+:says         a rdf:Property .
+
+# A: Answer
+#
+# We derive an :answer node once the following pattern appears:
+#
+#   - :CityDry  is safe in all four worlds.
+#   - :HighwayDryShortGap is risky in W0 and W3, but safe in W1, W2.
+#   - :CityWet  is safe in W0, W1, W2, and risky in W3.
+#   - :CityIce  is risky in W0, W1, W3, but safe in W2.
+#
+# This pattern shows that:
+#   * W0 is our "physics" reference.
+#   * W1 and W2 are more optimistic (they ignore reaction time or
+#     low friction), sometimes calling risky situations safe.
+#   * W3 is more cautious than W0, sometimes calling marginally safe
+#     situations risky.
+
+{
+  :CityDry brake:safeInWorld :W0, :W1, :W2, :W3 .
+
+  :HighwayDryShortGap brake:riskyInWorld :W0, :W3 ;
+                      brake:safeInWorld  :W1, :W2 .
+
+  :CityWet brake:safeInWorld  :W0, :W1, :W2 ;
+           brake:riskyInWorld :W3 .
+
+  :CityIce brake:riskyInWorld :W0, :W1, :W3 ;
+           brake:safeInWorld  :W2 .
+}
+=>
+{
+  :answer
+    :text "In these four road scenarios, the physics-based world W0 judges CityDry, CityWet as safe and HighwayDryShortGap, CityIce as risky. The simplified worlds W1 and W2 are more optimistic: they call the high-speed HighwayDryShortGap scenario safe, and W2 even treats the icy CityIce scenario as safe by assuming a dry-road friction. The cautious world W3 is stricter than W0, and flags both HighwayDryShortGap and CityWet as risky because it multiplies the physics-based stopping distance by a safety factor." ;
+    :usesWorld :W0, :W1, :W2, :W3 ;
+    :usesScenario :CityDry, :HighwayDryShortGap, :CityWet, :CityIce .
+} .
+
+# R: Reason
+#
+# We derive a :reason node that explains, in plain language, how the
+# different worlds relate to each other on these scenarios. The rule
+# body again depends only on scenario-level classifications.
+
+{
+  :CityDry brake:safeInWorld :W0, :W1, :W2, :W3 .
+
+  :HighwayDryShortGap brake:riskyInWorld :W0, :W3 ;
+                      brake:safeInWorld  :W1, :W2 .
+
+  :CityWet brake:safeInWorld  :W0, :W1, :W2 ;
+           brake:riskyInWorld :W3 .
+
+  :CityIce brake:riskyInWorld :W0, :W1, :W3 ;
+           brake:safeInWorld  :W2 .
+}
+=>
+{
+  :reason
+    :says "World W0 anchors the model in basic physics: it adds a one-second reaction distance to a friction-based braking distance. On the four examples, this distinguishes safe situations (CityDry, CityWet) from clearly risky ones (HighwayDryShortGap, CityIce). World W1 drops the reaction time, and world W2 also ignores low friction by assuming a dry road, so they sometimes call risky situations safe. World W3, in contrast, is more cautious than W0: by multiplying the physics-based distance by a safety factor, it can treat marginally safe cases like CityWet as risky. Together, the worlds show how different approximations and safety margins change the answer to the real-world question: 'Is this stopping distance enough?'" .
+} .
+
+# C: Checks
+#
+# These small harness rules confirm some relationships between the
+# worlds. They are also derived from the scenario-level facts.
+# They are not exhaustive theorems, but sanity checks.
+
+# Check 1: W2 is the most optimistic on ice.
+# On CityIce, it is the *only* world that classifies the situation
+# as safe, while W0, W1 and W3 all agree it is risky.
+
+{
+  :CityIce brake:safeInWorld  :W2 ;
+           brake:riskyInWorld :W0, :W1, :W3 .
+}
+=>
+{
+  :check1
+    :ok true ;
+    :msg "Check 1: on the icy CityIce scenario, world W2 is strictly more optimistic than W0, W1 and W3, because it assumes dry-road friction and still calls the situation safe." .
+} .
+
+# Check 2: W3 is never less cautious than W0 on the examples.
+# Here we simply record that whenever W3 says safe (CityDry), W0
+# also says safe. On the remaining scenarios W3 is strictly more
+# cautious and rejects at least what W0 rejects.
+
+{
+  :CityDry brake:safeInWorld  :W0, :W3 .
+  :HighwayDryShortGap brake:riskyInWorld :W0, :W3 .
+  :CityWet brake:safeInWorld  :W0 ;
+           brake:riskyInWorld :W3 .
+  :CityIce brake:riskyInWorld :W0, :W3 .
+}
+=>
+{
+  :check2
+    :ok true ;
+    :msg "Check 2: on these examples, world W3 is at least as cautious as the physics-based world W0: wherever W3 says safe, W0 also says safe, and on some marginal cases W3 is stricter and declares risk." .
+} .
+

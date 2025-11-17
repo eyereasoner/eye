@@ -1,0 +1,16 @@
+@prefix : <http://example.org/braking#>.
+
+:answer :text "In these four road scenarios, the physics-based world W0 judges CityDry, CityWet as safe and HighwayDryShortGap, CityIce as risky. The simplified worlds W1 and W2 are more optimistic: they call the high-speed HighwayDryShortGap scenario safe, and W2 even treats the icy CityIce scenario as safe by assuming a dry-road friction. The cautious world W3 is stricter than W0, and flags both HighwayDryShortGap and CityWet as risky because it multiplies the physics-based stopping distance by a safety factor.".
+:answer :usesWorld :W0.
+:answer :usesWorld :W1.
+:answer :usesWorld :W2.
+:answer :usesWorld :W3.
+:answer :usesScenario :CityDry.
+:answer :usesScenario :HighwayDryShortGap.
+:answer :usesScenario :CityWet.
+:answer :usesScenario :CityIce.
+:reason :says "World W0 anchors the model in basic physics: it adds a one-second reaction distance to a friction-based braking distance. On the four examples, this distinguishes safe situations (CityDry, CityWet) from clearly risky ones (HighwayDryShortGap, CityIce). World W1 drops the reaction time, and world W2 also ignores low friction by assuming a dry road, so they sometimes call risky situations safe. World W3, in contrast, is more cautious than W0: by multiplying the physics-based distance by a safety factor, it can treat marginally safe cases like CityWet as risky. Together, the worlds show how different approximations and safety margins change the answer to the real-world question: 'Is this stopping distance enough?'".
+:check1 :ok true.
+:check1 :msg "Check 1: on the icy CityIce scenario, world W2 is strictly more optimistic than W0, W1 and W3, because it assumes dry-road friction and still calls the situation safe.".
+:check2 :ok true.
+:check2 :msg "Check 2: on these examples, world W3 is at least as cautious as the physics-based world W0: wherever W3 says safe, W0 also says safe, and on some marginal cases W3 is stricter and declares risk.".
