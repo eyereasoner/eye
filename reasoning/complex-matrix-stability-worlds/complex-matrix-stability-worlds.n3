@@ -590,50 +590,6 @@ stab:damped_true a rdf:Property .
     :a22 (0 0) .
 
 # -------------------------------------------------------------------
-# Example "view": collect derived facts into *_exampleRun predicates
-# -------------------------------------------------------------------
-
-# Collect true stability/damping
-
-{
-  ?A a :Matrix2x2 ;
-     stab:stable_true ?St .
-}
-=>
-{
-  ?A stab:stable_true_exampleRun ?St .
-} .
-
-{
-  ?A a :Matrix2x2 ;
-     stab:damped_true ?Dt .
-}
-=>
-{
-  ?A stab:damped_true_exampleRun ?Dt .
-} .
-
-# Collect world-dependent classifications
-
-{
-  ?A a :Matrix2x2 ;
-     stab:stableInWorld ?W .
-}
-=>
-{
-  ?A stab:stableInWorld_exampleRun ?W .
-} .
-
-{
-  ?A a :Matrix2x2 ;
-     stab:dampedInWorld ?W .
-}
-=>
-{
-  ?A stab:dampedInWorld_exampleRun ?W .
-} .
-
-# -------------------------------------------------------------------
 # ARC-style Answer / Reason / Checks
 #
 # A: Answer — a compact statement about how the worlds classify the
