@@ -738,3 +738,23 @@ stab:damped_true a rdf:Property .
     :msg "Check 4: the rotation matrix is stable but not damped in the exact world W0, while the diagonal world W2 additionally classifies it as damped." .
 } .
 
+# Check 5: On these examples, damping never appears without stability in
+# the same world: whenever a matrix is damped in W0, W1 or W2, it is
+# also classified as stable in that world.
+
+{
+  :DampedDiag
+      stab:dampedInWorld :W0, :W1, :W2 ;
+      stab:stableInWorld :W0, :W1, :W2 .
+
+  :Rotation
+      stab:dampedInWorld :W2 ;
+      stab:stableInWorld :W2 .
+}
+=>
+{
+  :check5
+    :ok true ;
+    :msg "Check 5: on these four matrices, damping is always stronger than stability in worlds W0–W2: every matrix that a world classifies as damped is also classified as stable in that same world." .
+} .
+
