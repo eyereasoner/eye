@@ -2,15 +2,57 @@
 Complex Matrix Stability Worlds
 -------------------------------
 
-This case is about how we decide whether a simple dynamic system is 
-“safe” or “risky” over time. Each system is described by a tiny 
-2×2 matrix that says how a state changes from one step to the 
-next—whether it grows, shrinks, or oscillates. Using logic rules, we 
-define when such a system is considered stable (it doesn’t blow up) 
-or damped (it eventually dies out), and then we look at four different 
-“worlds” or viewpoints: one uses the exact mathematics, and the 
-others use faster, more approximate checks. By comparing how these 
-worlds judge the same example systems, the case illustrates how 
-different levels of approximation can lead to agreement or disagreement 
-about stability, all expressed in a transparent, rule-based way.
+This directory contains a single Notation3 file that expresses a small 
+stability case study for 2×2 complex matrices in the ARC style: it 
+states an Answer about how four “worlds” classify a few example 
+systems as stable or damped, gives a short Reason that connects those 
+judgments to the underlying math, and carries several independent 
+Checks that verify the relationships between the worlds each time the 
+file is reasoned over.
+
+The file uses only the official N3 math built-ins in rule bodies and 
+models complex numbers with small backward rules, which act as 
+lightweight user-defined built-ins for complex sum, difference, 
+product, scaling, modulus, and square root. A 2×2 complex matrix is 
+encoded as four complex entries, and from these the theory analytically 
+derives the eigenvalues, the spectral radius, and three approximate 
+measures: a Gershgorin radius, a diagonal-only radius, and a Frobenius 
+norm. Four worlds W0–W3 then give different stability heuristics: W0 
+is the “exact” world based on spectral radius, W1 uses Gershgorin 
+discs, W2 looks only at the diagonal, and W3 uses a tiny Frobenius 
+threshold.
+
+The Answer is asserted once the worlds have classified the four example 
+matrices (Id, DampedDiag, UnstableDiag, Rotation) in a specific 
+pattern: worlds W0, W1 and W2 all agree that Id, DampedDiag and 
+Rotation are stable while leaving UnstableDiag unstable, and DampedDiag 
+is damped in all three worlds, whereas Rotation is only damped in the 
+more permissive diagonal world W2. The Reason is given as plain text 
+that points out how world W0 matches the “true” spectral-radius 
+stability on the non-trivial examples and how W1 and W2 agree with W0 
+on stability but differ on damping, with W2 extending damping to the 
+rotation matrix because its diagonal entries lie well inside the unit 
+circle.
+
+The Checks verify these claims from several angles: one check confirms 
+that W0 never calls the unstable diagonal matrix stable; another 
+ensures that every example that is truly stable is also stable in W0; a 
+third check records that the only truly damped example, DampedDiag, is 
+damped in W0, W1 and W2; and a fourth check notes that Rotation is 
+treated as damped by W2 but not by W0, witnessing that W2’s damping 
+heuristic is strictly looser on this case. All of these checks are 
+derived from the same matrix and world facts as the Answer and Reason, 
+so if you change the example matrices or the world definitions, the ARC 
+output will update or disappear accordingly.
+
+To run it, load the N3 file into an N3 reasoner that supports the math 
+built-ins and backward rules, such as EYE, and materialize the inferred 
+triples. After reasoning you should see the core matrix facts, the 
+world classifications, and, in addition, a compact ARC cluster of 
+triples of the form `:answer ...`, `:reason ...`, `:check1 ...` etc., 
+summarising what the four worlds say about the example matrices, why 
+that makes sense mathematically, and which sanity checks passed. In 
+this way the artifact stays self-contained, readable, and repeatable: 
+it says the answer, explains the reason, and partially proves itself 
+every time it runs.
 

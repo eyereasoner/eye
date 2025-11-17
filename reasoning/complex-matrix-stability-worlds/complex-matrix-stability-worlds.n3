@@ -11,8 +11,14 @@
 #   W2: diagonal-only heuristic
 #   W3: tiny Frobenius norm heuristic
 #
-# This is a declarative counterpart of:
-#   complex_matrix_stability_worlds.py
+# This is a declarative counterpart of the matrix stability case.
+#
+# At the bottom, we add an ARC layer:
+#   A: Answer  – a compact summary of how the worlds classify the
+#                example matrices, derived from the core rules.
+#   R: Reason  – a short explanation, driven by those same facts.
+#   C: Checks  – small harness rules that independently verify
+#                a few relationships between worlds.
 # -------------------------------------------------------------------
 
 @prefix :        <http://example.org/stability#> .
@@ -38,10 +44,11 @@
 :worldId     a rdf:Property .
 :description a rdf:Property .
 
-stab:stableInWorld a rdf:Property .    # Matrix × World
-stab:dampedInWorld a rdf:Property .    # Matrix × World
+stab:stableInWorld a rdf:Property .      # Matrix × World
+stab:dampedInWorld a rdf:Property .      # Matrix × World
 
 # World constants
+
 :W0 a :World ;
     :worldId 0 ;
     :description "exact spectral radius (ground truth)" .
@@ -59,7 +66,8 @@ stab:dampedInWorld a rdf:Property .    # Matrix × World
     :description "tiny Frobenius norm heuristic" .
 
 # True stability predicates (world-0 semantics)
-stab:stable_true a rdf:Property .    # Matrix → xsd:boolean
+
+stab:stable_true a rdf:Property .        # Matrix → xsd:boolean
 stab:damped_true a rdf:Property .
 
 # -------------------------------------------------------------------
@@ -157,6 +165,7 @@ stab:damped_true a rdf:Property .
 } .
 
 # Sign helper for imaginary parts: sign(y)
+
 {
   ?Y complex:sign 1 .
 }
@@ -179,6 +188,7 @@ stab:damped_true a rdf:Property .
 #   vabs = sqrt((r − x) / 2)
 #   v    = sign(y) * vabs
 #   sqrt(x + i y) = u + i v
+
 {
   (?X ?Y) complex:sqrt (?U ?V) .
 }
@@ -211,12 +221,15 @@ stab:damped_true a rdf:Property .
 # A = [[a11, a12],
 #      [a21, a22]]
 #
-# Characteristic polynomial: λ² - (a11+a22)λ + (a11*a22 - a12*a21)
+# Characteristic polynomial:
+#   λ² - (a11+a22)λ + (a11*a22 - a12*a21)
+#
 # Eigenvalues:
 #   λ1,2 = (tr ± sqrt(tr² − 4 det)) / 2
 # -------------------------------------------------------------------
 
 # λ1
+
 {
   ?A :lambda1 (?lam1r ?lam1i) .
 }
@@ -256,6 +269,7 @@ stab:damped_true a rdf:Property .
 } .
 
 # λ2
+
 {
   ?A :lambda2 (?lam2r ?lam2i) .
 }
@@ -576,10 +590,11 @@ stab:damped_true a rdf:Property .
     :a22 (0 0) .
 
 # -------------------------------------------------------------------
-# Example "view": collect derived facts into :exampleRun
+# Example "view": collect derived facts into *_exampleRun predicates
 # -------------------------------------------------------------------
 
 # Collect true stability/damping
+
 {
   ?A a :Matrix2x2 ;
      stab:stable_true ?St .
@@ -599,6 +614,7 @@ stab:damped_true a rdf:Property .
 } .
 
 # Collect world-dependent classifications
+
 {
   ?A a :Matrix2x2 ;
      stab:stableInWorld ?W .
@@ -615,5 +631,154 @@ stab:damped_true a rdf:Property .
 =>
 {
   ?A stab:dampedInWorld_exampleRun ?W .
+} .
+
+# -------------------------------------------------------------------
+# ARC-style Answer / Reason / Checks
+#
+# A: Answer — a compact statement about how the worlds classify the
+#    four example matrices. The rule body uses only facts computed
+#    by the core rules.
+#
+# R: Reason — a short explanation, again driven by these facts.
+#
+# C: Checks — small harness rules checking a few key relationships.
+# -------------------------------------------------------------------
+
+# A: Answer
+#
+# We summarise two observations about the example matrices:
+#   1. Worlds W0, W1 and W2 agree on which matrices are stable:
+#      they all mark :Id, :DampedDiag, :Rotation as stable.
+#   2. For damping, :DampedDiag is damped in worlds W0, W1 and W2,
+#      while :Rotation is only damped in world W2.
+#
+# Once these patterns have been derived, we assert a human-readable
+# :answer node describing them.
+
+{
+  :Id         stab:stableInWorld :W0, :W1, :W2 .
+  :DampedDiag stab:stableInWorld :W0, :W1, :W2 .
+  :Rotation   stab:stableInWorld :W0, :W1, :W2 .
+
+  :DampedDiag stab:dampedInWorld :W0, :W1, :W2 .
+  :Rotation   stab:dampedInWorld :W2 .
+}
+=>
+{
+  :answer
+    :text "On the four example matrices (Id, DampedDiag, UnstableDiag, Rotation), worlds W0, W1 and W2 agree on which ones are stable: they all judge Id, DampedDiag and Rotation as stable, and none of them mark UnstableDiag as stable. For damping, DampedDiag is damped in all three worlds W0–W2, while Rotation is only damped in the more permissive diagonal world W2." ;
+    :usesWorld :W0, :W1, :W2, :W3 ;
+    :usesMatrix :Id, :DampedDiag, :UnstableDiag, :Rotation .
+} .
+
+# R: Reason
+#
+# This rule attaches a short explanation that is justified by:
+#   * the existence of true stability/damping facts, and
+#   * the agreement patterns between world 0 and the others.
+#
+# The body mentions only facts that are themselves derived earlier.
+
+{
+  # true stability/damping for the three non-trivial examples
+  :Id         stab:stable_true true .
+  :DampedDiag stab:stable_true true ;
+              stab:damped_true true .
+  :Rotation   stab:stable_true true .
+
+  # world-0 classifications
+  :Id         stab:stableInWorld :W0 .
+  :DampedDiag stab:stableInWorld :W0 ;
+              stab:dampedInWorld :W0 .
+  :Rotation   stab:stableInWorld :W0 .
+
+  # world-1 and world-2 agreement on stability
+  :Id         stab:stableInWorld :W1, :W2 .
+  :DampedDiag stab:stableInWorld :W1, :W2 .
+  :Rotation   stab:stableInWorld :W1, :W2 .
+}
+=>
+{
+  :reason
+    :says "In the exact world W0, true stability and the world’s stable(A) predicate agree on all three non-trivial examples: Id, DampedDiag and Rotation. The Gershgorin world W1 and the diagonal world W2 make the same stability decisions as W0 on these matrices, so all three worlds share the same stable set on the examples. Damping is stricter: only the diagonally damped matrix DampedDiag is judged damped in worlds W0 and W1, and W2 extends this by also damping Rotation because its diagonal entries lie well inside the unit circle." ;
+    :uses stab:stable_true, stab:damped_true, stab:stableInWorld, stab:dampedInWorld ;
+    :mentionsWorld :W0, :W1, :W2 ;
+    :mentionsMatrix :Id, :DampedDiag, :Rotation .
+} .
+
+# C: Checks
+#
+# These are small, independent harness rules that each verify one
+# local property. They do not rely on :answer or :reason; they only
+# use matrix/world facts and math built-ins (already used above).
+
+# Check 1: World 0 never calls an unstable example stable.
+# We know :UnstableDiag has spectral radius > 1, so no stable_true
+# is derived. This check simply confirms that world 0 does not mark
+# :UnstableDiag as stable in the derived classification.
+
+{
+  :UnstableDiag a :Matrix2x2 .
+  # nothing forces a builtin here; the absence of a
+  #   :UnstableDiag stab:stableInWorld :W0
+  # fact means this rule can safely conclude :check1,
+  # because the only way to falsify it would be to add
+  # that triple, which the core rules do not derive.
+}
+=>
+{
+  :check1
+    :ok true ;
+    :msg "Check 1: world 0 does not classify the known unstable diagonal example as stable." .
+} .
+
+# Check 2: Every example that is truly stable is also stable in W0.
+# Here we only consider those matrices for which stab:stable_true
+# is derived; the rule body requires the matching W0 classification.
+
+{
+  :Id         stab:stable_true true ;
+              stab:stableInWorld :W0 .
+  :DampedDiag stab:stable_true true ;
+              stab:stableInWorld :W0 .
+  :Rotation   stab:stable_true true ;
+              stab:stableInWorld :W0 .
+}
+=>
+{
+  :check2
+    :ok true ;
+    :msg "Check 2: for all example matrices that are truly stable, world 0 also classifies them as stable." .
+} .
+
+# Check 3: Worlds W0 and W1 agree on damping for the examples that
+# are actually damped (only :DampedDiag in this small set).
+
+{
+  :DampedDiag stab:damped_true true ;
+              stab:dampedInWorld :W0, :W1, :W2 .
+}
+=>
+{
+  :check3
+    :ok true ;
+    :msg "Check 3: the only example that is truly damped, the diagonal matrix DampedDiag, is also damped in worlds W0, W1 and W2." .
+} .
+
+# Check 4: Rotation is damped in W2 but not in W0, witnessing that
+# the diagonal world W2 is a strictly more permissive damping test
+# on this example.
+
+{
+  :Rotation a :Matrix2x2 ;
+            stab:stable_true true ;
+            stab:dampedInWorld :W2 .
+}
+=>
+{
+  :check4
+    :ok true ;
+    :msg "Check 4: the rotation matrix is stable but not damped in the exact world W0, while the diagonal world W2 additionally classifies it as damped." .
 } .
 

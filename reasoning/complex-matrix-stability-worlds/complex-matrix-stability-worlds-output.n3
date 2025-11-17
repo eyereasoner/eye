@@ -17,3 +17,31 @@
 :DampedDiag :dampedInWorld_exampleRun :W1.
 :DampedDiag :dampedInWorld_exampleRun :W2.
 :Rotation :dampedInWorld_exampleRun :W2.
+:answer :text "On the four example matrices (Id, DampedDiag, UnstableDiag, Rotation), worlds W0, W1 and W2 agree on which ones are stable: they all judge Id, DampedDiag and Rotation as stable, and none of them mark UnstableDiag as stable. For damping, DampedDiag is damped in all three worlds W0–W2, while Rotation is only damped in the more permissive diagonal world W2.".
+:answer :usesWorld :W0.
+:answer :usesWorld :W1.
+:answer :usesWorld :W2.
+:answer :usesWorld :W3.
+:answer :usesMatrix :Id.
+:answer :usesMatrix :DampedDiag.
+:answer :usesMatrix :UnstableDiag.
+:answer :usesMatrix :Rotation.
+:reason :says "In the exact world W0, true stability and the world’s stable(A) predicate agree on all three non-trivial examples: Id, DampedDiag and Rotation. The Gershgorin world W1 and the diagonal world W2 make the same stability decisions as W0 on these matrices, so all three worlds share the same stable set on the examples. Damping is stricter: only the diagonally damped matrix DampedDiag is judged damped in worlds W0 and W1, and W2 extends this by also damping Rotation because its diagonal entries lie well inside the unit circle.".
+:reason :uses :stable_true.
+:reason :uses :damped_true.
+:reason :uses :stableInWorld.
+:reason :uses :dampedInWorld.
+:reason :mentionsWorld :W0.
+:reason :mentionsWorld :W1.
+:reason :mentionsWorld :W2.
+:reason :mentionsMatrix :Id.
+:reason :mentionsMatrix :DampedDiag.
+:reason :mentionsMatrix :Rotation.
+:check1 :ok true.
+:check1 :msg "Check 1: world 0 does not classify the known unstable diagonal example as stable.".
+:check2 :ok true.
+:check2 :msg "Check 2: for all example matrices that are truly stable, world 0 also classifies them as stable.".
+:check3 :ok true.
+:check3 :msg "Check 3: the only example that is truly damped, the diagonal matrix DampedDiag, is also damped in worlds W0, W1 and W2.".
+:check4 :ok true.
+:check4 :msg "Check 4: the rotation matrix is stable but not damped in the exact world W0, while the diagonal world W2 additionally classifies it as damped.".
