@@ -1,0 +1,485 @@
+# -------------------------------------------------------------------
+# exoplanet-validation-worlds.n3
+#
+# Toy case study: exoplanet candidate validation in four "worlds".
+#
+# We look at transit-like signals from a survey pipeline and ask:
+#   "How much should we trust that this candidate is a real planet?"
+#
+# Each candidate scenario describes:
+#   - occurrence rate pOcc      (prior probability that the target
+#                               actually hosts a transiting planet
+#                               in the searched range),
+#   - pipeline sensitivity Se   (P(detection | real planet)),
+#   - pipeline specificity Sp   (P(no detection | no planet)).
+#
+# When the pipeline reports a detection, the "true" posterior
+# probability that the signal is a planet is:
+#
+#   PPV = Se * pOcc / (Se * pOcc + (1 - Sp) * (1 - pOcc))
+#
+# We do not advise real vetting decisions. This is a small
+# educational model that shows how different rules-of-thumb can
+# disagree about whether a detected transit-like signal should be
+# treated as a confirmed planet.
+#
+# Worlds:
+#   W0  = full Bayes world (reference)
+#         - computes PPV exactly and "confirms" the candidate if
+#           PPV ≥ 0.90
+#
+#   W1  = naive "pipeline is great" world
+#         - ignores occurrence and specificity
+#         - confirms if Se ≥ 0.95
+#
+#   W2  = heuristic world
+#         - confirms only if:
+#             pOcc ≥ 0.05 and Se ≥ 0.9 and Sp ≥ 0.97
+#
+#   W3  = cautious Bayes world
+#         - same PPV formula as W0
+#         - confirms if PPV ≥ 0.93 (stricter threshold)
+#
+# For each candidate C and world W we derive:
+#   exo:confirmsInWorld  (C, W)
+#   exo:rejectsInWorld   (C, W)
+#
+# ARC layer:
+#   :answer  – summary of how the worlds classify four candidates.
+#   :reason  – explanation of the differences between worlds.
+#   :check1..5 – small harness checks (all derived).
+#
+# Values & thresholds are illustrative only.
+# -------------------------------------------------------------------
+
+@prefix :      <http://example.org/exoplanet#> .
+@prefix exo:   <http://example.org/exoplanet#> .
+@prefix thm:   <http://example.org/theorem#> .
+@prefix rel:   <http://example.org/rel#> .
+
+@prefix math:  <http://www.w3.org/2000/10/swap/math#> .
+@prefix list:  <http://www.w3.org/2000/10/swap/list#> .
+@prefix log:   <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# -------------------------------------------------------------------
+# Worlds and candidates
+# -------------------------------------------------------------------
+
+:World    a rdfs:Class .
+:Candidate a rdfs:Class .
+
+:worldId     a rdf:Property .
+:description a rdf:Property .
+
+:W0 a :World ;
+    :worldId 0 ;
+    :description "full Bayes reference (PPV with occurrence, Se, Sp)" .
+
+:W1 a :World ;
+    :worldId 1 ;
+    :description "naive world: trusts pipeline based on sensitivity alone" .
+
+:W2 a :World ;
+    :worldId 2 ;
+    :description "heuristic world: demands enough occurrence and specificity" .
+
+:W3 a :World ;
+    :worldId 3 ;
+    :description "cautious Bayes world with stricter PPV threshold" .
+
+# Candidate parameters
+
+:occurrence   a rdf:Property .   # pOcc in [0,1]
+:sensitivity  a rdf:Property .   # Se in [0,1]
+:specificity  a rdf:Property .   # Sp in [0,1]
+
+# Derived posterior P(planet | detection) via Bayes
+
+:ppv_Planet   a rdf:Property .   # xsd:double
+
+# World-level decisions
+
+exo:confirmsInWorld a rdf:Property .   # Candidate × World
+exo:rejectsInWorld  a rdf:Property .
+
+# -------------------------------------------------------------------
+# Bayes PPV computation (used by W0 and W3)
+#
+#   PPV = Se * pOcc / (Se * pOcc + (1 - Sp) * (1 - pOcc))
+# -------------------------------------------------------------------
+
+{
+  ?C :ppv_Planet ?PPV .
+}
+<=
+{
+  ?C a :Candidate ;
+     :occurrence ?pOcc ;
+     :sensitivity ?Se ;
+     :specificity ?Sp .
+
+  # numerator = Se * pOcc
+  (?Se ?pOcc) math:product ?num .
+
+  # pNo = 1 - pOcc
+  (1.0 ?pOcc) math:difference ?pNo .
+
+  # fpr = 1 - Sp  (false-positive rate of pipeline)
+  (1.0 ?Sp) math:difference ?fpr .
+
+  # fp = fpr * pNo
+  (?fpr ?pNo) math:product ?fp .
+
+  # denom = num + fp
+  (?num ?fp) math:sum ?denom .
+
+  # PPV = num / denom
+  (?num ?denom) math:quotient ?PPV .
+} .
+
+# -------------------------------------------------------------------
+# World 0: full Bayes, threshold PPV ≥ 0.90
+# -------------------------------------------------------------------
+
+{
+  ?C exo:confirmsInWorld :W0 .
+}
+<=
+{
+  ?C :ppv_Planet ?PPV .
+  ?PPV math:notLessThan 0.9 .
+} .
+
+{
+  ?C exo:rejectsInWorld :W0 .
+}
+<=
+{
+  ?C :ppv_Planet ?PPV .
+  ?PPV math:lessThan 0.9 .
+} .
+
+# -------------------------------------------------------------------
+# World 1: naive sensitivity-only world
+#
+#   - confirms if Se ≥ 0.95
+#   - rejects otherwise
+# -------------------------------------------------------------------
+
+{
+  ?C exo:confirmsInWorld :W1 .
+}
+<=
+{
+  ?C :sensitivity ?Se .
+  ?Se math:notLessThan 0.95 .
+} .
+
+{
+  ?C exo:rejectsInWorld :W1 .
+}
+<=
+{
+  ?C :sensitivity ?Se .
+  ?Se math:lessThan 0.95 .
+} .
+
+# -------------------------------------------------------------------
+# World 2: heuristic world
+#
+#   - confirms only if:
+#       occurrence ≥ 0.05
+#       sensitivity ≥ 0.90
+#       specificity ≥ 0.97
+#   - otherwise rejects
+# -------------------------------------------------------------------
+
+{
+  ?C exo:confirmsInWorld :W2 .
+}
+<=
+{
+  ?C :occurrence ?pOcc ;
+     :sensitivity ?Se ;
+     :specificity ?Sp .
+
+  ?pOcc math:notLessThan 0.05 .
+  ?Se   math:notLessThan 0.9 .
+  ?Sp   math:notLessThan 0.97 .
+} .
+
+{
+  ?C exo:rejectsInWorld :W2 .
+}
+<=
+{
+  ?C :occurrence ?pOcc .
+  ?pOcc math:lessThan 0.05 .
+} .
+
+{
+  ?C exo:rejectsInWorld :W2 .
+}
+<=
+{
+  ?C :sensitivity ?Se .
+  ?Se math:lessThan 0.9 .
+} .
+
+{
+  ?C exo:rejectsInWorld :W2 .
+}
+<=
+{
+  ?C :specificity ?Sp .
+  ?Sp math:lessThan 0.97 .
+} .
+
+# -------------------------------------------------------------------
+# World 3: cautious Bayes world
+#
+#   - same PPV formula as W0
+#   - confirms if PPV ≥ 0.93
+# -------------------------------------------------------------------
+
+{
+  ?C exo:confirmsInWorld :W3 .
+}
+<=
+{
+  ?C :ppv_Planet ?PPV .
+  ?PPV math:notLessThan 0.93 .
+} .
+
+{
+  ?C exo:rejectsInWorld :W3 .
+}
+<=
+{
+  ?C :ppv_Planet ?PPV .
+  ?PPV math:lessThan 0.93 .
+} .
+
+# -------------------------------------------------------------------
+# Example candidates (all fictional and simplified)
+# -------------------------------------------------------------------
+
+# Candidate 1: RareWideOrbit
+#   Very low occurrence of such planets in this regime (pOcc = 0.001)
+#   but an excellent transit pipeline (Se=0.99, Sp=0.99).
+#   Posterior PPV is low (~0.09): most detections are astrophysical
+#   or instrumental false positives.
+
+:RareWideOrbit a :Candidate ;
+  :description "very rare, long-period class of planets with a strong-looking detection" ;
+  :occurrence 0.001 ;
+  :sensitivity 0.99 ;
+  :specificity 0.99 .
+
+# Candidate 2: MstarShortPeriod
+#   High occurrence around this type of star (pOcc = 0.20),
+#   excellent pipeline (Se=0.99, Sp=0.99).
+#   Posterior PPV is very high (~0.96).
+
+:MstarShortPeriod a :Candidate ;
+  :description "short-period planet around an M dwarf in a high-occurrence regime" ;
+  :occurrence 0.20 ;
+  :sensitivity 0.99 ;
+  :specificity 0.99 .
+
+# Candidate 3: CommonHotNeptuneGood
+#   Moderately common regime (pOcc = 0.25), good pipeline
+#   (Se = 0.95, Sp = 0.97). PPV is high (~0.91).
+
+:CommonHotNeptuneGood a :Candidate ;
+  :description "hot Neptune candidate in a common regime, good but not perfect pipeline" ;
+  :occurrence 0.25 ;
+  :sensitivity 0.95 ;
+  :specificity 0.97 .
+
+# Candidate 4: CommonHotNeptuneLowSpec
+#   Same occurrence (pOcc = 0.25) and sensitivity (Se = 0.95)
+#   but lower specificity (Sp = 0.90). PPV is around ~0.76.
+
+:CommonHotNeptuneLowSpec a :Candidate ;
+  :description "similar hot Neptune candidate, but with a pipeline version known to have more false positives" ;
+  :occurrence 0.25 ;
+  :sensitivity 0.95 ;
+  :specificity 0.90 .
+
+# -------------------------------------------------------------------
+# ARC-style Answer / Reason / Checks
+#
+# These are derived summaries. They depend only on the worlds'
+# confirm/reject decisions, which themselves depend on the Bayes
+# formula and heuristic conditions above.
+# -------------------------------------------------------------------
+
+:text         a rdf:Property .
+:usesWorld    a rdf:Property .
+:usesCandidate a rdf:Property .
+:says         a rdf:Property .
+:ok           a rdf:Property .
+:msg          a rdf:Property .
+
+# A: Answer
+#
+# We assert :answer when the following classification pattern appears:
+#
+#   RareWideOrbit:
+#     W0, W2, W3 reject; W1 confirms.
+#
+#   MstarShortPeriod:
+#     all four worlds confirm.
+#
+#   CommonHotNeptuneGood:
+#     W0, W1, W2 confirm; W3 rejects.
+#
+#   CommonHotNeptuneLowSpec:
+#     W0, W2, W3 reject; W1 confirms.
+#
+# This pattern is fixed by the numeric rules and thresholds.
+
+{
+  :RareWideOrbit
+    exo:confirmsInWorld  :W1 ;
+    exo:rejectsInWorld   :W0, :W2, :W3 .
+
+  :MstarShortPeriod
+    exo:confirmsInWorld :W0, :W1, :W2, :W3 .
+
+  :CommonHotNeptuneGood
+    exo:confirmsInWorld  :W0, :W1, :W2 ;
+    exo:rejectsInWorld   :W3 .
+
+  :CommonHotNeptuneLowSpec
+    exo:confirmsInWorld  :W1 ;
+    exo:rejectsInWorld   :W0, :W2, :W3 .
+}
+=>
+{
+  :answer
+    :text "Across these four exoplanet candidates, the full-Bayes world W0 and the cautious world W3 agree that signals from very rare regimes (RareWideOrbit) and from pipelines with lower specificity (CommonHotNeptuneLowSpec) do not yet justify a planet claim, whereas the naive world W1, which looks only at sensitivity, still promotes them as confirmed. In the high-occurrence MstarShortPeriod case, all four worlds agree that the candidate is secure. For the CommonHotNeptuneGood candidate, W0 and W2 find the posterior probability high enough, while W3 applies a stricter Bayes threshold and remains cautious. The overall picture is that ignoring occurrence rates or false positives can make a detection look more solid than it is, while raising the posterior threshold can turn some borderline but plausible candidates into 'needs more vetting' cases." ;
+    :usesWorld :W0, :W1, :W2, :W3 ;
+    :usesCandidate :RareWideOrbit, :MstarShortPeriod,
+                   :CommonHotNeptuneGood, :CommonHotNeptuneLowSpec .
+} .
+
+# R: Reason
+#
+# A qualitative explanation of how the worlds differ, derived from
+# the same classification pattern.
+
+{
+  :RareWideOrbit
+    exo:confirmsInWorld  :W1 ;
+    exo:rejectsInWorld   :W0, :W2, :W3 .
+
+  :MstarShortPeriod
+    exo:confirmsInWorld :W0, :W1, :W2, :W3 .
+
+  :CommonHotNeptuneGood
+    exo:confirmsInWorld  :W0, :W1, :W2 ;
+    exo:rejectsInWorld   :W3 .
+
+  :CommonHotNeptuneLowSpec
+    exo:confirmsInWorld  :W1 ;
+    exo:rejectsInWorld   :W0, :W2, :W3 .
+}
+=>
+{
+  :reason
+    :says "World W0 anchors the case in Bayes’ rule: it combines occurrence rate, pipeline sensitivity and specificity into a posterior probability that a transit-like signal is a real planet, and it confirms only when that probability is high. In the RareWideOrbit scenario, Bayes reveals that even an excellent pipeline can produce mostly impostors when the underlying planet population is extremely sparse, so W0 (and the heuristic W2 and cautious W3) refuse to confirm. World W1 behaves like a naive view of survey performance that focuses on sensitivity alone, so as long as the pipeline rarely misses planets it will treat those same detections as secure, regardless of occurrence or false positives. World W2 adds a pragmatic filter that demands both a minimum occurrence and high specificity, catching some of the over-optimism of W1 without doing full Bayes. World W3 goes in the opposite direction and raises the posterior threshold, turning cases like CommonHotNeptuneGood into ones that still need extra vetting. The four worlds illustrate how different uses of Bayesian information, and different safety margins, can shift whether a detection is labeled as a confirmed exoplanet." .
+} .
+
+# -------------------------------------------------------------------
+# C: Checks – harness rules
+#
+# Five checks, each derived from confirm/reject facts, not from
+# :answer or :reason.
+# -------------------------------------------------------------------
+
+# Check 1: All four worlds agree on the high-occurrence MstarShortPeriod
+#          candidate: it is confirmed everywhere.
+
+{
+  :MstarShortPeriod exo:confirmsInWorld :W0, :W1, :W2, :W3 .
+}
+=>
+{
+  :check1
+    :ok true ;
+    :msg "Check 1: for the MstarShortPeriod candidate in a high-occurrence regime with an excellent pipeline, all four worlds agree that the signal is trustworthy and confirm the planet." .
+} .
+
+# Check 2: RareWideOrbit is only confirmed by the naive world W1;
+#          all other worlds reject it.
+
+{
+  :RareWideOrbit exo:confirmsInWorld  :W1 ;
+                 exo:rejectsInWorld   :W0, :W2, :W3 .
+}
+=>
+{
+  :check2
+    :ok true ;
+    :msg "Check 2: in the RareWideOrbit scenario, only the sensitivity-based world W1 confirms the candidate; the Bayes world W0, the heuristic world W2 and the cautious world W3 all reject it because the underlying planet occurrence is too low for a single detection to be convincing." .
+} .
+
+# Check 3: For CommonHotNeptuneGood, W3 is strictly more cautious
+#          than W0: W0, W1 and W2 confirm, while W3 still rejects.
+
+{
+  :CommonHotNeptuneGood exo:confirmsInWorld  :W0, :W1, :W2 ;
+                        exo:rejectsInWorld   :W3 .
+}
+=>
+{
+  :check3
+    :ok true ;
+    :msg "Check 3: for the CommonHotNeptuneGood candidate, the cautious Bayes world W3 is stricter than the reference world W0 and the simpler worlds W1 and W2, rejecting a signal that the others treat as sufficiently likely to be a real planet." .
+} .
+
+# Check 4: With lower specificity (CommonHotNeptuneLowSpec), only W1
+#          still confirms; all other worlds reject it.
+
+{
+  :CommonHotNeptuneLowSpec exo:confirmsInWorld  :W1 ;
+                           exo:rejectsInWorld   :W0, :W2, :W3 .
+}
+=>
+{
+  :check4
+    :ok true ;
+    :msg "Check 4: in the CommonHotNeptuneLowSpec scenario, where the pipeline has more false positives, only the naive sensitivity-based world W1 continues to confirm the candidate; W0, W2 and W3 all reject it, showing how ignoring false-positive behaviour can make a detection seem more secure than it is." .
+} .
+
+# Check 5: On these four candidates, W3 is at least as cautious as W0:
+#          whenever W3 confirms a planet (MstarShortPeriod), W0 also
+#          confirms, and W3 rejects everything that W0 rejects plus
+#          one additional borderline case.
+
+{
+  :MstarShortPeriod
+    exo:confirmsInWorld :W0, :W3 .
+
+  :RareWideOrbit
+    exo:rejectsInWorld :W0, :W3 .
+
+  :CommonHotNeptuneGood
+    exo:confirmsInWorld  :W0 ;
+    exo:rejectsInWorld   :W3 .
+
+  :CommonHotNeptuneLowSpec
+    exo:rejectsInWorld :W0, :W3 .
+}
+=>
+{
+  :check5
+    :ok true ;
+    :msg "Check 5: on this example set, the cautious Bayes world W3 is at least as conservative as the reference world W0: every candidate that W3 confirms is also confirmed by W0, and W3 rejects all candidates that W0 rejects plus the borderline CommonHotNeptuneGood case." .
+} .
+

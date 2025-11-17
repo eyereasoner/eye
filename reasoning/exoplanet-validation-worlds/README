@@ -1,0 +1,31 @@
+---------------------------
+Exoplanet Validation Worlds
+---------------------------
+
+This directory contains a single Notation3 file that encodes a toy case 
+study about validating exoplanet candidates from a transit survey 
+pipeline in four different “worlds” of reasoning. Each candidate is 
+described by a prior occurrence rate for that type of planet, and by 
+the pipeline’s sensitivity and specificity. The reference world W0 
+applies Bayes’ rule to combine these into a posterior probability 
+that a detected transit-like signal is a real planet, and confirms the 
+candidate only if that probability is high enough. W1 behaves like a 
+naive view that looks mostly at sensitivity and treats the pipeline as 
+“great” whenever it rarely misses planets, without fully accounting 
+for occurrence or false positives. W2 uses a simple heuristic gate on 
+occurrence, sensitivity and specificity. W3 is a cautious Bayes world 
+that uses the same posterior as W0 but demands a stricter confirmation 
+threshold.
+
+From these inputs, the core rules compute, for each candidate and 
+world, whether the signal is confirmed or rejected. An ARC layer then 
+derives an Answer node summarising how the worlds agree and disagree on 
+four illustrative candidates (from a very rare long-period regime to a 
+common hot Neptune with reduced specificity), a Reason node explaining 
+how the worlds relate to Bayes’ rule, and five Check nodes that 
+capture relationships like “only the naive world confirms a very rare 
+candidate” and “the cautious Bayes world is at least as 
+conservative as the reference Bayes world on these examples”. All ARC 
+triples are derived from the same numeric core, so changing the 
+candidates or world thresholds will update the Answer, Reason and 
+Checks automatically.

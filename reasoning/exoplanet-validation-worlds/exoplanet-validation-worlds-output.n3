@@ -1,0 +1,22 @@
+@prefix : <http://example.org/exoplanet#>.
+
+:answer :text "Across these four exoplanet candidates, the full-Bayes world W0 and the cautious world W3 agree that signals from very rare regimes (RareWideOrbit) and from pipelines with lower specificity (CommonHotNeptuneLowSpec) do not yet justify a planet claim, whereas the naive world W1, which looks only at sensitivity, still promotes them as confirmed. In the high-occurrence MstarShortPeriod case, all four worlds agree that the candidate is secure. For the CommonHotNeptuneGood candidate, W0 and W2 find the posterior probability high enough, while W3 applies a stricter Bayes threshold and remains cautious. The overall picture is that ignoring occurrence rates or false positives can make a detection look more solid than it is, while raising the posterior threshold can turn some borderline but plausible candidates into 'needs more vetting' cases.".
+:answer :usesWorld :W0.
+:answer :usesWorld :W1.
+:answer :usesWorld :W2.
+:answer :usesWorld :W3.
+:answer :usesCandidate :RareWideOrbit.
+:answer :usesCandidate :MstarShortPeriod.
+:answer :usesCandidate :CommonHotNeptuneGood.
+:answer :usesCandidate :CommonHotNeptuneLowSpec.
+:reason :says "World W0 anchors the case in Bayes’ rule: it combines occurrence rate, pipeline sensitivity and specificity into a posterior probability that a transit-like signal is a real planet, and it confirms only when that probability is high. In the RareWideOrbit scenario, Bayes reveals that even an excellent pipeline can produce mostly impostors when the underlying planet population is extremely sparse, so W0 (and the heuristic W2 and cautious W3) refuse to confirm. World W1 behaves like a naive view of survey performance that focuses on sensitivity alone, so as long as the pipeline rarely misses planets it will treat those same detections as secure, regardless of occurrence or false positives. World W2 adds a pragmatic filter that demands both a minimum occurrence and high specificity, catching some of the over-optimism of W1 without doing full Bayes. World W3 goes in the opposite direction and raises the posterior threshold, turning cases like CommonHotNeptuneGood into ones that still need extra vetting. The four worlds illustrate how different uses of Bayesian information, and different safety margins, can shift whether a detection is labeled as a confirmed exoplanet.".
+:check1 :ok true.
+:check1 :msg "Check 1: for the MstarShortPeriod candidate in a high-occurrence regime with an excellent pipeline, all four worlds agree that the signal is trustworthy and confirm the planet.".
+:check2 :ok true.
+:check2 :msg "Check 2: in the RareWideOrbit scenario, only the sensitivity-based world W1 confirms the candidate; the Bayes world W0, the heuristic world W2 and the cautious world W3 all reject it because the underlying planet occurrence is too low for a single detection to be convincing.".
+:check3 :ok true.
+:check3 :msg "Check 3: for the CommonHotNeptuneGood candidate, the cautious Bayes world W3 is stricter than the reference world W0 and the simpler worlds W1 and W2, rejecting a signal that the others treat as sufficiently likely to be a real planet.".
+:check4 :ok true.
+:check4 :msg "Check 4: in the CommonHotNeptuneLowSpec scenario, where the pipeline has more false positives, only the naive sensitivity-based world W1 continues to confirm the candidate; W0, W2 and W3 all reject it, showing how ignoring false-positive behaviour can make a detection seem more secure than it is.".
+:check5 :ok true.
+:check5 :msg "Check 5: on this example set, the cautious Bayes world W3 is at least as conservative as the reference world W0: every candidate that W3 confirms is also confirmed by W0, and W3 rejects all candidates that W0 rejects plus the borderline CommonHotNeptuneGood case.".
