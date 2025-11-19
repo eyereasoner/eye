@@ -1,0 +1,29 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :A :moreInterestingThan :C.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :A :moreInterestingThan :C.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {:A :moreInterestingThan :C}]
+    );
+    r:rule skolem:lemma2.
+
+skolem:lemma2 a r:Extraction;
+    r:gives {
+        {
+            :A :moreInterestingThan :C.
+        } => {
+            :A :moreInterestingThan :C.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/backward-more/backward-more-query2.n3>].
+

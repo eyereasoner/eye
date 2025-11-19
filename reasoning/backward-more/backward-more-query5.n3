@@ -1,0 +1,10 @@
+@prefix : <http://example.org/#>.
+
+# Open variable: Who is moreInterestingThan C?
+#    Expect B (fact), A (via A>B & B>C), and D (via D>B & B>C).
+{
+    ?Who :moreInterestingThan :C.
+} => {
+    ?Who :moreInterestingThan :C.
+}.
+
