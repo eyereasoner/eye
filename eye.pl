@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.23.1 (2025-11-07)').
+version_info('EYE v11.23.2 (2025-12-09)').
 
 license_info('MIT License
 
@@ -9028,7 +9028,7 @@ userInput(A, B) :-
         (   ground(X)
         ),
         (   getnumber(X, U),
-            Y is round(round(U))
+            Y is floor(U+0.5)
         )
     ).
 
