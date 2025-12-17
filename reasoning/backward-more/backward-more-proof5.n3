@@ -10,8 +10,8 @@ skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma3;
     r:gives {
         :A :moreInterestingThan :C.
-        :D :moreInterestingThan :C.
         :B :moreInterestingThan :C.
+        :D :moreInterestingThan :C.
     }.
 
 skolem:lemma1 a r:Inference;
@@ -26,22 +26,22 @@ skolem:lemma1 a r:Inference;
 
 skolem:lemma2 a r:Inference;
     r:gives {
-        :D :moreInterestingThan :C.
-    };
-    r:evidence (
-        [ a r:Fact; r:gives {:D :moreInterestingThan :C}]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#D"]];
-    r:rule skolem:lemma4.
-
-skolem:lemma3 a r:Inference;
-    r:gives {
         :B :moreInterestingThan :C.
     };
     r:evidence (
         skolem:lemma5
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#B"]];
+    r:rule skolem:lemma4.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        :D :moreInterestingThan :C.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {:D :moreInterestingThan :C}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#D"]];
     r:rule skolem:lemma4.
 
 skolem:lemma4 a r:Extraction;
