@@ -99,12 +99,12 @@
 {("2009-01-25T12:00:00"^^xsd:dateTime "1970-01-01T00:00:00"^^xsd:dateTime) math:difference 1232884800} => {:mathd2 :result true}.
 {(2 ?X) math:exponentiation 8.0. (4.0 ?X) math:product 12.0} => {:mathe1 :result true}.
 {2 math:greaterThan 1} => {:mathg1 :result true}.
-{"02" math:greaterThan "1"} => {:mathg2 :result true}.
+{"02"^^xsd:integer math:greaterThan "1"^^xsd:integer} => {:mathg2 :result true}.
 {(:u :v :u) math:memberCount 3} => {:mathm1 :result true}.
 {{:s :p :o1. :s :p :o2. :s :p :o1} math:memberCount 2} => {:mathm2 :result true}.
 {7 math:notLessThan 5} => {:mathnl1 :result true}.
 {(1 1) math:sum 2} => {:maths1 :result true}.
-{("1" "1") math:sum 2} => {:maths2 :result true}.
+{("1"^^xsd:integer "1"^^xsd:integer) math:sum 2} => {:maths2 :result true}.
 {("1970-01-01T00:00:00+01:00"^^xsd:dateTime) math:sum -3600} => {:maths3 :result true}.
 {("P1D"^^xsd:duration) math:sum 86400.0} => {:maths4 :result true}.
 

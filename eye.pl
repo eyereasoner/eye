@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.23.2 (2025-12-09)').
+version_info('EYE v11.23.3 (2025-12-27)').
 
 license_info('MIT License
 
@@ -7362,7 +7362,8 @@ prepare_builtins :-
         (   nonvar(A)
         ),
         (   getlist(A, D),
-            nth0(B, D, C)
+            getnumbervar(B, E),
+            nth0(E, D, C)
         )
     ).
 
@@ -7387,7 +7388,8 @@ prepare_builtins :-
                 ;   C = D
                 )
             ),
-            length(C, B)
+            getnumbervar(B, E),
+            length(C, E)
         )
     ).
 
@@ -7421,7 +7423,8 @@ prepare_builtins :-
         (   nonvar(A)
         ),
         (   getlist(A, D),
-            nth0(B, D, C)
+            getnumber(B, E),
+            nth0(E, D, C)
         )
     ).
 
@@ -8629,7 +8632,8 @@ userInput(A, B) :-
         (   ground(X)
         ),
         (   getnumber(X, U),
-            Y is abs(U)
+            getnumbervar(Y, V),
+            V is abs(U)
         )
     ).
 
@@ -8639,10 +8643,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is acos(U),
+            getnumbervar(Y, V),
+            V is acos(U),
             !
-        ;   getnumber(Y, V),
-            X is cos(V)
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
+            U is cos(V)
         )
     ).
 
@@ -8652,10 +8658,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is acosh(U),
+            getnumbervar(Y, V),
+            V is acosh(U),
             !
-        ;   getnumber(Y, V),
-            X is cosh(V)
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
+            U is cosh(V)
         )
     ).
 
@@ -8665,10 +8673,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is asin(U),
+            getnumbervar(Y, V),
+            V is asin(U),
             !
-        ;   getnumber(Y, V),
-            X is sin(V)
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
+            U is sin(V)
         )
     ).
 
@@ -8678,10 +8688,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is asinh(U),
+            getnumbervar(Y, V),
+            V is asinh(U),
             !
-        ;   getnumber(Y, V),
-            X is sinh(V)
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
+            U is sinh(V)
         )
     ).
 
@@ -8691,10 +8703,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is atan(U),
+            getnumbervar(Y, V),
+            V is atan(U),
             !
-        ;   getnumber(Y, V),
-            X is tan(V)
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
+            U is tan(V)
         )
     ).
 
@@ -8704,7 +8718,8 @@ userInput(A, B) :-
         ),
         (   getnumber(X, U),
             getnumber(Y, V),
-            Z is atan(U/V)
+            getnumbervar(Z, W),
+            W is atan(U/V)
         )
     ).
 
@@ -8714,10 +8729,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is atanh(U),
+            getnumbervar(Y, V),
+            V is atanh(U),
             !
-        ;   getnumber(Y, V),
-            X is tanh(V)
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
+            U is tanh(V)
         )
     ).
 
@@ -8726,7 +8743,8 @@ userInput(A, B) :-
         (   ground(X)
         ),
         (   getnumber(X, U),
-            Y is ceiling(U)
+            getnumbervar(Y, V),
+            V is ceiling(U)
         )
     ).
 
@@ -8736,10 +8754,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is cos(U),
+            getnumbervar(Y, V),
+            V is cos(U),
             !
-        ;   getnumber(Y, V),
-            X is acos(V)
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
+            U is acos(V)
         )
     ).
 
@@ -8749,10 +8769,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is cosh(U),
+            getnumbervar(Y, V),
+            V is cosh(U),
             !
-        ;   getnumber(Y, V),
-            X is acosh(V)
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
+            U is acosh(V)
         )
     ).
 
@@ -8762,10 +8784,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is U*180/pi,
+            getnumbervar(Y, V),
+            V is U*180/pi,
             !
-        ;   getnumber(Y, V),
-            X is V*pi/180
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
+            U is V*pi/180
         )
     ).
 
@@ -8776,15 +8800,18 @@ userInput(A, B) :-
         ),
         (   getnumber(X, U),
             getnumber(Y, V),
-            Z is U-V,
+            getnumbervar(Z, W),
+            W is U-V,
             !
         ;   getnumber(X, U),
+            getnumbervar(Y, V),
             getnumber(Z, W),
-            Y is U-W,
+            V is U-W,
             !
-        ;   getnumber(Y, V),
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
             getnumber(Z, W),
-            X is V+W
+            U is V+W
         )
     ).
 
@@ -8805,12 +8832,14 @@ userInput(A, B) :-
         ),
         (   getnumber(X, U),
             (   getnumber(Y, V),
-                Z is U**V,
+                getnumbervar(Z, W),
+                W is U**V,
                 !
-            ;   getnumber(Z, W),
+            ;   getnumbervar(Y, V),
+                getnumber(Z, W),
                 W =\= 0,
                 U =\= 0,
-                Y is log(W)/log(U)
+                V is log(W)/log(U)
             )
         )
     ).
@@ -8820,7 +8849,8 @@ userInput(A, B) :-
         (   ground(X)
         ),
         (   getnumber(X, U),
-            Y is floor(U)
+            getnumbervar(Y, V),
+            V is floor(U)
         )
     ).
 
@@ -8840,8 +8870,9 @@ userInput(A, B) :-
         ),
         (   getnumber(X, U),
             getnumber(Y, V),
+            getnumbervar(Z, W),
             (   V =\= 0
-            ->  Z is round(floor(U/V))
+            ->  W is round(floor(U/V))
             ;   throw(zero_division('<http://www.w3.org/2000/10/swap/math#integerQuotient>'([X, Y], Z)))
             )
         )
@@ -8864,12 +8895,14 @@ userInput(A, B) :-
         ),
         (   getnumber(X, U),
             (   getnumber(Y, V),
+                getnumbervar(Z, W),
                 V =\= 0,
                 U =\= 0,
-                Z is log(U)/log(V),
+                W is log(U)/log(V),
                 !
-            ;   getnumber(Z, W),
-                Y is U**(1/W)
+            ;   getnumbervar(Y, V),
+                getnumber(Z, W),
+                V is U**(1/W)
             )
         )
     ).
@@ -8885,7 +8918,8 @@ userInput(A, B) :-
                 ),
                 Z
             ),
-            max_list(Z, Y)
+            getnumbervar(Y, V),
+            max_list(Z, V)
         )
     ).
 
@@ -8901,7 +8935,8 @@ userInput(A, B) :-
                 ;   Z = U
                 )
             ),
-            length(Z, Y)
+            getnumbervar(Y, V),
+            length(Z, V)
         )
     ).
 
@@ -8916,7 +8951,8 @@ userInput(A, B) :-
                 ),
                 Z
             ),
-            min_list(Z, Y)
+            getnumbervar(Y, V),
+            min_list(Z, V)
         )
     ).
 
@@ -8926,10 +8962,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is -U,
+            getnumbervar(Y, V),
+            V is -U,
             !
-        ;   getnumber(Y, V),
-            X is -V
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
+            U is -V
         )
     ).
 
@@ -8968,7 +9006,8 @@ userInput(A, B) :-
         (   ground(X)
         ),
         (   getlist(X, Z),
-            product(Z, Y)
+            getnumbervar(Y, V),
+            product(Z, V)
         )
     ).
 
@@ -8979,21 +9018,24 @@ userInput(A, B) :-
         ),
         (   getnumber(X, U),
             getnumber(Y, V),
+            getnumbervar(Z, W),
             (   V =\= 0
             ->  Z is U/V
             ;   throw(zero_division('<http://www.w3.org/2000/10/swap/math#quotient>'([X, Y], Z)))
             ),
             !
         ;   getnumber(X, U),
+            getnumbervar(Y, V),
             getnumber(Z, W),
             (   W =\= 0
-            ->  Y is U/W
+            ->  V is U/W
             ;   throw(zero_division('<http://www.w3.org/2000/10/swap/math#quotient>'([X, Y], Z)))
             ),
             !
-        ;   getnumber(Y, V),
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
             getnumber(Z, W),
-            X is V*W
+            U is V*W
         )
     ).
 
@@ -9003,10 +9045,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is U*pi/180,
+            getnumbervar(Y, V),
+            V is U*pi/180,
             !
-        ;   getnumber(Y, V),
-            X is V*180/pi
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
+            U is V*180/pi
         )
     ).
 
@@ -9016,8 +9060,9 @@ userInput(A, B) :-
         ),
         (   getnumber(X, U),
             getnumber(Y, V),
+            getnumbervar(Z, W),
             (   V =\= 0
-            ->  Z is U-V*round(floor(U/V))
+            ->  W is U-V*round(floor(U/V))
             ;   throw(zero_division('<http://www.w3.org/2000/10/swap/math#remainder>'([X, Y], Z)))
             )
         )
@@ -9028,7 +9073,8 @@ userInput(A, B) :-
         (   ground(X)
         ),
         (   getnumber(X, U),
-            Y is floor(U+0.5)
+            getnumbervar(Y, V),
+            V is floor(U+0.5)
         )
     ).
 
@@ -9038,8 +9084,9 @@ userInput(A, B) :-
         ),
         (   getnumber(X, U),
             getnumber(Y, V),
+            getnumbervar(Z, W),
             F is 10**floor(V),
-            Z is round(round(U*F))/F
+            W is round(round(U*F))/F
         )
     ).
 
@@ -9049,10 +9096,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is sin(U),
+            getnumbervar(Y, V),
+            V is sin(U),
             !
-        ;   getnumber(Y, V),
-            X is asin(V)
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
+            U is asin(V)
         )
     ).
 
@@ -9062,10 +9111,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is sinh(U),
+            getnumbervar(Y, V),
+            V is sinh(U),
             !
-        ;   getnumber(Y, V),
-            X is asinh(V)
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
+            U is asinh(V)
         )
     ).
 
@@ -9074,7 +9125,8 @@ userInput(A, B) :-
         (   ground(X)
         ),
         (   getlist(X, Z),
-            sum(Z, Y)
+            getnumbervar(Y, V),
+            sum(Z, V)
         )
     ).
 
@@ -9084,10 +9136,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is tan(U),
+            getnumbervar(Y, V),
+            V is tan(U),
             !
-        ;   getnumber(Y, V),
-            X is atan(V)
+        ;   getnumnervar(X, U),
+            getnumber(Y, V),
+            U is atan(V)
         )
     ).
 
@@ -9097,10 +9151,12 @@ userInput(A, B) :-
         ;   ground(Y)
         ),
         (   getnumber(X, U),
-            Y is tanh(U),
+            getnumbervar(Y, V),
+            V is tanh(U),
             !
-        ;   getnumber(Y, V),
-            X is atanh(V)
+        ;   getnumbervar(X, U),
+            getnumber(Y, V),
+            U is atanh(V)
         )
     ).
 
@@ -13434,6 +13490,12 @@ raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForSome>') :-
     !.
 raw_type(_, '<http://www.w3.org/2000/10/swap/log#Other>').
 
+getnumbervar(A, A) :-
+    var(A),
+    !.
+getnumbervar(A, B) :-
+    getnumber(A, B).
+
 getnumber(rdiv(A, B), C) :-
     nonvar(A),
     !,
@@ -13479,8 +13541,26 @@ getnumber(literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))
     ground(A),
     atom_codes(A, C),
     daytimeduration(B, C, []).
-getnumber(literal(A, _), B) :-
+getnumber(literal(A, type(T)), B) :-
     ground(A),
+    memberchk(T, [
+        '<http://www.w3.org/2001/XMLSchema#decimal>',
+        '<http://www.w3.org/2001/XMLSchema#integer>',
+        '<http://www.w3.org/2001/XMLSchema#nonPositiveInteger>',
+        '<http://www.w3.org/2001/XMLSchema#negativeInteger>',
+        '<http://www.w3.org/2001/XMLSchema#long>',
+        '<http://www.w3.org/2001/XMLSchema#int>',
+        '<http://www.w3.org/2001/XMLSchema#short>',
+        '<http://www.w3.org/2001/XMLSchema#byte>',
+        '<http://www.w3.org/2001/XMLSchema#nonNegativeInteger>',
+        '<http://www.w3.org/2001/XMLSchema#unsignedLong>',
+        '<http://www.w3.org/2001/XMLSchema#unsignedInt>',
+        '<http://www.w3.org/2001/XMLSchema#unsignedShort>',
+        '<http://www.w3.org/2001/XMLSchema#unsignedByte>',
+        '<http://www.w3.org/2001/XMLSchema#positiveInteger>',
+        '<http://www.w3.org/2001/XMLSchema#float>',
+        '<http://www.w3.org/2001/XMLSchema#double>'
+    ]),
     atom_codes(A, C),
     numeral(C, D),
     catch(number_codes(B, D), _, fail).

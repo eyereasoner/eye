@@ -11,25 +11,14 @@ skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma4;
     r:component skolem:lemma5;
     r:gives {
-        :A :moreInterestingThan :B.
         :A :moreInterestingThan :C.
-        :B :moreInterestingThan :C.
-        :D :moreInterestingThan :B.
+        :A :moreInterestingThan :B.
         :D :moreInterestingThan :C.
+        :D :moreInterestingThan :B.
+        :B :moreInterestingThan :C.
     }.
 
 skolem:lemma1 a r:Inference;
-    r:gives {
-        :A :moreInterestingThan :B.
-    };
-    r:evidence (
-        [ a r:Fact; r:gives {:A :moreInterestingThan :B}]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#A"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#B"]];
-    r:rule skolem:lemma6.
-
-skolem:lemma2 a r:Inference;
     r:gives {
         :A :moreInterestingThan :C.
     };
@@ -40,14 +29,25 @@ skolem:lemma2 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#C"]];
     r:rule skolem:lemma6.
 
-skolem:lemma3 a r:Inference;
+skolem:lemma2 a r:Inference;
     r:gives {
-        :B :moreInterestingThan :C.
+        :A :moreInterestingThan :B.
     };
     r:evidence (
-        skolem:lemma7
+        [ a r:Fact; r:gives {:A :moreInterestingThan :B}]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#B"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#A"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#B"]];
+    r:rule skolem:lemma6.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        :D :moreInterestingThan :C.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {:D :moreInterestingThan :C}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#D"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#C"]];
     r:rule skolem:lemma6.
 
@@ -64,12 +64,12 @@ skolem:lemma4 a r:Inference;
 
 skolem:lemma5 a r:Inference;
     r:gives {
-        :D :moreInterestingThan :C.
+        :B :moreInterestingThan :C.
     };
     r:evidence (
-        [ a r:Fact; r:gives {:D :moreInterestingThan :C}]
+        skolem:lemma7
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#D"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#B"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#C"]];
     r:rule skolem:lemma6.
 
