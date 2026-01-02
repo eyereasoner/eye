@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.23.3 (2025-12-27)').
+version_info('EYE v11.23.4 (2026-01-02)').
 
 license_info('MIT License
 
@@ -7402,7 +7402,7 @@ prepare_builtins :-
             findall(E,
                 (   member(F, D),
                     G =.. [B, F, E],
-                    G
+                    catch(call(G), _, fail)
                 ),
                 C
             )
