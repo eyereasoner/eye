@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.23.5 (2026-01-06)').
+version_info('EYE v11.23.6 (2026-01-07)').
 
 license_info('MIT License
 
@@ -9556,7 +9556,7 @@ replace_matches(Input, [Match|Rest], Replace, Output) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/time#day>'(literal(X, _), literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+'<http://www.w3.org/2000/10/swap/time#day>'(literal(X, _), literal(Y, type('<http://www.w3.org/2001/XMLSchema#integer>'))) :-
     when(
         (   ground(X)
         ),
@@ -9572,7 +9572,7 @@ replace_matches(Input, [Match|Rest], Replace, Output) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/time#month>'(literal(X, _), literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+'<http://www.w3.org/2000/10/swap/time#month>'(literal(X, _), literal(Y, type('<http://www.w3.org/2001/XMLSchema#integer>'))) :-
     when(
         (   ground(X)
         ),
@@ -9580,7 +9580,7 @@ replace_matches(Input, [Match|Rest], Replace, Output) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/time#year>'(literal(X, _), literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+'<http://www.w3.org/2000/10/swap/time#year>'(literal(X, _), literal(Y, type('<http://www.w3.org/2001/XMLSchema#integer>'))) :-
     when(
         (   ground(X)
         ),
