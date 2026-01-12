@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.23.6 (2026-01-07)').
+version_info('EYE v11.23.7 (2026-01-12)').
 
 license_info('MIT License
 
@@ -6345,6 +6345,7 @@ prepare_builtins :-
     \+flag(restricted),
     nonvar(A),
     A \= [_, _],
+    \+number(A),
     !,
     when(
         (   nonvar(B)
@@ -6488,6 +6489,7 @@ prepare_builtins :-
     \+flag(restricted),
     nonvar(A),
     A \= [_, _],
+    \+number(A),
     !,
     when(
         (   nonvar(B)
@@ -6603,6 +6605,7 @@ prepare_builtins :-
     \+flag(restricted),
     nonvar(A),
     A \= [_, _],
+    \+number(A),
     !,
     when(
         (   nonvar(B)
@@ -7715,6 +7718,7 @@ userInput(A, B) :-
     \+flag(restricted),
     nonvar(A),
     A \= [_, _],
+    \+number(A),
     !,
     when(
         (   nonvar(B)
@@ -7949,6 +7953,7 @@ userInput(A, B) :-
     \+flag(restricted),
     nonvar(A),
     A \= [_, _],
+    \+number(A),
     !,
     when(
         (   nonvar(B)
@@ -8062,6 +8067,7 @@ userInput(A, B) :-
     \+flag(restricted),
     nonvar(B),
     B \= [_, _],
+    \+number(B),
     !,
     when(
         (   nonvar(A)
@@ -8191,6 +8197,7 @@ userInput(A, B) :-
             nonvar(Y)
         ),
         (   X \= [_, _],
+            \+number(X),
             conj_list(X, A),
             conj_list(Y, B),
             includes(A, B)
@@ -8320,6 +8327,7 @@ userInput(A, B) :-
             nonvar(Y)
         ),
         (   X \= [_, _],
+            \+number(X),
             conj_list(X, A),
             conj_list(Y, B),
             \+includes(A, B)
@@ -12232,6 +12240,17 @@ within_scope([A, B]) :-
         recursion(B)
     ),
     nb_getval(scope, A).
+within_scope(B) :-
+    number(B),
+    (   B = 0
+    ->  brake
+    ;   nb_getval(limit, C),
+        (   C < B
+        ->  nb_setval(limit, B)
+        ;   true
+        ),
+        recursion(B)
+    ).
 
 stable(Level) :-
     within_scope([_, Level]).
