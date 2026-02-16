@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.23.7 (2026-01-12)').
+version_info('EYE v11.23.8 (2026-02-16)').
 
 license_info('MIT License
 
@@ -7564,7 +7564,7 @@ prepare_builtins :-
         (   nonvar(A)
         ),
         (   getlist(A, C),
-            sort(C, B)
+            sort(0, '@=<', C, B)
         )
     ).
 
