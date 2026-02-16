@@ -9,12 +9,22 @@ skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma2;
     r:component skolem:lemma3;
     r:gives {
-        :A :moreInterestingThan :C.
         :B :moreInterestingThan :C.
+        :A :moreInterestingThan :C.
         :D :moreInterestingThan :C.
     }.
 
 skolem:lemma1 a r:Inference;
+    r:gives {
+        :B :moreInterestingThan :C.
+    };
+    r:evidence (
+        skolem:lemma4
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#B"]];
+    r:rule skolem:lemma5.
+
+skolem:lemma2 a r:Inference;
     r:gives {
         :A :moreInterestingThan :C.
     };
@@ -22,17 +32,7 @@ skolem:lemma1 a r:Inference;
         [ a r:Fact; r:gives {:A :moreInterestingThan :C}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#A"]];
-    r:rule skolem:lemma4.
-
-skolem:lemma2 a r:Inference;
-    r:gives {
-        :B :moreInterestingThan :C.
-    };
-    r:evidence (
-        skolem:lemma5
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#B"]];
-    r:rule skolem:lemma4.
+    r:rule skolem:lemma5.
 
 skolem:lemma3 a r:Inference;
     r:gives {
@@ -42,9 +42,15 @@ skolem:lemma3 a r:Inference;
         [ a r:Fact; r:gives {:D :moreInterestingThan :C}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#D"]];
-    r:rule skolem:lemma4.
+    r:rule skolem:lemma5.
 
 skolem:lemma4 a r:Extraction;
+    r:gives {
+        :B :moreInterestingThan :C.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/backward-more/backward-more.n3>].
+
+skolem:lemma5 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
             var:x_0 :moreInterestingThan :C.
@@ -53,10 +59,4 @@ skolem:lemma4 a r:Extraction;
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/backward-more/backward-more-query5.n3>].
-
-skolem:lemma5 a r:Extraction;
-    r:gives {
-        :B :moreInterestingThan :C.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/backward-more/backward-more.n3>].
 
