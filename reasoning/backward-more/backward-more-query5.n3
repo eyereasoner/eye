@@ -1,10 +1,12 @@
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
 # Open variable: Who is moreInterestingThan C?
 #    Expect B (fact), A (via A>B & B>C), and D (via D>B & B>C).
 {
-    ?Who :moreInterestingThan :C.
-} => {
-    ?Who :moreInterestingThan :C.
-}.
+    ({ ?X :moreInterestingThan :C } { ?X :moreInterestingThan :C } ?L) log:collectAllIn ?SCOPE.
+    ?L list:sort ?S.
+    ?S list:member ?M.
+} => ?M.
 
