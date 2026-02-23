@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+if [[ $# -ne 1 ]]; then
+  echo "Usage: eyering <file.n3>" >&2
+  exit 1
+fi
+
+file="$1"
+
+if [[ ! -f "$file" ]]; then
+  echo "Error: file not found: $file" >&2
+  exit 1
+fi
+
+if grep -q 'log:query' "$file"; then
+  exec eye --quiet --nope "$file"
+else
+  exec eye --quiet --nope --pass-only-new "$file"
+fi
