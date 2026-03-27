@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.23.8 (2026-02-16)').
+version_info('EYE v11.23.9 (2026-03-27)').
 
 license_info('MIT License
 
@@ -2282,7 +2282,7 @@ pathitem(Number, [], L1, L2) :-
     sub_atom(Atom, 1, _, 1, A),
     atom_codes(A, NumB),
     numeral(NumB, NumC),
-    number_codes(Number, NumC),
+    catch(number_codes(Number, NumC), _, fail),
     !.
 pathitem(literal(Atom, DtLang), []) -->
     literal(Atom, DtLang),
