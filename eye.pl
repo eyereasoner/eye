@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.23.9 (2026-03-27)').
+version_info('EYE v11.23.10 (2026-03-28)').
 
 license_info('MIT License
 
@@ -2032,8 +2032,7 @@ boolean(Boolean) -->
         ->  true
         ;   (   flag('parse-only')
             ->  true
-            ;   nb_getval(line_number, Ln),
-                throw(invalid_boolean_literal(Atom, after_line(Ln)))
+            ;   fail
             )
         )
     }.

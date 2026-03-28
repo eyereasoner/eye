@@ -1,0 +1,35 @@
+@prefix : <http://example.org/#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+(:badBool :p "truish"^^xsd:boolean) :datatype xsd:boolean.
+(:badBool :p "truish"^^xsd:boolean) :lexicalForm "truish".
+(:badBool :p "truish"^^xsd:boolean) :reason "invalid xsd:boolean lexical form".
+(:badInt1 :p "abc"^^xsd:integer) :datatype xsd:integer.
+(:badInt1 :p "abc"^^xsd:integer) :lexicalForm "abc".
+(:badInt1 :p "abc"^^xsd:integer) :reason "invalid integer-family lexical form".
+(:badInt2 :p "12.3"^^xsd:int) :datatype xsd:int.
+(:badInt2 :p "12.3"^^xsd:int) :lexicalForm "12.3".
+(:badInt2 :p "12.3"^^xsd:int) :reason "invalid integer-family lexical form".
+(:badDecimal :p "12.3.4"^^xsd:decimal) :datatype xsd:decimal.
+(:badDecimal :p "12.3.4"^^xsd:decimal) :lexicalForm "12.3.4".
+(:badDecimal :p "12.3.4"^^xsd:decimal) :reason "invalid xsd:decimal lexical form".
+(:badDouble :p "1e"^^xsd:double) :datatype xsd:double.
+(:badDouble :p "1e"^^xsd:double) :lexicalForm "1e".
+(:badDouble :p "1e"^^xsd:double) :reason "invalid xsd:float/xsd:double lexical form".
+(:badBool :p "truish"^^xsd:boolean) :illFormedLiteral true.
+(:badInt1 :p "abc"^^xsd:integer) :illFormedLiteral true.
+(:badInt2 :p "12.3"^^xsd:int) :illFormedLiteral true.
+(:badDecimal :p "12.3.4"^^xsd:decimal) :illFormedLiteral true.
+(:badDouble :p "1e"^^xsd:double) :illFormedLiteral true.
+(:badDate :p "yesterday"^^xsd:dateTime) :datatype xsd:dateTime.
+(:badDate :p "yesterday"^^xsd:dateTime) :lexicalForm "yesterday".
+(:badDate :p "yesterday"^^xsd:dateTime) :reason "xsd:dateTime literal is not parseable by the reasoner".
+(:badDateTime :p "not-a-datetime"^^xsd:dateTime) :datatype xsd:dateTime.
+(:badDateTime :p "not-a-datetime"^^xsd:dateTime) :lexicalForm "not-a-datetime".
+(:badDateTime :p "not-a-datetime"^^xsd:dateTime) :reason "xsd:dateTime literal is not parseable by the reasoner".
+(:badDuration :p "not-a-duration"^^xsd:duration) :datatype xsd:duration.
+(:badDuration :p "not-a-duration"^^xsd:duration) :lexicalForm "not-a-duration".
+(:badDuration :p "not-a-duration"^^xsd:duration) :reason "xsd:duration literal is not parseable by the reasoner".
+(:badDate :p "yesterday"^^xsd:dateTime) :illFormedLiteral true.
+(:badDateTime :p "not-a-datetime"^^xsd:dateTime) :illFormedLiteral true.
+(:badDuration :p "not-a-duration"^^xsd:duration) :illFormedLiteral true.

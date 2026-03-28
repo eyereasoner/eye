@@ -1,0 +1,195 @@
+# ==========================
+# Ill-formed literal checker
+#
+# Datatypes covered
+# - xsd:boolean
+# - integer family
+# - xsd:decimal
+# - xsd:float / xsd:double
+# - xsd:date
+# - xsd:dateTime
+# - xsd:duration
+# ==========================
+
+@prefix :       <http://example.org/#>.
+@prefix list:   <http://www.w3.org/2000/10/swap/list#>.
+@prefix log:    <http://www.w3.org/2000/10/swap/log#>.
+@prefix math:   <http://www.w3.org/2000/10/swap/math#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#>.
+
+# ---------
+# Demo data
+# ---------
+
+# well-formed examples
+:okInt       :p "42"^^xsd:integer.
+:okBool1     :p "true"^^xsd:boolean.
+:okBool2     :p "0"^^xsd:boolean.
+:okDecimal   :p "-12.50"^^xsd:decimal.
+:okDouble    :p "6.022e23"^^xsd:double.
+:okDate      :p "2025-01-31"^^xsd:date.
+:okDateTime  :p "2025-01-31T23:59:59Z"^^xsd:dateTime.
+:okDuration  :p "PT900S"^^xsd:duration.
+
+# ill-formed examples
+:badInt1      :p "abc"^^xsd:integer.
+:badInt2      :p "12.3"^^xsd:int.
+:badBool      :p "truish"^^xsd:boolean.
+:badDecimal   :p "12.3.4"^^xsd:decimal.
+:badDouble    :p "1e"^^xsd:double.
+:badDate      :p "yesterday"^^xsd:dateTime.
+:badDateTime  :p "not-a-datetime"^^xsd:dateTime.
+:badDuration  :p "not-a-duration"^^xsd:duration.
+
+# ---------------------------------
+# Rules: detect ill-formed literals
+# ---------------------------------
+
+# xsd:boolean
+{
+  ?s ?p ?lit.
+  ?lit log:rawType log:Literal.
+  (?lex xsd:boolean) log:dtlit ?lit.
+  ?lex string:notMatches "^(true|false|1|0)$".
+}
+=>
+{
+  (?s ?p ?lit)
+      :illFormedLiteral true;
+      :datatype xsd:boolean;
+      :lexicalForm ?lex;
+      :reason "invalid xsd:boolean lexical form".
+}.
+
+# integer family
+{
+  ?s ?p ?lit.
+  ?lit log:rawType log:Literal.
+  (?lex ?dt) log:dtlit ?lit.
+  ?dt list:in (
+      xsd:integer
+      xsd:long
+      xsd:int
+      xsd:short
+      xsd:byte
+      xsd:nonNegativeInteger
+      xsd:positiveInteger
+      xsd:nonPositiveInteger
+      xsd:negativeInteger
+      xsd:unsignedLong
+      xsd:unsignedInt
+      xsd:unsignedShort
+      xsd:unsignedByte
+  ).
+  ?lex string:notMatches "^[+-]?[0-9]+$".
+}
+=>
+{
+  (?s ?p ?lit)
+      :illFormedLiteral true;
+      :datatype ?dt;
+      :lexicalForm ?lex;
+      :reason "invalid integer-family lexical form".
+}.
+
+# xsd:decimal
+{
+  ?s ?p ?lit.
+  ?lit log:rawType log:Literal.
+  (?lex xsd:decimal) log:dtlit ?lit.
+  ?lex string:notMatches "^[+-]?(?:[0-9]+\\.[0-9]*|\\.[0-9]+|[0-9]+)$".
+}
+=>
+{
+  (?s ?p ?lit)
+      :illFormedLiteral true;
+      :datatype xsd:decimal;
+      :lexicalForm ?lex;
+      :reason "invalid xsd:decimal lexical form".
+}.
+
+# xsd:float / xsd:double
+{
+  ?s ?p ?lit.
+  ?lit log:rawType log:Literal.
+  (?lex ?dt) log:dtlit ?lit.
+  ?dt list:in ( xsd:float xsd:double ).
+  ?lex string:notMatches "^(?:NaN|INF|-INF|[+-]?(?:[0-9]+(?:\\.[0-9]*)?|\\.[0-9]+)(?:[eE][+-]?[0-9]+)?)$".
+}
+=>
+{
+  (?s ?p ?lit)
+      :illFormedLiteral true;
+      :datatype ?dt;
+      :lexicalForm ?lex;
+      :reason "invalid xsd:float/xsd:double lexical form".
+}.
+
+# xsd:date
+{
+  ?s ?p ?lit.
+  ?lit log:rawType log:Literal.
+  (?lex xsd:date) log:dtlit ?lit.
+  1 log:notIncludes { ?lit math:equalTo ?lit. }.
+}
+=>
+{
+  (?s ?p ?lit)
+      :illFormedLiteral true;
+      :datatype xsd:date;
+      :lexicalForm ?lex;
+      :reason "xsd:date literal is not parseable by the reasoner".
+}.
+
+# xsd:dateTime
+{
+  ?s ?p ?lit.
+  ?lit log:rawType log:Literal.
+  (?lex xsd:dateTime) log:dtlit ?lit.
+  1 log:notIncludes { ?lit math:equalTo ?lit. }.
+}
+=>
+{
+  (?s ?p ?lit)
+      :illFormedLiteral true;
+      :datatype xsd:dateTime;
+      :lexicalForm ?lex;
+      :reason "xsd:dateTime literal is not parseable by the reasoner".
+}.
+
+# xsd:duration
+{
+  ?s ?p ?lit.
+  ?lit log:rawType log:Literal.
+  (?lex xsd:duration) log:dtlit ?lit.
+  1 log:notIncludes { ?lit math:equalTo ?lit. }.
+}
+=>
+{
+  (?s ?p ?lit)
+      :illFormedLiteral true;
+      :datatype xsd:duration;
+      :lexicalForm ?lex;
+      :reason "xsd:duration literal is not parseable by the reasoner".
+}.
+
+# -----------------
+# Output projection
+# -----------------
+
+{
+  ?issue :illFormedLiteral true;
+         :datatype ?dt;
+         :lexicalForm ?lex;
+         :reason ?why.
+}
+log:query
+{
+  ?issue :datatype ?dt;
+         :lexicalForm ?lex;
+         :reason ?why.
+}.
+
+# Optional hard-fail mode:
+# { ?issue :illFormedLiteral true. } => false.
