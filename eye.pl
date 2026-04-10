@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.23.10 (2026-03-28)').
+version_info('EYE v11.23.11 (2026-04-10)').
 
 license_info('MIT License
 
@@ -9262,12 +9262,8 @@ userInput(A, B) :-
         (   ground([A, B])
         ),
         (   escape_atom(A, Ae),
-            atom_codes(Ae, D),
-            subst([[[0'%, 0's], [0'~, 0'w]]], D, E),
-            subst([[[0'%, 0'2, 0's], [0' , 0'~, 0'w]]], E, I),  % workaround and should be solves in format_to_chars/3
-            atom_codes(J, I),
             preformat(B, F),
-            format_to_chars(J, F, G),
+            c_sprintf_codes(Ae, F, G),
             atom_codes(Ce, G),
             escape_atom(C, Ce)
         )
@@ -13757,6 +13753,150 @@ preformat([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], [C|
     preformat(B, D).
 preformat([A|B], [A|D]) :-
     preformat(B, D).
+
+c_sprintf_codes(Format, Args, Codes) :-
+    atom_codes(Format, FormatCodes),
+    c_sprintf_codes_(FormatCodes, Args, Codes).
+
+c_sprintf_codes_([], [], []) :- !.
+c_sprintf_codes_([], [_|_], _) :-
+    throw(error(format(too_many_arguments), context('<http://www.w3.org/2000/10/swap/string#format>', _))).
+c_sprintf_codes_([0'%, 0'%|Rest], Args, [0'%|Codes]) :- !,
+    c_sprintf_codes_(Rest, Args, Codes).
+c_sprintf_codes_([0'%|Rest0], [Arg|Args], Codes) :- !,
+    parse_printf_spec(Rest0, Spec, Rest),
+    printf_arg_codes(Spec, Arg, ArgCodes),
+    append(ArgCodes, Tail, Codes),
+    c_sprintf_codes_(Rest, Args, Tail).
+c_sprintf_codes_([0'%|_], [], _) :-
+    throw(error(format(not_enough_arguments), context('<http://www.w3.org/2000/10/swap/string#format>', _))).
+c_sprintf_codes_([C|Rest], Args, [C|Codes]) :-
+    c_sprintf_codes_(Rest, Args, Codes).
+
+parse_printf_spec(Codes0, spec(Left, Zero, Width, Precision, Conv), Rest) :-
+    parse_printf_flags(Codes0, false, false, Left, Zero, Codes1),
+    parse_printf_uint(Codes1, Width, Codes2),
+    parse_printf_precision(Codes2, Precision, Codes3),
+    parse_printf_lengths(Codes3, Codes4),
+    Codes4 = [Conv|Rest],
+    memberchk(Conv, [0's, 0'c, 0'd, 0'i, 0'u, 0'f, 0'F, 0'e, 0'E, 0'g, 0'G]).
+
+parse_printf_flags([0'-|Rest], _, Zero0, Left, Zero, Codes) :- !,
+    parse_printf_flags(Rest, true, Zero0, Left, Zero, Codes).
+parse_printf_flags([0'0|Rest], Left0, _, Left, Zero, Codes) :- !,
+    parse_printf_flags(Rest, Left0, true, Left, Zero, Codes).
+parse_printf_flags(Codes, Left, Zero, Left, Zero, Codes).
+
+parse_printf_uint([C|Rest0], N, Rest) :-
+    code_type(C, digit), !,
+    parse_printf_uint_(Rest0, [C], N, Rest).
+parse_printf_uint(Codes, none, Codes).
+
+parse_printf_uint_([C|Rest0], Acc0, N, Rest) :-
+    code_type(C, digit), !,
+    append(Acc0, [C], Acc),
+    parse_printf_uint_(Rest0, Acc, N, Rest).
+parse_printf_uint_(Rest, Acc, N, Rest) :-
+    number_codes(N, Acc).
+
+parse_printf_precision([0'.|Rest0], Precision, Rest) :- !,
+    parse_printf_uint(Rest0, P0, Rest),
+    ( P0 == none -> Precision = 0 ; Precision = P0 ).
+parse_printf_precision(Codes, none, Codes).
+
+parse_printf_lengths([A, B|Rest0], Rest) :-
+    memberchk([A, B], [[0'h, 0'h], [0'l, 0'l]]), !,
+    parse_printf_lengths(Rest0, Rest).
+parse_printf_lengths([C|Rest0], Rest) :-
+    memberchk(C, [0'h, 0'l, 0'L, 0'z, 0't, 0'j]), !,
+    parse_printf_lengths(Rest0, Rest).
+parse_printf_lengths(Codes, Codes).
+
+printf_arg_codes(spec(Left, _, Width, Precision, 0's), Arg, Codes) :- !,
+    getcodes(Arg, Codes0),
+    apply_string_precision(Codes0, Precision, Codes1),
+    apply_min_width(Codes1, Width, Left, 0' , Codes).
+
+printf_arg_codes(spec(Left, _, Width, _, 0'c), Arg, Codes) :- !,
+    getint(Arg, C),
+    apply_min_width([C], Width, Left, 0' , Codes).
+
+printf_arg_codes(spec(Left, Zero, Width, Precision, Conv), Arg, Codes) :-
+    memberchk(Conv, [0'd, 0'i, 0'u]), !,
+    getint(Arg, I0),
+    ( Conv = 0'u, I0 < 0 -> I is abs(I0) ; I = I0 ),
+    integer_arg_codes(I, Precision, Codes0),
+    ( Precision == none, Left == false, Zero == true -> Pad = 0'0 ; Pad = 0' ),
+    apply_min_width_signed(Codes0, Width, Left, Pad, Codes).
+
+printf_arg_codes(spec(Left, Zero, Width, Precision, Conv), Arg, Codes) :-
+    memberchk(Conv, [0'f, 0'F, 0'e, 0'E, 0'g, 0'G]), !,
+    getnumber(Arg, N),
+    prolog_float_format(Conv, Precision, Fmt),
+    format_to_chars(Fmt, [N], Codes0),
+    ( Left == false, Zero == true -> Pad = 0'0 ; Pad = 0' ),
+    apply_min_width_signed(Codes0, Width, Left, Pad, Codes).
+
+integer_arg_codes(I, Precision, Codes) :-
+    ( I < 0 -> Sign = [0'-], Abs is -I ; Sign = [], Abs = I ),
+    number_codes(Abs, Digits0),
+    apply_integer_precision(Digits0, Precision, Digits),
+    append(Sign, Digits, Codes).
+
+apply_integer_precision(Codes, none, Codes) :- !.
+apply_integer_precision(Codes0, Precision, Codes) :-
+    length(Codes0, Len),
+    (   Precision > Len
+    ->  PadLen is Precision - Len,
+        make_pad(PadLen, 0'0, Pad),
+        append(Pad, Codes0, Codes)
+    ;   Codes = Codes0
+    ).
+
+prolog_float_format(Conv, none, Format) :-
+    atom_codes(Format, [0'~, Conv]).
+prolog_float_format(Conv, Precision, Format) :-
+    number_codes(Precision, Pc),
+    append([[0'~], Pc, [Conv]], Fc),
+    atom_codes(Format, Fc).
+
+apply_string_precision(Codes, none, Codes) :- !.
+apply_string_precision(Codes0, Precision, Codes) :-
+    length(Codes, Precision),
+    append(Codes, _, Codes0), !.
+apply_string_precision(Codes, _, Codes).
+
+apply_min_width(Codes, none, _, _, Codes) :- !.
+apply_min_width(Codes0, Width, Left, PadChar, Codes) :-
+    length(Codes0, Len),
+    (   Width > Len
+    ->  PadLen is Width - Len,
+        make_pad(PadLen, PadChar, Pad),
+        ( Left == true -> append(Codes0, Pad, Codes)
+        ; append(Pad, Codes0, Codes)
+        )
+    ;   Codes = Codes0
+    ).
+
+apply_min_width_signed(Codes, none, _, _, Codes) :- !.
+apply_min_width_signed(Codes0, Width, Left, PadChar, Codes) :-
+    length(Codes0, Len),
+    (   Width > Len
+    ->  PadLen is Width - Len,
+        make_pad(PadLen, PadChar, Pad),
+        ( Left == true
+        -> append(Codes0, Pad, Codes)
+        ; PadChar = 0'0,
+          Codes0 = [0'-|Rest]
+        -> append([0'-|Pad], Rest, Codes)
+        ; append(Pad, Codes0, Codes)
+        )
+    ;   Codes = Codes0
+    ).
+
+make_pad(N, Char, Pad) :-
+    length(Pad, N),
+    maplist(=(Char), Pad).
 
 numeral([0'-, 0'.|A], [0'-, 0'0, 0'.|A]) :-
     !.
