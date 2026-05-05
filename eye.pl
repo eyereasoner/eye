@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.23.11 (2026-04-10)').
+version_info('EYE v11.24.0 (2026-05-05)').
 
 license_info('MIT License
 
@@ -1043,10 +1043,10 @@ args(['--pass-all'|Args]) :-
     args(Args).
 args(['--pass-only-new'|Args]) :-
     !,
-    assertz(implies((pass_only_new(C), C =.. [Pn, Sn, On]),
+    assertz(implies((pass_only_new(C), (C = exopred(Pn, Sn, On) -> true; C =.. [Pn, Sn, On])),
             answer(Pn, Sn, On), '<http://eulersharp.sourceforge.net/2003/03swap/pass-only-new>')),
     (   flag(intermediate, Out)
-    ->  portray_clause(Out, implies((pass_only_new(C), C =.. [Pn, Sn, On]),
+    ->  portray_clause(Out, implies((pass_only_new(C), (C = exopred(Pn, Sn, On) -> true; C =.. [Pn, Sn, On])),
             answer(Pn, Sn, On), '<http://eulersharp.sourceforge.net/2003/03swap/pass-only-new>'))
     ;   true
     ),

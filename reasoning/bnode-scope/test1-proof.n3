@@ -37,7 +37,23 @@ skolem:lemma1 a r:Inference;
                 :a :n :m.
             }.
         } |)}]
-        [ a r:Fact; r:gives {(| "=.." {
+        [ a r:Fact; r:gives {(| ";" (| "->" (| "=" {
+            {
+                (_:sk_1 {
+                    :a :b _:sk_2.
+                } (:o2)) log:collectAllIn _:sk_3.
+            } => {
+                :a :n :m.
+            }.
+        } {
+            {
+                (_:sk_1 {
+                    :a :b _:sk_2.
+                } (:o2)) log:collectAllIn _:sk_3.
+            } => {
+                :a :n :m.
+            }.
+        } |) true |) (| "=.." {
             {
                 (_:sk_1 {
                     :a :b _:sk_2.
@@ -51,7 +67,7 @@ skolem:lemma1 a r:Inference;
             } (:o2)) log:collectAllIn _:sk_3.
         } {
             :a :n :m.
-        }) |)}]
+        }) |) |)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
         {
@@ -77,7 +93,9 @@ skolem:lemma2 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
             (| "pass_only_new" var:x_0 |).
-            (| "=.." var:x_0 (var:x_1 var:x_2 var:x_3) |).
+            (| ";" (| "->" (| "=" var:x_0 {
+                var:x_2 var:x_1 var:x_3.
+            } |) true |) (| "=.." var:x_0 (var:x_1 var:x_2 var:x_3) |) |).
         } => {
             var:x_2 var:x_1 var:x_3.
         }.
