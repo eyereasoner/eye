@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.24.0 (2026-05-05)').
+version_info('EYE v11.24.1 (2026-05-06)').
 
 license_info('MIT License
 
@@ -9431,14 +9431,17 @@ userInput(A, B) :-
     ).
 
 % Helper predicate to replace all regex matches by finding unique matches and replacing each
-string_replace_all_matches(Input, Search, Replace, Output) :-
+string_replace_all_matches(Input0, Search, Replace0, Output0) :-
+    escape_atom(Input0, Input),
+    escape_atom(Replace0, Replace),
     atomic_list_concat(['(', Search, ')'], Se),
     escape_atom(Scape, Se),
     scrape(Input, Scape, Scrape),
     (   Scrape \= []
     ->  list_to_set(Scrape, UniqueMatches),
-        replace_matches(Input, UniqueMatches, Replace, Output)
-    ;   Output = Input
+        replace_matches(Input, UniqueMatches, Replace, Output),
+        escape_atom(Output0, Output)
+    ;   Output0 = Input0
     ).
 
 % Replace each unique match
