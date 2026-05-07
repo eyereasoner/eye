@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.24.2 (2026-05-07)').
+version_info('EYE v11.24.3 (2026-05-07)').
 
 license_info('MIT License
 
@@ -6480,7 +6480,8 @@ prepare_builtins :-
     when(
         (   nonvar(A)
         ),
-        (   exec(A, B)
+        (   unescape_atom(A, Command),
+            exec(Command, B)
         )
     ).
 
