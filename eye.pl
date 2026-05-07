@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.24.1 (2026-05-06)').
+version_info('EYE v11.24.2 (2026-05-07)').
 
 license_info('MIT License
 
@@ -8526,8 +8526,9 @@ userInput(A, B) :-
         (   (   shellcache(X, Y)
             ->  true
             ;   X = literal(U, type('<http://www.w3.org/2001/XMLSchema#string>')),
+                unescape_atom(U, Command),
                 setup_call_cleanup(
-                    process_create('/bin/sh', ['-c', U], [stdout(pipe(Out))]),
+                    process_create('/bin/sh', ['-c', Command], [stdout(pipe(Out))]),
                     read_string(Out, _, V),
                     close(Out)
                 ),
@@ -13028,6 +13029,40 @@ escape_atom(A, B) :-
     atom_codes(B, C),
     escape_codes(C, D),
     atom_codes(A, D).
+
+unescape_atom(A, B) :-
+    atom_codes(A, C),
+    unescape_codes(C, D),
+    atom_codes(B, D).
+
+unescape_codes([], []) :-
+    !.
+unescape_codes([0'\\, 0't|A], [0'\t|B]) :-
+    !,
+    unescape_codes(A, B).
+unescape_codes([0'\\, 0'b|A], [0'\b|B]) :-
+    !,
+    unescape_codes(A, B).
+unescape_codes([0'\\, 0'n|A], [0'\n|B]) :-
+    !,
+    unescape_codes(A, B).
+unescape_codes([0'\\, 0'r|A], [0'\r|B]) :-
+    !,
+    unescape_codes(A, B).
+unescape_codes([0'\\, 0'f|A], [0'\f|B]) :-
+    !,
+    unescape_codes(A, B).
+unescape_codes([0'\\, 0'"|A], [0'"|B]) :-
+    !,
+    unescape_codes(A, B).
+unescape_codes([0'\\, 0''|A], [0''|B]) :-
+    !,
+    unescape_codes(A, B).
+unescape_codes([0'\\, 0'\\|A], [0'\\|B]) :-
+    !,
+    unescape_codes(A, B).
+unescape_codes([A|B], [A|C]) :-
+    unescape_codes(B, C).
 
 escape_codes([], []) :-
     !.
