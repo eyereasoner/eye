@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.24.3 (2026-05-07)').
+version_info('EYE v11.24.4 (2026-05-12)').
 
 license_info('MIT License
 
@@ -6951,8 +6951,9 @@ prepare_builtins :-
     !,
     D =.. [A, B, C],
     catch(call(D), _, fail).
-'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#propertyChainExtension>'([A|B], [C, D]) :-
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#propertyChainExtension>'(AB, [C, D]) :-
     \+flag(restricted),
+    getlist(AB, [A|B]),
     E =.. [A, C, F],
     catch(call(E), _, fail),
     '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#propertyChainExtension>'(B, [F, D]).
