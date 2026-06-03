@@ -17,7 +17,7 @@ true <= {
         ?L e:firstRest ({?A e:boolean ?B} ?C).
         ("if_then_else"
             {("nb_getval" "bnet" "done") log:pro true}
-            true
+            {}
             {   () bbn:bnet true.
                 ("nb_setval" "bnet" "done") log:pro true.
             }
@@ -61,7 +61,7 @@ true <= {
                             ("call" {(?I) bbn:bvar true}) log:pro false.
                             ("assertz" {(?I) bbn:bvar true}) log:pro true.
                         }
-                        true
+                        {}
                     ) log:pro true.
                     {?K e:boolean ?U} list:in ?J.
                     ("call" {(?K) bbn:bvar true}) log:pro false.
@@ -95,7 +95,7 @@ true <= {
         {   ("memberchk" {?A e:boolean e:T} ?B) log:pro true.
             ?C log:equalTo 0.0.
         }
-        true
+        {}
         {   ({?A e:boolean e:T} ?B ?D) bbn:nb true.
             ("1-_D" ?D) e:calculate ?C.
         }
@@ -116,7 +116,7 @@ true <= {
             (?A ?G) bbn:bcnd ?H.
             ("_F*_E+(1-_F)*_H" ?F ?E ?H) e:calculate ?C.
         }
-        true
+        {}
         {   (?A ?B ?I) bbn:nc true.
             ?A bbn:inverse ?J.
             (?J ?B ?K) bbn:nc true.
