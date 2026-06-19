@@ -2,7 +2,7 @@
 
 ![EYE](https://josd.github.io/images/eye.png)
 
-[![DOI](https://zenodo.org/badge/185797683.svg)](https://zenodo.org/doi/10.5281/zenodo.12398545)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.12398545-blue.svg)](https://doi.org/10.5281/zenodo.12398545)
 
 EYE is a reasoning engine supporting the [Semantic Web layers](http://www.w3.org/DesignIssues/diagrams/sweb-stack/2006a) and implementing [Notation3](https://w3c.github.io/N3/spec/).
 
