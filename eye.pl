@@ -12933,12 +12933,37 @@ tmp_file(A) :-
     ),
     tmp_file(C, A).
 
+:- if(current_prolog_flag(emscripten, true)).
+% there is no shell in the wasm version so the command is passed to the
+% javascript host as exec(Args, File) via await/2, where Args is the argv
+% of the command and File is the target of its stdout redirection. The
+% host is expected to run the command, e.g. the eye sub-reasoner spawned
+% by the graph scoped builtins on a fresh wasm module, write the standard
+% output to File and answer "ok"
+exec(A, B) :-
+    atomic_list_concat(C, ' ', A),
+    findall(D,
+        (   member(D, C),
+            D \== ''
+        ),
+        E
+    ),
+    (   append(F, ['>', G|_], E)
+    ->  await(exec(F, G), H),
+        (   H == "ok"
+        ->  B = 0
+        ;   throw(exec_error(A))
+        )
+    ;   throw(exec_error(A))
+    ).
+:- else.
 exec(A, B) :-
     shell(A, B),
     (   B =:= 0
     ->  true
     ;   throw(exec_error(A))
     ).
+:- endif.
 
 getcwd(A) :-
     working_directory(A, A).
