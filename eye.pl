@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.24.5 (2026-08-23)').
+version_info('EYE v11.24.6 (2026-09-06)').
 
 license_info('MIT License
 
@@ -441,7 +441,8 @@ gre(Argus) :-
     ),
     (   flag('skolem-genid', Genid)
     ->  true
-    ;   uuid(Genid)
+    ;   uuid(Genid),
+        assertz(flag('skolem-genid', Genid))
     ),
     atomic_list_concat(['https://eyereasoner.github.io/.well-known/genid/', Genid, '#'], Sns),
     nb_setval(var_ns, Sns),
@@ -7869,7 +7870,8 @@ userInput(A, B) :-
             ->  Quiet = '--quiet'
             ;   Quiet = ''
             ),
-            append([A1, A2, ['--nope', Quiet, Tmp1, '--pass-all', '>', Tmp2]], A4),
+            flag('skolem-genid', Genid),
+            append([A1, A2, ['--nope', Quiet, '--skolem-genid', Genid, Tmp1, '--pass-all', '>', Tmp2]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
