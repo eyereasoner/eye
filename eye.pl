@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.24.6 (2026-09-06)').
+version_info('EYE v11.24.7 (2026-09-06)').
 
 license_info('MIT License
 
@@ -4371,6 +4371,7 @@ wt0(X) :-
     flag(quantify, Prefix),
     flag(nope),
     atom(X),
+    \+keep_skolem(X),
     sub_atom(X, 1, _, _, Prefix),
     !,
     (   getlist(X, M)
