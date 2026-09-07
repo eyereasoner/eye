@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.24.7 (2026-09-06)').
+version_info('EYE v11.24.8 (2026-09-07)').
 
 license_info('MIT License
 
@@ -2573,7 +2573,8 @@ qname(URI) -->
                 atom_codes(Name2, Codes2)
             ;   Name2 = Name1
             ),
-            atomic_list_concat(['\'<', Name2, '>\''], URI)
+            atomic_list_concat(['\'<', Name2, '>\''], URI),
+            keep_skolem_iri(Name2)
         ;   nb_getval(line_number, Ln),
             throw(no_prefix_directive(NS, after_line(Ln)))
         )
@@ -2824,10 +2825,24 @@ uri(Name) -->
             atom_codes(Z, Y)
         ;   Z = W
         ),
-        atomic_list_concat(['\'<', Z, '>\''], Name)
+        atomic_list_concat(['\'<', Z, '>\''], Name),
+        keep_skolem_iri(Z)
     }.
 uri(Name) -->
     qname(Name).
+
+% Preserve explicitly serialized skolem t_ IRIs when nested output is parsed back in.
+keep_skolem_iri(URI) :-
+    nb_getval(var_ns, Sns),
+    atom_concat(Sns, Local, URI),
+    sub_atom(Local, 0, 2, _, 't_'),
+    !,
+    atomic_list_concat(['<', URI, '>'], Skolem),
+    (   keep_skolem(Skolem)
+    ->  true
+    ;   assertz(keep_skolem(Skolem))
+    ).
+keep_skolem_iri(_).
 
 verb('\'<http://www.w3.org/2000/10/swap/log#implies>\'', []) -->
     ['=', '>'],
